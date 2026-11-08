@@ -2,6 +2,7 @@
 
 #include "game/app/GameSettings.h"
 #include "game/outdoor/WeatherModel.h"
+#include "game/render/WeatherRoofMap.h"
 
 #include <bgfx/bgfx.h>
 
@@ -39,6 +40,8 @@ struct WeatherDrawFrame
     // World size of one screen pixel at unit view distance, so far drops stay at least a pixel wide.
     float pixelWorldSize = 0.001f;
     WeatherQuality quality = WeatherQuality::High;
+    // The distant rain curtain; off under cover, where it would hang inside the room or tunnel.
+    bool curtain = true;
 };
 
 // GPU rain, snow and ash: static buffers of seeded drops that wrap through camera-centred boxes, plus a distant rain
@@ -53,6 +56,9 @@ public:
     void resetCamera();
     // Drawn into a transparent view after the world; depth-tested against the scene, no depth writes.
     void render(uint16_t viewId, const WeatherDrawFrame &frame);
+    // Rain and snow fall only above the map's highest surfaces (WeatherRoofMap); none (the default, every outdoor
+    // map): everywhere. Needs initialize(); false when the GPU cannot read the map in the vertex shader.
+    bool setRoofMap(const WeatherRoofMap *pRoofMap);
 
 private:
     struct Layer
@@ -86,6 +92,13 @@ private:
     bgfx::ProgramHandle m_curtainProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_splashProgram = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_weatherUniform = BGFX_INVALID_HANDLE;
+    // The roof map: its heights, the texture bound without one (1x1, nothing covered) and its placement
+    // (origin xy, one over the extent zw; z 0 is no map).
+    bgfx::TextureHandle m_roofTexture = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle m_noRoofTexture = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_roofSampler = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_roofUniform = BGFX_INVALID_HANDLE;
+    std::array<float, 4> m_roofPlacement = {};
     Layer m_rain;
     Layer m_farRain;
     Layer m_nearSnow;

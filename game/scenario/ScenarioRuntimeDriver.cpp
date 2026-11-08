@@ -1,5 +1,7 @@
 #include "game/scenario/ScenarioRuntimeDriver.h"
 
+#include "game/events/EventRuntime.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/gameplay/GameplayHeldItemController.h"
@@ -19,6 +21,7 @@
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorWorldRuntime.h"
+#include "game/pathfinding/PathPlanner.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/tables/MapStats.h"
@@ -29,6 +32,7 @@
 #include <bitset>
 #include <cctype>
 #include <cmath>
+#include <iomanip>
 #include <sstream>
 #include <utility>
 
@@ -119,6 +123,8 @@ const char *scenarioDialogActionKindName(EventDialogActionKind kind)
             return "mm9_rude_topic";
         case EventDialogActionKind::Mm9RudeSkillTrainerOffer:
             return "mm9_rude_skill_trainer_offer";
+        case EventDialogActionKind::Mm9RudeSkillTrainerSkill:
+            return "mm9_rude_skill_trainer_skill";
         case EventDialogActionKind::Mm9RudeSkillTrainerLearn:
             return "mm9_rude_skill_trainer_learn";
         case EventDialogActionKind::Mm9RudeSkillTrainerBack:
@@ -194,9 +200,19 @@ struct ScenarioGameApplicationAccess
 
         // The local settings.ini's Immortal cheat would make every party damage check pass or fail by machine.
         application.m_settings.immortal = false;
+        // Scenarios press actions without the mouse button, which the local Smart Click setting would ignore for
+        // an Attack bound to the left button.
+        application.m_settings.smartClick = false;
         // Held keys repeat as the originals do (combat/realtime_tap_one_attack.yml), whatever the local setting.
         application.m_settings.fastAttackRepeat = false;
+        // Scenarios check the combat log (the combat_log step) in every ruleset and world.
+        application.m_settings.combatLog = CombatLogMode::On;
         return true;
+    }
+
+    static GameSettings &settings(GameApplication &application)
+    {
+        return application.m_settings;
     }
 
     static bool activateWorldForMapFileName(GameApplication &application, const std::string &mapFileName)
@@ -304,6 +320,27 @@ struct ScenarioGameApplicationAccess
         return application.processPendingMapMove();
     }
 
+    // The game's defeat (processPendingPartyDefeat, then handleCompletedPartyDefeatScreen) without its movie: the
+    // wipe recorded, the world's death destination (world.yml partyDeath), its consequences and the respawn.
+    static bool runPartyDefeat(GameApplication &application, std::string &destination)
+    {
+        if (!application.shouldTriggerPartyDefeat())
+        {
+            return false;
+        }
+
+        application.m_gameSession.playthroughStatistics().recordPartyWipe();
+        const GameApplication::MapStartDestination respawn = application.resolvePartyDefeatRespawnDestination();
+        destination = respawn.mapFileName;
+        application.m_pendingPartyDefeatRespawnMapFileName = respawn.mapFileName;
+        application.m_pendingPartyDefeatRespawnStart = respawn.start;
+        application.applyPartyDefeatConsequences();
+        const bool respawned = application.respawnPartyAfterDefeat(false);
+        application.m_pendingPartyDefeatRespawnMapFileName.reset();
+        application.m_pendingPartyDefeatRespawnStart.reset();
+        return respawned;
+    }
+
     static bool quickSaveToPath(
         GameApplication &application,
         const std::filesystem::path &path,
@@ -360,7 +397,7 @@ struct ScenarioGameApplicationAccess
         return application.m_aiArenaActorIndices;
     }
 
-    static void bindPartyDependencies(const GameApplication &application, Party &party)
+    static void bindPartyDependencies(GameApplication &application, Party &party)
     {
         application.bindPartyDependencies(party);
     }
@@ -402,6 +439,12 @@ void setScenarioActionHeld(
 {
     input.actions[keyboardActionIndex(action)].held = held;
     input.keyboardHeld[scancode] = held;
+}
+
+std::string lowerAscii(std::string text)
+{
+    std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return char(std::tolower(c)); });
+    return text;
 }
 
 GameplayInputFrame buildMovementInputFrame(const ScenarioMovementCommand &command)
@@ -507,6 +550,11 @@ bool ScenarioRuntimeDriver::initialize(std::string &failure)
 void ScenarioRuntimeDriver::setMadnessLedgerFile(const std::filesystem::path &file)
 {
     ScenarioGameApplicationAccess::gameSession(m_application).setMadnessLedgerFile(file);
+}
+
+void ScenarioRuntimeDriver::setPlaythroughStatisticsDirectory(const std::filesystem::path &directory)
+{
+    ScenarioGameApplicationAccess::gameSession(m_application).playthroughStatistics().setDirectory(directory);
 }
 
 bool ScenarioRuntimeDriver::startNewGame(
@@ -1132,33 +1180,9 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
             setScenarioCameraAngles(m_application, yawRadians, pitchRadians);
         }
 
-        if (command.actorAi)
+        if (!advanceMovementFrame(input, deltaSeconds, command.actorAi, failure))
         {
-            GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
-            session.updateGameplay(input, deltaSeconds, false);
-            ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
-            session.bindCurrentGameplayInputFrame(nullptr);
-        }
-        else
-        {
-            // Explicit geometry-only diagnostics omit AI and the shared gameplay update.
-            pWorldRuntime->updateWorldMovement(input, deltaSeconds, true);
-        }
-        pWorldRuntime->updateWorld(deltaSeconds);
-
-        IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-        if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
-        {
-            static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
-        }
-
-        // An arena poses its monsters' models as the window does, so it plays as the window plays: a model's
-        // missile leaves from its release socket (WorldFxSystem::actorLaunchPoint). trace_animation only adds the
-        // `anim` lines.
-        if (pWorldRuntime->actorAiTrace() != nullptr
-            && !ScenarioGameApplicationAccess::syncActorModels(m_application, *pWorldRuntime, deltaSeconds))
-        {
-            failure = "actor models failed to load";
+            pWorldRuntime->setScenarioPartyActorCollisionEnabled(true);
             return false;
         }
 
@@ -1195,6 +1219,565 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
 
     pWorldRuntime->setScenarioPartyActorCollisionEnabled(true);
     result.finalPose = currentPose();
+    return true;
+}
+
+void ScenarioRuntimeDriver::presentGrantedEventItems()
+{
+    // As the game views do every frame (IndoorGameView::presentPendingEventFeedback): the items events gave
+    // (evt.GiveItem from a click, a timer, a dialogue's close) come to the hand.
+    if (EventRuntimeState *pEventRuntimeState = eventRuntimeState())
+    {
+        GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+        GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
+            session.gameplayScreenRuntime(), *pEventRuntimeState, session.data().itemTable());
+    }
+}
+
+bool ScenarioRuntimeDriver::advanceMovementFrame(
+    const GameplayInputFrame &input,
+    float deltaSeconds,
+    bool actorAi,
+    std::string &failure)
+{
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        failure = "cannot move the party without an active world runtime";
+        return false;
+    }
+
+    if (actorAi)
+    {
+        GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+        session.updateGameplay(input, deltaSeconds, false);
+        ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
+        session.bindCurrentGameplayInputFrame(nullptr);
+    }
+    else
+    {
+        // Explicit geometry-only diagnostics omit AI and the shared gameplay update.
+        pWorldRuntime->updateWorldMovement(input, deltaSeconds, true);
+    }
+    pWorldRuntime->updateWorld(deltaSeconds);
+
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+    if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
+    {
+        static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
+    }
+
+    presentGrantedEventItems();
+
+    // An arena poses its monsters' models as the window does, so it plays as the window plays: a model's
+    // missile leaves from its release socket (WorldFxSystem::actorLaunchPoint). trace_animation only adds the
+    // `anim` lines.
+    if (pWorldRuntime->actorAiTrace() != nullptr
+        && !ScenarioGameApplicationAccess::syncActorModels(m_application, *pWorldRuntime, deltaSeconds))
+    {
+        failure = "actor models failed to load";
+        return false;
+    }
+
+    return true;
+}
+
+std::vector<ScenarioPose> ScenarioRuntimeDriver::planWalkRoute(
+    const ScenarioPose &from,
+    const ScenarioPose &to,
+    size_t nodeLimit,
+    std::string &status)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+
+    if (pSceneRuntime == nullptr || pSceneRuntime->kind() != SceneKind::Indoor)
+    {
+        status = "straight (no indoor path map)";
+        return {to};
+    }
+
+    const std::shared_ptr<const PathMap> pathMap =
+        static_cast<IndoorSceneRuntime *>(pSceneRuntime)->worldRuntime().indoorPathMap();
+
+    if (pathMap == nullptr)
+    {
+        status = "straight (path map not built)";
+        return {to};
+    }
+
+    // The party's body (IndoorWorldRuntime's PartyCollisionRadius/Height); it steps up stairs as a walker does and
+    // may drop from any ledge.
+    PathPlanRequest request = {};
+    request.source = {from.x, from.y, from.z};
+    request.target = {to.x, to.y, to.z};
+    request.object.radius = 37.0f;
+    request.object.height = 192.0f;
+    request.object.stepLength = 32.0f;
+    request.object.stepHeight = 40.0f;
+    request.object.dropHeight = 2048.0f;
+    request.object.riserHeight = 80.0f;
+    request.nodeLimit = nodeLimit;
+    request.sourceSnapDistance = 96.0f;
+    request.allowPartialPath = true;
+    request.mapRevision = uint32_t(pathMap->revision());
+    PathPlanner planner;
+    const PathPlanResult plan = planner.plan(*pathMap, request);
+
+    switch (plan.status)
+    {
+        case PathPlanStatus::Success: status = "planned"; break;
+        case PathPlanStatus::Partial: status = "partial"; break;
+        case PathPlanStatus::NoRoute: status = "no route"; break;
+        case PathPlanStatus::NodeLimitExceeded: status = "node limit"; break;
+        default: status = "not planned"; break;
+    }
+
+    status += " (" + std::to_string(plan.waypoints.size()) + " waypoints, "
+        + std::to_string(plan.analyzedNodeCount) + " nodes)";
+
+    if (plan.waypoints.empty())
+    {
+        return {to};
+    }
+
+    std::vector<ScenarioPose> route;
+    route.reserve(plan.waypoints.size() + 1);
+
+    for (const PathPoint &point : plan.waypoints)
+    {
+        ScenarioPose pose = to;
+        pose.x = point.x;
+        pose.y = point.y;
+        pose.z = point.z;
+        route.push_back(pose);
+    }
+
+    // A partial plan ends where the planner got closest: the target stays last, so the walk tries the rest straight.
+    if (std::hypot(route.back().x - to.x, route.back().y - to.y) > 8.0f)
+    {
+        route.push_back(to);
+    }
+
+    return route;
+}
+
+bool ScenarioRuntimeDriver::killHostilesNear(float radius, size_t &killed, std::string &failure)
+{
+    killed = 0;
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        failure = "cannot clear hostiles without an active world runtime";
+        return false;
+    }
+
+    for (size_t actorIndex = 0; actorIndex < pWorldRuntime->mapActorCount(); ++actorIndex)
+    {
+        GameplayRuntimeActorState state = {};
+
+        if (!pWorldRuntime->actorRuntimeState(actorIndex, state) || state.isDead || state.isInvisible
+            || !state.hostileToParty
+            || std::hypot(state.preciseX - pWorldRuntime->partyX(), state.preciseY - pWorldRuntime->partyY()) > radius
+            || std::abs(state.preciseZ - pWorldRuntime->partyFootZ()) > radius)
+        {
+            continue;
+        }
+
+        // A raised energy shield would take the blow.
+        GameplayActorShields *pShields = pWorldRuntime->actorShields();
+
+        if (pShields != nullptr && state.shield.present)
+        {
+            pShields->setShieldPoints(actorIndex, 0.0f);
+        }
+
+        killed += pWorldRuntime->applyReflectedDamageToActor(state.actorId, 1000000, CombatDamageType::Physical, 0)
+            ? 1 : 0;
+    }
+
+    return true;
+}
+
+bool ScenarioRuntimeDriver::defeatParty(float waitSeconds, bool knockOut, std::string &destination, std::string &failure)
+{
+    // knockOut: every member falls unconscious at once (a playthrough that does not test combat); else the fight goes
+    // on until nobody in the party can act, as in play.
+    if (knockOut && party() != nullptr)
+    {
+        for (size_t memberIndex = 0; memberIndex < party()->memberCount(); ++memberIndex)
+        {
+            Character *pMember = party()->member(memberIndex);
+            pMember->conditions.set(size_t(CharacterCondition::Unconscious));
+            pMember->health = 0;
+        }
+    }
+
+    GameplayInputFrame input = buildMovementInputFrame(ScenarioMovementCommand{.forward = false});
+    float waited = 0.0f;
+
+    while (party() != nullptr && party()->hasActableMember() && waited < waitSeconds)
+    {
+        if (!advanceMovementFrame(input, RuntimeStepSeconds, true, failure))
+        {
+            return false;
+        }
+
+        waited += RuntimeStepSeconds;
+    }
+
+    if (party() == nullptr || party()->hasActableMember())
+    {
+        failure = "the party could still act after " + std::to_string(int(waitSeconds)) + " s";
+        return false;
+    }
+
+    if (!ScenarioGameApplicationAccess::runPartyDefeat(m_application, destination))
+    {
+        failure = "the party's defeat did not respawn it";
+        return false;
+    }
+
+    return true;
+}
+
+bool ScenarioRuntimeDriver::setPartyImmortal(bool immortal, std::string &failure)
+{
+    ScenarioGameApplicationAccess::settings(m_application).immortal = immortal;
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        failure = "cannot make the party immortal without a party";
+        return false;
+    }
+
+    pParty->setDebugDamageImmune(immortal);
+    return true;
+}
+
+bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioWalkResult &result, std::string &failure)
+{
+    constexpr float TrailSeconds = 2.0f;
+    constexpr float HostileSweepSeconds = 0.5f;
+    constexpr float StuckWindowSeconds = 1.5f;
+    constexpr float StuckProgress = 24.0f;
+    constexpr float JumpSeconds = 0.6f;
+    constexpr float SidestepSeconds = 0.8f;
+    constexpr float SteerLookahead = 96.0f;
+    constexpr float StuckLookahead = 400.0f;
+    constexpr float LookaheadBoostSeconds = 3.0f;
+    constexpr size_t MaxStuckInOnePlace = 12;
+
+    if (request.points.empty())
+    {
+        failure = "walk_to needs a target";
+        return false;
+    }
+
+    if (worldRuntime() == nullptr)
+    {
+        failure = "cannot walk without an active world runtime";
+        return false;
+    }
+
+    const auto formatPose = [](const ScenarioPose &pose)
+    {
+        std::ostringstream out;
+        out << pose.mapFileName << " (" << std::lround(pose.x) << ", " << std::lround(pose.y) << ", "
+            << std::lround(pose.z) << ")";
+        return out.str();
+    };
+    const auto log = [&result](const std::string &line)
+    {
+        std::ostringstream out;
+        out << "t=" << std::fixed << std::setprecision(1) << result.seconds << "s " << line;
+        result.trail.push_back(out.str());
+    };
+
+    GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+    const std::string startMap = lowerAscii(currentMapFileName());
+    size_t pointIndex = 0;
+    std::vector<ScenarioPose> route;
+    size_t routeIndex = 0;
+    const auto replan = [&]()
+    {
+        std::string status;
+        route = request.plan
+            ? planWalkRoute(currentPose(), request.points[pointIndex], request.nodeLimit, status)
+            : std::vector<ScenarioPose>{request.points[pointIndex]};
+        routeIndex = 0;
+        log("route to " + formatPose(request.points[pointIndex]) + ": " + (request.plan ? status : "straight"));
+    };
+
+    log("start at " + formatPose(currentPose()));
+    replan();
+    float sinceTrail = 0.0f;
+    float sinceSweep = HostileSweepSeconds;
+    float sinceStuckCheck = 0.0f;
+    float jumpLeft = 0.0f;
+    float sidestepLeft = 0.0f;
+    float sidestepRight = 0.0f;
+    float lookaheadBoostLeft = 0.0f;
+    ScenarioPose stuckCheckPose = currentPose();
+    ScenarioPose stuckSpot = stuckCheckPose;
+    size_t stuckInOnePlace = 0;
+
+    while (result.seconds < request.timeoutSeconds)
+    {
+        const ScenarioPose pose = currentPose();
+
+        if (!request.expectMap.empty() && lowerAscii(pose.mapFileName) == lowerAscii(request.expectMap)
+            && lowerAscii(pose.mapFileName) != startMap)
+        {
+            log("arrived on " + formatPose(pose));
+            result.arrived = true;
+            break;
+        }
+
+        if (lowerAscii(pose.mapFileName) != startMap && request.expectMap.empty())
+        {
+            failure = "walk_to left the map: now on " + formatPose(pose);
+            log(failure);
+            result.finalPose = pose;
+            return false;
+        }
+
+        const ScenarioPose &goal = request.points[pointIndex];
+
+        if (std::hypot(goal.x - pose.x, goal.y - pose.y) <= request.arriveRadius)
+        {
+            if (pointIndex + 1 < request.points.size())
+            {
+                log("reached waypoint " + std::to_string(pointIndex + 1) + " at " + formatPose(pose));
+                ++pointIndex;
+                replan();
+                continue;
+            }
+
+            if (request.expectMap.empty())
+            {
+                log("arrived at " + formatPose(pose));
+                result.arrived = true;
+                break;
+            }
+        }
+
+        // A dialogue an event opened on the way (a greeting, a found-player talk, an exit's prompt) stops the world,
+        // as in the game, whose frame presents what the events queued.
+        session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);
+
+        if (session.gameplayScreenRuntime().activeEventDialog().isActive)
+        {
+            if (!request.closeDialogs)
+            {
+                result.dialogOpened = true;
+                log("a dialogue opened at " + formatPose(pose) + ": " + activeDialogSummary());
+                break;
+            }
+
+            std::string closeFailure;
+            closeDialog(closeFailure);
+            ++result.closedDialogs;
+            log("closed a dialogue at " + formatPose(pose));
+        }
+
+        // Steers at a point a little ahead on the route (further when stuck): a slide along a round decoration the
+        // path map does not hold carries the party round it, where aiming at its middle stops it dead.
+        const float lookahead = lookaheadBoostLeft > 0.0f ? StuckLookahead : SteerLookahead;
+        while (routeIndex + 1 < route.size()
+            && std::hypot(route[routeIndex].x - pose.x, route[routeIndex].y - pose.y) <= lookahead)
+        {
+            ++routeIndex;
+        }
+
+        const ScenarioPose &waypoint = route[routeIndex];
+        const float yaw = std::atan2(waypoint.y - pose.y, waypoint.x - pose.x);
+        setScenarioCameraAngles(m_application, yaw, 0.0f);
+
+        ScenarioMovementCommand command = {};
+        command.strafeLeft = sidestepLeft > 0.0f;
+        command.strafeRight = !command.strafeLeft && sidestepRight > 0.0f;
+        command.forward = !command.strafeLeft && !command.strafeRight;
+        command.jump = jumpLeft > 0.0f;
+        GameplayInputFrame input = buildMovementInputFrame(command);
+        input.turboMovementEnabled = session.gameplayScreenRuntime().settingsSnapshot().turboMovementEnabled;
+
+        if (!advanceMovementFrame(input, RuntimeStepSeconds, true, failure))
+        {
+            return false;
+        }
+
+        result.seconds += RuntimeStepSeconds;
+        sinceTrail += RuntimeStepSeconds;
+        sinceSweep += RuntimeStepSeconds;
+        sinceStuckCheck += RuntimeStepSeconds;
+        jumpLeft = std::max(0.0f, jumpLeft - RuntimeStepSeconds);
+        lookaheadBoostLeft = std::max(0.0f, lookaheadBoostLeft - RuntimeStepSeconds);
+        if (sidestepLeft > 0.0f)
+        {
+            sidestepLeft = std::max(0.0f, sidestepLeft - RuntimeStepSeconds);
+        }
+        else
+        {
+            sidestepRight = std::max(0.0f, sidestepRight - RuntimeStepSeconds);
+        }
+
+        if (EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+            (pEventRuntimeState != nullptr && pEventRuntimeState->pendingMapMove.has_value())
+            || session.pendingMapMove().has_value())
+        {
+            log("map move from " + formatPose(currentPose()));
+
+            if (!processPendingMapMove(failure))
+            {
+                return false;
+            }
+
+            log("now on " + formatPose(currentPose()));
+            continue;
+        }
+
+        if (request.clearHostilesRadius > 0.0f && sinceSweep >= HostileSweepSeconds)
+        {
+            sinceSweep = 0.0f;
+            size_t killed = 0;
+
+            if (killHostilesNear(request.clearHostilesRadius, killed, failure) && killed > 0)
+            {
+                result.hostilesKilled += killed;
+                log("killed " + std::to_string(killed) + " hostile(s) near " + formatPose(currentPose()));
+            }
+        }
+
+        if (sinceTrail >= TrailSeconds)
+        {
+            sinceTrail = 0.0f;
+            log("at " + formatPose(currentPose()));
+        }
+
+        if (sinceStuckCheck >= StuckWindowSeconds)
+        {
+            const ScenarioPose now = currentPose();
+            const float moved = std::hypot(now.x - stuckCheckPose.x, now.y - stuckCheckPose.y);
+            sinceStuckCheck = 0.0f;
+            stuckCheckPose = now;
+
+            if (moved < StuckProgress)
+            {
+                stuckInOnePlace = std::hypot(now.x - stuckSpot.x, now.y - stuckSpot.y) < 128.0f
+                    ? stuckInOnePlace + 1 : 1;
+                stuckSpot = now;
+
+                if (stuckInOnePlace >= MaxStuckInOnePlace)
+                {
+                    failure = "walk_to is stuck at " + formatPose(now) + " on the way to "
+                        + formatPose(request.points[pointIndex]);
+                    log(failure);
+                    result.finalPose = now;
+                    return false;
+                }
+
+                {
+                    const ScenarioPose &next = route[routeIndex];
+                    std::ostringstream why;
+                    why << "stuck: waypoint " << routeIndex << "/" << route.size() << " at (" << std::lround(next.x)
+                        << ", " << std::lround(next.y) << ", " << std::lround(next.z) << ")"
+                        << (session.sharedInputFrameResult().worldInputBlocked ? " world input blocked" : "")
+                        << (session.sharedWorldInteractionBlockedThisFrame() ? " interaction blocked" : "")
+                        << (session.gameplayScreenRuntime().hasPendingEventDialog() ? " dialogue pending" : "");
+                    const IGameplayWorldRuntime *pWorld = worldRuntime();
+                    float nearest = 1.0e9f;
+                    size_t nearestIndex = 0;
+
+                    for (size_t actorIndex = 0; pWorld != nullptr && actorIndex < pWorld->mapActorCount(); ++actorIndex)
+                    {
+                        GameplayRuntimeActorState state = {};
+
+                        if (pWorld->actorRuntimeState(actorIndex, state) && !state.isDead && !state.isInvisible)
+                        {
+                            const float distance = std::hypot(state.preciseX - now.x, state.preciseY - now.y);
+
+                            if (distance < nearest)
+                            {
+                                nearest = distance;
+                                nearestIndex = actorIndex;
+                            }
+                        }
+                    }
+
+                    if (nearest < 512.0f)
+                    {
+                        why << "; nearest actor " << nearestIndex << " at " << std::lround(nearest);
+                    }
+
+                    log(why.str());
+                }
+
+                // As a player would: jump, step aside to the left, then to the right (a barrel, a post or a cart the
+                // monsters' path map does not hold), then plan again from there.
+                switch (stuckInOnePlace % 6)
+                {
+                    case 1:
+                        lookaheadBoostLeft = LookaheadBoostSeconds;
+                        log("stuck, aiming further along the route at " + formatPose(now));
+                        break;
+                    case 5:
+                    {
+                        // A door, a lever or a rock fall in the way: the player clicks what is straight ahead (not
+                        // a person: that would only open a talk).
+                        std::string pickFailure;
+                        ScenarioInteractionResult ahead = pickCenterInteractionTarget(false, pickFailure);
+
+                        if (ahead.picked && ahead.hit.kind != GameplayWorldHitKind::Actor)
+                        {
+                            activateInteractionResult(ahead, pickFailure);
+                            ++result.clicks;
+                            log("stuck, clicked ahead at " + formatPose(now) + ": "
+                                + gameplayDebugTraceWorldHitSummary(ahead.hit)
+                                + (ahead.activated ? " (it reacted)" : " (nothing happened)"));
+                        }
+                        else
+                        {
+                            log("stuck, nothing to click ahead at " + formatPose(now));
+                        }
+
+                        break;
+                    }
+                    case 2:
+                        jumpLeft = JumpSeconds;
+                        ++result.jumps;
+                        log("stuck, jumping at " + formatPose(now));
+                        break;
+                    case 3:
+                        sidestepLeft = SidestepSeconds;
+                        log("stuck, stepping left at " + formatPose(now));
+                        break;
+                    case 4:
+                        sidestepRight = SidestepSeconds * 2.0f;
+                        log("stuck, stepping right at " + formatPose(now));
+                        break;
+                    default:
+                        ++result.replans;
+                        log("stuck, planning again at " + formatPose(now));
+                        replan();
+                        break;
+                }
+            }
+        }
+    }
+
+    result.finalPose = currentPose();
+
+    if (!result.arrived && !result.dialogOpened)
+    {
+        failure = "walk_to timed out after " + std::to_string(int(request.timeoutSeconds)) + " s at "
+            + formatPose(result.finalPose) + " on the way to " + formatPose(request.points[pointIndex]);
+        log(failure);
+        return false;
+    }
+
     return true;
 }
 
@@ -2706,9 +3289,50 @@ bool ScenarioRuntimeDriver::executeMapEvent(uint16_t eventId, std::string &failu
         }
     }
 
+    presentGrantedEventItems();
     ScenarioGameApplicationAccess::gameSession(m_application)
         .gameplayScreenRuntime()
         .ensurePendingEventDialogPresented(true);
+    return true;
+}
+
+bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, std::string &failure)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+    if (m_pAssetFileSystem == nullptr || pSceneRuntime == nullptr || pEventRuntimeState == nullptr)
+    {
+        failure = "cannot run a scenario Lua event without an active map";
+        return false;
+    }
+
+    // The scenario's code as one global event, after the event support every map script has.
+    constexpr uint16_t ScenarioLuaEventId = 65535;
+    const std::optional<std::string> support =
+        m_pAssetFileSystem->readTextFile("scripts/common/event_support.lua");
+    const std::string text = support.value_or("") + "\n\nRegisterGlobalEvent(" + std::to_string(ScenarioLuaEventId)
+        + ", \"scenario\", function()\n" + source + "\nend)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(text, "@scenario_lua_event", ScriptedEventScope::Global, error);
+
+    if (!program)
+    {
+        failure = "scenario Lua does not load: " + error;
+        return false;
+    }
+
+    GameDataLoader &data = ScenarioGameApplicationAccess::gameDataLoader(m_application);
+    EventRuntime eventRuntime(&data.getHouseTable(), &data.getNpcDialogTable());
+
+    if (!eventRuntime.executeEventById(std::nullopt, program, ScenarioLuaEventId, *pEventRuntimeState,
+            &pSceneRuntime->party(), pSceneRuntime->sceneEventContext()))
+    {
+        failure = "scenario Lua event failed (a Lua error)";
+        return false;
+    }
+
     return true;
 }
 
@@ -3037,7 +3661,8 @@ std::string ScenarioRuntimeDriver::activeDialogSummary() const
     return stream.str();
 }
 
-bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
+bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, bool presentDialogs,
+    bool followMapMove)
 {
     if (seconds < 0.0f)
     {
@@ -3076,11 +3701,18 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
         }
         pWorldRuntime->updateWorld(deltaSeconds);
 
+        if (presentDialogs)
+        {
+            session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);
+        }
+
         IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
         if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
         {
             static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
         }
+
+        presentGrantedEventItems();
 
         // An arena poses its monsters' models as the window does, so it plays as the window plays: a model's
         // missile leaves from its release socket (WorldFxSystem::actorLaunchPoint). trace_animation only adds the
@@ -3093,6 +3725,25 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
         }
 
         remaining -= deltaSeconds;
+
+        // follow_map_move: a map move an event of this step asked for (a cinematic's last event, a timer's exit)
+        // happens as the game's frame does it; without it the move stays pending for the next steps to check.
+        if (EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+            followMapMove && pEventRuntimeState != nullptr && pEventRuntimeState->pendingMapMove.has_value())
+        {
+            if (!processPendingMapMove(failure))
+            {
+                return false;
+            }
+
+            pWorldRuntime = worldRuntime();
+
+            if (pWorldRuntime == nullptr)
+            {
+                failure = "advance_runtime map transition left no active world runtime";
+                return false;
+            }
+        }
     }
 
     return true;

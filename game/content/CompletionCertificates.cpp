@@ -1,6 +1,8 @@
 #include "game/content/CompletionCertificates.h"
 
+#include "engine/Localization.h"
 #include "game/party/SkillData.h"
+#include "game/ui/CalendarText.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -36,11 +38,6 @@ const CompletionCertificateDefinition *findCertificate(
     return nullptr;
 }
 
-std::string pluralized(uint64_t value, const char *pSingular, const char *pPlural)
-{
-    return std::to_string(value) + " " + (value == 1 ? pSingular : pPlural);
-}
-
 std::string formatDate(int64_t unixSeconds)
 {
     const std::time_t timestamp = static_cast<std::time_t>(unixSeconds);
@@ -51,10 +48,7 @@ std::string formatDate(int64_t unixSeconds)
         return {};
     }
 
-    static constexpr const char *MonthNames[] = {"January", "February", "March", "April", "May", "June", "July",
-                                                 "August", "September", "October", "November", "December"};
-    return std::to_string(pLocal->tm_mday) + " " + MonthNames[pLocal->tm_mon] + " "
-        + std::to_string(pLocal->tm_year + 1900);
+    return formatCalendarDate(pLocal->tm_mday, pLocal->tm_mon + 1, pLocal->tm_year + 1900);
 }
 }
 
@@ -221,24 +215,24 @@ std::string certificateRulesetLabel(const RulesetSelection &selection, const std
     }
 
     const RulesetOptions &options = selection.options;
-    std::vector<std::string_view> details;
+    std::vector<std::string> details;
 
     if (options.challengeMode != RulesetChallengeMode::None)
     {
-        details.push_back(rulesetChallengeModeName(options.challengeMode));
+        details.push_back(Engine::tr(rulesetChallengeModeName(options.challengeMode)));
     }
 
     if (!rulesetChallengeModeDifficulty(options.challengeMode))
     {
-        details.push_back(rulesetDifficultyName(options.difficulty));
+        details.push_back(Engine::tr(rulesetDifficultyName(options.difficulty)));
     }
 
     if (options.randomizer)
     {
-        details.push_back("Randomizer");
+        details.push_back(Engine::tr("Randomizer"));
     }
 
-    std::string label = rulesetName.empty() ? selection.id : rulesetName;
+    std::string label = rulesetName.empty() ? selection.id : Engine::localize(rulesetName);
 
     for (size_t index = 0; index < details.size(); ++index)
     {
@@ -271,8 +265,10 @@ std::string formatPlayTime(float gameMinutes)
     days %= DaysPerMonth * MonthsPerYear;
     const uint64_t months = days / DaysPerMonth;
     days %= DaysPerMonth;
-    return pluralized(years, "Year", "Years") + ", " + pluralized(months, "Month", "Months") + ", "
-        + pluralized(days, "Day", "Days");
+    return Engine::tr("{years}, {months}, {days}",
+        {{"years", Engine::trn("{count} Year", "{count} Years", years, {{"count", years}})},
+            {"months", Engine::trn("{count} Month", "{count} Months", months, {{"count", months}})},
+            {"days", Engine::trn("{count} Day", "{count} Days", days, {{"count", days}})}});
 }
 
 CompletionCertificate buildCompletionCertificate(
@@ -286,15 +282,18 @@ CompletionCertificate buildCompletionCertificate(
     certificate.grand = !definition.worldIds.empty();
     certificate.originalLayout = definition.layout;
     const bool original = definition.layout.declared;
-    certificate.headline = definition.headline;
-    certificate.text = definition.text;
+    // A world's texts are English in its world.yml, translated under the world's context; the grand certificate's
+    // come from the engine's certificates.yml.
+    const std::string context = certificate.grand ? std::string() : "world:" + definition.id;
+    certificate.headline = Engine::localize(definition.headline, context);
+    certificate.text = Engine::localize(definition.text, context);
 
     for (const WorldCompletionDefinition::Variant &variant : definition.variants)
     {
         if (party.hasQuestBit(variant.qbit))
         {
-            certificate.headline = variant.headline;
-            certificate.text = variant.text;
+            certificate.headline = Engine::localize(variant.headline, context);
+            certificate.text = Engine::localize(variant.text, context);
             break;
         }
     }
@@ -302,33 +301,40 @@ CompletionCertificate buildCompletionCertificate(
     for (const Character &member : party.members())
     {
         const std::string className = !member.className.empty() ? member.className : member.role;
-        const std::string displayClass = !className.empty() ? displayClassName(className) : "Adventurer";
-        const std::string level = std::to_string(std::max<uint32_t>(1u, member.level));
-        certificate.partyLines.push_back(
-            original ? member.name + " the Level " + level + " " + displayClass
-                     : member.name + ", Level " + level + " " + displayClass);
+        const std::string displayClass =
+            !className.empty() ? Engine::localizeKnown(displayClassName(className)) : Engine::tr("Adventurer");
+        const uint32_t level = std::max<uint32_t>(1u, member.level);
+        certificate.partyLines.push_back(original
+                ? Engine::tr("{name} the Level {level} {class}",
+                    {{"name", member.name}, {"level", level}, {"class", displayClass}})
+                : Engine::tr("{name}, Level {level} {class}",
+                    {{"name", member.name}, {"level", level}, {"class", displayClass}}));
     }
 
     for (const std::string &worldId : definition.worldIds)
     {
         const CompletionCertificateDefinition *pWorld = findCertificate(certificates, worldId);
         const WorldCompletionRecord *pRecord = party.findWorldCompletion(worldId);
-        const std::string name = pWorld != nullptr && !pWorld->continent.empty() ? pWorld->continent : worldId;
+        const std::string name = pWorld != nullptr && !pWorld->continent.empty()
+            ? Engine::localize(pWorld->continent, "world:" + worldId)
+            : worldId;
 
         if (pRecord != nullptr && pRecord->timed)
         {
-            certificate.worldLines.push_back(name + ": " + formatPlayTime(pRecord->gameMinutes));
+            certificate.worldLines.push_back(
+                Engine::tr("{world}: {time}", {{"world", name}, {"time", formatPlayTime(pRecord->gameMinutes)}}));
         }
         else
         {
-            certificate.worldLines.push_back(name + ": finished");
+            certificate.worldLines.push_back(Engine::tr("{world}: finished", {{"world", name}}));
         }
     }
 
     if (const WorldCompletionRecord *pRecord = party.findWorldCompletion(definition.id))
     {
-        certificate.timeLine = "Total Time: " + formatPlayTime(pRecord->gameMinutes);
-        certificate.scoreLine = (original ? "Your score: " : "Score: ") + std::to_string(pRecord->score);
+        certificate.timeLine = Engine::tr("Total Time: {time}", {{"time", formatPlayTime(pRecord->gameMinutes)}});
+        certificate.scoreLine = original ? Engine::tr("Your score: {score}", {{"score", pRecord->score}})
+                                         : Engine::tr("Score: {score}", {{"score", pRecord->score}});
         certificate.dateLine = formatDate(pRecord->completedAtUnixSeconds);
     }
 

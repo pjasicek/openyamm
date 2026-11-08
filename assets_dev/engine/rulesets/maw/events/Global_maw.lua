@@ -3,10 +3,10 @@
 
 RegisterGlobalEvent(10010, "Skill reset", function()
     local cost = evt.SkillResetCost()
-    evt.SetMessage("I can make the selected hero forget every skill lesson and learn anew. The weapons, schools of"
+    evt.SetMessage(tr("I can make the selected hero forget every skill lesson and learn anew. The weapons, schools of"
         .. " magic and racial abilities go back to 1 and return the points they cost, every other skill but Alchemy"
         .. " the same way. The masteries are not lost: each returns once the skill reaches its requirement again."
-        .. "\n\nFor this hero it costs " .. cost .. " gold.")
+        .. "\n\nFor this hero it costs {cost} gold.", {cost = cost}))
 end)
 
 RegisterGlobalEvent(10011, "Reset skills", function()
@@ -451,7 +451,7 @@ ReplaceGlobalEvent(789, "MMMerge Dragon Hatchling", function()
         MM7.SetCrossVar("DragonFirstFeedMinutes", CurrentGameMinutes())
     end
     MM7.SetCrossVar("DragonFood", foodEaten + 5)
-    evt.SimpleMessage("Yum! The dragon ate 5 food. Eaten so far: " .. (foodEaten + 5) .. " of 100.")
+    evt.SimpleMessage(tr("Yum! The dragon ate 5 food. Eaten so far: {eaten} of 100.", {eaten = foodEaten + 5}))
 end)
 
 -- Releasing is offered only while he travels with the party (Quest_DragonHatchling.lua:191-210).
@@ -480,10 +480,10 @@ end)
 -- the Arena (engine/rulesets/maw/events/maps/d42_maw.lua). Global vars: MawArenaBest, the best level cleared, and
 -- MawArenaLevel, the level being fought (0 for none).
 RegisterGlobalEvent(10030, "Endless Arena", function()
-    evt.SetMessage("It looks like you've never tried the Endless Waves mode before. In this mode, waves of enemies will"
-        .. " keep appearing, growing stronger over time. Every time you clear a level, your progress is saved, and you"
-        .. " can start from the latest checkpoint. Prepare yourself for a relentless challenge!\n\nNext: level "
-        .. (evt.GetGlobalVar("MawArenaBest", 0) + 1) .. ".")
+    evt.SetMessage(tr("It looks like you've never tried the Endless Waves mode before. In this mode, waves of enemies"
+        .. " will keep appearing, growing stronger over time. Every time you clear a level, your progress is saved, and"
+        .. " you can start from the latest checkpoint. Prepare yourself for a relentless challenge!\n\nNext: level"
+        .. " {level}.", {level = evt.GetGlobalVar("MawArenaBest", 0) + 1}))
     evt.SetNPCTopic(313, 1, 10031)
 end)
 
@@ -496,7 +496,7 @@ RegisterGlobalEvent(10031, "Start the next level", function()
     evt.SetGlobalVar("MawArenaWait", 0)
     evt.SetGlobalVar("MawArenaProgress", 0)
     evt.SetNPCTopic(313, 1, 0)
-    evt.SetMessage("Let's get started! Level " .. level .. ".")
+    evt.SetMessage(tr("Let's get started! Level {level}.", {level = level}))
     evt.MoveToMap(3850, 5776, 1, 512, 0, 0, 0, 0, "d42.blv")
 end)
 

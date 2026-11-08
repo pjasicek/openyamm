@@ -13,6 +13,12 @@ SAMPLER2D(s_terrainMacro, 14);
 // Per layer: x = 1 / repeat in world units, y = height blend contrast, z = normal strength, w = cavity: how much
 // the material height darkens its albedo (photoscans are delit; the native tiles carry their shading).
 uniform vec4 u_terrainLayerParams[8];
+// The grass decorations' colour on the ground (the foliage map's sampler is the caller's): [0]: x = foliage tint strength
+// (0: no grass decorations), y = grass full density distance, z = grass far distance, w = grass largest LOD scale.
+// [1]: x = how far the short grass has faded and the ground taken the plants' colour (0 on foot, 1 flying high),
+// z = that colour's strength, w = how much darker the ground is under drawn grass
+// (TerrainDecorationRenderer::foliageParams).
+uniform vec4 u_terrainFoliage[2];
 // rgb = tint, w = strength of the meadow tint (u_terrainMeadow) on this layer.
 uniform vec4 u_terrainLayerTint[8];
 // Per ground layer: rgb = the slope layer's tint where that layer dominates (cliffs take the colour of their ground),
@@ -370,4 +376,31 @@ void blendTerrainMaterial(vec4 weights0, vec4 weights1, vec3 position, vec3 geom
     pool = mix(u_terrainLayerVariant[int(firstLayer + 0.5)].w * terrainSmoothstep(0.2, 0.12, firstSurface.y),
         u_terrainLayerVariant[int(secondLayer + 0.5)].w * terrainSmoothstep(0.2, 0.12, secondSurface.y), secondMix)
         * (1.0 - plain) * terrainSmoothstep(0.94, 0.985, geometricNormal.z);
+}
+
+// Where the grass decorations have thinned out (GRASS_LOD.md), the ground takes their colour: by the share of their
+// coverage the remaining tufts no longer supply, and by how much of the grass a ray at this elevation crosses (grazing
+// views see mostly blades, views from above the ground between them). Seen from above, the ground also takes their
+// colour directly, so uncut patches and flower clusters read as areas (MEADOW.md). foliage: the foliage map at the
+// point (rgb = average tuft colour, a = optical depth / 4); normal: the ground's.
+vec3 terrainFoliageAlbedo(vec3 albedo, vec4 foliage, vec3 position, vec3 cameraPosition, vec3 normal)
+{
+    if (foliage.a <= 0.0001)
+    {
+        return albedo;
+    }
+    float depth = foliage.a * 4.0;
+    vec3 toCamera = cameraPosition - position;
+    float distance = length(toCamera);
+    float thinned = min(1.0, u_terrainFoliage[0].y * u_terrainFoliage[0].y / max(distance * distance, 1.0));
+    float scale = clamp(distance / u_terrainFoliage[0].y, 1.0, u_terrainFoliage[0].w);
+    float drawn = min(thinned * scale * scale, 1.0)
+        * (1.0 - smoothstep(u_terrainFoliage[0].z * 0.85, u_terrainFoliage[0].z, distance));
+    float elevation = clamp(dot(toCamera / max(distance, 1.0), normal), 0.02, 1.0);
+    float grazing = sqrt(1.0 - elevation * elevation) / elevation;
+    float coverage = (1.0 - exp(-depth * grazing)) * (1.0 - drawn);
+    float overhead = u_terrainFoliage[1].x * (1.0 - exp(-depth * 2.0)) * u_terrainFoliage[1].z;
+    // Under the drawn grass the ground between the tufts is in their shade, which sets them off it.
+    albedo *= 1.0 - (1.0 - exp(-depth * 2.0)) * drawn * (1.0 - u_terrainFoliage[1].x) * u_terrainFoliage[1].w;
+    return mix(albedo, foliage.rgb, max(coverage, overhead) * u_terrainFoliage[0].x);
 }

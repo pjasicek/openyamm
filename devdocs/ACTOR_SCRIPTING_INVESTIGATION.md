@@ -106,6 +106,9 @@ attachment model, OpenMW's "return nothing to keep the default" overrides and Tr
 | Declarative tactics (turret traverse, ranged band, posts; see Tactics) | `ActorBehaviorCatalog`, `ActorBehaviorRuntime::applyTactics`, `GameplayActorAiSystem.cpp` |
 | Tests | `tests/ActorBehaviorRuntimeTests.cpp`, `tests/GameplayActorAiSystemTests.cpp` (tactics) |
 | MM9 bosses on the MM9 loops (`self:setMm9`, `target`, `targets`, `setTarget`, `attack`, `onTargetChanged`, `onAttackDone`, `onHit`, `onTrigger`; `evt.TriggerActor`) | `ActorBehaviorMm9Script` in `ActorBehaviorRuntime`, `ActorMm9ScriptFacts`; scripts in `assets_dev/worlds/mm9/behaviors/` (devdocs/mm9_rework/MM9_MONSTER_AI_PLAN.md "Phase 5") |
+| `evt.SetActorTarget(actorIndex, "party" \| targetActorIndex)` (map scripts) | `ISceneEventContext::setMapActorTarget` in both world runtimes; `EventRuntimeState::scriptedActorTargets`, `applyScriptedActorTargets` in `game/gameplay/ScriptedActorMoves.cpp` |
+| `evt.SetActorImmobile(actorIndex, immobile)` (map scripts) | `ISceneEventContext::setMapActorImmobile` in both world runtimes (the placement's `immobile`, saved with the map) |
+| `evt.SummonMonstersById{..., patrol, mm9}` (a summon's patrol and MM9 placement) | `game/events/EventRuntime.cpp` (`luaValueToYaml` + `parseMm9AiPlacementNode`), `GameplayMonsterSpawnRequest::patrolPoints` |
 
 ### Each actor step (1/128 s, indoor and outdoor)
 
@@ -251,7 +254,8 @@ The full handler and command list is at the top of `assets_dev/engine/behaviors/
 - **Queries:** `hp`, `maxHp`, `hpFraction`, `position`, `distanceToParty`, `isHostile`, `monsterId`, `age`,
   `random`.
 - **Commands:**
-  - `say`, `playSound`, `effect`
+  - `say`, `playSound`, `effect(id, scale, heightFraction, forward)` (forward: along the actor's facing, a dragon's
+    snout), `effectAt(id, x, y, z, scale)` at a world point (a summoner's spawn location)
   - `perform{clip, seconds, fallback, sound, effect}`: holds the native AI and plays the clip role on 3D models, or
     the fallback state on sprites
   - `addWard{id, radius, seconds, effect, visual = {color = {r, g, b}, intensity, rim, noise} | false}`,
@@ -261,6 +265,44 @@ The full handler and command list is at the top of `assets_dev/engine/behaviors/
     id
   - `setAiType`, `setNoFlee`, `summon(monsterId, count, radius)` around the actor, `summonAt(monsterId, x, y, z,
     count, spread)` around a point (indoors and outdoors)
+
+### Map script orders (2026-11-06)
+
+Two `evt.*` calls of map scripts (not behaviour scripts) for MM9's spawn and cage scripts (devdocs/mm9_rework/
+scr_audit/monsters_ai.md gaps 6 and 7):
+
+- **`evt.SetActorTarget(actorIndex, "party" | targetActorIndex)`**: the living map actor goes for the party or the
+  other living actor at once (MM9's `GetPlayer`/`GetMe`: SpawnCreature.scr's spawns, DP_CageMonster.scr's cage Terrors
+  after their door opens, Dragon.scr's Winged Mutants on the Dragon King). It wakes a dormant start; a party target
+  makes it hostile to the party; an MM9 monster's loop then holds the target from its next AI step as a behaviour
+  script's `self:setTarget` does (whatever their relation; the order is runtime only, taken within a step of an
+  active actor). A monster without the MM9 loop (MM6-MM8 AI) takes only the party: hostile and aware of it; an actor
+  target returns false for it. Outdoors an MM9 loop's held actor target is offered by relation only (MM9 maps are
+  BLVs). Returns whether the actor took the order. Arena event: `target: [arena monster, party | arena monster]`
+  (`tests/scenarios/mm9/ai/set_target.yml`).
+- **`evt.SetActorImmobile(actorIndex, immobile)`** (2026-11-08): the actor's `immobile` placement, saved with the
+  map. The MM9 converters place still an actor MM9 gives no wander (its script decides when it moves), and `immobile`
+  also stops all AI movement, pursuit included; MM9's BaseInit or AddEnemy then lets it fight as a monster, so the
+  map's Lua lifts it at that moment: Thronheim City's Desert Terror and Guard1 at the breakout, Arslegard's and the
+  Thousand Terrors' Njam, Frosgard City's Forad Darre, Drangheim Prison's gate guards at the alarm, Lindisfarne's
+  monks once hostile. A row that never moves (Stationary, MM8's Immobile kind) stays still. Returns whether there is
+  such an actor.
+- **Orders run wherever the actor is** (2026-11-08): an indoor actor with a pending `evt.MoveActorTo` walk or
+  `evt.SetActorTarget` is picked for the full AI step (first, before the actors nearest the party), so it carries the
+  order out though it neither sees the party nor shares its sector. Before, such an actor kept the order pending and
+  stood still: the caged Desert Terror never walked to its wall, and the guards sent for it never left their post
+  (`IndoorWorldRuntime::selectIndoorActiveActors`).
+- **`evt.SummonMonstersById{..., patrol = {{x, y, z}, ...}, mm9 = {...}}`**: every summoned monster gets a scene
+  actor's `patrol` (it walks the waypoints in turn while nothing is in reach; outdoors saved from save version 160)
+  and `mm9_ai` placement, read by the scene's own parser (`parseMm9AiPlacementNode`, so its keys and errors are the
+  scene's: an unknown key is a Lua error): a Spawner's `DefaultSpawn` wander path (`wander = "path", path = {...}`),
+  a placement script and ScriptParams (`script_params = "1"`: a Greater Demon's spawn-in, hidden, Spawn and Aware
+  clips), sight, hearing, dormant start and the rest (`tests/scenarios/mm9/ai/lua_summon.yml`,
+  `mm8_summon_patrol_out01.yml`). `effect = "mm9:fireblue"` (with `effectScale`) plays that world effect where each
+  summoned monster stands as it appears: MM9's `DoClientFX` on a spawned creature (an Imp gate's blue fire, a Greater
+  Demon's spawn-in; devdocs/mm9_rework/scr_audit/client_fx.md).
+
+Scenarios run a map script's code with `lua_event: {source}` (tests/scenarios/README.md).
 
 ### Sandbox and errors
 
@@ -294,6 +336,15 @@ Verified on 2026-10-10:
   blocked with the taunt.
 - In Agar's Laboratory (`6d19.blv`): attach and death detection.
 - Unit tests: `./build/tests/openyamm_unit_tests --test-case='*ehavior*,*ward*,*scripted action*'`.
+
+## Scheduled scenes and greetings (MM9, 2026-11-06)
+
+Map Lua over the existing calls, no new actor API: the Temple of Honk's leader paces between his platform markers
+with `evt.MoveActorTo` during the ceremony (6:15-6:45 and 18:15-18:45, HonkLeader.scr; the followers' walk to the
+pulpit is not carried); a placed MM9 NPC with a greeting voice gets its click event (53000 + DAT index) from the
+shared converter, which plays the voice and opens its RUDE dialogue (`evt.OpenMm9Rude` keeps the clicked actor
+through the hook context). The Guberland Players are not placed: their show is the voices only
+([Ambient sounds](AMBIENT_SOUNDS.md) "Scripted voices and scenes").
 
 ## Limitations and next steps
 

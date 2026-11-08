@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 
+#include "game/gameplay/GameplayProjectileService.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/IndoorSceneYml.h"
 
@@ -77,4 +78,45 @@ TEST_CASE("indoor scene pulsing lights parse")
                                               "radius: [0, 0, 0, 0]}", lights, error));
     CHECK_FALSE(parseIndoorScenePulsingLights("- {key: 1, position: [0, 0, 0], color: [1, 2], intensity: [1, 1, 0, 0], "
                                               "radius: [1, 2, 0, 0]}", lights, error));
+}
+
+TEST_CASE("an area impact damages the destructibles its radius reaches, by their boxes")
+{
+    using Service = GameplayProjectileService;
+    Service::ProjectileState fireball = {};
+    fireball.sourceKind = Service::ProjectileState::SourceKind::Party;
+    fireball.damage = 30;
+    const auto box = [](uint32_t id, float x, bool direct = false)
+    {
+        Service::ProjectileAreaImpactDestructibleFacts fact = {};
+        fact.id = id;
+        fact.boundsMin = {x, -50.0f, 0.0f};
+        fact.boundsMax = {x + 100.0f, 50.0f, 200.0f};
+        fact.directImpact = direct;
+        return fact;
+    };
+    // A wall face starting 400 from the blast, a barrel at 700, the struck board, a box beyond reach above.
+    std::vector<Service::ProjectileAreaImpactDestructibleFacts> destructibles = {
+        box(1, 400.0f), box(2, 700.0f), box(3, -50.0f, true), box(4, 100.0f)};
+    destructibles[3].boundsMin.z = 700.0f;
+    destructibles[3].boundsMax.z = 800.0f;
+
+    const std::vector<Service::ProjectileAreaImpactDestructibleHit> hits =
+        Service::buildProjectileAreaDestructibleHits(fireball, {0.0f, 0.0f, 100.0f}, 512.0f, 0, destructibles);
+    REQUIRE_EQ(hits.size(), 1u);
+    CHECK_EQ(hits[0].id, 1u);
+    CHECK_EQ(hits[0].damage, 30);
+
+    // An event's blast deals its own damage; a monster's breaks nothing; no radius, nothing.
+    Service::ProjectileState trap = fireball;
+    trap.sourceKind = Service::ProjectileState::SourceKind::Event;
+    const std::vector<Service::ProjectileAreaImpactDestructibleHit> trapHits =
+        Service::buildProjectileAreaDestructibleHits(trap, {0.0f, 0.0f, 100.0f}, 512.0f, 12, destructibles);
+    REQUIRE_EQ(trapHits.size(), 1u);
+    CHECK_EQ(trapHits[0].damage, 12);
+    Service::ProjectileState monsterBlast = fireball;
+    monsterBlast.sourceKind = Service::ProjectileState::SourceKind::Actor;
+    CHECK(Service::buildProjectileAreaDestructibleHits(
+        monsterBlast, {0.0f, 0.0f, 100.0f}, 512.0f, 12, destructibles).empty());
+    CHECK(Service::buildProjectileAreaDestructibleHits(fireball, {0.0f, 0.0f, 100.0f}, 0.0f, 0, destructibles).empty());
 }

@@ -40,7 +40,6 @@
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
 #include "game/gameplay/GameplayScreenState.h"
-#include "game/gameplay/GameplayTalkCamera.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
@@ -648,6 +647,8 @@ public:
     const GameSettings &settingsSnapshot() const;
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
     WorldFxSystem &worldFxSystem();
+    // The model a decoration shows now, by its sprite override key (a talking prop's talk portrait).
+    std::optional<DecorationPortraitModel> decorationPortraitModel(uint32_t spriteOverrideKey) const;
     Engine::ModelRenderer &modelRenderer() { return m_modelRenderer; }
     EffectRenderer &effectRenderer() { return m_effectRenderer; }
     const EffectRenderer::Diagnostics &effectRenderDiagnostics() const;
@@ -950,7 +951,10 @@ private:
     float m_cameraTargetZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
-    GameplayTalkCamera m_talkCamera;
+    // This frame's view: a playing cinematic's field of view (60 otherwise) and the camera shake, set by render().
+    float m_viewVerticalFovDegrees = 60.0f;
+    float m_viewShakeYawRadians = 0.0f;
+    float m_viewShakePitchRadians = 0.0f;
     float m_cameraEyeHeight;
     float m_cameraDistance;
     float m_cameraOrthoScale;

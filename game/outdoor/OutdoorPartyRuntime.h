@@ -24,7 +24,8 @@ public:
     OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, const ItemTable &itemTable);
 
     void initialize(float x, float y, float footZHint, bool resetParty = true);
-    void teleportTo(float x, float y, float footZHint);
+    // keepHeight: the party is placed at footZHint in the air and falls from there (a fall from the sky).
+    void teleportTo(float x, float y, float footZHint, bool keepHeight = false);
     void update(
         const OutdoorMovementInput &input,
         float deltaSeconds,

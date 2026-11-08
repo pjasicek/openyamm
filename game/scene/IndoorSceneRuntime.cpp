@@ -35,7 +35,7 @@ bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
 {
     for (const auto &entry : eventRuntimeState.mechanisms)
     {
-        if (entry.second.isMoving)
+        if (mechanismFacesMoving(entry.second))
         {
             return true;
         }
@@ -328,6 +328,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     }
 
     m_partyRuntime.setParty(*m_pSessionParty);
+    m_partyRuntime.party().setStatistics(m_pSessionParty->statistics());
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);
     m_worldRuntime.initialize(
         map,
@@ -417,6 +418,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     }
 
     m_partyRuntime.setParty(*m_pSessionParty);
+    m_partyRuntime.party().setStatistics(m_pSessionParty->statistics());
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);
     m_worldRuntime.initialize(
         map,
@@ -600,6 +602,7 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
     m_partyRuntime.setParty(*m_pSessionParty);
+    m_partyRuntime.party().setStatistics(m_pSessionParty->statistics());
     if (m_eventRuntimeState)
     {
         m_partyRuntime.party().applyGlobalNpcStateTo(*m_eventRuntimeState);
@@ -617,6 +620,7 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
             m_lastProcessedPartyMoveStateForFaceTriggers->supportFaceIndex;
     }
     m_mechanismAudioStates.clear();
+    m_mechanismSoundStates.clear();
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
     m_mm9PositionedTransitionRuntime.resetOverlapState();
     m_mm9TeacherScheduleRuntime.reset();
@@ -664,21 +668,26 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
         m_worldRuntime) || stateChanged;
     stateChanged = updatePartyFaceTriggers() || stateChanged;
     const IndoorMoveState &moveState = m_partyRuntime.movementState();
+    const IndoorBodyDimensions partyBody = {};
     const std::optional<Mm9PositionedTransitionActivation> activation =
         m_mm9PositionedTransitionRuntime.update(
             moveState.x,
             moveState.y,
             moveState.footZ,
-            *m_eventRuntimeState);
+            *m_eventRuntimeState,
+            partyBody.radius,
+            partyBody.height);
     if (activation)
     {
         stateChanged = true;
+        // An exit that does not ask is a voyage (Ravensford's ship to the Isle of Ashes, its boat on to Sturmford):
+        // the days pass, but only a walk between regions, which always asks, eats food.
         if (!activation->pTransition->askPlayer
             && applyTravelDaysSideEffects(
                 m_partyRuntime.party(),
                 &m_worldRuntime,
                 activation->pTransition->travelDays,
-                std::max(0, activation->pTransition->travelDays))
+                0)
             && m_eventRuntimeState->pendingMapMove)
         {
             m_eventRuntimeState->pendingMapMove->travelTimeApplied = true;
@@ -730,6 +739,7 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
 
         if (hasMovers)
         {
+            advanceMoverSpins(MechanismStepMilliseconds);
             advanceMoverAutoClose(MechanismStepMilliseconds);
             applyMoverBodyRules(previousMechanisms);
             carryPartyOnRotatingMovers(previousMechanisms);
@@ -841,21 +851,71 @@ bool IndoorSceneRuntime::hasPendingMoverWork() const
 
     for (const IndoorMoverDefinition &mover : m_pIndoorMapData->moverDefinitions)
     {
-        if (mover.autoCloseSeconds <= 0.0f)
+        const auto iterator = m_eventRuntimeState->mechanisms.find(mover.doorId);
+
+        if (iterator == m_eventRuntimeState->mechanisms.end())
+        {
+            continue;
+        }
+
+        if (mover.autoCloseSeconds > 0.0f
+            && iterator->second.state == static_cast<uint16_t>(EvtMechanismState::Open))
+        {
+            return true;
+        }
+
+        // A spinner switched on (or not yet set, and starting on) that is not yet at full speed.
+        if (mover.spin)
+        {
+            const RuntimeMechanismState &mechanism = iterator->second;
+            const bool on = mechanism.spinSet ? mechanism.spinOn : mover.spin->startOn;
+
+            if (on || mechanism.spinRate != 0.0f)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void IndoorSceneRuntime::advanceMoverSpins(float stepMilliseconds)
+{
+    const float seconds = stepMilliseconds / 1000.0f;
+
+    for (const IndoorMoverDefinition &mover : m_pIndoorMapData->moverDefinitions)
+    {
+        if (!mover.spin)
         {
             continue;
         }
 
         const auto iterator = m_eventRuntimeState->mechanisms.find(mover.doorId);
 
-        if (iterator != m_eventRuntimeState->mechanisms.end()
-            && iterator->second.state == static_cast<uint16_t>(EvtMechanismState::Open))
+        if (iterator == m_eventRuntimeState->mechanisms.end())
         {
-            return true;
+            continue;
+        }
+
+        RuntimeMechanismState &mechanism = iterator->second;
+
+        if (!mechanism.spinSet)
+        {
+            mechanism.spinOn = mover.spin->startOn;
+            mechanism.spinSet = true;
+        }
+
+        const float target = mechanism.spinOn ? static_cast<float>(mechanism.spinDirection) : 0.0f;
+        mechanism.spinRate = indoorMoverSpinRateStep(*mover.spin, mechanism.spinRate, target, seconds);
+
+        if (mechanism.spinRate != 0.0f)
+        {
+            float degrees = mechanism.spinDegrees + mechanism.spinRate * mover.spin->degreesPerSecond * seconds;
+            degrees = std::fmod(degrees, 360.0f);
+            mechanism.spinDegrees = degrees < 0.0f ? degrees + 360.0f : degrees;
         }
     }
-
-    return false;
 }
 
 void IndoorSceneRuntime::chooseMoverOpenAwayDirections()
@@ -873,7 +933,14 @@ void IndoorSceneRuntime::chooseMoverOpenAwayDirections()
         const auto iterator = m_eventRuntimeState->mechanisms.find(mover.doorId);
         const MapDeltaDoor *pDoor = findSceneDoor(*m_mapDeltaData, mover.doorId);
 
-        // A door starting to open from shut takes the side away from the party; it keeps it until shut again.
+        if (iterator != m_eventRuntimeState->mechanisms.end()
+            && iterator->second.state == static_cast<uint16_t>(EvtMechanismState::Closed))
+        {
+            iterator->second.openerSet = false;
+        }
+
+        // A door starting to open from shut takes the side away from the party, or from the monster that opened it;
+        // it keeps it until shut again.
         if (iterator == m_eventRuntimeState->mechanisms.end()
             || pDoor == nullptr
             || iterator->second.state != static_cast<uint16_t>(EvtMechanismState::Opening)
@@ -882,7 +949,12 @@ void IndoorSceneRuntime::chooseMoverOpenAwayDirections()
             continue;
         }
 
-        iterator->second.rotationDirection = indoorMoverOpenAwayDirection(*pDoor, mover, party);
+        RuntimeMechanismState &mechanism = iterator->second;
+        const bx::Vec3 opener = mechanism.openerSet
+            ? bx::Vec3{mechanism.openerX, mechanism.openerY, mechanism.openerZ}
+            : party;
+        mechanism.rotationDirection = indoorMoverOpenAwayDirection(*pDoor, mover, opener);
+        mechanism.openerSet = false;
     }
 }
 
@@ -950,11 +1022,11 @@ void IndoorSceneRuntime::applyMoverBodyRules(
         const MapDeltaDoor &door = *pDoor;
         RuntimeMechanismState &mechanism = currentIterator->second;
         const RuntimeMechanismState &previous = previousIterator->second;
-        applyIndoorMechanismDoorToVertices(
-            door, &mover, previous.currentDistance, previous.rotationDirection, m_moverPoseVertices);
+        applyIndoorMechanismDoorToVertices(door, &mover, previous.currentDistance, previous.rotationDirection,
+            m_moverPoseVertices, previous.spinDegrees);
         moverFacePolygons(*m_pIndoorMapData, door, m_moverPoseVertices, previousPolygons);
-        applyIndoorMechanismDoorToVertices(
-            door, &mover, mechanism.currentDistance, mechanism.rotationDirection, m_moverPoseVertices);
+        applyIndoorMechanismDoorToVertices(door, &mover, mechanism.currentDistance, mechanism.rotationDirection,
+            m_moverPoseVertices, mechanism.spinDegrees);
         moverFacePolygons(*m_pIndoorMapData, door, m_moverPoseVertices, polygons);
 
         bx::Vec3 minimum = {1.0e9f, 1.0e9f, 1.0e9f};
@@ -975,15 +1047,15 @@ void IndoorSceneRuntime::applyMoverBodyRules(
         // tipping away from under it) does not stop or push anything.
         const auto approaches = [&polygons, &previousPolygons](const IndoorMoverBody &body, size_t index)
         {
-            const float distance = indoorBodyAxisPolygonDistance(body, polygons[index]);
-            return distance < body.radius
-                && distance < indoorBodyAxisPolygonDistance(body, previousPolygons[index]) - 0.001f;
+            return indoorMoverFaceApproachesBody(body, previousPolygons[index], polygons[index]);
         };
-        const auto touches = [&polygons, &approaches](const IndoorMoverBody &body)
+        // A face stops the mover only when it comes at the body: not the floor under its feet (a pressure plate
+        // rising again carries it) and not a face the body is behind (indoorMoverFaceBlocksBody).
+        const auto touches = [&polygons, &previousPolygons](const IndoorMoverBody &body)
         {
             for (size_t index = 0; index < polygons.size(); ++index)
             {
-                if (approaches(body, index))
+                if (indoorMoverFaceBlocksBody(body, previousPolygons[index], polygons[index]))
                 {
                     return true;
                 }
@@ -1039,7 +1111,12 @@ void IndoorSceneRuntime::applyMoverBodyRules(
             continue;
         }
 
-        bool blocked = touches(party);
+        // A party standing on the mover rides it (a lift) or is left as it slides away (a floor grate): its own
+        // floor never stops the mover.
+        const IndoorMoveState &partyState = m_partyRuntime.movementState();
+        const bool partyOnMover = partyState.grounded && partyState.supportFaceIndex != static_cast<size_t>(-1)
+            && mechanismDoorContainsFace(door, partyState.supportFaceIndex);
+        bool blocked = !partyOnMover && touches(party);
 
         for (size_t index = 0; !blocked && index < actorBodies.size(); ++index)
         {
@@ -1091,10 +1168,12 @@ void IndoorSceneRuntime::carryPartyOnRotatingMovers(
             continue;
         }
 
-        const std::optional<IndoorRigidMotion> before = indoorRotatingMoverMotion(
-            *pDoor, &mover, previousIterator->second.currentDistance, previousIterator->second.rotationDirection);
-        const std::optional<IndoorRigidMotion> after = indoorRotatingMoverMotion(
-            *pDoor, &mover, currentIterator->second.currentDistance, currentIterator->second.rotationDirection);
+        const std::optional<IndoorRigidMotion> before = indoorRotatingMoverMotion(*pDoor, &mover,
+            previousIterator->second.currentDistance, previousIterator->second.rotationDirection,
+            previousIterator->second.spinDegrees);
+        const std::optional<IndoorRigidMotion> after = indoorRotatingMoverMotion(*pDoor, &mover,
+            currentIterator->second.currentDistance, currentIterator->second.rotationDirection,
+            currentIterator->second.spinDegrees);
         const IndoorRigidMotion step = composeIndoorRigidMotions(*after, before->inverse());
         const bx::Vec3 foot = {state.x, state.y, state.footZ};
         const bx::Vec3 moved = step.apply(foot);
@@ -1122,6 +1201,8 @@ void IndoorSceneRuntime::updateMechanismAudio(
 
         if (currentIterator == m_eventRuntimeState->mechanisms.end())
         {
+            m_mechanismSoundStates.erase(door.doorId);
+
             if (m_mechanismAudioStates.erase(door.doorId) > 0)
             {
                 m_eventRuntimeState->pendingSounds.push_back(buildStopMechanismSound(door.doorId));
@@ -1149,12 +1230,13 @@ void IndoorSceneRuntime::updateMechanismAudio(
                 profile.positional = at.positional;
             }
 
-            const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator previousIterator =
-                previousMechanisms.find(door.doorId);
-            const bool wasMoving =
-                previousIterator != previousMechanisms.end() && previousIterator->second.isMoving;
-            const uint16_t previousState =
-                previousIterator != previousMechanisms.end() ? previousIterator->second.state : currentMechanism.state;
+            // Compared with what was last heard, not with the step's snapshot: a door seen for the first time was at
+            // rest, so the click that set it moving still sounds.
+            MechanismSoundState &heard = m_mechanismSoundStates.try_emplace(door.doorId,
+                MechanismSoundState{currentMechanism.state, false}).first->second;
+            const bool wasMoving = heard.moving;
+            const uint16_t previousState = heard.state;
+            heard = {currentMechanism.state, currentMechanism.isMoving};
             queueMechanismMovementAudio(
                 *m_eventRuntimeState, mechanismAudioKey(door.doorId), profile, previousState, wasMoving,
                 currentMechanism);

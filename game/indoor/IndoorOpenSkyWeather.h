@@ -4,6 +4,7 @@
 #include "game/outdoor/WeatherAudio.h"
 #include "game/outdoor/WeatherPresentation.h"
 #include "game/render/WeatherRenderer.h"
+#include "game/render/WeatherRoofMap.h"
 
 #include <bgfx/bgfx.h>
 
@@ -14,8 +15,13 @@
 namespace OpenYAMM::Game
 {
 class GameAudioSystem;
+struct IndoorMapData;
 struct SkyFrameState;
 struct SkyInputs;
+
+// The map's roof map for the weather: its drawn surfaces seen from the sky (not its sky faces, portals or invisible
+// faces), so rain and snow stop at roofs, bridges and the ground over tunnels.
+WeatherRoofMap buildIndoorWeatherRoofMap(const IndoorMapData &mapData);
 
 // The outdoor weather over an indoor map's open sky (scene `sky: {weather}`; MM9's outdoor regions as BLVs,
 // devdocs/INDOOR_OPEN_SKY.md "Weather"): the same rolls, fades, rain and snow, lightning and sounds as an outdoor map's
@@ -29,14 +35,26 @@ public:
     {
         return m_profile.has_value();
     }
+    // The surfaces rain and snow stop at (buildIndoorWeatherRoofMap); without one the weather shows only with the
+    // camera in a sector open to the sky (IndoorRenderer).
+    void setRoofMap(WeatherRoofMap roofMap);
+    bool hasRoofMap() const
+    {
+        return !m_roofMap.empty() && !m_roofMapUnusable;
+    }
+    // Whether the camera is under a roof map surface (in a house, under a bridge, in a tunnel).
+    bool covers(float x, float y, float z) const;
     // Once per frame: the weather at the game time, faded in real time; a clock jump (rest, travel) shows it at once.
-    // Sounds play while audible (the camera in the open, not under water).
-    void update(double gameMinutes, float elapsedSeconds, GameAudioSystem *pAudio, bool audible);
+    // Sounds play at the audibility (WeatherAudio: 1 in the open, less under cover, 0 under water), which the
+    // sound follows over a fraction of a second, as when walking through a door.
+    void update(double gameMinutes, float elapsedSeconds, GameAudioSystem *pAudio, float audibility);
     // The sky follows the shown weather, as an outdoor map's.
     void applyToSky(SkyInputs &inputs) const;
     // Rain and snow round the camera into a transparent view after the world; skipped while not shown.
+    // Under cover the distant rain curtain is left out (it would hang inside the room).
     void render(uint16_t viewId, const std::array<float, 3> &camera, float yawRadians, const float *pProjection,
-        uint16_t viewHeight, const SkyFrameState *pSky, WeatherQuality quality, const WeatherGroundQuery &ground);
+        uint16_t viewHeight, const SkyFrameState *pSky, WeatherQuality quality, const WeatherGroundQuery &ground,
+        bool covered);
     // Its rain-ring strength for the water renderer (0 without rain).
     float rainRings() const;
     void shutdown(GameAudioSystem *pAudio, bool gpuAlive);
@@ -46,6 +64,20 @@ public:
     WeatherSample targetSample() const
     {
         return m_lastTarget;
+    }
+    // The shown weather, for `weather status`.
+    const WeatherPresentation &presentation() const
+    {
+        return m_presentation;
+    }
+    float audibility() const
+    {
+        return m_audibility;
+    }
+    // The console's `weather strike`: a lightning strike now (thunder follows).
+    void forceStrike(LightningDistance distance)
+    {
+        m_presentation.forceStrike(distance);
     }
 
 private:
@@ -62,5 +94,9 @@ private:
     std::optional<PrecipitationKind> m_debugPrecipitation;
     float m_debugIntensity = 0.0f;
     WeatherSample m_lastTarget = {};
+    WeatherRoofMap m_roofMap;
+    bool m_roofMapUploaded = false;
+    bool m_roofMapUnusable = false;
+    float m_audibility = 0.0f;
 };
 }

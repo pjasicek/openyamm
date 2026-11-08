@@ -1,4 +1,5 @@
 #include "game/ui/GameplayCombatLogPanel.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/CombatLog.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -150,29 +151,29 @@ void appendLine(std::vector<GameplayHudBatchQuad> &quads, const TextStyle &style
 // A damage stage's name for the player; the rules name their stages for code (CombatRules, MawCombatRules).
 std::string stageName(const std::string &stage)
 {
-    static const std::unordered_map<std::string, std::string> Names = {
-        {"resistance", "Resistance"},
-        {"missile-shield", "Missile shield"},
-        {"physical-taken", "Physical damage taken"},
-        {"mitigation", "Armour and resistances"},
-        {"resistance-and-armor", "Resistances and armour"},
-        {"damage-recompute", "Monster damage"},
-        {"damage-taken-stacks", "Spear stacks"},
-        {"boss-affixes", "Boss affix"},
-        {"map-affixes", "Dimension affix"},
-        {"map-energy", "Energy shield"},
-        {"legendary-blows", "Legendary"},
-        {"legendary-defense", "Legendary defence"},
-        {"mist-form", "Mist Form"},
-        {"solo-cover", "Cover"},
-        {"disease", "Disease"},
-        {"monster-vs-monster", "Monster against monster"},
+    static const std::unordered_map<std::string, std::string_view> Names = {
+        {"resistance", Engine::trNoop("Resistance")},
+        {"missile-shield", Engine::trNoop("Missile shield")},
+        {"physical-taken", Engine::trNoop("Physical damage taken")},
+        {"mitigation", Engine::trNoop("Armour and resistances")},
+        {"resistance-and-armor", Engine::trNoop("Resistances and armour")},
+        {"damage-recompute", Engine::trNoop("Monster damage")},
+        {"damage-taken-stacks", Engine::trNoop("Spear stacks")},
+        {"boss-affixes", Engine::trNoop("Boss affix")},
+        {"map-affixes", Engine::trNoop("Dimension affix")},
+        {"map-energy", Engine::trNoop("Energy shield")},
+        {"legendary-blows", Engine::trNoop("Legendary")},
+        {"legendary-defense", Engine::trNoop("Legendary defence")},
+        {"mist-form", Engine::trNoop("Mist Form")},
+        {"solo-cover", Engine::trNoop("Cover")},
+        {"disease", Engine::trNoop("Disease")},
+        {"monster-vs-monster", Engine::trNoop("Monster against monster")},
     };
     const auto found = Names.find(stage);
 
     if (found != Names.end())
     {
-        return found->second;
+        return Engine::localize(found->second, "combat-log");
     }
 
     std::string name = stage;
@@ -186,46 +187,125 @@ std::string stageName(const std::string &stage)
     return name;
 }
 
+// A part of a line, for its template's {name}.
+struct SegmentArgument
+{
+    std::string_view name;
+    std::string text;
+    uint32_t color = BodyColor;
+};
+
+// The segments of a translated line template: each {name} of an argument in its colour, the words between in
+// `wordColor`, so a language can reorder the parts.
+std::vector<Segment> templateSegments(std::string_view pattern, std::initializer_list<SegmentArgument> arguments,
+    uint32_t wordColor)
+{
+    std::vector<Segment> segments;
+    std::string words;
+    size_t position = 0;
+
+    while (position < pattern.size())
+    {
+        const SegmentArgument *pArgument = nullptr;
+
+        if (pattern[position] == '{')
+        {
+            const size_t close = pattern.find('}', position);
+
+            if (close != std::string_view::npos)
+            {
+                const std::string_view name = pattern.substr(position + 1, close - position - 1);
+
+                for (const SegmentArgument &argument : arguments)
+                {
+                    if (argument.name == name)
+                    {
+                        pArgument = &argument;
+                        break;
+                    }
+                }
+
+                if (pArgument != nullptr)
+                {
+                    if (!words.empty())
+                    {
+                        segments.push_back({words, wordColor});
+                        words.clear();
+                    }
+
+                    segments.push_back({pArgument->text, pArgument->color});
+                    position = close + 1;
+                    continue;
+                }
+            }
+        }
+
+        words += pattern[position];
+        ++position;
+    }
+
+    if (!words.empty())
+    {
+        segments.push_back({words, wordColor});
+    }
+
+    return segments;
+}
+
 // "Gerrard shoots Goblin 58!", short for the corner: the party's names ivory, monsters coral, the amount yellow with
 // an orange "!" for a critical hit. A killing blow says "kills" in red; a cast names its spell ("Lys Fire Bolt on
-// Goblin 96", "Lys Fireball kills 3 monsters 512").
+// Goblin 96", "Lys Fireball kills 3 monsters 512"). The names arrive as the player reads them.
 std::vector<Segment> hitSegments(const CombatLogEntry &entry)
 {
     // "Filtered: Uncommon Longsword -> 312 gold", the rarity in its colour.
     if (entry.kind == CombatLogKind::Loot)
     {
-        std::vector<Segment> segments = {{"Filtered: ", BodyColor}};
+        const std::string item = Engine::localize(entry.target);
+        const std::string gold = Engine::tr("{gold} gold", {{"gold", entry.amount}});
 
-        if (!entry.rarity.empty())
+        if (entry.rarity.empty())
         {
-            segments.push_back({entry.rarity + " ", entry.rarityColor != 0 ? entry.rarityColor : BodyColor});
+            return templateSegments(Engine::tr("Filtered: {item} -> {gold}"),
+                {{"item", item, PartyColor}, {"gold", gold, AmountColor}}, BodyColor);
         }
 
-        segments.push_back({entry.target, PartyColor});
-        segments.push_back({" -> ", BodyColor});
-        segments.push_back({std::to_string(entry.amount) + " gold", AmountColor});
-        return segments;
+        return templateSegments(Engine::tr("Filtered: {rarity} {item} -> {gold}"),
+            {{"rarity", Engine::tr(entry.rarity), entry.rarityColor != 0 ? entry.rarityColor : BodyColor},
+                {"item", item, PartyColor}, {"gold", gold, AmountColor}},
+            BodyColor);
     }
 
     const bool dealt = entry.kind == CombatLogKind::Dealt;
-    std::vector<Segment> segments = {{entry.attacker, dealt ? PartyColor : MonsterColor}};
+    const SegmentArgument attacker{"attacker", entry.attacker, dealt ? PartyColor : MonsterColor};
+    const SegmentArgument target{"target", entry.target, dealt ? MonsterColor : PartyColor};
+    const SegmentArgument amount{"amount", std::to_string(entry.amount), AmountColor};
+    std::vector<Segment> segments;
 
     if (!entry.spell.empty())
     {
-        segments.push_back({" " + entry.spell, SpellColor});
+        const SegmentArgument spell{"spell", entry.spell, SpellColor};
+        segments = entry.killed
+            ? templateSegments(Engine::tr("{attacker} {spell} kills {target} {amount}"),
+                {attacker, spell, target, amount}, KillColor)
+            : templateSegments(Engine::tr("{attacker} {spell} on {target} {amount}"),
+                {attacker, spell, target, amount}, BodyColor);
     }
-
-    if (entry.killed)
+    else if (entry.killed)
     {
-        segments.push_back({" kills ", KillColor});
+        segments = templateSegments(Engine::tr("{attacker} kills {target} {amount}"), {attacker, target, amount},
+            KillColor);
+    }
+    else if (entry.verb == "shoots")
+    {
+        segments = templateSegments(Engine::tr("{attacker} shoots {target} {amount}"), {attacker, target, amount},
+            BodyColor);
     }
     else
     {
-        segments.push_back({entry.spell.empty() ? " " + entry.verb + " " : " on ", BodyColor});
+        // "hits": the only other verb a line without a spell has.
+        segments = templateSegments(Engine::tr("{attacker} hits {target} {amount}"), {attacker, target, amount},
+            BodyColor);
     }
-
-    segments.push_back({entry.target, dealt ? MonsterColor : PartyColor});
-    segments.push_back({" " + std::to_string(entry.amount), AmountColor});
 
     if (entry.critical)
     {
@@ -240,10 +320,10 @@ std::vector<Segment> stageSegments(const CombatLogEntry &entry)
 {
     if (entry.stages.empty())
     {
-        return {{"No damage steps for this line.", StageColor}};
+        return {{Engine::tr("No damage steps for this line."), StageColor}};
     }
 
-    std::vector<Segment> segments = {{"Rolled ", StageColor},
+    std::vector<Segment> segments = {{Engine::tr("Rolled") + " ", StageColor},
         {std::to_string(entry.stages.front().before), AmountColor}};
 
     for (const CombatLogStage &stage : entry.stages)
@@ -338,7 +418,7 @@ void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, i
 {
     m_drawn = false;
 
-    if (!m_open || !context.settingsSnapshot().combatLog)
+    if (!m_open || !context.combatLogShown())
     {
         return;
     }
@@ -442,21 +522,21 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     const GameplayResolvedHudLayoutElement scrollbar{panel.x + panel.width - 9 * scale, area.y, 6 * scale,
         area.height, scale};
     m_textFilter = lineStyle.pFont->smooth ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text;
-    appendText(m_textQuads, titleStyle, "Combat log", panel.x + 6 * scale,
+    appendText(m_textQuads, titleStyle, Engine::tr("Combat log"), panel.x + 6 * scale,
         panel.y + 2 * scale + (headerHeight - 2 * scale - titleStyle.lineHeight) / 2, 0xffa8d1e6u);
 
     // The filter chips, laid out leftwards from the panel's right edge.
-    const std::array<std::pair<const char *, CombatLogFilter>, 3> chips = {{
-        {"Taken", CombatLogFilter::Taken},
-        {"Dealt", CombatLogFilter::Dealt},
-        {"All", CombatLogFilter::All},
+    const std::array<std::pair<std::string, CombatLogFilter>, 3> chips = {{
+        {Engine::tr("Taken"), CombatLogFilter::Taken},
+        {Engine::tr("Dealt"), CombatLogFilter::Dealt},
+        {Engine::tr("All"), CombatLogFilter::All},
     }};
     const float hairline = std::max(1.0f, std::round(scale * 0.5f));
     float chipRight = panel.x + panel.width - 5 * scale;
 
-    for (const auto &[pLabel, filter] : chips)
+    for (const auto &[label, filter] : chips)
     {
-        const float chipWidth = std::round(textWidth(chipStyle, pLabel) + 8 * scale);
+        const float chipWidth = std::round(textWidth(chipStyle, label) + 8 * scale);
         const GameplayResolvedHudLayoutElement chip{chipRight - chipWidth, panel.y + 3 * scale, chipWidth,
             13 * scale, scale};
         chipRight = chip.x - 2 * scale;
@@ -467,7 +547,7 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
         m_fills.push_back({{chip.x, chip.y + chip.height - hairline, chip.width, hairline, scale}, edge});
         m_fills.push_back({{chip.x, chip.y, hairline, chip.height, scale}, edge});
         m_fills.push_back({{chip.x + chip.width - hairline, chip.y, hairline, chip.height, scale}, edge});
-        appendText(m_textQuads, chipStyle, pLabel, chip.x + (chip.width - textWidth(chipStyle, pLabel)) / 2,
+        appendText(m_textQuads, chipStyle, label, chip.x + (chip.width - textWidth(chipStyle, label)) / 2,
             chip.y + (chip.height - chipStyle.lineHeight) / 2, on ? ChipTextOnColor : BodyColor);
         m_filterRects.push_back({chip, filter});
     }

@@ -2,11 +2,14 @@
 // from character_creation.yml; rows inside them are laid out here in the mockup's 1600x900 pixels.
 #include "game/ui/screens/NewGameScreen.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "game/rules/GameRules.h"
 #include "game/ui/GameplayUiSkin.h"
 
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -17,6 +20,15 @@ namespace
 constexpr float BrowserToLogical = 8.0f / 15.0f;
 // The mockup's Arrus and Lucida are the faithful TTFs at size-adjust 120%; Fondamento is unadjusted.
 constexpr float FaithfulFontScale = 1.2f;
+// The smallest share of its size a label is set at to fit its place (a longer language) before it is cut.
+constexpr float MinimumFit = 0.6f;
+
+// The voice lines a voice card plays.
+constexpr std::array<std::pair<std::string_view, SpeechId>, 3> VoiceLines = {{
+    {Engine::trNoop("Choose me"), SpeechId::SelectCharacter},
+    {Engine::trNoop("Hello"), SpeechId::HelloDay},
+    {Engine::trNoop("Yes"), SpeechId::Yes},
+}};
 // How long the pointer rests on a skill before its card opens (the right button opens it at once).
 constexpr float SkillCardDelaySeconds = 0.35f;
 
@@ -46,8 +58,26 @@ constexpr uint32_t ChevronColour = 0xff7aa2b9u;
 constexpr uint32_t TitleText = 0xffa8d1e6u;
 // The best mastery a skill reaches: grey Normal, white Expert, turquoise Master, gold Grandmaster.
 constexpr std::array<uint32_t, 5> MasteryColours = {0xff6c766fu, 0xff929e9cu, 0xffe2ecf0u, 0xffccd88fu, 0xff4cc9f2u};
-constexpr std::array<const char *, 5> MasteryNames = {"", "Normal", "Expert", "Master", "Grandmaster"};
-constexpr std::array<const char *, 5> MasteryLetters = {"", "N", "E", "M", "G"};
+constexpr std::array<std::string_view, 5> MasteryNames = {"", Engine::trNoop("Normal"), Engine::trNoop("Expert"),
+    Engine::trNoop("Master"), Engine::trNoop("Grandmaster")};
+
+// A mastery's letter in the mastery tables.
+std::string masteryLetter(SkillMastery mastery)
+{
+    switch (mastery)
+    {
+    case SkillMastery::Normal:
+        return Engine::trc("mastery letter", "N");
+    case SkillMastery::Expert:
+        return Engine::trc("mastery letter", "E");
+    case SkillMastery::Master:
+        return Engine::trc("mastery letter", "M");
+    case SkillMastery::Grandmaster:
+        return Engine::trc("mastery letter", "G");
+    default:
+        return {};
+    }
+}
 
 // The opacity of a skill that is no choice now, only later from a teacher.
 constexpr uint32_t LaterSkillAlpha = 0x78;
@@ -71,14 +101,23 @@ uint32_t mixColour(uint32_t from, uint32_t to, float t)
     return result;
 }
 
-std::string upperCase(std::string text)
+// The first letters of a shown name ("Dwa" of "Dwarf"), whole characters of any language.
+std::string firstLetters(const std::string &text, size_t count)
 {
-    for (char &character : text)
+    size_t offset = 0;
+
+    for (size_t letter = 0; letter < count && offset < text.size(); ++letter)
     {
-        character = char(std::toupper(static_cast<unsigned char>(character)));
+        Engine::Utf8::next(text, offset);
     }
 
-    return text;
+    return text.substr(0, offset);
+}
+
+// Capitals of the shown (translated) text: every letter, not only ASCII ones.
+std::string upperCase(const std::string &text)
+{
+    return Engine::Utf8::upper(text);
 }
 
 std::string joinedNames(const std::vector<std::string> &names, const std::string &separator)
@@ -112,7 +151,18 @@ MenuScreenBase::Rect NewGameScreen::sheetRect(float x, float y, float width, flo
 void NewGameScreen::sheetText(const Rect &rect, const std::string &text, const std::string &font, float cssPixels,
                               uint32_t color, int align)
 {
-    const float logicalSize = cssPixels * BrowserToLogical * (font == "fondamento" ? 1.0f : FaithfulFontScale);
+    float logicalSize = cssPixels * BrowserToLogical * (font == "fondamento" ? 1.0f : FaithfulFontScale);
+
+    // A one-line label longer than its place (a longer language) is set smaller before it is cut with an ellipsis.
+    if (text.find('\n') == std::string::npos && rect.height < logicalSize * designScale() * 1.9f)
+    {
+        const float full = measureTextWidth(font, text, designScale() * logicalSize / std::max(1, fontHeight(font)));
+
+        if (full > rect.width && full > 0)
+        {
+            logicalSize *= std::max(MinimumFit, rect.width / full);
+        }
+    }
 
     if (align > 0)
     {
@@ -124,6 +174,29 @@ void NewGameScreen::sheetText(const Rect &rect, const std::string &text, const s
     }
 
     textInRect(rect, text, font, logicalSize, color, align == 0);
+}
+
+float NewGameScreen::voiceLineSize(float rowWidth)
+{
+    const float u = sheetPx(1);
+    float textWidth = 0;
+    float fixedWidth = 0;
+
+    for (const auto &[english, speech] : VoiceLines)
+    {
+        textWidth += sheetTextWidth(Engine::tr(english), "menu_lucida", 15);
+        fixedWidth += 36 * u;
+    }
+
+    return textWidth + fixedWidth <= rowWidth || textWidth <= 0
+        ? 15.0f
+        : std::max(15.0f * MinimumFit, 15.0f * (rowWidth - fixedWidth) / textWidth);
+}
+
+float NewGameScreen::labelButtonWidth(const std::string &text, float minimum)
+{
+    // Buttons set their label in Fondamento at 13.87 logical pixels: 26 of the sheet's.
+    return std::max(minimum, sheetTextWidth(text, "fondamento", 26) + sheetPx(34));
 }
 
 float NewGameScreen::sheetTextWidth(const std::string &text, const std::string &font, float cssPixels)
@@ -159,6 +232,22 @@ void NewGameScreen::verticalGradient(const Rect &rect, uint32_t top, uint32_t bo
         const float y1 = std::round(rect.y + rect.height * (strip + 1) / Strips);
         drawSolidRect({rect.x, y0, rect.width, y1 - y0}, mixColour(top, bottom, (strip + 0.5f) / Strips));
     }
+}
+
+std::string NewGameScreen::voiceLabel(int voiceId) const
+{
+    // A named voice set (MM9's personalities) by its name, the others by number.
+    if (m_pGameData != nullptr && voiceId >= 0)
+    {
+        const std::string name = m_pGameData->characterVoiceTable().voiceSetProperty(uint32_t(voiceId), "Name");
+
+        if (!name.empty())
+        {
+            return Engine::localize(name, "voice");
+        }
+    }
+
+    return Engine::tr("Voice {number}", {{"number", voiceDisplayNumber(voiceId)}});
 }
 
 int NewGameScreen::voiceDisplayNumber(int voiceId) const
@@ -281,7 +370,8 @@ void NewGameScreen::drawCharacterCreation(float deltaSeconds)
 
 void NewGameScreen::drawCreationHeader()
 {
-    label("CharacterCreationContinent", m_selectedContinent.name + " · " + chosenRulesetDefinition().name);
+    label("CharacterCreationContinent", Engine::localizeKnown(m_selectedContinent.name) + " · "
+                                             + Engine::localize(chosenRulesetDefinition().name));
     size_t ready = 0;
 
     for (size_t slotIndex = 0; slotIndex < m_partySize; ++slotIndex)
@@ -295,12 +385,14 @@ void NewGameScreen::drawCreationHeader()
     {
         const CreationPartyCoverage coverage =
             creationPartyCoverage(m_pGameData->classSkillTable(), creationPartyMembers());
-        summary = "Party covers " + std::to_string(coverage.covered) + " of " + std::to_string(coverage.reachable)
-            + " reachable skills · " + std::to_string(coverage.grandmaster) + " to Grandmaster · ";
+        summary = Engine::tr("Party covers {covered} of {reachable} reachable skills · {grandmaster} to Grandmaster",
+                             {{"covered", coverage.covered}, {"reachable", coverage.reachable},
+                              {"grandmaster", coverage.grandmaster}})
+            + " · ";
     }
 
     label("CharacterCreationPartySummary",
-          summary + std::to_string(m_partySize) + " / 5 adventurers · " + std::to_string(ready) + " ready");
+          summary + Engine::tr("{size} / 5 adventurers · {ready} ready", {{"size", m_partySize}, {"ready", ready}}));
 }
 
 void NewGameScreen::drawCreationRoster(bool input)
@@ -339,7 +431,7 @@ void NewGameScreen::drawCreationRoster(bool input)
         {
             const Rect bar{portrait.x, portrait.y + portrait.height - 17 * u, portrait.width, 17 * u};
             drawSolidRect(bar, 0xcc0e100bu);
-            sheetText(bar, "change", "menu_lucida", 13, NameText, 0);
+            sheetText(bar, Engine::tr("change"), "menu_lucida", 13, NameText, 0);
         }
 
         const float textX = card.x + 97 * u;
@@ -347,13 +439,14 @@ void NewGameScreen::drawCreationRoster(bool input)
         sheetText({textX, card.y + 7 * u, textWidth, 26 * u}, state.name, "menu_arrus", 20, NameText);
         const std::string className = classNameForState(state);
         drawTexture(classIconTextureName(className), {textX, card.y + 36 * u, 20 * u, 20 * u});
-        sheetText({textX + 24 * u, card.y + 34 * u, textWidth + 4 * u, 24 * u}, displayClassName(className),
-                  "fondamento", 17, ClassText);
+        sheetText({textX + 24 * u, card.y + 34 * u, textWidth + 4 * u, 24 * u},
+                  Engine::localize(displayClassName(className)), "fondamento", 17, ClassText);
         const CharacterDollEntry *pEntry = characterEntryForState(state);
         const bool female = pEntry != nullptr && pEntry->defaultSex == 1;
         sheetText({textX, card.y + 60 * u, card.x + card.width - textX - 6 * u, 18 * u},
-                  candidateForState(state).raceName + " · " + (female ? "female" : "male"), "menu_lucida", 13,
-                  RaceText);
+                  Engine::localizeKnown(candidateForState(state).raceName) + " · "
+                      + (female ? Engine::tr("female") : Engine::tr("male")),
+                  "menu_lucida", 13, RaceText);
 
         const int pool = bonusPoolForState(state);
         const size_t required = requiredSkillCount(state);
@@ -363,8 +456,8 @@ void NewGameScreen::drawCreationRoster(bool input)
         if (stateComplete(state))
         {
             glyph("check", {textX, status.y + status.height / 2 - 6 * u, 12 * u, 12 * u}, OkText);
-            sheetText({textX + 16 * u, status.y, status.width - 16 * u, status.height}, "ready", "menu_lucida", 13,
-                      OkText);
+            sheetText({textX + 16 * u, status.y, status.width - 16 * u, status.height}, Engine::tr("ready"),
+                      "menu_lucida", 13, OkText);
         }
         else
         {
@@ -372,16 +465,18 @@ void NewGameScreen::drawCreationRoster(bool input)
 
             if (pool > 0)
             {
-                parts.push_back(std::to_string(pool) + " pts");
+                parts.push_back(Engine::tr("{points} pts", {{"points", pool}}));
             }
 
             if (skillsLeft > 0)
             {
-                parts.push_back(std::to_string(skillsLeft) + (skillsLeft == 1 ? " skill" : " skills"));
+                parts.push_back(Engine::trn("{count} skill", "{count} skills", skillsLeft, {{"count", skillsLeft}}));
             }
 
-            sheetText(status, parts.empty() ? "needs a name" : joinedNames(parts, " · ") + " to go", "menu_lucida",
-                      13, WarnText);
+            sheetText(status,
+                      parts.empty() ? Engine::tr("needs a name")
+                                    : Engine::tr("{left} to go", {{"left", joinedNames(parts, " · ")}}),
+                      "menu_lucida", 13, WarnText);
         }
 
         if (selected)
@@ -427,7 +522,7 @@ void NewGameScreen::drawCreationRoster(bool input)
         const Hotspot addInput = hotspot("add-adventurer", add, input);
         skin("save_row", add, true);
         outline(add, addInput.hovered ? Gold : 0xff4a5649u);
-        sheetText(add, "+ Add adventurer", "fondamento", 22, addInput.hovered ? HoverEdge : 0xff93aeb6u, 0);
+        sheetText(add, Engine::tr("+ Add adventurer"), "fondamento", 22, addInput.hovered ? HoverEdge : 0xff93aeb6u, 0);
 
         if (addInput.activated)
         {
@@ -468,7 +563,8 @@ void NewGameScreen::drawCreationIdentity(bool input)
     drawTexture(classIconTextureName(selectedClassName()),
                 {classRect.x + 10 * u, classRect.y + (classRect.height - 34 * u) / 2, 34 * u, 34 * u});
     sheetText({classRect.x + 54 * u, classRect.y, classRect.width - 90 * u, classRect.height},
-              displayClassName(selectedClassName()), "fondamento", 27, pointerInside(classRect) && classEnabled
+              Engine::localize(displayClassName(selectedClassName())), "fondamento", 27,
+              pointerInside(classRect) && classEnabled
                   ? HoverEdge : 0xffa6d5ecu);
     drawTextureColor("hud_x2/menus/omenu_chevron_down.png",
                      {classRect.x + classRect.width - 28 * u, classRect.y + classRect.height / 2 - 5 * u, 15 * u,
@@ -478,8 +574,8 @@ void NewGameScreen::drawCreationIdentity(bool input)
     {
         if (const ClassInspectEntry *pHelp = m_pGameData->characterInspectTable().getClass(selectedClassName()))
         {
-            m_help.title = pHelp->name;
-            m_help.body = pHelp->description;
+            m_help.title = Engine::localize(pHelp->name);
+            m_help.body = Engine::localize(pHelp->description);
             m_help.anchor = classRect;
 
             if (creationRules().classes.showsCreationSkillMatrix())
@@ -496,7 +592,7 @@ void NewGameScreen::drawCreationIdentity(bool input)
     const Rect title{voice.x + 8 * u, voice.y + 5 * u, voice.width - 16 * u, 30 * u};
     const Hotspot titleInput = hotspot("voice", title, input && !godLich);
     sheetText({title.x + 2 * u, title.y, title.width - 30 * u, title.height},
-              "Voice " + std::to_string(voiceDisplayNumber(m_state.selectedVoiceId)), "fondamento", 22,
+              voiceLabel(m_state.selectedVoiceId), "fondamento", 22,
               titleInput.hovered ? HoverEdge : 0xffa3d3eau);
     drawTextureColor("hud_x2/menus/omenu_chevron_down.png",
                      {title.x + title.width - 22 * u, title.y + title.height / 2 - 5 * u, 15 * u, 10 * u},
@@ -507,22 +603,19 @@ void NewGameScreen::drawCreationIdentity(bool input)
         openSheetPopup(SheetPopup::Voice);
     }
 
-    const std::array<std::pair<const char *, SpeechId>, 3> lines = {{
-        {"Choose me", SpeechId::SelectCharacter},
-        {"Hello", SpeechId::HelloDay},
-        {"Yes", SpeechId::Yes},
-    }};
     float x = voice.x + 10 * u;
+    const float lineSize = voiceLineSize(voice.width - 20 * u);
 
-    for (const auto &[text, speech] : lines)
+    for (const auto &[english, speech] : VoiceLines)
     {
-        const float width = sheetTextWidth(text, "menu_lucida", 15) + 30 * u;
+        const std::string text = Engine::tr(english);
+        const float width = sheetTextWidth(text, "menu_lucida", lineSize) + 30 * u;
         const Rect line{x, voice.y + 42 * u, width, 30 * u};
-        const Hotspot lineInput = hotspot(std::string("line-") + text, line, input);
+        const Hotspot lineInput = hotspot("line-" + std::string(english), line, input);
         drawSolidRect(line, 0xff1b1d12u);
         outline(line, lineInput.hovered ? PointsText : 0xff50615au);
         glyph("play", {line.x + 7 * u, line.y + line.height / 2 - 5 * u, 9 * u, 10 * u}, 0xff84bdd6u);
-        sheetText({line.x + 20 * u, line.y, width - 24 * u, line.height}, text, "menu_lucida", 15,
+        sheetText({line.x + 20 * u, line.y, width - 24 * u, line.height}, text, "menu_lucida", lineSize,
                   lineInput.hovered ? HoverEdge : 0xffb5cfd9u);
 
         if (lineInput.activated)
@@ -541,7 +634,9 @@ void NewGameScreen::drawCreationAttributes(bool input)
     const bool godLich = isGodLichSelected();
     const int pool = currentBonusPool();
     sheetText({area.x, area.y, area.width, 22 * u},
-              godLich ? "Preset" : std::to_string(pool) + (pool == 1 ? " bonus point left" : " bonus points left"),
+              godLich ? Engine::tr("Preset")
+                      : Engine::trn("{count} bonus point left", "{count} bonus points left",
+                                    uint64_t(std::max(0, pool)), {{"count", pool}}),
               "menu_lucida", 18, pool == 0 || godLich ? OkText : PointsText, 1);
     const std::array<RaceStatLine, CreationStatCount> lines = raceStatLinesForState(m_state);
     const Character preset = godLich ? buildCharacter() : Character{};
@@ -554,7 +649,7 @@ void NewGameScreen::drawCreationAttributes(bool input)
         const Rect minus{value.x - 50 * u, plus.y, 44 * u, 31 * u};
         const Rect trend{minus.x - 20 * u, row.y + row.height / 2 - 6 * u, 12 * u, 12 * u};
         const Rect name{row.x, row.y, trend.x - row.x - 4 * u, row.height};
-        sheetText(name, creationStatNames()[index], "menu_arrus", 21, Ivory);
+        sheetText(name, Engine::tr(creationStatNames()[index]), "menu_arrus", 21, Ivory);
 
         if (raceStatTrend(lines[index]) > 0)
         {
@@ -591,13 +686,15 @@ void NewGameScreen::drawCreationAttributes(bool input)
             if (const StatInspectEntry *pHelp =
                     m_pGameData->characterInspectTable().getStat(creationStatNames()[index]))
             {
-                m_help.title = pHelp->name;
-                m_help.body = pHelp->description;
+                m_help.title = Engine::localize(pHelp->name);
+                m_help.body = Engine::localize(pHelp->description);
                 m_help.anchor = name;
-                m_help.lines.emplace_back(selectedCandidate().raceName + ": " + std::to_string(lines[index].base)
-                                              + ", " + raceStatTrendText(lines[index]) + ", max "
-                                              + std::to_string(lines[index].maximum),
-                                          GameplayUiSkin::Low);
+                m_help.lines.emplace_back(
+                    Engine::tr("{race}: {base}, {trend}, max {maximum}",
+                               {{"race", Engine::localizeKnown(selectedCandidate().raceName)},
+                                {"base", lines[index].base}, {"trend", raceStatTrendText(lines[index])},
+                                {"maximum", lines[index].maximum}}),
+                    GameplayUiSkin::Low);
             }
         }
     }
@@ -617,7 +714,8 @@ void NewGameScreen::drawCreationRaceCard(bool input)
     const Character character = buildCharacter();
     const std::string raceName = m_pGameData->mergedCharacterSelectionTable().raceNameForId(character.raceId).value_or(
         selectedCandidate().raceName);
-    sheetText({card.x + 12 * u, card.y + 4 * u, card.width - 24 * u, 32 * u}, raceName, "fondamento", 26,
+    sheetText({card.x + 12 * u, card.y + 4 * u, card.width - 24 * u, 32 * u}, Engine::localizeKnown(raceName),
+              "fondamento", 26,
               0xffb7e7d9u);
     const std::vector<RaceCardLine> lines =
         raceCardLines(raceStatLinesForState(m_state), creationStatNames(),
@@ -704,35 +802,60 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
     const bool godLich = isGodLichSelected();
 
     // Header: the title again over the panel, picks, the legend and the two tables.
-    label("CharacterCreationSkillsTitle", "Skills");
+    label("CharacterCreationSkillsTitle", Engine::tr("Skills"));
     const Rect title = designRect("CharacterCreationSkillsTitle");
-    float x = title.x + sheetTextWidth("Skills", "fondamento", 25) + 12 * u;
+    float x = title.x + sheetTextWidth(Engine::tr("Skills"), "fondamento", 25) + 12 * u;
     const size_t required = requiredSkillCount(m_state);
 
     if (!godLich)
     {
-        const std::string picks = required == 0 ? "no choices"
-            : std::to_string(m_state.selectedOptionalSkills.size()) + " of " + std::to_string(required) + " picked";
+        const std::string picks = required == 0 ? Engine::tr("no choices")
+            : Engine::tr("{picked} of {required} picked",
+                         {{"picked", m_state.selectedOptionalSkills.size()}, {"required", required}});
         const bool done = m_state.selectedOptionalSkills.size() >= required;
         sheetText({x, title.y, 120 * u, title.height}, picks, "menu_lucida", 15, done ? OkText : PointsText);
         x += sheetTextWidth(picks, "menu_lucida", 15) + 16 * u;
-        const auto legend = [this, &x, &title, u](const char *pGlyph, const std::string &text, uint32_t color)
+        // The legend: what the marks mean and the mastery colours, set smaller when a longer language would run it
+        // under the buttons at the panel's right.
+        struct LegendItem
         {
-            if (pGlyph != nullptr)
-            {
-                glyph(pGlyph, {x, title.y + title.height / 2 - 5 * u, 10 * u, 10 * u}, MarkerGold);
-                x += 13 * u;
-            }
-
-            sheetText({x, title.y, 200 * u, title.height}, text, "menu_lucida", 13, color);
-            x += sheetTextWidth(text, "menu_lucida", 13) + 9 * u;
+            const char *pGlyph = nullptr;
+            std::string text;
+            uint32_t color = 0;
         };
-        legend("diamond", "starting", 0xff9aa9a9u);
-        legend("ring", "can pick", 0xff9aa9a9u);
+        std::vector<LegendItem> items = {{"diamond", Engine::tr("starting"), 0xff9aa9a9u},
+                                         {"ring", Engine::tr("can pick"), 0xff9aa9a9u}};
 
         for (size_t level = 1; level < MasteryNames.size(); ++level)
         {
-            legend(nullptr, MasteryNames[level], MasteryColours[level]);
+            items.push_back({nullptr, Engine::tr(MasteryNames[level]), MasteryColours[level]});
+        }
+
+        float textWidth = 0;
+        float fixedWidth = 0;
+
+        for (const LegendItem &item : items)
+        {
+            textWidth += sheetTextWidth(item.text, "menu_lucida", 13);
+            fixedWidth += (item.pGlyph != nullptr ? 13 * u : 0) + 9 * u;
+        }
+
+        const float available = designRect("CharacterCreationMasteryTableButton").x - 8 * u - x;
+        const float size = textWidth + fixedWidth <= available || textWidth <= 0
+            ? 13.0f
+            : std::max(13.0f * 0.5f, 13.0f * (available - fixedWidth) / textWidth);
+
+        for (const LegendItem &item : items)
+        {
+            if (item.pGlyph != nullptr)
+            {
+                glyph(item.pGlyph, {x, title.y + title.height / 2 - 5 * u, 10 * u, 10 * u}, MarkerGold);
+                x += 13 * u;
+            }
+
+            const float width = sheetTextWidth(item.text, "menu_lucida", size);
+            sheetText({x, title.y, width + 2 * u, title.height}, item.text, "menu_lucida", size, item.color);
+            x += width + 9 * u;
         }
     }
 
@@ -750,7 +873,9 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
 
     if (godLich)
     {
-        sheetText(list, "All skills - Grandmaster\nEvery skill is granted at level 200 and all spells are learned.",
+        sheetText(list,
+                  Engine::tr("All skills - Grandmaster\n"
+                             "Every skill is granted at level 200 and all spells are learned."),
                   "menu_lucida", 16, Ivory, 0);
         m_hoverSkill.clear();
         return;
@@ -792,7 +917,7 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
 
             if (!headerAdded)
             {
-                items.push_back({upperCase(group.title), true});
+                items.push_back({upperCase(Engine::tr(group.title)), true});
                 headerAdded = true;
             }
 
@@ -895,7 +1020,7 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
             outline(row, HoverEdge);
         }
 
-        const std::string name = displaySkillName(item.text);
+        const std::string name = Engine::localize(displaySkillName(item.text));
         const float nameX = row.x + 28 * u;
         const float tagWidth = creationRaceChangesSkill(table, className, raceId, item.text) ? 38 * u : 0;
         // A skill a teacher can teach later is not a choice now: faded, keeping its mastery colour (user,
@@ -909,7 +1034,7 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
 
         if (tagWidth > 0)
         {
-            const std::string tag = selectedCandidate().raceName.substr(0, 3);
+            const std::string tag = firstLetters(Engine::localizeKnown(selectedCandidate().raceName), 3);
             const float tagX = std::min(nameX + sheetTextWidth(name, "menu_arrus", fontSize) + 5 * u,
                                         row.x + row.width - tagWidth);
             const Rect tagRect{tagX, row.y + row.height / 2 - 8 * u, 33 * u, 16 * u};
@@ -932,12 +1057,14 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
                 tryToggleOptionalSkill(item.text);
                 break;
             case CreationSkillState::Fixed:
-                m_state.statusMessage = name + " is a starting skill of the " + displayClassName(className) + ".";
+                m_state.statusMessage =
+                    Engine::tr("{skill} is a starting skill of the {class}.",
+                               {{"skill", name}, {"class", Engine::localize(displayClassName(className))}});
                 break;
             case CreationSkillState::Later:
                 m_state.statusMessage = item.reach.now > SkillMastery::None
-                    ? name + " is not a starting choice; a teacher can teach it later."
-                    : name + " opens after a promotion.";
+                    ? Engine::tr("{skill} is not a starting choice; a teacher can teach it later.", {{"skill", name}})
+                    : Engine::tr("{skill} opens after a promotion.", {{"skill", name}});
                 break;
             case CreationSkillState::Never:
                 break;
@@ -1003,7 +1130,7 @@ void NewGameScreen::drawCreationDoll(bool input)
     {
         const Rect bar{box.x, box.y + box.height - 22 * u, box.width, 22 * u};
         drawSolidRect(bar, 0xcc0e100bu);
-        sheetText(bar, "change portrait", "menu_lucida", 15, NameText, 0);
+        sheetText(bar, Engine::tr("change portrait"), "menu_lucida", 15, NameText, 0);
     }
 
     if (dollInput.activated || action("CharacterCreationChangePortraitButton", input && !godLich))
@@ -1056,16 +1183,31 @@ bool NewGameScreen::drawCreationFooter(bool input)
 
         if (pool > 0)
         {
-            needs.push_back(std::to_string(pool) + (pool == 1 ? " bonus point" : " bonus points"));
+            needs.push_back(
+                Engine::trn("{count} bonus point", "{count} bonus points", uint64_t(pool), {{"count", pool}}));
         }
 
         if (skillsLeft > 0)
         {
-            needs.push_back(std::to_string(skillsLeft) + (skillsLeft == 1 ? " skill choice" : " skill choices"));
+            needs.push_back(
+                Engine::trn("{count} skill choice", "{count} skill choices", skillsLeft, {{"count", skillsLeft}}));
         }
 
-        pending = (state.name.empty() ? "An adventurer" : state.name)
-            + (needs.empty() ? " needs a name" : " still needs " + joinedNames(needs, " and "));
+        const std::string name = state.name.empty() ? Engine::tr("An adventurer") : state.name;
+
+        if (needs.empty())
+        {
+            pending = Engine::tr("{name} needs a name", {{"name", name}});
+        }
+        else if (needs.size() == 1)
+        {
+            pending = Engine::tr("{name} still needs {need}", {{"name", name}, {"need", needs[0]}});
+        }
+        else
+        {
+            pending = Engine::tr("{name} still needs {need} and {otherNeed}",
+                                 {{"name", name}, {"need", needs[0]}, {"otherNeed", needs[1]}});
+        }
     }
 
     std::string message = m_state.statusMessage;
@@ -1073,8 +1215,8 @@ bool NewGameScreen::drawCreationFooter(bool input)
     if (message.empty())
     {
         message = ready == m_partySize
-            ? "Your party is ready."
-            : pending + ". (" + std::to_string(m_partySize - ready) + " not ready)";
+            ? Engine::tr("Your party is ready.")
+            : Engine::tr("{pending}. ({count} not ready)", {{"pending", pending}, {"count", m_partySize - ready}});
     }
 
     label("CharacterCreationReadiness", message);
@@ -1103,9 +1245,11 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
 
     const CreationState &state = slotIndex == m_activePartySlot ? m_state : m_partyStates[slotIndex];
     const Character character = buildCharacterFromState(state);
-    SkillTooltipText text = {pHelp->description,
-                             {pHelp->normalDescription, pHelp->expertDescription, pHelp->masterDescription,
-                              pHelp->grandmasterDescription}};
+    // skill_des.txt is English; the card shows it in the interface language.
+    SkillTooltipText text = {Engine::localize(pHelp->description),
+                             {Engine::localize(pHelp->normalDescription), Engine::localize(pHelp->expertDescription),
+                              Engine::localize(pHelp->masterDescription),
+                              Engine::localize(pHelp->grandmasterDescription)}};
 
     // The ruleset's own text (MAW: a class school's perks with the new character's numbers).
     if (const GameRules &rules = creationRules(); &rules != &standardGameRules())
@@ -1139,19 +1283,20 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
     switch (skillState)
     {
     case CreationSkillState::Fixed:
-        stateText = "Fixed starting skill";
+        stateText = Engine::tr("Fixed starting skill");
         break;
     case CreationSkillState::Chosen:
-        stateText = "Chosen starting skill";
+        stateText = Engine::tr("Chosen starting skill");
         break;
     case CreationSkillState::Option:
-        stateText = "Can be chosen as a starting skill";
+        stateText = Engine::tr("Can be chosen as a starting skill");
         break;
     case CreationSkillState::Later:
-        stateText = reach.now > SkillMastery::None ? "Learnable later from a teacher" : "Learnable after promotion";
+        stateText = reach.now > SkillMastery::None ? Engine::tr("Learnable later from a teacher")
+                                                   : Engine::tr("Learnable after promotion");
         break;
     case CreationSkillState::Never:
-        stateText = "Never learnable for this class";
+        stateText = Engine::tr("Never learnable for this class");
         break;
     }
 
@@ -1178,7 +1323,7 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
 
         if (row.availability == 0)
         {
-            row.reach = "now";
+            row.reach = Engine::tr("now");
         }
         else if (row.availability == 1)
         {
@@ -1187,14 +1332,14 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
             for (const std::string &promotion :
                  table.getClosestPromotionClassesWithEffectiveCap(className, raceId, skill, row.mastery))
             {
-                promotions.push_back(displayClassName(promotion));
+                promotions.push_back(Engine::localize(displayClassName(promotion)));
             }
 
-            row.reach = promotions.empty() ? "promotion" : joinedNames(promotions, " / ");
+            row.reach = promotions.empty() ? Engine::tr("promotion") : joinedNames(promotions, " / ");
         }
         else
         {
-            row.reach = "never";
+            row.reach = Engine::tr("never");
         }
 
         row.height = std::max({textBlockHeight(row.description, "menu_lucida", bodySize, descriptionWidth),
@@ -1230,8 +1375,10 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
     outline({panel.x + 2 * u, panel.y + 2 * u, panel.width - 4 * u, panel.height - 4 * u}, 0xff090a05u);
 
     float y = panel.y + pad;
-    sheetText({panel.x + pad, y, inner * 0.6f, 30 * u}, displaySkillName(skill), "fondamento", 27, TitleText);
-    sheetText({panel.x + pad, y, inner, 30 * u}, upperCase(state.name + " · " + displayClassName(className)),
+    sheetText({panel.x + pad, y, inner * 0.6f, 30 * u}, Engine::localize(displaySkillName(skill)), "fondamento", 27,
+              TitleText);
+    sheetText({panel.x + pad, y, inner, 30 * u},
+              upperCase(state.name + " · " + Engine::localize(displayClassName(className))),
               "menu_lucida", 12, CaptionText, 1);
     y += 32 * u;
     const float descriptionHeight = textBlockHeight(text.description, "menu_lucida", bodySize, inner);
@@ -1246,7 +1393,8 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
         const uint32_t textColour = never ? GameplayUiSkin::Penalty : 0xffb5cfd9u;
         drawSolidRect({panel.x + pad, y, inner, std::max(1.0f, designScale() * 0.5f)}, Separator);
         const float top = y + 4 * u;
-        sheetText({panel.x + pad, top, levelWidth, bodySize * designScale()}, MasteryNames[size_t(row.mastery)],
+        sheetText({panel.x + pad, top, levelWidth, bodySize * designScale()},
+                  Engine::tr(MasteryNames[size_t(row.mastery)]),
                   "menu_lucida", 15, never ? GameplayUiSkin::Penalty : masteryColour(row.mastery));
         const float descriptionHeightRow =
             textBlockHeight(row.description, "menu_lucida", bodySize, descriptionWidth);
@@ -1274,9 +1422,10 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
 
     drawSolidRect({panel.x + pad, y, inner, std::max(1.0f, designScale() * 0.5f)}, Separator);
     y += 6 * u;
-    sheetText({panel.x + pad, y, 60 * u, 18 * u}, "PARTY", "menu_lucida", 12, CaptionText);
+    sheetText({panel.x + pad, y, 60 * u, 18 * u}, upperCase(Engine::tr("Party")), "menu_lucida", 12, CaptionText);
     sheetText({panel.x + pad + 56 * u, y, inner - 56 * u, 18 * u},
-              holders.empty() ? "nobody yet" : joinedNames(holders, ", "), "menu_lucida", 14, 0xff99aeb3u);
+              holders.empty() ? Engine::tr("nobody yet") : joinedNames(holders, ", "), "menu_lucida", 14,
+              0xff99aeb3u);
 }
 
 void NewGameScreen::drawCreationHelp()
@@ -1348,7 +1497,7 @@ bool NewGameScreen::drawPopupFrame(const std::string &title, float x, float y, f
     drawTexture("hud_x2/menus/omenu_party_frame.png", panel);
     sheetText(sheetRect(x + 44, y + 30, width * 0.4f, 50), title, "fondamento", 32, TitleText);
 
-    if (button("popup-close", sheetRect(x + width - 44 - 100, y + 32, 100, 40), "Close", "button_quiet"))
+    if (button("popup-close", sheetRect(x + width - 44 - 100, y + 32, 100, 40), Engine::tr("Close"), "button_quiet"))
     {
         m_sheetPopup = SheetPopup::None;
         return false;
@@ -1364,19 +1513,20 @@ void NewGameScreen::drawPortraitPicker()
     constexpr float W = 1460;
     constexpr float H = 820;
 
-    if (!drawPopupFrame("Choose Portrait", X, Y, W, H) || m_pGameData == nullptr)
+    if (!drawPopupFrame(Engine::tr("Choose Portrait"), X, Y, W, H) || m_pGameData == nullptr)
     {
         return;
     }
 
     const float u = sheetPx(1);
-    const std::array<const char *, 3> filters = {"All", "Male", "Female"};
+    const std::array<std::string_view, 3> filters = {Engine::trNoop("All"), Engine::trNoop("Male"),
+        Engine::trNoop("Female")};
 
     for (size_t index = 0; index < filters.size(); ++index)
     {
         const Rect rect = sheetRect(X + 330 + index * 92, Y + 38, 84, 34);
 
-        if (button(std::string("filter-") + filters[index], rect, filters[index], "button_small"))
+        if (button("filter-" + std::string(filters[index]), rect, Engine::tr(filters[index]), "button_small"))
         {
             m_portraitFilter = int(index);
             m_popupScroll = 0;
@@ -1388,8 +1538,55 @@ void NewGameScreen::drawPortraitPicker()
         }
     }
 
-    sheetText(sheetRect(X + 620, Y + 38, 620, 34), "THE PORTRAIT SETS THE RACE · THE VOICE SHOWN IS ITS OWN",
-              "menu_lucida", 12, CaptionText);
+    // World filter: the worlds whose portraits are offered here, by their continents.
+    struct PortraitWorld
+    {
+        const char *pWorldId;
+        const char *pLabel;
+        float width;
+    };
+    constexpr std::array<PortraitWorld, 5> worlds = {{{"", Engine::trNoop("All worlds").data(), 132},
+        {"mm6", Engine::trNoop("Enroth").data(), 104}, {"mm7", Engine::trNoop("Antagarich").data(), 134},
+        {"mm8", Engine::trNoop("Jadame").data(), 108}, {"mm9", Engine::trNoop("Chedian").data(), 112}}};
+    float worldX = X + 676;
+    sheetText(sheetRect(X + 620, Y + 38, 50, 34), upperCase(Engine::tr("World")), "menu_lucida", 11, CaptionText);
+
+    for (const PortraitWorld &world : worlds)
+    {
+        const std::string worldId = world.pWorldId;
+        bool offered = worldId.empty();
+
+        for (size_t index = 0; index < candidateCount() && !offered; ++index)
+        {
+            const CharacterDollEntry *pEntry =
+                m_pGameData->characterDollTable().getCharacter(candidateAt(index).characterDataId);
+            offered = pEntry != nullptr && pEntry->worldId == worldId;
+        }
+
+        if (!offered)
+        {
+            continue;
+        }
+
+        const Rect rect = sheetRect(worldX, Y + 38, world.width, 34);
+
+        if (button(std::string("world-") + world.pLabel, rect, Engine::tr(world.pLabel), "button_small"))
+        {
+            m_portraitWorldFilter = worldId;
+            m_popupScroll = 0;
+        }
+
+        if (m_portraitWorldFilter == worldId)
+        {
+            outline(rect, Gold);
+        }
+
+        worldX += world.width + 8;
+    }
+
+    sheetText(sheetRect(X + 44, Y + 74, 760, 16),
+              upperCase(Engine::tr("The portrait sets the race · the voice shown is its own")), "menu_lucida", 11,
+              CaptionText);
 
     const Rect viewport = sheetRect(X + 44, Y + 92, W - 88, H - 126);
     scrollViewport(viewport, m_popupContentHeight, m_popupScroll, 60);
@@ -1433,7 +1630,8 @@ void NewGameScreen::drawPortraitPicker()
             }
 
             if ((m_portraitFilter == 1 && pEntry->defaultSex != 0)
-                || (m_portraitFilter == 2 && pEntry->defaultSex != 1))
+                || (m_portraitFilter == 2 && pEntry->defaultSex != 1)
+                || (!m_portraitWorldFilter.empty() && pEntry->worldId != m_portraitWorldFilter))
             {
                 continue;
             }
@@ -1448,8 +1646,9 @@ void NewGameScreen::drawPortraitPicker()
 
         // The race header: its attribute trends and skill rules.
         const CreationCandidate &first = candidateAt(members.front());
-        sheetText({viewport.x, y, 200 * u, 34 * u}, first.raceName, "fondamento", 24, 0xffa8d1e6u);
-        float x = viewport.x + sheetTextWidth(first.raceName, "fondamento", 24) + 14 * u;
+        const std::string raceName = Engine::localizeKnown(first.raceName);
+        sheetText({viewport.x, y, 200 * u, 34 * u}, raceName, "fondamento", 24, 0xffa8d1e6u);
+        float x = viewport.x + sheetTextWidth(raceName, "fondamento", 24) + 14 * u;
         CreationState probe = {};
         probe.selectedCandidateIndex = members.front();
         probe.baseStats = statsForRace(first.raceName);
@@ -1466,7 +1665,7 @@ void NewGameScreen::drawPortraitPicker()
 
             const uint32_t color = trend > 0 ? TrendUp : TrendDown;
             glyph(trend > 0 ? "up" : "down", {x, y + 12 * u, 10 * u, 10 * u}, color);
-            const std::string name = std::string(creationStatNames()[stat]).substr(0, 3);
+            const std::string name = firstLetters(Engine::tr(creationStatNames()[stat]), 3);
             sheetText({x + 12 * u, y, 60 * u, 34 * u}, name, "menu_lucida", 14, color);
             x += 12 * u + sheetTextWidth(name, "menu_lucida", 14) + 10 * u;
         }
@@ -1493,13 +1692,6 @@ void NewGameScreen::drawPortraitPicker()
                 outline({rect.x - 2 * u, rect.y - 2 * u, rect.width + 4 * u, rect.height + 4 * u}, Gold);
             }
 
-            const std::string number = "#" + std::to_string(candidate.characterDataId);
-            const float numberWidth = sheetTextWidth(number, "menu_lucida", 13) + 8 * u;
-            const Rect numberRect{rect.x + rect.width - numberWidth - 3 * u, rect.y + rect.height - 19 * u,
-                                  numberWidth, 16 * u};
-            drawSolidRect(numberRect, 0xaa000000u);
-            sheetText(numberRect, number, "menu_lucida", 13, 0xffbde3f3u, 0);
-
             // Another adventurer already uses this portrait.
             for (size_t slotIndex = 0; slotIndex < m_partySize; ++slotIndex)
             {
@@ -1515,8 +1707,8 @@ void NewGameScreen::drawPortraitPicker()
             }
 
             sheetText({rect.x - 4 * u, rect.y + rect.height + 2 * u, rect.width + 8 * u, 20 * u},
-                      "Voice " + std::to_string(voiceDisplayNumber(int(pEntry->defaultVoiceId))), "menu_lucida",
-                      13, 0xff9fb6bdu, 0);
+                      voiceLabel(int(pEntry->defaultVoiceId)),
+                      "menu_lucida", 13, 0xff9fb6bdu, 0);
 
             if (tileInput.activated)
             {
@@ -1540,14 +1732,15 @@ void NewGameScreen::drawVoicePicker()
     constexpr float W = 1460;
     constexpr float H = 820;
 
-    if (!drawPopupFrame("Choose Voice", X, Y, W, H) || m_pGameData == nullptr)
+    if (!drawPopupFrame(Engine::tr("Choose Voice"), X, Y, W, H) || m_pGameData == nullptr)
     {
         return;
     }
 
     const float u = sheetPx(1);
-    sheetText(sheetRect(X + 330, Y + 38, 800, 34), "VOICE N IS PORTRAIT #N'S OWN VOICE · PLAY A LINE TO HEAR IT",
-              "menu_lucida", 12, CaptionText);
+    sheetText(sheetRect(X + 330, Y + 38, 800, 34),
+              upperCase(Engine::tr("Voices of the portrait's race and sex · play a line to hear it")), "menu_lucida",
+              12, CaptionText);
     const Rect viewport = sheetRect(X + 44, Y + 92, W - 88, H - 126);
     scrollViewport(viewport, m_popupContentHeight, m_popupScroll, 60);
     setDesignClip(viewport);
@@ -1565,11 +1758,12 @@ void NewGameScreen::drawVoicePicker()
         const bool current = voiceId == m_state.selectedVoiceId;
         skin(current ? "save_row_selected" : "save_row", card, true);
         sheetText({card.x + 14 * u, card.y + 8 * u, 300 * u, 36 * u},
-                  "Voice " + std::to_string(voiceDisplayNumber(voiceId)), "fondamento", 26, TitleText);
+                  voiceLabel(voiceId), "fondamento", 26,
+                  TitleText);
 
         if (current)
         {
-            sheetText({card.x + 150 * u, card.y + 8 * u, 200 * u, 36 * u}, "current", "menu_lucida", 13,
+            sheetText({card.x + 150 * u, card.y + 8 * u, 200 * u, 36 * u}, Engine::tr("current"), "menu_lucida", 13,
                       CaptionText);
         }
 
@@ -1591,23 +1785,20 @@ void NewGameScreen::drawVoicePicker()
             }
         }
 
-        const std::array<std::pair<const char *, SpeechId>, 3> lines = {{
-            {"Choose me", SpeechId::SelectCharacter},
-            {"Hello", SpeechId::HelloDay},
-            {"Yes", SpeechId::Yes},
-        }};
         x = card.x + 14 * u;
+        const float lineSize = voiceLineSize(card.width * 0.75f);
 
-        for (const auto &[text, speech] : lines)
+        for (const auto &[english, speech] : VoiceLines)
         {
-            const float width = sheetTextWidth(text, "menu_lucida", 15) + 30 * u;
+            const std::string text = Engine::tr(english);
+            const float width = sheetTextWidth(text, "menu_lucida", lineSize) + 30 * u;
             const Rect line{x, card.y + 90 * u, width, 28 * u};
-            const Hotspot lineInput = hotspot("voice-" + std::to_string(voiceId) + text, line,
+            const Hotspot lineInput = hotspot("voice-" + std::to_string(voiceId) + std::string(english), line,
                                               pointerInside(viewport));
             drawSolidRect(line, 0xff1b1d12u);
             outline(line, lineInput.hovered ? PointsText : 0xff50615au);
             glyph("play", {line.x + 7 * u, line.y + line.height / 2 - 5 * u, 9 * u, 10 * u}, 0xff84bdd6u);
-            sheetText({line.x + 20 * u, line.y, width - 24 * u, line.height}, text, "menu_lucida", 15,
+            sheetText({line.x + 20 * u, line.y, width - 24 * u, line.height}, text, "menu_lucida", lineSize,
                       lineInput.hovered ? HoverEdge : 0xffb5cfd9u);
 
             if (lineInput.activated)
@@ -1618,8 +1809,11 @@ void NewGameScreen::drawVoicePicker()
             x += width + 6 * u;
         }
 
+        const std::string useLabel = current ? Engine::tr("Keep") : Engine::tr("Use");
+        const float useWidth = labelButtonWidth(useLabel, 86 * u);
+
         if (button("use-voice-" + std::to_string(voiceId),
-                   {card.x + card.width - 100 * u, card.y + 12 * u, 86 * u, 36 * u}, current ? "Keep" : "Use",
+                   {card.x + card.width - 14 * u - useWidth, card.y + 12 * u, useWidth, 36 * u}, useLabel,
                    "button_quiet", pointerInside(viewport)))
         {
             m_state.selectedVoiceId = voiceId;
@@ -1656,13 +1850,43 @@ float NewGameScreen::drawClassLineTable(float x, float y, float width, uint32_t 
     const Rect origin = sheetRect(x, y, width, 0);
     float rowY = origin.y;
 
-    for (size_t index = 0; index < classes.size(); ++index)
+    // The class names stand on the table's top rule: a name that wraps in its column grows upward, and the header
+    // grows with the longest one, so every name ends on the same line. A word longer than its column is set smaller.
+    std::vector<std::string> names;
+    std::vector<float> nameSizes;
+    std::vector<float> nameHeights;
+    float headerHeight = 30 * u;
+
+    for (const std::string &line : classes)
     {
-        sheetText({origin.x + (SkillColumn + MarkColumn + index * classColumn) * u, rowY, classColumn * u, 30 * u},
-                  displayClassName(classes[index]), "menu_lucida", 13, 0xff92abb2u, 0);
+        names.push_back(Engine::localize(displayClassName(line)));
+        float size = 13;
+        std::istringstream words(names.back());
+        std::string word;
+
+        while (words >> word)
+        {
+            const float wordWidth = sheetTextWidth(word, "menu_lucida", size);
+
+            if (wordWidth > classColumn * u - 4 * u && wordWidth > 0)
+            {
+                size = std::max(13 * MinimumFit, size * (classColumn * u - 4 * u) / wordWidth);
+            }
+        }
+
+        nameSizes.push_back(size * BrowserToLogical * FaithfulFontScale);
+        nameHeights.push_back(textBlockHeight(names.back(), "menu_lucida", nameSizes.back(), classColumn * u));
+        headerHeight = std::max(headerHeight, nameHeights.back() + 8 * u);
     }
 
-    rowY += 30 * u;
+    for (size_t index = 0; index < classes.size(); ++index)
+    {
+        textInRect({origin.x + (SkillColumn + MarkColumn + index * classColumn) * u,
+                       rowY + headerHeight - nameHeights[index] - 5 * u, classColumn * u, nameHeights[index]},
+            names[index], "menu_lucida", nameSizes[index], 0xff92abb2u, true);
+    }
+
+    rowY += headerHeight;
     drawSolidRect({origin.x, rowY - 1 * u, width * u, std::max(1.0f, designScale() * 0.5f)}, 0xff47636du);
 
     for (const CreationSkillGroup &group : creationSkillGroups())
@@ -1685,8 +1909,8 @@ float NewGameScreen::drawClassLineTable(float x, float y, float width, uint32_t 
 
             if (!headerDrawn)
             {
-                sheetText({origin.x, rowY + 6 * u, width * u, 18 * u}, upperCase(group.title), "menu_lucida", 12,
-                          CaptionText);
+                sheetText({origin.x, rowY + 6 * u, width * u, 18 * u}, upperCase(Engine::tr(group.title)),
+                          "menu_lucida", 12, CaptionText);
                 rowY += 24 * u;
                 drawSolidRect({origin.x, rowY - 1 * u, width * u, std::max(1.0f, designScale() * 0.5f)}, 0x1affffffu);
                 headerDrawn = true;
@@ -1705,11 +1929,12 @@ float NewGameScreen::drawClassLineTable(float x, float y, float width, uint32_t 
                     drawSolidRect(cell, 0x245ac4e9u);
                 }
 
-                sheetText(cell, cap == SkillMastery::None ? "·" : MasteryLetters[size_t(cap)], "menu_lucida", 16,
+                sheetText(cell, cap == SkillMastery::None ? std::string("·") : masteryLetter(cap), "menu_lucida", 16,
                           cap == SkillMastery::None ? 0xff4a504au : masteryColour(cap), 0);
             }
 
-            sheetText({origin.x + 4 * u, rowY, SkillColumn * u, 25 * u}, displaySkillName(skill), "menu_arrus", 17,
+            sheetText({origin.x + 4 * u, rowY, SkillColumn * u, 25 * u}, Engine::localize(displaySkillName(skill)),
+                      "menu_arrus", 17,
                       0xffbbd3ddu);
 
             if (startingClass)
@@ -1743,7 +1968,7 @@ void NewGameScreen::drawClassPicker()
     constexpr float W = 1460;
     constexpr float H = 820;
 
-    if (!drawPopupFrame("Choose Class", X, Y, W, H) || m_pGameData == nullptr)
+    if (!drawPopupFrame(Engine::tr("Choose Class"), X, Y, W, H) || m_pGameData == nullptr)
     {
         return;
     }
@@ -1752,8 +1977,8 @@ void NewGameScreen::drawClassPicker()
     const CreationCandidate &candidate = selectedCandidate();
     const std::vector<uint32_t> &classIds = candidate.availableClassIds;
     sheetText(sheetRect(X + 310, Y + 38, 700, 34),
-              upperCase(candidate.raceName) + " · " + std::to_string(classIds.size())
-                  + " CLASSES · THE TABLE SHOWS THIS RACE",
+              upperCase(Engine::localizeKnown(candidate.raceName) + " · "
+                        + Engine::tr("{count} classes · the table shows this race", {{"count", classIds.size()}})),
               "menu_lucida", 12, CaptionText);
 
     if (std::find(classIds.begin(), classIds.end(), m_classPreviewId) == classIds.end())
@@ -1786,14 +2011,15 @@ void NewGameScreen::drawClassPicker()
 
         drawTexture(classIconTextureName(className), {card.x + 10 * u, card.y + (card.height - 34 * u) / 2, 34 * u,
                                                       34 * u});
-        sheetText({card.x + 56 * u, card.y + 6 * u, 260 * u, 32 * u}, displayClassName(className), "fondamento", 24,
+        const std::string shownClass = Engine::localize(displayClassName(className));
+        sheetText({card.x + 56 * u, card.y + 6 * u, 260 * u, 32 * u}, shownClass, "fondamento", 24,
                   previewed ? HoverEdge : TitleText);
 
         if (classIds[index] == m_state.selectedClassId)
         {
-            sheetText({card.x + 56 * u + sheetTextWidth(displayClassName(className), "fondamento", 24) + 8 * u,
-                       card.y + 6 * u, 100 * u, 32 * u},
-                      "current", "menu_lucida", 13, CaptionText);
+            sheetText({card.x + 56 * u + sheetTextWidth(shownClass, "fondamento", 24) + 8 * u, card.y + 6 * u,
+                       100 * u, 32 * u},
+                      Engine::tr("current"), "menu_lucida", 13, CaptionText);
         }
 
         std::vector<std::string> grandmaster;
@@ -1804,19 +2030,20 @@ void NewGameScreen::drawClassPicker()
             {
                 if (creationSkillReach(table, className, candidate.raceId, skill).best == SkillMastery::Grandmaster)
                 {
-                    grandmaster.push_back(displaySkillName(skill));
+                    grandmaster.push_back(Engine::localize(displaySkillName(skill)));
                 }
             }
         }
 
-        std::string summary = "GM: ";
         const size_t shown = std::min<size_t>(grandmaster.size(), 5);
-        summary += joinedNames({grandmaster.begin(), grandmaster.begin() + std::ptrdiff_t(shown)}, ", ");
+        std::string skills = joinedNames({grandmaster.begin(), grandmaster.begin() + std::ptrdiff_t(shown)}, ", ");
 
         if (grandmaster.size() > shown)
         {
-            summary += " +" + std::to_string(grandmaster.size() - shown);
+            skills += " +" + std::to_string(grandmaster.size() - shown);
         }
+
+        const std::string summary = Engine::tr("GM: {skills}", {{"skills", skills}});
 
         textInRect({card.x + 56 * u, card.y + 38 * u, card.width - 66 * u, 46 * u}, grandmaster.empty() ? "" : summary,
                    "menu_lucida", 13 * BrowserToLogical * FaithfulFontScale, 0xff9ab3aeu);
@@ -1836,11 +2063,14 @@ void NewGameScreen::drawClassPicker()
     const float panelX = X + 790;
     const float panelWidth = W - 790 - 44;
     drawTexture(classIconTextureName(previewName), sheetRect(panelX, Y + 96, 40, 40));
-    sheetText(sheetRect(panelX + 52, Y + 92, 360, 48), displayClassName(previewName), "fondamento", 32, TitleText);
+    const std::string previewClass = Engine::localize(displayClassName(previewName));
+    sheetText(sheetRect(panelX + 52, Y + 92, 360, 48), previewClass, "fondamento", 32, TitleText);
     const bool keep = m_classPreviewId == m_state.selectedClassId;
 
     if (button("class-choose", sheetRect(panelX + panelWidth - 250, Y + 96, 250, 40),
-               (keep ? "Keep " : "Choose ") + displayClassName(previewName), "button_primary"))
+               keep ? Engine::tr("Keep {class}", {{"class", previewClass}})
+                    : Engine::tr("Choose {class}", {{"class", previewClass}}),
+               "button_primary"))
     {
         if (!keep)
         {
@@ -1858,9 +2088,9 @@ void NewGameScreen::drawClassPicker()
     {
         const float size = 14 * BrowserToLogical * FaithfulFontScale;
         const Rect text = sheetRect(panelX, Y + 148, panelWidth, 0);
-        descriptionHeight = textBlockHeight(pHelp->description, "menu_lucida", size, text.width);
-        textInRect({text.x, text.y, text.width, descriptionHeight}, pHelp->description, "menu_lucida", size,
-                   0xffb1c7cfu);
+        const std::string description = Engine::localize(pHelp->description);
+        descriptionHeight = textBlockHeight(description, "menu_lucida", size, text.width);
+        textInRect({text.x, text.y, text.width, descriptionHeight}, description, "menu_lucida", size, 0xffb1c7cfu);
     }
 
     const float tableTop = Y + 158 + descriptionHeight / u;
@@ -1880,14 +2110,15 @@ void NewGameScreen::drawMasteryTablePopup()
     constexpr float W = 1460;
     constexpr float H = 820;
 
-    if (!drawPopupFrame("Mastery Table", X, Y, W, H))
+    if (!drawPopupFrame(Engine::tr("Mastery Table"), X, Y, W, H))
     {
         return;
     }
 
     sheetText(sheetRect(X + 330, Y + 38, 900, 34),
-              upperCase(selectedCandidate().raceName + " · " + displayClassName(selectedClassName()))
-                  + " · STARTING CLASS AND ITS PROMOTIONS, SHADED WHERE A PROMOTION ADDS RANK",
+              upperCase(Engine::localizeKnown(selectedCandidate().raceName) + " · "
+                        + Engine::localize(displayClassName(selectedClassName())) + " · "
+                        + Engine::tr("starting class and its promotions, shaded where a promotion adds rank")),
               "menu_lucida", 12, CaptionText);
     const float tableTop = Y + 96;
     const Rect viewport = sheetRect(X + 44, tableTop, W - 88, H - 130);
@@ -1906,7 +2137,7 @@ void NewGameScreen::drawPartyBoard()
     constexpr float W = 1488;
     constexpr float H = 848;
 
-    if (!drawPopupFrame("Party Skills", X, Y, W, H) || m_pGameData == nullptr)
+    if (!drawPopupFrame(Engine::tr("Party Skills"), X, Y, W, H) || m_pGameData == nullptr)
     {
         return;
     }
@@ -1916,9 +2147,11 @@ void NewGameScreen::drawPartyBoard()
     const std::vector<CreationPartyMember> members = creationPartyMembers();
     const CreationPartyCoverage coverage = creationPartyCoverage(table, members);
     sheetText(sheetRect(X + 300, Y + 38, 900, 34),
-              "PARTY COVERS " + std::to_string(coverage.covered) + " OF " + std::to_string(coverage.reachable)
-                  + " REACHABLE SKILLS · " + std::to_string(coverage.grandmaster)
-                  + " TO GRANDMASTER · CLICK A CIRCLE TO CHOOSE",
+              upperCase(Engine::tr("Party covers {covered} of {reachable} reachable skills · {grandmaster} to "
+                                   "Grandmaster",
+                                   {{"covered", coverage.covered}, {"reachable", coverage.reachable},
+                                    {"grandmaster", coverage.grandmaster}})
+                        + " · " + Engine::tr("click a circle to choose")),
               "menu_lucida", 12, CaptionText);
 
     const std::array<std::vector<std::string>, 2> halves = {{{"Weapons", "Armour", "Racial"}, {"Magic", "Misc"}}};
@@ -1949,10 +2182,12 @@ void NewGameScreen::drawPartyBoard()
             }
 
             sheetText(sheetRect(cx - memberColumn / 2, y + 48, memberColumn, 18),
-                      displayClassName(members[slot].className), "menu_lucida", 11, 0xff92abb2u, 0);
+                      Engine::localize(displayClassName(members[slot].className)), "menu_lucida", 11, 0xff92abb2u,
+                      0);
         }
 
-        sheetText(sheetRect(left + halfWidth - PartyColumn, y + 30, PartyColumn, 18), "PARTY", "menu_lucida", 11,
+        sheetText(sheetRect(left + halfWidth - PartyColumn, y + 30, PartyColumn, 18), upperCase(Engine::tr("Party")),
+                  "menu_lucida", 11,
                   CaptionText, 0);
         y += 72;
 
@@ -1994,7 +2229,8 @@ void NewGameScreen::drawPartyBoard()
 
                 if (!headerDrawn)
                 {
-                    sheetText(sheetRect(left, y + 4, halfWidth, 16), upperCase(group.title), "menu_lucida", 11,
+                    sheetText(sheetRect(left, y + 4, halfWidth, 16), upperCase(Engine::tr(group.title)), "menu_lucida",
+                              11,
                               CaptionText);
                     y += 22;
                     headerDrawn = true;
@@ -2010,8 +2246,9 @@ void NewGameScreen::drawPartyBoard()
                     glyph("diamond", sheetRect(left + 2, y + 8, 7, 7), MarkerGold);
                 }
 
-                sheetText(sheetRect(left + 14, y, SkillColumn - 16, RowHeight), displaySkillName(skill), "menu_arrus",
-                          16, covered ? 0xffcce8f3u : 0xff858f8fu);
+                sheetText(sheetRect(left + 14, y, SkillColumn - 16, RowHeight),
+                          Engine::localize(displaySkillName(skill)), "menu_arrus", 16,
+                          covered ? 0xffcce8f3u : 0xff858f8fu);
 
                 for (size_t slot = 0; slot < members.size(); ++slot)
                 {
@@ -2083,8 +2320,8 @@ void NewGameScreen::drawPartyBoard()
     }
 
     sheetText(sheetRect(X + 44, Y + H - 62, W - 88, 22),
-              "Diamond: starts with it · tick: chosen · circle: can pick · dot: a teacher later · colour: the best "
-              "mastery it reaches (grey Normal, white Expert, turquoise Master, gold Grandmaster)",
+              Engine::tr("Diamond: starts with it · tick: chosen · circle: can pick · dot: a teacher later · colour: "
+                         "the best mastery it reaches (grey Normal, white Expert, turquoise Master, gold Grandmaster)"),
               "menu_lucida", 12, CaptionText, 0);
 
     if (hovered != m_hoverSkill || hoveredSlot != m_hoverSkillSlot)

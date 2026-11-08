@@ -1,10 +1,12 @@
 -- MMMerge map supplement: New Sorpigal local outdoor state.
 
+-- MMMerge Scripts/Maps/oute3.lua: this map's own hostile.txt cells (faction numbers, 0 is the party).
+SetLocalFactionRelations({
+    {185, 0, 0},
+})
+
 RegisterMapOnLoadEvent(65029, "MMMerge oute3 town portal", function()
     SetQBit(QBit(313)) -- New Sorpigal town portal destination discovered.
-    MM6.ApplyLocalMonsterRelations({
-        {185, 0, 0},
-    })
     MM6.ApplyDragonTowerState(1180, 84, 42)
 end)
 

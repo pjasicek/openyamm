@@ -1,7 +1,9 @@
 #include "game/mm9/Mm9QuestMarkers.h"
 
 #include "engine/AssetFileSystem.h"
+#include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/mm9/Mm9SkillTrainer.h"
 #include "game/party/Party.h"
 #include "game/tables/JournalQuestTable.h"
 
@@ -37,6 +39,28 @@ bool readQBitArray(const YAML::Node &node, const char *pFieldName, std::vector<u
         values.push_back(value);
     }
     return true;
+}
+
+bool readKeyState(const YAML::Node &node, Mm9QuestKeyState &state, std::string &error)
+{
+    if (!node)
+    {
+        return true;
+    }
+
+    state.present = true;
+    return node.IsMap() && readQBitArray(node, "required_qbits", state.requiredQBits, error)
+        && readQBitArray(node, "forbidden_qbits", state.forbiddenQBits, error);
+}
+
+bool keyStateHolds(const Mm9QuestKeyState &state, const Party &party)
+{
+    const auto partyHasQBit = [&party](uint32_t qbitId)
+    {
+        return party.hasQuestBit(qbitId);
+    };
+    return state.present && std::all_of(state.requiredQBits.begin(), state.requiredQBits.end(), partyHasQBit)
+        && std::none_of(state.forbiddenQBits.begin(), state.forbiddenQBits.end(), partyHasQBit);
 }
 
 bool hasRole(const YAML::Node &rolesNode, const std::string &role)
@@ -130,31 +154,33 @@ struct PreviewQuestKeys
     }
 };
 
-void previewRowEffects(const Mm9RudeRow &row, PreviewQuestKeys &keys)
+// The row's key grants and removals the preview follows: only the keys some row tests (testedQBits, sorted).
+void previewRowEffects(const Mm9RudeRow &row, const std::vector<uint32_t> &testedQBits, PreviewQuestKeys &keys)
 {
     if (!mm9RudeRowAppliesQuestKeys(row))
     {
         return;
     }
-    for (int32_t rawKeyId : row.grantedRawKeys)
+    const auto apply = [&testedQBits, &keys](const std::vector<int32_t> &rawKeys, bool value)
     {
-        const std::optional<uint32_t> qbitId = mm9QBitForRawQuestKey(rawKeyId);
-        if (qbitId)
+        for (int32_t rawKeyId : rawKeys)
         {
-            keys.changes[*qbitId] = true;
+            const std::optional<uint32_t> qbitId = mm9QBitForRawQuestKey(rawKeyId);
+            if (qbitId && std::binary_search(testedQBits.begin(), testedQBits.end(), *qbitId))
+            {
+                keys.changes[*qbitId] = value;
+            }
         }
-    }
-    for (int32_t rawKeyId : row.removedRawKeys)
-    {
-        const std::optional<uint32_t> qbitId = mm9QBitForRawQuestKey(rawKeyId);
-        if (qbitId)
-        {
-            keys.changes[*qbitId] = false;
-        }
-    }
+    };
+    apply(row.grantedRawKeys, true);
+    apply(row.removedRawKeys, false);
 }
 
-std::vector<uint32_t> relevantRudeQBits(const std::vector<Mm9RudeRow> &rows)
+// The keys the dialogue's rows test (required or forbidden), sorted. Which rows a path shows depends on these alone:
+// keys a row grants or removes but no row tests cannot change it, so the path search leaves them out of its states.
+// Counting them made the states grow as 2^keys: Sturmford's Tyralt (RUDE 61, a dozen promotion keys granted in loops)
+// took 400 ms per marker rebuild, a hitch on every quest-bit change in the city (2026-11-06).
+std::vector<uint32_t> testedRudeQBits(const std::vector<Mm9RudeRow> &rows)
 {
     std::vector<uint32_t> qbitIds;
     const auto appendKeys = [&qbitIds](const std::vector<int32_t> &rawKeys)
@@ -171,9 +197,7 @@ std::vector<uint32_t> relevantRudeQBits(const std::vector<Mm9RudeRow> &rows)
     for (const Mm9RudeRow &row : rows)
     {
         appendKeys(row.requiredRawKeys);
-        appendKeys(row.grantedRawKeys);
         appendKeys(row.forbiddenRawKeys);
-        appendKeys(row.removedRawKeys);
     }
     std::sort(qbitIds.begin(), qbitIds.end());
     return qbitIds;
@@ -190,10 +214,11 @@ std::string previewSignature(int32_t nodeId, const PreviewQuestKeys &keys, const
     return signature;
 }
 
-bool rowIsReachable(uint32_t rudeId, size_t targetRowIndex, const Party &party, const Mm9RudeDialogueTable &table)
+// Whether some path through the dialogue graph, with the quest keys its rows grant or remove on the way, shows the row.
+bool rowIsShownOnSomePath(uint32_t rudeId, size_t targetRowIndex, const Party &party, const Mm9RudeDialogueTable &table)
 {
     const std::vector<Mm9RudeRow> &rows = table.rows(rudeId);
-    if (targetRowIndex >= rows.size() || !mm9RudeRowAppliesQuestKeys(rows[targetRowIndex]))
+    if (targetRowIndex >= rows.size())
     {
         return false;
     }
@@ -204,7 +229,7 @@ bool rowIsReachable(uint32_t rudeId, size_t targetRowIndex, const Party &party, 
         PreviewQuestKeys keys;
     };
 
-    const std::vector<uint32_t> qbitIds = relevantRudeQBits(rows);
+    const std::vector<uint32_t> qbitIds = testedRudeQBits(rows);
     std::deque<PendingNode> pending;
     pending.push_back({static_cast<int32_t>(rudeId), {&party, {}}});
     std::set<std::string> visited;
@@ -231,8 +256,51 @@ bool rowIsReachable(uint32_t rudeId, size_t targetRowIndex, const Party &party, 
             if (row.next >= 0)
             {
                 PreviewQuestKeys nextKeys = current.keys;
-                previewRowEffects(row, nextKeys);
+                previewRowEffects(row, qbitIds, nextKeys);
                 pending.push_back({row.next, std::move(nextKeys)});
+            }
+        }
+    }
+    return false;
+}
+
+bool rowIsReachable(uint32_t rudeId, size_t targetRowIndex, const Party &party, const Mm9RudeDialogueTable &table)
+{
+    const std::vector<Mm9RudeRow> &rows = table.rows(rudeId);
+    return targetRowIndex < rows.size()
+        && mm9RudeRowAppliesQuestKeys(rows[targetRowIndex])
+        && rowIsShownOnSomePath(rudeId, targetRowIndex, party, table);
+}
+
+// A trainer row the talk can show, with a lesson a party member can take. Gold is left out: the marker shows where the
+// party can train, also before it has the money.
+bool actorHasTrainerLesson(const Mm9QuestActorIdentity &actor, const Party &party,
+                           const Mm9RudeDialogueTable &rudeDialogueTable, const Mm9TrainerMarkerTables &tables)
+{
+    for (const Mm9SkillTrainerService &service : tables.pSkillTrainerTable->entries())
+    {
+        if (service.rudeId != actor.rudeId
+            || !rowIsShownOnSomePath(actor.rudeId, service.rudeRowIndex, party, rudeDialogueTable))
+        {
+            continue;
+        }
+        for (const std::string &skillName : service.topic.skillNames)
+        {
+            const SkillMasteryTrainingRequest request = {
+                .skillName = skillName,
+                .targetMastery = service.topic.targetMastery,
+                .requiredGold = service.topic.requiredGold,
+                .requiredSkill = service.topic.requiredSkillRank,
+                .checkGold = false,
+            };
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryTraining(
+                    request, party, memberIndex, *tables.pClassSkillTable, *tables.pNpcDialogTable);
+                if (evaluation && evaluation->approved)
+                {
+                    return true;
+                }
             }
         }
     }
@@ -276,12 +344,26 @@ bool Mm9QuestInteractionTable::loadText(const std::string &sourceName, const std
             Mm9QuestInteraction interaction = {};
             interaction.id = node["id"].as<std::string>("");
             interaction.rudeId = node["rude_id"].as<uint32_t>(0);
-            interaction.scrPredicate = node["source_kind"].as<std::string>("rude") == "scr";
+            const std::string sourceKind = node["source_kind"].as<std::string>("rude");
+            interaction.scrPredicate = sourceKind == "scr";
+            interaction.keyStates = sourceKind == "keys";
             interaction.rudeRowIndex = node["provenance"]["row_index"].as<size_t>(static_cast<size_t>(-1));
             interaction.offer = hasRole(node["roles"], "offer");
             interaction.handoff = hasRole(node["roles"], "handoff");
             std::string error;
-            if (interaction.id.empty() || !seenIds.insert(interaction.id).second || interaction.rudeId == 0 ||
+            if (interaction.keyStates)
+            {
+                const YAML::Node keysNode = node["conditions"]["keys"];
+                if (interaction.id.empty() || !seenIds.insert(interaction.id).second || interaction.rudeId == 0
+                    || !keysNode || !readKeyState(keysNode["available"], interaction.availableKeys, error)
+                    || !readKeyState(keysNode["in_progress"], interaction.inProgressKeys, error)
+                    || !readKeyState(keysNode["ready"], interaction.readyKeys, error))
+                {
+                    m_errors.push_back(sourceName + ": invalid key interaction " + interaction.id + ": " + error);
+                    continue;
+                }
+            }
+            else if (interaction.id.empty() || !seenIds.insert(interaction.id).second || interaction.rudeId == 0 ||
                 (!interaction.scrPredicate && interaction.rudeRowIndex == static_cast<size_t>(-1)) ||
                 (!interaction.offer && !interaction.handoff) ||
                 !readQBitArray(node["conditions"]["available"], "activates_journal_entries",
@@ -364,7 +446,8 @@ const std::vector<std::string> &Mm9QuestInteractionTable::errors() const
 Mm9QuestMarkerState Mm9QuestMarkerResolver::markerFor(const Mm9QuestActorIdentity &actor, const Party &party,
                                                       const JournalQuestTable &journalQuestTable,
                                                       const Mm9RudeDialogueTable &rudeDialogueTable,
-                                                      const Mm9QuestInteractionTable &interactionTable) const
+                                                      const Mm9QuestInteractionTable &interactionTable,
+                                                      const Mm9TrainerMarkerTables *pTrainerTables) const
 {
     if (!actor.interactable || actor.rudeId == 0)
     {
@@ -376,6 +459,16 @@ Mm9QuestMarkerState Mm9QuestMarkerResolver::markerFor(const Mm9QuestActorIdentit
     {
         if (interaction.rudeId != actor.rudeId || !bindingMatches(interaction, actor))
         {
+            continue;
+        }
+        if (interaction.keyStates)
+        {
+            const Mm9QuestMarkerState candidate = keyStateHolds(interaction.readyKeys, party)
+                ? Mm9QuestMarkerState::Ready
+                : keyStateHolds(interaction.inProgressKeys, party) ? Mm9QuestMarkerState::InProgress
+                : keyStateHolds(interaction.availableKeys, party) ? Mm9QuestMarkerState::Available
+                : Mm9QuestMarkerState::None;
+            result = std::max(result, candidate);
             continue;
         }
         const bool reachable = interaction.scrPredicate
@@ -395,6 +488,15 @@ Mm9QuestMarkerState Mm9QuestMarkerResolver::markerFor(const Mm9QuestActorIdentit
         }
         result = std::max(result, candidate);
     }
+    if (result < Mm9QuestMarkerState::Trainer
+        && pTrainerTables != nullptr
+        && pTrainerTables->pSkillTrainerTable != nullptr
+        && pTrainerTables->pClassSkillTable != nullptr
+        && pTrainerTables->pNpcDialogTable != nullptr
+        && actorHasTrainerLesson(actor, party, rudeDialogueTable, *pTrainerTables))
+    {
+        result = Mm9QuestMarkerState::Trainer;
+    }
     return result;
 }
 
@@ -403,7 +505,8 @@ void Mm9LoadedLocationQuestMarkerCache::loadLocation(bool mm9Active,
                                                      Mm9QuestEligibilityStamp stamp, const Party &party,
                                                      const JournalQuestTable &journalQuestTable,
                                                      const Mm9RudeDialogueTable &rudeDialogueTable,
-                                                     const Mm9QuestInteractionTable &interactionTable)
+                                                     const Mm9QuestInteractionTable &interactionTable,
+                                                     const Mm9TrainerMarkerTables *pTrainerTables)
 {
     clear();
     m_active = mm9Active;
@@ -411,7 +514,7 @@ void Mm9LoadedLocationQuestMarkerCache::loadLocation(bool mm9Active,
     {
         return;
     }
-    rebuild(actors, party, journalQuestTable, rudeDialogueTable, interactionTable);
+    rebuild(actors, party, journalQuestTable, rudeDialogueTable, interactionTable, pTrainerTables);
     m_evaluatedStamp = stamp;
 }
 
@@ -419,13 +522,14 @@ bool Mm9LoadedLocationQuestMarkerCache::update(const std::vector<Mm9LoadedQuestM
                                                Mm9QuestEligibilityStamp stamp, const Party &party,
                                                const JournalQuestTable &journalQuestTable,
                                                const Mm9RudeDialogueTable &rudeDialogueTable,
-                                               const Mm9QuestInteractionTable &interactionTable)
+                                               const Mm9QuestInteractionTable &interactionTable,
+                                               const Mm9TrainerMarkerTables *pTrainerTables)
 {
     if (!m_active || stamp == m_evaluatedStamp)
     {
         return false;
     }
-    rebuild(actors, party, journalQuestTable, rudeDialogueTable, interactionTable);
+    rebuild(actors, party, journalQuestTable, rudeDialogueTable, interactionTable, pTrainerTables);
     m_evaluatedStamp = stamp;
     return true;
 }
@@ -457,14 +561,16 @@ uint64_t Mm9LoadedLocationQuestMarkerCache::rebuildCount() const
 void Mm9LoadedLocationQuestMarkerCache::rebuild(const std::vector<Mm9LoadedQuestMarkerActor> &actors,
                                                 const Party &party, const JournalQuestTable &journalQuestTable,
                                                 const Mm9RudeDialogueTable &rudeDialogueTable,
-                                                const Mm9QuestInteractionTable &interactionTable)
+                                                const Mm9QuestInteractionTable &interactionTable,
+                                                const Mm9TrainerMarkerTables *pTrainerTables)
 {
     m_markers.clear();
     Mm9QuestMarkerResolver resolver;
     for (const Mm9LoadedQuestMarkerActor &actor : actors)
     {
         const Mm9QuestMarkerState state =
-            resolver.markerFor(actor.identity, party, journalQuestTable, rudeDialogueTable, interactionTable);
+            resolver.markerFor(actor.identity, party, journalQuestTable, rudeDialogueTable, interactionTable,
+                               pTrainerTables);
         if (state != Mm9QuestMarkerState::None)
         {
             m_markers[actor.actorId] = state;

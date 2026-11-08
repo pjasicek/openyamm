@@ -49,14 +49,24 @@ struct MapDeltaActor
     int32_t mm9RudeId = 0;
     uint32_t mm9SourceObjectIndex = 0;
     bool mm9CanReceiveDamage = true;
+    // MM9's ShouldRepopulate (scene respawns_on_refill; false: MM9's 0): a map refill keeps it as it was left (dead,
+    // gone, moved) instead of placing it anew. Read from the scene at each refill, not saved.
+    bool respawnsOnRefill = true;
     bool mm9Civilian = false;
     bool mm9Guard = false;
+    // Its 3D model's scale against its binding's (scene `draw_scale`); 0: none, the model then follows its height over
+    // its descriptor's. Lets a placement keep a collision body that is not its drawn size (MM9's).
+    float drawScale = 0.0f;
     bool proceduralDeathLoot = true;
     uint16_t initialYawUnits = 0;
     bool immobile = false;
     // A placed actor that keeps its stored height (scene keeps_height: a Brood Sac on its cradle socket) instead of
     // standing on the floor under it; indoors only, outdoor placements keep theirs already.
     bool keepsHeight = false;
+    // A posed prop (scene posed: MM9's RUDEProps, people sitting at a table or behind a bar who loop one pose): the
+    // world never moves it, neither its initial placement nor collision pushes, nor gravity; it stays exactly where
+    // placed, overlapping its seat. Indoors only. Its pose and facing come from its map script (evt.PlayActorClip).
+    bool posed = false;
     // A leash for this placement (scene leash_radius): it fights at most this far from where it was placed and walks
     // back there with no target, whatever its monster's tactics say (0: none).
     uint16_t leashRadius = 0;
@@ -211,6 +221,10 @@ struct MapDeltaData
 };
 
 void normalizeIndoorDoorTextureDeltas(MapDeltaData &mapDeltaData, const IndoorMapData &indoorMapData);
+
+// A map refill places its scene actors anew (refilled, fresh from the scene); a scene actor with respawnsOnRefill false
+// takes back its record from the saved map (the same index, name and monster) instead. Returns how many it kept.
+size_t keepActorsThroughRefill(const MapDeltaData &saved, MapDeltaData &refilled);
 
 class MapDeltaDataLoader
 {

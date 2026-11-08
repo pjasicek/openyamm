@@ -211,10 +211,28 @@ struct IndoorMoverRotation
     bool openAway = false;
 };
 
+// A continuous spin (scene `mover.spin`, MM9's RotatingBrush: gears, saws, wheels): the door's faces turn about the axis
+// through the pivot while it is switched on (evt.SpinMover), ramping up and down. The door's own motion, linear or
+// rotating (the parent MM9 attaches the spinner to), carries the spun pose. devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md
+// "Continuous spinners".
+struct IndoorMoverSpin
+{
+    // A point on the spin axis in the stored pose (the BLV's vertices) and the unit axis; positive turns right-handed.
+    std::array<float, 3> pivot = {0.0f, 0.0f, 0.0f};
+    std::array<float, 3> axis = {0.0f, 0.0f, 1.0f};
+    float degreesPerSecond = 360.0f;
+    // From stopped to full speed and back (0: at once).
+    float spinUpSeconds = 0.0f;
+    float spinDownSeconds = 0.0f;
+    // Its state until evt.SpinMover switches it.
+    bool startOn = true;
+};
+
 struct IndoorMoverDefinition
 {
     uint32_t doorId = 0;
     std::optional<IndoorMoverRotation> rotation;
+    std::optional<IndoorMoverSpin> spin;
     IndoorMoverEasing easing = IndoorMoverEasing::Linear;
     IndoorMoverBodyRule bodies = IndoorMoverBodyRule::Ignore;
     // Grounded bodies standing on its faces move with it.
@@ -312,9 +330,13 @@ struct IndoorTerrain
     // cover the 65 536-unit map frame as on an outdoor map).
     std::string materials;
     std::vector<std::string> textureNames;      // lower case, sorted
+    // `exclude_faces`: faces with a terrain texture drawn as ordinary faces (their texture and lightmap): a tunnel's
+    // floor strips under the terrain (terrain_blend.py). Sorted.
+    std::vector<uint32_t> excludedFaces;
     // `grass`: a terrain decoration file (worlds/<world>/terrain_decorations/<map>.yml format, by virtual path) whose
-    // first grass rule and plant library give tufts over the terrain's grass layers (the materials with a meadow
-    // strength); empty for none. devdocs/INDOOR_OPEN_SKY.md "Terrain".
+    // first grass rule and plant library grow the meadow over the terrain's grass layers (the materials with a meadow
+    // strength): tall patches, flowers, verges, undergrowth and bushes; empty for none. devdocs/INDOOR_OPEN_SKY.md
+    // "Terrain".
     std::string grass;
 };
 
@@ -350,6 +372,9 @@ struct IndoorMapData
     std::shared_ptr<const IndoorBakedLighting> bakedLighting;
     // The scene's translucent faces, sorted by face index (empty for every map without them).
     std::vector<IndoorTranslucentFace> translucentFaces;
+    // The scene's `opaque_faces`, sorted: faces drawn opaque whatever their texture's alpha (MM9's window glass without
+    // its Translucent flag, devdocs/INDOOR_TRANSLUCENT_FACES.md "Opaque faces"); empty for every map without them.
+    std::vector<uint16_t> opaqueFaces;
     // The scene's door `mover` blocks, sorted by door id, and its ladders (both empty for every MM6-MM8 map).
     std::vector<IndoorMoverDefinition> moverDefinitions;
     std::vector<IndoorLadder> ladders;
@@ -382,10 +407,16 @@ struct IndoorMapData
     // paths down them (MM9's monsters, devdocs/mm9_rework/MM9_MONSTER_JUMP_RE.md); without it they keep MM6-MM8's
     // limit of IndoorActorMaxDropHeight.
     bool actorDropsFollow = false;
+    // Scene `portal_visibility: {near_reach}`: a portal of the camera's sector within this distance that the view would
+    // drop opens the whole view (IndoorPortalVisibilityInput::nearPortalReach); 0 for every MM6-MM8 map.
+    float portalNearReach = 0.0f;
     // Scene `actor_detection: {wakes: none}` clears it: a monster that notices the party, or is hit by it, then wakes
     // none of its neighbours (wakeIndoorActorNeighbours). Off for MM9's converted outdoor regions, whose open
     // country is no room of a dungeon; every MM6-MM8 map keeps it.
     bool actorNeighbourWakes = true;
+    // Scene `actor_detection: {provoke_radius: N}`: how far a provoking party hit provokes an MM9 loop monster's
+    // friends on this map, instead of the world's mm9Provoke radius (MM9_MONSTER_AI_PLAN.md "Awareness of the party").
+    std::optional<float> actorProvokeRadius;
     // Scene `static_lights: {sides: front}`: a static light adds nothing to a face it stands behind (more than
     // IndoorStaticLightBehindTolerance behind the face's plane), so a room's lights no longer show on the outside of
     // its walls where their reach crosses a doorway (MM9's lights, baked with shadows in MM9;
@@ -421,6 +452,18 @@ inline bool indoorDestructibleHitFace(const IndoorMapData &indoorMapData, size_t
 
 // The face's translucency, or null when it is opaque (always null on a map without translucent faces).
 const IndoorFaceTranslucency *findIndoorFaceTranslucency(const IndoorMapData &indoorMapData, size_t faceIndex);
+
+// A see-through face the party walks through and that runs no event (the scene's translucent faces: MM9's perception
+// outline over a secret door, a sink's water): a click or the use key passes through it to what lies behind (Drangheim
+// Prison's Door2 sits between the two faces of its outline).
+inline bool indoorFacePassesPicks(
+    const IndoorMapData &indoorMapData, size_t faceIndex, uint16_t cogTriggered, uint32_t attributes)
+{
+    return cogTriggered == 0 && hasFaceAttribute(attributes, FaceAttribute::Untouchable)
+        && findIndoorFaceTranslucency(indoorMapData, faceIndex) != nullptr;
+}
+// Whether the scene lists the face in `opaque_faces` (its texture's alpha is not a cut-out there).
+bool isIndoorFaceOpaque(const IndoorMapData &indoorMapData, size_t faceIndex);
 
 // The footstep sounds of the face's texture, or null (always null on a map without footstep sounds).
 const IndoorFootstepSound *findIndoorFootstepSound(const IndoorMapData &indoorMapData, size_t faceIndex);

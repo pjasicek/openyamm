@@ -26,25 +26,30 @@ constexpr float PortraitFovDegrees = 16.0f;
 // (a swung weapon past it).
 constexpr float PortraitRestFill = 0.85f;
 constexpr float PortraitAttackFill = 1.0f;
-// The portrait faces +X; the camera stands a little to the creature's left and above, for a three-quarter view.
+// The portrait faces +X; the camera stands a little to the creature's left and above, for a three-quarter view. A
+// speaker's portrait looks at them from the front, a little above eye level.
 constexpr float PortraitTurnRadians = 0.45f;
 constexpr float PortraitPitchRadians = 0.14f;
+constexpr float TalkPortraitTurnRadians = 0.0f;
+constexpr float TalkPortraitPitchRadians = 0.06f;
 // Fixed magnification over that framing (a narrower lens about the same centre): every portrait grows by exactly this,
 // so the attack and a carried weapon may cross the edge.
 constexpr float PortraitZoom = 1.15f;
 // Target pixels per HUD pixel: the bilinear minification smooths the silhouette.
 constexpr float PortraitSupersample = 2.0f;
 
-bx::Vec3 portraitToCamera()
+bx::Vec3 portraitToCamera(ActorPortraitKind kind)
 {
-    return {std::cos(PortraitTurnRadians) * std::cos(PortraitPitchRadians),
-        std::sin(PortraitTurnRadians) * std::cos(PortraitPitchRadians), std::sin(PortraitPitchRadians)};
+    const bool talk = kind == ActorPortraitKind::Talk;
+    const float turn = talk ? TalkPortraitTurnRadians : PortraitTurnRadians;
+    const float pitch = talk ? TalkPortraitPitchRadians : PortraitPitchRadians;
+    return {std::cos(turn) * std::cos(pitch), std::sin(turn) * std::cos(pitch), std::sin(pitch)};
 }
 
 // A neutral key light from above the camera's left: the creature's own colours, with its form readable.
-Engine::ModelRenderLighting portraitLighting()
+Engine::ModelRenderLighting portraitLighting(ActorPortraitKind kind)
 {
-    const bx::Vec3 toCamera = portraitToCamera();
+    const bx::Vec3 toCamera = portraitToCamera(kind);
     const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
     const bx::Vec3 right = bx::normalize(bx::cross(bx::neg(toCamera), worldUp));
     const bx::Vec3 light = bx::normalize(bx::add(bx::add(bx::mul(toCamera, 0.6f), bx::mul(worldUp, 0.7f)),
@@ -58,10 +63,18 @@ Engine::ModelRenderLighting portraitLighting()
 }
 }
 
-void ActorModelPreview::bindScene(WorldFxSystem *pWorldFx, Engine::ModelRenderer *pModelRenderer)
+ActorModelPreview::ActorModelPreview(ActorPortraitKind kind)
+    : m_kind(kind)
+    , m_viewId(kind == ActorPortraitKind::Talk ? ActorTalkPortraitView : ActorPortraitView)
+{
+}
+
+void ActorModelPreview::bindScene(WorldFxSystem *pWorldFx, Engine::ModelRenderer *pModelRenderer,
+    DecorationModelLookup decorationModels)
 {
     m_pWorldFx = pWorldFx;
     m_pModelRenderer = pModelRenderer;
+    m_decorationModels = std::move(decorationModels);
 }
 
 bgfx::TextureHandle ActorModelPreview::render(const IGameplayWorldRuntime &world, size_t actorIndex, float pixelSize,
@@ -73,8 +86,39 @@ bgfx::TextureHandle ActorModelPreview::render(const IGameplayWorldRuntime &world
         return BGFX_INVALID_HANDLE;
     }
     const WorldFxSystem::InspectPortrait *pPortrait =
-        m_pWorldFx->syncInspectPortrait(world, actorIndex, animationTicks);
-    if (pPortrait == nullptr || pPortrait->framePoints.empty())
+        m_pWorldFx->syncInspectPortrait(world, actorIndex, animationTicks, m_kind);
+    if (pPortrait == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+    return draw(pPortrait->handle, pPortrait->framePoints, pPortrait->restPointCount,
+        pPortrait->effects ? &*pPortrait->effects : nullptr, pixelSize, assets);
+}
+
+bgfx::TextureHandle ActorModelPreview::renderDecoration(uint32_t decorationKey, float pixelSize,
+    const Engine::AssetFileSystem &assets)
+{
+    if (m_pWorldFx == nullptr || m_pModelRenderer == nullptr || m_failed || pixelSize <= 0.0f
+        || m_kind != ActorPortraitKind::Talk || !m_decorationModels
+        || bgfx::getRendererType() == bgfx::RendererType::Noop)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+    const std::optional<DecorationPortraitModel> model = m_decorationModels(decorationKey);
+    const WorldFxSystem::InspectPortrait *pPortrait =
+        model ? m_pWorldFx->syncDecorationTalkPortrait(decorationKey, *model) : nullptr;
+    if (pPortrait == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+    return draw(pPortrait->handle, pPortrait->framePoints, pPortrait->restPointCount, nullptr, pixelSize, assets);
+}
+
+bgfx::TextureHandle ActorModelPreview::draw(Engine::ModelInstanceHandle handle,
+    const std::vector<std::array<float, 3>> &framePoints, size_t restPointCount, const EffectSystem *pEffects,
+    float pixelSize, const Engine::AssetFileSystem &assets)
+{
+    if (framePoints.empty())
     {
         return BGFX_INVALID_HANDLE;
     }
@@ -85,43 +129,45 @@ bgfx::TextureHandle ActorModelPreview::render(const IGameplayWorldRuntime &world
         return BGFX_INVALID_HANDLE;
     }
 
-    if (pPortrait->handle != m_framedHandle)
+    if (handle != m_framedHandle)
     {
-        frame(pPortrait->framePoints, pPortrait->restPointCount);
-        m_framedHandle = pPortrait->handle;
+        frame(framePoints, restPointCount);
+        m_framedHandle = handle;
     }
-    bgfx::setViewName(ActorPortraitView, "Actor portrait");
-    bgfx::setViewFrameBuffer(ActorPortraitView, m_frameBuffer);
-    bgfx::setViewRect(ActorPortraitView, 0, 0, m_size, m_size);
-    bgfx::setViewClear(ActorPortraitView, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x00000000u, 1.0f, 0);
-    bgfx::setViewMode(ActorPortraitView, bgfx::ViewMode::Sequential);
-    bgfx::setViewTransform(ActorPortraitView, m_view.data(), m_projection.data());
-    bgfx::touch(ActorPortraitView);
+    bgfx::setViewName(m_viewId, m_kind == ActorPortraitKind::Talk ? "Actor talk portrait" : "Actor portrait");
+    bgfx::setViewFrameBuffer(m_viewId, m_frameBuffer);
+    bgfx::setViewRect(m_viewId, 0, 0, m_size, m_size);
+    bgfx::setViewClear(m_viewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x00000000u, 1.0f, 0);
+    bgfx::setViewMode(m_viewId, bgfx::ViewMode::Sequential);
+    bgfx::setViewTransform(m_viewId, m_view.data(), m_projection.data());
+    bgfx::touch(m_viewId);
 
     // A view drawn before the world's may inherit its water reflection clip plane: the portrait clips nothing.
     const float noClip[4] = {};
     bgfx::setUniform(m_worldClipPlaneUniform, noClip);
-    m_pModelRenderer->renderPortrait(m_pWorldFx->models(), pPortrait->handle, ActorPortraitView, m_eye,
-        portraitLighting());
-    if (pPortrait->effects)
+    m_pModelRenderer->renderPortrait(m_pWorldFx->models(), handle, m_viewId, m_eye, portraitLighting(m_kind));
+    if (pEffects != nullptr)
     {
         if (!bgfx::isValid(m_effectResources.particleParamsUniformHandle()))
         {
             m_effectResources.setParticleProgramHandle(loadRuntimeProgram("vs_particle", "fs_particle"));
             ParticleRenderer::initializeResources(m_effectResources);
         }
-        m_effectRenderer.render(m_effectResources, *pPortrait->effects, m_pWorldFx->namedEffectResources(), assets,
-            ActorPortraitView, m_view.data(), {m_eye[0], m_eye[1], m_eye[2]});
+        m_effectRenderer.render(m_effectResources, *pEffects, m_pWorldFx->namedEffectResources(), assets,
+            m_viewId, m_view.data(), {m_eye[0], m_eye[1], m_eye[2]});
     }
     return m_colorTexture;
 }
 
 void ActorModelPreview::frame(const std::vector<std::array<float, 3>> &points, size_t restPointCount)
 {
-    const bx::Vec3 toCamera = portraitToCamera();
+    const bx::Vec3 toCamera = portraitToCamera(m_kind);
     const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
     const bx::Vec3 right = bx::normalize(bx::cross(bx::neg(toCamera), worldUp));
     const bx::Vec3 up = bx::cross(right, bx::neg(toCamera));
+    // A talk portrait's frame already holds its margins (headAndShouldersFrame): it fills the square.
+    const float restFill = m_kind == ActorPortraitKind::Talk ? 1.0f : PortraitRestFill;
+    const float zoom = m_kind == ActorPortraitKind::Talk ? 1.0f : PortraitZoom;
     // Centre the standing and fidget poses on screen, then take the nearest camera distance that keeps each framed
     // point inside its share of the field of view at its own depth. A near end looms larger than a far one (a long
     // creature seen from an angle), so the centre is refined on the projected outline.
@@ -163,7 +209,7 @@ void ActorModelPreview::frame(const std::vector<std::array<float, 3>> &points, s
         {
             const float extent = std::max(std::abs(projected[index][0] - middle[0]),
                 std::abs(projected[index][1] - middle[1]));
-            const float fill = index < restCount ? PortraitRestFill : PortraitAttackFill;
+            const float fill = index < restCount ? restFill : PortraitAttackFill;
             distance = std::max(distance, extent / (tanHalf * fill) + projected[index][2] - middle[2]);
         }
     }
@@ -173,7 +219,7 @@ void ActorModelPreview::frame(const std::vector<std::array<float, 3>> &points, s
     const bx::Vec3 eye = bx::add(center, bx::mul(toCamera, distance));
     m_eye = {eye.x, eye.y, eye.z};
     bx::mtxLookAt(m_view.data(), eye, center, worldUp, bx::Handedness::Right);
-    const float zoomedFovDegrees = bx::toDeg(2.0f * std::atan(tanHalf / PortraitZoom));
+    const float zoomedFovDegrees = bx::toDeg(2.0f * std::atan(tanHalf / zoom));
     bx::mtxProj(m_projection.data(), zoomedFovDegrees, 1.0f, std::max(1.0f, (distance - depthExtent) * 0.5f),
         distance + depthExtent * 2.0f, bgfx::getCaps()->homogeneousDepth, bx::Handedness::Right);
 }
@@ -235,6 +281,7 @@ void ActorModelPreview::shutdown()
     m_effectResources.shutdown();
     m_pWorldFx = nullptr;
     m_pModelRenderer = nullptr;
+    m_decorationModels = {};
     m_failed = false;
     m_framedHandle = {};
     if (!Engine::BgfxContext::isBgfxInitialized())

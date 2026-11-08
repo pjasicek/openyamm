@@ -1,0 +1,26 @@
+id: mm6.new_sorpigal_local_faction_relations
+title: "New Sorpigal: the town guards are peaceful by the map's own faction relations, and a guard the party strikes stays hostile"
+world: mm6
+mode: faithful
+tags: [mm6, actors, regression]
+steps:
+  - note:
+      text: >-
+        MMMerge's Scripts/Maps/oute3.lua sets Game.HostileTxt[185][0] = 0 after LocalHostileTxt(): the Guard faction
+        (monsters 553-555) is peaceful toward the party on this map, though hostile.txt has it hostile. The map script
+        declares it with SetLocalFactionRelations, which the monster table reads at map load, so it is only the
+        guards' starting attitude: a guard the party strikes turns hostile, and later map events leave it so.
+  - new_game_flow: {start_map: oute3.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 553, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 553, hostile: false, min: 5}
+  - damage_actor: {actor_index: 38, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 38, hostile_to_party: true}
+  - execute_event: {id: 15}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 38, hostile_to_party: true}

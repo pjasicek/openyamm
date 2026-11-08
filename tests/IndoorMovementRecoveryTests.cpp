@@ -607,4 +607,75 @@ TEST_CASE("the scene's monster-only walls stop monsters and nothing else")
     CHECK_LT(walkEast(map, true), 300.0f);
 }
 
+namespace
+{
+// MM9 terrain running on under a buried bridge deck (Ravensford's moat bridge, 2026-11-07): the terrain falls 1 in 4
+// along x and stands 2 over the deck's top (28) at its end (x = 0); the deck is 41 thick, so the terrain meets its
+// underside at x = 172.
+IndoorMapData buriedDeck()
+{
+    IndoorMapData map;
+    map.vertices = {
+        {-400, -256, 130}, {800, -256, -170}, {800, 256, -170}, {-400, 256, 130},
+        {0, -128, 28}, {600, -128, 28}, {600, 128, 28}, {0, 128, 28},
+        {0, -128, -13}, {600, -128, -13}, {600, 128, -13}, {0, 128, -13}
+    };
+    const std::vector<std::pair<std::vector<uint16_t>, uint8_t>> faces = {
+        {{0, 1, 2, 3}, 4},      // terrain
+        {{4, 5, 6, 7}, 3},      // deck top
+        {{11, 10, 9, 8}, 5},    // deck underside
+        {{8, 4, 7, 11}, 1},     // buried end, facing -x
+        {{9, 10, 6, 5}, 1},     // far end, facing +x
+        {{8, 9, 5, 4}, 1},      // side, facing -y
+        {{10, 11, 7, 6}, 1}     // side, facing +y
+    };
+    map.sectors.resize(2);
+    IndoorSector &sector = map.sectors[1];
+    for (const auto &[vertexIndices, facetType] : faces)
+    {
+        const uint16_t faceId = static_cast<uint16_t>(map.faces.size());
+        IndoorFace face;
+        face.vertexIndices = vertexIndices;
+        face.facetType = facetType;
+        face.roomNumber = 1;
+        map.faces.push_back(face);
+        (facetType == 1 ? sector.wallFaceIds : facetType == 5 ? sector.ceilingFaceIds : sector.floorFaceIds)
+            .push_back(faceId);
+        sector.faceIds.push_back(faceId);
+    }
+    sector.minX = -400;
+    sector.maxX = 800;
+    sector.minY = -256;
+    sector.maxY = 256;
+    sector.minZ = -170;
+    sector.maxZ = 1024;
+    sector.nonBspFaceIds = sector.faceIds;
+    sector.floorCount = static_cast<uint16_t>(sector.floorFaceIds.size());
+    sector.wallCount = static_cast<uint16_t>(sector.wallFaceIds.size());
+    sector.ceilingCount = static_cast<uint16_t>(sector.ceilingFaceIds.size());
+    sector.faceCount = sector.nonBspFaceCount = static_cast<uint16_t>(sector.faceIds.size());
+    return map;
+}
+}
+
+TEST_CASE("the party walking down terrain onto a buried bridge deck stands on the deck")
+{
+    // The floor sampled at the feet kept the party on the terrain inside the deck until the terrain met the deck's
+    // underside and trapped it. A floor under the centre within a step over the feet is stood on.
+    const IndoorMapData map = buriedDeck();
+    std::optional<MapDeltaData> delta = MapDeltaData{};
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    IndoorMovementController controller(map, &delta, &events);
+    controller.setSlopeRule(IndoorSlopeRule::Party);
+    const IndoorBodyDimensions body = {};
+    IndoorMoveState state = controller.initializeStateFromEyePosition(-200.0f, 0.0f, 80.0f + body.height, body);
+    REQUIRE(state.grounded);
+    for (int step = 0; step < 50; ++step)
+    {
+        state = controller.resolveMove(state, body, 720.0f, 0.0f, false, 1.0f / 60.0f, nullptr, std::nullopt, true);
+    }
+    CHECK_GT(state.x, 350.0f);
+    CHECK_EQ(state.footZ, doctest::Approx(28.0f));
+}
+
 TEST_SUITE_END();

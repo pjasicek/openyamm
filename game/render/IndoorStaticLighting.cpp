@@ -80,8 +80,9 @@ std::optional<BakedStaticLightSource> bakedStaticLightSourceForDecoration(
     return source;
 }
 
-BakedStaticLightSource bakedStaticLightSourceForIndoorLight(const IndoorLight &light)
+BakedStaticLightSource bakedStaticLightSourceForIndoorLight(const IndoorMapData &indoorMapData, size_t lightId)
 {
+    const IndoorLight &light = indoorMapData.lights[lightId];
     BakedStaticLightSource source = {};
     source.position = {
         static_cast<float>(light.x),
@@ -93,6 +94,8 @@ BakedStaticLightSource bakedStaticLightSourceForIndoorLight(const IndoorLight &l
     source.green = light.green;
     source.blue = light.blue;
     source.alpha = static_cast<float>(IndoorBakedStaticLightAlpha) / 255.0f;
+    source.sourceId = uint32_t(lightId);
+    source.openAir = indoorOpenAirLight(indoorMapData.daylight, lightId);
     return source;
 }
 
@@ -121,8 +124,7 @@ std::vector<BakedStaticLightSource> buildBakedStaticLightSources(
             continue;
         }
 
-        sources.push_back(bakedStaticLightSourceForIndoorLight(light));
-        sources.back().sourceId = uint32_t(lightId);
+        sources.push_back(bakedStaticLightSourceForIndoorLight(indoorMapData, lightId));
     }
 
     if (pDecorationBillboardSet == nullptr)

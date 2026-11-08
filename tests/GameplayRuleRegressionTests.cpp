@@ -39,6 +39,8 @@
 #include "game/party/Party.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/rules/ClassRules.h"
+#include "game/rules/CombatRules.h"
+#include "game/rules/GameRules.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/JournalQuestTable.h"
@@ -1649,28 +1651,6 @@ TEST_CASE("outdoor scenes preserve authored day and night fog profiles")
     CHECK_EQ(fogProfile.strongOpacity, doctest::Approx(1.0f));
     CHECK_EQ(fogProfile.weakDistance, doctest::Approx(64.0f));
     CHECK_EQ(fogProfile.strongDistance, doctest::Approx(11520.0f));
-
-    sceneError.clear();
-    const std::optional<OpenYAMM::Game::OutdoorSceneData> drangheimBaseScene = sceneLoader.loadFromText(
-        loadSourceFileText("assets_dev/worlds/mm9/maps/drangheim.scene.yml"),
-        sceneError);
-    REQUIRE_MESSAGE(drangheimBaseScene.has_value(), sceneError.c_str());
-    CHECK_EQ(drangheimBaseScene->lighting.lightmapBrightnessScale, doctest::Approx(1.25f));
-    CHECK(drangheimBaseScene->environment.weather.fogMode == OpenYAMM::Game::OutdoorFogMode::AuthoredDayNight);
-    CHECK_EQ(drangheimBaseScene->environment.weather.authoredDayFog.distances.weakDistance, 64);
-    CHECK_EQ(drangheimBaseScene->environment.weather.authoredDayFog.distances.strongDistance, 11520);
-
-    OpenYAMM::Game::OutdoorSceneData drangheimScene = *drangheimBaseScene;
-    REQUIRE_MESSAGE(
-        sceneLoader.applyOverlayFromText(
-            drangheimScene,
-            loadSourceFileText("assets_dev/worlds/mm9/maps/drangheim_authored.scene.yml"),
-            sceneError),
-        sceneError.c_str());
-    CHECK_EQ(drangheimScene.environment.weather.authoredDayFog.distances.weakDistance, 6400);
-    CHECK_EQ(drangheimScene.environment.weather.authoredDayFog.distances.strongDistance, 20480);
-    CHECK_EQ(drangheimScene.environment.weather.authoredNightFog.distances.weakDistance, 6400);
-    CHECK_EQ(drangheimScene.environment.weather.authoredNightFog.distances.strongDistance, 20480);
 }
 
 TEST_CASE("outdoor scene surface animations preserve MM9 sprite frame rate")
@@ -2390,82 +2370,6 @@ TEST_CASE("mm7 shoals scene overlay combines always dark fog with underwater tin
     CHECK_EQ(mergedScene.environment.mapExtraBitsRaw, 0x54u);
 }
 
-TEST_CASE("thjorad mine scene imports CaveIn as a typed destructible with its touch trigger")
-{
-    const std::filesystem::path scenePath =
-        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/maps/thjoradmine.scene.yml";
-    std::ifstream sceneFile(scenePath);
-    REQUIRE(sceneFile.good());
-    std::ostringstream sceneText;
-    sceneText << sceneFile.rdbuf();
-
-    OpenYAMM::Game::OutdoorSceneYmlLoader loader = {};
-    std::string errorMessage;
-    const std::optional<OpenYAMM::Game::OutdoorSceneData> scene =
-        loader.loadFromText(sceneText.str(), errorMessage);
-    REQUIRE_MESSAGE(scene.has_value(), errorMessage.c_str());
-
-    const auto firstRockIterator = std::find_if(
-        scene->destructibles.begin(),
-        scene->destructibles.end(),
-        [](const OpenYAMM::Game::OutdoorDestructible &destructible)
-        {
-            return destructible.sourceObjectIndex == 0;
-        });
-    REQUIRE(firstRockIterator != scene->destructibles.end());
-    CHECK_EQ(firstRockIterator->bmodelIndex, 0u);
-    REQUIRE_EQ(firstRockIterator->auxiliaryBmodelIndices.size(), 1u);
-    CHECK_EQ(firstRockIterator->auxiliaryBmodelIndices.front(), 85u);
-
-    const auto caveInIterator = std::find_if(
-        scene->destructibles.begin(),
-        scene->destructibles.end(),
-        [](const OpenYAMM::Game::OutdoorDestructible &destructible)
-        {
-            return destructible.sourceObjectIndex == 595;
-        });
-    REQUIRE(caveInIterator != scene->destructibles.end());
-    CHECK_EQ(caveInIterator->sourceName, "CaveIn");
-    CHECK_EQ(caveInIterator->runtimeObjectId, 900595u);
-    CHECK_EQ(caveInIterator->bmodelIndex, 33u);
-    CHECK_EQ(caveInIterator->initialHp, 1);
-    CHECK_FALSE(caveInIterator->initiallyDamageEnabled);
-    CHECK_EQ(caveInIterator->destructionSound, "Events/stonecrumble.wav");
-    CHECK_EQ(caveInIterator->deathTargetSourceObjectIndex, 596u);
-    CHECK_EQ(caveInIterator->deathMessage, "OneDown");
-
-    const auto receiverIterator = std::find_if(
-        scene->destructibleReceivers.begin(),
-        scene->destructibleReceivers.end(),
-        [](const OpenYAMM::Game::OutdoorDestructibleReceiver &receiver)
-        {
-            return receiver.sourceObjectIndex == 596;
-        });
-    REQUIRE(receiverIterator != scene->destructibleReceivers.end());
-    CHECK_EQ(receiverIterator->sourceName, "CaveInControl");
-    CHECK_EQ(receiverIterator->requiredDestructionCount, 1u);
-    CHECK_EQ(receiverIterator->rewardRawQuestKey, 35);
-    CHECK_EQ(receiverIterator->rewardExperience, 5000u);
-
-    const auto triggerIterator = std::find_if(
-        scene->triggerVolumes.begin(),
-        scene->triggerVolumes.end(),
-        [](const OpenYAMM::Game::OutdoorTriggerVolume &trigger)
-        {
-            return trigger.sourceObjectIndex == 597;
-        });
-    REQUIRE(triggerIterator != scene->triggerVolumes.end());
-    CHECK(triggerIterator->startOn);
-    CHECK_EQ(triggerIterator->x, 7332);
-    CHECK_EQ(triggerIterator->y, 2499);
-    CHECK_EQ(triggerIterator->z, -1393);
-    REQUIRE_EQ(triggerIterator->outputs.size(), 2u);
-    CHECK_EQ(triggerIterator->outputs[0].targetSourceObjectIndex, 595u);
-    CHECK_EQ(triggerIterator->outputs[0].action, OpenYAMM::Game::OutdoorTriggerAction::DamageOn);
-    CHECK_EQ(triggerIterator->outputs[1].targetSourceObjectIndex, 595u);
-    CHECK_EQ(triggerIterator->outputs[1].action, OpenYAMM::Game::OutdoorTriggerAction::Destroy);
-}
-
 TEST_CASE("mm6 outdoor scene overlays restore mmmerge footstep sound overrides")
 {
     OpenYAMM::Game::OutdoorSceneYmlLoader sceneLoader = {};
@@ -2747,7 +2651,8 @@ TEST_CASE("liquids scoped to a world override the shared ones there alone and sh
     OpenYAMM::Game::LiquidTable shipped;
     std::string error;
     REQUIRE_MESSAGE(shipped.loadFromYaml(*liquidYaml, error), error);
-    CHECK_FALSE(shipped.hasShallowLiquids());
+    // Only MM9's rebuilt maps wade their liquids (entries scoped to worlds: [mm9]); the shared ones stay deep.
+    CHECK(shipped.hasShallowLiquids());
 
     // A world's own entry, appended after the shared ones, still wins in that world.
     const std::string scopedYaml = *liquidYaml + R"(
@@ -2768,7 +2673,7 @@ TEST_CASE("liquids scoped to a world override the shared ones there alone and sh
     for (const char *pWorld : {"mm6", "mm7", "mm8", "mm9", ""})
     {
         const OpenYAMM::Game::LiquidTable table = scoped.forWorld(pWorld);
-        CHECK_FALSE(table.hasShallowLiquids());
+        CHECK(table.hasShallowLiquids() == (std::string(pWorld) == "mm9"));
 
         for (const char *pTexture : {"wtrtyl", "wtrdrne", "hdwtr000", "6wtrtyl", "7wtrtyl", "lavtyl", "tartyl"})
         {
@@ -3605,6 +3510,68 @@ TEST_CASE("monster spell_conditions leave each spell slot's condition on a spell
     CHECK_FALSE(missile.test(static_cast<size_t>(CharacterCondition::Cursed)));
 }
 
+TEST_CASE("monster spell_conditions minutes make the condition wear off on the clock")
+{
+    constexpr uint32_t ActorId = 85;
+    using OpenYAMM::Game::CharacterCondition;
+    using OpenYAMM::Game::GameplayActorAttackAbility;
+    constexpr size_t Paralyzed = static_cast<size_t>(CharacterCondition::Paralyzed);
+
+    OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+    MonsterSpecialAttackTestWorldRuntime world = {};
+    world.bindParty(&party);
+    world.advanceGameMinutes(600.0f);
+    world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+        .actorId = ActorId,
+        .monsterLevel = 30,
+        .attackBonus = 1000,
+        .displayName = "Oculus",
+    };
+    // MM9's Paralyze at E10: 1 minute per point in e1, 10 game minutes.
+    world.actorInfo->spell1Condition = OpenYAMM::Game::MonsterSpecialAttackKind::Paralyze;
+    world.actorInfo->spell1ConditionMinutes = 10.0f;
+    OpenYAMM::Game::GameplayCombatController controller = {};
+    controller.recordPartyProjectileImpact(ActorId, 0, 0,
+        static_cast<int>(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Paralyze)), false,
+        OpenYAMM::Game::CombatDamageType::Mind, GameplayActorAttackAbility::Spell1);
+    OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.handleAndClearPendingCombatEvents(context);
+    REQUIRE(party.member(0)->conditions.test(Paralyzed));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Paralyzed] == doctest::Approx(610.0f));
+
+    world.advanceGameMinutes(9.9f);
+    CHECK(party.member(0)->conditions.test(Paralyzed));
+    world.advanceGameMinutes(0.2f);
+    CHECK_FALSE(party.member(0)->conditions.test(Paralyzed));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Paralyzed] == 0.0f);
+}
+
+TEST_CASE("timed conditions: a recast keeps the later end, and until-cured beats any time")
+{
+    using OpenYAMM::Game::CharacterCondition;
+    constexpr size_t Fear = static_cast<size_t>(CharacterCondition::Fear);
+    OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+    party.setGameMinutes(100.0f);
+    REQUIRE(party.applyMemberCondition(0, CharacterCondition::Fear, 100.0f, 130.0f));
+    CHECK(party.applyMemberCondition(0, CharacterCondition::Fear, 101.0f, 120.0f));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Fear] == doctest::Approx(130.0f));
+    CHECK(party.applyMemberCondition(0, CharacterCondition::Fear, 102.0f, 140.0f));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Fear] == doctest::Approx(140.0f));
+    // An MM6-MM8 fear (no time) lasts until cured.
+    CHECK(party.applyMemberCondition(0, CharacterCondition::Fear, 103.0f));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Fear] == 0.0f);
+    CHECK(party.applyMemberCondition(0, CharacterCondition::Fear, 104.0f, 150.0f));
+    party.setGameMinutes(1000.0f);
+    CHECK(party.member(0)->conditions.test(Fear));
+
+    // A cure drops the time with the condition; the next timed one starts afresh.
+    CHECK(party.clearMemberCondition(0, CharacterCondition::Fear));
+    CHECK(party.member(0)->conditionExpireGameMinutes[Fear] == 0.0f);
+    CHECK(party.applyMemberCondition(0, CharacterCondition::Fear, 1000.0f, 1005.0f));
+    party.setGameMinutes(1005.0f);
+    CHECK_FALSE(party.member(0)->conditions.test(Fear));
+}
+
 TEST_CASE("monster spell_conditions apply on a spell hit that deals no damage")
 {
     constexpr uint32_t ActorId = 82;
@@ -4250,6 +4217,167 @@ TEST_CASE("blaster attack tuning can add scaling skill damage and minimum recove
     CHECK_EQ(grandmasterProfile.rangedMaxDamage, defaultProfile.rangedMaxDamage + 10);
 }
 
+namespace
+{
+uint32_t findCommonItemIdBySkillGroup(const OpenYAMM::Game::ItemTable &itemTable, const std::string &skillGroup)
+{
+    for (const OpenYAMM::Game::ItemDefinition &entry : itemTable.entries())
+    {
+        if (entry.itemId != 0 && entry.skillGroup == skillGroup && entry.rarity == OpenYAMM::Game::ItemRarity::Common)
+        {
+            return entry.itemId;
+        }
+    }
+
+    return 0;
+}
+
+OpenYAMM::Game::Party makeEnchantedWeaponParty(const OpenYAMM::Tests::RegressionGameData &gameData)
+{
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+    OpenYAMM::Game::PartySeed seed = {};
+    OpenYAMM::Game::Character archer = makeRegressionPartyMember("Ariel", "Archer", "PC01-01", 1);
+    archer.skills["Bow"] = {"Bow", 10, OpenYAMM::Game::SkillMastery::Master};
+    archer.skills["Sword"] = {"Sword", 1, OpenYAMM::Game::SkillMastery::Normal};
+    archer.equipment.mainHand = findCommonItemIdBySkillGroup(gameData.itemTable, "Sword");
+    archer.equipment.bow = findCommonItemIdBySkillGroup(gameData.itemTable, "Bow");
+    seed.members = {archer};
+    party.seed(seed);
+    return party;
+}
+}
+
+TEST_CASE("a melee weapon's elemental enchantment does not reach arrows")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::optional<uint16_t> infernosId =
+        findSpecialEnchantId(gameData.specialItemEnchantTable, OpenYAMM::Game::SpecialItemEnchantKind::Infernos);
+    REQUIRE(infernosId.has_value());
+    OpenYAMM::Game::Party party = makeEnchantedWeaponParty(gameData);
+    OpenYAMM::Game::Character &archer = *party.member(0);
+    REQUIRE(archer.equipment.mainHand != 0);
+    REQUIRE(archer.equipment.bow != 0);
+    party.refreshDerivedState();
+
+    const OpenYAMM::Game::CharacterAttackProfile plainProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(archer, &gameData.itemTable, &gameData.spellTable);
+    const OpenYAMM::Game::CharacterSheetSummary plainSheet = OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(
+        archer, &gameData.itemTable, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+
+    // Fire Aura or an Infernos sword: the blow gains 3-18 fire, the arrow nothing.
+    archer.equipmentRuntime.mainHand.specialEnchantId = *infernosId;
+    party.refreshDerivedState();
+    const OpenYAMM::Game::CharacterAttackProfile swordProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(archer, &gameData.itemTable, &gameData.spellTable);
+    const OpenYAMM::Game::CharacterSheetSummary swordSheet = OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(
+        archer, &gameData.itemTable, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+
+    CHECK_EQ(swordProfile.rangedMinDamage, plainProfile.rangedMinDamage);
+    CHECK_EQ(swordProfile.rangedMaxDamage, plainProfile.rangedMaxDamage);
+    CHECK_EQ(swordSheet.combat.rangedDamageText, plainSheet.combat.rangedDamageText);
+    CHECK_NE(swordSheet.combat.meleeDamageText, plainSheet.combat.meleeDamageText);
+    CHECK_EQ(
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
+            archer,
+            OpenYAMM::Game::CharacterAttackMode::Bow,
+            &gameData.itemTable,
+            &gameData.specialItemEnchantTable).maximum.total(),
+        0);
+
+    const OpenYAMM::Game::ElementalDamageRange meleeRange =
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
+            archer,
+            OpenYAMM::Game::CharacterAttackMode::Melee,
+            &gameData.itemTable,
+            &gameData.specialItemEnchantTable);
+    CHECK_EQ(meleeRange.minimum.fire, 3);
+    CHECK_EQ(meleeRange.maximum.fire, 18);
+}
+
+TEST_CASE("Heroism adds to melee damage only")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeEnchantedWeaponParty(gameData);
+    party.refreshDerivedState();
+    const OpenYAMM::Game::Character before = *party.member(0);
+
+    party.applyPartyBuff(
+        OpenYAMM::Game::PartyBuffId::Heroism, 3600.0f, 15, 51, 10, OpenYAMM::Game::SkillMastery::Master, 0);
+    party.refreshDerivedState();
+    const OpenYAMM::Game::Character &after = *party.member(0);
+
+    CHECK_EQ(after.magicalBonuses.meleeDamage, before.magicalBonuses.meleeDamage + 15);
+    CHECK_EQ(after.magicalBonuses.rangedDamage, before.magicalBonuses.rangedDamage);
+    const OpenYAMM::Game::CharacterAttackProfile beforeProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(before, &gameData.itemTable, &gameData.spellTable);
+    const OpenYAMM::Game::CharacterAttackProfile afterProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(after, &gameData.itemTable, &gameData.spellTable);
+    CHECK_EQ(afterProfile.rangedMinDamage, beforeProfile.rangedMinDamage);
+    CHECK_EQ(afterProfile.rangedMaxDamage, beforeProfile.rangedMaxDamage);
+}
+
+TEST_CASE("an arrow's bow enchantment rolls its range and is resisted by its element")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::optional<uint16_t> infernosId =
+        findSpecialEnchantId(gameData.specialItemEnchantTable, OpenYAMM::Game::SpecialItemEnchantKind::Infernos);
+    REQUIRE(infernosId.has_value());
+    OpenYAMM::Game::Party party = makeEnchantedWeaponParty(gameData);
+    party.member(0)->equipmentRuntime.bow.specialEnchantId = *infernosId;
+    party.refreshDerivedState();
+
+    OpenYAMM::Game::GameplayProjectileService::ProjectileState arrow = {};
+    arrow.sourceKind = OpenYAMM::Game::GameplayProjectileService::ProjectileState::SourceKind::Party;
+    arrow.sourcePartyMemberIndex = 0;
+    arrow.damageType = OpenYAMM::Game::CombatDamageType::Physical;
+
+    const auto strike = [&](const OpenYAMM::Game::MonsterDamageResistances &resistances, uint32_t seed, int &fire)
+    {
+        std::mt19937 rng(seed);
+        OpenYAMM::Game::PartyMissileSource source = {};
+        source.pAttacker = party.member(0);
+        source.pItemTable = &gameData.itemTable;
+        source.resistances = resistances;
+        OpenYAMM::Game::GameplayProjectileService::addPartyArrowElements(
+            source, arrow, &party, &gameData.itemTable, rng);
+        REQUIRE(source.weaponElements.has_value());
+        fire = source.weaponElements->fire;
+        return OpenYAMM::Game::resolveDamageToMonster(
+            party.rules().combat,
+            10,
+            OpenYAMM::Game::CombatDamageType::Physical,
+            resistances.physical,
+            0,
+            rng,
+            {},
+            {},
+            source);
+    };
+
+    OpenYAMM::Game::MonsterDamageResistances fireImmune = {};
+    fireImmune.fire = 200;
+    OpenYAMM::Game::MonsterDamageResistances physicalImmune = {};
+    physicalImmune.physical = 200;
+    int lowest = 100;
+    int highest = 0;
+
+    for (uint32_t seed = 1; seed <= 200; ++seed)
+    {
+        int fire = 0;
+        CHECK_EQ(strike(fireImmune, seed, fire), 10);
+        CHECK(fire >= 3);
+        CHECK(fire <= 18);
+        CHECK_EQ(strike(physicalImmune, seed, fire), fire);
+        lowest = std::min(lowest, fire);
+        highest = std::max(highest, fire);
+    }
+
+    CHECK(lowest < 8);
+    CHECK(highest > 13);
+}
+
 TEST_CASE("spell damage buffs do not increase blaster attack damage")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -4270,7 +4398,7 @@ TEST_CASE("spell damage buffs do not increase blaster attack damage")
     buffedMember.magicalBonuses.might += 100;
     buffedMember.magicalBonuses.meleeDamage += 50;
     buffedMember.magicalBonuses.rangedDamage += 50;
-    buffedMember.weaponEnchantmentDamageBonus += 18;
+    buffedMember.rangedWeaponDamageBonus += 18;
 
     const OpenYAMM::Game::CharacterAttackProfile buffedProfile =
         OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(

@@ -1,5 +1,6 @@
 #include "game/ui/SpellbookUiLayout.h"
 
+#include "engine/Localization.h"
 #include "game/party/SpellIds.h"
 
 #include <array>
@@ -76,34 +77,35 @@ const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinitionForSpellId(uin
     return nullptr;
 }
 
+// English names (the display translates them); each view is of a literal, so data() ends with its terminator.
 const char *spellbookSchoolDisplayName(SpellbookSchool school)
 {
     switch (school)
     {
         case SpellbookSchool::Fire:
-            return "Fire Magic";
+            return Engine::trNoop("Fire Magic").data();
         case SpellbookSchool::Air:
-            return "Air Magic";
+            return Engine::trNoop("Air Magic").data();
         case SpellbookSchool::Water:
-            return "Water Magic";
+            return Engine::trNoop("Water Magic").data();
         case SpellbookSchool::Earth:
-            return "Earth Magic";
+            return Engine::trNoop("Earth Magic").data();
         case SpellbookSchool::Spirit:
-            return "Spirit Magic";
+            return Engine::trNoop("Spirit Magic").data();
         case SpellbookSchool::Mind:
-            return "Mind Magic";
+            return Engine::trNoop("Mind Magic").data();
         case SpellbookSchool::Body:
-            return "Body Magic";
+            return Engine::trNoop("Body Magic").data();
         case SpellbookSchool::Light:
-            return "Light Magic";
+            return Engine::trNoop("Light Magic").data();
         case SpellbookSchool::Dark:
-            return "Dark Magic";
+            return Engine::trNoop("Dark Magic").data();
         case SpellbookSchool::DarkElf:
-            return "Dark Elf Ability";
+            return Engine::trNoop("Dark Elf Ability").data();
         case SpellbookSchool::Vampire:
-            return "Vampire Ability";
+            return Engine::trNoop("Vampire Ability").data();
         case SpellbookSchool::Dragon:
-            return "Dragon Ability";
+            return Engine::trNoop("Dragon Ability").data();
     }
 
     return "";

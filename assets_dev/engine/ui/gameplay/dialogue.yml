@@ -288,6 +288,116 @@ elements:
       align_x: center
       align_y: middle
       scale: 0.416667
+  # Text styles of a Ledger shop's Buy list (HouseShopLedger, MM9's merchant list); GameplayHouseShopLedgerRenderer
+  # places them inside DialogueShopOverlayFrame. Design: level_generation/ui/mm9_shop_buy_study_20261105/.
+  - id: DialogueShopLedgerName
+    anchor: top_left
+    visible: false
+    width: 240
+    height: 16
+    text:
+      value: '{name}'
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+      scale: 0.85
+  - id: DialogueShopLedgerDetail
+    anchor: top_left
+    visible: false
+    width: 240
+    height: 12
+    text:
+      value: '{detail}'
+      font: SMALLNUM
+      color: '#a59d8b'
+      align_x: left
+      align_y: top
+      scale: 0.85
+  - id: DialogueShopLedgerStat
+    anchor: top_left
+    visible: false
+    width: 76
+    height: 36
+    text:
+      value: '{stat}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+      scale: 0.85
+  - id: DialogueShopLedgerPrice
+    anchor: top_left
+    visible: false
+    width: 56
+    height: 36
+    text:
+      value: '{price}'
+      font: Arrus
+      color: '#e6c36c'
+      align_x: right
+      align_y: middle
+      scale: 0.85
+  - id: DialogueShopLedgerCount
+    anchor: top_left
+    visible: false
+    width: 30
+    height: 16
+    text:
+      value: '{count}'
+      font: SMALLNUM
+      color: '#e6c36c'
+      align_x: left
+      align_y: top
+      scale: 0.85
+  - id: DialogueShopLedgerColumn
+    anchor: top_left
+    visible: false
+    width: 60
+    height: 10
+    text:
+      value: '{column}'
+      font: SMALLNUM
+      color: '#a59d8b'
+      align_x: left
+      align_y: middle
+      scale: 0.75
+  - id: DialogueShopLedgerChip
+    anchor: top_left
+    visible: false
+    width: 60
+    height: 14
+    text:
+      value: '{tab}'
+      font: Fondamento
+      color: '#a59d8b'
+      align_x: center
+      align_y: middle
+      scale: 0.27
+  - id: DialogueShopLedgerLane
+    anchor: top_left
+    visible: false
+    width: 120
+    height: 14
+    text:
+      value: '{lane}'
+      font: Fondamento
+      color: '#e4c793'
+      align_x: right
+      align_y: middle
+      scale: 0.3
+  - id: DialogueShopLedgerFooter
+    anchor: top_left
+    visible: false
+    width: 200
+    height: 11
+    text:
+      value: '{footer}'
+      font: SMALLNUM
+      color: '#a59d8b'
+      align_x: left
+      align_y: middle
+      scale: 0.75
   - id: DialogueOkButton
     anchor: bottom_right
     offset_x: -37

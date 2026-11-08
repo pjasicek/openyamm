@@ -13,9 +13,11 @@ namespace OpenYAMM::Game
 class WeatherAudio
 {
 public:
-    // New strikes join the thunder queue; nothing plays while inaudible (underwater), but loops keep their state.
+    // New strikes join the thunder queue. Audibility 1 is in the open, 0 inaudible (underwater: nothing plays, but
+    // loops keep their state), and between is under cover (an open-sky indoor map's houses and tunnels): the rain
+    // and wind loops at that share, thunder at its square root (it carries through walls).
     void update(GameAudioSystem &audio, const WeatherSounds &sounds, const WeatherPresentation &weather,
-        const std::vector<LightningStrike> &strikes, bool audible, float deltaSeconds);
+        const std::vector<LightningStrike> &strikes, float audibility, float deltaSeconds);
     void stop(GameAudioSystem &audio);
     // Clears loop handles without touching the audio system (it was shut down or reset).
     void forget();

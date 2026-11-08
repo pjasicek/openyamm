@@ -1,5 +1,6 @@
 #include "game/ui/screens/WinGameScreen.h"
 
+#include "engine/Localization.h"
 #include "engine/Utf8Text.h"
 
 #include <SDL3/SDL.h>
@@ -129,10 +130,13 @@ std::vector<WinGameScreen::TextLine> WinGameScreen::layoutLines(float zoneWidth)
     if (!original)
     {
         add(wordmark(), HeadingFont, 42.0f, AccentColor, 0.0f);
-        add("Certificate of Completion", BodyFont, 24.0f, AccentColor, 2.0f);
+        add(Engine::tr("Certificate of Completion"), BodyFont, 24.0f, AccentColor, 2.0f);
     }
 
-    add(m_certificate.headline, pHeadingFont, original ? 76.0f : 62.0f, inkColor, original ? 0.0f : 14.0f);
+    if (!original || m_certificate.originalLayout.drawHeadline)
+    {
+        add(m_certificate.headline, pHeadingFont, original ? 76.0f : 62.0f, inkColor, original ? 0.0f : 14.0f);
+    }
     header = false;
 
     for (size_t index = 0; index < m_certificate.worldLines.size(); ++index)
@@ -180,7 +184,7 @@ std::vector<WinGameScreen::TextLine> WinGameScreen::layoutLines(float zoneWidth)
         add(results, pBodyFont, resultSize, inkColor, 24.0f);
     }
 
-    add(m_certificate.dateLine.empty() ? "" : "Completed on " + m_certificate.dateLine,
+    add(m_certificate.dateLine.empty() ? "" : Engine::tr("Completed on {date}", {{"date", m_certificate.dateLine}}),
         pBodyFont, original ? 46.0f : 22.0f, mutedColor, 6.0f);
     return lines;
 }

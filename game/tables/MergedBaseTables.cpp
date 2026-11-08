@@ -1,4 +1,5 @@
 #include "game/tables/MergedBaseTables.h"
+#include "engine/Localization.h"
 
 #include "game/party/SkillData.h"
 
@@ -1205,7 +1206,7 @@ std::string MergedNpcProfessionTable::nameAndTitle(const std::string &name, uint
         return name;
     }
 
-    return name + " the " + pProfession->profession;
+    return Engine::tr("{name} the {profession}", {{"name", name}, {"profession", pProfession->profession}});
 }
 
 bool MergedNpcNameTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -1948,6 +1949,7 @@ bool MergedCharacterVoiceTable::loadFromRows(const std::vector<std::vector<std::
         for (size_t columnIndex = 1; columnIndex < row.size(); ++columnIndex)
         {
             entry.soundIdsByVoiceSetId.push_back(parseOptionalUnsigned(row, columnIndex));
+            entry.cellsByVoiceSetId.push_back(trimCopy(row[columnIndex]));
         }
 
         m_entries.push_back(std::move(entry));
@@ -1993,6 +1995,46 @@ std::vector<uint32_t> MergedCharacterVoiceTable::soundIdsForTypes(
     }
 
     return soundIds;
+}
+
+std::string MergedCharacterVoiceTable::voiceSetProperty(uint32_t voiceSetId, std::string_view rowName) const
+{
+    const std::string requested = normalizedKey(std::string(rowName));
+
+    for (const MergedCharacterVoiceEntry &entry : m_entries)
+    {
+        if (normalizedKey(entry.soundType) == requested && voiceSetId < entry.cellsByVoiceSetId.size())
+        {
+            return entry.cellsByVoiceSetId[voiceSetId];
+        }
+    }
+
+    return {};
+}
+
+std::vector<uint32_t> MergedCharacterVoiceTable::voiceSetsOfWorld(std::string_view worldId) const
+{
+    std::vector<uint32_t> voiceSetIds;
+    const std::string requested = normalizedKey(std::string(worldId));
+
+    for (const MergedCharacterVoiceEntry &entry : m_entries)
+    {
+        if (normalizedKey(entry.soundType) != "world")
+        {
+            continue;
+        }
+
+        for (size_t voiceSetId = 0; voiceSetId < entry.cellsByVoiceSetId.size(); ++voiceSetId)
+        {
+            if (!entry.cellsByVoiceSetId[voiceSetId].empty()
+                && normalizedKey(entry.cellsByVoiceSetId[voiceSetId]) == requested)
+            {
+                voiceSetIds.push_back(uint32_t(voiceSetId));
+            }
+        }
+    }
+
+    return voiceSetIds;
 }
 
 bool MergedClassStartingStatTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)

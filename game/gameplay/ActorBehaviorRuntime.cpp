@@ -1,4 +1,5 @@
 #include "game/gameplay/ActorBehaviorRuntime.h"
+#include "engine/Localization.h"
 #include "game/gameplay/Mm9ActorRules.h"
 
 #include "game/audio/SoundRef.h"
@@ -548,7 +549,8 @@ int luaSelfRandom(lua_State *pLuaState)
 
 int luaSelfSay(lua_State *pLuaState)
 {
-    callContext(pLuaState).pResult->statusMessages.push_back(luaL_checkstring(pLuaState, 2));
+    // A behaviour's line, in the interface language as the evt bindings show theirs.
+    callContext(pLuaState).pResult->statusMessages.push_back(Engine::localize(luaL_checkstring(pLuaState, 2)));
     return 0;
 }
 
@@ -559,15 +561,32 @@ int luaSelfPlaySound(lua_State *pLuaState)
     return 0;
 }
 
-// effect(id [, scale [, heightFraction]]): heightFraction 0 is the feet, 1 the head (default 0.5).
+// effect(id [, scale [, heightFraction [, forward]]]): heightFraction 0 is the feet, 1 the head (default 0.5); forward
+// moves it that far along the actor's facing (a dragon's snout).
 int luaSelfEffect(lua_State *pLuaState)
 {
     const ActorBehaviorRuntime::LuaCallContext &context = callContext(pLuaState);
     const float scale = static_cast<float>(luaL_optnumber(pLuaState, 3, 1.0));
     const float heightFraction = static_cast<float>(luaL_optnumber(pLuaState, 4, 0.5));
+    const float forward = static_cast<float>(luaL_optnumber(pLuaState, 5, 0.0));
     luaL_argcheck(pLuaState, std::isfinite(scale) && scale > 0.0f, 3, "effect scale must be positive");
+    luaL_argcheck(pLuaState, std::isfinite(forward), 5, "effect forward must be finite");
     GameplayWorldPoint position = context.pActor->position;
+    position.x += std::cos(context.pActor->yawRadians) * forward;
+    position.y += std::sin(context.pActor->yawRadians) * forward;
     position.z += context.pActor->height * heightFraction;
+    context.pResult->effects.push_back({luaL_checkstring(pLuaState, 2), position, scale});
+    return 0;
+}
+
+// effectAt(id, x, y, z [, scale]): the effect at a world point (a summoner's spawn location).
+int luaSelfEffectAt(lua_State *pLuaState)
+{
+    const ActorBehaviorRuntime::LuaCallContext &context = callContext(pLuaState);
+    const GameplayWorldPoint position = {static_cast<float>(luaL_checknumber(pLuaState, 3)),
+        static_cast<float>(luaL_checknumber(pLuaState, 4)), static_cast<float>(luaL_checknumber(pLuaState, 5))};
+    const float scale = static_cast<float>(luaL_optnumber(pLuaState, 6, 1.0));
+    luaL_argcheck(pLuaState, std::isfinite(scale) && scale > 0.0f, 6, "effect scale must be positive");
     context.pResult->effects.push_back({luaL_checkstring(pLuaState, 2), position, scale});
     return 0;
 }
@@ -1364,6 +1383,7 @@ const luaL_Reg SelfMethods[] = {
     {"say", luaSelfSay},
     {"playSound", luaSelfPlaySound},
     {"effect", luaSelfEffect},
+    {"effectAt", luaSelfEffectAt},
     {"perform", luaSelfPerform},
     {"isPerforming", luaSelfIsPerforming},
     {"addWard", luaSelfAddWard},

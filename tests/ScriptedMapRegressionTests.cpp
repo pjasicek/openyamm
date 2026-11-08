@@ -1959,6 +1959,8 @@ TEST_CASE("mm7 and mm8 ore crafting consumes one ore from any party member and c
                 REQUIRE_EQ(state.grantedItems.size(), 1u);
                 CHECK_NE(state.grantedItems.front().objectDescriptionId, oreId);
                 party.applyEventRuntimeState(state);
+                // Handed over, as the game does (applyGrantedEventItemsToHeldInventory): granted items wait for it.
+                state.grantedItems.clear();
             }
 
             REQUIRE(eventRuntime.executeNpcTopicEventById(
@@ -2443,36 +2445,55 @@ TEST_CASE("mm6 new sorpigal tree event stores decoration sprite override")
     CHECK_EQ(*overrideIterator->second.textureName, "6tree06");
 }
 
-TEST_CASE("mm6 monthly shrines reward in the legacy month and respect pilgrimage completion")
+TEST_CASE("mm6 monthly shrines reward in their month and name the Seer when the pilgrimage is done")
 {
     using namespace OpenYAMM::Game;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::filesystem::path mapsDirectory = sourceRoot / "assets_dev/worlds/mm6/events/maps";
     const std::optional<std::string> supportLua =
         readSourceTextFile(sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
+    const std::optional<std::string> commonLua =
+        readSourceTextFile(sourceRoot / "assets_dev/worlds/mm6/events/common/mm6_common.lua");
     REQUIRE(supportLua.has_value());
+    REQUIRE(commonLua.has_value());
 
     struct ShrineCase
     {
         const char *pMapName;
+        uint16_t eventId;
         int month;
-        EvtVariable reward;
+        std::vector<EvtVariable> rewards;
     };
-    const std::array<ShrineCase, 4> shrines = {{
-        {"outd2", 0, EvtVariable::BaseMight},
-        {"oute2", 1, EvtVariable::BaseIntellect},
-        {"oute3", 6, EvtVariable::BaseLuck},
-        {"outb2", 11, EvtVariable::FireResistance}
+    const std::array<ShrineCase, 12> shrines = {{
+        {"outd2", 261, 0, {EvtVariable::BaseMight}},
+        {"oute2", 261, 1, {EvtVariable::BaseIntellect}},
+        {"outd1", 261, 2, {EvtVariable::BasePersonality}},
+        {"outc1", 261, 3, {EvtVariable::BaseEndurance}},
+        {"outc2", 261, 4, {EvtVariable::BaseAccuracy}},
+        {"outc3", 261, 5, {EvtVariable::BaseSpeed}},
+        {"oute3", 261, 6, {EvtVariable::BaseLuck}},
+        {"outb1", 262, 7, {EvtVariable::FireResistance}},
+        {"outd3", 261, 8, {EvtVariable::AirResistance}},
+        {"outb1", 261, 9, {EvtVariable::WaterResistance}},
+        {"oute1", 261, 10, {EvtVariable::EarthResistance}},
+        {"outb2", 261, 11, {EvtVariable::MindResistance, EvtVariable::BodyResistance, EvtVariable::SpiritResistance}},
     }};
 
     for (const ShrineCase &shrine : shrines)
     {
         CAPTURE(std::string(shrine.pMapName));
-        const std::optional<std::string> mapLua = readSourceTextFile(
-            sourceRoot / "assets_dev/worlds/mm6/events/maps" / (std::string(shrine.pMapName) + ".lua"));
+        CAPTURE(shrine.month);
+        const std::string mapName = shrine.pMapName;
+        const std::optional<std::string> mapLua = readSourceTextFile(mapsDirectory / (mapName + ".lua"));
+        const std::optional<std::string> shrineLua = readSourceTextFile(mapsDirectory / (mapName + "_shrine.lua"));
         REQUIRE(mapLua.has_value());
+        REQUIRE(shrineLua.has_value());
         std::string error;
         const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
-            *supportLua + "\n\n" + *mapLua, "@monthly-shrine.lua", ScriptedEventScope::Map, error);
+            *supportLua + "\n\n" + *commonLua + "\n\n" + *mapLua + "\n\n" + *shrineLua,
+            "@monthly-shrine.lua",
+            ScriptedEventScope::Map,
+            error);
         REQUIRE_MESSAGE(program.has_value(), error.c_str());
 
         PartySeed seed = {};
@@ -2482,39 +2503,56 @@ TEST_CASE("mm6 monthly shrines reward in the legacy month and respect pilgrimage
         EventRuntime runtime = {};
         EventRuntimeState state = {};
         RecordingSceneEventContext context = {};
-        const EventRuntime::VariableRef reward = EventRuntime::decodeVariable(static_cast<uint32_t>(shrine.reward));
-        const int32_t initialValue = EventRuntime::getVariableValue(state, reward, &party, 0);
+        std::vector<EventRuntime::VariableRef> rewards;
+        std::vector<int32_t> initialValues;
+
+        for (EvtVariable reward : shrine.rewards)
+        {
+            rewards.push_back(EventRuntime::decodeVariable(static_cast<uint32_t>(reward)));
+            initialValues.push_back(EventRuntime::getVariableValue(state, rewards.back(), &party, 0));
+        }
+
+        const auto checkRewards = [&](int32_t expectedGain)
+        {
+            for (size_t rewardIndex = 0; rewardIndex < rewards.size(); ++rewardIndex)
+            {
+                for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+                {
+                    CHECK_EQ(
+                        EventRuntime::getVariableValue(state, rewards[rewardIndex], &party, memberIndex),
+                        initialValues[rewardIndex] + expectedGain);
+                }
+            }
+        };
         const uint32_t firstVisitBit = 1231u + shrine.month;
 
         context.setCurrentGameMinutes(((shrine.month + 11) % 12) * 28 * 1440.0f);
-        REQUIRE(runtime.executeEventById(program, std::nullopt, 261, state, &party, &context));
+        REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
         CHECK_FALSE(party.hasQuestBit(1230));
         CHECK_FALSE(party.hasQuestBit(firstVisitBit));
         REQUIRE_FALSE(state.statusMessages.empty());
         CHECK_EQ(state.statusMessages.back(), "You pray at the shrine.");
+        checkRewards(0);
 
         context.setCurrentGameMinutes(shrine.month * 28 * 1440.0f);
-        REQUIRE(runtime.executeEventById(program, std::nullopt, 261, state, &party, &context));
+        REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
         CHECK(party.hasQuestBit(1230));
         CHECK(party.hasQuestBit(firstVisitBit));
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-        {
-            CHECK_EQ(EventRuntime::getVariableValue(state, reward, &party, memberIndex), initialValue + 10);
-        }
+        CHECK(state.statusMessages.back().starts_with("+10 "));
+        checkRewards(10);
 
-        REQUIRE(runtime.executeEventById(program, std::nullopt, 261, state, &party, &context));
-        CHECK_EQ(EventRuntime::getVariableValue(state, reward, &party, 0), initialValue + 10);
-        CHECK_EQ(state.statusMessages.back(), "You pray at the shrine.");
+        // In its month, but the shared pilgrimage bit is set: say so instead of the wrong-month text.
+        REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
+        CHECK_EQ(state.statusMessages.back(), "The shrine is silent. Ask the Seer about your next pilgrimage.");
+        checkRewards(10);
 
         // The Seer clears the shared completion bit for another eligible pilgrimage.
         party.setQuestBit(1230, false);
         context.setCurrentGameMinutes((336 + shrine.month * 28 + 27) * 1440.0f);
-        REQUIRE(runtime.executeEventById(program, std::nullopt, 261, state, &party, &context));
+        REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
         CHECK(party.hasQuestBit(1230));
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-        {
-            CHECK_EQ(EventRuntime::getVariableValue(state, reward, &party, memberIndex), initialValue + 13);
-        }
+        CHECK(state.statusMessages.back().starts_with("+3 "));
+        checkRewards(13);
     }
 }
 
@@ -6003,6 +6041,8 @@ TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
     freshState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 6;
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, freshState, &freshParty));
     CHECK_EQ(freshParty.historyEventTimes(2).at(24), 360);
+    // Handed over, as the game does (applyGrantedEventItemsToHeldInventory): granted items wait for it.
+    freshState.grantedItems.clear();
     freshState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 7;
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, freshState, &freshParty));
     CHECK_EQ(freshParty.historyEventTimes(2).at(24), 360);
@@ -6546,12 +6586,17 @@ TEST_CASE("mm6 outdoor mmmerge supplements unlock local town portal destinations
                 testCase.dragonTowerFaceIndex);
         CHECK_FALSE(runtimeState.outdoorModelFacetTextureOverrides.contains(textureKey));
 
+        // The map's own hostile.txt cell (faction numbers): the faction is peaceful toward the party (0) here.
         if (testCase.peacefulMonsterKind != 0)
         {
-            const uint32_t relationKey =
-                OpenYAMM::Game::EventRuntime::monsterRelationOverrideKey(testCase.peacefulMonsterKind, 0);
-            REQUIRE(runtimeState.monsterRelationOverrides.contains(relationKey));
-            CHECK_EQ(runtimeState.monsterRelationOverrides.at(relationKey), 0);
+            const std::vector<OpenYAMM::Game::ScriptedEventProgram::FactionRelation> &relations =
+                localEventProgram->factionRelations();
+            CHECK(std::any_of(relations.begin(), relations.end(),
+                [&testCase](const OpenYAMM::Game::ScriptedEventProgram::FactionRelation &relation)
+                {
+                    return relation.faction == testCase.peacefulMonsterKind && relation.otherFaction == 0
+                        && relation.relation == 0;
+                }));
         }
 
         OpenYAMM::Game::EventRuntimeState towerState = {};

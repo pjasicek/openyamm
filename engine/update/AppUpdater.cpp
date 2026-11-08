@@ -3,6 +3,7 @@
 #include "engine/AssetPackIndex.h"
 #include "engine/update/Sha256.h"
 
+#include <algorithm>
 #include <physfs.h>
 
 #include <array>
@@ -184,13 +185,20 @@ void removeLegacyRelease(const AppInstallation &installation, std::ostream &log)
 }
 }
 
-UpdatePlan planUpdate(const ReleaseManifest &manifest, const std::filesystem::path &packStore, bool includeApp)
+UpdatePlan planUpdate(const ReleaseManifest &manifest, const std::filesystem::path &packStore, bool includeApp,
+                      const std::vector<std::string> &languages)
 {
     UpdatePlan plan;
 
     for (size_t index = 0; index < manifest.packs.size(); ++index)
     {
         const AssetPackRecord &pack = manifest.packs[index];
+
+        if (!pack.language.empty() && std::find(languages.begin(), languages.end(), pack.language) == languages.end())
+        {
+            continue;
+        }
+
         std::error_code error;
         const uintmax_t size = std::filesystem::file_size(packStore / pack.file, error);
 
@@ -250,6 +258,11 @@ AppUpdater::~AppUpdater()
 void AppUpdater::setTrustedKeys(std::vector<ManifestPublicKey> keys)
 {
     m_trustedKeys = std::move(keys);
+}
+
+void AppUpdater::setLanguages(std::vector<std::string> languages)
+{
+    m_languages = std::move(languages);
 }
 
 void AppUpdater::check()
@@ -396,7 +409,7 @@ void AppUpdater::runCheck()
     {
         // The installed version itself: complete when all of its packs are there, else a fresh installation whose
         // small package carries no packs. Its index must name exactly the published packs.
-        if (planUpdate(*manifest, m_installation.packStore(), false).packsToDownload.empty())
+        if (planUpdate(*manifest, m_installation.packStore(), false, m_languages).packsToDownload.empty())
         {
             std::lock_guard<std::mutex> lock(m_mutex);
             m_status.release = manifest->release;
@@ -444,7 +457,7 @@ void AppUpdater::runCheck()
         return;
     }
 
-    const UpdatePlan plan = planUpdate(*manifest, m_installation.packStore(), !contentOnly);
+    const UpdatePlan plan = planUpdate(*manifest, m_installation.packStore(), !contentOnly, m_languages);
     m_status.state = UpdateState::Available;
     m_status.contentOnly = contentOnly;
     m_status.totalBytes = plan.downloadBytes;
@@ -578,7 +591,7 @@ void AppUpdater::runDownload()
 
     const ReleaseManifest &manifest = *m_manifest;
     const bool contentOnly = status().contentOnly;
-    const UpdatePlan plan = planUpdate(manifest, m_installation.packStore(), !contentOnly);
+    const UpdatePlan plan = planUpdate(manifest, m_installation.packStore(), !contentOnly, m_languages);
     std::error_code fileError;
     std::filesystem::create_directories(m_installation.updateDirectory(), fileError);
     std::filesystem::create_directories(m_installation.packStore(), fileError);

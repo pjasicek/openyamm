@@ -1,4 +1,5 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
+#include "engine/Localization.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -365,7 +366,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, i
 
             if (normalizedLayoutId == "chestinventorybutton" && view.inventoryNestedOverlay().active)
             {
-                label = "Chest";
+                label = Engine::tr("Chest");
             }
 
             view.renderLayoutLabel(*pLayout, *resolved, label);

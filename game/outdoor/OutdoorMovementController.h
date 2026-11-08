@@ -170,7 +170,8 @@ public:
         float y,
         float footZHint,
         float bodyRadius,
-        float stepUp) const;
+        float stepUp,
+        bool keepHeight = false) const;
     OutdoorMoveState initializeActorStateForBody(
         float x,
         float y,

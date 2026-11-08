@@ -102,6 +102,11 @@ enum class KeyboardAction : uint8_t
     QuickItem6,
     QuickSave,
     QuickLoad,
+    // MM9's formation screen (the MM9 world, world.yml formations). MM9 opens it with F, OpenYAMM's Attack key, so it
+    // defaults to O (PARTYORDER, MM9's art for the screen).
+    PartyFormation,
+    // The playthrough statistics (the Quick Reference overlay's Statistics page). Every letter is taken: F1.
+    Statistics,
     Count
 };
 

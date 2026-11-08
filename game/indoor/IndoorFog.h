@@ -55,6 +55,41 @@ inline IndoorFog indoorFogAt(const IndoorFog &fog, float night)
     return result;
 }
 
+// `amount` (0..1) of the way from one fog to another (a script's fog fading in or out): colours, distances and sky
+// cover mixed; a disabled end counts as the other's colour pushed out of sight.
+inline IndoorFog indoorFogBlend(const IndoorFog &from, const IndoorFog &to, float amount)
+{
+    constexpr float OutOfSight = 1.0e6f;
+    const float t = std::clamp(amount, 0.0f, 1.0f);
+    IndoorFog start = from;
+    IndoorFog end = to;
+    if (!start.enabled)
+    {
+        start = end;
+        start.nearDistance = OutOfSight;
+        start.farDistance = OutOfSight * 2.0f;
+        start.sky = 0.0f;
+    }
+    if (!end.enabled)
+    {
+        end = start;
+        end.nearDistance = OutOfSight;
+        end.farDistance = OutOfSight * 2.0f;
+        end.sky = 0.0f;
+    }
+    IndoorFog result = to.enabled ? to : from;
+    result.enabled = from.enabled || to.enabled;
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        result.color[channel] = start.color[channel] + (end.color[channel] - start.color[channel]) * t;
+    }
+    result.nearDistance = start.nearDistance + (end.nearDistance - start.nearDistance) * t;
+    result.farDistance = start.farDistance + (end.farDistance - start.farDistance) * t;
+    result.sky = start.sky + (end.sky - start.sky) * t;
+    result.hasNight = false;
+    return result;
+}
+
 // The colour MM9 fogs its lightmap pass into (d3d.ren 0x10009660, used at 0x100638d6): the fog byte i becomes
 // 255 sqrt(i / 512), so 127 stays 127 and white becomes 179. Fully fogged, a lightmapped face shows colour x this.
 inline std::array<float, 3> indoorFogLightPassColor(const std::array<float, 3> &color)

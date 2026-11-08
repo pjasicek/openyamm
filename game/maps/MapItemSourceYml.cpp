@@ -267,9 +267,15 @@ bool readLootContainer(
         && readScalar(node, "trap_level", source.trapLevel, errorMessage)
         && readScalar(node, "should_repopulate", source.shouldRepopulate, errorMessage)
         && readFixedItems(node, source.fixedItems, errorMessage)
-        && readScalar(node, "remove_when_empty", source.removeWhenEmpty, errorMessage);
+        && readScalar(node, "remove_when_empty", source.removeWhenEmpty, errorMessage)
+        && readScalar(node, "random_records", source.randomRecords, errorMessage, false);
     if (!parsed)
     {
+        return false;
+    }
+    if (source.randomRecords == 0 || source.randomRecords + source.fixedItems.size() > 81)
+    {
+        errorMessage = "loot container random_records must be positive and fit the chest";
         return false;
     }
     if (!node["random_item_pool"] && !node["random_item_count"])

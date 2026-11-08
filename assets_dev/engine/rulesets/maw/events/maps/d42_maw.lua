@@ -30,7 +30,7 @@ RegisterMapTimerEvent(60001, 150, function()
             evt.SetGlobalVar("MawArenaBest", math.max(arenaVar("MawArenaBest"), level))
             AddValue(Gold, level * 20000)
             evt.SetNPCTopic(313, 1, 10030)
-            evt.SimpleMessage("Level " .. level .. " completed!")
+            evt.SimpleMessage(tr("Level {level} completed!", {level = level}))
         end
         return
     end

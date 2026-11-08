@@ -1,6 +1,7 @@
 #include "game/audio/WorldAmbientSounds.h"
 
 #include "game/audio/GameAudioSystem.h"
+#include "game/events/EventRuntime.h"
 
 #include <algorithm>
 #include <cmath>
@@ -8,19 +9,26 @@
 
 namespace OpenYAMM::Game
 {
+bool worldAmbientSoundDaytime(float gameMinutes, const WorldAmbientSoundRules &rules)
+{
+    const float hour = std::fmod(std::max(gameMinutes, 0.0f) / 60.0f, 24.0f);
+    return hour >= rules.dayStartHour && hour < rules.dayEndHour;
+}
+
 bool worldAmbientSoundAudible(
     const WorldAmbientSound &source,
     const std::array<float, 3> &listener,
     float gameMinutes,
-    bool playing)
+    bool playing,
+    std::optional<bool> switchedOn,
+    const WorldAmbientSoundRules &rules)
 {
-    if (!source.startOn || source.outerRadius <= 0.0f)
+    if (!switchedOn.value_or(source.startOn) || source.outerRadius <= 0.0f)
     {
         return false;
     }
 
-    const float hour = std::fmod(std::max(gameMinutes, 0.0f) / 60.0f, 24.0f);
-    const bool day = hour >= 6.0f && hour < 20.0f;
+    const bool day = worldAmbientSoundDaytime(gameMinutes, rules);
 
     if ((source.dayOnly && !day) || (source.nightOnly && day))
     {
@@ -32,6 +40,52 @@ bool worldAmbientSoundAudible(
     const float dz = listener[2] - source.position[2];
     const float reach = source.outerRadius * (playing ? AmbientSoundStopMargin : 1.0f);
     return dx * dx + dy * dy + dz * dz <= reach * reach;
+}
+
+std::optional<bool> worldAmbientSoundSwitch(
+    const WorldAmbientSound &source,
+    const std::unordered_map<std::string, int32_t> *pNamedMapVars)
+{
+    if (pNamedMapVars == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const auto iterator = pNamedMapVars->find("AmbientSound" + std::to_string(source.key));
+
+    if (iterator == pNamedMapVars->end() || (iterator->second != 1 && iterator->second != 2))
+    {
+        return std::nullopt;
+    }
+
+    return iterator->second == 1;
+}
+
+std::optional<bool> worldAmbientSoundEventSwitch(const WorldAmbientSound &source, const EventRuntimeState *pEvents)
+{
+    if (pEvents == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    if (const std::optional<bool> switched = worldAmbientSoundSwitch(source, &pEvents->namedMapVars))
+    {
+        return switched;
+    }
+
+    if (source.spriteCog == 0)
+    {
+        return std::nullopt;
+    }
+
+    const auto iterator = pEvents->spriteOverrides.find(source.spriteCog);
+
+    if (iterator == pEvents->spriteOverrides.end())
+    {
+        return std::nullopt;
+    }
+
+    return !iterator->second.hidden;
 }
 
 void WorldAmbientSoundRuntime::stopAll(GameAudioSystem &audio)
@@ -54,7 +108,9 @@ void WorldAmbientSoundRuntime::update(
     const std::vector<WorldAmbientSound> *pSources,
     const std::array<float, 3> &listener,
     float gameMinutes,
-    float deltaSeconds)
+    float deltaSeconds,
+    const EventRuntimeState *pEvents,
+    const WorldAmbientSoundRules &rules)
 {
     const size_t sourceCount = pSources != nullptr ? pSources->size() : 0;
 
@@ -79,7 +135,8 @@ void WorldAmbientSoundRuntime::update(
             voice.waitSeconds = wait(m_rng);
         }
 
-        const bool audible = worldAmbientSoundAudible(source, listener, gameMinutes, voice.audible);
+        const bool audible = worldAmbientSoundAudible(
+            source, listener, gameMinutes, voice.audible, worldAmbientSoundEventSwitch(source, pEvents), rules);
 
         if (!audible)
         {
@@ -130,7 +187,8 @@ void WorldAmbientSoundRuntime::update(
             source.volume,
             1.0f,
             source.innerRadius,
-            source.outerRadius);
+            source.outerRadius,
+            rules.pan);
         voice.playedOnce = true;
         voice.failed = voice.instanceId == 0;
     }

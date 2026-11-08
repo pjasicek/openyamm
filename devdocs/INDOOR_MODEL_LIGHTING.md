@@ -107,9 +107,11 @@ MM9's skins in brightness. What is missing:
   point is under four (it becomes a bake-only extra light). In Klusos `Light19` alone gives the west-bedroom and
   great-hall cabinets 0.57 and 0.49 of its colour in MM9; ours never see it. A map's models would need those lights
   too (for instance a `model_lighting` light list the frame adds for models only) before the mode can match MM9.
-- **Coarse MM9 meshes.** The ported `.abc` props are low-poly boxes with corner-averaged normals (cabinet04ns: 50
-  vertices, 20 triangles); a light near a panel's plane (Light147 hangs 16 LT over a cabinet) shows the panel's
-  triangle diagonal as a crease. MM9's per-vertex lighting splits those quads the same way.
+- **Coarse MM9 meshes.** The ported `.abc` props are low-poly boxes (cabinet04ns: 50 vertices, 20 triangles). The
+  panel diagonals seen at the time were mostly scrambled normals, not the mesh: until 2026-11-06 the props builds
+  exported the glTF import's custom normals garbled by their bmesh round trip, so each triangle of a flat panel had
+  unrelated normals (on both lighting paths). Fixed in `blib.import_raw` and in the installed models
+  (`level_generation/props/mm9_isleofashes_claude/scripts/renormal.py`); see that project's README.
 
 The old path stays the default; a map that tries the mode compares its real-shot views first.
 

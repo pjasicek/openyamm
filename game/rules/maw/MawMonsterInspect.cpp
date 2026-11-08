@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawMonsterInspect.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 #include "game/rules/ActorRulesetFacts.h"
@@ -22,24 +23,24 @@ std::string specialAttackName(MonsterSpecialAttackKind kind)
 {
     switch (kind)
     {
-        case MonsterSpecialAttackKind::Curse: return "Curse";
-        case MonsterSpecialAttackKind::Weak: return "Weakness";
-        case MonsterSpecialAttackKind::Sleep: return "Sleep";
-        case MonsterSpecialAttackKind::Fear: return "Fear";
-        case MonsterSpecialAttackKind::Insane: return "Insanity";
-        case MonsterSpecialAttackKind::PoisonWeak: return "Poison 1";
-        case MonsterSpecialAttackKind::PoisonMedium: return "Poison 2";
-        case MonsterSpecialAttackKind::PoisonSevere: return "Poison 3";
-        case MonsterSpecialAttackKind::DiseaseWeak: return "Disease 1";
-        case MonsterSpecialAttackKind::DiseaseMedium: return "Disease 2";
-        case MonsterSpecialAttackKind::DiseaseSevere: return "Disease 3";
-        case MonsterSpecialAttackKind::Paralyze: return "Paralysis";
-        case MonsterSpecialAttackKind::Unconscious: return "Unconscious";
-        case MonsterSpecialAttackKind::Dead: return "Death";
-        case MonsterSpecialAttackKind::Petrify: return "Stone";
-        case MonsterSpecialAttackKind::Eradicate: return "Eradication";
-        case MonsterSpecialAttackKind::Aging: return "Premature ageing";
-        case MonsterSpecialAttackKind::ManaDrain: return "Spell drain";
+        case MonsterSpecialAttackKind::Curse: return Engine::tr("Curse");
+        case MonsterSpecialAttackKind::Weak: return Engine::tr("Weakness");
+        case MonsterSpecialAttackKind::Sleep: return Engine::tr("Sleep");
+        case MonsterSpecialAttackKind::Fear: return Engine::tr("Fear");
+        case MonsterSpecialAttackKind::Insane: return Engine::tr("Insanity");
+        case MonsterSpecialAttackKind::PoisonWeak: return Engine::tr("Poison 1");
+        case MonsterSpecialAttackKind::PoisonMedium: return Engine::tr("Poison 2");
+        case MonsterSpecialAttackKind::PoisonSevere: return Engine::tr("Poison 3");
+        case MonsterSpecialAttackKind::DiseaseWeak: return Engine::tr("Disease 1");
+        case MonsterSpecialAttackKind::DiseaseMedium: return Engine::tr("Disease 2");
+        case MonsterSpecialAttackKind::DiseaseSevere: return Engine::tr("Disease 3");
+        case MonsterSpecialAttackKind::Paralyze: return Engine::tr("Paralysis");
+        case MonsterSpecialAttackKind::Unconscious: return Engine::tr("Unconscious");
+        case MonsterSpecialAttackKind::Dead: return Engine::tr("Death");
+        case MonsterSpecialAttackKind::Petrify: return Engine::tr("Stone");
+        case MonsterSpecialAttackKind::Eradicate: return Engine::tr("Eradication");
+        case MonsterSpecialAttackKind::Aging: return Engine::tr("Premature ageing");
+        case MonsterSpecialAttackKind::ManaDrain: return Engine::tr("Spell drain");
         default: return {};
     }
 }
@@ -169,7 +170,7 @@ MonsterInspectNumbers mawMonsterInspectNumbers(const MawRules &rules, const Mons
 
     if (!special.empty())
     {
-        numbers.effectLines.push_back("Special: " + special);
+        numbers.effectLines.push_back(Engine::tr("Special: {special}", {{"special", special}}));
     }
 
     const Character *pViewer = query.pParty != nullptr ? query.pParty->member(query.viewerIndex) : nullptr;
@@ -179,19 +180,20 @@ MonsterInspectNumbers mawMonsterInspectNumbers(const MawRules &rules, const Mons
         const int partySize = int(std::max<size_t>(1, query.pParty->members().size()));
         const MawMemberKillExperience share = mawMemberKillExperience(
             rules, *pViewer, partySize, double(facts.experience) / partySize, query.maxHp);
-        numbers.effectLines.push_back("Experience: " + std::to_string(int64_t(mawRound(share.award))));
+        numbers.effectLines.push_back(
+            Engine::tr("Experience: {experience}", {{"experience", int64_t(mawRound(share.award))}}));
     }
 
     if (facts.spearDamageTaken > 0)
     {
         numbers.effectLines.push_back(
-            "Physical damage taken: +" + std::to_string(int(mawRound(facts.spearDamageTaken))) + "%");
+            Engine::tr("Physical damage taken: +{percent}%", {{"percent", int(mawRound(facts.spearDamageTaken))}}));
     }
 
     if (facts.legendaryDamageTaken > 0)
     {
         numbers.effectLines.push_back(
-            "All damage taken: +" + std::to_string(int(mawRound(facts.legendaryDamageTaken))) + "%");
+            Engine::tr("All damage taken: +{percent}%", {{"percent", int(mawRound(facts.legendaryDamageTaken))}}));
     }
 
     return numbers;

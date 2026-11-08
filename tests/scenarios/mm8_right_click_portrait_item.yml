@@ -19,6 +19,8 @@ steps:
   - right_click_portrait: {item_id: 733, member_index: 0, inventory: true}
   - grant_item: {item_id: 222, member_index: 0, power: 10}
   - right_click_portrait: {item_id: 222, member_index: 0, release: true}
+  # The new game's party is one member, who pays the drink's recovery: the next drink waits until it can act.
+  - advance_runtime: {seconds: 3}
   - right_click_portrait: {item_id: 222, member_index: 0, inventory: true}
   - assert:
       inventory_any_member: [{item_id: 733, count: 1}]

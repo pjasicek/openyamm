@@ -1,4 +1,5 @@
 #include "game/render/RuntimeShader.h"
+#include "engine/Localization.h"
 #include "game/rules/GameRules.h"
 #include "game/render/CinematicGrading.h"
 #include "game/indoor/IndoorRenderer.h"
@@ -66,7 +67,23 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// The weather sound with the camera under cover on an open-sky map (a house, a tunnel): muffled, as through walls.
+constexpr float CoveredWeatherAudibility = 0.3f;
 constexpr float IndoorCameraVerticalFovDegrees = 60.0f;
+
+// u_indoorBakedDaylight[3] (fs_indoor_textured_lit.sc): the ambient level, the ambient's and the sun's scales; [0].w
+// is set per draw (1 when the page has a daylight page).
+std::array<float, 12> packIndoorBakedDaylight(const IndoorBakedDaylightScale &scale)
+{
+    std::array<float, 12> values = {};
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        values[channel] = scale.ambientLevel[channel];
+        values[4 + channel] = scale.ambientScale[channel];
+        values[8 + channel] = scale.sunScale[channel];
+    }
+    return values;
+}
 // Share of the ambient that reaches 3D models as a directional key light (fs_model.sc).
 constexpr float IndoorModelKeyFraction = 0.6f;
 // Decorations stand in for flat, painted sprites: a softer key light keeps them close to the sprite's even look.
@@ -110,6 +127,8 @@ constexpr uint64_t IndoorBillboardOverlayDrawState =
     | BGFX_STATE_DEPTH_TEST_LEQUAL
     | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA;
 
+// The vertex's secret-pulse slot: 1 for a secret face, plus 2 for a face of the scene's `opaque_faces`
+// (fs_indoor_textured_lit.sc).
 float secretFaceVertexFlag(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
@@ -205,9 +224,7 @@ bool hasMovingMechanism(const EventRuntimeState *pEventRuntimeState)
 
     for (const auto &entry : pEventRuntimeState->mechanisms)
     {
-        const RuntimeMechanismState &mechanism = entry.second;
-
-        if (mechanism.isMoving)
+        if (mechanismFacesMoving(entry.second))
         {
             return true;
         }
@@ -1256,9 +1273,10 @@ bool mechanismFaceKeepsStoredTexels(
         return false;
     }
 
-    // A rotating mover (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md) always turns its stored texels with it.
+    // A rotating or spinning mover (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md) always turns its stored texels
+    // with it.
     if (const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(indoorMapData, door.doorId);
-        pMover != nullptr && pMover->rotation)
+        pMover != nullptr && (pMover->rotation || pMover->spin))
     {
         return true;
     }
@@ -1981,14 +1999,24 @@ uint64_t billboardLightingCacheKey(uint16_t category, uint64_t index)
     return (static_cast<uint64_t>(category) << 48) | (index & 0x0000ffffffffffffull);
 }
 
-uint32_t encodeBakedLightAbgr(const std::array<float, 3> &rgb)
+// The vertex's static light: rgb at half scale (the shader doubles it); alpha 255 less the open air's lights' share of
+// it (openAirRgb's luminance over rgb's, 0 on every map without daylight), which fs_indoor_textured_lit.sc scales by
+// the hour (indoorVertexLight).
+uint32_t encodeBakedLightAbgr(const std::array<float, 3> &rgb, const std::array<float, 3> &openAirRgb)
 {
     const auto encode = [](float value) -> uint8_t
     {
         return static_cast<uint8_t>(std::clamp(static_cast<int>(std::lround(value * 0.5f * 255.0f)), 0, 255));
     };
+    const auto luminance = [](const std::array<float, 3> &value)
+    {
+        return 0.2126f * value[0] + 0.7152f * value[1] + 0.0722f * value[2];
+    };
+    const float total = luminance(rgb);
+    const float openAirShare = total > 0.0001f ? std::clamp(luminance(openAirRgb) / total, 0.0f, 1.0f) : 0.0f;
+    const uint32_t alpha = uint32_t(std::clamp(static_cast<int>(std::lround((1.0f - openAirShare) * 255.0f)), 0, 255));
 
-    return makeAbgr(encode(rgb[0]), encode(rgb[1]), encode(rgb[2]));
+    return (makeAbgr(encode(rgb[0]), encode(rgb[1]), encode(rgb[2])) & 0x00ffffffu) | alpha << 24;
 }
 
 std::vector<uint8_t> bakedStaticLightEnabledStates(
@@ -2122,11 +2150,13 @@ uint32_t bakedStaticLightAbgrForPoint(
     const bx::Vec3 &position)
 {
     std::array<float, 3> rgb = {ambient, ambient, ambient};
+    std::array<float, 3> openAirRgb = {0.0f, 0.0f, 0.0f};
 
     for (const BakedStaticLightSource &source : bakedStaticLightSources)
     {
+        std::array<float, 3> &target = source.openAir ? openAirRgb : rgb;
         accumulateBakedLightContribution(
-            rgb,
+            target,
             source.position,
             source.radius,
             source.red,
@@ -2137,7 +2167,11 @@ uint32_t bakedStaticLightAbgrForPoint(
             position);
     }
 
-    return encodeBakedLightAbgr(rgb);
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        rgb[channel] += openAirRgb[channel];
+    }
+    return encodeBakedLightAbgr(rgb, openAirRgb);
 }
 
 float pointAabbDistanceSquared(
@@ -3020,19 +3054,28 @@ bool IndoorRenderer::initialize(
                 loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_materials");
         }
         m_lightmapSamplerHandle = bgfx::createUniform("s_texLightmap", bgfx::UniformType::Sampler);
+        m_daylightmapSamplerHandle = bgfx::createUniform("s_texDaylightmap", bgfx::UniformType::Sampler);
+        m_indoorBakedDaylightUniformHandle = bgfx::createUniform("u_indoorBakedDaylight", bgfx::UniformType::Vec4, 3);
         bool pagesCreated = true;
-        for (const IndoorBakedLightingPage &page : indoorMapData.bakedLighting->pages)
+        const auto createPages = [this, &pagesCreated](const std::vector<IndoorBakedLightingPage> &pages,
+            std::vector<bgfx::TextureHandle> &handles)
         {
-            const std::vector<uint32_t> pixels = page.decodePixels();
-            const bgfx::TextureHandle handle = createBgraTexture2D(uint16_t(page.width), uint16_t(page.height),
-                reinterpret_cast<const uint8_t *>(pixels.data()), uint32_t(pixels.size() * sizeof(uint32_t)),
-                TextureFilterProfile::Lightmap, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            pagesCreated = pagesCreated && bgfx::isValid(handle);
-            m_lightmapTextureHandles.push_back(handle);
-        }
+            for (const IndoorBakedLightingPage &page : pages)
+            {
+                const std::vector<uint32_t> pixels = page.decodePixels();
+                const bgfx::TextureHandle handle = createBgraTexture2D(uint16_t(page.width), uint16_t(page.height),
+                    reinterpret_cast<const uint8_t *>(pixels.data()), uint32_t(pixels.size() * sizeof(uint32_t)),
+                    TextureFilterProfile::Lightmap, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                pagesCreated = pagesCreated && bgfx::isValid(handle);
+                handles.push_back(handle);
+            }
+        };
+        createPages(indoorMapData.bakedLighting->pages, m_lightmapTextureHandles);
+        createPages(indoorMapData.bakedLighting->daylightPages, m_daylightmapTextureHandles);
         if (!pagesCreated || !bgfx::isValid(m_indoorBakedProgramHandle)
             || (surfaceMaterials && !bgfx::isValid(m_indoorBakedMaterialProgramHandle))
-            || !bgfx::isValid(m_lightmapSamplerHandle))
+            || !bgfx::isValid(m_lightmapSamplerHandle) || !bgfx::isValid(m_daylightmapSamplerHandle)
+            || !bgfx::isValid(m_indoorBakedDaylightUniformHandle))
         {
             std::cerr << "IndoorRenderer: baked lighting unavailable, drawing the map vertex-lit\n";
             destroyBakedLightingResources();
@@ -3096,11 +3139,16 @@ bool IndoorRenderer::initialize(
         m_fog.farDistance = IndoorWaterNoFogDistance * 2.0f;
     }
     m_frameFog = m_fog;
+    m_lastFrameFog = m_fog;
+    m_scriptedFogRevision = 0;
     m_outdoorViewDistance = 0.0f;
     m_outdoorSkyFog = {};
     // Scene daylight (devdocs/INDOOR_OPEN_SKY.md "Daylight"): the sectors open to the sky take the sun and sky light.
     m_daylight = indoorMapData.daylight;
     m_frameDaylight = {};
+    m_frameOpenAirLightScale = 1.0f;
+    // A map without daylight draws a daylight page as baked (all scales 1).
+    m_frameBakedDaylight = packIndoorBakedDaylight({});
     if (m_fog.enabled)
     {
         if (!bgfx::isValid(m_indoorFogModeUniformHandle))
@@ -3370,9 +3418,10 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
         return {};
     }
 
-    int16_t startSectorId = -1;
+    int16_t startSectorId = m_viewSectorOverride >= 0 && size_t(m_viewSectorOverride) < m_pIndoorMapData->sectors.size()
+        ? m_viewSectorOverride : -1;
 
-    if (m_pSceneRuntime != nullptr)
+    if (startSectorId < 0 && m_pSceneRuntime != nullptr)
     {
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
         const size_t sectorCount = m_pIndoorMapData->sectors.size();
@@ -3440,17 +3489,27 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     input.cameraPosition = cameraPosition;
     input.cameraForward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     input.cameraUp = {0.0f, 0.0f, 1.0f};
-    input.verticalFovDegrees = 60.0f;
+    input.verticalFovDegrees = m_viewVerticalFovDegrees;
     input.aspectRatio = aspectRatio;
     input.viewportHeight = m_lastRenderHeight;
     input.maxDistance = m_outdoorViewDistance;
+    input.nearPortalReach = m_pIndoorMapData->portalNearReach;
     input.startSectorId = startSectorId;
     input.collectPortalTraces = m_logIndoorVisibilityDiagnostics;
 
     const bool portalDebug = m_portalDebug.active();
     const uint64_t visibilityBuildBeginTickCount = collectDiagnostics || portalDebug ? SDL_GetTicksNS() : 0;
-    const IndoorPortalVisibilityResult visibility = buildIndoorPortalVisibility(input);
+    IndoorPortalVisibilityResult visibility = buildIndoorPortalVisibility(input);
     cache.buildNanoseconds = portalDebug ? SDL_GetTicksNS() - visibilityBuildBeginTickCount : 0;
+    if (m_portalDebug.cullingOff && static_cast<size_t>(startSectorId) < visibility.frustumsBySector.size())
+    {
+        const std::vector<IndoorVisibilityFrustum> rootFrustums = visibility.frustumsBySector[startSectorId];
+        visibility.visibleSectorMask.assign(visibility.visibleSectorMask.size(), 1);
+        for (std::vector<IndoorVisibilityFrustum> &frustums : visibility.frustumsBySector)
+        {
+            frustums = rootFrustums;
+        }
+    }
 
     if (collectDiagnostics)
     {
@@ -3936,6 +3995,54 @@ void IndoorRenderer::render(
         return;
     }
 
+    // A playing cinematic draws the frame from its camera (devdocs/mm9_rework/MM9_CUTSCENES.md): its eye, angles and
+    // field of view stand in for the party's for this render and are put back at its end; the party keeps its own.
+    const CinematicRuntime &cinematic = gameSession.cinematicRuntime();
+    m_viewShakeYawRadians = cinematic.shake().yawRadians();
+    m_viewShakePitchRadians = cinematic.shake().pitchRadians();
+    struct CinematicViewRestore
+    {
+        IndoorRenderer &renderer;
+        std::optional<std::array<float, 5>> saved;
+
+        ~CinematicViewRestore()
+        {
+            if (saved)
+            {
+                renderer.m_cameraPositionX = (*saved)[0];
+                renderer.m_cameraPositionY = (*saved)[1];
+                renderer.m_cameraPositionZ = (*saved)[2];
+                renderer.m_cameraYawRadians = (*saved)[3];
+                renderer.m_cameraPitchRadians = (*saved)[4];
+                renderer.m_viewVerticalFovDegrees = IndoorCameraVerticalFovDegrees;
+            }
+
+            renderer.m_viewSectorOverride = -1;
+        }
+    } cinematicViewRestore{*this, std::nullopt};
+
+    if (const std::optional<CinematicCameraView> &view = cinematic.cameraView())
+    {
+        cinematicViewRestore.saved = std::array<float, 5>{
+            m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ, m_cameraYawRadians, m_cameraPitchRadians};
+        m_cameraPositionX = view->eye.x;
+        m_cameraPositionY = view->eye.y;
+        m_cameraPositionZ = view->eye.z;
+        m_cameraYawRadians = view->yawRadians;
+        m_cameraPitchRadians = view->pitchRadians;
+        m_viewVerticalFovDegrees = view->verticalFovDegrees.value_or(IndoorCameraVerticalFovDegrees);
+
+        // The portal walk starts in the camera's own sector, not the party's (looked up again when the eye moves).
+        if (m_pIndoorMapData != nullptr
+            && (m_viewSectorOverride < 0 || m_viewSectorEye[0] != view->eye.x || m_viewSectorEye[1] != view->eye.y
+                || m_viewSectorEye[2] != view->eye.z))
+        {
+            m_viewSectorEye = {view->eye.x, view->eye.y, view->eye.z};
+            m_viewSectorOverride = findIndoorSectorForPoint(*m_pIndoorMapData, m_renderVertices,
+                bx::Vec3{view->eye.x, view->eye.y, view->eye.z}).value_or(-1);
+        }
+    }
+
     const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
     if (settings.indoorHoleView && !m_holeViewApplied && m_pIndoorMapData != nullptr)
     {
@@ -3973,8 +4080,6 @@ void IndoorRenderer::render(
 
     const float deltaMilliseconds = deltaSeconds * 1000.0f;
     m_elapsedTime += std::max(deltaSeconds, 0.0f);
-    m_talkCamera.update(gameSession.gameplayScreenRuntime(), m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ,
-        IndoorCameraVerticalFovDegrees, deltaSeconds, m_cameraYawRadians, m_cameraPitchRadians);
 
     if (allowWorldSimulation && m_pSceneRuntime != nullptr)
     {
@@ -4167,7 +4272,7 @@ void IndoorRenderer::render(
     bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
-        60.0f,
+        m_viewVerticalFovDegrees,
         static_cast<float>(viewWidth) / static_cast<float>(viewHeight),
         IndoorCameraNearClipDistance,
         cameraFarClipDistance(),
@@ -4256,6 +4361,7 @@ void IndoorRenderer::render(
     lightingInput.lightsIgnoreReach = m_modelLighting.enabled;
     lightingInput.timeSeconds = m_elapsedTime;
     updateFrameDaylightAndFog();
+    lightingInput.openAirLightScale = m_frameOpenAirLightScale;
     // The water fogs as the faces do this frame: a copy taken when the water was built missed the outdoor view's haze
     // (made each frame from the sky and the view distance) and drew the Isle of Ashes' sea black.
     m_waterRenderer.setIndoorFog(m_frameFog);
@@ -4275,6 +4381,7 @@ void IndoorRenderer::render(
     }
     m_surfaceMaterialsEnabled = settings.surfaceMaterials;
     m_terrainAntiTiling = settings.terrainAntiTiling;
+    m_terrainGrassShown = settings.terrainDecorations;
     m_surfaceParallaxEnabled = settings.surfaceParallax;
     m_surfaceReflectionsEnabled = settings.surfaceReflections;
     if (pLightingStats != nullptr)
@@ -4693,6 +4800,23 @@ void IndoorRenderer::render(
                     {bounds.max[0], bounds.max[1], bounds.max[2]});
             }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, decorationView);
     }
+    // The low bushes placed with the terrain's grass (TerrainBushSet), lit as the decorations in the open sky without
+    // highlights (foliage has no specular to take from the lights).
+    if (!m_terrainBushes.empty() && settings.terrainDecorations)
+    {
+        updateTerrainBushes(eye);
+        Engine::ModelRenderLighting bushLighting = modelLighting;
+        bushLighting.keyFraction = IndoorDecorationKeyFraction;
+        bushLighting.ambient = IndoorDecorationExposure;
+        applyDaylightSun(bushLighting, 1.0f);
+        m_modelRenderer.renderStatic(m_terrainBushes.groups(), decorationSolidView, {eye.x, eye.y, eye.z},
+            bushLighting, nullptr,
+            [&](const Engine::ModelBounds &bounds)
+            {
+                return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
+                    {bounds.max[0], bounds.max[1], bounds.max[2]});
+            }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, decorationView);
+    }
     if (portalDebug)
     {
         m_portalDebugStats.cpuDecorationsNanoseconds += SDL_GetTicksNS() - portalDebugSplitTicks;
@@ -4747,17 +4871,27 @@ void IndoorRenderer::render(
             float(viewWidth) / float(std::max<int>(viewHeight, 1)));
     }
 
-    // The weather over the open sky (scene `sky: {weather}`): heard and seen with the camera in an open sector, out of
-    // the water.
+    // The weather over the open sky (scene `sky: {weather}`). Rain and snow fall wherever the roof map leaves the sky
+    // open, so they show through doors and windows but never under a roof; the camera under one (a house, a tunnel)
+    // hears the storm muffled, under water not at all. Without a roof map (a GPU without vertex texture reads) the
+    // weather shows only with the camera in a sector open to the sky.
     const int16_t weatherEyeSector = m_renderPortalVisibilityCache.valid ? m_renderPortalVisibilityCache.sectorId : -1;
-    const bool cameraInOpenAir = m_openSkyWeather.active() && weatherEyeSector >= 0
-        && size_t(weatherEyeSector) < m_openSkySectors.size() && m_openSkySectors[size_t(weatherEyeSector)] != 0
-        && (m_pSceneRuntime == nullptr || m_pSceneRuntime->partyRuntime().eyeWaterVolume() == nullptr);
+    const bool weatherEyeUnderWater =
+        m_pSceneRuntime != nullptr && m_pSceneRuntime->partyRuntime().eyeWaterVolume() != nullptr;
+    const bool weatherEyeSectorOpen = weatherEyeSector >= 0 && size_t(weatherEyeSector) < m_openSkySectors.size()
+        && m_openSkySectors[size_t(weatherEyeSector)] != 0;
+    const bool weatherRoofMap = m_openSkyWeather.hasRoofMap();
+    const bool weatherEyeCovered =
+        weatherRoofMap ? m_openSkyWeather.covers(eye.x, eye.y, eye.z) : !weatherEyeSectorOpen;
+    const bool weatherShown = m_openSkyWeather.active() && !weatherEyeUnderWater
+        && (weatherRoofMap || weatherEyeSectorOpen);
     if (m_openSkyWeather.active())
     {
         const double weatherGameMinutes =
             m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().gameMinutes() : 9.0 * 60.0;
-        m_openSkyWeather.update(weatherGameMinutes, m_elapsedTime, m_pWeatherAudio, cameraInOpenAir);
+        const float weatherAudibility = weatherEyeUnderWater ? 0.0f
+            : weatherEyeCovered ? CoveredWeatherAudibility : 1.0f;
+        m_openSkyWeather.update(weatherGameMinutes, m_elapsedTime, m_pWeatherAudio, weatherAudibility);
         m_waterRenderer.setRainRings(settings.rainRipples ? m_openSkyWeather.rainRings() : 0.0f,
             settings.weatherQuality == WeatherQuality::High ? 2 : 1);
     }
@@ -4829,15 +4963,20 @@ void IndoorRenderer::render(
     }
     m_shieldDomeRenderer.render(translucentView, m_worldFxSystem.shieldDomes(), eye,
         m_worldFxSystem.shieldDomeTimeSeconds());
-    if (cameraInOpenAir)
+    if (weatherShown)
     {
         // No splashes yet: the indoor floor query is not wired to the weather (WeatherGroundQuery left empty).
         m_openSkyWeather.render(translucentView, {eye.x, eye.y, eye.z}, m_cameraYawRadians, projectionMatrix,
-            viewHeight, m_skyRenderer.isReady() ? &m_skyRenderer.frame() : nullptr, settings.weatherQuality, {});
+            viewHeight, m_skyRenderer.isReady() ? &m_skyRenderer.frame() : nullptr, settings.weatherQuality, {},
+            weatherEyeCovered);
     }
     renderWaterTint(translucentView);
-    EnemyHealthBarRenderer::render(gameSession.gameplayScreenRuntime(), m_pendingEnemyHealthBars, translucentView,
-        eye, viewMatrix, projectionMatrix, m_lastRenderHeight);
+    // A cinematic draws no health bars (the HUD is hidden).
+    if (!cinematic.takesOverView())
+    {
+        EnemyHealthBarRenderer::render(gameSession.gameplayScreenRuntime(), m_pendingEnemyHealthBars, translucentView,
+            eye, viewMatrix, projectionMatrix, m_lastRenderHeight);
+    }
     m_pendingEnemyHealthBars.clear();
     if (m_pPostProcessing != nullptr && (m_modelRenderer.glowDrawn() || m_worldFxRenderResources.glowDrawn()))
     {
@@ -4888,6 +5027,13 @@ WorldFxSystem &IndoorRenderer::worldFxSystem()
 const WorldFxSystem &IndoorRenderer::worldFxSystem() const
 {
     return m_worldFxSystem;
+}
+
+std::optional<DecorationPortraitModel> IndoorRenderer::decorationPortraitModel(uint32_t spriteOverrideKey) const
+{
+    return m_indoorDecorationBillboardSet
+        ? m_decorationModels.portraitModel(m_indoorDecorationBillboardSet->billboards, spriteOverrideKey)
+        : std::nullopt;
 }
 
 bool IndoorRenderer::ensureMonsterVisualResources(int16_t monsterId)
@@ -5652,7 +5798,7 @@ std::optional<std::string> IndoorRenderer::resolveEntityDecorationHoverStatusTex
 
     if (pDecoration != nullptr && !pDecoration->hint.empty())
     {
-        return pDecoration->hint;
+        return Engine::localize(pDecoration->hint);
     }
 
     return std::nullopt;
@@ -5806,6 +5952,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
                     || face.isPortal
                     || indoorFaceMarkedAsCeiling(*m_pIndoorMapData, faceIndex, face)
                     || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal)
+                    || indoorFacePassesPicks(*m_pIndoorMapData, faceIndex, face.cogTriggered, face.attributes)
                     || !isFaceVisible(faceIndex, face, runtimeMapDeltaData(), runtimeEventRuntimeStateStorage())
                     || (!visibleSectorMask.empty()
                         && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
@@ -6722,16 +6869,16 @@ float IndoorRenderer::viewAspectRatio() const
 
 float IndoorRenderer::viewYawRadians() const
 {
-    return m_pSceneRuntime != nullptr
+    return m_viewShakeYawRadians + (m_pSceneRuntime != nullptr
         ? m_cameraYawRadians + m_pSceneRuntime->worldRuntime().actorHitFeedback().cameraKickYawRadians()
-        : m_cameraYawRadians;
+        : m_cameraYawRadians);
 }
 
 float IndoorRenderer::viewPitchRadians() const
 {
-    return m_pSceneRuntime != nullptr
+    return m_viewShakePitchRadians + (m_pSceneRuntime != nullptr
         ? m_cameraPitchRadians + m_pSceneRuntime->worldRuntime().actorHitFeedback().cameraKickPitchRadians()
-        : m_cameraPitchRadians;
+        : m_cameraPitchRadians);
 }
 
 std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectHitFromGameplayWorldHit(
@@ -6902,6 +7049,12 @@ void IndoorRenderer::setOpenSkyWeather(const std::optional<OutdoorWeatherProfile
 {
     m_pWeatherAudio = pAudioSystem;
     m_openSkyWeather.configure(m_openSky.enabled ? profile : std::nullopt);
+
+    // Rain and snow stop at the map's roofs, bridges and the ground over its tunnels (WeatherRoofMap).
+    if (m_openSkyWeather.active() && m_pIndoorMapData != nullptr)
+    {
+        m_openSkyWeather.setRoofMap(buildIndoorWeatherRoofMap(*m_pIndoorMapData));
+    }
 }
 
 void IndoorRenderer::renderOpenSky(uint16_t viewId, const float *pViewMatrix, const float *pProjectionMatrix)
@@ -7035,6 +7188,9 @@ void IndoorRenderer::shutdown()
         m_indoorBakedMaterialProgramHandle = BGFX_INVALID_HANDLE;
         m_lightmapSamplerHandle = BGFX_INVALID_HANDLE;
         m_lightmapTextureHandles.clear();
+        m_daylightmapSamplerHandle = BGFX_INVALID_HANDLE;
+        m_daylightmapTextureHandles.clear();
+        m_indoorBakedDaylightUniformHandle = BGFX_INVALID_HANDLE;
         m_surfaceNormalSamplerHandle = BGFX_INVALID_HANDLE;
         m_surfaceDetailSamplerHandle = BGFX_INVALID_HANDLE;
         m_surfaceMaterialUniformHandle = BGFX_INVALID_HANDLE;
@@ -7992,7 +8148,8 @@ void IndoorRenderer::updateDecorationModels(const std::vector<uint8_t> &visibleS
     m_decorationModels.animate(float(SDL_GetTicks()) * 0.001f);
     if (eventRuntimeState && !eventRuntimeState->decorationAims.empty())
     {
-        m_decorationModels.poseAimed(billboards, [&eventRuntimeState](uint32_t key, float &yawRadians, float &back)
+        m_decorationModels.poseAimed(billboards, [&eventRuntimeState](uint32_t key, float &yawRadians, float &back,
+            std::array<float, 3> &offset)
         {
             const auto aim = eventRuntimeState->decorationAims.find(key);
             if (aim == eventRuntimeState->decorationAims.end())
@@ -8001,6 +8158,7 @@ void IndoorRenderer::updateDecorationModels(const std::vector<uint8_t> &visibleS
             }
             yawRadians = aim->second.currentRadians;
             back = aim->second.back();
+            offset = aim->second.offset;
             return true;
         });
     }
@@ -9206,10 +9364,11 @@ void IndoorRenderer::renderActorPreviewBillboards(
         std::vector<LitBillboardVertex> vertices;
     };
 
-    std::array<QuestMarkerBatch, 3> questMarkerBatches = {{
+    std::array<QuestMarkerBatch, 4> questMarkerBatches = {{
         {Mm9QuestMarkerState::Available},
         {Mm9QuestMarkerState::InProgress},
         {Mm9QuestMarkerState::Ready},
+        {Mm9QuestMarkerState::Trainer},
     }};
 
     const bool hasVisibleQuestMarker =
@@ -9229,6 +9388,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
     {
         ensureSpriteBillboardTexture("quest_marker_exclamation", 0);
         ensureSpriteBillboardTexture("quest_marker_question", 0);
+        ensureSpriteBillboardTexture("trainer_marker_book", 0);
 
         for (QuestMarkerBatch &batch : questMarkerBatches)
         {
@@ -10667,8 +10827,8 @@ std::vector<uint32_t> IndoorRenderer::collectChangedMechanismDoorIds(
         const RuntimeMechanismState &currentMechanism =
             currentIterator != pEventRuntimeState->mechanisms.end() ? currentIterator->second : baseMechanism;
 
-        if (std::abs(currentMechanism.currentDistance - previousMechanism.currentDistance) > 0.0001f
-            || currentMechanism.isMoving != previousMechanism.isMoving)
+        if (mechanismPoseDiffers(currentMechanism, previousMechanism)
+            || mechanismFacesMoving(currentMechanism) != mechanismFacesMoving(previousMechanism))
         {
             doorIds.push_back(door.doorId);
         }
@@ -10991,6 +11151,16 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
         bgfx::setVertexBuffer(1, group.lightmapUvBufferHandle, 0, group.vertexCount);
         bindTexture(1, m_lightmapSamplerHandle, m_lightmapTextureHandles[size_t(lightmapPage)],
             TextureFilterProfile::Lightmap, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        // The page's daylight share (a version 2 bake); without one the shader skips it (u_indoorBakedDaylight[0].w
+        // 0) and the sampler takes the page itself, so no stage is left unbound.
+        const bool daylightPage = size_t(lightmapPage) < m_daylightmapTextureHandles.size();
+        bindTexture(2, m_daylightmapSamplerHandle,
+            daylightPage ? m_daylightmapTextureHandles[size_t(lightmapPage)]
+                         : m_lightmapTextureHandles[size_t(lightmapPage)],
+            TextureFilterProfile::Lightmap, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        std::array<float, 12> bakedDaylight = m_frameBakedDaylight;
+        bakedDaylight[3] = daylightPage ? 1.0f : 0.0f;
+        bgfx::setUniform(m_indoorBakedDaylightUniformHandle, bakedDaylight.data(), 3);
     }
     if (draw.merged)
     {
@@ -11041,7 +11211,7 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
     bgfx::setUniform(m_indoorSkyParamsUniformHandle, indoorSkyParams.data());
     const float viewPlaneDistancePixels =
         (static_cast<float>(height) * 0.5f)
-        / (std::tan((IndoorCameraVerticalFovDegrees * Pi / 180.0f) * 0.5f) * projectionScale);
+        / (std::tan((m_viewVerticalFovDegrees * Pi / 180.0f) * 0.5f) * projectionScale);
     const float horizonHeightOffset =
         (viewPlaneDistancePixels * eye.z)
         / (viewPlaneDistancePixels + IndoorSkyProjectionFarClipDistance)
@@ -11088,6 +11258,13 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
     {
         // Stages 8, 9, 10 and 14 (the light grid keeps 11); no specular highlight on the indoor lighting.
         m_terrainMaterials.bind(m_terrainAntiTiling, 0.0f);
+        // Stage 12: the grass's colour where its tufts have thinned out, as on the outdoor terrain.
+        const bool foliage = m_terrainGrassShown && m_terrainGrassReady && bgfx::isValid(m_terrainGrass.foliageMap());
+        bgfx::setTexture(12, m_terrainFoliageSampler, foliage ? m_terrainGrass.foliageMap() : m_noTerrainFoliage,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        const std::array<float, 8> foliageParams = foliage ? m_terrainGrass.foliageParams()
+            : std::array<float, 8>{0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f};
+        bgfx::setUniform(m_terrainFoliageUniform, foliageParams.data(), 2);
         if (group.key.singleMaterialTerrain)
         {
             bgfx::submit(viewId,
@@ -11184,6 +11361,49 @@ void IndoorRenderer::renderWaterTint(uint16_t viewId)
     bgfx::submit(viewId, m_waterTintProgramHandle);
 }
 
+void IndoorRenderer::applyScriptedFog()
+{
+    const EventRuntimeState *pState = runtimeEventRuntimeState();
+
+    // The fog programs are loaded only for a map with a scene fog or the outdoor view (or a water volume's fog).
+    if (pState == nullptr || !m_fog.enabled)
+    {
+        return;
+    }
+
+    const EventRuntimeState::ScriptedFog &scripted = pState->scriptedFog;
+
+    if (scripted.revision != m_scriptedFogRevision)
+    {
+        m_scriptedFogRevision = scripted.revision;
+        m_scriptedFogFrom = m_lastFrameFog;
+        m_scriptedFogStartSeconds = m_elapsedTime;
+        m_scriptedFogSeconds = scripted.seconds;
+    }
+
+    if (m_scriptedFogRevision == 0)
+    {
+        return;
+    }
+
+    IndoorFog target = m_frameFog;
+
+    if (scripted.active)
+    {
+        target.enabled = true;
+        target.color = scripted.color;
+        target.nearDistance = scripted.nearDistance;
+        target.farDistance = scripted.farDistance;
+        target.sky = scripted.sky;
+        target.hasNight = false;
+    }
+
+    const float amount = m_scriptedFogSeconds > 0.0f
+        ? std::clamp((m_elapsedTime - m_scriptedFogStartSeconds) / m_scriptedFogSeconds, 0.0f, 1.0f)
+        : 1.0f;
+    m_frameFog = amount >= 1.0f ? target : indoorFogBlend(m_scriptedFogFrom, target, amount);
+}
+
 void IndoorRenderer::updateFrameDaylightAndFog()
 {
     const float gameMinutes = m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().gameMinutes() : 9.0f * 60.0f;
@@ -11216,6 +11436,8 @@ void IndoorRenderer::updateFrameDaylightAndFog()
             m_outdoorSkyFog = packSkyFogUniform(&sky);
         }
     }
+    applyScriptedFog();
+    m_lastFrameFog = m_frameFog;
     // Under water the eye takes its volume's fog, if it has one (MM9: the volume's FogEnable), else the map's.
     if (m_fog.enabled && m_pSceneRuntime != nullptr)
     {
@@ -11247,6 +11469,11 @@ void IndoorRenderer::updateFrameDaylightAndFog()
     {
         channel = std::max(channel, minimumAmbient);
     }
+    // The lightmaps' daylight pages follow the same light (devdocs/INDOOR_BAKED_LIGHTING.md "Daylight pages").
+    m_frameBakedDaylight =
+        packIndoorBakedDaylight(indoorBakedDaylightScale(m_daylight, m_frameDaylight, minimumAmbient));
+    // MM9's open-air lights in the static vertex light follow the sun (devdocs/INDOOR_OPEN_SKY.md "Daylight").
+    m_frameOpenAirLightScale = indoorOpenAirLightScale(m_daylight, m_frameDaylight);
 }
 
 void IndoorRenderer::applyDaylightToLightingFrame(IndoorLightingFrame &lightingFrame) const
@@ -11289,6 +11516,8 @@ void IndoorRenderer::setFaceDaylight(bool daylit)
         return;
     }
     std::array<float, 12> values = {};
+    // [0].w: the open air's lights' scale on the static vertex light (indoorVertexLight in the shader), 1: as baked.
+    values[3] = 1.0f;
     if (daylit)
     {
         for (size_t channel = 0; channel < 3; ++channel)
@@ -11297,6 +11526,7 @@ void IndoorRenderer::setFaceDaylight(bool daylit)
             values[4 + channel] = m_frameDaylight.sun[channel];
             values[8 + channel] = m_frameDaylight.sunDirection[channel];
         }
+        values[3] = m_frameOpenAirLightScale;
         values[11] = m_frameDaylight.sunGain;
     }
     bgfx::setUniform(m_indoorDaylightUniformHandle, values.data(), 3);
@@ -11334,6 +11564,26 @@ void IndoorRenderer::renderTranslucentFaces(uint16_t viewId, const bx::Vec3 &eye
         submitTexturedBatch(draw.batchIndex, viewId, faceAmbient, &m_lightGrid, eye,
             m_cameraYawRadians, m_cameraPitchRadians, width, height, secretFacesDetected, {0.0f, 0.0f, 0.0f, 0.0f});
     }
+}
+
+namespace
+{
+// Whether a liquid's surface lies over the point (MM9's sea over its seabed): no plants grow there, and the ground
+// along it is lush.
+bool indoorLiquidOver(const IndoorMapData &map, float x, float y, float z)
+{
+    for (const IndoorWaterVolume &volume : map.waterVolumes)
+    {
+        for (const IndoorWaterPiece &piece : volume.pieces)
+        {
+            if (z < piece.top && indoorWaterPieceContains(piece, x, y))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 }
 
 bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, const std::string &worldId,
@@ -11393,12 +11643,17 @@ bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, co
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
         const std::string name = toLowerCopy(indoorMapData.faces[faceIndex].textureName);
-        if (std::binary_search(terrain.textureNames.begin(), terrain.textureNames.end(), name))
+        if (std::binary_search(terrain.textureNames.begin(), terrain.textureNames.end(), name)
+            && !std::binary_search(terrain.excludedFaces.begin(), terrain.excludedFaces.end(), uint32_t(faceIndex)))
         {
             m_terrainFaceMask[faceIndex] = 1;
         }
     }
     m_terrainSurface.build(indoorMapData, m_renderVertices, m_terrainFaceMask);
+    m_terrainMeadow = buildTerrainSurfaceMeadow(terrainSurfaceTriangles(), [&indoorMapData](float x, float y, float z)
+    {
+        return indoorLiquidOver(indoorMapData, x, y, z);
+    });
     // The weight bits serve only the single-material split.
     markSingleMaterialTerrainFaces(indoorMapData, *config);
     m_terrainMaterials.releaseWeightLayers();
@@ -11430,6 +11685,11 @@ bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, co
             m_grassDensity[texel] = uint8_t(std::lround(std::clamp(density[texel], 0.0f, 1.0f) * 255.0f));
         }
     }
+    m_terrainFoliageSampler = bgfx::createUniform("s_terrainFoliage", bgfx::UniformType::Sampler);
+    m_terrainFoliageUniform = bgfx::createUniform("u_terrainFoliage", bgfx::UniformType::Vec4, 2);
+    const std::array<uint8_t, 4> noFoliage = {};
+    m_noTerrainFoliage = bgfx::createTexture2D(1, 1, false, 1, bgfx::TextureFormat::RGBA8,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP, bgfx::copy(noFoliage.data(), sizeof(noFoliage)));
     m_indoorTerrainProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain");
     m_indoorTerrainFogProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_fog");
     m_indoorTerrainSingleProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_single");
@@ -11447,8 +11707,10 @@ bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, co
 void IndoorRenderer::destroyTerrainResources()
 {
     m_terrainGrass.shutdown(Engine::BgfxContext::isBgfxInitialized());
+    m_terrainBushes.clear();
+    m_terrainMeadow = {};
     for (bgfx::UniformHandle *pHandle : {&m_grassSunlightUniform, &m_grassFxLightParamsUniform,
-             &m_grassCameraPositionUniform})
+             &m_grassCameraPositionUniform, &m_terrainFoliageSampler, &m_terrainFoliageUniform})
     {
         if (bgfx::isValid(*pHandle) && Engine::BgfxContext::isBgfxInitialized())
         {
@@ -11456,6 +11718,11 @@ void IndoorRenderer::destroyTerrainResources()
         }
         *pHandle = BGFX_INVALID_HANDLE;
     }
+    if (bgfx::isValid(m_noTerrainFoliage) && Engine::BgfxContext::isBgfxInitialized())
+    {
+        bgfx::destroy(m_noTerrainFoliage);
+    }
+    m_noTerrainFoliage = BGFX_INVALID_HANDLE;
     m_terrainGrassAttempted = false;
     m_terrainGrassReady = false;
     m_grassConfigPath.clear();
@@ -11550,31 +11817,13 @@ void IndoorRenderer::markSingleMaterialTerrainFaces(const IndoorMapData &indoorM
     }
 }
 
-void IndoorRenderer::ensureTerrainGrass()
+std::vector<TerrainDecorationSurfaceTriangle> IndoorRenderer::terrainSurfaceTriangles() const
 {
-    if (m_terrainGrassAttempted || m_grassConfigPath.empty() || m_grassDensitySize <= 0 || m_pAssetFileSystem == nullptr
-        || m_pIndoorMapData == nullptr)
-    {
-        return;
-    }
-    // A missing or broken file is reported once, not retried every frame.
-    m_terrainGrassAttempted = true;
-    if ((bgfx::getCaps()->supported & BGFX_CAPS_INSTANCING) == 0)
-    {
-        std::cerr << "Terrain grass requires renderer instancing support.\n";
-        return;
-    }
-    std::string error;
-    const std::optional<TerrainDecorationConfig> config =
-        loadTerrainDecorationConfigFile(*m_pAssetFileSystem, m_grassConfigPath, error);
-    if (!config)
-    {
-        std::cerr << "Terrain grass unavailable (" << m_grassConfigPath << "): "
-                  << (error.empty() ? "missing file" : error) << '\n';
-        return;
-    }
-    // The terrain faces, fanned into triangles, each with the smooth ground normal at its centre.
     std::vector<TerrainDecorationSurfaceTriangle> triangles;
+    if (m_pIndoorMapData == nullptr)
+    {
+        return triangles;
+    }
     const IndoorMapData &map = *m_pIndoorMapData;
     for (size_t faceIndex = 0; faceIndex < map.faces.size(); ++faceIndex)
     {
@@ -11608,6 +11857,68 @@ void IndoorRenderer::ensureTerrainGrass()
             triangles.push_back({{points[0], points[k], points[k + 1]}, {normal.x, normal.y, normal.z}});
         }
     }
+    return triangles;
+}
+
+void IndoorRenderer::ensureTerrainGrass()
+{
+    if (m_terrainGrassAttempted || m_grassConfigPath.empty() || m_grassDensitySize <= 0 || m_pAssetFileSystem == nullptr
+        || m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+    // A missing or broken file is reported once, not retried every frame.
+    m_terrainGrassAttempted = true;
+    if ((bgfx::getCaps()->supported & BGFX_CAPS_INSTANCING) == 0)
+    {
+        std::cerr << "Terrain grass requires renderer instancing support.\n";
+        return;
+    }
+    std::string error;
+    const std::optional<TerrainDecorationConfig> config =
+        loadTerrainDecorationConfigFile(*m_pAssetFileSystem, m_grassConfigPath, error);
+    if (!config)
+    {
+        std::cerr << "Terrain grass unavailable (" << m_grassConfigPath << "): "
+                  << (error.empty() ? "missing file" : error) << '\n';
+        return;
+    }
+    TerrainDecorationSurface surface;
+    surface.ground = terrainSurfaceTriangles();
+    // Every other drawn face is an obstacle the plants keep clear of and grow uncut beside: walls, buildings, docks.
+    const IndoorMapData &map = *m_pIndoorMapData;
+    for (size_t faceIndex = 0; faceIndex < map.faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = map.faces[faceIndex];
+        if (isTerrainFace(faceIndex) || face.isPortal || face.vertexIndices.size() < 3
+            || hasFaceAttribute(face.attributes, FaceAttribute::Invisible)
+            || indoorFaceShowsOpenSky(m_openSky, face.attributes))
+        {
+            continue;
+        }
+        const auto point = [this](uint16_t vertexIndex)
+        {
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            return std::array<float, 3>{float(vertex.x), float(vertex.y), float(vertex.z)};
+        };
+        if (std::any_of(face.vertexIndices.begin(), face.vertexIndices.end(),
+                [this](uint16_t vertexIndex) { return vertexIndex >= m_renderVertices.size(); }))
+        {
+            continue;
+        }
+        for (size_t k = 1; k + 1 < face.vertexIndices.size(); ++k)
+        {
+            surface.obstacles.push_back({point(face.vertexIndices[0]), point(face.vertexIndices[k]),
+                point(face.vertexIndices[k + 1])});
+        }
+    }
+    if (m_indoorDecorationBillboardSet)
+    {
+        for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
+        {
+            surface.entities.push_back({billboard.name, {float(billboard.x), float(billboard.y), float(billboard.z)}});
+        }
+    }
     // The density between weight texel centres (the 65 536-unit map frame from its north-west corner).
     const int size = m_grassDensitySize;
     const std::vector<uint8_t> &grid = m_grassDensity;
@@ -11625,7 +11936,20 @@ void IndoorRenderer::ensureTerrainGrass()
         return (at(u0, v0) * (1.0f - fu) + at(u1, v0) * fu) * (1.0f - fv)
             + (at(u0, v1) * (1.0f - fu) + at(u1, v1) * fu) * fv;
     };
-    TerrainDecorationPlacement placement = scatterTerrainDecorationsOnSurface(triangles, density, *config);
+    surface.density = density;
+    surface.underWater = [&map](float x, float y, float z)
+    {
+        return indoorLiquidOver(map, x, y, z);
+    };
+    surface.pMeadow = &m_terrainMeadow;
+    TerrainDecorationPlacement placement = scatterTerrainDecorationsOnSurface(surface, *config);
+    std::string bushError;
+    if (!m_terrainBushes.load(*m_pAssetFileSystem, config->bushes, placement.bushes, bushError))
+    {
+        std::cerr << "Terrain bushes unavailable: " << bushError << '\n';
+    }
+    m_modelRenderer.preloadStatic(m_terrainBushes.groups());
+    const size_t bushes = placement.bushes.size();
     if (placement.instances.empty())
     {
         return;
@@ -11637,7 +11961,24 @@ void IndoorRenderer::ensureTerrainGrass()
     m_terrainGrassReady = m_terrainGrass.initialize(*m_pAssetFileSystem, *config, std::move(placement),
         loadProgram("vs_terrain_decoration", "fs_terrain_decoration"),
         loadProgram("vs_terrain_decoration", "fs_terrain_decoration_shadow"));
-    std::cout << "Terrain grass: " << tufts << " tufts from " << m_grassConfigPath << '\n';
+    std::cout << "Terrain grass: " << tufts << " tufts, " << bushes << " bushes from " << m_grassConfigPath << '\n';
+}
+
+void IndoorRenderer::updateTerrainBushes(const bx::Vec3 &eye)
+{
+    m_terrainBushes.updateFade({eye.x, eye.y, eye.z});
+    // A decoration's light in the open sky (updateDecorationModels): the ambient share, the batch's exposure divided
+    // out; the sun comes from the batch (applyDaylightSun).
+    const float ambient = (m_daylight.enabled ? indoorDaylightModelAmbient(m_frameDaylight) : 1.0f)
+        / IndoorDecorationExposure;
+    const float sun = m_daylight.enabled ? 1.0f : 0.0f;
+    for (Engine::ModelStaticGroup &group : m_terrainBushes.groups())
+    {
+        for (Engine::ModelStaticPlacement &placement : group.placements)
+        {
+            placement.light = {ambient, ambient, ambient, sun};
+        }
+    }
 }
 
 void IndoorRenderer::renderTerrainGrass(uint16_t viewId, const bx::Vec3 &eye, const bx::Vec3 &forward,
@@ -11690,22 +12031,24 @@ void IndoorRenderer::applyTerrainVertices(size_t faceIndex, std::vector<Textured
         const bx::Vec3 point = {vertex.x, vertex.y, vertex.z};
         const bx::Vec3 normal = m_terrainSurface.normalAt(point, faceNormal);
         vertex.u = m_terrainSurface.steepnessAt(point);
-        // No meadow field yet: neither dry nor lush.
-        vertex.v = 0.0f;
+        vertex.v = m_terrainMeadow.sample(vertex.x, vertex.y);
         vertex.gradientU = {normal.x, normal.y, normal.z};
     }
 }
 
 void IndoorRenderer::destroyBakedLightingResources()
 {
-    for (bgfx::TextureHandle handle : m_lightmapTextureHandles)
+    for (std::vector<bgfx::TextureHandle> *pHandles : {&m_lightmapTextureHandles, &m_daylightmapTextureHandles})
     {
-        if (bgfx::isValid(handle))
+        for (bgfx::TextureHandle handle : *pHandles)
         {
-            bgfx::destroy(handle);
+            if (bgfx::isValid(handle))
+            {
+                bgfx::destroy(handle);
+            }
         }
+        pHandles->clear();
     }
-    m_lightmapTextureHandles.clear();
     for (bgfx::ProgramHandle *pHandle : {&m_indoorBakedProgramHandle, &m_indoorBakedMaterialProgramHandle})
     {
         if (bgfx::isValid(*pHandle))
@@ -11714,10 +12057,14 @@ void IndoorRenderer::destroyBakedLightingResources()
             *pHandle = BGFX_INVALID_HANDLE;
         }
     }
-    if (bgfx::isValid(m_lightmapSamplerHandle))
+    for (bgfx::UniformHandle *pHandle :
+        {&m_lightmapSamplerHandle, &m_daylightmapSamplerHandle, &m_indoorBakedDaylightUniformHandle})
     {
-        bgfx::destroy(m_lightmapSamplerHandle);
-        m_lightmapSamplerHandle = BGFX_INVALID_HANDLE;
+        if (bgfx::isValid(*pHandle))
+        {
+            bgfx::destroy(*pHandle);
+            *pHandle = BGFX_INVALID_HANDLE;
+        }
     }
     m_bakedLightingActive = false;
 }
@@ -12149,7 +12496,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             batch.waterColorAbgr = waterColorAbgr;
             batch.liquid = liquid;
             batch.lightmapPage = lightmapPage;
-            batch.daylit = lightmapPage < 0 && indoorDaylightSector(m_daylight, sectorId);
+            batch.daylit = indoorDaylightSector(m_daylight, sectorId);
             if (pTranslucency != nullptr)
             {
                 batch.translucent = true;
@@ -12373,7 +12720,7 @@ void IndoorRenderer::rebuildBakedStaticLightReach()
     for (size_t lightId = 0; lightId < mapData.lights.size(); ++lightId)
     {
         // From the sector the light stands in (MM6 maps list most lights in most sectors).
-        const BakedStaticLightSource source = bakedStaticLightSourceForIndoorLight(mapData.lights[lightId]);
+        const BakedStaticLightSource source = bakedStaticLightSourceForIndoorLight(mapData, lightId);
         const int16_t sector = m_indoorLightingRuntime.mapLightSector(lightId);
         reach.reach(std::span<const int16_t>(&sector, 1), source.position, source.radius, reached);
         m_bakedStaticLightReach[lightId].assign(reached);
@@ -12434,9 +12781,7 @@ bool IndoorRenderer::refreshBakedStaticLighting(
 
             if (lightId < m_pIndoorMapData->lights.size())
             {
-                changedLightSources.push_back(
-                    bakedStaticLightSourceForIndoorLight(m_pIndoorMapData->lights[lightId]));
-                changedLightSources.back().sourceId = uint32_t(lightId);
+                changedLightSources.push_back(bakedStaticLightSourceForIndoorLight(*m_pIndoorMapData, lightId));
             }
             else if (m_indoorDecorationBillboardSet)
             {
@@ -12682,10 +13027,13 @@ bool IndoorRenderer::updateFaceAttributeChanges()
     }
 
     std::vector<size_t> changedFaces;
+    // The party's exploration marks faces seen as it goes (the map's reveal, no surface revision); nothing drawn
+    // depends on it, and counting it made every break after a walk rebuild every batch.
+    constexpr uint32_t UndrawnAttributes = faceAttributeBit(FaceAttribute::SeenByParty);
 
     for (size_t faceIndex = 0; faceIndex < m_builtFaceAttributes.size(); ++faceIndex)
     {
-        if (m_builtFaceAttributes[faceIndex] != mapDeltaData->faceAttributes[faceIndex])
+        if (((m_builtFaceAttributes[faceIndex] ^ mapDeltaData->faceAttributes[faceIndex]) & ~UndrawnAttributes) != 0)
         {
             changedFaces.push_back(faceIndex);
 
@@ -13324,7 +13672,7 @@ bool IndoorRenderer::updateMovingMechanismRenderVertices()
         const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator mechanismIterator =
             pEventRuntimeState->mechanisms.find(door.doorId);
 
-        if (mechanismIterator != pEventRuntimeState->mechanisms.end() && mechanismIterator->second.isMoving)
+        if (mechanismIterator != pEventRuntimeState->mechanisms.end() && mechanismFacesMoving(mechanismIterator->second))
         {
             doorIds.push_back(door.doorId);
         }
@@ -13378,7 +13726,8 @@ bool IndoorRenderer::updateMechanismRenderVerticesForDoorIds(const std::vector<u
             findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId),
             mechanism.currentDistance,
             mechanism.rotationDirection,
-            m_renderVertices);
+            m_renderVertices,
+            mechanism.spinDegrees);
     }
 
     return true;
@@ -13571,6 +13920,8 @@ IndoorRenderer::TexturedFaceMesh IndoorRenderer::buildFaceTexturedMesh(
         subdivisionMax = bx::max(subdivisionMax, subdivisionPosition);
     }
 
+    // 2 in the vertex's secret-pulse slot (1 marks a secret face): the scene's `opaque_faces` ignore the texture's alpha.
+    const float opaqueFlag = isIndoorFaceOpaque(indoorMapData, faceIndex) ? 2.0f : 0.0f;
     // The receiving room: only lights that reach the face's sectors through portals bake into it (no light through
     // the walls between rooms), and its own ambient.
     const int16_t faceSector =
@@ -13777,7 +14128,7 @@ IndoorRenderer::TexturedFaceMesh IndoorRenderer::buildFaceTexturedMesh(
             texturedVertex.x = static_cast<float>(vertex.x);
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
-            texturedVertex.secretPulse = secretFaceVertexFlag(effectiveAttributes);
+            texturedVertex.secretPulse = secretFaceVertexFlag(effectiveAttributes) + opaqueFlag;
             texturedVertex.barycentric0 = triangleVertexSlot == 0 ? 1.0f : 0.0f;
             texturedVertex.barycentric1 = triangleVertexSlot == 1 ? 1.0f : 0.0f;
             texturedVertex.barycentric2 = triangleVertexSlot == 2 ? 1.0f : 0.0f;
@@ -14071,7 +14422,8 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 ? mapDeltaData->faceAttributes[faceIndex]
                 : face.attributes;
 
-        if (face.isPortal || hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal))
+        if (face.isPortal || hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal)
+            || indoorFacePassesPicks(indoorMapData, faceIndex, face.cogTriggered, effectiveAttributes))
         {
             continue;
         }

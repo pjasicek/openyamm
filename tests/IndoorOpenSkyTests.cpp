@@ -7,6 +7,7 @@
 #include "game/maps/IndoorSceneYml.h"
 #include "game/render/TerrainMaterialConfig.h"
 
+#include <algorithm>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -214,6 +215,78 @@ TEST_CASE("indoor daylight: the fog colour's scale follows the open air's light,
     CHECK(evening[0] < 1.0f);
 }
 
+TEST_CASE("indoor daylight: a lightmap's daylight page draws as baked at noon and darkens by night")
+{
+    IndoorDaylight daylight = {};
+    const IndoorBakedDaylightScale none = indoorBakedDaylightScale(daylight, {}, 0.18f);
+    CHECK(indoorBakedDaylightTexel(none, {0.4f, 0.5f, 0.6f})[1] == doctest::Approx(0.5f));
+
+    daylight.enabled = true;
+    daylight.ambient = {0.3f, 0.3f, 0.3f};
+    daylight.sun = {1.0f, 1.0f, 1.0f};
+    daylight.nightScale = {0.5f, 0.5f, 0.75f};
+    constexpr float Floor = 0.18f;
+
+    // Noon: as baked, a shaded texel (the ambient alone) and a sunlit one alike.
+    const IndoorBakedDaylightScale noon = indoorBakedDaylightScale(daylight, evaluateIndoorDaylight(daylight, 720.0f),
+        Floor);
+    CHECK(indoorBakedDaylightTexel(noon, {0.3f, 0.3f, 0.3f})[0] == doctest::Approx(0.3f));
+    CHECK(indoorBakedDaylightTexel(noon, {1.0f, 1.0f, 1.0f})[2] == doctest::Approx(1.0f));
+
+    // Midnight, with the renderer's floor under the ambient: both read as the night's ambient (no sun), so a sunlit
+    // facade and a shaded one are equally dark, as on the vertex-lit faces open to the sky.
+    IndoorDaylightLight midnight = evaluateIndoorDaylight(daylight, 0.0f);
+    for (float &channel : midnight.ambient)
+    {
+        channel = std::max(channel, Floor);
+    }
+    const IndoorBakedDaylightScale night = indoorBakedDaylightScale(daylight, midnight, Floor);
+    CHECK(indoorBakedDaylightTexel(night, {0.3f, 0.3f, 0.3f})[0] == doctest::Approx(0.18f));
+    CHECK(indoorBakedDaylightTexel(night, {1.0f, 1.0f, 1.0f})[0] == doctest::Approx(0.18f));
+    CHECK(indoorBakedDaylightTexel(night, {1.0f, 1.0f, 1.0f})[2] == doctest::Approx(0.225f));
+    // A texel darker than the ambient (a fallback texel) is all sky light.
+    CHECK(indoorBakedDaylightTexel(night, {0.15f, 0.15f, 0.15f})[0] == doctest::Approx(0.09f));
+
+    // An ambient under the floor never darkens; a map whose bake has no sun (no StaticSunLight) has only ambient.
+    daylight.ambient = {0.1f, 0.1f, 0.1f};
+    daylight.sun = {0.0f, 0.0f, 0.0f};
+    const IndoorBakedDaylightScale dim = indoorBakedDaylightScale(daylight, midnight, Floor);
+    CHECK(dim.ambientScale[0] == doctest::Approx(1.0f));
+    CHECK(dim.sunScale[0] == doctest::Approx(dim.ambientScale[0]));
+}
+
+TEST_CASE("indoor daylight: the open air's lights are the wide ones of a daylight map and follow the sun")
+{
+    IndoorMapData map = {};
+    map.lights.resize(3);
+    map.lights[0].radius = 512;    // a lamp
+    map.lights[1].radius = 1792;   // MM9's widest lamp (Sturmford City)
+    map.lights[2].radius = 5120;   // a region's light over the land (Ravensford)
+    CHECK(indoorOpenAirLights(map) == std::vector<uint8_t>{0, 0, 0});
+    CHECK_FALSE(indoorOpenAirLight(map.daylight, 2));
+
+    map.daylight.enabled = true;
+    map.daylight.ambient = {0.3f, 0.3f, 0.3f};
+    map.daylight.sun = {1.0f, 1.0f, 1.0f};
+    map.daylight.openAirLights = indoorOpenAirLights(map);
+    CHECK(map.daylight.openAirLights == std::vector<uint8_t>{0, 0, 1});
+    CHECK(indoorOpenAirLight(map.daylight, 2));
+    CHECK_FALSE(indoorOpenAirLight(map.daylight, 0));
+    CHECK_FALSE(indoorOpenAirLight(map.daylight, 7));
+
+    // Full at noon, none at 03:00 (Ravensford's white night scale changes nothing: the sun has set), half at 06:00.
+    CHECK(indoorOpenAirLightScale(IndoorDaylight{}, {}) == doctest::Approx(1.0f));
+    CHECK(indoorOpenAirLightScale(map.daylight, evaluateIndoorDaylight(map.daylight, 720.0f)) == doctest::Approx(1.0f));
+    CHECK(indoorOpenAirLightScale(map.daylight, evaluateIndoorDaylight(map.daylight, 180.0f)) == doctest::Approx(0.0f));
+    CHECK(indoorOpenAirLightScale(map.daylight, evaluateIndoorDaylight(map.daylight, 360.0f))
+        == doctest::Approx(0.5f));
+
+    // A scene without a sun: the ambient's ratio.
+    map.daylight.sun = {0.0f, 0.0f, 0.0f};
+    map.daylight.nightScale = {0.5f, 0.5f, 0.5f};
+    CHECK(indoorOpenAirLightScale(map.daylight, evaluateIndoorDaylight(map.daylight, 0.0f)) == doctest::Approx(0.5f));
+}
+
 TEST_CASE("indoor daylight: the sectors open to the sky")
 {
     // Sector 1: the air over the roofs with a sky face; sector 2: a street under it, joined by a horizontal portal;
@@ -359,6 +432,15 @@ TEST_CASE("indoor actor detection: neighbour wakes by default, none by the scene
     CHECK(wakes->actorNeighbourWakes);
     CHECK_FALSE(loader.loadFromText(base + "actor_detection: {wakes: all}\n", error).has_value());
     CHECK_FALSE(loader.loadFromText(base + "actor_detection: {hearing: true}\n", error).has_value());
+    // The provoke radius: the world's without the key, the scene's with it.
+    CHECK_FALSE(plain->actorProvokeRadius.has_value());
+    const std::optional<IndoorSceneData> radius =
+        loader.loadFromText(base + "actor_detection: {wakes: none, provoke_radius: 192}\n", error);
+    REQUIRE_MESSAGE(radius.has_value(), error);
+    CHECK_FALSE(radius->actorNeighbourWakes);
+    REQUIRE(radius->actorProvokeRadius.has_value());
+    CHECK(*radius->actorProvokeRadius == doctest::Approx(192.0f));
+    CHECK_FALSE(loader.loadFromText(base + "actor_detection: {provoke_radius: -1}\n", error).has_value());
 }
 
 TEST_CASE("indoor static lights: both sides by default, the front only by the scene")
@@ -410,6 +492,13 @@ TEST_CASE("indoor terrain: block parsing and refusals")
     REQUIRE_EQ(terrain->terrain->textureNames.size(), 2u);
     CHECK_EQ(terrain->terrain->textureNames[0], "ashc08t3g2");
     CHECK_EQ(terrain->terrain->textureNames[1], "ashro4zhnj");
+    CHECK(terrain->terrain->excludedFaces.empty());
+    const std::optional<IndoorSceneData> excluded = loader.loadFromText(
+        base + "terrain: {materials: a.yml, textures: [a], exclude_faces: [2387, 2386, 2387]}\n", error);
+    REQUIRE_MESSAGE(excluded.has_value(), error);
+    CHECK_EQ(excluded->terrain->excludedFaces, std::vector<uint32_t>{2386, 2387});
+    CHECK_FALSE(loader.loadFromText(base + "terrain: {materials: a.yml, textures: [a], exclude_faces: 3}\n", error)
+        .has_value());
     CHECK_FALSE(loader.loadFromText(base + "terrain: {materials: a.yml, textures: []}\n", error).has_value());
     CHECK_FALSE(loader.loadFromText(base + "terrain: {textures: [a]}\n", error).has_value());
     CHECK_FALSE(loader.loadFromText(base + "terrain: {materials: ../a.yml, textures: [a]}\n", error).has_value());

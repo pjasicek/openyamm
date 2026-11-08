@@ -13,6 +13,8 @@
 
 namespace OpenYAMM::Game
 {
+class Mm9TransportRouteTable;
+struct Mm9TransportRoute;
 class Party;
 class ClassSkillTable;
 class NpcDialogTable;
@@ -168,7 +170,7 @@ float innRestDurationMinutes(uint32_t houseId, float currentGameMinutes);
 std::string buildClosedStatusText(const HouseEntry &houseEntry);
 bool isBoatHouse(const HouseEntry &houseEntry);
 uint32_t arcomageDeckItemId();
-const char *arcomageDeckRequiredMessage();
+std::string arcomageDeckRequiredMessage();
 bool partyHasArcomageDeck(const Party *pParty);
 bool houseRequiresArcomageDeck(const HouseEntry &houseEntry);
 bool partyCanPlayArcomageInHouse(const HouseEntry &houseEntry, const Party *pParty);
@@ -176,6 +178,17 @@ TransportSchedule buildTransportSchedule(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const IGameplayWorldRuntime *pWorldRuntime);
+// An MM9 dock's fare for a route: its base price and multiplier with the party's best merchant and reputation.
+int mm9TransportFare(const Mm9TransportRoute &route, const Party &party, const IGameplayWorldRuntime *pWorldRuntime);
+// An MM9 dock's week for the talk's Schedule: its one boat a weekday that the party may take (routeIndex is the
+// route's MM9 day index); the dock's routes share one fare.
+TransportSchedule buildMm9TransportSchedule(
+    const Mm9TransportRouteTable &routeTable,
+    uint32_t dockId,
+    const Party *pParty,
+    const IGameplayWorldRuntime *pWorldRuntime);
+// Food the party eats for each day it waits for a departure.
+int transportWaitFoodPerDay();
 // Days from today until a departure on the given weekday (0 Monday): 0 for today, up to 6.
 int transportWaitDays(int today, int departureDay);
 std::string transportScheduledTripArgument(uint32_t routeIndex, int departureDay);

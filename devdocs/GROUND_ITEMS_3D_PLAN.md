@@ -13,7 +13,9 @@ covering all 296 models, with unlimited Meshy credits and imagegen/Blender autho
 blanket KEEP-weapons and weapon-relief route. Keep armour, shields, amulets provisionally, Blender books/gold and
 the six generated helmets/boots.
 Rebuild other items selectively using Blender or the [3D ground item playbook](../level_generation/props/items_claude/GROUND_ITEM_3D_PLAYBOOK.md).
-MM9 is out of scope. The dated sections below describe the earlier implementation and reviews.
+MM9's items (245 designs, 391 items) are done separately and bound in MM9's own
+`worlds/mm9/world_items/items.yml`: see [MM9 ground items](../level_generation/props/items_mm9_claude/README.md).
+The dated sections below describe the earlier implementation and reviews.
 
 Items lying on the ground are the last gameplay billboards outside the MM7/MM8 monsters: projectiles, impacts and
 decorations are already 3D models or effects ([All projectiles](PROJECTILE_VFX_ALL_PROPOSAL.md),

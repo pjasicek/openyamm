@@ -1,5 +1,7 @@
 #include "game/ui/screens/PartyCreationSheet.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/MergedBaseTables.h"
@@ -13,7 +15,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr std::array<const char *, 5> MasteryNames = {"", "Normal", "Expert", "Master", "Grandmaster"};
+constexpr std::array<std::string_view, 5> MasteryNames = {"", Engine::trNoop("Normal"), Engine::trNoop("Expert"),
+    Engine::trNoop("Master"), Engine::trNoop("Grandmaster")};
 // race_skills.yml exception codes: the rule skips warrior classes (-5) or casters (-4); a positive code is a class
 // kind the rule skips.
 constexpr int32_t WarriorClassesException = -5;
@@ -44,30 +47,32 @@ std::string raceSkillRuleEffect(const MergedRaceSkillOverride &rule, const Class
 
     if (rule.minMastery > 0 && rule.minMastery < MasteryNames.size())
     {
-        parts.push_back("at least " + std::string(MasteryNames[rule.minMastery]));
+        parts.push_back(Engine::tr("at least {mastery}", {{"mastery", Engine::tr(MasteryNames[rule.minMastery])}}));
     }
 
     if (rule.maxMastery)
     {
         parts.push_back(*rule.maxMastery == 0 || *rule.maxMastery >= MasteryNames.size()
-                            ? std::string("forbidden")
-                            : "at most " + std::string(MasteryNames[*rule.maxMastery]));
+                            ? Engine::tr("forbidden")
+                            : Engine::tr("at most {mastery}",
+                                         {{"mastery", Engine::tr(MasteryNames[*rule.maxMastery])}}));
     }
 
     if (rule.add != 0)
     {
-        parts.push_back((rule.add > 0 ? "+" : "") + std::to_string(rule.add) + " mastery rank");
+        const std::string ranks = (rule.add > 0 ? "+" : "") + std::to_string(rule.add);
+        parts.push_back(Engine::tr("{ranks} mastery rank", {{"ranks", ranks}}));
     }
 
     std::string effect = joined(parts);
 
     if (rule.exceptionCode == WarriorClassesException)
     {
-        effect += " (warrior classes)";
+        effect = Engine::tr("{effect} (warrior classes)", {{"effect", effect}});
     }
     else if (rule.exceptionCode == CasterClassesException)
     {
-        effect += " (casters)";
+        effect = Engine::tr("{effect} (casters)", {{"effect", effect}});
     }
     else if (rule.exceptionCode > 0)
     {
@@ -75,23 +80,22 @@ std::string raceSkillRuleEffect(const MergedRaceSkillOverride &rule, const Class
 
         if (!kind.empty())
         {
-            effect += " (not " + displayClassName(kind.front()) + " line)";
+            effect = Engine::tr("{effect} (not {class} line)",
+                                {{"effect", effect}, {"class", Engine::localize(displayClassName(kind.front()))}});
         }
     }
 
-    if (!effect.empty())
-    {
-        effect[0] = char(std::toupper(static_cast<unsigned char>(effect[0])));
-    }
-
-    return effect;
+    return Engine::Utf8::capitalizedFirst(effect);
 }
 } // namespace
 
 const std::array<const char *, CreationStatCount> &creationStatNames()
 {
+    // English: the names look up the stats' descriptions; the sheet translates them where it shows them.
     static const std::array<const char *, CreationStatCount> Names = {
-        "Might", "Intellect", "Personality", "Endurance", "Accuracy", "Speed", "Luck",
+        Engine::trNoop("Might").data(), Engine::trNoop("Intellect").data(), Engine::trNoop("Personality").data(),
+        Engine::trNoop("Endurance").data(), Engine::trNoop("Accuracy").data(), Engine::trNoop("Speed").data(),
+        Engine::trNoop("Luck").data(),
     };
     return Names;
 }
@@ -99,14 +103,15 @@ const std::array<const char *, CreationStatCount> &creationStatNames()
 const std::vector<CreationSkillGroup> &creationSkillGroups()
 {
     static const std::vector<CreationSkillGroup> Groups = {
-        {"Weapons", {"Staff", "Sword", "Dagger", "Axe", "Spear", "Bow", "Throwing", "Mace", "Blaster", "Unarmed"}},
-        {"Armour",
+        {std::string(Engine::trNoop("Weapons")),
+         {"Staff", "Sword", "Dagger", "Axe", "Spear", "Bow", "Throwing", "Mace", "Blaster", "Unarmed"}},
+        {std::string(Engine::trNoop("Armour")),
          {"Shield", "LeatherArmor", "ChainArmor", "PlateArmor", "Dodging", "Cover", "Retaliation", "ManaShield"}},
-        {"Magic",
+        {std::string(Engine::trNoop("Magic")),
          {"FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic", "BodyMagic", "LightMagic",
           "DarkMagic"}},
-        {"Racial", {"DarkElfAbility", "VampireAbility", "DragonAbility"}},
-        {"Misc",
+        {std::string(Engine::trNoop("Racial")), {"DarkElfAbility", "VampireAbility", "DragonAbility"}},
+        {std::string(Engine::trNoop("Misc")),
          {"IdentifyItem", "Merchant", "RepairItem", "Bodybuilding", "Meditation", "Perception", "Regeneration",
           "DisarmTraps", "IdentifyMonster", "Armsmaster", "Stealing", "Alchemy", "Learning", "Enlightenment"}},
     };
@@ -216,11 +221,11 @@ std::string raceStatTrendText(const RaceStatLine &stat)
     switch (raceStatTrend(stat))
     {
     case 1:
-        return "+" + std::to_string(stat.gainPerPoint) + " per point";
+        return Engine::tr("+{gain} per point", {{"gain", stat.gainPerPoint}});
     case -1:
-        return std::to_string(stat.pointsPerGain) + " points per +1";
+        return Engine::tr("{points} points per +1", {{"points", stat.pointsPerGain}});
     default:
-        return "1 point per +1";
+        return Engine::tr("1 point per +1");
     }
 }
 
@@ -260,25 +265,27 @@ std::vector<RaceCardLine> raceCardLines(
 
         if (same != groups.end())
         {
-            same->names.push_back(statNames[index]);
+            same->names.push_back(Engine::tr(statNames[index]));
         }
         else
         {
-            groups.push_back({stat, {statNames[index]}});
+            groups.push_back({stat, {Engine::tr(statNames[index])}});
         }
     }
 
     if (groups.empty())
     {
-        lines.push_back({RaceCardLine::Kind::Even, "Even attributes: " + std::to_string(stats[0].base)
-                                                       + " each, max " + std::to_string(stats[0].maximum)});
+        lines.push_back({RaceCardLine::Kind::Even,
+            Engine::tr("Even attributes: {base} each, max {maximum}",
+                {{"base", int64_t(stats[0].base)}, {"maximum", int64_t(stats[0].maximum)}})});
     }
 
     for (const StatGroup &group : groups)
     {
         lines.push_back({raceStatTrend(group.stat) > 0 ? RaceCardLine::Kind::Strong : RaceCardLine::Kind::Weak,
-                         joined(group.names) + " " + std::to_string(group.stat.base) + " · "
-                             + raceStatTrendText(group.stat) + " · max " + std::to_string(group.stat.maximum)});
+                         Engine::tr("{names} {base} · {trend} · max {maximum}", {{"names", joined(group.names)},
+                             {"base", int64_t(group.stat.base)}, {"trend", raceStatTrendText(group.stat)},
+                             {"maximum", int64_t(group.stat.maximum)}})});
     }
 
     // Skill rules with the same effect share a line: "+1 mastery rank: Learning".
@@ -303,7 +310,7 @@ std::vector<RaceCardLine> raceCardLines(
             {
                 return entry.first == effect;
             });
-        const std::string skill = displaySkillName(rule.skillName);
+        const std::string skill = Engine::localize(displaySkillName(rule.skillName));
 
         if (same != effects.end())
         {
@@ -320,7 +327,8 @@ std::vector<RaceCardLine> raceCardLines(
 
     for (const auto &[effect, skills] : effects)
     {
-        lines.push_back({RaceCardLine::Kind::Skill, effect + ": " + joined(skills)});
+        lines.push_back({RaceCardLine::Kind::Skill,
+            Engine::tr("{effect}: {skills}", {{"effect", effect}, {"skills", joined(skills)}})});
     }
 
     for (const std::string &note : notes)

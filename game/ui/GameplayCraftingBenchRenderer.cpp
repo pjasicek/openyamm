@@ -1,4 +1,5 @@
 #include "game/ui/GameplayCraftingBenchRenderer.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/ItemRuntime.h"
@@ -54,7 +55,7 @@ std::vector<CompareLine> itemLines(const GameplayScreenRuntime &context, const I
     // Like the inspect popup, an unidentified item tells nothing beyond its generic name.
     if (!item.identified && ItemRuntime::requiresIdentification(*pDefinition))
     {
-        lines.push_back({"Not identified", WarningTextColor});
+        lines.push_back({Engine::tr("Not identified"), WarningTextColor});
         return lines;
     }
 
@@ -63,12 +64,12 @@ std::vector<CompareLine> itemLines(const GameplayScreenRuntime &context, const I
     {
         if (stats->maximumDamage > 0)
         {
-            lines.push_back({"Damage " + std::to_string(stats->minimumDamage) + "-"
-                + std::to_string(stats->maximumDamage)});
+            lines.push_back({Engine::tr("Damage {minimum}-{maximum}", {{"minimum", int64_t(stats->minimumDamage)},
+                {"maximum", int64_t(stats->maximumDamage)}})});
         }
         else if (stats->armorClass > 0)
         {
-            lines.push_back({"Armour " + std::to_string(stats->armorClass)});
+            lines.push_back({Engine::tr("Armour {armour}", {{"armour", int64_t(stats->armorClass)}})});
         }
     }
 
@@ -85,16 +86,17 @@ std::vector<CompareLine> itemLines(const GameplayScreenRuntime &context, const I
     if (pPotion != nullptr && pPotion->charges > 1)
     {
         const int uses = item.currentCharges > 0 ? int(item.currentCharges) : pPotion->charges;
-        lines.push_back({"Uses " + std::to_string(uses)});
+        lines.push_back({Engine::tr("Uses {uses}", {{"uses", int64_t(uses)}})});
     }
 
     if (item.rulesetFields.qualityPercent > 0)
     {
-        lines.push_back({"Quality +" + std::to_string(item.rulesetFields.qualityPercent) + " %"});
+        lines.push_back({Engine::tr("Quality +{percent} %",
+            {{"percent", int64_t(item.rulesetFields.qualityPercent)}})});
     }
 
-    lines.push_back({"Value " + std::to_string(itemRules.itemValue(item, *pDefinition,
-        context.standardItemEnchantTable(), context.specialItemEnchantTable(), 1))});
+    lines.push_back({Engine::tr("Value {value}", {{"value", int64_t(itemRules.itemValue(item, *pDefinition,
+        context.standardItemEnchantTable(), context.specialItemEnchantTable(), 1))}})});
     return lines;
 }
 
@@ -133,12 +135,12 @@ std::string materialTag(const GameplayScreenRuntime &context, const CraftMateria
 
     if (tier > 0)
     {
-        return "T" + std::to_string(tier);
+        return Engine::tr("T{tier}", {{"tier", tier}});
     }
 
     if (material.key.power > 0)
     {
-        return "p" + std::to_string(material.key.power);
+        return Engine::tr("p{power}", {{"power", int64_t(material.key.power)}});
     }
 
     return material.key.state > 0 ? "+" + std::to_string(material.key.state) : "";
@@ -158,11 +160,11 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
     const GameplayUiController::CraftingBenchState &state = context.characterScreenReadOnly().alchemyBench.crafting;
     const ItemRules &itemRules = gameRulesFor(context.partyReadOnly()).items;
 
-    painter.label("CraftingBenchItemHeader", "Equipment");
-    painter.label("CraftingBenchItemCount", std::to_string(model->targets.size()) + " items");
-    painter.chip("CraftingBenchItemFilterAll", "All", state.targetFilter == TargetFilter::All);
-    painter.chip("CraftingBenchItemFilterWorn", "Worn", state.targetFilter == TargetFilter::Worn);
-    painter.chip("CraftingBenchItemFilterPacks", "Packs", state.targetFilter == TargetFilter::Packs);
+    painter.label("CraftingBenchItemHeader", Engine::tr("Equipment"));
+    painter.label("CraftingBenchItemCount", Engine::tr("{count} items", {{"count", model->targets.size()}}));
+    painter.chip("CraftingBenchItemFilterAll", Engine::tr("All"), state.targetFilter == TargetFilter::All);
+    painter.chip("CraftingBenchItemFilterWorn", Engine::tr("Worn"), state.targetFilter == TargetFilter::Worn);
+    painter.chip("CraftingBenchItemFilterPacks", Engine::tr("Packs"), state.targetFilter == TargetFilter::Packs);
 
     if (const std::optional<Rect> search = painter.rect("CraftingBenchItemSearch"))
     {
@@ -174,7 +176,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         }
 
         painter.text("CraftingBenchItemSearch", *search,
-            state.search.empty() && !state.searchActive ? std::string("Search items")
+            state.search.empty() && !state.searchActive ? Engine::tr("Search items")
                                                         : state.search + (state.searchActive ? "_" : ""),
             state.search.empty() && !state.searchActive ? std::optional<uint32_t>(DisabledTextColor) : std::nullopt);
     }
@@ -228,7 +230,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
                 if (level > 1)
                 {
                     painter.text("AlchemyBenchRowCount", {area.x, area.y + 3 * s, area.width - 4 * s, area.height, s},
-                        "L" + std::to_string(level), color);
+                        Engine::tr("L{level}", {{"level", int64_t(level)}}), color);
                 }
             }
         }
@@ -236,7 +238,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         if (model->rows.empty())
         {
             painter.text("AlchemyBenchSlotNameLabel", {list->x, list->y + 10 * list->scale, list->width,
-                12 * list->scale, list->scale}, "No equipment to craft on.", DimTextColor);
+                12 * list->scale, list->scale}, Engine::tr("No equipment to craft on."), DimTextColor);
         }
 
         const float visibleHeight = list->height / list->scale - 2 * GameplayAlchemyBenchView::RecipeListPadding;
@@ -249,9 +251,10 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         model->selectedMaterial ? &model->materials[*model->selectedMaterial] : nullptr;
     const CraftTargetEntry *pTarget = model->selectedTarget ? &model->targets[*model->selectedTarget] : nullptr;
     painter.label("CraftingBenchOperationHeader",
-        pMaterial != nullptr ? GameplayCraftingBenchView::operationName(context, pMaterial->key.itemId) : "Crafting");
+        pMaterial != nullptr ? GameplayCraftingBenchView::operationName(context, pMaterial->key.itemId)
+                             : Engine::tr("Crafting"));
     painter.label("CraftingBenchOwnerLabel",
-        pTarget != nullptr ? model->ownerText : "Choose an item and a material.");
+        pTarget != nullptr ? model->ownerText : Engine::tr("Choose an item and a material."));
 
     const GameplayOverlayInteractionState &interaction = context.interactionState();
     const uint64_t craftedElapsedTicks = SDL_GetTicks() - state.craftedTicks;
@@ -287,7 +290,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         {
             painter.text("AlchemyBenchSlotPowerLabel",
                 {slot->x, slot->y + slot->height / 2 - 5 * slot->scale, slot->width, 10 * slot->scale, slot->scale},
-                "item", DisabledTextColor);
+                Engine::tr("item"), DisabledTextColor);
         }
     }
 
@@ -309,7 +312,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         {
             painter.text("AlchemyBenchSlotPowerLabel",
                 {slot->x, slot->y + slot->height / 2 - 5 * slot->scale, slot->width, 10 * slot->scale, slot->scale},
-                "material", DisabledTextColor);
+                Engine::tr("material"), DisabledTextColor);
         }
     }
 
@@ -336,7 +339,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
             // A gamble: the item, faded, and a question mark until it is applied.
             painter.itemIcon(pItemTable->get(pStep->item.objectDescriptionId), iconBox(*slot), 90);
             painter.text("AlchemyBenchPlusLabel", *slot, "?", GameplayUiSkin::Gold);
-            slotLabels(*slot, itemName(context, pStep->item.objectDescriptionId), "random", DimTextColor);
+            slotLabels(*slot, itemName(context, pStep->item.objectDescriptionId), Engine::tr("random"), DimTextColor);
         }
         else if (possible)
         {
@@ -349,17 +352,19 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
             addInspectable(context, shown, *slot);
             const uint32_t batch = model->batch ? model->batch->applications : 0;
             slotLabels(*slot, itemName(context, shown.objectDescriptionId),
-                batch > 1 ? std::to_string(batch) + " possible" : "", DimTextColor);
+                batch > 1 ? Engine::tr("{count} possible", {{"count", int64_t(batch)}}) : std::string(), DimTextColor);
         }
         else if (gemOnly)
         {
             const uint32_t mergedId = model->combine.steps.front().toItemId;
             painter.itemIcon(pItemTable->get(mergedId), iconBox(*slot));
-            slotLabels(*slot, itemName(context, mergedId), "x" + std::to_string(merges) + " possible", DimTextColor);
+            slotLabels(*slot, itemName(context, mergedId), Engine::tr("x{count} possible",
+                {{"count", int64_t(merges)}}),
+                DimTextColor);
         }
         else if (!state.craftedText.empty())
         {
-            slotLabels(*slot, "Done", state.craftedText, GameplayUiSkin::Gold);
+            slotLabels(*slot, Engine::tr("Done"), state.craftedText, GameplayUiSkin::Gold);
         }
     }
 
@@ -407,8 +412,10 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
             const GemCombinePlan::Step &merge = model->combine.steps.front();
             const uint32_t perMerge = uint32_t(GameplayCraftingBenchView::rules(context).gemCombineCount());
             lineY = painter.paragraph("CraftingBenchCompare",
-                "Merge " + std::to_string(merge.merges * perMerge) + " x " + itemName(context, merge.fromItemId)
-                    + " into " + std::to_string(merge.merges) + " x " + itemName(context, merge.toItemId) + "?",
+                Engine::tr("Merge {from_count} x {from} into {to_count} x {to}?",
+                    {{"from_count", int64_t(merge.merges * perMerge)},
+                    {"from", itemName(context, merge.fromItemId)}, {"to_count", int64_t(merge.merges)},
+                    {"to", itemName(context, merge.toItemId)}}),
                 GameplayUiSkin::Gold, lineY)
                 + gap;
         }
@@ -474,15 +481,17 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
                 const GemCombinePlan::Step &merge = model->combine.steps.front();
                 const uint32_t perMerge = uint32_t(GameplayCraftingBenchView::rules(context).gemCombineCount());
                 lineY = painter.paragraph("CraftingBenchCompare",
-                    "Merge " + std::to_string(perMerge) + " x " + itemName(context, merge.fromItemId) + " into 1 x "
-                        + itemName(context, merge.toItemId) + ": " + std::to_string(merges) + " possible.",
+                    Engine::tr("Merge {from_count} x {from} into 1 x {to}: {count} possible.",
+                        {{"from_count", int64_t(perMerge)},
+                        {"from", itemName(context, merge.fromItemId)}, {"to", itemName(context, merge.toItemId)},
+                        {"count", int64_t(merges)}}),
                     GameplayUiSkin::Gold, lineY)
                     + gap;
             }
 
             const ItemDefinition *pDefinition = pItemTable->get(pMaterial->key.itemId);
-            painter.paragraph("CraftingBenchCompare", pDefinition != nullptr ? pDefinition->notes : "", DimTextColor,
-                lineY);
+            painter.paragraph("CraftingBenchCompare",
+                pDefinition != nullptr ? Engine::localize(pDefinition->notes) : "", DimTextColor, lineY);
         }
     }
 
@@ -492,35 +501,44 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
 
     if (gemOnly)
     {
-        painter.button("CraftingBenchApplyButton", "Merge", true);
+        painter.button("CraftingBenchApplyButton", Engine::tr("Merge"), true);
         painter.button("CraftingBenchApplyManyButton",
-            state.mergePending ? "Confirm" : "Merge x" + std::to_string(merges), merges > 1, state.mergePending);
+            state.mergePending ? Engine::tr("Confirm") : Engine::tr("Merge x{count}", {{"count", int64_t(merges)}}),
+            merges > 1, state.mergePending);
     }
     else
     {
-        painter.button("CraftingBenchApplyButton", confirming ? "Confirm" : "Apply", possible, confirming);
+        painter.button("CraftingBenchApplyButton", Engine::tr(confirming ? "Confirm" : "Apply"), possible,
+            confirming);
         painter.button("CraftingBenchApplyManyButton",
-            batchUseful ? "Apply x" + std::to_string(batchCount) : "Apply All", batchUseful);
+            batchUseful ? Engine::tr("Apply x{count}", {{"count", int64_t(batchCount)}}) : Engine::tr("Apply All"),
+            batchUseful);
     }
 
-    painter.button("CraftingBenchClearButton", confirming || state.mergePending ? "Cancel" : "Clear",
+    painter.button("CraftingBenchClearButton",
+        Engine::tr(confirming || state.mergePending ? "Cancel" : "Clear"),
         state.target.has_value() || state.material.has_value());
-    painter.button("CraftingBenchCloseButton", "Close", true);
+    painter.button("CraftingBenchCloseButton", Engine::tr("Close"), true);
 
-    painter.label("CraftingBenchMaterialHeader", "Materials");
+    painter.label("CraftingBenchMaterialHeader", Engine::tr("Materials"));
     // With a gem chosen, the hint says what Merge does with it.
     const CraftingRules &craftingRules = GameplayCraftingBenchView::rules(context);
     const int mergeFromTier = pMaterial != nullptr ? craftingRules.gemTier(pMaterial->key.itemId) : 0;
     painter.label("CraftingBenchMaterialHint",
         mergeFromTier > 0 && craftingRules.combinedGem(pMaterial->key.itemId) != 0
-            ? "with no item chosen, Merge turns " + std::to_string(craftingRules.gemCombineCount()) + " x T"
-                + std::to_string(mergeFromTier) + " into 1 x T" + std::to_string(mergeFromTier + 1)
-            : "whole party, click or drag to place");
-    painter.chip("CraftingBenchMaterialFilterAll", "All", state.materialFilter == MaterialFilter::All);
-    painter.chip("CraftingBenchMaterialFilterGems", "Gems", state.materialFilter == MaterialFilter::Gems);
-    painter.chip("CraftingBenchMaterialFilterSpecial", "Special", state.materialFilter == MaterialFilter::Special);
-    painter.chip("CraftingBenchMaterialFilterPotions", "Potions", state.materialFilter == MaterialFilter::Potions);
-    painter.chip("CraftingBenchCheapestGems", "Cheapest gems", state.cheapestGems);
+            ? Engine::tr("with no item chosen, Merge turns {count} x T{from} into 1 x T{to}",
+                {{"count", int64_t(craftingRules.gemCombineCount())},
+                {"from", int64_t(mergeFromTier)}, {"to", int64_t(mergeFromTier + 1)}})
+            : Engine::tr("whole party, click or drag to place"));
+    painter.chip("CraftingBenchMaterialFilterAll", Engine::tr("All"),
+        state.materialFilter == MaterialFilter::All);
+    painter.chip("CraftingBenchMaterialFilterGems", Engine::tr("Gems"),
+        state.materialFilter == MaterialFilter::Gems);
+    painter.chip("CraftingBenchMaterialFilterSpecial", Engine::tr("Special"),
+        state.materialFilter == MaterialFilter::Special);
+    painter.chip("CraftingBenchMaterialFilterPotions", Engine::tr("Potions"),
+        state.materialFilter == MaterialFilter::Potions);
+    painter.chip("CraftingBenchCheapestGems", Engine::tr("Cheapest gems"), state.cheapestGems);
 
     if (const std::optional<Rect> grid = painter.rect("CraftingBenchMaterialGrid"))
     {
@@ -555,7 +573,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
         if (model->visibleMaterials.empty())
         {
             painter.text("AlchemyBenchSlotNameLabel", {grid->x, grid->y + 10 * grid->scale, grid->width,
-                12 * grid->scale, grid->scale}, "The party carries no crafting materials.", DimTextColor);
+                12 * grid->scale, grid->scale}, Engine::tr("The party carries no crafting materials."), DimTextColor);
         }
 
         const size_t visibleRows = GameplayAlchemyBenchView::ingredientVisibleRows(*grid);

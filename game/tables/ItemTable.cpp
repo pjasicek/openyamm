@@ -539,6 +539,16 @@ bool ItemTable::load(
         }
     }
 
+    m_itemPackageIds.clear();
+
+    for (const ItemDefinition &entry : m_entries)
+    {
+        if (entry.itemId != 0)
+        {
+            m_itemPackageIds.insert(toLowerCopy(entry.packageId));
+        }
+    }
+
     return true;
 }
 
@@ -798,6 +808,47 @@ bool ItemTable::loadVisualRows(const std::vector<std::vector<std::string>> &rows
     m_entries = std::move(entries);
     errorMessage.clear();
     return true;
+}
+
+std::string ItemTable::lootPoolForWorld(const std::string &worldId) const
+{
+    if (worldId.empty())
+    {
+        return {};
+    }
+
+    const std::string world = toLowerCopy(worldId);
+    return m_itemPackageIds.contains(world) ? world : std::string("engine");
+}
+
+void ItemTable::setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds)
+{
+    m_chestArtifactsOnlyWorlds.clear();
+
+    for (const std::string &worldId : worldIds)
+    {
+        m_chestArtifactsOnlyWorlds.insert(toLowerCopy(worldId));
+    }
+}
+
+bool ItemTable::chestArtifactsOnly(const std::string &worldId) const
+{
+    return !worldId.empty() && m_chestArtifactsOnlyWorlds.contains(toLowerCopy(worldId));
+}
+
+void ItemTable::setTreasureMarkersItemsOnlyWorlds(std::unordered_set<std::string> worldIds)
+{
+    m_treasureMarkersItemsOnlyWorlds.clear();
+
+    for (const std::string &worldId : worldIds)
+    {
+        m_treasureMarkersItemsOnlyWorlds.insert(toLowerCopy(worldId));
+    }
+}
+
+bool ItemTable::treasureMarkersItemsOnly(const std::string &worldId) const
+{
+    return !worldId.empty() && m_treasureMarkersItemsOnlyWorlds.contains(toLowerCopy(worldId));
 }
 
 const ItemDefinition *ItemTable::get(uint32_t itemId) const

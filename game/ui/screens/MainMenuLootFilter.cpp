@@ -1,5 +1,7 @@
 #include "game/ui/screens/MainMenuScreen.h"
 
+#include "engine/Localization.h"
+
 #include <array>
 #include <string>
 
@@ -49,15 +51,15 @@ void MainMenuScreen::drawLootFilter()
 
     drawTexture("hud_x2/menus/omenu_modal_veil.png", {0, 0, float(frameWidth()), float(frameHeight())});
     drawTexture("hud_x2/menus/omenu_frame.png", window);
-    textInRect(at(24, 16, 300, 24), "Loot filter", "fondamento", 21, IvoryColor);
+    textInRect(at(24, 16, 300, 24), Engine::tr("Loot filter"), "fondamento", 21, IvoryColor);
     textInRect(at(24, 40, 610, 22),
-        "Drops you would rather not carry turn into gold (40 % of their value). The levels follow your party, so a "
-        "preset stays right as you grow.",
+        Engine::tr("Drops you would rather not carry turn into gold (40 % of their value). The levels follow your "
+                   "party, so a preset stays right as you grow."),
         TextFont, 9.5f, MutedColor);
     drawSolidRect(at(20, 64, 621, 0.6f), RuleColor);
 
     // Strictness: the presets with their one line and a four-step marker. Custom rules come with the rule editor.
-    textInRect(at(22, 70, 200, 16), "Strictness", "fondamento", 13.5f, HeadingColor);
+    textInRect(at(22, 70, 200, 16), Engine::tr("Strictness"), "fondamento", 13.5f, HeadingColor);
 
     for (size_t index = 0; index <= size_t(RulesetLootFilterPreset::Custom); ++index)
     {
@@ -84,9 +86,10 @@ void MainMenuScreen::drawLootFilter()
 
         const uint32_t nameColor = available ? IvoryColor : 0xff6b777au;
         textInRect(at(39, 90 + float(index) * 37.5f + 2, 130, 14),
-            std::string(rulesetLootFilterPresetName(preset)), "fondamento", 12, nameColor);
+            Engine::tr(rulesetLootFilterPresetName(preset)), "fondamento", 12, nameColor);
         textInRect(at(39, 90 + float(index) * 37.5f + 16.5f, 186, 19),
-            available ? definition.description : "Your own rules, from the preset you had. Coming next.",
+            available ? Engine::tr(definition.description)
+                      : Engine::tr("Your own rules, from the preset you had. Coming next."),
             TextFont, 7.8f, available ? MutedColor : 0xff6b777au);
 
         for (int step = 0; step < 4 && definition.strictness >= 0; ++step)
@@ -98,18 +101,19 @@ void MainMenuScreen::drawLootFilter()
 
     // What it filters: rarity against weapons, armour and jewellery.
     const float gridX = 248;
-    textInRect(at(gridX, 70, 300, 16), "What it filters", "fondamento", 13.5f, HeadingColor);
+    textInRect(at(gridX, 70, 300, 16), Engine::tr("What it filters"), "fondamento", 13.5f, HeadingColor);
 
     for (size_t group = 0; group < LootFilterGroupCount; ++group)
     {
-        textInRect(at(gridX + 64 + float(group) * 106, 90, 104, 12), lootFilterGroupName(LootFilterGroup(group)),
+        textInRect(at(gridX + 64 + float(group) * 106, 90, 104, 12),
+            Engine::tr(lootFilterGroupName(LootFilterGroup(group))),
             TextFont, 8.5f, MutedColor, true);
     }
 
     for (int rarity = 1; rarity <= LootFilterRarityCount; ++rarity)
     {
         const float y = 104 + float(rarity - 1) * 16;
-        textInRect(at(gridX + 2, y + 1, 62, 12), lootFilterRarityName(rarity), TextFont, 8.5f,
+        textInRect(at(gridX + 2, y + 1, 62, 12), Engine::tr(lootFilterRarityName(rarity)), TextFont, 8.5f,
             RarityColors[size_t(rarity - 1)]);
 
         for (size_t group = 0; group < LootFilterGroupCount; ++group)
@@ -117,9 +121,13 @@ void MainMenuScreen::drawLootFilter()
             const std::string text = lootFilterCellText(filter.preset, LootFilterGroup(group), rarity);
             const bool gold = text == "gold";
             const bool keep = text == "keep";
+            const int gap = lootFilterPreset(filter.preset).columns[group].levelGap;
+            const std::string shown = gold ? Engine::tr("gold")
+                : keep ? Engine::tr("keep")
+                       : Engine::tr("gold if {levels}+ levels below", {{"levels", gap}});
             const Rect cell = at(gridX + 64 + float(group) * 106, y, 104, 14);
             drawSolidRect(cell, gold ? GoldCellColor : keep ? KeepCellColor : LevelCellColor);
-            textInRect(cell, text, TextFont, 8.5f, gold ? GoldTextColor : keep ? KeepTextColor : LevelTextColor,
+            textInRect(cell, shown, TextFont, 8.5f, gold ? GoldTextColor : keep ? KeepTextColor : LevelTextColor,
                 true);
         }
     }
@@ -133,14 +141,15 @@ void MainMenuScreen::drawLootFilter()
     }
 
     textInRect(at(gridX, 202, 380, 22),
-        levelGap == 0 ? "Nothing is filtered by rarity."
-                      : "\"Gold if " + std::to_string(levelGap)
-                + "+ levels below\": only once its level is that far below the party's, so older gear goes as you "
-                  "grow.",
+        levelGap == 0 ? Engine::tr("Nothing is filtered by rarity.")
+                      : Engine::tr("\"Gold if {levels}+ levels below\": only once its level is that far below the "
+                                   "party's, so older gear goes as you grow.",
+                                   {{"levels", levelGap}}),
         TextFont, 8.5f, MutedColor);
 
     // The kinds without rarity, each turned into gold or not.
-    textInRect(at(gridX, 230, 395, 16), "Items without rarity: turn into gold", "fondamento", 13.5f, HeadingColor);
+    textInRect(at(gridX, 230, 395, 16), Engine::tr("Items without rarity: turn into gold"), "fondamento", 13.5f,
+        HeadingColor);
 
     for (size_t kind = 0; kind < RulesetLootKindCount; ++kind)
     {
@@ -164,16 +173,17 @@ void MainMenuScreen::drawLootFilter()
                 0xffb0e7ffu);
         }
 
-        textInRect(at(gridX + float(kind) * 76 + 17, 252, 52, 12), lootFilterKindName(RulesetLootKind(kind)),
+        textInRect(at(gridX + float(kind) * 76 + 17, 252, 52, 12),
+            Engine::tr(lootFilterKindName(RulesetLootKind(kind))),
             TextFont, 8.5f, on ? IvoryColor : MutedColor);
     }
 
     textInRect(at(gridX, 272, 395, 12),
-        "Always kept: legendary and Celestial items, artifacts, quest items and spellbooks.", TextFont, 8.5f,
-        MutedColor);
+        Engine::tr("Always kept: legendary and Celestial items, artifacts, quest items and spellbooks."), TextFont,
+        8.5f, MutedColor);
 
     // What becomes of a filtered drop.
-    textInRect(at(gridX, 293, 70, 12), "Filtered items", TextFont, 8.5f, MutedColor);
+    textInRect(at(gridX, 293, 70, 12), Engine::tr("Filtered items"), TextFont, 8.5f, MutedColor);
 
     if (button("loot-gold", at(gridX + 72, 290, 92, 16), "", "tab", true, !filter.leaveOnGround))
     {
@@ -182,7 +192,7 @@ void MainMenuScreen::drawLootFilter()
 
     outline(at(gridX + 72, 290, 92, 16), RuleColor);
 
-    textInRect(at(gridX + 72, 292, 92, 12), "turn into gold", TextFont, 8.5f,
+    textInRect(at(gridX + 72, 292, 92, 12), Engine::tr("turn into gold"), TextFont, 8.5f,
         filter.leaveOnGround ? MutedColor : IvoryColor, true);
 
     if (button("loot-ground", at(gridX + 168, 290, 150, 16), "", "tab", true, filter.leaveOnGround))
@@ -192,29 +202,30 @@ void MainMenuScreen::drawLootFilter()
 
     outline(at(gridX + 168, 290, 150, 16), RuleColor);
 
-    textInRect(at(gridX + 168, 292, 150, 12), "stay on the ground, greyed", TextFont, 8.5f,
+    textInRect(at(gridX + 168, 292, 150, 12), Engine::tr("stay on the ground, greyed"), TextFont, 8.5f,
         filter.leaveOnGround ? IvoryColor : MutedColor, true);
 
     // The filter tried on this session's drops.
     drawSolidRect(at(20, 318, 621, 0.6f), RuleColor);
     const std::deque<RecentLootDrop> &drops = m_currentGame->recentLootDrops;
     textInRect(at(22, 324, 400, 16),
-        "Your last " + std::to_string(RecentLootDrops::MaxDrops) + " drops with this filter", "fondamento", 13.5f,
-        HeadingColor);
+        Engine::tr("Your last {count} drops with this filter", {{"count", RecentLootDrops::MaxDrops}}), "fondamento",
+        13.5f, HeadingColor);
     const LootFilterTrial trial = tryLootFilter(filter, drops);
-    const std::string verb = filter.leaveOnGround ? " left on the ground" : " turned into ";
     textInRect(at(22, 344, 440, 14),
-        drops.empty() ? "No drops yet this session: the filter is tried on the drops to come."
+        drops.empty() ? Engine::tr("No drops yet this session: the filter is tried on the drops to come.")
         : filter.leaveOnGround
-            ? std::to_string(trial.filtered) + verb + ", " + std::to_string(trial.drops - trial.filtered)
-                + " kept, of " + std::to_string(trial.drops) + ". Try a preset here before choosing it."
-            : std::to_string(trial.filtered) + verb + withThousands(trial.gold) + " gold, "
-                + std::to_string(trial.drops - trial.filtered) + " kept, of " + std::to_string(trial.drops)
-                + ". Try a preset here before choosing it.",
+            ? Engine::tr("{filtered} left on the ground, {kept} kept, of {count}. Try a preset here before choosing "
+                         "it.",
+                {{"filtered", trial.filtered}, {"kept", trial.drops - trial.filtered}, {"count", trial.drops}})
+            : Engine::tr("{filtered} turned into {gold} gold, {kept} kept, of {count}. Try a preset here before "
+                         "choosing it.",
+                {{"filtered", trial.filtered}, {"gold", withThousands(trial.gold)},
+                    {"kept", trial.drops - trial.filtered}, {"count", trial.drops}}),
         TextFont, 9.5f, drops.empty() ? MutedColor : AmountColor);
 
     // Done returns to Settings, where Apply keeps the choice.
-    if (button("loot-done", at(531, 334, 110, 24), "Done", "button") || keyPressed(SDL_SCANCODE_ESCAPE))
+    if (button("loot-done", at(531, 334, 110, 24), Engine::tr("Done"), "button") || keyPressed(SDL_SCANCODE_ESCAPE))
     {
         m_lootFilterOpen = false;
     }

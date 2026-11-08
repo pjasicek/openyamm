@@ -1,4 +1,5 @@
 #include "game/app/GameSettings.h"
+#include "engine/Localization.h"
 #include "game/render/CombatActorHealthBarPolicy.h"
 
 #include <algorithm>
@@ -484,7 +485,7 @@ GameSettings GameSettings::createDefault()
     settings.bloom = false;
     settings.cinematicGrading = false;
     // Android has no combat log (user, 2026-10-25).
-    settings.combatLog = false;
+    settings.combatLog = CombatLogMode::Off;
 #else
     settings.assetScaleProfile.textures = Engine::AssetScaleTier::X4;
     settings.windowMode = WindowMode::WindowedFullscreen;
@@ -1145,14 +1146,20 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
 #if !defined(__ANDROID__)
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "combat_log"))
     {
-        bool parsed = settings.combatLog;
-
-        if (parseBoolValue(*value, parsed))
+        if (const std::optional<CombatLogMode> mode = parseCombatLogModeValue(*value))
         {
-            settings.combatLog = parsed;
+            settings.combatLog = *mode;
         }
     }
 #endif
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "language"))
+    {
+        if (Engine::validLanguageId(*value))
+        {
+            settings.language = *value;
+        }
+    }
 
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "enemy_health_bars"))
     {
@@ -2466,7 +2473,8 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("keyboard_interaction_depth", std::clamp(settings.keyboardInteractionDepth, 32, 4096));
     serializer.add("mouse_interaction_depth", std::clamp(settings.mouseInteractionDepth, 32, 4096));
     serializer.add("combat_text", boolValue(settings.combatText));
-    serializer.add("combat_log", boolValue(settings.combatLog));
+    serializer.add("combat_log", combatLogModeValue(settings.combatLog));
+    serializer.add("language", settings.language);
     serializer.add("turn_based_monster_speed", turnBasedSpeedValue(settings.turnBasedMonsterSpeed));
     serializer.add("turn_based_party_speed", turnBasedSpeedValue(settings.turnBasedPartySpeed));
     serializer.add("enemy_health_bars", settings.enemyHealthBarMode);

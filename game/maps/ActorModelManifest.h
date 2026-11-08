@@ -20,7 +20,7 @@ namespace OpenYAMM::Game
 {
 class MonsterTable;
 struct ActorAttackTiming;
-struct ActorFidgetClips;
+struct ActorClipChoices;
 
 // Actor model bindings (worlds/<world>/models/actors.yml): the monster descriptors drawn as 3D models. Descriptors are
 // global, so every mounted world contributes its bindings to all worlds (an MM9 map spawning an MM6 monster shows the
@@ -40,6 +40,13 @@ public:
         // The manifest's `fidget_variants: true`: a fidget picks among the binding's `fidget` clip and its script clips
         // fidget<n> and search<n>, as MM9 picks among a model's Fidget* and Search* clips (fidgetClips).
         bool fidgetVariants = false;
+        // The manifest's `gait: intent` (default `speed`): its models walk while their AI walks and run while it runs,
+        // as MM9's do, unless that clip would play outside its rate window (actorModelIntendedGait); otherwise the
+        // clip that suits the speed plays (actorModelGait).
+        bool gaitFollowsIntent = false;
+        // This descriptor's entry in actor_sounds.yml beside its actors.yml (null without): the timed sounds of its
+        // model's clips (WorldFxSystem's ActorClipSounds).
+        YAML::Node sounds;
     };
 
     // Attack roles of a bound model, in the order of BoundClips' arrays.
@@ -64,6 +71,10 @@ public:
         // then its script clip roles, and their clips' lengths. Empty without fidget variants.
         std::vector<std::string> fidgetRoles;
         std::vector<float> fidgetSeconds;
+        // MM9's Conv clips (a townsperson's chat): its script clip role `conv` alone when it has one, else its
+        // conv<n> roles, and their lengths. Read with the clips above (empty when neither is read).
+        std::vector<std::string> convRoles;
+        std::vector<float> convSeconds;
     };
 
     // Reads the existing manifests among paths, then activePath (empty for none), whose bindings replace theirs.
@@ -108,9 +119,14 @@ ActorAttackTiming actorAttackTiming(const ActorModelManifest *pModels, int16_t m
 
 // The fidget clips a monster picks from (ActorRuntimeFacts::fidgetClips): its model's variants, or none (pModels null,
 // an unbound monster or a manifest without fidget variants: its one sprite or model fidget).
-ActorFidgetClips actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId);
+ActorClipChoices actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId);
 
 // The role of a fidget variant (ActorMm9State::fidgetVariant) for the presentation: a script clip role, or empty for
 // the binding's own fidget (the Bored clip) and for anything it does not know.
 std::string actorFidgetRole(const ActorModelManifest *pModels, int16_t monsterId, int8_t variant);
+
+// The Conv clips a monster's chats pick from (ActorRuntimeFacts::convClips), and the role of one
+// (ActorMm9State::chatClip; empty for anything it does not know).
+ActorClipChoices actorConvClips(const ActorModelManifest *pModels, int16_t monsterId);
+std::string actorConvRole(const ActorModelManifest *pModels, int16_t monsterId, int8_t variant);
 }

@@ -104,6 +104,11 @@ public:
     AssetScaleTier getAssetScaleTier(AssetScaleCategory assetScaleCategory) const;
     AssetScaleTier getAssetScaleTierForVirtualPath(const std::string &virtualPath) const;
     const AssetScaleProfile &getAssetScaleProfile() const;
+    // A release's interface language has optional packs (fonts, sounds, videos) that are not downloaded yet: the game
+    // shows English until the updater has them.
+    bool languagePacksMissing() const;
+    // The download size of a release language's optional packs not installed; 0 when installed or not a release.
+    uint64_t missingLanguagePackBytes(const std::string &languageId) const;
     // Call after editing mounted files, with asset readers stopped. Mount changes invalidate automatically.
     void refreshLookupCache() const;
     uint64_t contentGeneration() const;
@@ -132,6 +137,9 @@ private:
     bool mountPackageArchiveIfPresent(const std::filesystem::path &archivePath, bool appendToPath);
     // The engine/ and worlds/<id>/ folders of mods/ in front of every pack; logs each file they bring.
     bool mountMods(const std::filesystem::path &modsRoot);
+    // The player's language packs at languages/, and the active pack's fonts, sounds, voices and videos in front of
+    // the game's (devdocs/LOCALIZATION.md). A pack replaces nothing else.
+    bool mountLanguagePack(bool packagedRoot);
     // Mounts the content packs of an index: the active world's in front, then the engine's and the other worlds'.
     bool mountContentPacks(
         const AssetPackIndex &index,
@@ -194,6 +202,8 @@ private:
     std::vector<std::pair<std::string, AssetScaleTier>> m_iconPackages;
     std::vector<SearchMount> m_searchMounts;
     bool m_androidApkAssetRoot;
+    bool m_languagePacksMissing = false;
+    std::vector<std::pair<std::string, uint64_t>> m_missingLanguageBytes;
     std::unique_ptr<LookupCache> m_pLookupCache;
     mutable uint64_t m_contentGeneration = 0;
 };

@@ -11,6 +11,8 @@
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/MapIdentity.h"
+#include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
 #include "game/gameplay/CombatLog.h"
 #include "game/rules/maw/MawRules.h"
@@ -19,6 +21,13 @@
 #include "game/tables/ItemTable.h"
 
 #include <SDL3/SDL.h>
+
+extern "C"
+{
+#include <lauxlib.h>
+#include <lua.h>
+#include <lualib.h>
+}
 
 #include <algorithm>
 #include <array>
@@ -1713,6 +1722,7 @@ bool ensureRuntimeDriver(
             context.config,
             context.assetFileSystem);
         context.runtimeDriver->setMadnessLedgerFile(context.saveGameRootPath / "maw_madness_deaths.txt");
+        context.runtimeDriver->setPlaythroughStatisticsDirectory(context.saveGameRootPath / "playthroughs");
     }
 
     std::string failure;
@@ -3716,6 +3726,359 @@ bool runConsoleCommand(
     return true;
 }
 
+// walk_to: {x, y, z | to: pose, via: [poses], radius, timeout_seconds, clear_hostiles, expect_map, plan, node_limit,
+// close_dialogs, expect: arrived|dialog}: the party walks there with the movement keys (ScenarioRuntimeDriver::walkTo)
+// and the trail is printed as the run's evidence.
+bool runWalkTo(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    ScenarioWalkRequest request = {};
+    const YAML::Node via = step.payload["via"];
+
+    if (via && via.IsSequence())
+    {
+        for (const YAML::Node &point : via)
+        {
+            if (point.IsSequence() && point.size() >= 3)
+            {
+                ScenarioPose pose = {};
+                pose.x = point[0].as<float>();
+                pose.y = point[1].as<float>();
+                pose.z = point[2].as<float>();
+                request.points.push_back(pose);
+                continue;
+            }
+
+            const std::optional<ScenarioPose> pose = readScenarioPoseNode(step, point, "via", failures, true);
+
+            if (!pose)
+            {
+                return false;
+            }
+
+            request.points.push_back(*pose);
+        }
+    }
+
+    const std::optional<ScenarioPose> target = step.payload["to"]
+        ? readScenarioPoseNode(step, step.payload["to"], "to", failures, true)
+        : readScenarioPoseNode(step, step.payload, "walk_to", failures, !step.payload["expect_map"]);
+
+    if (target)
+    {
+        request.points.push_back(*target);
+    }
+    else if (!step.payload["expect_map"] || request.points.empty())
+    {
+        if (failures.empty())
+        {
+            failures.push_back(stepLocation(step) + ": walk_to needs a target (x, y, z or to) or via and expect_map");
+        }
+        return false;
+    }
+
+    request.arriveRadius = step.payload["radius"].as<float>(request.arriveRadius);
+    request.timeoutSeconds = step.payload["timeout_seconds"].as<float>(request.timeoutSeconds);
+    request.clearHostilesRadius = step.payload["clear_hostiles"].as<float>(0.0f);
+    request.expectMap = step.payload["expect_map"].as<std::string>("");
+    request.plan = step.payload["plan"].as<bool>(true);
+    request.nodeLimit = step.payload["node_limit"].as<size_t>(request.nodeLimit);
+    request.closeDialogs = step.payload["close_dialogs"].as<bool>(false);
+    const std::string expect = lowerAscii(step.payload["expect"].as<std::string>("arrived"));
+
+    if (expect != "arrived" && expect != "dialog")
+    {
+        failures.push_back(stepLocation(step) + ": walk_to expect must be arrived or dialog");
+        return false;
+    }
+
+    ScenarioWalkResult result = {};
+    std::string failure;
+    const bool walked = context.runtimeDriver->walkTo(request, result, failure);
+    syncContextFromRuntime(context);
+
+    for (const std::string &line : result.trail)
+    {
+        std::cout << "WALK " << line << '\n';
+    }
+
+    std::cout << "WALK done arrived=" << (result.arrived ? "true" : "false")
+              << " dialog=" << (result.dialogOpened ? "true" : "false") << " seconds=" << scenarioFloat(result.seconds)
+              << " replans=" << result.replans << " jumps=" << result.jumps << " clicks=" << result.clicks
+              << " killed=" << result.hostilesKilled
+              << " closed_dialogs=" << result.closedDialogs << '\n';
+
+    if (!walked)
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    if (expect == "arrived" && !result.arrived)
+    {
+        failures.push_back(stepLocation(step) + ": walk_to stopped before arriving (a dialogue opened)");
+        return false;
+    }
+
+    if (expect == "dialog" && !result.dialogOpened)
+    {
+        failures.push_back(stepLocation(step) + ": walk_to arrived but expected a dialogue on the way");
+        return false;
+    }
+
+    return true;
+}
+
+// play_lua: {source, max_seconds}: a player's reasoning over a puzzle or a game, in Lua, run in the scenario (not as a
+// map event), so it may wait and react: click(event_id) runs the map event a click on its prop runs; wait(seconds)
+// lets the world run; status() returns the status lines shown since the last call (" | " between them); qbit(id),
+// has_item(item_id) and mapvar(name) read the state; log(text) prints. A script should decide only from what the
+// player sees (status lines, its own keys and items); mapvar is for checks. A Lua error or error() fails the step.
+struct ScenarioPlayContext
+{
+    ScenarioExecutionContext *pContext = nullptr;
+    float waited = 0.0f;
+    float maxSeconds = 600.0f;
+    size_t statusIndex = 0;
+};
+
+ScenarioPlayContext &scenarioPlayContext(lua_State *pLuaState)
+{
+    return *static_cast<ScenarioPlayContext *>(lua_touserdata(pLuaState, lua_upvalueindex(1)));
+}
+
+int scenarioPlayClick(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const lua_Integer eventId = luaL_checkinteger(pLuaState, 1);
+    std::string failure;
+
+    if (!play.pContext->runtimeDriver->executeMapEvent(uint16_t(eventId), failure))
+    {
+        return luaL_error(pLuaState, "click(%d): %s", int(eventId), failure.c_str());
+    }
+
+    return 0;
+}
+
+int scenarioPlayWait(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const float seconds = float(luaL_checknumber(pLuaState, 1));
+    play.waited += seconds;
+
+    if (play.waited > play.maxSeconds)
+    {
+        return luaL_error(pLuaState, "the script waited longer than max_seconds (%d)", int(play.maxSeconds));
+    }
+
+    std::string failure;
+
+    if (!play.pContext->runtimeDriver->advanceRuntime(seconds, failure))
+    {
+        return luaL_error(pLuaState, "wait: %s", failure.c_str());
+    }
+
+    return 0;
+}
+
+int scenarioPlayStatus(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const EventRuntimeState *pState = play.pContext->runtimeDriver->eventRuntimeState();
+    std::string text;
+
+    if (pState != nullptr)
+    {
+        if (play.statusIndex > pState->statusMessages.size())
+        {
+            play.statusIndex = 0;
+        }
+
+        for (size_t index = play.statusIndex; index < pState->statusMessages.size(); ++index)
+        {
+            text += (text.empty() ? "" : " | ") + pState->statusMessages[index];
+        }
+
+        play.statusIndex = pState->statusMessages.size();
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+int scenarioPlayQBit(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    lua_pushboolean(pLuaState, pParty != nullptr && pParty->hasQuestBit(uint32_t(luaL_checkinteger(pLuaState, 1))));
+    return 1;
+}
+
+int scenarioPlayHasItem(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    lua_pushboolean(pLuaState,
+        pParty != nullptr && pParty->hasItemAnywhere(uint32_t(luaL_checkinteger(pLuaState, 1))));
+    return 1;
+}
+
+int scenarioPlayMapVar(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const EventRuntimeState *pState = play.pContext->runtimeDriver->eventRuntimeState();
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    lua_Integer value = 0;
+
+    if (pState != nullptr)
+    {
+        const auto iterator = pState->namedMapVars.find(name);
+        value = iterator != pState->namedMapVars.end() ? iterator->second : 0;
+    }
+
+    lua_pushinteger(pLuaState, value);
+    return 1;
+}
+
+int scenarioPlayLog(lua_State *pLuaState)
+{
+    std::cout << "PLAY " << luaL_checkstring(pLuaState, 1) << '\n';
+    return 0;
+}
+
+bool runPlayLua(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    const std::string source = step.payload["source"].as<std::string>("");
+    ScenarioPlayContext play = {};
+    play.pContext = &context;
+    play.maxSeconds = step.payload["max_seconds"].as<float>(play.maxSeconds);
+
+    if (const EventRuntimeState *pState = context.runtimeDriver->eventRuntimeState())
+    {
+        play.statusIndex = pState->statusMessages.size();
+    }
+
+    std::unique_ptr<lua_State, decltype(&lua_close)> state(luaL_newstate(), &lua_close);
+    lua_State *pLuaState = state.get();
+    luaL_requiref(pLuaState, "_G", luaopen_base, 1);
+    luaL_requiref(pLuaState, LUA_STRLIBNAME, luaopen_string, 1);
+    luaL_requiref(pLuaState, LUA_TABLIBNAME, luaopen_table, 1);
+    luaL_requiref(pLuaState, LUA_MATHLIBNAME, luaopen_math, 1);
+    lua_settop(pLuaState, 0);
+    const std::array<std::pair<const char *, lua_CFunction>, 7> functions = {{
+        {"click", scenarioPlayClick}, {"wait", scenarioPlayWait}, {"status", scenarioPlayStatus},
+        {"qbit", scenarioPlayQBit}, {"has_item", scenarioPlayHasItem}, {"mapvar", scenarioPlayMapVar},
+        {"log", scenarioPlayLog}}};
+
+    for (const auto &[pName, function] : functions)
+    {
+        lua_pushlightuserdata(pLuaState, &play);
+        lua_pushcclosure(pLuaState, function, 1);
+        lua_setglobal(pLuaState, pName);
+    }
+
+    const std::string chunkName = "@" + stepLocation(step);
+
+    if (luaL_loadbuffer(pLuaState, source.data(), source.size(), chunkName.c_str()) != LUA_OK
+        || lua_pcall(pLuaState, 0, 0, 0) != LUA_OK)
+    {
+        failures.push_back(stepLocation(step) + ": play_lua: " + std::string(lua_tostring(pLuaState, -1)));
+        syncContextFromRuntime(context);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    std::cout << "PLAY done waited=" << scenarioFloat(play.waited) << "s\n";
+    return true;
+}
+
+// party_defeat: {wait_seconds, knock_out, expect_map}: the fight goes on until the party is down (knock_out: every
+// member falls at once), then the game's defeat
+// (world.yml partyDeath: MM9 wakes the party in Arslegard).
+bool runPartyDefeat(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    std::string destination;
+    std::string failure;
+
+    if (!context.runtimeDriver->defeatParty(step.payload["wait_seconds"].as<float>(60.0f),
+            step.payload["knock_out"].as<bool>(false), destination, failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        syncContextFromRuntime(context);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    std::cout << "DEFEAT the party woke on " << context.runtimeDriver->currentMapFileName() << '\n';
+    const std::string expected = step.payload["expect_map"].as<std::string>("");
+
+    if (!expected.empty() && lowerAscii(expected) != lowerAscii(context.runtimeDriver->currentMapFileName()))
+    {
+        failures.push_back(stepLocation(step) + ": the party woke on " + context.runtimeDriver->currentMapFileName()
+            + ", expected " + expected);
+        return false;
+    }
+
+    return true;
+}
+
+// clear_hostiles: {radius, min}: kills the party's enemies near it (an immortal playthrough does not test combat).
+bool runClearHostiles(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    size_t killed = 0;
+    std::string failure;
+
+    if (!context.runtimeDriver->killHostilesNear(step.payload["radius"].as<float>(2048.0f), killed, failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    std::cout << "CLEAR hostiles killed=" << killed << '\n';
+
+    if (killed < step.payload["min"].as<size_t>(0))
+    {
+        failures.push_back(stepLocation(step) + ": clear_hostiles killed " + std::to_string(killed) + ", expected at least "
+            + std::to_string(step.payload["min"].as<size_t>(0)));
+        return false;
+    }
+
+    return true;
+}
+
 // use_item: {item_id, member_index, expect}: drinks or uses the member's first pack item of the id.
 bool runUseItem(
     ScenarioExecutionContext &context,
@@ -4220,6 +4583,37 @@ bool runExecuteEvent(
     return true;
 }
 
+// lua_event: {source}: the scenario's own Lua run as an event of the current map, with the map's event support and
+// world (evt.SummonMonstersById, evt.SetActorTarget ...); a Lua error fails the step.
+bool runLuaEvent(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    if (!step.payload["source"] || !step.payload["source"].IsScalar())
+    {
+        failures.push_back(stepLocation(step) + ": lua_event requires scalar field 'source'");
+        return false;
+    }
+
+    seedRuntimeDriverFromContext(context);
+    std::string failure;
+
+    if (!context.runtimeDriver->runLuaEvent(step.payload["source"].as<std::string>(), failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    return true;
+}
+
 bool runBlinkActor(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -4652,6 +5046,86 @@ bool assertDimensionDoor(
     return success;
 }
 
+// assert light: {key, on}: an indoor light's switch (evt.SetLight: a BLV light or a scene pulsing light by its key).
+bool assertLight(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["light"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    const EventRuntimeState *pState =
+        context.runtimeDriver ? context.runtimeDriver->eventRuntimeState() : nullptr;
+
+    if (!node.IsMap() || !node["key"] || !node["on"] || pState == nullptr)
+    {
+        failures.push_back(stepLocation(step) + ": light needs {key, on} and an active runtime");
+        return false;
+    }
+
+    const uint32_t key = node["key"].as<uint32_t>();
+    const auto iterator = pState->indoorLightsEnabled.find(key);
+    const std::string actual =
+        iterator == pState->indoorLightsEnabled.end() ? "unset" : (iterator->second ? "true" : "false");
+
+    if (actual != (node["on"].as<bool>() ? "true" : "false"))
+    {
+        failures.push_back(stepLocation(step) + ": light " + std::to_string(key) + " is " + actual);
+        return false;
+    }
+
+    return true;
+}
+
+// assert scripted_fog: {active, near, far}: the map script's fog (evt.SetFog / evt.ClearFog); near and far within a
+// unit of the given distances.
+bool assertScriptedFog(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["scripted_fog"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    const EventRuntimeState *pState =
+        context.runtimeDriver ? context.runtimeDriver->eventRuntimeState() : nullptr;
+
+    if (!node.IsMap() || pState == nullptr)
+    {
+        failures.push_back(stepLocation(step) + ": scripted_fog needs a map and an active runtime");
+        return false;
+    }
+
+    const EventRuntimeState::ScriptedFog &fog = pState->scriptedFog;
+    bool success = true;
+
+    if (node["active"] && node["active"].as<bool>() != fog.active)
+    {
+        failures.push_back(stepLocation(step) + ": scripted_fog active is " + (fog.active ? "true" : "false"));
+        success = false;
+    }
+
+    for (const auto &[pKey, actual] : {std::pair("near", fog.nearDistance), std::pair("far", fog.farDistance)})
+    {
+        if (node[pKey] && std::abs(node[pKey].as<float>() - actual) > 1.0f)
+        {
+            failures.push_back(stepLocation(step) + ": scripted_fog " + pKey + " is " + std::to_string(actual));
+            success = false;
+        }
+    }
+
+    return success;
+}
+
 // assert water: {state, eye_under, breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min,
 // foot_z_max}: the party's state in a scene water volume (dry, wading, falling, bed, submerged, surface, surface_jump),
 // its breath (1 full; 1 with the eye out), the drowning ticks taken on this map and its feet's height.
@@ -4798,6 +5272,54 @@ bool assertGameHour(
     }
 
     return true;
+}
+
+// assert sprite_hidden: [cog, ...]: those decorations are hidden by the map's event state (evt.SetSprite's override,
+// or a hired MM9 talking prop); sprite_shown: [cog, ...]: those are not.
+bool assertSpritesHidden(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    bool success = true;
+
+    for (const bool expectHidden : {true, false})
+    {
+        const char *pKey = expectHidden ? "sprite_hidden" : "sprite_shown";
+        const YAML::Node node = step.payload[pKey];
+
+        if (!node)
+        {
+            continue;
+        }
+
+        if (!node.IsSequence() || !context.runtimeDriver || context.runtimeDriver->eventRuntimeState() == nullptr)
+        {
+            failures.push_back(stepLocation(step) + ": " + pKey + " requires a list of cogs and a running map");
+            success = false;
+            continue;
+        }
+
+        const EventRuntimeState &state = *context.runtimeDriver->eventRuntimeState();
+
+        for (const YAML::Node &cogNode : node)
+        {
+            const uint32_t cog = cogNode.as<uint32_t>();
+            const auto found = state.spriteOverrides.find(cog);
+            const bool hidden = found != state.spriteOverrides.end() && found->second.hidden;
+            scenarioLogAssert(context, step, std::string(pKey) + "[" + std::to_string(cog) + "]", "true",
+                hidden == expectHidden ? "true" : "false", hidden == expectHidden);
+
+            if (hidden != expectHidden)
+            {
+                failures.push_back(stepLocation(step) + ": decoration " + std::to_string(cog)
+                    + (expectHidden ? " is not hidden" : " is hidden"));
+                success = false;
+            }
+        }
+    }
+
+    return success;
 }
 
 // assert gold: N: the party carries exactly N gold.
@@ -5596,6 +6118,20 @@ bool runInteractActor(
     std::string failure;
     const ScenarioInteractionResult interaction =
         context.runtimeDriver->activateActor(step.payload["actor_index"].as<size_t>(), failure);
+
+    // activated: false expects the actor to refuse the use (no dialogue, no event): an MM9 dog.
+    if (step.payload["activated"] && step.payload["activated"].IsScalar() && !step.payload["activated"].as<bool>())
+    {
+        if (interaction.activated)
+        {
+            failures.push_back(stepLocation(step) + ": interact_actor expected actor "
+                + std::to_string(step.payload["actor_index"].as<size_t>()) + " to refuse the use, but it activated");
+            return false;
+        }
+
+        syncContextFromRuntime(context);
+        return true;
+    }
 
     if (!interaction.activated)
     {
@@ -6694,8 +7230,13 @@ bool runAdvanceRuntime(
     }
 
     std::string failure;
+    // present_dialogs: a dialogue a world event queued (an MM9 FoundPlayer greeting) opens within the step as the
+    // game's frame opens it, and stops the world as the open dialogue does.
+    const bool presentDialogs = step.payload["present_dialogs"] && step.payload["present_dialogs"].as<bool>(false);
+    // follow_map_move: a map move asked for within the step (a cinematic's exit) happens in it, as in the game.
+    const bool followMapMove = step.payload["follow_map_move"] && step.payload["follow_map_move"].as<bool>(false);
 
-    if (!context.runtimeDriver->advanceRuntime(seconds, failure))
+    if (!context.runtimeDriver->advanceRuntime(seconds, failure, presentDialogs, followMapMove))
     {
         failures.push_back(stepLocation(step) + ": " + failure);
         return false;
@@ -6877,6 +7418,33 @@ bool assertMechanismPayload(
                     + " moving flag mismatch");
                 success = false;
             }
+        }
+    }
+
+    // `spinning`: a spinning mover turning (any speed) or still; `spin_rate_min`: at least this share of full speed.
+    if (mechanismNode["spinning"] && mechanismNode["spinning"].IsScalar())
+    {
+        const bool expected = mechanismNode["spinning"].as<bool>();
+        const bool actual = mechanism.spinRate != 0.0f;
+        scenarioLogAssert(context, step, "mechanism.spinning", boolText(expected), boolText(actual), expected == actual);
+
+        if (expected != actual)
+        {
+            failures.push_back(stepLocation(step) + ": mechanism " + std::to_string(mechanismId)
+                + " spinning is " + boolText(actual) + " (rate " + std::to_string(mechanism.spinRate) + ")");
+            success = false;
+        }
+    }
+
+    if (mechanismNode["spin_rate_min"] && mechanismNode["spin_rate_min"].IsScalar())
+    {
+        const float minimum = mechanismNode["spin_rate_min"].as<float>();
+
+        if (mechanism.spinRate < minimum)
+        {
+            failures.push_back(stepLocation(step) + ": mechanism " + std::to_string(mechanismId)
+                + " spin rate " + std::to_string(mechanism.spinRate) + " below " + std::to_string(minimum));
+            success = false;
         }
     }
 
@@ -7108,13 +7676,17 @@ bool runSelectTopic(
         ? step.payload["kind"].as<std::string>()
         : "";
 
-    if (!step.payload["action_id"] || !step.payload["action_id"].IsScalar())
+    // Without action_id, match_label alone picks the line a player reads (exactly, else the one line containing it).
+    const bool byLabelOnly = !step.payload["action_id"] && step.payload["match_label"]
+        && step.payload["match_label"].IsScalar();
+
+    if (!byLabelOnly && (!step.payload["action_id"] || !step.payload["action_id"].IsScalar()))
     {
-        failures.push_back(stepLocation(step) + ": select_topic requires scalar field 'action_id'");
+        failures.push_back(stepLocation(step) + ": select_topic requires scalar field 'action_id' or 'match_label'");
         return false;
     }
 
-    uint16_t eventId = step.payload["action_id"].as<uint16_t>();
+    uint16_t eventId = byLabelOnly ? 0 : step.payload["action_id"].as<uint16_t>();
 
     if (context.runtimeDriver)
     {
@@ -7146,7 +7718,7 @@ bool runSelectTopic(
             std::optional<size_t> matchingIndex;
             for (const ScenarioDialogActionSnapshot &action : dialog.actions)
             {
-                if (action.id == eventId && action.label == label)
+                if ((byLabelOnly || action.id == eventId) && action.label == label)
                 {
                     if (matchingIndex)
                     {
@@ -7156,9 +7728,36 @@ bool runSelectTopic(
                     matchingIndex = action.index;
                 }
             }
+            if (!matchingIndex && byLabelOnly)
+            {
+                const std::string wanted = lowerAscii(label);
+                size_t containing = 0;
+
+                for (const ScenarioDialogActionSnapshot &action : dialog.actions)
+                {
+                    if (lowerAscii(action.label).find(wanted) != std::string::npos)
+                    {
+                        matchingIndex = action.index;
+                        ++containing;
+                    }
+                }
+
+                if (containing > 1)
+                {
+                    matchingIndex.reset();
+                }
+            }
             if (!matchingIndex)
             {
-                failures.push_back(stepLocation(step) + ": matching dialog action is unavailable: " + label);
+                std::string offered;
+
+                for (const ScenarioDialogActionSnapshot &action : dialog.actions)
+                {
+                    offered += "\n    [" + std::to_string(action.id) + "] " + action.label;
+                }
+
+                failures.push_back(stepLocation(step) + ": matching dialog action is unavailable: " + label
+                    + "; the dialogue offers:" + offered);
                 return false;
             }
             selected = context.runtimeDriver->selectDialogAction(*matchingIndex, failure);
@@ -7458,7 +8057,17 @@ bool runSaveGame(
         return false;
     }
 
-    const std::filesystem::path path = scenarioSavePathForName(context, name);
+    // path: a save kept after the run (a playthrough's checkpoint for the next segment), else the run's own folder.
+    // A relative path is from the working folder (the file need not exist yet).
+    const std::filesystem::path path = step.payload.IsMap() && step.payload["path"]
+        ? std::filesystem::absolute(std::filesystem::path(step.payload["path"].as<std::string>())).lexically_normal()
+        : scenarioSavePathForName(context, name);
+
+    if (step.payload.IsMap() && step.payload["path"])
+    {
+        std::filesystem::create_directories(path.parent_path(), errorCode);
+    }
+
     std::string failure;
     // expect_failure: the save must not be written; block_with_directory puts a folder where the file would go, so
     // the write fails.
@@ -7509,6 +8118,74 @@ bool runSaveGame(
         if (!saveGameDataToPath(path, *saved, failure))
         {
             failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+    }
+
+    // rebuilt_maps: [6d01.blv, ...] rewrites the save as if those maps were rebuilt after it: their saved states
+    // record another layout (game/maps/MapLayoutIdentity.h), so a load resets them.
+    if (step.payload.IsMap() && step.payload["rebuilt_maps"])
+    {
+        const YAML::Node mapsNode = step.payload["rebuilt_maps"];
+        std::optional<GameSaveData> saved = loadGameDataFromPath(path, failure);
+
+        if (!saved || !mapsNode.IsSequence() || mapsNode.size() == 0)
+        {
+            failures.push_back(stepLocation(step) + ": rebuilt_maps needs a list of map files (" + failure + ")");
+            return false;
+        }
+
+        size_t rewritten = 0;
+
+        for (const YAML::Node &mapNode : mapsNode)
+        {
+            const std::string mapFile = mapNode.as<std::string>();
+            const std::string canonicalSuffix = ".map." + normalizeMapFileStem(mapFile);
+            const auto matches = [&](const std::string &key)
+            {
+                return lowerAscii(key) == lowerAscii(mapFile) || lowerAscii(key).ends_with(canonicalSuffix);
+            };
+            // Any other nonzero identity: the map's current one is never this.
+            const auto rebuild = [&rewritten](uint64_t &identity)
+            {
+                identity = identity == 0x5ca1ab1eull ? 0x5ca1ab1full : 0x5ca1ab1eull;
+                ++rewritten;
+            };
+
+            for (auto &[key, state] : saved->indoorSceneStates)
+            {
+                if (matches(key))
+                {
+                    rebuild(state.mapLayoutIdentity);
+                }
+            }
+
+            for (auto &[key, state] : saved->outdoorWorldStates)
+            {
+                if (matches(key))
+                {
+                    rebuild(state.mapLayoutIdentity);
+                }
+            }
+
+            if (lowerAscii(saved->mapFileName) == lowerAscii(mapFile))
+            {
+                if (saved->hasIndoorSceneState && saved->currentSceneKind == SceneKind::Indoor)
+                {
+                    rebuild(saved->indoorScene.mapLayoutIdentity);
+                }
+
+                if (saved->hasOutdoorRuntimeState && saved->currentSceneKind == SceneKind::Outdoor)
+                {
+                    rebuild(saved->outdoorWorld.mapLayoutIdentity);
+                }
+            }
+        }
+
+        if (rewritten == 0 || !saveGameDataToPath(path, *saved, failure))
+        {
+            failures.push_back(stepLocation(step) + ": rebuilt_maps found no saved state of those maps to rewrite"
+                + (failure.empty() ? std::string() : " (" + failure + ")"));
             return false;
         }
     }
@@ -8497,19 +9174,36 @@ bool assertAiTrace(
         return false;
     }
 
-    const std::string decision = node["decision"].as<std::string>("");
+    // `decision` is one name or a list of them (any of which matches: detect or taunt_detect, a notice either way).
+    std::vector<std::string> decisions;
+
+    if (node["decision"] && node["decision"].IsSequence())
+    {
+        for (const YAML::Node &name : node["decision"])
+        {
+            decisions.push_back(name.as<std::string>(""));
+        }
+    }
+    else if (node["decision"])
+    {
+        decisions.push_back(node["decision"].as<std::string>(""));
+    }
+
     const std::string event = node["event"].as<std::string>("");
 
-    if (decision.empty() == event.empty())
+    if (decisions.empty() == event.empty())
     {
         failures.push_back(stepLocation(step) + ": ai_trace needs one of 'decision' or 'event'");
         return false;
     }
 
-    if (!decision.empty() && !actorAiDecisionFromName(decision))
+    for (const std::string &decision : decisions)
     {
-        failures.push_back(stepLocation(step) + ": ai_trace: unknown decision '" + decision + "'");
-        return false;
+        if (!actorAiDecisionFromName(decision))
+        {
+            failures.push_back(stepLocation(step) + ": ai_trace: unknown decision '" + decision + "'");
+            return false;
+        }
     }
 
     if (!event.empty()
@@ -8538,8 +9232,12 @@ bool assertAiTrace(
 
     for (const ActorAiTraceEntry &entry : trace.entries())
     {
-        if ((!actorIndex || entry.actorIndex == *actorIndex) && entry.decision == !decision.empty()
-            && entry.name == (decision.empty() ? event : decision) && (target.empty() || entry.target == target)
+        const bool nameMatches = decisions.empty()
+            ? entry.name == event
+            : std::find(decisions.begin(), decisions.end(), entry.name) != decisions.end();
+
+        if ((!actorIndex || entry.actorIndex == *actorIndex) && entry.decision == !decisions.empty() && nameMatches
+            && (target.empty() || entry.target == target)
             && (detail.empty() || entry.detail.find(detail) != std::string::npos)
             && entry.timeSeconds >= after && entry.timeSeconds <= before)
         {
@@ -8550,7 +9248,14 @@ bool assertAiTrace(
     const bool bounded = node["min_count"] || node["max_count"] || node["max_in_window"];
     const size_t minCount = node["min_count"].as<size_t>(bounded ? 0 : 1);
     const size_t maxCount = node["max_count"].as<size_t>(std::numeric_limits<size_t>::max());
-    const std::string what = (decision.empty() ? "event " + event : "decision " + decision)
+    std::string decisionNames;
+
+    for (const std::string &decision : decisions)
+    {
+        decisionNames += (decisionNames.empty() ? "" : "|") + decision;
+    }
+
+    const std::string what = (decisions.empty() ? "event " + event : "decision " + decisionNames)
         + (actorIndex ? " actor " + std::to_string(*actorIndex) : std::string()) + (target.empty() ? "" : " " + target)
         + (detail.empty() ? "" : " \"" + detail + "\"");
     scenarioLog(context, ScenarioLogColor::Cyan, "AI TRACE " + what + ": " + std::to_string(matches.size())
@@ -8744,6 +9449,10 @@ bool assertActorVisible(
                     << " hostile=" << boolText(runtimeState.hostileToParty)
                     << " targeting_party=" << boolText(runtimeState.combatTargetingParty)
                     << " aim_target=" << boolText(runtimeState.hasAimTarget);
+            if (!runtimeState.scriptedClip.empty())
+            {
+                message << " scripted_clip=" << runtimeState.scriptedClip;
+            }
             if (runtimeState.shield.present)
             {
                 message << " shield=" << runtimeState.shield.fraction
@@ -10261,6 +10970,7 @@ bool runAssert(
     success = assertHomingEnds(context, step, failures) && success;
     success = assertPartyGold(context, step, failures) && success;
     success = assertRecoveringMembers(context, step, failures) && success;
+    success = assertSpritesHidden(context, step, failures) && success;
     success = assertPartyFood(context, step, failures) && success;
     success = assertWater(context, step, failures) && success;
     success = assertGameHour(context, step, failures) && success;
@@ -10270,6 +10980,8 @@ bool runAssert(
     success = assertQuickItemRing(context, step, failures) && success;
     success = assertQuickItemPopup(context, step, failures) && success;
     success = assertDimensionDoor(context, step, failures) && success;
+    success = assertLight(context, step, failures) && success;
+    success = assertScriptedFog(context, step, failures) && success;
     success = assertCharges(context, step, failures) && success;
     success = assertCombatLog(context, step, failures) && success;
     success = assertTurnBased(context, step, failures) && success;
@@ -10389,6 +11101,26 @@ bool runSetupShortcut(
             }
         }
 
+        return true;
+    }
+
+    if (kind == "immortal")
+    {
+        // The Immortal cheat for this run only (an immortal playthrough); settings.ini is not written.
+        if (!ensureRuntimeDriver(context, failures))
+        {
+            return false;
+        }
+
+        std::string failure;
+
+        if (!context.runtimeDriver->setPartyImmortal(step.payload["value"].as<bool>(true), failure))
+        {
+            failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+
+        syncContextFromRuntime(context);
         return true;
     }
 
@@ -10734,6 +11466,18 @@ ScenarioRunResult ScenarioRunner::run(
         case ScenarioStepKind::RulesetBanks:
             stepSuccess = runRulesetBanks(context, step, result.failures);
             break;
+        case ScenarioStepKind::WalkTo:
+            stepSuccess = runWalkTo(context, step, result.failures);
+            break;
+        case ScenarioStepKind::PlayLua:
+            stepSuccess = runPlayLua(context, step, result.failures);
+            break;
+        case ScenarioStepKind::PartyDefeat:
+            stepSuccess = runPartyDefeat(context, step, result.failures);
+            break;
+        case ScenarioStepKind::ClearHostiles:
+            stepSuccess = runClearHostiles(context, step, result.failures);
+            break;
         case ScenarioStepKind::ConsoleCommand:
             stepSuccess = runConsoleCommand(context, step, result.failures);
             break;
@@ -10778,6 +11522,9 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::ExecuteEvent:
             stepSuccess = runExecuteEvent(context, step, result.failures);
+            break;
+        case ScenarioStepKind::LuaEvent:
+            stepSuccess = runLuaEvent(context, step, result.failures);
             break;
         case ScenarioStepKind::BlinkActor:
             stepSuccess = runBlinkActor(context, step, result.failures);

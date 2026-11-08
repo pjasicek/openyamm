@@ -8,7 +8,9 @@ import tempfile
 import unittest
 import zipfile
 
-from runtime_packs import (PackConfig, assign_packs, build_packs, content_id, group_key, write_index, write_zip)
+from package_runtime_assets import collect_languages
+from runtime_packs import (PackConfig, assign_language_packs, assign_packs, build_packs, content_id, group_key,
+                           write_index, write_zip)
 
 CONFIG = {
     "schema": 1, "target_mib": 64, "max_mib": 128, "core_max_mib": 16, "worlds": ["mm6"],
@@ -16,11 +18,13 @@ CONFIG = {
         "engine": {"core": ["data_tables"], "domains": {"icons_x2": {"buckets": 4},
                                                         "models": {"buckets": 4, "group": "model"},
                                                         "sprites_new": {"buckets": 3, "group": "first_dir"},
-                                                        "rulesets": {"buckets": 1}}},
+                                                        "rulesets": {"buckets": 1},
+                                                        "languages": {"buckets": 1}}},
         "world": {"core": ["events"], "domains": {
             "maps": {"buckets": 2, "split": {"lighting": {"extensions": [".lighting"], "buckets": 3}}},
             "textures_x4": {"buckets": {"desktop": 3, "android": 1}}}},
     },
+    "languages": {"overlays": {"fonts": {"buckets": 1}, "audio": {"buckets": 2}, "videos": {"buckets": 1}}},
 }
 
 
@@ -71,6 +75,45 @@ class RuntimePackTests(unittest.TestCase):
         self.assertEqual(list(packs), ["engine.rulesets"])
         self.assertEqual(packs["engine.rulesets"]["mount"], "/engine/rulesets")
         self.assertEqual(sorted(packs["engine.rulesets"]["entries"]), ["maw/data/items.yml", "maw/ruleset.yml"])
+
+    def test_language_overlays_become_optional_packs_over_the_game_folders(self):
+        entries = {"engine/fonts/truetype/lucida.yml": b"font", "engine/audio/zm1.wav": b"zm1",
+                   "engine/audio/zm2.wav": b"zm2", "worlds/mm6/videos/Cutscenes/intro.ogv": b"video",
+                   "worlds/mm9/audio/skipped.wav": b"not shipped"}
+        packs = assign_language_packs("ru", entries, self.config, "desktop", {"engine", "mm6"})
+        self.assertEqual(packs["lang-ru.engine.fonts"]["mount"], "/engine/fonts")
+        self.assertEqual(packs["lang-ru.mm6.videos"]["mount"], "/worlds/mm6/videos")
+        self.assertEqual(packs["lang-ru.mm6.videos"]["package"], "mm6")
+        self.assertTrue(all(pack_id.startswith("lang-ru.engine.audio.") for pack_id in packs
+                            if ".audio" in pack_id))
+        self.assertNotIn("skipped.wav", str(packs))
+        # An overlay folder marked ship: false stays out of the release (1.22: sounds and videos).
+        held_back = PackConfig(dict(CONFIG, languages={"overlays": dict(CONFIG["languages"]["overlays"],
+                                                                         audio={"buckets": 2, "ship": False})}))
+        held_packs = assign_language_packs("ru", entries, held_back, "desktop", {"engine", "mm6"})
+        self.assertIn("lang-ru.engine.fonts", held_packs)
+        self.assertFalse(any(".audio" in pack_id for pack_id in held_packs))
+        with self.assertRaises(ValueError):
+            assign_language_packs("ru", {"engine/data_tables/items.txt": b"x"}, self.config, "desktop", {"engine"})
+        # The same game file in two languages is no collision; the records carry their language.
+        records = build_packs({"engine": {"data_tables/zm1.wav": b"english"}}, self.config, "desktop", self.root / "out",
+                              languages={"ru": {"engine/audio/zm1.wav": b"ru"}, "de": {"engine/audio/zm1.wav": b"de"}})
+        self.assertEqual(sorted(record.get("language", "") for record in records), ["", "de", "ru"])
+        index = json.loads(write_index(self.root / "out", records, profile="desktop", release="r", build="b",
+                                       content_format=1).read_text())
+        self.assertEqual(sorted(pack.get("language", "") for pack in index["packs"]), ["", "de", "ru"])
+
+    def test_language_text_of_a_world_the_release_leaves_out_does_not_ship(self):
+        root = self.root / "languages"
+        for name in ("language.yml", "text/engine.po", "text/mm6.po", "text/mm9.po", "engine/fonts/truetype/a.yml"):
+            (root / "ru" / name).parent.mkdir(parents=True, exist_ok=True)
+            (root / "ru" / name).write_text("x")
+        (root / "templates").mkdir()
+        (root / "templates" / "mm9.pot").write_text("x")
+        text, overlays = collect_languages(root, {"engine", "mm6"})
+        self.assertEqual(sorted(text), ["languages/ru/language.yml", "languages/ru/text/engine.po",
+                                        "languages/ru/text/mm6.po"])
+        self.assertEqual(sorted(overlays["ru"]), ["engine/fonts/truetype/a.yml"])
 
     def test_group_rules_keep_related_files_together(self):
         self.assertEqual(group_key("oute3.scene.1.yml", "stem", "", {}), "oute3")

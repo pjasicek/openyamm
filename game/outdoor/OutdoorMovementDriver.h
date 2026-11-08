@@ -110,7 +110,8 @@ public:
         const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
     );
 
-    void initialize(float x, float y, float footZHint);
+    // keepHeight: the party stays at footZHint in the air and falls (OutdoorPartyRuntime::teleportTo).
+    void initialize(float x, float y, float footZHint, bool keepHeight = false);
     void restoreState(const OutdoorMoveState &state, const OutdoorPartyMovementState &partyMovementState);
     void update(
         const OutdoorMovementInput &input,

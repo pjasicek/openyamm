@@ -12,6 +12,8 @@
 
 namespace OpenYAMM::Game
 {
+struct OutdoorMeadowField;
+
 struct TerrainDecorationVariant
 {
     float weight = 1.0f;
@@ -297,12 +299,40 @@ struct TerrainDecorationSurfaceTriangle
     std::array<std::array<float, 3>, 3> points = {};
     std::array<float, 3> normal = {0.0f, 0.0f, 1.0f};
 };
-// The grass of an open-air BLV (devdocs/INDOOR_OPEN_SKY.md "Terrain"): tufts over the triangles where density(x, y)
-// (0-1: the terrain's grass layers) allows, sized, tinted and varied by the config's first grass rule, with its tall
-// grass and wildflowers; no stones, verges, undergrowth, meadow moisture or bushes (those read MM6-MM8 tiles).
-TerrainDecorationPlacement scatterTerrainDecorationsOnSurface(
-    const std::vector<TerrainDecorationSurfaceTriangle> &triangles,
-    const std::function<float(float x, float y)> &density, const TerrainDecorationConfig &config);
+// A placed decoration (outdoor maps and open-air BLVs): plants keep clear of it, and the trees (names matching the
+// library's undergrowth list) get undergrowth and tree-line bushes.
+struct TerrainDecorationSurfaceEntity
+{
+    std::string name;
+    std::array<float, 3> position = {0.0f, 0.0f, 0.0f};
+};
+
+// An open-air BLV's ground (devdocs/INDOOR_OPEN_SKY.md "Terrain"), in the outdoor maps' 65 536-unit frame.
+struct TerrainDecorationSurface
+{
+    std::vector<TerrainDecorationSurfaceTriangle> ground;
+    // Every other solid face (walls, buildings, docks, rocks): plants keep clear of them and grow uncut beside them.
+    std::vector<std::array<std::array<float, 3>, 3>> obstacles;
+    std::vector<TerrainDecorationSurfaceEntity> entities;
+    // 0-1: the terrain's grass layers.
+    std::function<float(float x, float y)> density;
+    // Whether the point lies under a water surface (none grows there); optional.
+    std::function<bool(float x, float y, float z)> underWater;
+    // Ground moisture (buildTerrainSurfaceMeadow); optional, neutral without it.
+    const OutdoorMeadowField *pMeadow = nullptr;
+};
+
+// The grass of an open-air BLV: New Sorpigal's meadow over the terrain triangles where density(x, y) allows, from the
+// config's first grass rule and plant library as scatterTerrainDecorations grows it on the tiles: tall patches,
+// wildflowers, the meadow's moisture, verges (along obstacles and where the grass ends), undergrowth around the tree
+// entities and the low bushes. No stones.
+TerrainDecorationPlacement scatterTerrainDecorationsOnSurface(const TerrainDecorationSurface &surface,
+    const TerrainDecorationConfig &config);
+// The meadow field (OutdoorMeadow.h) of an open-air BLV's terrain: heights at the outdoor grid corners from the topmost
+// ground triangle there (the nearest ground where there is none), water where underWater holds at the ground or a
+// cell has no ground but water. Empty without ground.
+OutdoorMeadowField buildTerrainSurfaceMeadow(const std::vector<TerrainDecorationSurfaceTriangle> &ground,
+    const std::function<bool(float x, float y, float z)> &underWater);
 
 // Tight card outline of one tuft texture (alpha, row-major, width x height): a convex polygon of
 // TerrainDecorationCutoutVertices texture coordinates in order (u right, v down; the last vertex repeats when fewer

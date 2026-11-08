@@ -1,5 +1,7 @@
 #include "game/content/RulesetOptions.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -15,34 +17,34 @@ struct OptionNames
 };
 
 constexpr std::array<OptionNames, 6> DifficultyNames = {{
-    {"easy", "Easy"},
-    {"normal", "Normal"},
-    {"maw", "MAW"},
-    {"hard", "Hard"},
-    {"hell", "Hell"},
-    {"nightmare", "Nightmare"},
+    {"easy", Engine::trNoop("Easy")},
+    {"normal", Engine::trNoop("Normal")},
+    {"maw", Engine::trNoop("MAW")},
+    {"hard", Engine::trNoop("Hard")},
+    {"hell", Engine::trNoop("Hell")},
+    {"nightmare", Engine::trNoop("Nightmare")},
 }};
 
 constexpr std::array<OptionNames, 2> ProgressionNames = {{
-    {"free", "Free"},
-    {"horizontal", "Horizontal"},
+    {"free", Engine::trNoop("Free")},
+    {"horizontal", Engine::trNoop("Horizontal")},
 }};
 
 constexpr std::array<OptionNames, 5> ChallengeModeNames = {{
-    {"none", "None"},
-    {"doom", "Doom"},
-    {"road_to_insanity", "Road to Insanity"},
-    {"beyond_madness", "Beyond Madness"},
-    {"austerity", "Austerity"},
+    {"none", Engine::trNoop("None")},
+    {"doom", Engine::trNoop("Doom")},
+    {"road_to_insanity", Engine::trNoop("Road to Insanity")},
+    {"beyond_madness", Engine::trNoop("Beyond Madness")},
+    {"austerity", Engine::trNoop("Austerity")},
 }};
 
 constexpr std::array<OptionNames, 6> LootFilterPresetNames = {{
-    {"off", "Off"},
-    {"soft", "Soft"},
-    {"regular", "Regular"},
-    {"strict", "Strict"},
-    {"very_strict", "Very strict"},
-    {"custom", "Custom"},
+    {"off", Engine::trNoop("Off")},
+    {"soft", Engine::trNoop("Soft")},
+    {"regular", Engine::trNoop("Regular")},
+    {"strict", Engine::trNoop("Strict")},
+    {"very_strict", Engine::trNoop("Very strict")},
+    {"custom", Engine::trNoop("Custom")},
 }};
 template <typename Enum, size_t Count>
 std::optional<Enum> parseOption(const std::array<OptionNames, Count> &names, std::string_view id)
@@ -247,22 +249,26 @@ std::string describeRulesetSelection(const RulesetSelection &selection, const st
         return {};
     }
 
-    std::string badge = rulesetName.empty() ? selection.id : rulesetName;
+    // The ruleset's name (ruleset.yml English, or already shown text from the save list) and its options, each in
+    // the interface language.
+    std::string badge = rulesetName.empty() ? selection.id : Engine::localizeKnown(rulesetName);
     badge += " · ";
-    badge += rulesetDifficultyName(selection.options.difficulty);
-    badge += " difficulty · ";
-    badge += rulesetProgressionName(selection.options.progression);
-    badge += " progression";
+    badge += Engine::tr("{difficulty} difficulty",
+        {{"difficulty", Engine::tr(rulesetDifficultyName(selection.options.difficulty))}});
+    badge += " · ";
+    badge += Engine::tr("{progression} progression",
+        {{"progression", Engine::tr(rulesetProgressionName(selection.options.progression))}});
 
     if (selection.options.challengeMode != RulesetChallengeMode::None)
     {
         badge += " · ";
-        badge += rulesetChallengeModeName(selection.options.challengeMode);
+        badge += Engine::tr(rulesetChallengeModeName(selection.options.challengeMode));
     }
 
     if (selection.options.randomizer)
     {
-        badge += " · Randomizer";
+        badge += " · ";
+        badge += Engine::tr("Randomizer");
     }
 
     return badge;

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -28,34 +29,82 @@ struct FaceBounds
     float maxY = 0.0f;
 };
 
-// The x/y bounds of every face that keeps its place, widened so that any point a query can accept lies inside them.
+// The x/y bounds every face can take, widened so that any point a query can accept lies inside them.
 // A face whose vertices leave its plane is widened by that distance along its normal's dominant axis: a hit point
 // on the plane inside the projected polygon can lie that far outside the vertices' bounds.
+// A face a sliding door moves is placed by the bounds of its whole travel: each of its vertices runs on a straight line
+// between the door's two end poses (distance 0 and the move length), so the bounds of both poses hold every pose
+// between. A face a rotating or spinning mover moves (or without usable geometry) is not placed.
 std::vector<FaceBounds> buildPlacedFaceBounds(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     const MapDeltaData *pMapDeltaData)
 {
-    std::vector<uint8_t> movingVertices(vertices.size(), 0);
-    std::vector<uint8_t> movingFaces(indoorMapData.faces.size(), 0);
+    struct VertexTravel
+    {
+        // The doors that move the vertex: 0 none, 1 one sliding door (`doorIndex`), 2 several, 3 a rotating mover.
+        uint8_t kind = 0;
+        size_t doorIndex = 0;
+        bx::Vec3 min = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 max = {0.0f, 0.0f, 0.0f};
+    };
+
+    std::vector<VertexTravel> vertexTravel(vertices.size());
 
     if (pMapDeltaData != nullptr)
     {
-        for (const MapDeltaDoor &door : pMapDeltaData->doors)
+        for (size_t doorIndex = 0; doorIndex < pMapDeltaData->doors.size(); ++doorIndex)
         {
-            for (uint16_t vertexId : door.vertexIds)
-            {
-                if (vertexId < movingVertices.size())
-                {
-                    movingVertices[vertexId] = 1;
-                }
-            }
+            const MapDeltaDoor &door = pMapDeltaData->doors[doorIndex];
+            const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(indoorMapData, door.doorId);
+            const bool sliding = pMover == nullptr || (!pMover->rotation && !pMover->spin);
+            const size_t offsetCount =
+                std::min(door.xOffsets.size(), std::min(door.yOffsets.size(), door.zOffsets.size()));
+            const float moveLength = static_cast<float>(door.moveLength);
+            const bx::Vec3 travel = {
+                fixedIndoorDoorDirectionComponentToFloat(door.directionX) * moveLength,
+                fixedIndoorDoorDirectionComponentToFloat(door.directionY) * moveLength,
+                fixedIndoorDoorDirectionComponentToFloat(door.directionZ) * moveLength};
 
-            for (uint16_t faceId : door.faceIds)
+            for (size_t index = 0; index < door.vertexIds.size(); ++index)
             {
-                if (faceId < movingFaces.size())
+                const uint16_t vertexId = door.vertexIds[index];
+
+                if (vertexId >= vertexTravel.size())
                 {
-                    movingFaces[faceId] = 1;
+                    continue;
+                }
+
+                VertexTravel &entry = vertexTravel[vertexId];
+
+                if (!sliding || index >= offsetCount)
+                {
+                    entry.kind = 3;
+                    continue;
+                }
+
+                const bx::Vec3 closed = {static_cast<float>(door.xOffsets[index]),
+                    static_cast<float>(door.yOffsets[index]), static_cast<float>(door.zOffsets[index])};
+                const bx::Vec3 opened = {closed.x + travel.x, closed.y + travel.y, closed.z + travel.z};
+                const bx::Vec3 low = {
+                    std::min(closed.x, opened.x), std::min(closed.y, opened.y), std::min(closed.z, opened.z)};
+                const bx::Vec3 high = {
+                    std::max(closed.x, opened.x), std::max(closed.y, opened.y), std::max(closed.z, opened.z)};
+
+                if (entry.kind == 0)
+                {
+                    entry.kind = 1;
+                    entry.doorIndex = doorIndex;
+                    entry.min = low;
+                    entry.max = high;
+                }
+                else if (entry.kind != 3)
+                {
+                    entry.kind = entry.kind == 1 && entry.doorIndex == doorIndex ? uint8_t(1) : uint8_t(2);
+                    entry.min = {std::min(entry.min.x, low.x), std::min(entry.min.y, low.y),
+                        std::min(entry.min.z, low.z)};
+                    entry.max = {std::max(entry.max.x, high.x), std::max(entry.max.y, high.y),
+                        std::max(entry.max.z, high.z)};
                 }
             }
         }
@@ -67,42 +116,110 @@ std::vector<FaceBounds> buildPlacedFaceBounds(
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
         const IndoorFace &face = indoorMapData.faces[faceIndex];
-        bool moving = movingFaces[faceIndex] != 0;
+        // A face a door lists whose vertices all stay put keeps its place.
+        bool moving = false;
+        bool rotating = false;
+        // Every vertex moved by the same sliding door: the face keeps its shape along the travel.
+        bool rigid = !face.vertexIndices.empty();
+        std::optional<size_t> rigidDoorIndex;
+        bx::Vec3 travelMin = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(),
+            std::numeric_limits<float>::max()};
+        bx::Vec3 travelMax = {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(),
+            std::numeric_limits<float>::lowest()};
 
         for (uint16_t vertexId : face.vertexIndices)
         {
-            moving = moving || (vertexId < movingVertices.size() && movingVertices[vertexId] != 0);
+            if (vertexId >= vertexTravel.size())
+            {
+                rigid = false;
+                continue;
+            }
+
+            const VertexTravel &entry = vertexTravel[vertexId];
+            bx::Vec3 low = {static_cast<float>(vertices[vertexId].x), static_cast<float>(vertices[vertexId].y),
+                static_cast<float>(vertices[vertexId].z)};
+            bx::Vec3 high = low;
+            moving = moving || entry.kind != 0;
+            rotating = rotating || entry.kind == 3;
+
+            if (entry.kind == 1 || entry.kind == 2)
+            {
+                low = entry.min;
+                high = entry.max;
+            }
+
+            if (entry.kind != 1 || (rigidDoorIndex && *rigidDoorIndex != entry.doorIndex))
+            {
+                rigid = false;
+            }
+
+            rigidDoorIndex = entry.doorIndex;
+            travelMin = {std::min(travelMin.x, low.x), std::min(travelMin.y, low.y), std::min(travelMin.z, low.z)};
+            travelMax = {std::max(travelMax.x, high.x), std::max(travelMax.y, high.y), std::max(travelMax.z, high.z)};
         }
 
-        if (moving || !buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, geometry))
+        const bool hasGeometry = buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, geometry);
+
+        // A stretched face is placed by its vertices alone: it may have no usable geometry in the present pose only.
+        if (rotating || (!hasGeometry && !(moving && !rigid)))
         {
             continue;
         }
 
-        const float dominantNormal =
-            std::max({std::fabs(geometry.normal.x), std::fabs(geometry.normal.y), std::fabs(geometry.normal.z)});
         float planeDeviation = 0.0f;
 
-        if (geometry.hasPlane && dominantNormal > 0.0f)
+        if (moving && !rigid)
         {
-            const bx::Vec3 &origin = geometry.vertices.front();
-
-            for (const bx::Vec3 &vertex : geometry.vertices)
+            // A face the door stretches changes its plane on the way. A point on any plane through one of its
+            // vertices, inside the polygon projected along that plane's dominant axis, lies within the sum of the
+            // other two extents of that vertex along the dominant axis.
+            if (face.vertexIndices.empty() || travelMin.x > travelMax.x)
             {
-                const float distance = (vertex.x - origin.x) * geometry.normal.x
-                    + (vertex.y - origin.y) * geometry.normal.y
-                    + (vertex.z - origin.z) * geometry.normal.z;
-                planeDeviation = std::max(planeDeviation, std::fabs(distance) / dominantNormal);
+                continue;
+            }
+
+            const float extentX = travelMax.x - travelMin.x;
+            const float extentY = travelMax.y - travelMin.y;
+            const float extentZ = travelMax.z - travelMin.z;
+            planeDeviation = extentX + extentY + extentZ;
+        }
+        else
+        {
+            const float dominantNormal =
+                std::max({std::fabs(geometry.normal.x), std::fabs(geometry.normal.y), std::fabs(geometry.normal.z)});
+
+            if (geometry.hasPlane && dominantNormal > 0.0f)
+            {
+                const bx::Vec3 &origin = geometry.vertices.front();
+
+                for (const bx::Vec3 &vertex : geometry.vertices)
+                {
+                    const float distance = (vertex.x - origin.x) * geometry.normal.x
+                        + (vertex.y - origin.y) * geometry.normal.y
+                        + (vertex.z - origin.z) * geometry.normal.z;
+                    planeDeviation = std::max(planeDeviation, std::fabs(distance) / dominantNormal);
+                }
             }
         }
 
         const float padding = FacePadding + planeDeviation;
         FaceBounds &faceBounds = bounds[faceIndex];
         faceBounds.placed = true;
-        faceBounds.minX = geometry.minX - padding;
-        faceBounds.maxX = geometry.maxX + padding;
-        faceBounds.minY = geometry.minY - padding;
-        faceBounds.maxY = geometry.maxY + padding;
+
+        if (moving)
+        {
+            faceBounds.minX = travelMin.x - padding;
+            faceBounds.maxX = travelMax.x + padding;
+            faceBounds.minY = travelMin.y - padding;
+            faceBounds.maxY = travelMax.y + padding;
+        }
+        else
+        {
+            faceBounds.minX = geometry.minX - padding;
+            faceBounds.maxX = geometry.maxX + padding;
+            faceBounds.minY = geometry.minY - padding;
+            faceBounds.maxY = geometry.maxY + padding;
+        }
     }
 
     return bounds;

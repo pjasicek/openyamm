@@ -183,6 +183,9 @@ private:
     void updateDeferredMainMenuChildWarmup();
     void shutdownApplication();
     bool initializeSelectedMapRuntime(bool initializeView);
+    bool buildSelectedMapRuntime(bool initializeView);
+    // The map's <stem>.cinematics.yml, parsed (none: no file, or an invalid one, logged).
+    std::optional<CinematicLibrary> loadMapCinematics(const MapAssetInfo &map) const;
     const ActorBehaviorCatalog *reloadActorBehaviorCatalog();
     bool initializeRenderer();
     bool initializeDebugConsoleRenderer();
@@ -202,7 +205,11 @@ private:
     bool loadMawTestPartyCatalog(MawTestPartyCatalog &catalog, std::string &error) const;
     void shutdownRenderer();
     Party &ensureSessionPartyState();
-    void bindPartyDependencies(Party &party) const;
+    void bindPartyDependencies(Party &party);
+    std::string worldIdOfMap(const std::string &mapFileName);
+    static std::string statisticsDifficulty(const RulesetSelection &ruleset);
+    // The playthrough statistics' frame: the place, new members, the map entered and the real time played.
+    void updatePlaythroughStatistics(float realDeltaSeconds, bool gameplayLoaded);
     void synchronizeSessionFromRuntime();
     void synchronizeActiveReputationToParty();
     bool loadCurrentSessionMap(
@@ -319,9 +326,13 @@ private:
     Engine::EngineApplication m_engineApplication;
     CinematicGrading m_cinematicGrading;
     ActorModelPreview m_actorModelPreview;
+    ActorModelPreview m_actorTalkPortrait{ActorPortraitKind::Talk};
     GameDataLoader m_gameDataLoader;
     GameDataRepository m_gameDataRepository;
     WorldManifest m_activeWorldManifest;
+    std::string m_playthroughStatisticsMap;
+    uint64_t m_playthroughStatisticsRoster = 0;
+    uint64_t m_lastPlayerInputTicks = 0;
     ActorBehaviorCatalog m_actorBehaviorCatalog;
     GameAudioSystem m_gameAudioSystem;
     WorldAmbientSoundRuntime m_worldAmbientSounds;
@@ -418,6 +429,9 @@ private:
     bool m_pendingInputTextActive = false;
     bool m_skipGameplayUpdateUntilPromptSubmitKeysReleased = false;
     bool m_loadingSavedGameRuntime = false;
+    // The status notice of a map whose saved state was reset when it was entered (resetSavedMapStateOfAnotherLayout),
+    // shown once its view is up: building the view clears the status bar.
+    std::string m_mapStateResetNotice;
     FramePerformanceDiagnostics m_framePerformanceDiagnostics;
     uint32_t m_lastFramePerformanceLogTick = 0;
     DebugConsole m_debugConsole;

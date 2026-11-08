@@ -52,6 +52,7 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/tables/MonsterTable.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MonsterShields.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MonsterModifiers.cpp
+    ${CMAKE_SOURCE_DIR}/game/tables/Mm9MonsterAi.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MonsterRelationAddOns.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MergedBaseTables.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ObjectTable.cpp

@@ -52,9 +52,6 @@ MM6.SeerRecoverableItems = {
     {Item = 2160, QBit = 1258}, -- Communication Officer's Code
 }
 
-function MM6.ApplyLocalMonsterRelations(relations)
-    ApplyLocalMonsterRelations(relations)
-end
 
 function MM6.RecoverLostItem()
     support.tryRecoverLostItem(MM6.SeerRecoverableItems)
@@ -413,3 +410,70 @@ end
 
 MM6.RegisterNicolaiStateOnLoad()
 MM6.RegisterNicolaiKidnapTimer()
+
+-- Monthly stat shrines (the Seer's pilgrimage). A shrine rewards only in its own month (MonthIs is zero-based),
+-- +10 on the party's first blessing there and +3 afterwards. Any blessing sets the shared pilgrimage QBit, which
+-- holds every shrine silent until the Seer's Pilgrimage topic clears it (once per month); the original gave the
+-- same "You pray" text for that case and for the wrong month, so the party could not tell them apart.
+-- The original Shrine of Magic raised MM6 magic resistance, which MMerge converted to fire (already given by the
+-- Shrine of Fire); the merged party resists magic through Mind, Body and Spirit, so the shrine raises those.
+MM6.ShrinePilgrimageQBit = 1230
+MM6.ShrinePrayMessage = "You pray at the shrine."
+MM6.ShrineSilentMessage = "The shrine is silent. Ask the Seer about your next pilgrimage."
+
+MM6.Shrines = {
+    Might = {month = 0, blessedQBit = 1231, stats = {BaseMight}, reward = "Might"},
+    Intellect = {month = 1, blessedQBit = 1232, stats = {BaseIntellect}, reward = "Intellect"},
+    Personality = {month = 2, blessedQBit = 1233, stats = {BasePersonality}, reward = "Personality"},
+    Endurance = {month = 3, blessedQBit = 1234, stats = {BaseEndurance}, reward = "Endurance"},
+    Accuracy = {month = 4, blessedQBit = 1235, stats = {BaseAccuracy}, reward = "Accuracy"},
+    Speed = {month = 5, blessedQBit = 1236, stats = {BaseSpeed}, reward = "Speed"},
+    Luck = {month = 6, blessedQBit = 1237, stats = {BaseLuck}, reward = "Luck"},
+    Fire = {month = 7, blessedQBit = 1238, stats = {FireResistance}, reward = "Fire resistance"},
+    Electricity = {month = 8, blessedQBit = 1239, stats = {AirResistance}, reward = "Electricity resistance"},
+    Cold = {month = 9, blessedQBit = 1240, stats = {WaterResistance}, reward = "Cold resistance"},
+    Poison = {month = 10, blessedQBit = 1241, stats = {EarthResistance}, reward = "Poison resistance"},
+    Magic = {
+        month = 11,
+        blessedQBit = 1242,
+        stats = {MindResistance, BodyResistance, SpiritResistance},
+        reward = "Mind, Body and Spirit resistance",
+    },
+}
+
+function MM6.PrayAtShrine(shrine)
+    if not IsAtLeast(MonthIs, shrine.month) then
+        evt.StatusText(MM6.ShrinePrayMessage)
+        return
+    end
+
+    if IsQBitSet(QBit(MM6.ShrinePilgrimageQBit)) then
+        evt.StatusText(MM6.ShrineSilentMessage)
+        return
+    end
+
+    SetQBit(QBit(MM6.ShrinePilgrimageQBit))
+    local amount = 3
+
+    if not IsQBitSet(QBit(shrine.blessedQBit)) then
+        SetQBit(QBit(shrine.blessedQBit))
+        amount = 10
+    end
+
+    evt.ForPlayer(Players.All)
+
+    for _, stat in ipairs(shrine.stats) do
+        AddValue(stat, amount)
+    end
+
+    evt.StatusText(tr("+{amount} {stat} permanent", {amount = amount, stat = tr(shrine.reward)}))
+end
+
+function MM6.ReplaceShrineEvent(eventId, shrineName)
+    local shrine = MM6.Shrines[shrineName]
+    local title = tr("Shrine of {name}", {name = tr(shrineName)})
+
+    ReplaceMapEvent(eventId, title, function()
+        MM6.PrayAtShrine(shrine)
+    end, title)
+end

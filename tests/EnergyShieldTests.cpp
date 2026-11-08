@@ -427,6 +427,32 @@ TEST_CASE("monster table relations take the add-on first and the engine table ot
     CHECK(table.isLikelySameFaction(10069, 10078));
 }
 
+TEST_CASE("a map's own faction relations replace hostile.txt cells until the next map clears them")
+{
+    MonsterTable table;
+    // Factions 1 (monsters 1-3) and 2 (monsters 4-6) both hate the party (row 0) and are neutral to each other.
+    REQUIRE(table.loadRelationsFromRows({{"", "Party", "Goblin", "Guard"},
+        {"Party", "0", "3", "3"},
+        {"Goblin", "0", "0", "0"},
+        {"Guard", "0", "0", "0"}}));
+    REQUIRE(table.isHostileToParty(2));
+    REQUIRE(table.isHostileToParty(5));
+
+    // MMMerge's Game.HostileTxt[2][0] = 0 and Game.HostileTxt[2][1] = 2: guards are peaceful toward the party and
+    // attack goblins on this map; the goblins keep their table relations.
+    table.setMapFactionRelation(2, 0, 0);
+    table.setMapFactionRelation(2, 1, 2);
+    CHECK_FALSE(table.isHostileToParty(4));
+    CHECK_FALSE(table.isHostileToParty(6));
+    CHECK(table.isHostileToParty(1));
+    CHECK(table.getRelationBetweenMonsters(5, 2) == 2);
+    CHECK(table.getRelationBetweenMonsters(2, 5) == 0);
+
+    table.clearMapFactionRelations();
+    CHECK(table.isHostileToParty(5));
+    CHECK(table.getRelationBetweenMonsters(5, 2) == 0);
+}
+
 TEST_CASE("personal shields absorb first, pass the overflow, start full and regenerate after their delay")
 {
     Party party;

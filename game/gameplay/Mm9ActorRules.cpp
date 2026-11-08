@@ -239,6 +239,39 @@ float mm9SenseRange(float sharedRange, float perceptionRange, float maximumRange
     return std::min(std::max(sharedRange, perceptionRange), std::max(sharedRange, maximumRange));
 }
 
+Mm9AiPlacement mm9PartySenses(const Mm9AiPlacement &placement, const Mm9PartyAwareness &awareness, bool dormant)
+{
+    Mm9AiPlacement senses = placement;
+
+    if (!dormant && awareness.sightScale > 0.0f)
+    {
+        senses.sight *= awareness.sightScale;
+    }
+
+    return senses;
+}
+
+bool mm9PartyInView(bool inFront, const Mm9PartyAwareness &awareness, bool dormant)
+{
+    return inFront || (awareness.sightAllRound && !dormant);
+}
+
+bool mm9PartyHitProvokes(const Mm9PartyAwareness &awareness, float hitDistance)
+{
+    return awareness.provokeRange > 0.0f && hitDistance <= awareness.provokeRange;
+}
+
+bool mm9PartyHitTooFar(const Mm9PartyAwareness &awareness, float hitDistance)
+{
+    return awareness.provokeRange > 0.0f && hitDistance > awareness.provokeRange;
+}
+
+float mm9HeldPartyRange(float sight, bool doubled, bool provoked, const Mm9PartyAwareness &awareness)
+{
+    const float range = sight * (doubled ? 2.0f : 1.0f);
+    return provoked ? std::max(range, awareness.provokeRange) : range;
+}
+
 float mm9EyeZ(float footZ, float height, float eyeBelowTop)
 {
     return footZ + std::max(height - eyeBelowTop, height * 0.5f);
@@ -522,6 +555,52 @@ float mm9IdleFidgetWaitSeconds(float unit)
 int mm9FidgetVariant(float unit, size_t count)
 {
     return count <= 1 ? 0 : std::min(int(count) - 1, int(std::clamp(unit, 0.0f, 1.0f) * float(count)));
+}
+
+namespace
+{
+// GetRandomInt low, high: inclusive.
+float mm9RandomWholeSeconds(int low, int high, float unit)
+{
+    const int span = high - low + 1;
+    return float(low + std::min(span - 1, int(std::clamp(unit, 0.0f, 1.0f) * float(span))));
+}
+}
+
+float mm9SocializeWaitSeconds(float unit)
+{
+    return mm9RandomWholeSeconds(5, 15, unit);
+}
+
+float mm9ChatSearchSeconds(float unit)
+{
+    return mm9RandomWholeSeconds(5, 10, unit);
+}
+
+float mm9ChatApproachSeconds(float unit)
+{
+    return 4.0f + 6.0f * std::clamp(unit, 0.0f, 1.0f);
+}
+
+float mm9ChatLengthSeconds(float unit)
+{
+    return mm9RandomWholeSeconds(10, 30, unit);
+}
+
+float mm9ChatLeaveTurnRadians(float unit)
+{
+    constexpr float Degrees = 3.14159265f / 180.0f;
+    return (180.0f - 45.0f + 90.0f * std::clamp(unit, 0.0f, 1.0f)) * Degrees;
+}
+
+bool mm9Socializes(const Mm9AiPlacement &placement, size_t pathPointCount)
+{
+    return placement.wander == Mm9AiWanderMode::Aimless && placement.wanderLeash <= 0.0f && pathPointCount == 0;
+}
+
+bool mm9ChatTurnIsMine(bool initiator, uint16_t turns, uint16_t partnerTurns)
+{
+    return initiator ? turns == partnerTurns : turns < partnerTurns;
 }
 
 bool mm9WakesWithWakeup(Mm9AiDormantPose pose)

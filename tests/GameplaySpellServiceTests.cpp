@@ -593,3 +593,120 @@ TEST_CASE("an attack spell without a target swings the weapon instead")
         CHECK_EQ(scene.casts, 1);
     }
 }
+
+namespace
+{
+// A world with a fallback hostile and a destructible face 7 the crosshair can be on; it records the party's shots.
+class DestructibleAimWorld : public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    std::vector<OpenYAMM::Game::GameplayPartyAttackActorFacts> fallbackActors;
+    bool faceStanding = true;
+    std::vector<OpenYAMM::Game::GameplayPartyAttackProjectileRequest> shots;
+
+    std::vector<OpenYAMM::Game::GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
+        const OpenYAMM::Game::GameplayPartyAttackFallbackQuery &query) const override
+    {
+        (void)query;
+        return fallbackActors;
+    }
+
+    bool isPartyAttackMeleeBModelTarget(size_t faceIndex) const override
+    {
+        return faceStanding && faceIndex == 7;
+    }
+
+    bool spawnPartyAttackProjectile(const OpenYAMM::Game::GameplayPartyAttackProjectileRequest &request) override
+    {
+        shots.push_back(request);
+        return true;
+    }
+};
+
+OpenYAMM::Game::GameplayPartyAttackActorFacts fallbackHostile(size_t actorIndex, float x)
+{
+    OpenYAMM::Game::GameplayPartyAttackActorFacts actor;
+    actor.actorIndex = actorIndex;
+    actor.position = {x, 0.0f, 0.0f};
+    actor.radius = 40;
+    actor.height = 120;
+    actor.currentHp = 50;
+    actor.maxHp = 50;
+    actor.hostileToParty = true;
+    actor.visibleForFallback = true;
+    return actor;
+}
+}
+
+TEST_CASE("a crosshair destructible wins over a fallback hostile out of blow reach")
+{
+    using GameplayActionController = OpenYAMM::Game::GameplayActionController;
+    CHECK(GameplayActionController::crosshairDestructibleOverridesFallback(true, 3000.0f));
+    CHECK_FALSE(GameplayActionController::crosshairDestructibleOverridesFallback(true, 200.0f));
+    CHECK_FALSE(GameplayActionController::crosshairDestructibleOverridesFallback(false, 3000.0f));
+}
+
+TEST_CASE("a bow shot with no actor under the crosshair flies at a standing destructible there")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::Party party;
+    party.seed(Tests::createSpellRegressionPartySeed());
+    Game::Character *pArcher = party.member(0);
+    REQUIRE(pArcher != nullptr);
+    pArcher->equipment.bow = 61;
+    pArcher->skills["Bow"] = {"Bow", 5, Game::SkillMastery::Normal};
+    DestructibleAimWorld world;
+    world.bindParty(&party);
+    world.setPartyPosition(0.0f, 0.0f, 0.0f);
+    REQUIRE_EQ(party.activeMemberIndex(), 0);
+    Game::GameplayActionController::PartyAttackConfig config = {
+        .pWorldRuntime = &world,
+        .pParty = &party,
+        .pItemTable = &loader.getItemTable(),
+        .pSpellTable = &loader.getSpellTable(),
+        .pMonsterTable = &loader.getMonsterTable(),
+        .pSpecialItemEnchantTable = &loader.getSpecialItemEnchantTable(),
+        .directTargetBModelIndex = 7,
+        .directWorldTargetDistance = 1800.0f,
+        .rayRangedTarget = {1500.0f, 900.0f, 400.0f},
+        .hasRayRangedTarget = true,
+        .randomSeed = 5,
+    };
+
+    SUBCASE("the chain under the crosshair takes the arrow, not the hostile across the yard")
+    {
+        world.fallbackActors = {fallbackHostile(3, 2500.0f)};
+        const Game::GameplayActionController::PartyAttackExecutionResult result =
+            Game::GameplayActionController::executePartyAttack(config);
+        CHECK(result.attempted);
+        CHECK_FALSE(result.targetActorIndex.has_value());
+        REQUIRE_FALSE(world.shots.empty());
+        CHECK_FALSE(world.shots.front().targetActorIndex.has_value());
+        CHECK_EQ(world.shots.front().target.x, doctest::Approx(1500.0f));
+        CHECK_EQ(world.shots.front().target.y, doctest::Approx(900.0f));
+    }
+    SUBCASE("a broken chain gives the shot back to the nearest hostile")
+    {
+        world.faceStanding = false;
+        world.fallbackActors = {fallbackHostile(3, 2500.0f)};
+        const Game::GameplayActionController::PartyAttackExecutionResult result =
+            Game::GameplayActionController::executePartyAttack(config);
+        CHECK_EQ(result.targetActorIndex, std::optional<size_t>(3));
+        REQUIRE_FALSE(world.shots.empty());
+        CHECK_EQ(world.shots.front().targetActorIndex, std::optional<size_t>(3));
+        CHECK_EQ(world.shots.front().target.x, doctest::Approx(2500.0f));
+    }
+    SUBCASE("a hostile within blow reach is still struck")
+    {
+        world.fallbackActors = {fallbackHostile(4, 200.0f)};
+        const Game::GameplayActionController::PartyAttackExecutionResult result =
+            Game::GameplayActionController::executePartyAttack(config);
+        CHECK_EQ(result.targetActorIndex, std::optional<size_t>(4));
+        CHECK(world.shots.empty());
+    }
+}

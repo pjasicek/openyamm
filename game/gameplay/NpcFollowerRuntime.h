@@ -62,7 +62,8 @@ int hiredNpcSkillBonus(
     const SkillRules *pRules = nullptr);
 int hiredNpcPrimaryStatBonus(std::span<const HiredNpcFollower> followers, const std::string &statName);
 int hiredNpcResistanceBonus(std::span<const HiredNpcFollower> followers, const std::string &resistanceName);
-FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState);
+// pParty: MM9's Edina A'Mor adds 20 % to found gold (Party::mm9HirelingPassives); nullptr without a party.
+FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState, const Party *pParty);
 std::string foundGoldStatusText(const FoundGold &foundGold);
 bool hiredNpcCanRepairItemKind(std::span<const HiredNpcFollower> followers, const std::string &equipStat);
 }

@@ -25,11 +25,6 @@ uniform vec4 u_terrainMaterialLight;
 // x = waterline distance range, y = 1 when shores have a seabed under depth-faded water, z = waterline distance
 // under the water past which the seabed is plain (one sample of layer w, no detail normals or relighting).
 uniform vec4 u_terrainShore;
-// [0]: x = foliage tint strength (0: no grass decorations), y = grass full density distance, z = grass far distance,
-// w = grass largest LOD scale. [1]: x = how far the short grass has faded and the ground taken the plants' colour
-// (0 on foot, 1 flying high), z = that colour's strength, w = how much darker the ground is under drawn grass
-// (TerrainDecorationRenderer::foliageParams).
-uniform vec4 u_terrainFoliage[2];
 
 #if BAKED_SOURCES
 SAMPLER2D(s_texLightmap, 2);
@@ -72,7 +67,8 @@ float terrainSpecular(vec3 normal, vec3 toCamera, vec3 toLight, float roughness)
     float distribution = alpha2 / (3.14159265 * denominator * denominator);
     float k = alpha * 0.5;
     float visibility = 0.25 / ((nl * (1.0 - k) + k) * (nv * (1.0 - k) + k));
-    float fresnel = 0.04 + 0.96 * pow(1.0 - vh, 5.0);
+    // max(): pow() of a negative base is NaN on some GPUs, and vh rounds above 1 with the light at the camera.
+    float fresnel = 0.04 + 0.96 * pow(max(1.0 - vh, 0.0), 5.0);
     return distribution * visibility * fresnel * nl;
 }
 
@@ -208,28 +204,8 @@ void main()
 
     if (u_terrainFoliage[0].x > 0.0)
     {
-        // Where the grass decorations have thinned out (GRASS_LOD.md), the ground takes their colour: by the share of
-        // their coverage the remaining tufts no longer supply, and by how much of the grass a ray at this elevation
-        // crosses (grazing views see mostly blades, views from above the ground between them). Seen from above, the
-        // ground also takes their colour directly, so uncut patches and flower clusters read as areas (MEADOW.md).
-        vec4 foliage = texture2D(s_terrainFoliage, mapUv);
-        if (foliage.a > 0.0001)
-        {
-            float depth = foliage.a * 4.0;
-            vec3 toCamera = u_cameraPosition.xyz - position;
-            float distance = length(toCamera);
-            float thinned = min(1.0, u_terrainFoliage[0].y * u_terrainFoliage[0].y / max(distance * distance, 1.0));
-            float scale = clamp(distance / u_terrainFoliage[0].y, 1.0, u_terrainFoliage[0].w);
-            float drawn = min(thinned * scale * scale, 1.0)
-                * (1.0 - smoothstep(u_terrainFoliage[0].z * 0.85, u_terrainFoliage[0].z, distance));
-            float elevation = clamp(dot(toCamera / max(distance, 1.0), geometricNormal), 0.02, 1.0);
-            float grazing = sqrt(1.0 - elevation * elevation) / elevation;
-            float coverage = (1.0 - exp(-depth * grazing)) * (1.0 - drawn);
-            float overhead = u_terrainFoliage[1].x * (1.0 - exp(-depth * 2.0)) * u_terrainFoliage[1].z;
-            // Under the drawn grass the ground between the tufts is in their shade, which sets them off it.
-            albedo *= 1.0 - (1.0 - exp(-depth * 2.0)) * drawn * (1.0 - u_terrainFoliage[1].x) * u_terrainFoliage[1].w;
-            albedo = mix(albedo, foliage.rgb, max(coverage, overhead) * u_terrainFoliage[0].x);
-        }
+        albedo = terrainFoliageAlbedo(albedo, texture2D(s_terrainFoliage, mapUv), position, u_cameraPosition.xyz,
+            geometricNormal);
     }
     albedo = mix(albedo, u_fogColor.rgb, u_fogDensities.z);
     // Specular: smooth rock and rain-wet level ground glint; rough grass and dirt barely change. Skipped where the

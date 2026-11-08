@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayActorAiTypes.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/Mm9ActorRules.h"
 #include "game/party/SkillData.h"
 
 #include <algorithm>
@@ -72,6 +73,9 @@ public:
     void bindTables(const MonsterTable *pMonsterTable, const SpellTable *pSpellTable);
     void setPartyEngagementRange(float range);
     float configuredPartyEngagementRange() const;
+    // How MM9 loop monsters perceive the party (world.yml actorAwareness mm9Sight, mm9Provoke).
+    void setMm9PartyAwareness(const Mm9PartyAwareness &awareness);
+    const Mm9PartyAwareness &mm9PartyAwareness() const;
     // The world's melee vertical reach (WorldActorCombatDefinition; 0: melee ignores height).
     void setMeleeVerticalReach(float share);
     float meleeVerticalReach() const
@@ -89,6 +93,11 @@ public:
         return meleeReachesVertically(m_meleeVerticalReach, attackerFootZ, attackerHeight, targetFootZ, targetHeight);
     }
     static constexpr float MinimumMeleeVerticalReach = 48.0f;
+    // world.yml friendlyActorsBlockParty: true (MM9) makes friendly actors solid to the party's movement as hostile ones
+    // are; false (MM6-MM8) lets the party walk through them. Callers have already left out dead, dying and hidden actors.
+    void setFriendlyActorsBlockParty(bool enabled);
+    // The party's own charmed, enslaved or raised monsters stay passable in every world: they follow it about.
+    bool actorBlocksPartyMovement(bool hostileToParty, GameplayActorControlMode controlMode) const;
     // The world's level radius limit (WorldActorMovementDefinition; 0: none).
     void setLevelRadiusLimit(float limit);
     // The radius a monster's body meets the level with and plans its routes for: its own, at most the world's limit.
@@ -133,7 +142,11 @@ public:
         bool defaultHostileToParty) const;
 
     bool isPartyControlledActor(GameplayActorControlMode controlMode) const;
-    bool monsterIdsAreFriendly(int16_t leftMonsterId, int16_t rightMonsterId) const;
+    // pRelationOverrides: the map's evt.SetMonsterRelation rows, which replace the faction relation (as for targets).
+    bool monsterIdsAreFriendly(
+        int16_t leftMonsterId,
+        int16_t rightMonsterId,
+        const std::unordered_map<uint32_t, int32_t> *pRelationOverrides = nullptr) const;
     bool monsterIdsAreHostile(int16_t leftMonsterId, int16_t rightMonsterId) const;
     float partyEngagementRange(const GameplayActorTargetPolicyState &actor) const;
     float hostilityPromotionRangeForFriendlyActor(int relation) const;
@@ -175,7 +188,8 @@ public:
     bool hasPainReflection(const GameplayActorSpellEffectState &state) const;
     // pRelationOverrides: the map's evt.SetMonsterRelation rows (EventRuntimeState::monsterRelationOverrides), which
     // replace the faction relation between the two monsters: a positive one makes the actor engage at its range, 0
-    // stops it.
+    // stops it. A row may name an actor group on either side (relationGroupSide: MM9's AddEnemy on a few placed
+    // guards, not on their whole monster row); a group's row wins over its monsters' rows.
     GameplayActorTargetPolicyResult resolveActorTargetPolicy(
         const GameplayActorTargetPolicyState &actor,
         const GameplayActorTargetPolicyState &target,
@@ -183,6 +197,11 @@ public:
     static uint32_t relationOverrideKey(uint32_t leftMonsterId, uint32_t rightMonsterId)
     {
         return (leftMonsterId << 16) | (rightMonsterId & 0xFFFFu);
+    }
+    // A relation row's side naming an actor group (1-32767) instead of a monster: monster ids never set bit 15.
+    static uint32_t relationGroupSide(uint32_t group)
+    {
+        return 0x8000u | (group & 0x7FFFu);
     }
 
     bool clearSpellEffects(
@@ -200,7 +219,9 @@ private:
     const MonsterTable *m_pMonsterTable = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
     float m_partyEngagementRange = MaximumPartyEngagementRange;
+    Mm9PartyAwareness m_mm9PartyAwareness;
     float m_meleeVerticalReach = 0.0f;
     float m_levelRadiusLimit = 0.0f;
+    bool m_friendlyActorsBlockParty = false;
 };
 }

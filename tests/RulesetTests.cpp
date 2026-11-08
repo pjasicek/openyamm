@@ -16,6 +16,7 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <chrono>
 #include <cstdint>
@@ -120,11 +121,17 @@ void writeBytes(const std::filesystem::path &path, const std::vector<uint8_t> &b
     file.write(reinterpret_cast<const char *>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
 }
 
+// The layout identities of minimalSave's current outdoor and indoor states (save version 162).
+constexpr uint64_t OutdoorLayoutMarker = 0x0dd0a11ce0dd0a11ull;
+constexpr uint64_t IndoorLayoutMarker = 0x0bb1a5e0bb1a5e01ull;
+
 OpenYAMM::Game::GameSaveData minimalSave()
 {
     OpenYAMM::Game::GameSaveData save;
     save.mapFileName = "oute3.odm";
     save.saveName = "ruleset check";
+    save.outdoorWorld.mapLayoutIdentity = OutdoorLayoutMarker;
+    save.indoorScene.mapLayoutIdentity = IndoorLayoutMarker;
     return save;
 }
 
@@ -475,35 +482,80 @@ size_t findValue(const std::vector<uint8_t> &bytes, const T &value)
     return static_cast<size_t>(found - bytes.begin());
 }
 
+// Saves before version 162 have no map layout identities: cuts minimalSave's two, for a save stamped older.
+// Saves from version 163 end with the playthrough id and its statistics timeline: two strings, empty in these saves.
+void erasePlaythroughStatistics(std::vector<uint8_t> &bytes)
+{
+    REQUIRE(bytes.size() >= 2 * sizeof(uint64_t));
+    const size_t offset = bytes.size() - 2 * sizeof(uint64_t);
+    REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(offset), bytes.end(),
+        [](uint8_t value) { return value == 0; }));
+    eraseBytes(bytes, offset, 2 * sizeof(uint64_t));
+}
+
+// Cuts `count` empty counts or strings (a zero length each) at offset.
+void eraseEmptyCounts(std::vector<uint8_t> &bytes, size_t offset, size_t count)
+{
+    for (size_t index = 0; index < count; ++index)
+    {
+        uint64_t value = 1;
+        std::memcpy(&value, bytes.data() + offset + index * sizeof(uint64_t), sizeof(value));
+        REQUIRE_EQ(value, 0u);
+    }
+
+    eraseBytes(bytes, offset, count * sizeof(uint64_t));
+}
+
+void eraseMapLayoutIdentities(std::vector<uint8_t> &bytes)
+{
+    eraseBytes(bytes, findValue(bytes, OutdoorLayoutMarker), sizeof(uint64_t));
+    eraseBytes(bytes, findValue(bytes, IndoorLayoutMarker), sizeof(uint64_t));
+}
+
 // Saves from version 140 lead with the summary block (its size, the map, the time, the ruleset, the name and the
 // preview); older ones keep the map after the scene kind, the time before the camera yaw, the ruleset before the
 // random root seed and the name and preview at the end. Moves them back, for a save then stamped with an older version.
 // Saves before version 143 end the party without its completion records; save carries one record named by marker.
-// The party's empty last outdoor map (version 155), after its one completion record (named by marker), the untracked
-// flag and the empty counts of chosen MM9 talk rows and Ledgers of Teachers, so the party ends as before version 155.
-void eraseLastOutdoorMap(std::vector<uint8_t> &bytes, const std::string &marker)
-{
-    const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
-    REQUIRE(markerIt != bytes.end());
-    const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) + marker.size() + sizeof(float)
-        + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool) + 2 * sizeof(uint64_t);
-    uint64_t length = 1;
-    std::memcpy(&length, bytes.data() + offset, sizeof(length));
-    REQUIRE_EQ(length, 0u);
-    eraseBytes(bytes, offset, sizeof(uint64_t));
-}
-
 void eraseWorldCompletions(std::vector<uint8_t> &bytes, const std::string &marker)
 {
     const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
     REQUIRE(markerIt != bytes.end());
     // The record count and the id's length before the id; game minutes, score, real time and the timed flag after it,
-    // then the untracked flag, and the empty counts of chosen MM9 talk rows (version 146) and of bought Ledgers of
-    // Teachers (153) and the empty last outdoor map (155) that follow.
+    // then the untracked flag, and the empty counts of chosen MM9 talk rows (version 146), of bought Ledgers of
+    // Teachers (153), of MM9 hirelings (157) and of member formation cells (158) and the empty last outdoor map (155)
+    // that follow.
     const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) - 2 * sizeof(uint64_t);
     eraseBytes(bytes, offset,
         2 * sizeof(uint64_t) + marker.size() + sizeof(float) + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool)
-            + 3 * sizeof(uint64_t));
+            + 5 * sizeof(uint64_t));
+}
+
+// The party's empty count of member formation cells (version 158) and its empty last outdoor map (155), the last of
+// the party, after its one completion record (named by marker), the untracked flag and the empty counts of chosen MM9
+// talk rows, Ledgers of Teachers and MM9 hirelings.
+void eraseMemberFormationCount(std::vector<uint8_t> &bytes, const std::string &marker)
+{
+    const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
+    REQUIRE(markerIt != bytes.end());
+    const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) + marker.size() + sizeof(float)
+        + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool) + 3 * sizeof(uint64_t);
+    eraseEmptyCounts(bytes, offset, 2);
+}
+
+// The party's empty count of MM9 hirelings (version 157), after its one completion record (named by marker), the
+// untracked flag and the empty counts of chosen MM9 talk rows and Ledgers of Teachers; with the formation cells'
+// count after it (158) and the last outdoor map (155), so the party ends as before version 155.
+void eraseMm9HirelingCount(std::vector<uint8_t> &bytes, const std::string &marker)
+{
+    eraseMemberFormationCount(bytes, marker);
+    const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
+    REQUIRE(markerIt != bytes.end());
+    const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) + marker.size() + sizeof(float)
+        + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool) + 2 * sizeof(uint64_t);
+    uint64_t count = 1;
+    std::memcpy(&count, bytes.data() + offset, sizeof(count));
+    REQUIRE_EQ(count, 0u);
+    eraseBytes(bytes, offset, sizeof(uint64_t));
 }
 
 void moveSummaryToLegacyPlaces(
@@ -566,6 +618,7 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
 
     std::vector<uint8_t> bytes = readBytes(path);
+    erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
     // The seed directly follows the ruleset and the MAW state's presence byte follows the seed, so cut them first.
@@ -581,6 +634,7 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
         sizeof(uint64_t) + marker.size() + 10);
     // The held item ends with the bonus timer, the hardened flag, the ruleset-fields byte and the Workshop mod (136).
     eraseBytes(bytes, findValue(bytes, heldItemMarker) + sizeof(float) + 1, 1 + sizeof(uint16_t));
+    eraseMapLayoutIdentities(bytes);
     const uint32_t previousVersion = 95;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -630,8 +684,10 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
         restored->ruleset, restored->saveName, restored->previewBmp});
 
     std::vector<uint8_t> bytes = readBytes(path);
+    erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
+    eraseMapLayoutIdentities(bytes);
     const uint32_t previousVersion = 139;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -675,7 +731,8 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     eraseBytes(bytes, bowOffset, sizeof(bool));
     --summarySize;
     std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
-    eraseLastOutdoorMap(bytes, completionMarker);
+    eraseMm9HirelingCount(bytes, completionMarker);
+    eraseMapLayoutIdentities(bytes);
     const uint32_t previousVersion = 153;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -690,6 +747,86 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     CHECK_EQ(restored->saveName, "ruleset check");
     REQUIRE(summary.has_value());
     CHECK_FALSE(summary->ruleset.options.preferences.bowDisabled);
+}
+
+TEST_CASE("saves before the MM9 hirelings load with none")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    save.ruleset.options.preferences.bowDisabled = true;
+    const std::string completionMarker = "completionmarker";
+    save.party.worldCompletions.push_back({completionMarker});
+    const std::filesystem::path path = makeTemporaryRoot("mm9_hirelings").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
+
+    // Cut the party's hireling count (version 157) and stamp version 154 (before the last outdoor map, 155).
+    std::vector<uint8_t> bytes = readBytes(path);
+    eraseMm9HirelingCount(bytes, completionMarker);
+    eraseMapLayoutIdentities(bytes);
+    const uint32_t previousVersion = 154;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK(restored->party.mm9Hirelings.empty());
+    REQUIRE_EQ(restored->party.worldCompletions.size(), 1u);
+    CHECK_EQ(restored->party.worldCompletions[0].certificateId, completionMarker);
+    CHECK(restored->ruleset.options.preferences.bowDisabled);
+    CHECK_EQ(restored->saveName, "ruleset check");
+}
+
+TEST_CASE("saves before the MM9 formation load without member cells and with neutral hireling stats")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    OpenYAMM::Game::Mm9PartyHireling hireling;
+    hireling.rudeId = 42;
+    hireling.character.name = "Hrolf Spearmaster";
+    // The hireling's last saved field, found again in the bytes: the formation cell count follows it.
+    const int32_t cellMarker = 0x7e57ce11;
+    hireling.formationCell = cellMarker;
+    // Its character's condition expiry times (version 159, after the formation): found by the first one's value.
+    const float expiryMarker = 123456.5f;
+    hireling.character.conditionExpireGameMinutes[0] = expiryMarker;
+    save.party.mm9Hirelings.push_back(hireling);
+    const std::filesystem::path path = makeTemporaryRoot("mm9_formation").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
+
+    // Cut the party's formation cell count (version 158) and stamp version 157.
+    std::vector<uint8_t> bytes = readBytes(path);
+    std::array<uint8_t, sizeof(cellMarker)> markerBytes = {};
+    std::memcpy(markerBytes.data(), &cellMarker, sizeof(cellMarker));
+    const auto markerIt = std::search(bytes.begin(), bytes.end(), markerBytes.begin(), markerBytes.end());
+    REQUIRE(markerIt != bytes.end());
+    // The party's empty last outdoor map after it (version 155) stays.
+    const size_t countOffset = static_cast<size_t>(markerIt - bytes.begin()) + sizeof(cellMarker);
+    eraseEmptyCounts(bytes, countOffset, 1);
+    // A version 157 character has no condition expiry times either (version 159), nor the statistics identity after
+    // them (163).
+    std::array<uint8_t, sizeof(expiryMarker)> expiryBytes = {};
+    std::memcpy(expiryBytes.data(), &expiryMarker, sizeof(expiryMarker));
+    const auto expiryIt = std::search(bytes.begin(), bytes.end(), expiryBytes.begin(), expiryBytes.end());
+    REQUIRE(expiryIt != bytes.end());
+    eraseBytes(bytes, static_cast<size_t>(expiryIt - bytes.begin()),
+        sizeof(float) * hireling.character.conditionExpireGameMinutes.size() + sizeof(uint64_t));
+    erasePlaythroughStatistics(bytes);
+    eraseMapLayoutIdentities(bytes);
+    const uint32_t previousVersion = 157;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK(restored->party.memberFormationCells.empty());
+    REQUIRE_EQ(restored->party.mm9Hirelings.size(), 1u);
+    const OpenYAMM::Game::Character &character = restored->party.mm9Hirelings[0].character;
+    CHECK_EQ(character.might, OpenYAMM::Game::Party::Mm9HirelingPrimaryStat);
+    CHECK_EQ(character.speed, OpenYAMM::Game::Party::Mm9HirelingPrimaryStat);
+    CHECK_EQ(character.luck, OpenYAMM::Game::Party::Mm9HirelingPrimaryStat);
+    CHECK_EQ(restored->saveName, "ruleset check");
 }
 
 TEST_CASE("saves keep a character's experience past 32 bits")
@@ -1343,6 +1480,24 @@ TEST_CASE("the MAW ruleset's global events leave the base game's events alone")
     CHECK(global->hasEvent(65401));
 }
 
+TEST_CASE("a member's timed condition keeps its end time across a save")
+{
+    using OpenYAMM::Game::CharacterCondition;
+    constexpr size_t Paralyzed = static_cast<size_t>(CharacterCondition::Paralyzed);
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    OpenYAMM::Game::Character member;
+    member.name = "Timed";
+    member.conditions.set(Paralyzed);
+    member.conditionStartGameMinutes[Paralyzed] = 600.0f;
+    member.conditionExpireGameMinutes[Paralyzed] = 610.0f;
+    save.party.members.push_back(member);
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE_EQ(restored->party.members.size(), 1u);
+    CHECK(restored->party.members[0].conditions.test(Paralyzed));
+    CHECK(restored->party.members[0].conditionExpireGameMinutes[Paralyzed] == doctest::Approx(610.0f));
+}
 
 TEST_CASE("saves keep the outdoor map the party was last on (OY-303)")
 {

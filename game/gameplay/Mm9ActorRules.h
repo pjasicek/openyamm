@@ -176,6 +176,35 @@ float mm9PerceptionRange(float sight, float hearing, bool doubled);
 // indoors the activation range): the shared range, raised to its perception range, at most maximumRange.
 float mm9SenseRange(float sharedRange, float perceptionRange, float maximumRange);
 
+// world.yml actorAwareness mm9Sight and mm9Provoke (MM9_MONSTER_AI_PLAN.md "Awareness of the party"): OpenYAMM's
+// departures from MM9's perception of the party, chosen by the user. The defaults are MM9's own rules.
+struct Mm9PartyAwareness
+{
+    // It sees the party all round, not only in front (hearing is unchanged).
+    bool sightAllRound = false;
+    // Its placement's sight times this.
+    float sightScale = 1.0f;
+    // A party hit from at most this far provokes it: it holds the party as far as this, wherever the party is, until
+    // it loses it. A party hit from farther makes it take no target. 0: MM9's rule (every hit is a reason to take
+    // the attacker, which it keeps only within its doubled sight).
+    float provokeRange = 0.0f;
+    // A provoking hit provokes its awake friends within this distance of it too (0: none).
+    float provokeRadius = 0.0f;
+};
+
+// The placement as its senses find the party: sight scaled. A dormant start keeps MM9's senses.
+Mm9AiPlacement mm9PartySenses(const Mm9AiPlacement &placement, const Mm9PartyAwareness &awareness, bool dormant);
+
+// Whether the party counts as in front of it: always with all-round sight, unless it is dormant.
+bool mm9PartyInView(bool inFront, const Mm9PartyAwareness &awareness, bool dormant);
+
+// Whether a party hit from this distance provokes it, and whether one is too far to make it take any target.
+bool mm9PartyHitProvokes(const Mm9PartyAwareness &awareness, float hitDistance);
+bool mm9PartyHitTooFar(const Mm9PartyAwareness &awareness, float hitDistance);
+
+// How far it keeps the party it holds: its sight, doubled after contact, or the provoke range while provoked.
+float mm9HeldPartyRange(float sight, bool doubled, bool provoked, const Mm9PartyAwareness &awareness);
+
 // Its eye's height (AIBase GetEyePos 0x10003280: the centre plus half the height less 2 LT): the top of its body less
 // eyeBelowTop. Sight lines run from there to the target's centre (MM9_AI_NATIVE_RE.md section 5.1).
 float mm9EyeZ(float footZ, float height, float eyeBelowTop);
@@ -382,9 +411,9 @@ enum class Mm9DormantEvent : uint8_t
 };
 
 // Whether the event wakes a dormant start: a trigger always; a hit too (MummyAwaken.scr OnDamage WakeUp, and the
-// engine's rule for a resting actor); disturbed (FlyingIcky.scr Sleep, KlusosSleeper.scr) also an alert, a help call
-// or a target it notices, a hanging one only while it plays its fidget (MM9 quirk reproduced: FlyingIcky.scr registers
-// OnFoundTarget only in Fidget); sighted (Jumper.inc) a target it notices.
+// engine's rule for a resting actor); disturbed (FlyingIcky.scr Sleep) also an alert, a help call or a target it
+// notices, a hanging one only while it plays its fidget (MM9 quirk reproduced: FlyingIcky.scr registers OnFoundTarget
+// only in Fidget); sighted (Jumper.inc) a target it notices. KlusosSleeper.scr wakes only on damage or its link.
 bool mm9DormantWakes(Mm9AiDormantUntil until, Mm9AiDormantPose pose, Mm9DormantEvent event, bool fidgeting);
 
 // FlyingIcky.scr FidgetSetup: the next hanging fidget 2-10 s later (unit in [0, 1)).
@@ -395,6 +424,30 @@ float mm9IdleFidgetWaitSeconds(float unit);
 
 // SetState(fidget, -1): one of count fidget clips, uniformly (unit in [0, 1); 0 for a count of 0 or 1).
 int mm9FidgetVariant(float unit, size_t count);
+
+// NPCBase.inc's chats (MM9_AMBIENT_ANIMATION.md section 2.3), units in [0, 1). SetupNextChat: the next search
+// GetRandomInt 5, 15 s later; LookForPersonOn: a search window of GetRandomInt 5, 10 s; GoChat: the walk to the one
+// who accepted gives up after GetRandomFloat 4, 10 s; OnChatArrival: the chat lasts GetRandomInt 10, 30 s; LeaveChat:
+// a turn of 180 degrees plus GetRandomFloat -45, 45 (radians).
+float mm9SocializeWaitSeconds(float unit);
+float mm9ChatSearchSeconds(float unit);
+float mm9ChatApproachSeconds(float unit);
+float mm9ChatLengthSeconds(float unit);
+float mm9ChatLeaveTurnRadians(float unit);
+
+// OnHello's wait for the one it accepted to arrive (OnChatGiveUp), and how often the native search runs.
+inline constexpr float Mm9ChatListenGiveUpSeconds = 20.0f;
+inline constexpr float Mm9ChatSearchIntervalSeconds = 1.0f;
+// FaceObject and FaceDir at 180 degrees a second (OnChatBegin, LeaveChat), in radians.
+inline constexpr float Mm9ChatTurnRadiansPerSecond = 3.14159265f;
+
+// BaseWanderStartup: only a townsperson wandering aimlessly without a leash looks for someone to talk to (one on a
+// path, with a leash or not wandering only answers).
+bool mm9Socializes(const Mm9AiPlacement &placement, size_t pathPointCount);
+
+// Turns in a chat (OnConverseDone, YourTurn): the one who asked speaks first, then they alternate; each plays one Conv
+// clip and hands over when it ends. It may start a clip when neither plays one and it is its turn.
+bool mm9ChatTurnIsMine(bool initiator, uint16_t turns, uint16_t partnerTurns);
 
 // How long a dormant start's wake holds it before its base runs: a hanging one drops for its Launch clip
 // (FlyingIcky.scr IckyLaunch); a lying one (a coffin's mummy, a sleeper) gets up with its Wakeup clip, which

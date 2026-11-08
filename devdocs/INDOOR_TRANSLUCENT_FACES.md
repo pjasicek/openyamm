@@ -34,6 +34,24 @@ Why the scene file and not the alternatives:
 
 The converter emits the data (below); by hand, list the face indices from the editor or the compiler's `faces.yml`.
 
+## Opaque faces: the scene's `opaque_faces`
+
+```yaml
+opaque_faces: [10702, 10703, 10716]   # BLV face indices drawn opaque whatever their texture's alpha
+```
+
+A face's texture alpha is otherwise a cut-out indoors (`fs_indoor_textured_lit.sc` discards alpha 0, the MM6-MM8
+colour key). A listed face ignores it: drawn opaque, no holes. For MM9 window glass that MM9 draws opaque (no
+Translucent flag) but whose texture carries a graded alpha meant for translucent use elsewhere: Bootcamp's stained
+glass (`drangheimcityglass`, 12 % of its texels at alpha 0) showed those texels as holes to the sky. Parsed by
+`IndoorSceneYml` (an overlay's entries add to the base's; out-of-range ids fail the load), kept sorted as
+`IndoorMapData::opaqueFaces` (`isIndoorFaceOpaque`); the renderer adds 2 to the vertex's secret-pulse slot
+(`TexturedVertex::secretPulse`, `v_texcoord1.x`: 1 secret, 2 opaque; the shader rounds the interpolated slot before
+testing it) and the shader skips the discard. Maps without the key are unchanged. The x4 and x2 tiers lose a
+texture's RGB where its alpha is near 0 (premultiplied filtering in the x2 reduction and the cooked mips), so the MM9
+converter gives these faces an opaque variant of the texture (`<first seven>OPQ`, alpha 255 in every tier, made by
+`level_generation/projects/mm9r_common/opaque_textures.py` from the native and the x4 master).
+
 ## Rendering (`IndoorRenderer`)
 
 - **Batches.** A translucent face is a batch of its own (`TexturedBatch::translucent`, its translucency and plane
@@ -115,17 +133,33 @@ face is never a profile emitter (an `outward` window pane is opaque glass with n
 
 ## The MM9 dungeon converter
 
-`level_generation/projects/mm9r_common/dungeon` (`rooms.Glass`, `glass_portals`, `glass_backed`,
-`build.translucent_faces`, `movers.build_movers`) with each map's `overrides.yml glass` ({texture: {opacity, tint,
-two_sided}}): a glass face between two rooms is a portal shaped as the pane plus the pane as a solid glass face; a
+**The rule (the user's decision, 2026-11-07): windows exactly as MM9 has them.** A face is see-through only where MM9
+draws it translucent: its LithTech surface has the Translucent flag (0x8) and its texture a graded alpha (20 % of the
+DTX's texels between 8 and 247; cut-outs such as bars, chain links and ladders stay ordinary alpha-tested faces).
+A flagged face on a brush whose `Alpha` is below 1 is translucent whatever its texture (Wizard's Lab's force field);
+the brush Alpha has no effect without the flag (MM9 blends only Translucent surfaces). Where MM9 draws a window
+opaque (no flag), ours is opaque: no glass face, no portal behind it, and a window, ice or cloud face whose texture
+has such an alpha is listed in `opaque_faces` (Yanmir's Fort's ice walls: unflagged, brush Alpha 1). Other unflagged
+textures with alpha (bars, grilles, blood, worn trims, awnings, crowd cards) keep their cut-out. Glass is decided per face from MM9's data, not from per-texture
+lists: each map's `overrides.yml glass` ({texture: {opacity, tint, two_sided}}) only tunes the flagged faces of those
+textures. The earlier see-through "dirty glass" for MM9's opaque window boxes (`boxes`, Thjorgard City 2026-11-01) is
+withdrawn: through those panes the player saw the empty, clipped interiors of locked houses (Sturmford City). A
+texture whose runtime image has no alpha (the legacy BMP only: Clouds1, Bootcamp's shop windows) takes the DTX's mean
+alpha as its opacity.
+
+`level_generation/projects/mm9r_common/dungeon` (`rooms.Glass`, `graded_textures`, `glass_portals`, `glass_backed`,
+`build.translucent_faces`, `build.opaque_faces`, `movers.build_movers`): a glass face between two rooms is a portal shaped as the pane plus the pane as a solid glass face; a
 glass face inside one room only the glass face; a glass face with air on its front only is glass when the ray out of
-its back meets the front of a built face within 1 024 LT (a wall or the sky faces behind it), else stays opaque (the
+its back meets the front of a built face within 1 024 LT (a wall), or the sky faces at any distance, looking
+through other glass and invisible collision shells (Bootcamp's museum cases, 2026-11-07), else stays opaque (the
 void outside would draw black); a mover's glass is its own mechanism part `<node>_GLASS<k>`. Glass faces go to
 `STATIC_glass<k>_<room>` source nodes, whose face ids the compiler reports in `faces.yml`; the scene gets one
 `translucent_faces` entry per kind (texture × brush `Alpha`), opacity = the texture setting × the brush Alpha.
+Opaque faces with an alpha texture go to `TRIGGER_opaque_[<back room>_]<room>` nodes and the scene's `opaque_faces`.
 
 ## Tests
 
 - `./build/tests/openyamm_unit_tests --test-case='*translucent*'`: parsing and defaults, validation (range,
-  duplicates, opacity, tint), the empty-map fast path, the face lookup, back-to-front order, single- and two-sided.
+  duplicates, opacity, tint), the empty-map fast path, the face lookup, back-to-front order, single- and two-sided;
+  `--test-case='*opaque face*'`: the opaque face lookup.
 - The MM9 dungeons' headless scenarios (each project's README) and the MM6–MM8 indoor regressions.

@@ -17,11 +17,11 @@ summary:
   recipes: 48
   componentKeys: 176
   statuses:
-    supported_one_shot: 36
-    unsupported: 12
+    supported_one_shot: 39
+    unsupported: 9
   blockers:
     missing_source_asset: 2
-    needs_body_anchors: 6
+    needs_body_anchors: 3
     needs_mesh_deformation: 6
 effects:
 - id: mm9:sparklies
@@ -175,8 +175,7 @@ effects:
     legacy: models/spells/centerdrop.abc
     visible: true
     mode: deforming
-    reason: 'piece ''nodes04'' is deforming: vertices are attached to nodes 1 and
-      2'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/SPELLS/CENTERDROP.abc'''
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:disease
   sourceName: spell-disease
@@ -332,8 +331,7 @@ effects:
     legacy: models/jajarb.abc
     visible: true
     mode: deforming
-    reason: 'piece ''NGon01'' is deforming: vertices are attached to nodes 39 and
-      1'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/JAJARB.abc'''
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:poison_cloud
   sourceName: spell-poison cloud
@@ -393,8 +391,7 @@ effects:
     legacy: models/spells/storm.abc
     visible: true
     mode: deforming
-    reason: 'piece ''insidesphere01'' is deforming: vertices are attached to nodes
-      6 and 5'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/SPELLS/STORM.abc'''
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:fg_spell-shared_life
   sourceName: fg spell-shared life
@@ -505,7 +502,7 @@ effects:
     legacy: models/ghost.abc
     visible: true
     mode: deforming
-    reason: 'piece ''body1'' is deforming: vertices are attached to nodes 5 and 6'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/GHOST.abc'''
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:elemental-old
   sourceName: elemental-old
@@ -566,7 +563,7 @@ effects:
     legacy: models/monk.abc
     visible: true
     mode: deforming
-    reason: 'piece ''monk'' is deforming: vertices are attached to nodes 6 and 5'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/MONK.abc'''
   - componentId: 1
     legacy: models/spells/armortube.abc
     visible: true
@@ -598,8 +595,7 @@ effects:
     legacy: models/spells/tube.abc
     visible: true
     mode: deforming
-    reason: 'piece ''armorspell'' is deforming: vertices are attached to nodes 23
-      and 25'
+    reason: '[Errno 2] No such file or directory: ''mm9/extracted/MODELS/MODELS/SPELLS/TUBE.abc'''
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:Njam_lightball_for_cutscene
   sourceName: Njam lightball for cutscene
@@ -633,14 +629,13 @@ effects:
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:dragon_smoke
   sourceName: dragon smoke
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -650,6 +645,7 @@ effects:
   - componentId: 3
     mode: 9
     anchor: tail_or_user_node_9
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:redyeldots
@@ -675,14 +671,13 @@ effects:
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:greenyeldots
   sourceName: greenyeldots
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -692,18 +687,18 @@ effects:
   - componentId: 1
     mode: 3
     anchor: right_hand
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:bluedots
   sourceName: bluedots
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -713,6 +708,7 @@ effects:
   - componentId: 1
     mode: 3
     anchor: right_hand
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:smoke

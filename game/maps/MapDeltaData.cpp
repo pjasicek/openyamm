@@ -736,4 +736,26 @@ std::optional<MapDeltaData> MapDeltaDataLoader::loadIndoorFromBytes(
     normalizeIndoorDoorTextureDeltas(mapDeltaData, indoorMapData);
     return mapDeltaData;
 }
+
+size_t keepActorsThroughRefill(const MapDeltaData &saved, MapDeltaData &refilled)
+{
+    size_t kept = 0;
+
+    for (size_t index = 0; index < refilled.actors.size() && index < saved.actors.size(); ++index)
+    {
+        MapDeltaActor &actor = refilled.actors[index];
+        const MapDeltaActor &left = saved.actors[index];
+
+        if (actor.respawnsOnRefill || left.name != actor.name || left.monsterInfoId != actor.monsterInfoId)
+        {
+            continue;
+        }
+
+        actor = left;
+        actor.respawnsOnRefill = false;
+        ++kept;
+    }
+
+    return kept;
+}
 }

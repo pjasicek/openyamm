@@ -1564,8 +1564,10 @@ bool parseOutdoorActor(
             actor.mm9CanReceiveDamage,
             errorMessage,
             false)
+        || !readScalarNode(actorNode, "respawns_on_refill", actor.respawnsOnRefill, errorMessage, false)
         || !readScalarNode(actorNode, "mm9_civilian", actor.mm9Civilian, errorMessage, false)
         || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
+            || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
         || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
         || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
         || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)

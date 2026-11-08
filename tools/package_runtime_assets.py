@@ -92,7 +92,8 @@ def indoor_lighting_dependencies(path):
     version, header_size = struct.unpack_from("<II", data, 8)
     (face_count, sector_count, page_count, dependency_count, page_offset, face_offset, sector_offset,
      dependency_offset, pixel_offset, file_size) = struct.unpack_from("<10I", data, 24)
-    if version != 1 or header_size != 64:
+    # Version 2 pairs each lightmap page with its daylight page (devdocs/INDOOR_BAKED_LIGHTING.md); same sections.
+    if version not in (1, 2) or header_size != 64:
         raise ValueError(f"Unsupported indoor lighting version: {path}")
     if (file_size != len(data) or page_offset != 64 or face_offset != page_offset + page_count * 16
             or sector_offset != face_offset + face_count * 36 or dependency_offset != sector_offset + sector_count * 12
@@ -266,6 +267,35 @@ def collect_entries(source, *, sprites=None, profile=None, dependencies=None, mo
     return entries
 
 
+def collect_languages(languages_root, worlds):
+    """The language packs of assets_dev/languages (devdocs/LOCALIZATION.md): ({name in the engine package: source} of
+    their text, always installed; {language id: {name in the language folder: source}} of their optional fonts, sounds
+    and videos). The templates folder is the translators' and ships nowhere, and neither does the text of a world the
+    release leaves out (text/mm9.po while releases ship no MM9)."""
+    text, overlays = {}, {}
+    if not languages_root.is_dir():
+        return text, overlays
+    for folder in sorted(languages_root.iterdir()):
+        if not folder.is_dir() or folder.name == "templates":
+            continue
+        if not (folder / "language.yml").is_file():
+            raise ValueError(f"Language pack without language.yml: {folder}")
+        for path in sorted(folder.rglob("*")):
+            if not path.is_file():
+                continue
+            relative = path.relative_to(folder).as_posix()
+            # A world's catalog is named after it (text/mm9.po); worlds/mm9 itself may be absent from the checkout.
+            if relative.startswith("text/") and re.fullmatch(r"mm\d+", path.stem) and path.stem not in worlds:
+                continue
+            if relative == "language.yml" or relative.startswith("text/"):
+                text[f"languages/{folder.name}/{relative}"] = path
+            elif relative.startswith(("engine/", "worlds/")):
+                overlays.setdefault(folder.name, {})[relative] = path
+            else:
+                raise ValueError(f"Language pack file in no shipped folder: {path}")
+    return text, overlays
+
+
 def package(source, output, **options):
     """One zip of a whole package; tests and tools that inspect a package's selection use it."""
     write_zip(collect_entries(source, **options), output)
@@ -365,8 +395,10 @@ def main():
                 worlds / name, model_textures=profile_root / "worlds" / name if profile_root else None,
                 surface_profile=args.profile,
                 surface_overlay=args.assets_root.parent / "assets_cooked" / args.profile / "worlds" / name)
+    language_text, language_overlays = collect_languages(args.assets_root / "languages", set(packages))
+    packages["engine"].update(language_text)
     reuse = published_packs(args.reuse_manifest, args.reuse_store or Path("."))
-    records = build_packs(packages, config, args.profile, args.output, reuse)
+    records = build_packs(packages, config, args.profile, args.output, reuse, language_overlays)
     write_index(args.output, records, profile=args.profile, release=args.release, build=args.build,
                 content_format=args.content_format)
     reused = sum(1 for record in records if record["content_id"] in reuse)

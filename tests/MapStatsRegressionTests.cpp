@@ -243,11 +243,21 @@ TEST_CASE("map stats normalize non-audio redbook track")
 TEST_CASE("MM9 map music uses globally unique world track ids")
 {
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();
-    const OpenYAMM::Game::MapStatsEntry *pRavensford = mapStats.findByFileName("bootcamp.odm");
+    const OpenYAMM::Game::MapStatsEntry *pRavensford = mapStats.findByFileName("bootcamp.blv");
 
     REQUIRE(pRavensford != nullptr);
     CHECK_EQ(pRavensford->worldId, "mm9");
-    CHECK_EQ(pRavensford->redbookTrack, 90007);
+    // MAPSTATS Music Track N plays MM9-Song(N-1), track 90000 + N - 1 (MM9_AMBIENT_AUDIO_RE.md section 2): Ravensford's
+    // 7 is Song06.
+    CHECK_EQ(pRavensford->redbookTrack, 90006);
+
+    // Thousand Terrors' 18 is Song17; Temple of Honk (blank: MM9 keeps the song it was entered with) has Guberland's.
+    const OpenYAMM::Game::MapStatsEntry *pThousandTerrors = mapStats.findByFileName("1000terrors.blv");
+    const OpenYAMM::Game::MapStatsEntry *pTempleOfHonk = mapStats.findByFileName("templeofhonk.blv");
+    REQUIRE(pThousandTerrors != nullptr);
+    REQUIRE(pTempleOfHonk != nullptr);
+    CHECK_EQ(pThousandTerrors->redbookTrack, 90017);
+    CHECK_EQ(pTempleOfHonk->redbookTrack, 90006);
 }
 
 TEST_CASE("MM6 named locations use their fixed soundtrack assignments")

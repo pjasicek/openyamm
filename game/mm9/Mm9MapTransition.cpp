@@ -1,6 +1,7 @@
 #include "game/mm9/Mm9MapTransition.h"
 
 #include "game/maps/MapRegistry.h"
+#include "game/tables/MapStats.h"
 
 #include <algorithm>
 #include <cctype>
@@ -240,5 +241,31 @@ const std::vector<std::string> &Mm9MapTransitionTable::errors() const
 void Mm9MapTransitionTable::addError(size_t rowNumber, const std::string &message)
 {
     m_errors.push_back("row " + std::to_string(rowNumber) + ": " + message);
+}
+
+bool mm9RegionWalk(
+    int travelDays,
+    const std::vector<MapStatsEntry> *pMapEntries,
+    const std::string &sourceMapFileName,
+    const std::string &destinationMapFileName)
+{
+    if (travelDays <= 0 || pMapEntries == nullptr)
+    {
+        return false;
+    }
+
+    const auto isTopLevelArea = [pMapEntries](const std::string &mapFileName)
+    {
+        const std::string fileName = lowerCopy(mapFileName);
+        for (const MapStatsEntry &entry : *pMapEntries)
+        {
+            if (lowerCopy(entry.fileName) == fileName)
+            {
+                return entry.areaId == 0;
+            }
+        }
+        return false;
+    };
+    return isTopLevelArea(sourceMapFileName) && isTopLevelArea(destinationMapFileName);
 }
 }

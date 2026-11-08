@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawClassSpells.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 #include "game/rules/maw/MawClassRules.h"
@@ -11,50 +12,51 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// The names stay English, as the spell table's do; trNoop marks them for the screens that show them translated.
 const std::vector<MawClassSpell> DeathKnightSpells = {
     // Frost (MCC:24-36, 108-122; DM:695-818).
-    {26, "Icy Touch", "WaterMagic", 1, 15, 0, {1, 1, 1.2, 1.2}},
-    {27, "Water Walk", "WaterMagic", 2, 0},
-    {29, "Frostbite", "WaterMagic", 3, 30, 0, {1.5, 1.5, 1.5, 2}},
-    {32, "Ice Bomb", "WaterMagic", 4, 50, 0, {0.75, 0.75, 0.75, 0.75}},
+    {26, Engine::trNoop("Icy Touch").data(), "WaterMagic", 1, 15, 0, {1, 1, 1.2, 1.2}},
+    {27, Engine::trNoop("Water Walk").data(), "WaterMagic", 2, 0},
+    {29, Engine::trNoop("Frostbite").data(), "WaterMagic", 3, 30, 0, {1.5, 1.5, 1.5, 2}},
+    {32, Engine::trNoop("Ice Bomb").data(), "WaterMagic", 4, 50, 0, {0.75, 0.75, 0.75, 0.75}},
     // Blood.
-    {68, "Blood Leech", "BodyMagic", 1, 6, 0, {}, true},
-    {71, "Regeneration", "BodyMagic", 2, 0},
-    {76, "Asphyxiate", "BodyMagic", 3, 70, 0, {1.1, 1.1, 1.1, 1.4}},
-    {74, "Superior Blood Leech", "BodyMagic", 4, 12, 0, {}, true},
+    {68, Engine::trNoop("Blood Leech").data(), "BodyMagic", 1, 6, 0, {}, true},
+    {71, Engine::trNoop("Regeneration").data(), "BodyMagic", 2, 0},
+    {76, Engine::trNoop("Asphyxiate").data(), "BodyMagic", 3, 70, 0, {1.1, 1.1, 1.1, 1.4}},
+    {74, Engine::trNoop("Superior Blood Leech").data(), "BodyMagic", 4, 12, 0, {}, true},
     // Unholy.
-    {91, "Vampiric Aura", "DarkMagic", 1, 0},
-    {90, "Death Coil", "DarkMagic", 2, 30, 0, {1, 1, 1, 1.2}},
-    {96, "Death Grasp", "DarkMagic", 3, 15, 0, {}, true},
-    {97, "Death Breath", "DarkMagic", 4, 100, 0, {0.6, 0.6, 0.6, 0.6}},
+    {91, Engine::trNoop("Vampiric Aura").data(), "DarkMagic", 1, 0},
+    {90, Engine::trNoop("Death Coil").data(), "DarkMagic", 2, 30, 0, {1, 1, 1, 1.2}},
+    {96, Engine::trNoop("Death Grasp").data(), "DarkMagic", 3, 15, 0, {}, true},
+    {97, Engine::trNoop("Death Breath").data(), "DarkMagic", 4, 100, 0, {0.6, 0.6, 0.6, 0.6}},
 };
 
 const std::vector<MawClassSpell> AssassinSpells = {
     // Combat: the first entry unskilled, one more per mastery (MCC:69-101, 595-625).
-    {1, "Torch Light", "FireMagic", 0, 1},
-    {4, "Fire Aura", "FireMagic", 1, 0},
-    {5, "Haste", "FireMagic", 2, 0},
-    {6, "Fireball", "FireMagic", 3, 0, 5, {1, 1, 1, 1}},
-    {7, "Fire Spike", "FireMagic", 4, 0, 3, {2.5, 2.5, 2.5, 2.5}},
+    {1, Engine::trNoop("Torch Light").data(), "FireMagic", 0, 1},
+    {4, Engine::trNoop("Fire Aura").data(), "FireMagic", 1, 0},
+    {5, Engine::trNoop("Haste").data(), "FireMagic", 2, 0},
+    {6, Engine::trNoop("Fireball").data(), "FireMagic", 3, 0, 5, {1, 1, 1, 1}},
+    {7, Engine::trNoop("Fire Spike").data(), "FireMagic", 4, 0, 3, {2.5, 2.5, 2.5, 2.5}},
     // Subtlety: two entries unskilled.
-    {12, "Wizard Eye", "AirMagic", 0, 1},
-    {17, "Shield", "AirMagic", 0, 0},
-    {16, "Jump", "AirMagic", 1, 5},
-    {18, "Chain Lightning", "AirMagic", 2, 0, 5, {1.5, 1.5, 1.5, 1.5}},
-    {21, "Fly", "AirMagic", 3, 25},
-    {19, "Invisibility", "AirMagic", 4, 15},
+    {12, Engine::trNoop("Wizard Eye").data(), "AirMagic", 0, 1},
+    {17, Engine::trNoop("Shield").data(), "AirMagic", 0, 0},
+    {16, Engine::trNoop("Jump").data(), "AirMagic", 1, 5},
+    {18, Engine::trNoop("Chain Lightning").data(), "AirMagic", 2, 0, 5, {1.5, 1.5, 1.5, 1.5}},
+    {21, Engine::trNoop("Fly").data(), "AirMagic", 3, 25},
+    {19, Engine::trNoop("Invisibility").data(), "AirMagic", 4, 15},
     // Poisons.
-    {24, "Poison Spray", "WaterMagic", 0, 0, 3, {0.75, 0.75, 0.75, 0.75}},
-    {27, "Water Walk", "WaterMagic", 1, 0},
-    {29, "Acid Burst", "WaterMagic", 2, 0, 3, {3, 3, 3, 3}},
-    {31, "Town Portal", "WaterMagic", 3, 20},
-    {33, "Lloyd's Beacon", "WaterMagic", 4, 30},
+    {24, Engine::trNoop("Poison Spray").data(), "WaterMagic", 0, 0, 3, {0.75, 0.75, 0.75, 0.75}},
+    {27, Engine::trNoop("Water Walk").data(), "WaterMagic", 1, 0},
+    {29, Engine::trNoop("Acid Burst").data(), "WaterMagic", 2, 0, 3, {3, 3, 3, 3}},
+    {31, Engine::trNoop("Town Portal").data(), "WaterMagic", 3, 20},
+    {33, Engine::trNoop("Lloyd's Beacon").data(), "WaterMagic", 4, 30},
     // Assassination.
-    {34, "Stun", "EarthMagic", 0, 0, 3, {1.5, 1.5, 1.5, 1.5}},
-    {38, "Stone Skin", "EarthMagic", 1, 0},
-    {39, "Blades", "EarthMagic", 2, 0, 3, {3, 3, 3, 3}},
-    {42, "Telekinesis", "EarthMagic", 3, 0},
-    {44, "Mass Distortion", "EarthMagic", 4, 0, 4, {4, 4, 4, 4}},
+    {34, Engine::trNoop("Stun").data(), "EarthMagic", 0, 0, 3, {1.5, 1.5, 1.5, 1.5}},
+    {38, Engine::trNoop("Stone Skin").data(), "EarthMagic", 1, 0},
+    {39, Engine::trNoop("Blades").data(), "EarthMagic", 2, 0, 3, {3, 3, 3, 3}},
+    {42, Engine::trNoop("Telekinesis").data(), "EarthMagic", 3, 0},
+    {44, Engine::trNoop("Mass Distortion").data(), "EarthMagic", 4, 0, 4, {4, 4, 4, 4}},
 };
 
 const std::vector<MawClassSpell> NoSpells;
@@ -95,14 +97,19 @@ std::vector<uint32_t> mawKnownClassSpells(const Character &character)
 const char *mawClassSchoolName(const Character &character, const std::string &skillName)
 {
     static const std::array<std::pair<const char *, const char *>, 3> DeathKnight = {{
-        {"WaterMagic", "Frost"}, {"BodyMagic", "Blood"}, {"DarkMagic", "Unholy"},
+        {"WaterMagic", Engine::trNoop("Frost").data()},
+        {"BodyMagic", Engine::trNoop("Blood").data()},
+        {"DarkMagic", Engine::trNoop("Unholy").data()},
     }};
     static const std::array<std::pair<const char *, const char *>, 4> Assassin = {{
-        {"FireMagic", "Combat"}, {"AirMagic", "Subtlety"}, {"WaterMagic", "Poisons"}, {"EarthMagic", "Assassination"},
+        {"FireMagic", Engine::trNoop("Combat").data()},
+        {"AirMagic", Engine::trNoop("Subtlety").data()},
+        {"WaterMagic", Engine::trNoop("Poisons").data()},
+        {"EarthMagic", Engine::trNoop("Assassination").data()},
     }};
     // Dragons fight with Fangs and wear Scales (zzClasses.lua dragonSkill).
     static const std::array<std::pair<const char *, const char *>, 2> Dragon = {{
-        {"Unarmed", "Fangs"}, {"Dodging", "Scales"},
+        {"Unarmed", Engine::trNoop("Fangs").data()}, {"Dodging", Engine::trNoop("Scales").data()},
     }};
     const std::string line = mawClassLine(character.className);
     const std::string canonical = canonicalSkillName(skillName);

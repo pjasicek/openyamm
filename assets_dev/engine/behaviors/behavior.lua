@@ -22,7 +22,7 @@
 --
 -- Commands and queries on self:
 --   hp() maxHp() hpFraction() position() distanceToParty() isHostile() monsterId() age() random([a [, b]])
---   say(text) playSound(name) effect(id [, scale [, heightFraction]])
+--   say(text) playSound(name) effect(id [, scale [, heightFraction [, forward]]]) effectAt(id, x, y, z [, scale])
 --   perform{clip=, seconds=, fallback=, sound=, effect=} isPerforming()
 --   addWard{id=, radius=, seconds=, effect=, effectScale=, effectInterval=, visual=} removeWard(id) hasWard(id)
 --     visual draws the ward's shield dome: {color = {r, g, b}, intensity = 1, rim = 3, noise = 0.35}; false hides it

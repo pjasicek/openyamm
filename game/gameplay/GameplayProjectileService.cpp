@@ -1688,6 +1688,54 @@ GameplayProjectileService::buildProjectileAreaImpact(
     return impact;
 }
 
+std::vector<GameplayProjectileService::ProjectileAreaImpactDestructibleHit>
+GameplayProjectileService::buildProjectileAreaDestructibleHits(
+    const ProjectileState &projectile,
+    const GameplayWorldPoint &impactPoint,
+    float impactRadius,
+    int nonPartyProjectileDamage,
+    const std::vector<ProjectileAreaImpactDestructibleFacts> &destructibles)
+{
+    std::vector<ProjectileAreaImpactDestructibleHit> hits;
+
+    if (impactRadius <= 0.0f || projectile.sourceKind == ProjectileState::SourceKind::Actor)
+    {
+        return hits;
+    }
+
+    const int damage = projectile.sourceKind == ProjectileState::SourceKind::Party
+        ? std::max(1, projectile.damage)
+        : nonPartyProjectileDamage;
+
+    if (damage <= 0)
+    {
+        return hits;
+    }
+
+    for (const ProjectileAreaImpactDestructibleFacts &destructible : destructibles)
+    {
+        if (destructible.directImpact)
+        {
+            continue;
+        }
+
+        // The box's point nearest the impact.
+        const float nearestX = std::clamp(impactPoint.x, destructible.boundsMin.x, destructible.boundsMax.x);
+        const float nearestY = std::clamp(impactPoint.y, destructible.boundsMin.y, destructible.boundsMax.y);
+        const float nearestZ = std::clamp(impactPoint.z, destructible.boundsMin.z, destructible.boundsMax.z);
+        const float dx = nearestX - impactPoint.x;
+        const float dy = nearestY - impactPoint.y;
+        const float dz = nearestZ - impactPoint.z;
+
+        if (dx * dx + dy * dy + dz * dz <= impactRadius * impactRadius)
+        {
+            hits.push_back({destructible.id, damage});
+        }
+    }
+
+    return hits;
+}
+
 std::optional<int>
 GameplayProjectileService::buildProjectileDirectPartyDamage(
     const ProjectileState &projectile,
@@ -2740,6 +2788,39 @@ PartyMissileSource GameplayProjectileService::partyMissileSource(
     }
 
     return source;
+}
+
+void GameplayProjectileService::addPartyArrowElements(
+    PartyMissileSource &source,
+    const ProjectileState &projectile,
+    const Party *pParty,
+    const ItemTable *pItemTable,
+    std::mt19937 &rng)
+{
+    if (source.pAttacker == nullptr
+        || pParty == nullptr
+        || projectile.spellId != 0
+        || projectile.damageType == CombatDamageType::Irresistible
+        || !pParty->rules().combat.addsWeaponElementalDamage())
+    {
+        return;
+    }
+
+    const ElementalDamageBonuses enchantDamage = ItemEnchantRuntime::rollCharacterAttackElementalDamage(
+        *source.pAttacker,
+        CharacterAttackMode::Bow,
+        pItemTable,
+        pParty->specialItemEnchantTable(),
+        rng);
+    ElementalDamageBonuses elements = enchantDamage;
+    elements +=
+        ItemEnchantRuntime::characterWeaponDamageElements(*source.pAttacker, CharacterAttackMode::Bow, pItemTable);
+
+    if (elements.total() > 0)
+    {
+        source.addedElementalDamage = enchantDamage.total();
+        source.weaponElements = elements;
+    }
 }
 
 MonsterDamageResistances GameplayProjectileService::monsterDamageResistances(

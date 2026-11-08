@@ -1063,6 +1063,7 @@ bool sourceSurfaceAttributes(
 bool compileTriggerSurfaceModel(
     const ImportedModel &model,
     const EditorIndoorGeometrySurfaceMetadata *pSurfaceMetadata,
+    const std::unordered_map<std::string, uint16_t> &roomSectorById,
     const MaterialTextureLookup &materialTextureLookup,
     std::optional<uint16_t> sourceSector,
     float scale,
@@ -1096,12 +1097,25 @@ bool compileTriggerSurfaceModel(
         return false;
     }
 
+    // The surface's second room (`back_room`): its faces are drawn when either room is visible.
+    uint16_t backSectorIndex = sectorIndex;
+    if (pSurfaceMetadata != nullptr && !pSurfaceMetadata->backRoomId.empty())
+    {
+        const auto backRoom = roomSectorById.find(pSurfaceMetadata->backRoomId);
+        if (backRoom == roomSectorById.end())
+        {
+            errorMessage = "indoor source surface names an unknown back room: " + pSurfaceMetadata->id;
+            return false;
+        }
+        backSectorIndex = backRoom->second;
+    }
+
     if (!appendImportedFaces(
             model,
             materialTextureLookup,
             positionVertexIds,
             sectorIndex,
-            sectorIndex,
+            backSectorIndex,
             attributes,
             false,
             indoorGeometry,
@@ -1740,6 +1754,7 @@ bool compileIndoorSourceGeometry(
         if (!compileTriggerSurfaceModel(
                 model,
                 findSurfaceMetadata(surfaceLookup, sourceNodeName),
+                roomSectorById,
                 materialTextureLookup,
                 explicitSector(sourceNodeName),
                 metadata.source.unitScale,

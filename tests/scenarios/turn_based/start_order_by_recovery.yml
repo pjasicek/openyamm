@@ -1,0 +1,26 @@
+id: turn_based.start_order_by_recovery
+title: Turn-based - on entry the ready members act fastest attack recovery first, as in MM8
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-7 in devdocs/TURN_BASED_COMBAT_AUDIT.md. MM8-Rel.exe's turn-based start (0x4065ba-0x4065dc) reads each ready
+        member's attack recovery (0x48f237 with false) and gives initiative 2, 3, ... in that order. OpenYAMM sorted
+        the ready members by their remaining recovery, zero for all of them, so party order decided. Member 0 swings
+        a Two-Handed Axe, member 1 a Crude Dagger: member 1 must act first.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Slow, class: Knight, level: 10, skills: [{name: Axe, level: 5, mastery: 1}], equipment: {}}
+          - {name: Fast, class: Knight, level: 10, skills: [{name: Dagger, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 36, member_index: 0, equip: main_hand}
+  - grant_item: {item_id: 21, member_index: 1, equip: main_hand}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, front_member: "1", report: true}}

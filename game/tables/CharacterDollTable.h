@@ -67,6 +67,9 @@ struct CharacterDollEntry
     std::string facePicturesPrefix;
     uint32_t npcPictureId = 0;
     int32_t raceId = -1;
+    // character_data.txt World: the world whose portrait set it comes from (mm6, mm7, mm8, mm9), for the portrait
+    // picker's world filter. MMerge's own additions drawn for MM8 (elves, dragons, liches) count as mm8.
+    std::string worldId;
 };
 
 class CharacterDollTable
@@ -74,6 +77,9 @@ class CharacterDollTable
 public:
     bool loadCharacterRows(const std::vector<std::vector<std::string>> &rows);
     bool loadDollTypeRows(const std::vector<std::vector<std::string>> &rows);
+    // Drops the portrait rows of a world this installation lacks, so no picker offers a face whose voices and art
+    // ship with that world.
+    void removeCharactersOfWorld(const std::string &worldId);
 
     const CharacterDollEntry *getCharacter(uint32_t characterId) const;
     const CharacterDollTypeEntry *getDollType(uint32_t dollTypeId) const;

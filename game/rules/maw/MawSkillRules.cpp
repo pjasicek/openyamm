@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawSkillRules.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/PartyHostileAlert.h"
@@ -224,7 +225,8 @@ std::string MawSkillRules::restoreRememberedMastery(
         character.rulesetState.rememberedMasteries.erase(remembered);
     }
 
-    return masteryDisplayName(next) + " " + displaySkillName(canonicalSkill) + " regained";
+    return Engine::tr("{mastery} {skill} regained", {{"mastery", Engine::tr(masteryDisplayName(next))},
+        {"skill", Engine::localize(displaySkillName(canonicalSkill), "skill")}});
 }
 
 std::string MawSkillRules::afterSkillRaised(
@@ -251,7 +253,7 @@ std::string MawSkillRules::afterSkillRaised(
         && !character.hasSkill("Retaliation") && classCap("Retaliation") != SkillMastery::None)
     {
         character.skills["Retaliation"] = {"Retaliation", 1, SkillMastery::Normal};
-        status = displaySkillName("Retaliation") + " learned";
+        status = Engine::tr("{skill} learned", {{"skill", Engine::localize(displaySkillName("Retaliation"), "skill")}});
     }
 
     const std::optional<std::array<uint32_t, 3>> ladder = mawSkillMasteryLadder(canonicalSkill, skillMode());
@@ -266,7 +268,8 @@ std::string MawSkillRules::afterSkillRaised(
         if (granted > pSkill->mastery)
         {
             pSkill->mastery = granted;
-            status = masteryDisplayName(granted) + " " + displaySkillName(canonicalSkill) + " learned";
+            status = Engine::tr("{mastery} {skill} learned", {{"mastery", Engine::tr(masteryDisplayName(granted))},
+                {"skill", Engine::localize(displaySkillName(canonicalSkill), "skill")}});
         }
     }
 
@@ -588,9 +591,10 @@ SkillTooltipText MawSkillRules::skillTooltip(
 
         if (chance > 0 && pHeld != nullptr && canonicalSkillName(pHeld->skillGroup) == canonicalSkill)
         {
-            std::ostringstream line;
-            line << "Chance to paralyse vs level " << reference << ": " << mawRound(chance * 10000) / 100 << " %";
-            stunLine = line.str();
+            std::ostringstream percent;
+            percent << mawRound(chance * 10000) / 100;
+            stunLine = Engine::tr("Chance to paralyse vs level {level}: {percent} %",
+                {{"level", reference}, {"percent", percent.str()}});
         }
 
         const auto [power, vitality] = mawRetaliationCoefficients(m_rules, character, *party.itemTable(),
@@ -607,11 +611,14 @@ SkillTooltipText MawSkillRules::skillTooltip(
     if (canonicalSkill == "Regeneration" && mawIsDragon(character))
     {
         const double perPoint = 5.0 / std::max(1.0, model.skill(std::max(1u, character.level)));
-        std::ostringstream line;
-        line << "\n\nMelee life leech vs equal level: <bad>" << mawRound(level * perPoint * 10) / 10 << " %</> (<bad>"
-             << mawRound((level + 1) * perPoint * 10) / 10 << " %</> with one more point), lower against stronger "
-             << "monsters.";
-        dragonLeech = line.str();
+        std::ostringstream now;
+        std::ostringstream next;
+        now << mawRound(level * perPoint * 10) / 10;
+        next << mawRound((level + 1) * perPoint * 10) / 10;
+        dragonLeech = "\n\n"
+            + Engine::tr("Melee life leech vs equal level: <bad>{now} %</> (<bad>{next} %</> with one more point), "
+                         "lower against stronger monsters.",
+                {{"now", now.str()}, {"next", next.str()}});
     }
 
     // The armour skills' popups: what the worn armour gives now (SkillTooltip.lua:208-224).
@@ -622,21 +629,27 @@ SkillTooltipText MawSkillRules::skillTooltip(
     if ((bodyArmorSkill || canonicalSkill == "Shield") && party.itemTable() != nullptr)
     {
         const MawArmorBreakdown armor = mawArmorBreakdown(m_rules, character, *party.itemTable());
-        std::ostringstream lines;
+        const auto number = [](auto value)
+        {
+            std::ostringstream text;
+            text << value;
+            return text.str();
+        };
 
         if (bodyArmorSkill && armor.bodySkill == canonicalSkill)
         {
-            lines << "\n\nCurrent Armor Class from items: <value>" << mawRound(armor.pieces)
-                  << "</>\nBonus Armor Class: <value>" << armor.bodySkillArmor << "</>\nBonus resistances: <value>"
-                  << armor.bodySkillResistance << "</>";
+            armorItems = "\n\n"
+                + Engine::tr("Current Armor Class from items: <value>{items}</>\nBonus Armor Class: <value>{armor}</>\n"
+                             "Bonus resistances: <value>{resistances}</>",
+                    {{"items", number(mawRound(armor.pieces))}, {"armor", number(armor.bodySkillArmor)},
+                        {"resistances", number(armor.bodySkillResistance)}});
         }
         else if (canonicalSkill == "Shield" && armor.shield > 0)
         {
-            lines << "\n\nBonus Armor Class: <value>" << armor.shieldSkillArmor << "</>\nBonus resistances: <value>"
-                  << armor.shieldSkillResistance << "</>";
+            armorItems = "\n\n"
+                + Engine::tr("Bonus Armor Class: <value>{armor}</>\nBonus resistances: <value>{resistances}</>",
+                    {{"armor", number(armor.shieldSkillArmor)}, {"resistances", number(armor.shieldSkillResistance)}});
         }
-
-        armorItems = lines.str();
     }
 
     const RulesetChallengeMode mode = m_rules.options().challengeMode;
@@ -645,7 +658,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
                                                                            : 30;
     const auto state = [](bool off)
     {
-        return std::string(off ? "<bad>Currently disabled</>" : "<good>Currently enabled</>");
+        return Engine::tr(off ? "<bad>Currently disabled</>" : "<good>Currently enabled</>");
     };
     // A mana cost change, green when the mastery brings it below the base cost (SkillTooltip.lua manaStr).
     const auto costChange = [&values](const char *pName)
@@ -656,7 +669,8 @@ SkillTooltipText MawSkillRules::skillTooltip(
         return text.str();
     };
     const std::unordered_map<std::string, std::string> words = {
-        {"rotation", character.rulesetState.elementalRotationDisabled ? "<bad>disabled</>" : "<good>enabled</>"},
+        {"rotation",
+            Engine::tr(character.rulesetState.elementalRotationDisabled ? "<bad>disabled</>" : "<good>enabled</>")},
         {"asc_mana_change", costChange("asc_mana")},
         {"asc_cc_mana_change", costChange("asc_cc_mana")},
         {"stun_line", stunLine},
@@ -708,27 +722,29 @@ std::string MawSkillRules::statTooltip(
         const int level = std::max(1, int(mawRound(m_rules.state().totalLevel())));
         const MawLeech leech = mawLeech(m_rules, character, party.itemTable());
         // A negative leech (Hades) drains: red, not green.
-        const auto leechLine = [](const char *pName, double share)
+        // {share} is left to mawFillText, which writes the number as MAW does.
+        const auto leechLine = [](std::string_view name, double share)
         {
-            return mawFillText(std::string(pName) + ": " + (share < 0 ? "<bad>{share}%</>" : "<good>{share}%</>"),
+            return mawFillText(Engine::tr(share < 0 ? "{name}: <bad>{share}%</>" : "{name}: <good>{share}%</>",
+                                   {{"name", Engine::tr(name)}}),
                 {{"share", 100 * share}});
         };
-        const std::string leechNotes =
+        const std::string leechNotes = Engine::tr(
             "Leech counts health bars, not damage: take away 50% of a monster's health with 10% leech, and you heal 5% "
             "of your own. Every monster is measured with the bar of the middle variant of its family: weak variants "
-            "leech for less, strong ones and bosses for more.";
+            "leech for less, strong ones and bosses for more.");
 
         if (statName == "Condition")
         {
             std::string text = mawFillText(
-                "Damage per second of weapon blows against monsters of level {level}: the average blow with its "
-                "critical hits, enchantments and Fire Aura, over the recovery between blows, times the chance to "
-                "hit.\n\nMelee Power: <bad>{melee}</>",
+                Engine::tr("Damage per second of weapon blows against monsters of level {level}: the average blow with "
+                           "its critical hits, enchantments and Fire Aura, over the recovery between blows, times the "
+                           "chance to hit.\n\nMelee Power: <bad>{melee}</>"),
                 {{"level", level}, {"melee", report.melee}});
 
             if (leech.melee != 0)
             {
-                text += "\n\n" + leechLine("Physical Leech", leech.melee) + "\n" + leechNotes;
+                text += "\n\n" + leechLine(Engine::trNoop("Physical Leech"), leech.melee) + "\n" + leechNotes;
             }
 
             return text;
@@ -738,19 +754,20 @@ std::string MawSkillRules::statTooltip(
         {
             if (report.spell <= 0)
             {
-                return "Damage per second of the attack or quick spell, with its critical hits, over its recovery. "
-                       "This character's attack and quick spell deal no damage.";
+                return Engine::tr("Damage per second of the attack or quick spell, with its critical hits, over its "
+                                  "recovery. This character's attack and quick spell deal no damage.");
             }
 
             std::string text = mawFillText(
-                "Damage per second of the attack or quick spell against monsters of level {level}, with its critical "
-                "hits, over its recovery.\n\nSpell Power: <mana>{spell}</>",
+                Engine::tr("Damage per second of the attack or quick spell against monsters of level {level}, with its "
+                           "critical hits, over its recovery.\n\nSpell Power: <mana>{spell}</>"),
                 {{"level", level}, {"spell", report.spell}});
 
             if (leech.spell != 0)
             {
-                text += "\n\n" + leechLine("Magical Leech", leech.spell)
-                    + "\nMagical Leech also includes damage done with weapon enchantments.\n" + leechNotes;
+                text += "\n\n" + leechLine(Engine::trNoop("Magical Leech"), leech.spell) + "\n"
+                    + Engine::tr("Magical Leech also includes damage done with weapon enchantments.") + "\n"
+                    + leechNotes;
             }
 
             return text;
@@ -759,27 +776,27 @@ std::string MawSkillRules::statTooltip(
         if (statName == "QuickSpell")
         {
             std::string text = mawFillText(
-                "Damage per second of bow or blaster shots against monsters of level {level}: the average shot with "
-                "its critical hits and enchantments, over the recovery between shots, times the chance to hit.\n\n"
-                "Ranged Power: <value>{ranged}</>",
+                Engine::tr("Damage per second of bow or blaster shots against monsters of level {level}: the average "
+                           "shot with its critical hits and enchantments, over the recovery between shots, times the "
+                           "chance to hit.\n\nRanged Power: <value>{ranged}</>"),
                 {{"level", level}, {"ranged", report.ranged}});
 
             if (leech.ranged != 0)
             {
-                text += "\n\n" + leechLine("Physical Leech", leech.ranged) + "\nLeech done with bow is halved.\n"
-                    + leechNotes;
+                text += "\n\n" + leechLine(Engine::trNoop("Physical Leech"), leech.ranged) + "\n"
+                    + Engine::tr("Leech done with bow is halved.") + "\n" + leechNotes;
             }
 
             return text;
         }
 
         std::string text = mawFillText(
-            "How much damage it takes to fell this character, against monsters of level {level}: maximum Hit Points "
-            "(with Mana Shield's mana and Grandmaster Dodging) over the share of an average hit that gets through "
-            "armour and resistances.\n\nVitality: <good>{vitality}</>",
+            Engine::tr("How much damage it takes to fell this character, against monsters of level {level}: maximum "
+                       "Hit Points (with Mana Shield's mana and Grandmaster Dodging) over the share of an average hit "
+                       "that gets through armour and resistances.\n\nVitality: <good>{vitality}</>"),
             {{"level", level}, {"vitality", report.vitality}});
         // MAW's popup of the Quick Spell row lists the legendary effects the character wears.
-        text += "\n\nCurrently Active Legendary effects:";
+        text += "\n\n" + Engine::tr("Currently Active Legendary effects:");
         bool anyLegendary = false;
 
         for (int affix = MawFirstLegendaryAffix; affix < MawFirstLegendaryAffix + MawLegendaryAffixCount; ++affix)
@@ -788,12 +805,12 @@ std::string MawSkillRules::statTooltip(
 
             if (!effect.empty() && mawWearsLegendaryAffix(character, affix))
             {
-                text += "\n - <value>" + effect + "</>";
+                text += "\n - <value>" + Engine::localize(effect) + "</>";
                 anyLegendary = true;
             }
         }
 
-        return anyLegendary ? text : text + " none";
+        return anyLegendary ? text : text + " " + Engine::tr("none");
     }
 
     const MawSkillTextEntry *pEntry = m_rules.textData().findStat(statName);
@@ -1034,8 +1051,9 @@ std::string MawSkillRules::teacherSpeech(
 
     if (!hasPrice || !requirement)
     {
-        result += "\n\nYou need at least " + std::to_string(requiredLevel) + " skill and " + std::to_string(price)
-            + " gold.";
+        result += "\n\n"
+            + Engine::tr("You need at least {level} skill and {price} gold.",
+                {{"level", requiredLevel}, {"price", price}});
     }
 
     return result;
@@ -1522,8 +1540,8 @@ std::optional<CharacterStatRowText> MawSkillRules::statRowText(
             return std::nullopt;
         }
 
-        return statName == "Shoot" ? CharacterStatRowText{"Shoot", "Bow off", {}}
-                                   : CharacterStatRowText{"Damage", "-", {}};
+        return statName == "Shoot" ? CharacterStatRowText{Engine::tr("Shoot"), Engine::tr("Bow off"), {}}
+                                   : CharacterStatRowText{Engine::tr("Damage"), "-", {}};
     }
 
     const std::array<const char *, 4> names = {"Condition", "QuickSpell", "SpellPower", "Vitality"};
@@ -1554,18 +1572,20 @@ std::array<std::optional<CharacterStatRowText>, 4> MawSkillRules::statRows(
     const MawPowerReport report = mawPowerReport(m_rules, character, *party.itemTable(),
         party.standardItemEnchantTable(), party.specialItemEnchantTable(),
         int(std::max<size_t>(1, party.members().size())));
-    const auto row = [](const char *pLabel, const char *pColor, double value, const char *pTitle)
+    // The labels in the interface language; the popup titles stay English, translated where the popup shows them.
+    const auto row = [](std::string_view label, const char *pColor, double value, std::string_view title)
     {
-        return CharacterStatRowText{pLabel,
+        return CharacterStatRowText{Engine::tr(label),
             mawFillText(std::string("<") + pColor + ">{value}</>", {}, {{"value", mawShortNumber(value, false)}}),
-            pTitle};
+            std::string(title)};
     };
 
-    return {row("Melee Power:", "bad", report.melee, "Melee Power"),
-        row("Ranged Power:", "value", report.ranged, "Ranged Power"),
-        report.spell > 0 ? row("Spell Power:", "mana", report.spell, "Spell Power")
-                         : CharacterStatRowText{"Spell Power:", "-", "Spell Power"},
-        row("Vitality:", "good", report.vitality, "Vitality")};
+    constexpr std::string_view SpellPowerTitle = Engine::trNoop("Spell Power");
+    return {row(Engine::trNoop("Melee Power:"), "bad", report.melee, Engine::trNoop("Melee Power")),
+        row(Engine::trNoop("Ranged Power:"), "value", report.ranged, Engine::trNoop("Ranged Power")),
+        report.spell > 0 ? row(Engine::trNoop("Spell Power:"), "mana", report.spell, SpellPowerTitle)
+                         : CharacterStatRowText{Engine::tr("Spell Power:"), "-", std::string(SpellPowerTitle)},
+        row(Engine::trNoop("Vitality:"), "good", report.vitality, Engine::trNoop("Vitality"))};
 }
 
 bool MawSkillRules::compactStatPowerRows() const

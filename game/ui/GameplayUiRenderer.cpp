@@ -1,4 +1,5 @@
 #include "game/ui/GameplayHudGeometry.h"
+#include "engine/Localization.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/GameplayBuffHud.h"
@@ -7,12 +8,14 @@
 #include "game/ui/GameplayMinimapTransform.h"
 #include "game/ui/GameplayQuickItems.h"
 #include "game/ui/GameplayUiRenderer.h"
+#include "game/ui/GameplayFormationBuilder.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/mm9/Mm9HirelingHud.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/rules/ClassRules.h"
 #include "game/rules/GameRules.h"
@@ -64,7 +67,7 @@ void renderBreathMeter(GameplayScreenRuntime &context, const GameplayResolvedHud
     constexpr char LabelFont[] = "Lucida";
     const float labelHeight = 6.5f * uiScale;
     const float labelScale = labelHeight / float(std::max(1, context.hudFontHeight(LabelFont)));
-    const std::string label = "Breath";
+    const std::string label = Engine::tr("Breath");
     context.renderHudTextLine(LabelFont, 0xff93c7e4u, label, std::round(trackX),
         std::round(plateY + (plateHeight - labelHeight) * 0.5f - 0.5f * uiScale), labelScale);
     trackX += context.measureHudTextWidth(LabelFont, label) * labelScale + 4.0f * uiScale;
@@ -419,6 +422,221 @@ void submitLineClipped(
     queuedHudQuads.push_back(quad);
 }
 
+// A portrait's aggro diamond (lower left) and, while the member recovers, its recovery ring; the party's and the MM9
+// hirelings' alike.
+void renderPortraitReadiness(
+    GameplayScreenRuntime &context,
+    const std::optional<GameplayResolvedHudLayoutElement> &readinessRect,
+    const Character &member,
+    float nearestHostile,
+    float engagementRange,
+    GameplayPortraitMeterState &meter)
+{
+    const PortraitAggroIndicator readiness = classifyPortraitAggroIndicator(member, nearestHostile, engagementRange);
+    const char *pReadinessArt = readiness == PortraitAggroIndicator::Red ? "obsidian_aggro_combat"
+        : readiness == PortraitAggroIndicator::Yellow ? "obsidian_aggro_nearby"
+        : readiness == PortraitAggroIndicator::Green ? "obsidian_aggro_explore" : "obsidian_aggro_unlit";
+    const std::optional<GameplayHudTextureHandle> readinessArt =
+        context.gameplayUiRuntime().ensureHudTextureLoaded(pReadinessArt);
+    if (readinessRect && readinessArt)
+    {
+        const float unit = readinessRect->width / 22.0f;
+        context.submitHudTexturedQuad(*readinessArt, readinessRect->x - 8 * unit,
+            readinessRect->y - 8 * unit, 38 * unit, 41 * unit);
+    }
+    if (member.recoverySecondsRemaining <= 0)
+    {
+        meter.recoveryMaximum = 0;
+        return;
+    }
+    meter.recoveryMaximum = std::max(meter.recoveryMaximum, member.recoverySecondsRemaining);
+    if (!readinessRect || !GameMechanics::canAct(member))
+    {
+        return;
+    }
+    const float fraction = 1 - member.recoverySecondsRemaining / meter.recoveryMaximum;
+    const std::optional<GameplayHudTextureHandle> arc =
+        context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__obsidian_recovery__", 0xffc7dce5u);
+    if (!arc)
+    {
+        return;
+    }
+    const float cx = readinessRect->x + readinessRect->width * 0.5f;
+    const float cy = readinessRect->y + readinessRect->height * 0.5f;
+    const float radius = readinessRect->width * 0.65f;
+    std::vector<GameplayHudBatchQuad> ring;
+    for (int segment = 0; segment < 32 * fraction; ++segment)
+    {
+        const float angle = -Pi * 0.5f + segment * 2 * Pi / 32;
+        const float next = -Pi * 0.5f + std::min(float(segment + 1) / 32, fraction) * 2 * Pi;
+        GameplayHudBatchQuad line;
+        line.textureHandle = arc->textureHandle;
+        line.line = true;
+        line.width = std::max(1.0f, readinessRect->scale * 1.3f);
+        line.x = cx + std::cos(angle) * radius;
+        line.y = cy + std::sin(angle) * radius;
+        line.x2 = cx + std::cos(next) * radius;
+        line.y2 = cy + std::sin(next) * radius;
+        ring.push_back(line);
+    }
+    context.submitHudQuadBatch(ring);
+}
+
+// The HP arc's short damage trail: where the arc stood before the latest loss, fading over 96 ticks.
+float updatePortraitHealthTrail(GameplayPortraitMeterState &meter, float health, uint32_t nowTicks)
+{
+    if (meter.health >= 0 && health < meter.health)
+    {
+        meter.damageFrom = meter.health;
+        meter.damagedTicks = nowTicks;
+    }
+    meter.health = health;
+    return health + std::max(0.0f, meter.damageFrom - health)
+        * std::max(0.0f, 1.0f - (nowTicks - meter.damagedTicks) / 96.0f);
+}
+
+// The MM9 hirelings at the right screen edge (devdocs/mm9/MM9_HIRELINGS_PLAN.md phase 6; the study
+// level_generation/ui/mm9_hirelings_20261106, revision 2): the basebar's panel around one slot per hireling, each the
+// animated face in the party's ellipse and rim, the party's HP arc on the left (no mana), the aggro diamond with its
+// recovery ring and the personal-buff medallion; greyed while it cannot act (a dead hireling keeps its face), the
+// party's selection rim and diamond while it is the active combatant.
+void renderMm9HirelingRail(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    size_t selectedCombatant,
+    bool showSelection,
+    float nearestHostile,
+    float engagementRange)
+{
+    const Party &party = *context.partyReadOnly();
+    const std::vector<Mm9PartyHireling> &hirelings = party.hirelings();
+    const size_t count = std::min(hirelings.size(), Party::MaxMm9Hirelings);
+    const std::optional<GameplayResolvedHudLayoutElement> rail =
+        context.resolveHudLayoutElement("Mm9HirelingRail", width, height, 0, 0);
+    const std::optional<GameplayResolvedHudLayoutElement> firstSlot = context.resolveHirelingSlotRect(width, height, 0);
+    const std::optional<GameplayResolvedHudLayoutElement> lastSlot =
+        count > 0 ? context.resolveHirelingSlotRect(width, height, count - 1) : std::nullopt;
+    if (!rail || !firstSlot || !lastSlot)
+    {
+        return;
+    }
+    const Mm9HirelingRailRect panel = mm9HirelingRailPanel({rail->x, rail->y, rail->width, rail->height},
+        {firstSlot->x, firstSlot->y, firstSlot->width, firstSlot->height},
+        {lastSlot->x, lastSlot->y, lastSlot->width, lastSlot->height});
+    // Half a unit past the right edge, so no frame seam shows at the screen's edge.
+    GameplayUiSkin::renderPanel(context,
+        {panel.x, panel.y, panel.width + 0.5f * rail->scale, panel.height, rail->scale}, false, 0.75f);
+
+    // The party's rim strokes at the hireling face's size (34 of a party face's 47.52 units).
+    constexpr float PortraitScale = 34.0f / 47.52f;
+    GameplayUiRuntime &uiRuntime = context.gameplayUiRuntime();
+    for (size_t i = 0; i < count; ++i)
+    {
+        const size_t combatantIndex = party.members().size() + i;
+        const Character &hireling = hirelings[i].character;
+        const std::string id = "Mm9Hireling" + std::to_string(i + 1);
+        const std::optional<GameplayResolvedHudLayoutElement> face =
+            context.resolveHudLayoutElement(id + "Face", width, height, 0, 0);
+        // A dead or eradicated hireling stays on the rail with its own face, greyed (the user, 2026-11-06), not the
+        // members' tombstone and ashes.
+        const bool down = hireling.portraitState == PortraitId::Dead
+            || hireling.portraitState == PortraitId::Eradicated;
+        const std::optional<GameplayHudTextureHandle> portrait = uiRuntime.ensureHudTextureLoaded(
+            down ? hireling.portraitTextureName : context.resolvePortraitTextureName(hireling));
+        if (portrait && face)
+        {
+            bgfx::TextureHandle texture = portrait->textureHandle;
+            if (party.hasCharacterBuff(combatantIndex, CharacterBuffId::Mistform)
+                || party.hasPartyBuff(PartyBuffId::Invisibility))
+            {
+                texture = uiRuntime.ensureHudTextureColorModulated(*portrait, TranslucentPortraitModulationAbgr);
+            }
+            if (!GameMechanics::canAct(hireling))
+            {
+                texture = uiRuntime.ensureHudTextureColorModulated(*portrait, 0xff888888u);
+            }
+            uiRuntime.submitHudTexturedEllipse(texture, face->x, face->y, face->width, face->height);
+            context.renderPortraitFx(combatantIndex, face->x, face->y, face->width, face->height);
+        }
+
+        const bool selected = showSelection && combatantIndex == selectedCombatant;
+        const UiLayoutManager::LayoutElement *pRimLayout = context.findHudLayoutElement(id + "Rim");
+        const std::optional<GameplayResolvedHudLayoutElement> rim =
+            context.resolveHudLayoutElement(id + "Rim", width, height, 0, 0);
+        if (pRimLayout != nullptr && pRimLayout->meterArc && rim)
+        {
+            const UiLayoutManager::MeterArc &arc = *pRimLayout->meterArc;
+            GameplayUiSkin::renderArc(context, *rim, 2.8f * PortraitScale, arc.startDegrees, arc.sweepDegrees,
+                GameplayUiSkin::ArcMaterial::Track);
+            GameplayUiSkin::renderArc(context, *rim, selected ? 1.5f * PortraitScale : arc.strokeWidth,
+                arc.startDegrees, arc.sweepDegrees,
+                selected ? GameplayUiSkin::ArcMaterial::SelectedRim : GameplayUiSkin::ArcMaterial::NormalRim);
+        }
+        if (selected)
+        {
+            const std::optional<GameplayResolvedHudLayoutElement> diamond =
+                context.resolveHudLayoutElement(id + "Selection", width, height, 0, 0);
+            const UiLayoutManager::LayoutElement *pDiamondLayout = context.findHudLayoutElement(id + "Selection");
+            const std::optional<GameplayHudTextureHandle> diamondArt = pDiamondLayout != nullptr
+                ? uiRuntime.ensureHudTextureLoaded(pDiamondLayout->primaryAsset) : std::nullopt;
+            if (diamond && diamondArt)
+            {
+                context.submitHudTexturedQuad(*diamondArt, diamond->x, diamond->y, diamond->width, diamond->height);
+            }
+        }
+
+        GameplayPortraitMeterState &meter = uiRuntime.portraitPresentationState().meters[combatantIndex];
+        renderPortraitReadiness(context, context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0),
+            hireling, nearestHostile, engagementRange, meter);
+
+        bool buffed = false;
+        for (size_t b = 0; b < CharacterBuffCount; ++b)
+        {
+            buffed = buffed || party.hasCharacterBuff(combatantIndex, static_cast<CharacterBuffId>(b));
+        }
+        const UiLayoutManager::LayoutElement *pBuffLayout = context.findHudLayoutElement(id + "PersonalBuffs");
+        const std::optional<GameplayResolvedHudLayoutElement> buffRect =
+            context.resolveHudLayoutElement(id + "PersonalBuffs", width, height, 0, 0);
+        const std::optional<GameplayHudTextureHandle> buffArt = buffed && pBuffLayout != nullptr
+            ? uiRuntime.ensureHudTextureLoaded(pBuffLayout->primaryAsset) : std::nullopt;
+        if (buffRect && buffArt)
+        {
+            context.submitHudTexturedQuad(*buffArt, buffRect->x, buffRect->y, buffRect->width, buffRect->height);
+        }
+
+        const UiLayoutManager::LayoutElement *pHealthLayout = context.findHudLayoutElement(id + "Health");
+        const std::optional<GameplayResolvedHudLayoutElement> healthRect =
+            context.resolveHudLayoutElement(id + "Health", width, height, 0, 0);
+        if (pHealthLayout == nullptr || !pHealthLayout->meterArc || !healthRect)
+        {
+            continue;
+        }
+        const int maximumHealth = GameMechanics::calculateEffectiveCharacterMaxHealth(hireling);
+        const float health = std::clamp(float(hireling.health) / std::max(1, maximumHealth), 0.0f, 1.0f);
+        const float trail = updatePortraitHealthTrail(meter, health, context.animationTicks());
+        const UiLayoutManager::MeterArc &arc = *pHealthLayout->meterArc;
+        using GameplayUiSkin::ArcMaterial;
+        GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 1.7f * PortraitScale,
+            arc.startDegrees, arc.sweepDegrees, ArcMaterial::TrackEdge);
+        GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 0.5f * PortraitScale,
+            arc.startDegrees, arc.sweepDegrees, ArcMaterial::Track);
+        if (trail > health)
+        {
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth,
+                arc.startDegrees, arc.sweepDegrees, ArcMaterial::Damage, health, trail);
+        }
+        const GameplayUiSkin::HealthBand band = GameplayUiSkin::healthBand(health);
+        if (health > 0)
+        {
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth, arc.startDegrees, arc.sweepDegrees,
+                band == GameplayUiSkin::HealthBand::High ? ArcMaterial::HealthHigh
+                    : band == GameplayUiSkin::HealthBand::Middle ? ArcMaterial::HealthMiddle
+                    : ArcMaterial::HealthLow, 0, health);
+        }
+    }
+}
+
 } // namespace
 
 void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height)
@@ -442,8 +660,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     const float characterMouseX = pointerInput.mouseX;
     const float characterMouseY = pointerInput.mouseY;
     const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
+    // A world without the MM6-MM8 followers (MM9) shows neither their button nor their panel.
+    const bool followersShown = party.npcFollowersActive();
+    const bool followerPanelOpen = followersShown && context.interactionState().followerPanelOpen;
     std::vector<HiredNpcFollowerView> followerViews;
-    if (!isLimitedOverlayHud && context.interactionState().followerPanelOpen && context.worldRuntime() != nullptr
+    if (!isLimitedOverlayHud && followerPanelOpen && context.worldRuntime() != nullptr
         && context.worldRuntime()->eventRuntimeState() != nullptr && context.npcDialogTable() != nullptr
         && context.mergedNpcProfessionTable() != nullptr)
     {
@@ -486,11 +707,13 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             context.renderLayoutLabel(*pLayout, *rect, text);
         }
     };
+    const bool partyFrameHidden = activeEventDialogHidesPartyFrame(context.activeEventDialog());
     if (isLimitedOverlayHud)
     {
         draw("OutdoorBasebar");
     }
-    else if (context.settingsSnapshot().partyFrame || hudScreenState != GameplayHudScreenState::Gameplay)
+    else if (!partyFrameHidden
+        && (context.settingsSnapshot().partyFrame || hudScreenState != GameplayHudScreenState::Gameplay))
     {
         // The frame setting applies to plain gameplay only; dialogues and other screens over the HUD keep it.
         const std::optional<GameplayResolvedHudLayoutElement> basebar =
@@ -514,21 +737,25 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             renderBreathMeter(context, *basebar, std::clamp(*breath, 0.0f, 1.0f), uiScale);
         }
     }
-    size_t selected = party.activeMemberIndex();
+    // An acting MM9 hireling has the selection on the plain HUD; the screens over it keep the last active member.
+    size_t selected = isLimitedOverlayHud ? party.activeMemberIndex() : party.activeCombatantIndex();
     const GameplayUiController::CharacterScreenState &characterScreen = context.characterScreenReadOnly();
     if (characterScreen.open && characterScreen.source == GameplayUiController::CharacterScreenSource::Party)
     {
         selected = characterScreen.sourceIndex;
     }
-    const bool hasReadyMember = std::any_of(members.begin(), members.end(), [](const Character &member)
+    bool hasReadyMember = false;
+    for (size_t combatant = 0; combatant < party.combatantCount() && !hasReadyMember; ++combatant)
     {
-        return GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
-    });
+        const Character &member = *party.combatant(combatant);
+        hasReadyMember = GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
+    }
     const bool showSelection = isLimitedOverlayHud || hasReadyMember;
     const float nearestHostile = nearestHostileActorDistanceToParty(context.worldRuntime());
     const float engagementRange = context.worldRuntime() != nullptr ? context.worldRuntime()->partyEngagementRange()
         : 10240.0f;
-    for (size_t i = 0; i < std::min(size_t{5}, members.size()); ++i)
+    const size_t portraitCount = partyFrameHidden ? 0 : std::min(size_t{5}, members.size());
+    for (size_t i = 0; i < portraitCount; ++i)
     {
         const Character &member = members[i];
         const std::string id = std::string(isLimitedOverlayHud ? "ObsidianOverlayPc" : "ObsidianPc")
@@ -589,58 +816,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         {
             draw(id + "Selection");
         }
-        const bool canAct = GameMechanics::canAct(member);
-        const PortraitAggroIndicator readiness = classifyPortraitAggroIndicator(member, nearestHostile, engagementRange);
-        const char *pReadinessArt = readiness == PortraitAggroIndicator::Red ? "obsidian_aggro_combat"
-            : readiness == PortraitAggroIndicator::Yellow ? "obsidian_aggro_nearby"
-            : readiness == PortraitAggroIndicator::Green ? "obsidian_aggro_explore" : "obsidian_aggro_unlit";
-        const std::optional<GameplayResolvedHudLayoutElement> readinessRect =
-            context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0);
-        const std::optional<GameplayHudTextureHandle> readinessArt =
-            context.gameplayUiRuntime().ensureHudTextureLoaded(pReadinessArt);
-        if (readinessRect && readinessArt)
-        {
-            const float unit = readinessRect->width / 22.0f;
-            context.submitHudTexturedQuad(*readinessArt, readinessRect->x - 8 * unit,
-                readinessRect->y - 8 * unit, 38 * unit, 41 * unit);
-        }
         GameplayPortraitMeterState &meter = context.gameplayUiRuntime().portraitPresentationState().meters[i];
-        if (member.recoverySecondsRemaining <= 0)
-        {
-            meter.recoveryMaximum = 0;
-        }
-        else
-        {
-            meter.recoveryMaximum = std::max(meter.recoveryMaximum, member.recoverySecondsRemaining);
-            if (readinessRect && canAct)
-            {
-                const float fraction = 1 - member.recoverySecondsRemaining / meter.recoveryMaximum;
-                const std::optional<GameplayHudTextureHandle> arc =
-                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__obsidian_recovery__", 0xffc7dce5u);
-                if (arc)
-                {
-                    const float cx = readinessRect->x + readinessRect->width * 0.5f;
-                    const float cy = readinessRect->y + readinessRect->height * 0.5f;
-                    const float radius = readinessRect->width * 0.65f;
-                    std::vector<GameplayHudBatchQuad> ring;
-                    for (int segment = 0; segment < 32 * fraction; ++segment)
-                    {
-                        const float angle = -Pi * 0.5f + segment * 2 * Pi / 32;
-                        const float next = -Pi * 0.5f + std::min(float(segment + 1) / 32, fraction) * 2 * Pi;
-                        GameplayHudBatchQuad line;
-                        line.textureHandle = arc->textureHandle;
-                        line.line = true;
-                        line.width = std::max(1.0f, readinessRect->scale * 1.3f);
-                        line.x = cx + std::cos(angle) * radius;
-                        line.y = cy + std::sin(angle) * radius;
-                        line.x2 = cx + std::cos(next) * radius;
-                        line.y2 = cy + std::sin(next) * radius;
-                        ring.push_back(line);
-                    }
-                    context.submitHudQuadBatch(ring);
-                }
-            }
-        }
+        renderPortraitReadiness(context, context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0),
+            member, nearestHostile, engagementRange, meter);
         bool hasPersonalBuff = false;
         for (size_t b = 0; b < CharacterBuffCount; ++b)
         {
@@ -672,15 +850,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const int maximumMana = GameMechanics::calculateEffectiveCharacterMaxSpellPoints(member);
         const float health = std::clamp(float(member.health) / std::max(1, maximumHealth), 0.0f, 1.0f);
         const float mana = std::clamp(float(member.spellPoints) / std::max(1, maximumMana), 0.0f, 1.0f);
-        const uint32_t nowTicks = context.animationTicks();
-        if (meter.health >= 0 && health < meter.health)
-        {
-            meter.damageFrom = meter.health;
-            meter.damagedTicks = nowTicks;
-        }
-        meter.health = health;
-        const float trail = health + std::max(0.0f, meter.damageFrom - health)
-            * std::max(0.0f, 1.0f - (nowTicks - meter.damagedTicks) / 96.0f);
+        const float trail = updatePortraitHealthTrail(meter, health, context.animationTicks());
         for (bool isHealth : {true, false})
         {
             if (!isHealth && maximumMana <= 0)
@@ -803,6 +973,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             draw("CharShield_" + std::to_string(i + 1));
         }
     }
+    else if (!party.hirelings().empty() && !partyFrameHidden)
+    {
+        renderMm9HirelingRail(context, width, height, selected, showSelection, nearestHostile, engagementRange);
+    }
 
     GameplayMinimapState minimapState = {};
     bool hasMinimapState = false;
@@ -814,7 +988,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const std::string &layoutId = pLayout->id;
         const std::string &normalizedLayoutId = pLayout->normalizedId;
         const std::string &normalizedRoleId = entry.normalizedRoleId;
-        if (!pLayout->visible || !entry.visibleIn(gameplayHudLayout, context.interactionState().followerPanelOpen))
+        if (!pLayout->visible || !entry.visibleIn(gameplayHudLayout, followerPanelOpen))
         {
             continue;
         }
@@ -845,6 +1019,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             continue;
         }
 
+        if (!followersShown
+            && (normalizedRoleId == "outdoorfollowertoggle" || pLayout->parentId == "OutdoorFollowerToggle"))
+        {
+            continue;
+        }
         if (normalizedRoleId == "outdoorfollowertoggle")
         {
             flushQueuedHudQuads();
@@ -1267,10 +1446,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         flushQueuedHudQuads();
         draw("ObsidianTurnPlate");
         const TurnBasedCombatRuntime &turn = context.turnBasedCombatRuntime();
-        label("ObsidianTurnPhase", turn.stage() == TurnBasedCombatStage::Movement ? "Movement"
-            : turn.stage() == TurnBasedCombatStage::Attack ? "Attack" : "Waiting");
+        label("ObsidianTurnPhase", Engine::tr(turn.stage() == TurnBasedCombatStage::Movement ? "Movement"
+            : turn.stage() == TurnBasedCombatStage::Attack ? "Attack" : "Waiting"));
         label("ObsidianTurnDetail", turn.stage() == TurnBasedCombatStage::Movement
-            ? std::to_string(turn.movementActionPoints()) + " AP" : "Turn based");
+            ? Engine::tr("{points} AP", {{"points", int64_t(turn.movementActionPoints())}})
+            : Engine::tr("Turn based"));
     }
 
     flushQueuedHudQuads();
@@ -1287,8 +1467,15 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 GameplayMapProgressBar::renderHud(context, width, height);
             }
 
-            // The combat log's button and docked panel, while its setting is on.
-            if (context.settingsSnapshot().combatLog)
+            // The MM9 world's formation button under the minimap, on the plain gameplay HUD.
+            if (hudScreenState == GameplayHudScreenState::Gameplay)
+            {
+                flushQueuedHudQuads();
+                GameplayFormationBuilder::renderButton(context, width, height);
+            }
+
+            // The combat log's button and docked panel, while it is shown (GameplayScreenRuntime::combatLogShown).
+            if (context.combatLogShown())
             {
                 // The followers' tab frame with a sword (CombatLogToggleIcon).
                 flushQueuedHudQuads();

@@ -1,9 +1,12 @@
 #include "game/ui/GameplayTransportSchedule.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
+#include "game/mm9/Mm9TransportRoute.h"
 #include "game/party/Party.h"
+#include "game/ui/CalendarText.h"
 #include "game/tables/HouseTable.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
@@ -50,9 +53,6 @@ constexpr uint32_t TodayHoverFill = abgr(0x4a3f27, 0xd0);
 
 constexpr char TitleFont[] = "Fondamento";
 constexpr char TextFont[] = "alegreya_semibold";
-
-constexpr std::array<const char *, 7> DayNames = {
-    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
 // The popup's sizes in the dialogue's 640x480 units. The panel fills the house's scene; the text sizes land on the
 // faces' raster heights (Fondamento 32, Alegreya 24 pixels) at 1600x900, so the main text draws pixel for pixel.
@@ -191,26 +191,56 @@ private:
 
 std::string daysText(int days)
 {
-    return std::to_string(days) + (days == 1 ? " day" : " days");
+    return Engine::trn("{days} day", "{days} days", uint64_t(std::max(days, 0)), {{"days", days}});
 }
 
-const HouseEntry *scheduleHouse(GameplayScreenRuntime &context)
+// A weekday of the schedule, 0 Monday.
+std::string dayName(int day)
+{
+    return weekdayName(day + 1);
+}
+
+// What the popup shows: the house's stable or boat, or an MM9 dock's week over its talk; none once that dialogue is
+// gone.
+struct ScheduleSource
+{
+    std::string title;
+    TransportSchedule schedule;
+};
+
+std::optional<ScheduleSource> currentSource(GameplayScreenRuntime &context)
 {
     const GameplayUiController::TransportScheduleState &state = context.transportSchedule();
     const EventDialogContent &dialog = context.activeEventDialog();
 
-    if (!state.active || !dialog.isActive || !dialog.isHouseDialog || dialog.sourceId != state.houseId
-        || context.houseTable() == nullptr)
+    if (!state.active || !dialog.isActive)
     {
-        return nullptr;
+        return std::nullopt;
     }
 
-    return context.houseTable()->get(state.houseId);
-}
+    if (state.mm9DockId != 0)
+    {
+        const Mm9TransportRouteTable *pRoutes = context.mm9TransportRouteTable();
 
-TransportSchedule currentSchedule(GameplayScreenRuntime &context, const HouseEntry &house)
-{
-    return buildTransportSchedule(house, context.partyReadOnly(), context.worldRuntime());
+        if (dialog.presentation != EventDialogPresentation::Mm9Rude || dialog.sourceId != state.mm9DockId
+            || pRoutes == nullptr || pRoutes->forService(state.mm9DockId).empty())
+        {
+            return std::nullopt;
+        }
+
+        return ScheduleSource{pRoutes->forService(state.mm9DockId).front()->dockName,
+            buildMm9TransportSchedule(*pRoutes, state.mm9DockId, context.partyReadOnly(), context.worldRuntime())};
+    }
+
+    const HouseEntry *pHouse = context.houseTable() != nullptr ? context.houseTable()->get(state.houseId) : nullptr;
+
+    if (!dialog.isHouseDialog || dialog.sourceId != state.houseId || pHouse == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    return ScheduleSource{pHouse->name,
+        buildTransportSchedule(*pHouse, context.partyReadOnly(), context.worldRuntime())};
 }
 
 // The routes leaving on a weekday, in route order.
@@ -279,6 +309,12 @@ std::optional<Layout> layoutFor(GameplayScreenRuntime &context, int width, int h
     const float panelHeight = (HeaderHeight + FooterHeight + 8) * k + 7 * rowHeight;
     layout.panel = {area->x + AreaInset * k, area->y + std::max(AreaInset * k, (area->height - panelHeight) / 2),
         area->width - 2 * AreaInset * k, panelHeight};
+
+    // Over an MM9 talk the world fills the screen (no house sidebar): the panel is centred on it.
+    if (context.transportSchedule().mm9DockId != 0)
+    {
+        layout.panel.x = std::round((float(width) - layout.panel.width) / 2);
+    }
     const Box &panel = layout.panel;
     const float closeHeight = CloseButtonWidth / CloseButtonAspect * k;
     // Close sits level with the title's line, right of it.
@@ -311,7 +347,7 @@ std::vector<Box> destinationBoxes(GameplayScreenRuntime &context, const Layout &
 
     for (const TransportScheduleRoute *pRoute : routes)
     {
-        const float nameWidth = paint.width(TextFont, NameSize * k, pRoute->destinationName);
+        const float nameWidth = paint.width(TextFont, NameSize * k, Engine::localizeKnown(pRoute->destinationName));
         const float daysWidth = paint.width(TextFont, SmallSize * k, daysText(pRoute->travelDays));
         const float boxWidth = nameWidth + 6 * k + daysWidth;
         boxes.push_back({x, row.y, boxWidth, row.height});
@@ -326,17 +362,17 @@ std::string tripRefusal(const Party *pParty, const TransportSchedule &schedule, 
 {
     if (pParty == nullptr)
     {
-        return "Travel is unavailable right now.";
+        return Engine::tr("Travel is unavailable right now.");
     }
 
     if (pParty->gold() < schedule.fare)
     {
-        return "You don't have enough gold.";
+        return Engine::tr("You don't have enough gold.");
     }
 
     if (pParty->food() < waitFood)
     {
-        return "Not enough food to wait: buy some at a tavern.";
+        return Engine::tr("Not enough food to wait: buy some at a tavern.");
     }
 
     return {};
@@ -346,7 +382,9 @@ std::string travelLabel(GameplayScreenRuntime &context, const TransportSchedule 
 {
     const std::optional<int> day = context.transportSchedule().selectedDay;
     const int wait = day ? transportWaitDays(schedule.today, *day) : 0;
-    return wait == 0 ? "Travel now" : "Wait " + daysText(wait) + " and travel";
+    return wait == 0 ? Engine::tr("Travel now")
+                     : Engine::trn("Wait {days} day and travel", "Wait {days} days and travel", uint64_t(wait),
+                                   {{"days", wait}});
 }
 
 int targetAt(GameplayScreenRuntime &context, const Layout &layout, const TransportSchedule &schedule, float x,
@@ -471,10 +509,32 @@ void travel(GameplayScreenRuntime &context, const TransportSchedule &schedule)
     }
 
     EventDialogAction action;
-    action.kind = EventDialogActionKind::HouseService;
-    action.id = uint32_t(HouseActionId::TransportScheduledTrip);
     action.label = pRoute->destinationName;
-    action.argument = transportScheduledTripArgument(pRoute->routeIndex, *day);
+    const uint32_t mm9DockId = context.transportSchedule().mm9DockId;
+
+    if (mm9DockId != 0)
+    {
+        // An MM9 dock's boat (routeIndex its MM9 day index), waiting for its weekday.
+        const Mm9TransportRouteTable *pRoutes = context.mm9TransportRouteTable();
+        const Mm9TransportRoute *pMm9Route =
+            pRoutes != nullptr ? pRoutes->findForServiceDay(mm9DockId, uint8_t(pRoute->routeIndex)) : nullptr;
+
+        if (pMm9Route == nullptr)
+        {
+            return;
+        }
+
+        action.kind = EventDialogActionKind::Mm9RudeTransportRoute;
+        action.argument = pMm9Route->canonicalId;
+        action.secondaryId = uint32_t(*day) + 1;
+    }
+    else
+    {
+        action.kind = EventDialogActionKind::HouseService;
+        action.id = uint32_t(HouseActionId::TransportScheduledTrip);
+        action.argument = transportScheduledTripArgument(pRoute->routeIndex, *day);
+    }
+
     context.closeTransportSchedule();
     context.executeDialogAction(action);
 }
@@ -551,15 +611,15 @@ void renderRow(GameplayScreenRuntime &context, const Painter &paint, const Layou
         paint.fill({row.x + 8 * k, row.y + row.height - line, row.width - 16 * k, line}, RowRule);
     }
 
-    const std::string &dayName = DayNames[size_t(day)];
+    const std::string rowDayName = dayName(day);
     const float dayHeight = paint.lineHeight(TitleFont, RowDaySize * k);
     const float dayY = row.y + (row.height - dayHeight) / 2;
-    paint.text(TitleFont, RowDaySize * k, selected ? Gold : Ivory, dayName, row.x + 10 * k, dayY);
+    paint.text(TitleFont, RowDaySize * k, selected ? Gold : Ivory, rowDayName, row.x + 10 * k, dayY);
 
     if (today)
     {
-        paint.text(TextFont, SmallSize * k, Gold, "TODAY",
-            row.x + 16 * k + paint.width(TitleFont, RowDaySize * k, dayName),
+        paint.text(TextFont, SmallSize * k, Gold, Engine::tr("TODAY"),
+            row.x + 16 * k + paint.width(TitleFont, RowDaySize * k, rowDayName),
             row.y + (row.height - paint.lineHeight(TextFont, SmallSize * k)) / 2 + 1 * k);
     }
 
@@ -568,7 +628,7 @@ void renderRow(GameplayScreenRuntime &context, const Painter &paint, const Layou
 
     if (routes.empty())
     {
-        paint.text(TextFont, NameSize * k, Faint, "No departures", row.x + DayColumn * k, nameY);
+        paint.text(TextFont, NameSize * k, Faint, Engine::tr("No departures"), row.x + DayColumn * k, nameY);
         return;
     }
 
@@ -582,9 +642,9 @@ void renderRow(GameplayScreenRuntime &context, const Painter &paint, const Layou
         const Box &box = boxes[index];
         const bool picked = selected && route.routeIndex == state.selectedRouteIndex;
         const bool dimmed = selected && several && !picked;
-        paint.text(TextFont, NameSize * k, dimmed ? Muted : selected ? Bright : Ivory, route.destinationName, box.x,
-            nameY);
-        const float nameWidth = paint.width(TextFont, NameSize * k, route.destinationName);
+        const std::string destination = Engine::localizeKnown(route.destinationName);
+        paint.text(TextFont, NameSize * k, dimmed ? Muted : selected ? Bright : Ivory, destination, box.x, nameY);
+        const float nameWidth = paint.width(TextFont, NameSize * k, destination);
         // The days share the name's baseline.
         paint.text(TextFont, SmallSize * k, dimmed ? Faint : selected ? Ivory : Muted, daysText(route.travelDays),
             box.x + nameWidth + 6 * k, nameY + (nameHeight - smallHeight) * 0.78f);
@@ -613,8 +673,8 @@ void renderFooter(GameplayScreenRuntime &context, const Painter &paint, const La
 
     if (pRoute == nullptr || !day)
     {
-        paint.text(TextFont, FactSize * k, Muted, "Click a day to see the wait, the trip and the cost.", left,
-            footer.y + (footer.height - paint.lineHeight(TextFont, FactSize * k)) / 2 - 3 * k);
+        paint.text(TextFont, FactSize * k, Muted, Engine::tr("Click a day to see the wait, the trip and the cost."),
+            left, footer.y + (footer.height - paint.lineHeight(TextFont, FactSize * k)) / 2 - 3 * k);
         return;
     }
 
@@ -624,7 +684,7 @@ void renderFooter(GameplayScreenRuntime &context, const Painter &paint, const La
     const std::string refusal = tripRefusal(pParty, schedule, waitFood);
     const float maxRight = footer.x + footer.width - Padding * k;
     const Box &button = layout.travel;
-    paint.text(TitleFont, DaySize * k, Gold, pRoute->destinationName, left,
+    paint.text(TitleFont, DaySize * k, Gold, Engine::localizeKnown(pRoute->destinationName), left,
         button.y + (button.height - paint.lineHeight(TitleFont, DaySize * k)) / 2);
 
     // Under the name and the button, the trip on one line and its costs on the next, label muted and value bright;
@@ -650,13 +710,14 @@ void renderFooter(GameplayScreenRuntime &context, const Painter &paint, const La
     const int arrival = (*day + pRoute->travelDays) % 7;
     const int gold = pParty != nullptr ? pParty->gold() : 0;
     const int food = pParty != nullptr ? pParty->food() : 0;
-    fact("Departs", DayNames[size_t(*day)], Ivory);
-    fact("On the road", daysText(pRoute->travelDays), Ivory);
-    fact("Arrives", DayNames[size_t(arrival)], Ivory);
+    fact(Engine::tr("Departs"), dayName(*day), Ivory);
+    fact(Engine::tr("On the road"), daysText(pRoute->travelDays), Ivory);
+    fact(Engine::tr("Arrives"), dayName(arrival), Ivory);
     x = left;
     y += factHeight;
-    fact("Fare", std::to_string(schedule.fare) + " gold", gold < schedule.fare ? Bad : Good);
-    fact("Food to wait", wait == 0 ? "none" : std::to_string(waitFood) + " of " + std::to_string(food),
+    fact(Engine::tr("Fare"), Engine::tr("{gold} gold", {{"gold", schedule.fare}}), gold < schedule.fare ? Bad : Good);
+    fact(Engine::tr("Food to wait"),
+        wait == 0 ? Engine::tr("none") : Engine::tr("{need} of {have}", {{"need", waitFood}, {"have", food}}),
         wait == 0 ? Ivory : food < waitFood ? Bad : Good);
 
     if (!refusal.empty())
@@ -678,7 +739,7 @@ bool GameplayTransportSchedule::isOpen(GameplayScreenRuntime &context)
         return false;
     }
 
-    if (scheduleHouse(context) == nullptr)
+    if (!currentSource(context))
     {
         context.closeTransportSchedule();
         return false;
@@ -694,8 +755,8 @@ void GameplayTransportSchedule::render(GameplayScreenRuntime &context, int width
         return;
     }
 
-    const HouseEntry &house = *scheduleHouse(context);
-    const TransportSchedule schedule = currentSchedule(context, house);
+    const std::optional<ScheduleSource> source = currentSource(context);
+    const TransportSchedule &schedule = source->schedule;
     const std::optional<Layout> layout = layoutFor(context, width, height);
 
     if (!layout)
@@ -714,18 +775,21 @@ void GameplayTransportSchedule::render(GameplayScreenRuntime &context, int width
     const Box &panel = layout->panel;
     GameplayUiSkin::renderPanel(context, panel.rect(k), false, BorderScale);
 
-    // Header: the house's name (shortened clear of Close), today and the costs, the close button.
+    // Header: the house's or dock's name (shortened clear of Close), today and the costs, the close button.
     const float left = panel.x + Padding * k;
     const float titleY = panel.y + HeaderTop * k;
     paint.text(TitleFont, TitleSize * k, Gold,
-        paint.fitted(TitleFont, TitleSize * k, house.name, layout->close.x - 14 * k - left), left, titleY);
-    paint.text(TextFont, FactSize * k, Muted, "Today is " + std::string(DayNames[size_t(schedule.today)])
-            + "  \xB7  fare " + std::to_string(schedule.fare) + " gold  \xB7  waiting costs "
-            + std::to_string(schedule.foodPerWaitDay) + " food a day",
+        paint.fitted(TitleFont, TitleSize * k, Engine::localizeKnown(source->title), layout->close.x - 14 * k - left),
+        left, titleY);
+    // Three facts joined by a dot.
+    paint.text(TextFont, FactSize * k, Muted,
+        Engine::tr("Today is {day}", {{"day", dayName(schedule.today)}}) + "  \xB7  "
+            + Engine::tr("fare {gold} gold", {{"gold", schedule.fare}}) + "  \xB7  "
+            + Engine::tr("waiting costs {food} food a day", {{"food", schedule.foodPerWaitDay}}),
         left, titleY + paint.lineHeight(TitleFont, TitleSize * k) + SubtitleGap * k);
     const bool closePressed = hovered == TargetClose && context.transportSchedule().pressedTarget == TargetClose;
-    renderButton(context, paint, layout->close, k, "obsidian_button_close_", "Close", true, hovered == TargetClose,
-        closePressed, 12.5f);
+    renderButton(context, paint, layout->close, k, "obsidian_button_close_", Engine::tr("Close"), true,
+        hovered == TargetClose, closePressed, 12.5f);
     paint.fill({left - 4 * k, panel.y + HeaderHeight * k, panel.width - 2 * (Padding - 4) * k,
                    std::max(1.0f, std::round(k * 0.6f))},
         Rule);
@@ -746,8 +810,8 @@ void GameplayTransportSchedule::handleInput(GameplayScreenRuntime &context, cons
     }
 
     GameplayUiController::TransportScheduleState &state = context.transportSchedule();
-    const HouseEntry &house = *scheduleHouse(context);
-    const TransportSchedule schedule = currentSchedule(context, house);
+    const std::optional<ScheduleSource> source = currentSource(context);
+    const TransportSchedule &schedule = source->schedule;
     const std::optional<Layout> layout = layoutFor(context, input.screenWidth, input.screenHeight);
     const bool *pKeys = input.keyboardState();
     const bool escape = pKeys[SDL_SCANCODE_ESCAPE];

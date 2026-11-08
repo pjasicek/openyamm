@@ -1,5 +1,7 @@
 #include "game/mm9/Mm9SkillTrainer.h"
 
+#include "game/party/SkillData.h"
+
 #include <algorithm>
 #include <charconv>
 #include <cctype>
@@ -109,6 +111,21 @@ uint32_t requiredRankForMastery(SkillMastery mastery)
     }
 }
 
+// Each listed skill is its own training choice, so every one must be a distinct OpenYAMM skill.
+bool validSeparateSkills(const std::vector<std::string> &skillNames)
+{
+    for (size_t index = 0; index < skillNames.size(); ++index)
+    {
+        if (!skillIdForSkillName(skillNames[index]) || canonicalSkillName(skillNames[index]) != skillNames[index]
+            || std::find(skillNames.begin(), skillNames.begin() + index, skillNames[index])
+                != skillNames.begin() + index)
+        {
+            return false;
+        }
+    }
+    return !skillNames.empty();
+}
+
 uint64_t rudeRowKey(uint32_t rudeId, size_t rowIndex)
 {
     return (static_cast<uint64_t>(rudeId) << 32) | static_cast<uint64_t>(rowIndex);
@@ -179,6 +196,11 @@ bool Mm9SkillTrainerTable::loadFromRows(
             || entry.actorSources.empty() || entry.sourceRude.empty() || entry.provenance.empty())
         {
             addError(rowNumber, "invalid trainer identity, operation, actor ownership, or provenance");
+            continue;
+        }
+        if (!validSeparateSkills(entry.topic.skillNames))
+        {
+            addError(rowNumber, "trainer skills must be distinct canonical OpenYAMM skills");
             continue;
         }
 

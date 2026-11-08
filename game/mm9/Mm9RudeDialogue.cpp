@@ -9,7 +9,8 @@
 #include <charconv>
 #include <cctype>
 #include <filesystem>
-#include <string_view>
+
+#include <yaml-cpp/yaml.h>
 
 namespace OpenYAMM::Game
 {
@@ -232,7 +233,87 @@ bool Mm9RudeDialogueTable::load(const Engine::AssetFileSystem &assetFileSystem)
         }
     }
 
+    const std::string promotionsPath = "dialogue/promotions.yml";
+    if (const std::optional<std::string> promotions = assetFileSystem.readTextFile(promotionsPath))
+    {
+        loadPromotionsText(promotionsPath, *promotions);
+    }
+
     return !m_rowsByRudeId.empty() && m_errors.empty();
+}
+
+bool Mm9RudeDialogueTable::loadPromotionsText(const std::string &sourceName, const std::string &text)
+{
+    YAML::Node root;
+    try
+    {
+        root = YAML::Load(text);
+    }
+    catch (const YAML::Exception &exception)
+    {
+        addError(sourceName, 0, exception.what());
+        return false;
+    }
+
+    if (!root.IsMap() || root["format_version"].as<int>(0) != 1)
+    {
+        addError(sourceName, 0, "expected format_version 1");
+        return false;
+    }
+
+    bool valid = true;
+    const auto fail = [&](const YAML::Node &node, const std::string &message)
+    {
+        addError(sourceName, size_t(node.Mark().line + 1), message);
+        valid = false;
+    };
+
+    for (const YAML::Node &node : root["promotions"])
+    {
+        Mm9PromotionService service = {};
+        service.promotion = node["promotion"].as<std::string>("");
+        service.rudeId = node["rude"].as<uint32_t>(0);
+        service.doneRawKey = node["done_key"].as<int32_t>(0);
+        if (service.promotion.empty() || !hasDialogue(service.rudeId) || !mm9QBitForRawQuestKey(service.doneRawKey))
+        {
+            fail(node, "a promotion needs a name, a RUDE id with dialogue and a done key in 1-9999");
+        }
+        else if (!m_promotionServices.emplace(service.rudeId, service).second)
+        {
+            fail(node, "RUDE " + std::to_string(service.rudeId) + " has two promotions");
+        }
+    }
+
+    // Rows MM9's dialogue lacks, in its own CSV form, after the original rows (whose indices stay).
+    for (const YAML::Node &node : root["added_rows"])
+    {
+        const std::string row = node.as<std::string>("");
+        if (row.empty() || !loadDialogueText(sourceName, row + "\n"))
+        {
+            fail(node, "an added row must be one valid RUDE row");
+        }
+    }
+
+    for (const YAML::Node &node : root["waived_required_keys"])
+    {
+        const uint32_t rudeId = node["rude"].as<uint32_t>(0);
+        const int32_t rawKeyId = node["key"].as<int32_t>(0);
+        size_t waived = 0;
+        const auto iterator = m_rowsByRudeId.find(rudeId);
+        if (iterator != m_rowsByRudeId.end())
+        {
+            for (Mm9RudeRow &row : iterator->second)
+            {
+                waived += std::erase(row.requiredRawKeys, rawKeyId);
+            }
+        }
+        if (waived == 0)
+        {
+            fail(node, "RUDE " + std::to_string(rudeId) + " has no row that requires key " + std::to_string(rawKeyId));
+        }
+    }
+
+    return valid;
 }
 
 bool Mm9RudeDialogueTable::loadDialogueText(const std::string &sourceName, const std::string &text)
@@ -406,6 +487,7 @@ void Mm9RudeDialogueTable::clear()
     m_rowsByRudeId.clear();
     m_npcNames.clear();
     m_topBlurbs.clear();
+    m_promotionServices.clear();
     m_errors.clear();
 }
 
@@ -498,6 +580,12 @@ const Mm9RudeRow *Mm9RudeDialogueTable::rowByIndex(uint32_t rudeId, size_t rowIn
         : nullptr;
 }
 
+const Mm9PromotionService *Mm9RudeDialogueTable::promotionService(uint32_t rudeId) const
+{
+    const auto iterator = m_promotionServices.find(rudeId);
+    return iterator != m_promotionServices.end() ? &iterator->second : nullptr;
+}
+
 const std::vector<std::string> &Mm9RudeDialogueTable::errors() const
 {
     return m_errors;
@@ -537,85 +625,6 @@ Mm9RudeSelection selectMm9RudeRow(const Mm9RudeRow &row)
     }
 
     return selection;
-}
-
-std::optional<Mm9RudeSkillTrainerTopic> resolveMm9RudeSkillTrainerTopic(const Mm9RudeRow &row)
-{
-    // MM9 stores 23 consecutive trainer triplets. The first two ids in each triplet are duplicate
-    // Expert/Master trainers, with the RUDE choice slot selecting the rank; the third id is Grandmaster-only.
-    constexpr int32_t FirstTrainerId = 2006;
-    constexpr int32_t LastTrainerId = 2074;
-    constexpr int32_t TrainerIdsPerSkill = 3;
-    constexpr std::array<std::string_view, 23> DirectSkills = {
-        "", "Mace", "Spear", "Bow", "Throwing", "Armsmaster", "Unarmed", "", "Shield", "Dodging", "",
-        "LightMagic", "DarkMagic", "SpiritMagic", "Meditation", "DisarmTraps", "Merchant", "Perception",
-        "RepairItem", "IdentifyItem", "IdentifyMonster", "Bodybuilding", "Learning",
-    };
-    constexpr std::array<std::string_view, 23> Mm9Skills = {
-        "Blade", "Cudgel", "Spear", "Bow", "Thrown", "Armsmaster", "Unarmed", "Armor", "Shield", "Dodging",
-        "Elemental", "Light", "Dark", "Spirit", "Meditation", "Disarm Trap", "Merchant", "Perception",
-        "Repair Item", "Identify Item", "Identify Monster", "Body Building", "Learning",
-    };
-
-    if (row.next != -4 || row.rawColumns.size() <= 15)
-    {
-        return std::nullopt;
-    }
-
-    int32_t rawTrainerId = 0;
-    if (!parseInt32(row.rawColumns[15], rawTrainerId)
-        || rawTrainerId < FirstTrainerId
-        || rawTrainerId > LastTrainerId)
-    {
-        return std::nullopt;
-    }
-
-    const int32_t trainerOffset = rawTrainerId - FirstTrainerId;
-    const size_t skillGroupIndex = static_cast<size_t>(trainerOffset / TrainerIdsPerSkill);
-    const int32_t trainerVariant = trainerOffset % TrainerIdsPerSkill;
-    SkillMastery targetMastery = SkillMastery::None;
-
-    if (trainerVariant == 2)
-    {
-        targetMastery = SkillMastery::Grandmaster;
-    }
-    else if (row.choiceSlot == 1)
-    {
-        targetMastery = SkillMastery::Expert;
-    }
-    else if (row.choiceSlot == 2)
-    {
-        targetMastery = SkillMastery::Master;
-    }
-
-    if (targetMastery == SkillMastery::None || skillGroupIndex >= DirectSkills.size())
-    {
-        return std::nullopt;
-    }
-
-    Mm9RudeSkillTrainerTopic topic = {
-        .rawTrainerId = rawTrainerId,
-        .displayName = std::string(Mm9Skills[skillGroupIndex]),
-        .targetMastery = targetMastery,
-    };
-
-    switch (skillGroupIndex)
-    {
-        case 0:
-            topic.skillNames = {"Sword", "Dagger"};
-            break;
-        case 7:
-            topic.skillNames = {"LeatherArmor", "ChainArmor", "PlateArmor"};
-            break;
-        case 10:
-            topic.skillNames = {"FireMagic", "AirMagic", "WaterMagic", "EarthMagic"};
-            break;
-        default:
-            topic.skillNames = {std::string(DirectSkills[skillGroupIndex])};
-            break;
-    }
-
-    return topic.skillNames.front().empty() ? std::nullopt : std::optional<Mm9RudeSkillTrainerTopic>(topic);
 }
 
 bool mm9RudeRowPassesQuestKeys(
@@ -706,7 +715,7 @@ std::string mm9RudeServiceName(int32_t opcode)
         case -11: return "dismiss";
         case -13: return "item combine";
         case -14: return "quest handoff";
-        case -15: return "town portal";
+        case -15: return "hireling service";
         case -16: return "donation";
         default: return "unknown service";
     }

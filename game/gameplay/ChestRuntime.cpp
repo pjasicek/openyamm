@@ -577,6 +577,44 @@ GameplayChestViewState buildMaterializedChestView(
                     resolveChestItemSize(item, pItemTable);
                     generatedItems.push_back(item);
                 }
+                else if (pItemTable->chestArtifactsOnly(worldId))
+                {
+                    // No artifact left (world.yml chestArtifactsOnly): the slot gives gold and a level-6 item.
+                    GameplayChestItemState gold = {};
+                    gold.goldAmount = uint32_t(generateGoldAmount(SpawnableItemTreasureLevels, rng));
+                    gold.goldRollCount = gold.goldAmount > 0 ? 1u : 0u;
+                    gold.isGold = gold.goldAmount > 0;
+
+                    if (gold.isGold)
+                    {
+                        resolveChestItemSize(gold, pItemTable);
+                        generatedItems.push_back(gold);
+                    }
+
+                    const std::optional<InventoryItem> levelSixItem =
+                        ItemGenerator::generateRandomInventoryItem(
+                            *pItemTable,
+                            *pStandardItemEnchantTable,
+                            *pSpecialItemEnchantTable,
+                            ItemGenerationRequest{
+                                .treasureLevel = SpawnableItemTreasureLevels,
+                                .mode = ItemGenerationMode::ChestLoot,
+                                .allowRareItems = false,
+                                .worldId = worldId,
+                            },
+                            pParty,
+                            rng);
+
+                    if (levelSixItem.has_value())
+                    {
+                        GameplayChestItemState item = {};
+                        item.item = *levelSixItem;
+                        item.itemId = item.item.objectDescriptionId;
+                        item.quantity = item.item.quantity;
+                        resolveChestItemSize(item, pItemTable);
+                        generatedItems.push_back(item);
+                    }
+                }
 
                 return generatedItems;
             }
@@ -722,9 +760,11 @@ GameplayChestViewState buildMaterializedChestView(
             anchoredItem.gridX = gridX;
             anchoredItem.gridY = gridY;
 
-            if (rawItemIds[recordIndex] < 0 && rawItemIds[recordIndex] != -RandomChestItemMaxLevel)
+            // Generated items take random cells, as in the originals; a level-7 slot's artifact (MM9's black chests,
+            // whose one record sits in the top-left cell) is placed first and kept when the chest is full.
+            if (rawItemIds[recordIndex] < 0)
             {
-                randomDeferredItems.push_back(anchoredItem);
+                deferChestItem(anchoredItem, rawItemIds[recordIndex]);
             }
             else if (canPlaceChestItem(anchoredItem, view.items, view.gridWidth, view.gridHeight))
             {

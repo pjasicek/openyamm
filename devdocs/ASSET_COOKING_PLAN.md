@@ -455,3 +455,27 @@ Decoration models of every world (`mm6_deco_*`, `mm7_deco_*`, `mm8_deco_*`) are 
   with an exclusive lock on `assets_source/.cook-cache/install.lock`, because several sessions install at once.
 - **Bakes.** The MM6 outdoor bakes record their model dependencies by path, so they turned stale with the move and
   need a re-bake.
+
+## 15. MM9 size pass (2026-11-06, user decision)
+
+MM9's cooked creature textures were 1,243 MB against MM6's 382 MB and MM8's 315 MB: each MM9 tier is its own MM9 skin
+(a full colour and normal set per tier, not a region mask and ramps), and most humanoids carried a 2048 head colour
+map beside the 2048 body.
+- **Head colour at 1K.** 56 `assets_source/worlds/mm9/models/<model>.cook.yml` sidecars cap 77 head colour images
+  (materials named `*head*`, plus the banshee necks and the Lich King's staff skull, which share their head maps) at
+  1024, the 1K head set of `CLAUDE_CREATURE_TEXTURES.md`. The 2048 level of a head map is sampled only when a face
+  nearly fills the screen. A new MM9 humanoid with a 2K head map needs the same sidecar entry. A shared texture cooks
+  at the larger size of its uses, so the 12 engine corpse, seated and figure decorations that reuse a head map
+  (`assets_source/worlds/mm9/models/mm9_deco_*{dead,seated,figure}.cook.yml`) carry the same cap.
+- **Kept.** Body colour stays 2048 BC7: a halve-and-restore test of the 143 body maps measured a median of 28 dB
+  (heads 30 dB), so the 2K detail is real at close range. Full-size creature normal maps stay (§2.2, 2026-10-21), and
+  the x4 surface tier stays exactly 4x native, as in MM6–MM8.
+- **x1 BMPs.** The 1,002 native BMPs with an x4 cook moved to `assets_source/worlds/mm9/textures` (95 MB), as §9 has
+  it for MM6–MM8. The other 199 (21 MB: skies, animated frame groups, fire, water, invisible and liquid faces) stay in
+  `assets_dev/worlds/mm9/textures`, because MM9 faces still load them from the x1 tier; they leave once they have x4
+  masters. `tex.py` and the lighting bake read both places.
+- **x4/x2 PNG sources (2026-11-07).** MM9's surface tiers have sources in `assets_source` like MM6–MM8:
+  `worlds/mm9/textures_x4/<stem>.png` (the 1,002 accepted masters, hard-linked, and the 23 `*opq` opaque variants)
+  and `textures_x2/<stem>.png` (their Lanczos halves). `mm9` is in `cook_surface_textures.py`'s default worlds, so
+  the build cooks the 1,025 x4 files into `assets_dev` (byte-identical to the review roots' cook). Still open: the
+  Android ASTC cook of the x2 sources; until it runs, the x2 PNGs stay in `assets_dev/worlds/mm9/textures_x2`.

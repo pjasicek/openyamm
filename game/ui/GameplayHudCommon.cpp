@@ -1289,8 +1289,11 @@ struct FontSource
     std::string fontName;
     int pixelHeight = 0;
     bool independentFont = false;
-    // A Unicode face's atlas, shared by the sizes that raster at the same height; empty for other faces.
+    // A Unicode face's atlas, shared by the sizes and faces that raster the same font file and characters at the same
+    // height; empty for other faces.
     std::string unicodeAtlasKey;
+    // The face's baseline at that raster height: faces sharing an atlas differ only in it.
+    int unicodeBaseline = 0;
     int displayHeight = 0;
     std::optional<std::vector<uint8_t>> fntBytes;
     std::optional<GameplayHudFontData> bitmapFont;
@@ -1303,6 +1306,7 @@ struct PreparedFont
     int pixelHeight = 0;
     bool independentFont = false;
     std::string unicodeAtlasKey;
+    int unicodeBaseline = 0;
     std::optional<Engine::FontAtlasImage> image;
     std::string error;
     PreparedBgraTexture main;
@@ -1340,12 +1344,13 @@ void destroyFontTextures(const GameplayHudFontData &font)
     {
         bgfx::destroy(font.tintTextureHandle);
     }
-    for (const bgfx::TextureHandle handle : {font.mainTextureHandle, font.shadowTextureHandle})
+    if (bgfx::isValid(font.shadowTextureHandle) && font.shadowTextureHandle.idx != font.mainTextureHandle.idx)
     {
-        if (bgfx::isValid(handle))
-        {
-            bgfx::destroy(handle);
-        }
+        bgfx::destroy(font.shadowTextureHandle);
+    }
+    if (bgfx::isValid(font.mainTextureHandle))
+    {
+        bgfx::destroy(font.mainTextureHandle);
     }
 }
 
@@ -1369,10 +1374,19 @@ std::optional<FontSource> resolveFontSource(
             if (source.independentFont && descriptor["encoding"].as<std::string>("") == "utf-8")
             {
                 const int logicalHeight = descriptor["logical_height"].as<int>(0);
+                const int rasterHeight = Engine::unicodeRasterHeight(
+                    pixelHeight, logicalHeight, descriptor["max_raster_height"].as<int>(0));
                 source.displayHeight = pixelHeight > 0 ? pixelHeight : logicalHeight;
-                // Logical and display sizes are released apart (releaseRasterSizes), so they never share an atlas.
-                source.unicodeAtlasKey = toLowerCopy(fontName) + (pixelHeight > 0 ? "|pixels|" : "|logical|")
-                    + std::to_string(Engine::unicodeRasterHeight(pixelHeight, logicalHeight));
+                source.unicodeBaseline = logicalHeight > 0
+                    ? int(std::lround(float(descriptor["baseline"].as<int>(0)) * rasterHeight / logicalHeight))
+                    : 0;
+                // The atlas's pixels depend on the font file, its characters and weight and the raster height, not
+                // on the face (a CJK pack draws every face with one font). Logical and display sizes are released
+                // apart (releaseRasterSizes), so they never share an atlas.
+                source.unicodeAtlasKey = descriptor["file"].as<std::string>("") + "|"
+                    + descriptor["characters_file"].as<std::string>("") + "|"
+                    + descriptor["weight"].as<std::string>("") + (pixelHeight > 0 ? "|pixels|" : "|logical|")
+                    + std::to_string(rasterHeight);
             }
         }
         catch (const YAML::Exception &exception)
@@ -1444,6 +1458,7 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
     font.pixelHeight = source.pixelHeight;
     font.independentFont = source.independentFont;
     font.unicodeAtlasKey = source.unicodeAtlasKey;
+    font.unicodeBaseline = source.unicodeBaseline;
     font.image = source.independentFont
         ? Engine::loadTrueTypeFontAtlas(assetFileSystem, source.fontName, font.error, source.pixelHeight)
         : Engine::loadFontAtlas(assetFileSystem, *source.fntBytes, source.fontName, font.error);
@@ -1479,7 +1494,11 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
     }
     // The atlas pixels only feed these textures (the outline atlases are 10-40 MB each), so they move into them.
     font.main = prepareBgraTexture2D(width, height, std::move(mainPixels), filter);
-    font.shadow = prepareBgraTexture2D(width, height, std::move(font.image->shadowPixels), filter);
+    // A Unicode atlas's shadow mask is the glyph itself, offset when drawn: it draws from the main texture.
+    if (!atlas.unicode)
+    {
+        font.shadow = prepareBgraTexture2D(width, height, std::move(font.image->shadowPixels), filter);
+    }
     return font;
 }
 
@@ -1499,7 +1518,9 @@ std::optional<GameplayHudFontData> finishFont(PreparedFont &prepared)
     fontHandle.smooth = fontHandle.atlasScale > 1 || prepared.independentFont;
     const TextureFilterProfile filter = fontFilter(fontHandle, prepared.independentFont);
     fontHandle.mainTextureHandle = createPreparedBgraTexture2D(std::move(prepared.main), filter);
-    fontHandle.shadowTextureHandle = createPreparedBgraTexture2D(std::move(prepared.shadow), filter);
+    fontHandle.shadowTextureHandle = fontHandle.unicode
+        ? fontHandle.mainTextureHandle : createPreparedBgraTexture2D(std::move(prepared.shadow), filter);
+    fontHandle.unicodeBaseline = prepared.unicodeBaseline;
     fontHandle.tintTextureHandle = prepared.tint
         ? createPreparedBgraTexture2D(std::move(*prepared.tint), filter) : fontHandle.mainTextureHandle;
 
@@ -1516,14 +1537,22 @@ std::optional<GameplayHudFontData> finishFont(PreparedFont &prepared)
 }
 }
 
-// A font that draws from a Unicode atlas at its own size: the atlas's glyphs, laid out at displayHeight.
+// A font that draws from a Unicode atlas at its own size and baseline: the atlas's glyphs, laid out at displayHeight.
 std::unique_ptr<GameplayHudFontData> unicodeFontFromAtlas(
     const GameplayHudFontData &atlas,
-    const std::string &fontName,
-    int pixelHeight,
-    int displayHeight)
+    const FontSource &source)
 {
+    const std::string &fontName = source.fontName;
+    const int pixelHeight = source.pixelHeight;
+    const int displayHeight = source.displayHeight;
     auto pFont = std::make_unique<GameplayHudFontData>(atlas);
+    // Another face of the same font sits its glyphs lower or higher on the line by its baseline.
+    const int baselineShift = source.unicodeBaseline - atlas.unicodeBaseline;
+    for (Engine::FontGlyphPlacement &placement : pFont->unicodeGlyphPlacements)
+    {
+        placement.top += baselineShift;
+    }
+    pFont->unicodeBaseline = source.unicodeBaseline;
     pFont->fontName = toLowerCopy(fontName);
     pFont->rasterPixelHeight = pixelHeight;
     pFont->fontHeight = displayHeight;
@@ -1563,8 +1592,7 @@ void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, con
             const auto atlas = store.unicodeAtlases.find(source->unicodeAtlasKey);
             if (atlas != store.unicodeAtlases.end())
             {
-                store.fonts.emplace(key, unicodeFontFromAtlas(
-                    *atlas->second, source->fontName, source->pixelHeight, source->displayHeight));
+                store.fonts.emplace(key, unicodeFontFromAtlas(*atlas->second, *source));
                 continue;
             }
             std::vector<FontSource> &waiting = unicodeWaiting[source->unicodeAtlasKey];
@@ -1605,7 +1633,7 @@ void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, con
             if (finished)
             {
                 store.fonts.emplace(waitingKey,
-                    unicodeFontFromAtlas(*finished, waiting.fontName, waiting.pixelHeight, waiting.displayHeight));
+                    unicodeFontFromAtlas(*finished, waiting));
             }
             else
             {

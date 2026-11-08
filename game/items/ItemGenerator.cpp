@@ -8,6 +8,7 @@
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <random>
 
@@ -39,6 +40,31 @@ bool needsPotionPower(const InventoryItem &item, const ItemTable &itemTable)
     return pItemDefinition != nullptr && pItemDefinition->hasPotionPower && item.standardEnchantPower == 0;
 }
 
+// Weapons, armour and jewellery: the items a shop takes from its world's own pool (devdocs/LOOT_POOL.md).
+// Potions, scrolls, books, reagents, gems and wands come from the merged base in every world.
+bool isPooledEquipment(const ItemDefinition &entry)
+{
+    static const std::array<const char *, 13> PooledEquipStats = {
+        "Weapon", "Weapon2", "Weapon1or2", "Missile", "Armor", "Shield", "Helm", "Belt", "Cloak", "Gauntlets", "Boots",
+        "Ring", "Amulet"};
+    return std::any_of(PooledEquipStats.begin(), PooledEquipStats.end(),
+        [&entry](const char *pEquipStat) { return entry.equipStat == pEquipStat; });
+}
+
+}
+
+bool ItemGenerator::shopPoolAllows(const ItemDefinition &entry, const std::string &worldPool)
+{
+    if (worldPool.empty() || toLowerCopy(entry.packageId) == worldPool)
+    {
+        return true;
+    }
+
+    return !ItemRuntime::isRareItem(entry) && !isPooledEquipment(entry);
+}
+
+namespace
+{
 bool shouldTryGenerateRareItem(const ItemGenerationRequest &request)
 {
     return request.allowRareItems
@@ -208,10 +234,14 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     // A boss's drop (rulesets that flag it, MAW) is always equipment that takes enchantments. A world with loot of
     // its own (loot.yml) rolls only the items it lists.
     const WorldLootTable *pWorldLoot = itemTable.worldLoot(request.worldId);
+    // Random loot rolls from one pool of every mounted world's items; a shop keeps its world's own equipment.
+    const std::string shopPool =
+        request.mode == ItemGenerationMode::Shop ? itemTable.lootPoolForWorld(request.worldId) : std::string();
     const std::function<bool(const ItemDefinition &)> filter =
-        [&request, &callerFilter, pWorldLoot](const ItemDefinition &entry)
+        [&request, &callerFilter, pWorldLoot, &shopPool](const ItemDefinition &entry)
         {
-            return entry.availableInWorld(request.worldId) && (!callerFilter || callerFilter(entry))
+            return entry.availableInWorld(request.worldId) && shopPoolAllows(entry, shopPool)
+                && (!callerFilter || callerFilter(entry))
                 && (!request.boss || ItemEnchantRuntime::isEnchantable(entry))
                 && (pWorldLoot == nullptr || pWorldLoot->listedItemIds.contains(entry.itemId));
         };
@@ -252,7 +282,9 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
         return item;
     }
 
-    if (gameRulesFor(pParty).items.rollsRareItem(request, pParty, rng))
+    // A world whose artifacts come only from level-7 chest slots (world.yml chestArtifactsOnly) skips the level-6 roll.
+    if (!itemTable.chestArtifactsOnly(request.worldId)
+        && gameRulesFor(pParty).items.rollsRareItem(request, pParty, rng))
     {
         const std::optional<uint32_t> rareItemId = chooseRandomRareItem(itemTable, pParty, rng, filter);
 

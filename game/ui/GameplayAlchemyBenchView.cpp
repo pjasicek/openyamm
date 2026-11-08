@@ -1,4 +1,5 @@
 #include "game/ui/GameplayAlchemyBenchView.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -73,20 +74,20 @@ std::string tierHeader(const AlchemyBookEntry &entry)
 {
     if (entry.reagentRecipe)
     {
-        return "BOTTLE + REAGENT";
+        return Engine::tr("BOTTLE + REAGENT");
     }
 
     switch (entry.requiredMastery)
     {
         case 0:
         case 1:
-            return "NORMAL";
+            return Engine::tr("NORMAL");
         case 2:
-            return "EXPERT";
+            return Engine::tr("EXPERT");
         case 3:
-            return "MASTER";
+            return Engine::tr("MASTER");
         default:
-            return "GRANDMASTER";
+            return Engine::tr("GRANDMASTER");
     }
 }
 }
@@ -182,7 +183,8 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         const bool brewable = entry.masteryAllows && (entry.brewableCount > 0 || model.chainCounts[index] > 0);
 
         if ((!state.showAllRecipes && !brewable)
-            || !AlchemyBenchRuntime::matchesSearch(pResult != nullptr ? pResult->name : "", state.recipeSearch))
+            || !AlchemyBenchRuntime::matchesSearch(
+                pResult != nullptr ? Engine::localize(pResult->name) : std::string(), state.recipeSearch))
         {
             continue;
         }
@@ -208,7 +210,7 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
     if (state.showAllRecipes && state.recipeSearch.empty() && undiscovered > 0)
     {
         model.rows.push_back({GameplayAlchemyBenchRowKind::Undiscovered, 0,
-            "??? (" + std::to_string(undiscovered) + " undiscovered)", model.rowsHeight, RecipeRowHeight});
+            Engine::tr("??? ({count} undiscovered)", {{"count", int64_t(undiscovered)}}), model.rowsHeight, RecipeRowHeight});
         model.rowsHeight += RecipeRowHeight;
     }
 
@@ -268,13 +270,13 @@ std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
     {
         case 0:
         case 1:
-            return "Normal";
+            return Engine::tr("Normal");
         case 2:
-            return "Expert";
+            return Engine::tr("Expert");
         case 3:
-            return "Master";
+            return Engine::tr("Master");
         default:
-            return "Grandmaster";
+            return Engine::tr("Grandmaster");
     }
 }
 

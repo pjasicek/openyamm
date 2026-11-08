@@ -61,7 +61,10 @@ struct AiArenaEvent
     int16_t toMonsterId = 0;
     int relation = 0;
     std::string message;
+    // target: the arena monster the event's monster goes for (none: the party).
+    std::optional<size_t> targetMonster;
     uint32_t doorId = 0;
+    bool holdOpen = false;
     GameplayWorldPoint walkTo = {};
     float walkSeconds = 0.0f;
 };
@@ -78,6 +81,9 @@ struct AiArena
     // Removes every actor the map placed (hidden as an event's invisible bit: no loot, experience or events).
     bool clearActors = true;
     bool trace = true;
+    // `party_awareness: mm9` plays the arena with MM9's own perception of the party (Mm9PartyAwareness defaults) instead
+    // of the world's actorAwareness, for arenas that test MM9's loop as MM9 plays it.
+    bool mm9PartyAwareness = false;
     // Also trace the monsters' 3D model presentation (ActorAiTrace `anim` lines); headless runs then pose the models.
     bool traceAnimation = false;
     // Seeds the spawns (positions are exact, so only a boss roll would read it).

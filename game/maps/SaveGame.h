@@ -52,6 +52,10 @@ struct GameSaveData
     uint64_t randomRootSeed = 0;
     // MAW games only.
     std::optional<MawGameState> mawState;
+    // The playthrough this save belongs to and its statistics timeline as YAML (game/party/PlaythroughStatistics.h);
+    // both empty in saves older than the statistics.
+    std::string playthroughId;
+    std::string playthroughTimeline;
     std::string saveName;
     std::vector<uint8_t> previewBmp;
     // The version the save was written with (set when loading, not saved), for migrations that need the game tables.

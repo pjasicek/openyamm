@@ -86,6 +86,17 @@ TEST_CASE("indoor translucent face lookup")
     CHECK(OpenYAMM::Game::findIndoorFaceTranslucency(map, 70000) == nullptr);
 }
 
+TEST_CASE("indoor opaque face lookup")
+{
+    IndoorMapData map;
+    CHECK_FALSE(OpenYAMM::Game::isIndoorFaceOpaque(map, 0));
+    map.opaqueFaces = {3, 17};
+    CHECK(OpenYAMM::Game::isIndoorFaceOpaque(map, 3));
+    CHECK(OpenYAMM::Game::isIndoorFaceOpaque(map, 17));
+    CHECK_FALSE(OpenYAMM::Game::isIndoorFaceOpaque(map, 4));
+    CHECK_FALSE(OpenYAMM::Game::isIndoorFaceOpaque(map, 70000));
+}
+
 TEST_CASE("indoor translucent faces draw back to front")
 {
     std::vector<IndoorTranslucentDraw> draws = {{0, 100.0f}, {1, 900.0f}, {2, 400.0f}, {3, 900.0f}};

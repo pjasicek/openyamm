@@ -1,0 +1,35 @@
+id: turn_based.actor_ten_joins
+title: Turn-based - the map's actor 10 joins the turn queue at the next turn like any other monster
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-5 in devdocs/TURN_BASED_COMBAT_AUDIT.md. MM8-Rel.exe's turn-based start skips actor id 10
+        (0x406451 cmp esi, 0xa) and its arrival scan (0x406ad7) adds it at the next turn; OpenYAMM skipped index 10 in
+        both, so the monster never acted in turn-based play. OpenYAMM now skips it nowhere: the map's tenth monster
+        joins at the start like any other. Dagger Wound's actors 10 and 11 are Lizardman Peasants; a blow turns each
+        hostile, and the party stands between them. Actor 11 is the control.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - assert: {actor_visible: {actor_index: 10, report_state: true}}
+  - assert: {actor_visible: {actor_index: 11, report_state: true}}
+  - set_pose: {map: out01.odm, x: 12296, y: 8216, z: 736, yaw_degrees: 0}
+  - damage_actor: {actor_index: 10, amount: 1}
+  - damage_actor: {actor_index: 11, amount: 1}
+  - assert: {actor_visible: {actor_index: 10, hostile_to_party: true}}
+  - assert: {actor_visible: {actor_index: 11, hostile_to_party: true}}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, actor_index: 10, actor_queued: true, report: true}}
+  - turn_based_turns: {count: 2}
+  - assert: {turn_based: {active: true, actor_index: 11, actor_queued: true, report: true}}
+  - assert: {turn_based: {actor_index: 10, actor_queued: true}}

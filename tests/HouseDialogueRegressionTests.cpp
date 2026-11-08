@@ -1682,7 +1682,7 @@ TEST_CASE("hired follower views use runtime NPC overrides")
     const OpenYAMM::Game::MergedNpcProfessionEntry *pProfession = gameData.mergedNpcProfessionTable.get(52);
     REQUIRE(pProfession != nullptr);
     CHECK_EQ(views.front().profession, pProfession->profession);
-    CHECK_EQ(OpenYAMM::Game::resolveFoundGold(1000, &runtimeState).followerShare, 30u);
+    CHECK_EQ(OpenYAMM::Game::resolveFoundGold(1000, &runtimeState, nullptr).followerShare, 30u);
     CHECK(OpenYAMM::Game::hiredNpcHasProfession(runtimeState.hiredNpcFollowers, 52));
 
     OpenYAMM::Game::EventRuntimeState travelState = {};

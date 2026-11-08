@@ -464,17 +464,19 @@ std::optional<FontAtlasImage> buildUnicodeAtlas(
 }
 }
 
-int unicodeRasterHeight(int pixelHeight, int logicalHeight)
+int unicodeRasterHeight(int pixelHeight, int logicalHeight, int maxRasterHeight)
 {
     const int displayHeight = pixelHeight > 0 ? pixelHeight : std::min(3 * logicalHeight, 48);
+    int rasterHeight = 128;
     for (const int height : {16, 24, 32, 48, 64, 96})
     {
         if (displayHeight <= height)
         {
-            return height;
+            rasterHeight = height;
+            break;
         }
     }
-    return 128;
+    return maxRasterHeight > 0 ? std::min(rasterHeight, maxRasterHeight) : rasterHeight;
 }
 
 std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &assetFileSystem, const std::string &fontName,
@@ -493,11 +495,17 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     std::string file;
     int baseline = 0;
     std::optional<int> weight;
+    // Thickens every glyph by this share of the raster height (a thin face drawn small), right and down from its
+    // rendered coverage, which keeps small contours such as the dot of an i; its advances grow with it.
+    float embolden = 0.0f;
     bool unicode = false;
     std::string characterListFile;
+    int maxRasterHeight = 0;
     try
     {
         const YAML::Node descriptor = YAML::Load(descriptorText.value_or(""));
+        maxRasterHeight = descriptor["max_raster_height"].as<int>(0);
+        embolden = descriptor["embolden"].as<float>(0.0f);
         file = descriptor["file"].as<std::string>();
         unicode = descriptor["encoding"].as<std::string>() == "utf-8";
         characterListFile = unicode ? descriptor["characters_file"].as<std::string>("") : "";
@@ -511,7 +519,9 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             (!unicode && descriptor["encoding"].as<std::string>() != "windows-1252") || file.empty() ||
             (unicode && (characterListFile.empty() || characterListFile.find_first_of("/\\") != std::string::npos)) ||
             file.find_first_of("/\\") != std::string::npos || atlas.fontHeight < 8 || atlas.fontHeight > 64 ||
-            baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)))
+            baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)) ||
+            embolden < 0.0f || embolden > 0.1f || (unicode && embolden > 0.0f) || maxRasterHeight < 0 ||
+            (maxRasterHeight > 0 && (!unicode || maxRasterHeight < 16)))
         {
             error = "Invalid independent outline font descriptor: " + name;
             return std::nullopt;
@@ -529,7 +539,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     }
     const int logicalHeight = atlas.fontHeight;
     atlas.fontHeight = pixelHeight > 0 ? pixelHeight : logicalHeight;
-    const int rasterHeight = unicode ? unicodeRasterHeight(pixelHeight, logicalHeight) : atlas.fontHeight;
+    const int rasterHeight =
+        unicode ? unicodeRasterHeight(pixelHeight, logicalHeight, maxRasterHeight) : atlas.fontHeight;
     baseline = int(std::lround(float(baseline) * rasterHeight / logicalHeight));
     atlas.atlasPadding = int(std::ceil(8.0f * atlas.fontHeight / logicalHeight)) + 1;
     const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile("fonts/truetype/" + file);
@@ -585,6 +596,9 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         }
         return buildUnicodeAtlas(font.face, *characterList, name, atlas.fontHeight, rasterHeight, baseline, error);
     }
+    // The thickening in raster pixels, at most one: a glyph grows by one pixel each way when it is on.
+    const float emboldenPixels = std::min(1.0f, embolden * float(rasterHeight * atlas.atlasScale));
+    const int emboldenGrowth = emboldenPixels > 0.0f ? 1 : 0;
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
         const uint32_t point = cp1252CodePoint(character);
@@ -603,10 +617,13 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         metrics.leftSpacing = int(std::floor(pGlyph->metrics.horiBearingX / divisor));
         metrics.width =
             int(std::ceil((pGlyph->metrics.horiBearingX + pGlyph->metrics.width) / divisor)) - metrics.leftSpacing;
-        metrics.rightSpacing = int(std::round(pGlyph->advance.x / divisor)) - metrics.leftSpacing - metrics.width;
+        const bool inked = pGlyph->metrics.width > 0;
+        metrics.width += inked ? emboldenGrowth : 0;
+        metrics.rightSpacing = int(std::round(pGlyph->advance.x / divisor + emboldenPixels)) - metrics.leftSpacing
+            - metrics.width;
         // Keep fractional horizontal spacing while light hinting fits glyphs to the
         // target pixel size.
-        metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
+        metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f + emboldenPixels / float(atlas.atlasScale);
         atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, metrics.width);
     }
     if (FT_HAS_KERNING(font.face))
@@ -657,24 +674,56 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         const int height = (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
         if (raster.width != 0 && raster.rows != 0 &&
             (raster.pixel_mode != FT_PIXEL_MODE_GRAY || originX < 0 || originY < 0 ||
-             originX + int(raster.width) + scale > width || originY + int(raster.rows) + scale > height))
+             originX + int(raster.width) + emboldenGrowth + scale > width ||
+             originY + int(raster.rows) + emboldenGrowth + scale > height))
         {
             error = "Outline glyph exceeds cell: " + std::to_string(point);
             return std::nullopt;
         }
         const int cellX = (character % 16) * width;
         const int cellY = (character / 16) * height;
+        // The coverage, thickened right then down by emboldenPixels (a share of the neighbour's ink added).
+        const int coverageWidth = raster.width != 0 ? int(raster.width) + emboldenGrowth : 0;
+        const int coverageHeight = raster.rows != 0 ? int(raster.rows) + emboldenGrowth : 0;
+        std::vector<float> coverage(size_t(coverageWidth) * size_t(coverageHeight), 0.0f);
         for (unsigned int y = 0; y < raster.rows; ++y)
         {
             const uint8_t *pRow =
                 raster.buffer + (raster.pitch >= 0 ? y : raster.rows - 1 - y) * size_t(std::abs(raster.pitch));
             for (unsigned int x = 0; x < raster.width; ++x)
             {
+                coverage[size_t(y) * coverageWidth + x] = float(pRow[x]);
+            }
+        }
+        if (emboldenGrowth > 0 && !coverage.empty())
+        {
+            for (int y = 0; y < coverageHeight; ++y)
+            {
+                for (int x = coverageWidth - 1; x > 0; --x)
+                {
+                    float &value = coverage[size_t(y) * coverageWidth + x];
+                    value = std::min(255.0f, value + emboldenPixels * coverage[size_t(y) * coverageWidth + x - 1]);
+                }
+            }
+            for (int y = coverageHeight - 1; y > 0; --y)
+            {
+                for (int x = 0; x < coverageWidth; ++x)
+                {
+                    float &value = coverage[size_t(y) * coverageWidth + x];
+                    value = std::min(255.0f, value + emboldenPixels * coverage[size_t(y - 1) * coverageWidth + x]);
+                }
+            }
+        }
+        for (int y = 0; y < coverageHeight; ++y)
+        {
+            for (int x = 0; x < coverageWidth; ++x)
+            {
+                const uint8_t value = uint8_t(std::lround(coverage[size_t(y) * coverageWidth + x]));
                 const size_t offset = (size_t(cellY + originY + y) * atlas.atlasWidth + cellX + originX + x) * 4;
-                atlas.mainAtlasPixels[offset + 3] = pRow[x];
+                atlas.mainAtlasPixels[offset + 3] = value;
                 // The renderer positions this mask one display pixel away; do not bake
                 // a second offset into it.
-                image.shadowPixels[offset + 3] = pRow[x];
+                image.shadowPixels[offset + 3] = value;
             }
         }
     }

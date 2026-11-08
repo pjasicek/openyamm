@@ -551,6 +551,21 @@ int8_t resolveDoorRotationDirection(
     return 1;
 }
 
+float resolveDoorSpinDegrees(const MapDeltaDoor &door, const std::optional<EventRuntimeState> *pEventRuntimeState)
+{
+    if (pEventRuntimeState != nullptr && pEventRuntimeState->has_value())
+    {
+        const auto iterator = (*pEventRuntimeState)->mechanisms.find(door.doorId);
+
+        if (iterator != (*pEventRuntimeState)->mechanisms.end())
+        {
+            return iterator->second.spinDegrees;
+        }
+    }
+
+    return 0.0f;
+}
+
 IndoorSweptBody buildPrimitiveSweptBody(
     float x,
     float y,
@@ -625,6 +640,53 @@ bx::Vec3 normalizeVec(const bx::Vec3 &value)
     return scaleVec(value, 1.0f / length);
 }
 
+// What the sector face grid depends on besides the map: the doors' faces, vertices and travel.
+uint64_t indoorDoorLayoutSignature(const MapDeltaData *pMapDeltaData)
+{
+    uint64_t hash = 14695981039346656037ull;
+    const auto mix = [&hash](uint64_t value)
+    {
+        hash = (hash ^ value) * 1099511628211ull;
+    };
+
+    if (pMapDeltaData == nullptr)
+    {
+        return hash;
+    }
+
+    mix(pMapDeltaData->doors.size());
+
+    for (const MapDeltaDoor &door : pMapDeltaData->doors)
+    {
+        mix(door.doorId);
+        mix(static_cast<uint32_t>(door.directionX));
+        mix(static_cast<uint32_t>(door.directionY));
+        mix(static_cast<uint32_t>(door.directionZ));
+        mix(door.moveLength);
+
+        for (const std::vector<uint16_t> *pList : {&door.vertexIds, &door.faceIds})
+        {
+            mix(pList->size());
+
+            for (uint16_t value : *pList)
+            {
+                mix(value);
+            }
+        }
+
+        for (const std::vector<int16_t> *pList : {&door.xOffsets, &door.yOffsets, &door.zOffsets})
+        {
+            mix(pList->size());
+
+            for (int16_t value : *pList)
+            {
+                mix(static_cast<uint16_t>(value));
+            }
+        }
+    }
+
+    return hash;
+}
 }
 
 IndoorMovementController::IndoorMovementController(
@@ -687,7 +749,20 @@ void IndoorMovementController::setSpriteObjectColliders(
 
 void IndoorMovementController::invalidateRuntimeGeometryCache()
 {
+    // The sector face grid and the sector list ranks outlive face changes (refreshRuntimeGeometryCache checks the
+    // door layout the grid was built for).
+    IndoorSectorFaceGrid sectorFaceGrid = std::move(m_runtimeGeometryCache.sectorFaceGrid);
+    std::vector<std::vector<std::pair<int16_t, uint32_t>>> faceSectorListRanks =
+        std::move(m_runtimeGeometryCache.faceSectorListRanks);
+    const bool sectorFaceGridBuilt = m_runtimeGeometryCache.sectorFaceGridBuilt;
+    const uint64_t sectorFaceGridDoorSignature = m_runtimeGeometryCache.sectorFaceGridDoorSignature;
+    const bool faceSectorListRanksBuilt = m_runtimeGeometryCache.faceSectorListRanksBuilt;
     m_runtimeGeometryCache = {};
+    m_runtimeGeometryCache.sectorFaceGrid = std::move(sectorFaceGrid);
+    m_runtimeGeometryCache.faceSectorListRanks = std::move(faceSectorListRanks);
+    m_runtimeGeometryCache.sectorFaceGridBuilt = sectorFaceGridBuilt;
+    m_runtimeGeometryCache.sectorFaceGridDoorSignature = sectorFaceGridDoorSignature;
+    m_runtimeGeometryCache.faceSectorListRanksBuilt = faceSectorListRanksBuilt;
 }
 
 void IndoorMovementController::applyMechanismGeometryUpdate(const std::vector<uint32_t> &changedDoorIds)
@@ -725,7 +800,8 @@ void IndoorMovementController::applyMechanismGeometryUpdate(const std::vector<ui
             findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId),
             distance,
             resolveDoorRotationDirection(door, m_pEventRuntimeState),
-            m_runtimeGeometryCache.vertices);
+            m_runtimeGeometryCache.vertices,
+            resolveDoorSpinDegrees(door, m_pEventRuntimeState));
 
         for (uint16_t faceId : door.faceIds)
         {
@@ -792,26 +868,42 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
             }
         }
         m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
-        // Faces a door moves are listed in every cell, so a moving door needs no rebuild (IndoorSectorFaceGrid.h).
-        m_runtimeGeometryCache.sectorFaceGrid.build(*m_pIndoorMapData, m_runtimeGeometryCache.vertices, pMapDeltaData);
+        // The grid places the faces no door moves by their bounds and those sliding doors move by their whole travel,
+        // so only another door layout (another map state) needs a new one: a face hidden, a moving door or a broken
+        // window keeps it (IndoorSectorFaceGrid.h).
+        const uint64_t doorLayoutSignature = indoorDoorLayoutSignature(pMapDeltaData);
+        if (!m_runtimeGeometryCache.sectorFaceGridBuilt
+            || m_runtimeGeometryCache.sectorFaceGridDoorSignature != doorLayoutSignature)
+        {
+            m_runtimeGeometryCache.sectorFaceGrid.build(
+                *m_pIndoorMapData, m_runtimeGeometryCache.vertices, pMapDeltaData);
+            m_runtimeGeometryCache.sectorFaceGridBuilt = true;
+            m_runtimeGeometryCache.sectorFaceGridDoorSignature = doorLayoutSignature;
+        }
         m_runtimeGeometryCache.geometryCache.setSectorFaceGrid(&m_runtimeGeometryCache.sectorFaceGrid);
         std::vector<std::vector<std::pair<int16_t, uint32_t>>> &ranks = m_runtimeGeometryCache.faceSectorListRanks;
-        ranks.assign(m_pIndoorMapData->faces.size(), {});
-        for (size_t sectorId = 0; sectorId < m_pIndoorMapData->sectors.size(); ++sectorId)
+        // The sector lists are the map's own: built once.
+        if (!m_runtimeGeometryCache.faceSectorListRanksBuilt)
         {
-            const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
-            uint32_t rank = 0;
-            for (const std::vector<uint16_t> *pList : {&sector.floorFaceIds, &sector.wallFaceIds, &sector.ceilingFaceIds})
+            ranks.assign(m_pIndoorMapData->faces.size(), {});
+            for (size_t sectorId = 0; sectorId < m_pIndoorMapData->sectors.size(); ++sectorId)
             {
-                for (uint16_t faceId : *pList)
+                const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
+                uint32_t rank = 0;
+                for (const std::vector<uint16_t> *pList :
+                    {&sector.floorFaceIds, &sector.wallFaceIds, &sector.ceilingFaceIds})
                 {
-                    if (faceId < ranks.size())
+                    for (uint16_t faceId : *pList)
                     {
-                        ranks[faceId].push_back({static_cast<int16_t>(sectorId), rank});
+                        if (faceId < ranks.size())
+                        {
+                            ranks[faceId].push_back({static_cast<int16_t>(sectorId), rank});
+                        }
+                        ++rank;
                     }
-                    ++rank;
                 }
             }
+            m_runtimeGeometryCache.faceSectorListRanksBuilt = true;
         }
     }
 
@@ -885,6 +977,18 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     {
         for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
         {
+            // Only an invisible face of the ramp type can be one (its geometry's attributes are these): the rest need
+            // no geometry here.
+            const IndoorFace &face = m_pIndoorMapData->faces[faceId];
+            const uint32_t attributes = pMapDeltaData != nullptr && faceId < pMapDeltaData->faceAttributes.size()
+                ? pMapDeltaData->faceAttributes[faceId]
+                : face.attributes;
+
+            if (!indoorFaceIsInvisibleSupportRamp(face, attributes))
+            {
+                continue;
+            }
+
             const IndoorFaceGeometryData *pGeometry =
                 m_runtimeGeometryCache.geometryCache.geometryForFace(
                     *m_pIndoorMapData,
@@ -2479,6 +2583,79 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 && !probeReachedUnderSectorFloor())
             {
                 floor = leadingFootprintFloor;
+            }
+        }
+
+        // A walkable floor under the centre above the chosen one and within a step of the feet passes through the
+        // body: stand on it. The original engine samples the floor a body radius over the feet and takes the nearest;
+        // the sample at the feet kept a sloped floor running on under a buried slab (MM9 terrain under the sunken end
+        // of a bridge deck: Ravensford's moat bridge, the Isle of Ashes' bridge ramp), and the body walked on inside
+        // the slab until its underside met the terrain and trapped it. Trigger faces are not stood on this way (the
+        // MM9 converter's invisible trigger plates a few units over a floor fired again), nor mover faces, whose
+        // support has its own rules: monsters lifted onto a sunken door's 20-unit top were not carried as it rose and
+        // held it open (Ruined Temple door 34).
+        if (floor.hasFloor
+            && state.grounded
+            && !flying
+            && !sweptRequest.jumpRequested)
+        {
+            constexpr uint32_t TriggerFaceAttributes = faceAttributeBit(FaceAttribute::PressurePlate)
+                | faceAttributeBit(FaceAttribute::TriggerByTouch);
+            constexpr int MaximumOverlappingFloorSamples = 4;
+            float windowTop = state.footZ + MaximumStepUpFromCurrentFootZ;
+
+            for (int sampleIndex = 0;
+                 sampleIndex < MaximumOverlappingFloorSamples
+                     && windowTop > floor.height + CoplanarFloorHeightTolerance;
+                 ++sampleIndex)
+            {
+                const IndoorFloorSample overlappingFloor = sampleSupportedFloor(
+                    vertices,
+                    geometryCache,
+                    candidateX,
+                    candidateY,
+                    windowTop,
+                    0.0f,
+                    windowTop - floor.height - CoplanarFloorHeightTolerance,
+                    body,
+                    preferredSectorId,
+                    &supportFaceMask);
+
+                if (!overlappingFloor.hasFloor
+                    || overlappingFloor.faceIndex == floor.faceIndex
+                    || overlappingFloor.height <= floor.height + CoplanarFloorHeightTolerance)
+                {
+                    break;
+                }
+
+                const IndoorFaceGeometryData *pOverlappingGeometry =
+                    geometryCache.geometryForFace(*m_pIndoorMapData, vertices, overlappingFloor.faceIndex);
+
+                const bool moverFace = std::find(
+                    m_runtimeGeometryCache.mechanismSupportFaceIds.begin(),
+                    m_runtimeGeometryCache.mechanismSupportFaceIds.end(),
+                    static_cast<uint16_t>(overlappingFloor.faceIndex))
+                    != m_runtimeGeometryCache.mechanismSupportFaceIds.end();
+
+                if (moverFace
+                    || (pOverlappingGeometry != nullptr
+                        && (pOverlappingGeometry->attributes & TriggerFaceAttributes) != 0))
+                {
+                    windowTop = overlappingFloor.height - CoplanarFloorHeightTolerance;
+                    continue;
+                }
+
+                // Only a floor under the centre itself: support samples reach a body radius round it (invisible
+                // ramps), which stood the party on the lip of a riser ahead with its centre over the floor below.
+                if (overlappingFloor.isWalkable
+                    && !floorTooSteepForUphillStep(overlappingFloor, state.footZ)
+                    && pOverlappingGeometry != nullptr
+                    && indoorPointInsideFaceOutlineXY(*pOverlappingGeometry, candidateX, candidateY))
+                {
+                    floor = overlappingFloor;
+                }
+
+                break;
             }
         }
 

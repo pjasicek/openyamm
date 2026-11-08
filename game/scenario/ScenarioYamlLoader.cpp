@@ -18,7 +18,7 @@ const KeyList CommonStepKeys = {"note", "reason", "source_note", "game_minutes"}
 const KeyList PoseKeys = {"map", "x", "y", "z", "yaw", "yaw_degrees", "pitch", "pitch_degrees"};
 
 const KeyList MechanismKeys = {
-    "id", "state", "new_state", "moving",
+    "id", "state", "new_state", "moving", "spinning", "spin_rate_min",
     // recorded:
     "kind", "action", "raw_action", "previous_state", "was_moving", "door_slot", "move_length", "open_speed",
     "close_speed"};
@@ -42,8 +42,9 @@ const KeyList AssertKeys = {
     "chest_opened", "actor_dialog_started", "pressure_plate_triggered", "dialogue_canceled", "dialog",
     "input_prompt", "new_game_party_member", "new_game_party_skill", "qbit_set", "qbit_clear", "ruleset",
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
-    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger", "chest_view",
-    "party_position", "turn_based", "member_points", "recovering_members",
+    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger", "sprite_hidden",
+    "sprite_shown",
+    "chest_view", "party_position", "turn_based", "member_points", "light", "scripted_fog", "recovering_members",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -76,6 +77,8 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"party_position", {"x", "y", "radius", "z_min", "z_max"}},
     {"quick_item_popup", {"kind", "member_index"}},
     {"dimension_door", {"pending", "without_quest"}},
+    {"light", {"key", "on"}},
+    {"scripted_fog", {"active", "near", "far"}},
     {"water", {"state", "eye_under", "breath_min", "breath_max", "drowning_ticks_min", "drowning_ticks_max",
         "foot_z_min", "foot_z_max"}},
     {"actor_visible", {"actor_index", "map", "name", "monster_id", "current_hp", "max_hp", "dead", "hidden",
@@ -139,7 +142,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::AnswerInput, {"text", "expect", "expect_before", "input_prompt"}},
         {ScenarioStepKind::InteractTarget, concatKeys({InteractionReplayKeys, {"source_id"}})},
         {ScenarioStepKind::InteractActor, {"actor_index", "map", "pose", "expect", "name", "hit", "npc_id",
-            "group", "friendly", "scene_kind",
+            "group", "friendly", "scene_kind", "activated",
             // recorded:
             "method", "kind", "distance", "has_hit", "can_activate"}},
         {ScenarioStepKind::MovementSegment, {"input", "duration_ms", "seconds", "delta_game_minutes", "start",
@@ -151,7 +154,7 @@ const std::vector<StepKeys> &stepKeyTable()
             // recorded:
             "action_id", "label", "destination_map", "destination_name", "destination_map_id", "required_qbit",
             "pos", "method"}},
-        {ScenarioStepKind::AdvanceRuntime, {"seconds", "milliseconds"}},
+        {ScenarioStepKind::AdvanceRuntime, {"seconds", "milliseconds", "present_dialogs", "follow_map_move"}},
         {ScenarioStepKind::AdvanceGameTime, {"minutes", "hours", "days", "after_game_minutes",
             "before_game_minutes"}},
         {ScenarioStepKind::WaitUntil, {"timeout_runtime_seconds", "seconds", "assert"}},
@@ -167,6 +170,11 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::SetRuleset, {"options"}},
         {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "other", "completed_maps", "dimension_quest_done"}},
         {ScenarioStepKind::ConsoleCommand, {"line", "expect_contains"}},
+        {ScenarioStepKind::WalkTo, concatKeys({PoseKeys, {"to", "via", "radius", "timeout_seconds", "clear_hostiles",
+            "expect_map", "plan", "node_limit", "close_dialogs", "expect"}})},
+        {ScenarioStepKind::ClearHostiles, {"radius", "min"}},
+        {ScenarioStepKind::PlayLua, {"source", "max_seconds"}},
+        {ScenarioStepKind::PartyDefeat, {"wait_seconds", "knock_out", "expect_map"}},
         {ScenarioStepKind::QuickLoad, {"save", "expect", "expect_status"}},
         {ScenarioStepKind::GrantItem, {"item_id", "count", "member_index", "power", "state", "enchant",
             "second_enchant", "special", "rarity", "drop_level", "item_power", "charges", "identified", "equip",
@@ -186,6 +194,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::FireActorProjectile, {"actor_index", "ability", "damage"}},
         {ScenarioStepKind::BlinkActor, {"actor_index"}},
         {ScenarioStepKind::ExecuteEvent, {"id"}},
+        {ScenarioStepKind::LuaEvent, {"source"}},
         {ScenarioStepKind::ChargeActor, {"actor_index"}},
         {ScenarioStepKind::FrenzyActor, {"actor_index"}},
         {ScenarioStepKind::AiArena, {"path", "log"}},
@@ -195,7 +204,8 @@ const std::vector<StepKeys> &stepKeyTable()
                 "health", "spell_points"}},
         {ScenarioStepKind::SaveCheckpoint, {"name"}},
         {ScenarioStepKind::LoadCheckpoint, {"name"}},
-        {ScenarioStepKind::SaveGame, {"name", "required_package_schema", "expect_failure", "block_with_directory"}},
+        {ScenarioStepKind::SaveGame, {"name", "path", "required_package_schema", "rebuilt_maps", "expect_failure",
+            "block_with_directory"}},
         {ScenarioStepKind::LoadGame, {"name", "path", "expect_failure"}},
         {ScenarioStepKind::Note, {"text"}},
         {ScenarioStepKind::Todo, {}, true},
@@ -523,6 +533,30 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
         return true;
     }
 
+    if (value == "walk_to")
+    {
+        kind = ScenarioStepKind::WalkTo;
+        return true;
+    }
+
+    if (value == "party_defeat")
+    {
+        kind = ScenarioStepKind::PartyDefeat;
+        return true;
+    }
+
+    if (value == "play_lua")
+    {
+        kind = ScenarioStepKind::PlayLua;
+        return true;
+    }
+
+    if (value == "clear_hostiles")
+    {
+        kind = ScenarioStepKind::ClearHostiles;
+        return true;
+    }
+
     if (value == "console")
     {
         kind = ScenarioStepKind::ConsoleCommand;
@@ -598,6 +632,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "execute_event")
     {
         kind = ScenarioStepKind::ExecuteEvent;
+        return true;
+    }
+
+    if (value == "lua_event")
+    {
+        kind = ScenarioStepKind::LuaEvent;
         return true;
     }
 

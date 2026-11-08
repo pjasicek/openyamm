@@ -1,6 +1,7 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/events/EventRuntime.h"
+#include "engine/Localization.h"
 #include "engine/scripting/LuaStateOwner.h"
 #include "game/audio/SoundIds.h"
 #include "game/debug/GameplayDebugTrace.h"
@@ -10,6 +11,7 @@
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/items/ItemGenerator.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 #include "game/events/MechanismAudio.h"
@@ -26,11 +28,14 @@
 #include <cctype>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <limits>
 #include <random>
 #include <string_view>
 #include <unordered_map>
+
+#include <yaml-cpp/yaml.h>
 
 extern "C"
 {
@@ -41,6 +46,29 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// An event takes an item from a pack first, else the one on the cursor (the originals' Subtract of an item): true
+// when it is the cursor's (no pack holds one beyond those already being taken).
+bool takeHeldItemInstead(EventRuntimeState &runtimeState, Party *pParty, uint32_t itemId)
+{
+    if (pParty == nullptr || itemId == 0 || pParty->heldItemIdForQueries() != itemId
+        || runtimeState.takenHeldItemId == itemId)
+    {
+        return false;
+    }
+
+    const int queued = int(std::count(runtimeState.removedItemIds.begin(), runtimeState.removedItemIds.end(), itemId));
+
+    if (pParty->inventoryItemCount(itemId) - queued > 0)
+    {
+        return false;
+    }
+
+    // Kept across the events that run before the next frame takes it off the cursor (not reset when one begins).
+    runtimeState.takenHeldItemId = itemId;
+    pParty->clearHeldItemForQueries();
+    return true;
+}
+
 constexpr int OeDaysPerWeek = 7;
 constexpr int OeDaysPerMonth = 28;
 constexpr int OeDaysPerYear = 12 * OeDaysPerMonth;
@@ -991,24 +1019,24 @@ std::optional<std::string> permanentVariableDisplayName(uint32_t rawId)
 {
     switch (static_cast<EvtVariable>(rawId))
     {
-        case EvtVariable::BaseMight: return "Might";
-        case EvtVariable::BaseIntellect: return "Intellect";
-        case EvtVariable::BasePersonality: return "Personality";
-        case EvtVariable::BaseEndurance: return "Endurance";
-        case EvtVariable::BaseSpeed: return "Speed";
-        case EvtVariable::BaseAccuracy: return "Accuracy";
-        case EvtVariable::BaseLuck: return "Luck";
-        case EvtVariable::FireResistance: return "Fire Resistance";
-        case EvtVariable::AirResistance: return "Air Resistance";
-        case EvtVariable::WaterResistance: return "Water Resistance";
-        case EvtVariable::EarthResistance: return "Earth Resistance";
-        case EvtVariable::SpiritResistance: return "Spirit Resistance";
-        case EvtVariable::MindResistance: return "Mind Resistance";
-        case EvtVariable::BodyResistance: return "Body Resistance";
-        case EvtVariable::LightResistance: return "Light Resistance";
-        case EvtVariable::DarkResistance: return "Dark Resistance";
-        case EvtVariable::MagicResistance: return "Magic Resistance";
-        case EvtVariable::PhysicalResistance: return "Physical Resistance";
+        case EvtVariable::BaseMight: return std::string(Engine::trNoop("Might"));
+        case EvtVariable::BaseIntellect: return std::string(Engine::trNoop("Intellect"));
+        case EvtVariable::BasePersonality: return std::string(Engine::trNoop("Personality"));
+        case EvtVariable::BaseEndurance: return std::string(Engine::trNoop("Endurance"));
+        case EvtVariable::BaseSpeed: return std::string(Engine::trNoop("Speed"));
+        case EvtVariable::BaseAccuracy: return std::string(Engine::trNoop("Accuracy"));
+        case EvtVariable::BaseLuck: return std::string(Engine::trNoop("Luck"));
+        case EvtVariable::FireResistance: return std::string(Engine::trNoop("Fire Resistance"));
+        case EvtVariable::AirResistance: return std::string(Engine::trNoop("Air Resistance"));
+        case EvtVariable::WaterResistance: return std::string(Engine::trNoop("Water Resistance"));
+        case EvtVariable::EarthResistance: return std::string(Engine::trNoop("Earth Resistance"));
+        case EvtVariable::SpiritResistance: return std::string(Engine::trNoop("Spirit Resistance"));
+        case EvtVariable::MindResistance: return std::string(Engine::trNoop("Mind Resistance"));
+        case EvtVariable::BodyResistance: return std::string(Engine::trNoop("Body Resistance"));
+        case EvtVariable::LightResistance: return std::string(Engine::trNoop("Light Resistance"));
+        case EvtVariable::DarkResistance: return std::string(Engine::trNoop("Dark Resistance"));
+        case EvtVariable::MagicResistance: return std::string(Engine::trNoop("Magic Resistance"));
+        case EvtVariable::PhysicalResistance: return std::string(Engine::trNoop("Physical Resistance"));
         default: return std::nullopt;
     }
 }
@@ -1027,7 +1055,7 @@ std::optional<std::string> formatPermanentVariableStatusText(uint32_t rawId, int
         return std::nullopt;
     }
 
-    return *name + " +" + std::to_string(delta) + " (Permanent)";
+    return Engine::tr("{stat} +{amount} (Permanent)", {{"stat", Engine::tr(*name)}, {"amount", delta}});
 }
 
 void queuePermanentVariableStatusMessage(
@@ -3135,7 +3163,7 @@ void EventRuntime::setVariableValue(
     {
         if (pParty != nullptr)
         {
-            pParty->addGold(value - pParty->gold());
+            pParty->addGold(value - pParty->gold(), GoldReason::Event);
         }
         else
         {
@@ -3704,7 +3732,7 @@ void EventRuntime::addVariableValue(
 
         if (value > 0)
         {
-            runtimeState.statusMessages.push_back("You find " + std::to_string(value) + " food");
+            runtimeState.statusMessages.push_back(Engine::tr("You find {food} food", {{"food", value}}));
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
         }
 
@@ -3815,7 +3843,12 @@ void EventRuntime::addVariableValue(
 
         for (size_t memberIndex : targetMemberIndices)
         {
-            pParty->addExperienceToMember(memberIndex, experience);
+            pParty->addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
+        }
+
+        if (experience > 0 && pParty->statistics() != nullptr)
+        {
+            pParty->statistics()->recordExperienceAward(uint64_t(experience) * targetMemberIndices.size());
         }
 
         if (value > 0)
@@ -3877,7 +3910,7 @@ void EventRuntime::addVariableValue(
     {
         if (pParty != nullptr)
         {
-            pParty->addGold(value);
+            pParty->addGold(value, GoldReason::Event);
         }
         else
         {
@@ -4191,6 +4224,11 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::Inventory)
     {
+        if (value > 0 && takeHeldItemInstead(runtimeState, pParty, static_cast<uint32_t>(value)))
+        {
+            return;
+        }
+
         if (pParty != nullptr && !targetMemberIndices.empty())
         {
             if (value > 0)
@@ -4375,7 +4413,7 @@ void EventRuntime::subtractVariableValue(
     {
         if (pParty != nullptr)
         {
-            pParty->addGold(-value);
+            pParty->addGold(-value, GoldReason::Event);
         }
         else
         {
@@ -4716,8 +4754,10 @@ void prepareRuntimeStateForEventExecution(
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.openedChestIds.clear();
     runtimeState.openedChestRequests.clear();
-    runtimeState.grantedItems.clear();
-    runtimeState.grantedItemIds.clear();
+    // The items events gave stay until the game hands them over (GameplayHeldItemController::
+    // applyGrantedEventItemsToHeldInventory, which clears them): a dialogue's close runs its event in the frame's input
+    // step and the hand-over comes after the world step, whose timers and hooks run events too. Cleared here, a timer
+    // in that frame lost the item (MM9 Johannes's Book Key, 2026-11-08).
     runtimeState.clearHeldItemRequest = false;
     runtimeState.removedItemIds.clear();
     runtimeState.grantedAwardIds.clear();
@@ -4847,6 +4887,15 @@ const EventRuntimeState *readableRuntimeState(lua_State *pLuaState)
     }
 
     return pExecutionContext->readonly ? pExecutionContext->pReadonlyRuntimeState : pExecutionContext->pRuntimeState;
+}
+
+// Text a script shows, in the interface language: the map's own translation first ("map:oute3"), then the world's and
+// the shared one (devdocs/LOCALIZATION.md). English when no language is active.
+std::string localizedEventText(lua_State *pLuaState, std::string_view english)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const std::string context = pRuntimeState != nullptr ? Engine::mapTextContext(pRuntimeState->mapFileName) : "";
+    return Engine::localize(english, context);
 }
 
 const Party *readableParty(lua_State *pLuaState)
@@ -5181,6 +5230,163 @@ int luaSetMapActorPosition(lua_State *pLuaState)
     return 1;
 }
 
+// evt.MoveActorTo(actorIndex, x, y, z[, arrivalEvent[, run]]): the map actor walks (run: runs) to the point by the
+// path planner, whatever it would do by itself, and stops there; its arrival runs arrivalEvent (0 or left out: none)
+// at the world's next update, with the hook context's actor index (EventRuntimeState::ScriptedActorMove). A new move
+// replaces the actor's last. Returns whether there is such an actor.
+int luaMoveActorTo(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    EventRuntimeState::ScriptedActorMove move = {};
+    move.point = {
+        static_cast<float>(luaL_checknumber(pLuaState, 2)),
+        static_cast<float>(luaL_checknumber(pLuaState, 3)),
+        static_cast<float>(luaL_checknumber(pLuaState, 4)),
+    };
+    move.arrivalEventId = static_cast<uint16_t>(std::clamp<lua_Integer>(luaL_optinteger(pLuaState, 5, 0), 0, 65535));
+    move.run = lua_gettop(pLuaState) >= 6 && luaEventBoolean(pLuaState, 6);
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+
+    if (pRuntimeState == nullptr || pSceneEventContext == nullptr || actorIndex < 0
+        || !pSceneEventContext->mapActorPosition(size_t(actorIndex), x, y, z))
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    pRuntimeState->scriptedActorMoves[uint32_t(actorIndex)] = move;
+    lua_pushboolean(pLuaState, 1);
+    return 1;
+}
+
+// evt.SetRestAlarm([gameMinutes]): a rest or wait that would pass that game minute stops there, interrupted (no
+// healing); no argument clears it. Runtime only: a script arms it again on load.
+int luaSetRestAlarm(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        pRuntimeState->restAlarmGameMinutes = lua_isnumber(pLuaState, 1)
+            ? std::optional<float>(float(lua_tonumber(pLuaState, 1)))
+            : std::nullopt;
+    }
+    return 0;
+}
+
+// evt.StopActorMove(actorIndex): ends the actor's evt.MoveActorTo where it stands, without its arrival event. Returns
+// whether it was moving.
+int luaStopActorMove(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    lua_pushboolean(pLuaState, pRuntimeState != nullptr && actorIndex >= 0
+        && pRuntimeState->scriptedActorMoves.erase(uint32_t(actorIndex)) > 0);
+    return 1;
+}
+
+// evt.IsActorMoving(actorIndex): whether an evt.MoveActorTo of the actor has not arrived yet.
+int luaIsActorMoving(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    lua_pushboolean(pLuaState, pRuntimeState != nullptr && actorIndex >= 0
+        && pRuntimeState->scriptedActorMoves.contains(uint32_t(actorIndex)));
+    return 1;
+}
+
+// evt.SetActorTarget(actorIndex, "party" | targetActorIndex): the map actor goes for the party or the other actor at
+// once (ISceneEventContext::setMapActorTarget: MM9's GetPlayer / GetMe, a caged or summoned monster let loose).
+// Returns whether it took the target.
+int luaSetActorTarget(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    std::optional<size_t> targetActorIndex;
+
+    if (lua_type(pLuaState, 2) == LUA_TSTRING)
+    {
+        luaL_argcheck(pLuaState, std::strcmp(lua_tostring(pLuaState, 2), "party") == 0, 2,
+            "\"party\" or an actor index");
+    }
+    else
+    {
+        const lua_Integer target = luaL_checkinteger(pLuaState, 2);
+        luaL_argcheck(pLuaState, target >= 0, 2, "actor index must not be negative");
+        targetActorIndex = size_t(target);
+    }
+
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->setMapActorTarget(size_t(actorIndex), targetActorIndex));
+    return 1;
+}
+
+// evt.SetActorImmobile(actorIndex, immobile): the actor's `immobile` placement (ISceneEventContext::
+// setMapActorImmobile, saved with the map): false lets it walk as its AI decides (MM9's BaseInit or AddEnemy on an
+// actor the map placed still). Returns whether there is such an actor.
+int luaSetActorImmobile(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const bool immobile = luaEventBoolean(pLuaState, 2);
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->setMapActorImmobile(size_t(actorIndex), immobile));
+    return 1;
+}
+
+// evt.KillMapActor(actorIndex): the living actor dies (ISceneEventContext::killMapActor). Returns whether it did.
+int luaKillMapActor(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && pSceneEventContext->killMapActor(actorIndex));
+    return 1;
+}
+
+// evt.SetMapActorHp(actorIndex, hp): the living actor's hit points become hp, within 1 and its maximum
+// (ISceneEventContext::setMapActorHp). Returns whether there was such a living actor.
+int luaSetMapActorHp(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer hp = luaL_checkinteger(pLuaState, 2);
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->setMapActorHp(size_t(actorIndex), int(std::clamp<lua_Integer>(hp, 1, 32767))));
+    return 1;
+}
+
+// evt.SetMm9ActorCanReceiveDamage(actorIndex, on): MM9's SetPropNumber CanDamage on a map actor
+// (ISceneEventContext::setMm9ActorCanReceiveDamage). Returns whether there was such an actor.
+int luaSetMm9ActorCanReceiveDamage(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const bool canReceiveDamage = luaEventBoolean(pLuaState, 2);
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->setMm9ActorCanReceiveDamage(size_t(actorIndex), canReceiveDamage));
+    return 1;
+}
+
 // evt.TurnActor(actorIndex[, seconds]) / evt.TurnGroup(group[, seconds]): the actor or group fights for the party,
 // its own faction included, for the seconds (none: for good). Returns whether any was turned.
 int turnMapActorsFromLua(lua_State *pLuaState, bool byGroup)
@@ -5351,6 +5557,19 @@ int luaIsMapActorHostile(lua_State *pLuaState)
     return 1;
 }
 
+// evt.IsMapActorDead(actorIndex): the actor is dead or dying (ISceneEventContext::isMapActorDead); MM9's dead AI
+// takes no script message (devdocs/mm9_rework/scr_audit/README.md "Implicit engine semantics").
+int luaIsMapActorDead(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
+    const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+    lua_pushboolean(
+        pLuaState,
+        pSceneEventContext != nullptr && pSceneEventContext->isMapActorDead(actorIndex));
+    return 1;
+}
+
 int luaIsMapActorWithinPartyDistance(lua_State *pLuaState)
 {
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -5398,6 +5617,16 @@ int32_t luaIntegerField(lua_State *pLuaState, int tableIndex, const char *pField
     const int32_t value = lua_isnil(pLuaState, -1)
         ? defaultValue
         : static_cast<int32_t>(luaL_checkinteger(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    return value;
+}
+
+// A number field, whole or not (a position from evt.GetMapActorPosition, which is not rounded).
+float luaNumberField(lua_State *pLuaState, int tableIndex, const char *pFieldName, float defaultValue)
+{
+    const int absoluteIndex = lua_absindex(pLuaState, tableIndex);
+    lua_getfield(pLuaState, absoluteIndex, pFieldName);
+    const float value = lua_isnil(pLuaState, -1) ? defaultValue : float(luaL_checknumber(pLuaState, -1));
     lua_pop(pLuaState, 1);
     return value;
 }
@@ -6138,6 +6367,8 @@ int luaGetHookContext(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "damage");
     lua_pushinteger(pLuaState, pContext->damageType);
     lua_setfield(pLuaState, -2, "damageType");
+    lua_pushboolean(pLuaState, pContext->byParty);
+    lua_setfield(pLuaState, -2, "byParty");
     lua_pushinteger(pLuaState, pContext->houseId);
     lua_setfield(pLuaState, -2, "houseId");
     lua_pushinteger(pLuaState, pContext->houseServiceType);
@@ -6162,6 +6393,8 @@ int luaGetHookContext(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "inventoryPage");
     lua_pushstring(pLuaState, pContext->destinationMapName.c_str());
     lua_setfield(pLuaState, -2, "destinationMapName");
+    lua_pushstring(pLuaState, pContext->mm9Promotion.c_str());
+    lua_setfield(pLuaState, -2, "promotion");
     lua_pushinteger(pLuaState, pContext->baseRestFoodCost);
     lua_setfield(pLuaState, -2, "baseRestFoodCost");
     return 1;
@@ -6571,6 +6804,59 @@ int luaSetOutdoorFog(lua_State *pLuaState)
     return 0;
 }
 
+// evt.SetFog(r, g, b, near, far [, seconds [, sky]]): an indoor map's fog from its script (MM9's WeatherMan switching
+// its Fog states, devdocs/INDOOR_FOG.md "Fog from Lua"): colour 0..255, distances in native units from the eye, `sky`
+// 0..1 of an open sky drawn in the fog colour; it fades in from the fog shown over `seconds` (real time).
+// evt.ClearFog([seconds]): back to the scene's fog. Neither is saved: the map's Lua sets it again on load.
+int luaSetFog(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ScriptedFog fog = {};
+    fog.active = true;
+
+    for (int channel = 0; channel < 3; ++channel)
+    {
+        fog.color[size_t(channel)] =
+            static_cast<float>(std::clamp<lua_Number>(luaL_checknumber(pLuaState, channel + 1), 0.0, 255.0)) / 255.0f;
+    }
+
+    fog.nearDistance = static_cast<float>(luaL_checknumber(pLuaState, 4));
+    fog.farDistance = static_cast<float>(luaL_checknumber(pLuaState, 5));
+    fog.seconds = static_cast<float>(std::max<lua_Number>(0.0, luaL_optnumber(pLuaState, 6, 0.0)));
+    fog.sky = static_cast<float>(std::clamp<lua_Number>(luaL_optnumber(pLuaState, 7, 0.0), 0.0, 1.0));
+
+    if (!(fog.nearDistance >= 0.0f && fog.farDistance > fog.nearDistance))
+    {
+        return luaL_error(pLuaState, "evt.SetFog: distances need 0 <= near < far");
+    }
+
+    fog.revision = pRuntimeState->scriptedFog.revision + 1;
+    pRuntimeState->scriptedFog = fog;
+    return 0;
+}
+
+int luaClearFog(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ScriptedFog fog = {};
+    fog.seconds = static_cast<float>(std::max<lua_Number>(0.0, luaL_optnumber(pLuaState, 1, 0.0)));
+    fog.revision = pRuntimeState->scriptedFog.revision + 1;
+    pRuntimeState->scriptedFog = fog;
+    return 0;
+}
+
 // evt.OpenDimensionDoor([withoutQuest]): opens the Dimension Door destinations; `true` offers them before the Cross
 // Continents quest does.
 int luaOpenDimensionDoor(lua_State *pLuaState)
@@ -6619,6 +6905,167 @@ int luaShowMovie(lua_State *pLuaState)
     movie.movieName = sanitizeEventString(luaL_checkstring(pLuaState, 1));
     movie.restoreAfterPlayback = luaEventBoolean(pLuaState, 2);
     pRuntimeState->pendingMovie = std::move(movie);
+    return 0;
+}
+
+// evt.PlayCinematic(id[, doneEventId]): plays a cinematic of the map's <stem>.cinematics.yml from the next frame
+// (devdocs/mm9_rework/MM9_CUTSCENES.md); doneEventId runs when it ends, played out or skipped. evt.SkipCinematic()
+// ends the playing one as a skip does.
+int luaPlayCinematic(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingCinematic cinematic = {};
+    cinematic.id = sanitizeEventString(luaL_checkstring(pLuaState, 1));
+    const lua_Integer doneEventId = luaL_optinteger(pLuaState, 2, 0);
+    luaL_argcheck(pLuaState, doneEventId >= 0 && doneEventId <= 65535, 2, "invalid event id");
+    cinematic.doneEventId = uint16_t(doneEventId);
+
+    if (pRuntimeState != nullptr)
+    {
+        pRuntimeState->pendingCinematic = std::move(cinematic);
+    }
+
+    return 0;
+}
+
+int luaSkipCinematic(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        pRuntimeState->pendingCinematicSkip = true;
+    }
+
+    return 0;
+}
+
+// evt.MoveDecoration(id, dx, dy, dz[, seconds]): a decoration model (by its cog, as evt.SetSprite) glides to that
+// offset from its map position over the seconds (0: at once); (0, 0, 0) brings it home. Runtime only: a map that
+// moved one sets it again on load from its own state.
+int luaMoveDecoration(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        const std::array<float, 3> offset = {float(luaL_checknumber(pLuaState, 2)),
+            float(luaL_checknumber(pLuaState, 3)), float(luaL_checknumber(pLuaState, 4))};
+        moveDecoration(*pRuntimeState, eventReferenceId(luaL_checkinteger(pLuaState, 1)), offset,
+            float(luaL_optnumber(pLuaState, 5, 0.0)));
+    }
+
+    return 0;
+}
+
+// evt.PlayActorClip(actor, clip[, loop]): the actor's model plays the clip (an actors.yml script_clips role, or the
+// model's own clip name) once and returns to its own animation, or loops; an empty clip stops it. A list of clips
+// ({"ercc01a", "ercc01b", "ercc02"}) plays them one after another and `loop` applies to the last one: a scripted
+// moment that ends in a held pose (MM9's PlayAnim chains ending in a LoopAnim). `loop` "hold": the last clip plays once
+// and holds its last frame (MM9's PlayAnim that ends in DoNothing: Ercc passed out).
+// evt.FaceActorTo(actor, x, y[, seconds]): the actor's model turns to face the point over the seconds (0: at once).
+// evt.ClearActorPresentation(actor): both end. Presentation only, runtime only.
+int luaPlayActorClip(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        EventRuntimeState::ActorPresentation &presentation =
+            pRuntimeState->actorPresentations[uint32_t(luaL_checkinteger(pLuaState, 1))];
+        presentation.then.clear();
+        if (lua_istable(pLuaState, 2))
+        {
+            const lua_Integer count = luaL_len(pLuaState, 2);
+            presentation.clip.clear();
+            for (lua_Integer item = 1; item <= count; ++item)
+            {
+                lua_geti(pLuaState, 2, item);
+                std::string name = luaL_checkstring(pLuaState, -1);
+                lua_pop(pLuaState, 1);
+                if (item == 1)
+                {
+                    presentation.clip = std::move(name);
+                }
+                else
+                {
+                    presentation.then.push_back(std::move(name));
+                }
+            }
+        }
+        else
+        {
+            presentation.clip = luaL_checkstring(pLuaState, 2);
+        }
+        const bool hold = lua_type(pLuaState, 3) == LUA_TSTRING && std::string(lua_tostring(pLuaState, 3)) == "hold";
+        presentation.hold = hold;
+        presentation.loop = !hold && lua_toboolean(pLuaState, 3) != 0;
+        presentation.clipSeconds = 0.0f;
+    }
+
+    return 0;
+}
+
+int luaFaceActorTo(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pContext = pExecutionContext != nullptr ? pExecutionContext->pSceneEventContext : nullptr;
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const lua_Integer actor = luaL_checkinteger(pLuaState, 1);
+    const float x = float(luaL_checknumber(pLuaState, 2));
+    const float y = float(luaL_checknumber(pLuaState, 3));
+    const float seconds = float(luaL_optnumber(pLuaState, 4, 0.0));
+    float actorX = 0.0f;
+    float actorY = 0.0f;
+    float actorZ = 0.0f;
+
+    if (pRuntimeState == nullptr || pContext == nullptr || actor < 0
+        || !pContext->mapActorPosition(size_t(actor), actorX, actorY, actorZ))
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ActorPresentation &presentation = pRuntimeState->actorPresentations[uint32_t(actor)];
+    const float yaw = std::atan2(y - actorY, x - actorX);
+    presentation.yawFromRadians = presentation.yawRadians.value_or(yaw);
+    presentation.yawToRadians = yaw;
+    presentation.turnSeconds = std::max(seconds, 0.0f);
+    presentation.turnElapsedSeconds = 0.0f;
+    presentation.yawRadians = presentation.turnSeconds > 0.0f ? presentation.yawFromRadians : yaw;
+    return 0;
+}
+
+int luaClearActorPresentation(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        pRuntimeState->actorPresentations.erase(uint32_t(luaL_checkinteger(pLuaState, 1)));
+    }
+
+    return 0;
+}
+
+// evt.CameraShake(intensity, seconds[, x, y, z, innerRadius, outerRadius]): shakes the view, intensity 1 a strong
+// quake, fading out over the seconds. With a point the party feels it fully within innerRadius, not past outerRadius.
+int luaCameraShake(lua_State *pLuaState)
+{
+    EventRuntimeState::CameraShakeRequest request = {};
+    request.intensity = float(luaL_checknumber(pLuaState, 1));
+    request.seconds = float(luaL_checknumber(pLuaState, 2));
+    luaL_argcheck(pLuaState, std::isfinite(request.intensity) && request.intensity >= 0.0f, 1, "invalid intensity");
+    luaL_argcheck(pLuaState, std::isfinite(request.seconds) && request.seconds >= 0.0f, 2, "invalid seconds");
+
+    if (!lua_isnoneornil(pLuaState, 3))
+    {
+        request.positional = true;
+        request.x = float(luaL_checknumber(pLuaState, 3));
+        request.y = float(luaL_checknumber(pLuaState, 4));
+        request.z = float(luaL_checknumber(pLuaState, 5));
+        request.innerRadius = float(luaL_checknumber(pLuaState, 6));
+        request.outerRadius = float(luaL_checknumber(pLuaState, 7));
+        luaL_argcheck(pLuaState, request.innerRadius >= 0.0f, 6, "invalid inner radius");
+        luaL_argcheck(pLuaState, request.outerRadius >= request.innerRadius, 7, "outer radius below inner radius");
+    }
+
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        pRuntimeState->cameraShakeRequests.push_back(request);
+    }
+
     return 0;
 }
 
@@ -6761,12 +7208,57 @@ int luaOpenMm9Rude(lua_State *pLuaState)
     EventRuntimeState::PendingDialogueContext context = {};
     context.kind = DialogueContextKind::Mm9Rude;
     context.sourceId = static_cast<uint32_t>(rawRudeId);
-    if (pRuntimeState->activeHookContext.has_value())
+
+    // evt.OpenMm9Rude(rudeId[, actorIndex]): the speaker, when a map script opens the talk outside a click or hook
+    // (an approach talk from a timer), so that the dialogue's close runs his OnRudeExit event (50000 + DAT index).
+    if (lua_gettop(pLuaState) >= 2 && !lua_isnil(pLuaState, 2))
+    {
+        const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 2);
+
+        if (actorIndex < 0 || actorIndex > std::numeric_limits<uint32_t>::max())
+        {
+            return luaL_error(pLuaState, "MM9 RUDE speaker actor index is out of range");
+        }
+
+        context.sourceActorIndex = static_cast<uint32_t>(actorIndex);
+    }
+    else if (pRuntimeState->activeHookContext.has_value())
     {
         context.sourceActorIndex = pRuntimeState->activeHookContext->actorIndex;
     }
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pScene = pExecutionContext == nullptr ? nullptr
+        : pExecutionContext->pSceneEventContext != nullptr ? pExecutionContext->pSceneEventContext
+        : pExecutionContext->pReadonlySceneEventContext;
+    if (!context.sourceActorIndex && pScene != nullptr && pExecutionContext->currentEventId != 0)
+    {
+        context.sourceDecorationKey = pScene->decorationSpriteKeyForScriptEvent(pExecutionContext->currentEventId);
+    }
     pRuntimeState->pendingDialogueContext = std::move(context);
     return 0;
+}
+
+// MM9's AddNPC / RemoveNPC from a script (Tamur Leng joins, NPC309.scr; Forad leaves at the council,
+// ARGUMENT.scr): the party's MM9 hireling of that RUDE id, no fee; quest keys stay as the script sets them. Returns
+// whether the party changed.
+int luaAddMm9Hireling(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+    const lua_Integer rawRudeId = luaL_checkinteger(pLuaState, 1);
+    const bool added = pParty != nullptr && rawRudeId > 0 && rawRudeId <= std::numeric_limits<uint32_t>::max()
+        && pParty->addHirelingByRudeId(static_cast<uint32_t>(rawRudeId));
+    lua_pushboolean(pLuaState, added ? 1 : 0);
+    return 1;
+}
+
+int luaRemoveMm9Hireling(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+    const lua_Integer rawRudeId = luaL_checkinteger(pLuaState, 1);
+    const bool removed = pParty != nullptr && rawRudeId > 0 && rawRudeId <= std::numeric_limits<uint32_t>::max()
+        && pParty->removeHireling(static_cast<uint32_t>(rawRudeId));
+    lua_pushboolean(pLuaState, removed ? 1 : 0);
+    return 1;
 }
 
 int luaMoveToMap(lua_State *pLuaState)
@@ -6834,7 +7326,22 @@ int luaMoveToMap(lua_State *pLuaState)
             ? static_cast<uint32_t>(std::max(0, static_cast<int>(luaL_checkinteger(pLuaState, 8))))
             : 0u;
 
-    if (transitionTextId != 0 || transitionImageId != 0 || moveToMapLeavesIndoorDungeon(pExecutionContext, move))
+    // A table after the map name: {direct = true} moves without the leave-the-dungeon dialogue (an exit with neither
+    // house nor icon, as the original does: falling off Celeste); {keepHeight = true} arrives at z in the air.
+    bool direct = false;
+
+    if (argumentCount >= 10 && lua_type(pLuaState, 10) == LUA_TTABLE)
+    {
+        lua_getfield(pLuaState, 10, "direct");
+        direct = lua_toboolean(pLuaState, -1) != 0;
+        lua_pop(pLuaState, 1);
+        lua_getfield(pLuaState, 10, "keepHeight");
+        move.keepHeight = lua_toboolean(pLuaState, -1) != 0;
+        lua_pop(pLuaState, 1);
+    }
+
+    if (transitionTextId != 0 || transitionImageId != 0
+        || (!direct && moveToMapLeavesIndoorDungeon(pExecutionContext, move)))
     {
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::MapTransition;
@@ -8064,7 +8571,7 @@ int luaAskQuestion(lua_State *pLuaState)
             }
             else
             {
-                prompt.text = pText != nullptr ? pText : "";
+                prompt.text = localizedEventText(pLuaState, pText != nullptr ? pText : "");
             }
         }
     }
@@ -8099,7 +8606,7 @@ int pushAnswerStepsPrompt(lua_State *pLuaState, EventRuntimeState::PendingInputP
     prompt.kind = kind;
     prompt.eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
     prompt.continueStep = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
-    prompt.text = luaL_checkstring(pLuaState, 3);
+    prompt.text = localizedEventText(pLuaState, luaL_checkstring(pLuaState, 3));
 
     luaL_checktype(pLuaState, 4, LUA_TTABLE);
     const lua_Integer choiceCount = static_cast<lua_Integer>(lua_rawlen(pLuaState, 4));
@@ -8334,8 +8841,23 @@ int luaSetMonsterRelation(lua_State *pLuaState)
         return 0;
     }
 
-    const uint32_t leftMonsterId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
-    const uint32_t rightMonsterId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    // evt.SetMonsterRelation(left, right, relation): each side a monster id or {group = n}, an actor group of the map
+    // (GameplayActorService::relationGroupSide).
+    const auto side = [pLuaState](int index)
+    {
+        if (!lua_istable(pLuaState, index))
+        {
+            return static_cast<uint32_t>(luaL_checkinteger(pLuaState, index));
+        }
+
+        lua_getfield(pLuaState, index, "group");
+        const lua_Integer group = luaL_checkinteger(pLuaState, -1);
+        lua_pop(pLuaState, 1);
+        luaL_argcheck(pLuaState, group > 0 && group <= 0x7FFF, index, "group must be 1-32767");
+        return GameplayActorService::relationGroupSide(static_cast<uint32_t>(group));
+    };
+    const uint32_t leftMonsterId = side(1);
+    const uint32_t rightMonsterId = side(2);
     const int32_t relation = static_cast<int32_t>(luaL_checkinteger(pLuaState, 3));
     pRuntimeState->monsterRelationOverrides[
         EventRuntime::monsterRelationOverrideKey(leftMonsterId, rightMonsterId)] = relation;
@@ -8409,8 +8931,104 @@ int luaSummonMonsters(lua_State *pLuaState)
     return 0;
 }
 
+// A Lua value as a YAML node, for the scene's own parsers: a table with items 1..n a sequence, any other table a map
+// (its string or integer keys), numbers, strings and booleans scalars. False, with error, for anything else.
+bool luaValueToYaml(lua_State *pLuaState, int index, int depth, YAML::Node &node, std::string &error)
+{
+    index = lua_absindex(pLuaState, index);
+
+    switch (lua_type(pLuaState, index))
+    {
+        case LUA_TBOOLEAN:
+            node = YAML::Node(lua_toboolean(pLuaState, index) != 0);
+            return true;
+        case LUA_TNUMBER:
+            node = lua_isinteger(pLuaState, index) ? YAML::Node(int64_t(lua_tointeger(pLuaState, index)))
+                                                   : YAML::Node(double(lua_tonumber(pLuaState, index)));
+            return true;
+        case LUA_TSTRING:
+            node = YAML::Node(std::string(lua_tostring(pLuaState, index)));
+            return true;
+        case LUA_TTABLE:
+            break;
+        default:
+            error = "a value that is not a table, number, string or boolean";
+            return false;
+    }
+
+    if (depth > 8)
+    {
+        error = "tables nested too deep";
+        return false;
+    }
+
+    const lua_Integer length = lua_Integer(lua_rawlen(pLuaState, index));
+
+    if (length > 0)
+    {
+        node = YAML::Node(YAML::NodeType::Sequence);
+
+        for (lua_Integer item = 1; item <= length; ++item)
+        {
+            lua_rawgeti(pLuaState, index, item);
+            YAML::Node child;
+            const bool ok = luaValueToYaml(pLuaState, -1, depth + 1, child, error);
+            lua_pop(pLuaState, 1);
+
+            if (!ok)
+            {
+                return false;
+            }
+
+            node.push_back(child);
+        }
+
+        return true;
+    }
+
+    node = YAML::Node(YAML::NodeType::Map);
+    lua_pushnil(pLuaState);
+
+    while (lua_next(pLuaState, index) != 0)
+    {
+        std::string key;
+
+        if (lua_type(pLuaState, -2) == LUA_TSTRING)
+        {
+            key = lua_tostring(pLuaState, -2);
+        }
+        else if (lua_isinteger(pLuaState, -2))
+        {
+            key = std::to_string(lua_tointeger(pLuaState, -2));
+        }
+        else
+        {
+            lua_pop(pLuaState, 2);
+            error = "a table key that is not a string or an integer";
+            return false;
+        }
+
+        YAML::Node child;
+
+        if (!luaValueToYaml(pLuaState, -1, depth + 1, child, error))
+        {
+            lua_pop(pLuaState, 2);
+            return false;
+        }
+
+        node[key] = child;
+        lua_pop(pLuaState, 1);
+    }
+
+    return true;
+}
+
 // evt.SummonMonstersById{monster, x, y, z, count = n | {min, max}, tiers = {A, B, C}, radius, group, name,
-// hpScale, levelBonus, boss, speed, item, hostile, loot, seed}: MAW's pseudoSpawnpoint. Returns the count placed.
+// hpScale, levelBonus, boss, speed, item, hostile, loot, seed, yawDegrees, patrol = {{x, y, z}, ...}, mm9 = {...},
+// effect, effectScale}: MAW's pseudoSpawnpoint. patrol and mm9 are a scene actor's patrol and mm9_ai (the MM9
+// placement: its wander path, script and ScriptParams, such as script_params = "1" for a Greater Demon's spawn-in),
+// given to every monster. effect is a world effect played where each monster stands as it appears (MM9's
+// DoClientFX on a spawned creature: an Imp gate's blue fire). Returns the count placed and their actor indices.
 int luaSummonMonstersById(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -8419,14 +9037,16 @@ int luaSummonMonstersById(lua_State *pLuaState)
     if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
     {
         lua_pushinteger(pLuaState, 0);
-        return 1;
+        lua_newtable(pLuaState);
+        return 2;
     }
 
     GameplayMonsterSpawnRequest request;
     request.monsterId = int16_t(luaIntegerField(pLuaState, 1, "monster", 0));
-    request.x = float(luaIntegerField(pLuaState, 1, "x", 0));
-    request.y = float(luaIntegerField(pLuaState, 1, "y", 0));
-    request.z = float(luaIntegerField(pLuaState, 1, "z", 0));
+    // x, y, z: any number (a summon at an actor's place passes evt.GetMapActorPosition's unrounded position)
+    request.x = luaNumberField(pLuaState, 1, "x", 0.0f);
+    request.y = luaNumberField(pLuaState, 1, "y", 0.0f);
+    request.z = luaNumberField(pLuaState, 1, "z", 0.0f);
     request.radius = float(luaIntegerField(pLuaState, 1, "radius", 256));
     request.group = luaUnsignedField(pLuaState, 1, "group", 0);
     request.uniqueNameIndex = luaIntegerField(pLuaState, 1, "name", 0);
@@ -8442,8 +9062,71 @@ int luaSummonMonstersById(lua_State *pLuaState)
         request.moveSpeed = uint16_t(speed);
     }
 
+    // yawDegrees: every monster's facing (counter-clockwise from +x, as map facings run); left out: the world's default.
+    lua_getfield(pLuaState, 1, "yawDegrees");
+
+    if (!lua_isnil(pLuaState, -1))
+    {
+        constexpr double RadiansPerDegree = 3.14159265358979323846 / 180.0;
+        request.yawRadians = float(luaL_checknumber(pLuaState, -1) * RadiansPerDegree);
+    }
+
+    lua_pop(pLuaState, 1);
+
     lua_getfield(pLuaState, 1, "hpScale");
     request.healthMultiplier = lua_isnil(pLuaState, -1) ? 1.0f : float(luaL_checknumber(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+
+    // A scene actor's patrol: {{x, y, z}, ...}.
+    lua_getfield(pLuaState, 1, "patrol");
+
+    if (!lua_isnil(pLuaState, -1))
+    {
+        luaL_checktype(pLuaState, -1, LUA_TTABLE);
+        const lua_Integer pointCount = lua_Integer(lua_rawlen(pLuaState, -1));
+
+        for (lua_Integer pointIndex = 1; pointIndex <= pointCount; ++pointIndex)
+        {
+            lua_rawgeti(pLuaState, -1, pointIndex);
+
+            if (!lua_istable(pLuaState, -1) || lua_rawlen(pLuaState, -1) != 3)
+            {
+                return luaL_error(pLuaState, "evt.SummonMonstersById patrol: a list of {x, y, z} waypoints");
+            }
+
+            std::array<int32_t, 3> point = {};
+
+            for (int axis = 0; axis < 3; ++axis)
+            {
+                lua_rawgeti(pLuaState, -1, axis + 1);
+                point[size_t(axis)] = int32_t(std::lround(luaL_checknumber(pLuaState, -1)));
+                lua_pop(pLuaState, 1);
+            }
+
+            request.patrolPoints.push_back(point);
+            lua_pop(pLuaState, 1);
+        }
+    }
+
+    lua_pop(pLuaState, 1);
+
+    // A scene actor's mm9_ai, read by the scene's own parser.
+    lua_getfield(pLuaState, 1, "mm9");
+
+    if (!lua_isnil(pLuaState, -1))
+    {
+        YAML::Node node;
+        Mm9AiPlacementRecord record;
+        std::string error;
+
+        if (!luaValueToYaml(pLuaState, -1, 0, node, error) || !parseMm9AiPlacementNode(node, record, error))
+        {
+            return luaL_error(pLuaState, "evt.SummonMonstersById mm9: %s", error.c_str());
+        }
+
+        request.mm9Ai = std::move(record);
+    }
+
     lua_pop(pLuaState, 1);
 
     lua_getfield(pLuaState, 1, "tiers");
@@ -8479,9 +9162,40 @@ int luaSummonMonstersById(lua_State *pLuaState)
     }
 
     lua_pop(pLuaState, 1);
+    const std::string effectId = sanitizeEventString(luaStringField(pLuaState, 1, "effect", ""));
+    lua_getfield(pLuaState, 1, "effectScale");
+    const float effectScale = lua_isnil(pLuaState, -1) ? 1.0f : float(luaL_checknumber(pLuaState, -1));
+    lua_pop(pLuaState, 1);
     const std::vector<size_t> spawned = pExecutionContext->pSceneEventContext->spawnMonsters(request);
+    EventRuntimeState *pRuntimeState = effectId.empty() ? nullptr : writableRuntimeState(pLuaState);
+
+    if (pRuntimeState != nullptr)
+    {
+        for (const size_t actorIndex : spawned)
+        {
+            EventRuntimeState::WorldEffectRequest effect;
+            effect.id = effectId;
+            effect.scale = effectScale;
+
+            if (pExecutionContext->pSceneEventContext->mapActorPosition(
+                    actorIndex, effect.position[0], effect.position[1], effect.position[2]))
+            {
+                pRuntimeState->worldEffectRequests.push_back(std::move(effect));
+            }
+        }
+    }
+
     lua_pushinteger(pLuaState, lua_Integer(spawned.size()));
-    return 1;
+    // The spawned monsters' map actor indices, for the script to follow them (a kill hook, evt.MoveActorTo).
+    lua_createtable(pLuaState, int(spawned.size()), 0);
+
+    for (size_t index = 0; index < spawned.size(); ++index)
+    {
+        lua_pushinteger(pLuaState, lua_Integer(spawned[index]));
+        lua_rawseti(pLuaState, -2, lua_Integer(index + 1));
+    }
+
+    return 2;
 }
 
 int luaChangeEvent(lua_State *pLuaState)
@@ -8581,7 +9295,7 @@ int luaStatusText(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const char *pText = luaL_checkstring(pLuaState, 1);
-    pRuntimeState->statusMessages.push_back(pText);
+    pRuntimeState->statusMessages.push_back(localizedEventText(pLuaState, pText));
     return 0;
 }
 
@@ -8751,8 +9465,13 @@ int luaRemoveItems(lua_State *pLuaState)
         return 0;
     }
 
-    pRuntimeState->removedItemIds.push_back(
-        static_cast<uint32_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1))));
+    const uint32_t itemId = static_cast<uint32_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+
+    if (!takeHeldItemInstead(*pRuntimeState, writableParty(pLuaState), itemId))
+    {
+        pRuntimeState->removedItemIds.push_back(itemId);
+    }
+
     return 0;
 }
 
@@ -8809,6 +9528,64 @@ int luaSetDoorState(lua_State *pLuaState)
         + " open_speed=" + std::to_string(pDoor != nullptr ? pDoor->openSpeed : 0)
         + " close_speed=" + std::to_string(pDoor != nullptr ? pDoor->closeSpeed : 0));
     pRuntimeState->lastAffectedMechanismIds.push_back(mechanismId);
+    return 0;
+}
+
+// evt.SpinMover(door, "on" | "off" | "toggle" | "reverse"): MM9's On/Off/Toggle/Reverse to a RotatingBrush, a door
+// with a scene `mover.spin` (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md "Continuous spinners"). Its speed ramps by
+// its spin-up and spin-down times (IndoorSceneRuntime::advanceMoverSpins); "reverse" turns it the other way, at once
+// while it is on and from its next start while it is off.
+int luaSpinMover(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pRuntimeState == nullptr || pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    const uint32_t doorId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const std::string action = sanitizeEventString(luaL_checkstring(pLuaState, 2));
+    const std::optional<bool> startsOn = pExecutionContext->pSceneEventContext->indoorMoverSpinStartsOn(doorId);
+    const auto iterator = pRuntimeState->mechanisms.find(doorId);
+
+    if (!startsOn || iterator == pRuntimeState->mechanisms.end())
+    {
+        return 0;
+    }
+
+    RuntimeMechanismState &mechanism = iterator->second;
+
+    if (!mechanism.spinSet)
+    {
+        mechanism.spinOn = *startsOn;
+        mechanism.spinSet = true;
+    }
+
+    if (action == "on")
+    {
+        mechanism.spinOn = true;
+    }
+    else if (action == "off")
+    {
+        mechanism.spinOn = false;
+    }
+    else if (action == "toggle")
+    {
+        mechanism.spinOn = !mechanism.spinOn;
+    }
+    else if (action == "reverse")
+    {
+        mechanism.spinDirection = mechanism.spinDirection < 0 ? int8_t(1) : int8_t(-1);
+    }
+    else
+    {
+        return luaL_error(pLuaState, "evt.SpinMover: unknown action \"%s\"", action.c_str());
+    }
+
+    GAMEPLAY_DEBUG_TRACE("mover_spin id=" + std::to_string(doorId) + " action=" + action
+        + " on=" + (mechanism.spinOn ? "true" : "false") + " direction=" + std::to_string(mechanism.spinDirection));
     return 0;
 }
 
@@ -9188,7 +9965,7 @@ int luaSetMessage(lua_State *pLuaState)
 
     if (pExecutionContext != nullptr)
     {
-        pExecutionContext->pendingMessageText = luaL_checkstring(pLuaState, 1);
+        pExecutionContext->pendingMessageText = localizedEventText(pLuaState, luaL_checkstring(pLuaState, 1));
 
         EventRuntimeState *pRuntimeState = pExecutionContext->pRuntimeState;
         const bool isNpcTopicExecution = !pExecutionContext->allowStandaloneMapEventDialogueContext;
@@ -9222,7 +9999,7 @@ int luaSimpleMessage(lua_State *pLuaState)
 
     if (lua_gettop(pLuaState) >= 1 && lua_type(pLuaState, 1) == LUA_TSTRING)
     {
-        pRuntimeState->messages.push_back(lua_tostring(pLuaState, 1));
+        pRuntimeState->messages.push_back(localizedEventText(pLuaState, lua_tostring(pLuaState, 1)));
         return 0;
     }
 
@@ -9271,9 +10048,44 @@ int luaQuestion(lua_State *pLuaState)
         ? executionContextFromLua(pLuaState)->currentEventId
         : 0;
     prompt.continueStep = 0;
-    prompt.text = luaL_checkstring(pLuaState, 1);
+    prompt.text = localizedEventText(pLuaState, luaL_checkstring(pLuaState, 1));
     pRuntimeState->pendingInputPrompt = std::move(prompt);
     return 0;
+}
+
+// tr(text[, {name = value, ...}]): a sentence a hand-written script builds, in the interface language, with its
+// {name} placeholders filled from the table (devdocs/LOCALIZATION.md). Joining translated pieces with .. cannot be
+// translated; one sentence with placeholders can.
+int luaTranslate(lua_State *pLuaState)
+{
+    const std::string text = localizedEventText(pLuaState, luaL_checkstring(pLuaState, 1));
+    std::vector<Engine::TextArgument> arguments;
+
+    if (lua_type(pLuaState, 2) == LUA_TTABLE)
+    {
+        lua_pushnil(pLuaState);
+
+        while (lua_next(pLuaState, 2) != 0)
+        {
+            if (lua_type(pLuaState, -2) == LUA_TSTRING)
+            {
+                // A copy converts, so lua_next still sees the original key and value.
+                lua_pushvalue(pLuaState, -1);
+                const char *pValue = lua_isinteger(pLuaState, -1) ? nullptr : lua_tostring(pLuaState, -1);
+                const std::string value = pValue != nullptr
+                    ? std::string(pValue)
+                    : lua_isinteger(pLuaState, -1) ? std::to_string(lua_tointeger(pLuaState, -1)) : std::string();
+                arguments.emplace_back(lua_tostring(pLuaState, -3), value);
+                lua_pop(pLuaState, 1);
+            }
+
+            lua_pop(pLuaState, 1);
+        }
+    }
+
+    const std::string formatted = Engine::formatText(text, arguments);
+    lua_pushlstring(pLuaState, formatted.data(), formatted.size());
+    return 1;
 }
 
 void registerLuaFunction(lua_State *pLuaState, const char *pName, lua_CFunction function)
@@ -9310,6 +10122,15 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "GetPartyPosition", luaGetPartyPosition);
     registerLuaFunction(pLuaState, "GetEnemyDetectorState", luaGetEnemyDetectorState);
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
+    registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
+    registerLuaFunction(pLuaState, "SetMapActorHp", luaSetMapActorHp);
+    registerLuaFunction(pLuaState, "MoveActorTo", luaMoveActorTo);
+    registerLuaFunction(pLuaState, "StopActorMove", luaStopActorMove);
+    registerLuaFunction(pLuaState, "SetRestAlarm", luaSetRestAlarm);
+    registerLuaFunction(pLuaState, "IsActorMoving", luaIsActorMoving);
+    registerLuaFunction(pLuaState, "SetActorTarget", luaSetActorTarget);
+    registerLuaFunction(pLuaState, "SetActorImmobile", luaSetActorImmobile);
+    registerLuaFunction(pLuaState, "SetMm9ActorCanReceiveDamage", luaSetMm9ActorCanReceiveDamage);
     registerLuaFunction(pLuaState, "GetMapActorPosition", luaGetMapActorPosition);
     registerLuaFunction(pLuaState, "TurnActor", luaTurnActor);
     registerLuaFunction(pLuaState, "TurnGroup", luaTurnGroup);
@@ -9320,6 +10141,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetActorBehavior", luaSetActorBehavior);
     registerLuaFunction(pLuaState, "TriggerActor", luaTriggerActor);
     registerLuaFunction(pLuaState, "IsMapActorHostile", luaIsMapActorHostile);
+    registerLuaFunction(pLuaState, "IsMapActorDead", luaIsMapActorDead);
     registerLuaFunction(pLuaState, "IsMapActorWithinPartyDistance", luaIsMapActorWithinPartyDistance);
     registerLuaFunction(pLuaState, "GetCurrentScreen", luaGetCurrentScreen);
     registerLuaFunction(pLuaState, "GetCurrentMapName", luaGetCurrentMapName);
@@ -9392,6 +10214,13 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetTextureOutdoors", luaSetTexture);
     registerLuaFunction(pLuaState, "SetOutdoorModelFacetTexture", luaSetOutdoorModelFacetTexture);
     registerLuaFunction(pLuaState, "ShowMovie", luaShowMovie);
+    registerLuaFunction(pLuaState, "PlayCinematic", luaPlayCinematic);
+    registerLuaFunction(pLuaState, "SkipCinematic", luaSkipCinematic);
+    registerLuaFunction(pLuaState, "CameraShake", luaCameraShake);
+    registerLuaFunction(pLuaState, "MoveDecoration", luaMoveDecoration);
+    registerLuaFunction(pLuaState, "PlayActorClip", luaPlayActorClip);
+    registerLuaFunction(pLuaState, "FaceActorTo", luaFaceActorTo);
+    registerLuaFunction(pLuaState, "ClearActorPresentation", luaClearActorPresentation);
     registerLuaFunction(pLuaState, "ReturnToMainMenu", luaReturnToMainMenu);
     registerLuaFunction(pLuaState, "SetSprite", luaSetSprite);
     registerLuaFunction(pLuaState, "DamageDestructible", luaDamageDestructible);
@@ -9399,6 +10228,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetDestructibleDamage", luaSetDestructibleDamage);
     registerLuaFunction(pLuaState, "IsDestructibleDestroyed", luaIsDestructibleDestroyed);
     registerLuaFunction(pLuaState, "SetDoorState", luaSetDoorState);
+    registerLuaFunction(pLuaState, "SpinMover", luaSpinMover);
+    registerLuaFunction(pLuaState, "SetFog", luaSetFog);
+    registerLuaFunction(pLuaState, "ClearFog", luaClearFog);
     registerLuaFunction(pLuaState, "RegisterOutdoorModelMechanism", luaRegisterOutdoorModelMechanism);
     registerLuaFunction(pLuaState, "SetOutdoorModelMechanismState", luaSetOutdoorModelMechanismState);
     registerLuaFunction(pLuaState, "Add", luaAdd);
@@ -9416,6 +10248,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "DecorationAim", luaDecorationAim);
     registerLuaFunction(pLuaState, "SpeakNPC", luaSpeakNpc);
     registerLuaFunction(pLuaState, "OpenMm9Rude", luaOpenMm9Rude);
+    registerLuaFunction(pLuaState, "AddMm9Hireling", luaAddMm9Hireling);
+    registerLuaFunction(pLuaState, "RemoveMm9Hireling", luaRemoveMm9Hireling);
     registerLuaFunction(pLuaState, "SetFacetBit", luaSetFacetBit);
     registerLuaFunction(pLuaState, "SetFacetBitOutdoors", luaSetFacetBit);
     registerLuaFunction(pLuaState, "SetMonsterBit", luaSetMonsterBit);
@@ -9538,6 +10372,9 @@ void registerEventBindings(LuaSessionCache &session)
     lua_setfield(pLuaState, -2, "meta");
 
     lua_setglobal(pLuaState, "evt");
+
+    lua_pushcfunction(pLuaState, luaTranslate);
+    lua_setglobal(pLuaState, "tr");
 }
 
 void releaseScopeProgram(Engine::LuaStateOwner &lua, LuaScopeProgram &scopeProgram)
@@ -9767,6 +10604,9 @@ bool invokeLuaHandler(
     }
 
     LuaSessionCache &session = *eventRuntime.m_luaSessionCache;
+    // A handler may run another one from inside (evt.KillMapActor running the map's kill hook): the outer one keeps
+    // its context when the inner one returns.
+    LuaExecutionContext *pOuterExecutionContext = session.pExecutionContext;
     session.pExecutionContext = &executionContext;
     lua_State *pLuaState = session.lua.state();
     session.lua.pushRegistryReference(handlerReference);
@@ -9780,7 +10620,7 @@ bool invokeLuaHandler(
 
     std::optional<std::string> errorMessage;
     const bool ok = session.lua.call(continueStep ? 1 : 0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
-    session.pExecutionContext = nullptr;
+    session.pExecutionContext = pOuterExecutionContext;
 
     if (!ok)
     {
@@ -9869,6 +10709,7 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.grantedItems.clear();
     runtimeState.grantedItemIds.clear();
     runtimeState.clearHeldItemRequest = false;
+    runtimeState.takenHeldItemId = 0;
     runtimeState.removedItemIds.clear();
     runtimeState.grantedAwardIds.clear();
     runtimeState.removedAwardIds.clear();
@@ -9877,6 +10718,9 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
     runtimeState.pendingMovie.reset();
+    runtimeState.pendingCinematic.reset();
+    runtimeState.pendingCinematicSkip = false;
+    runtimeState.cameraShakeRequests.clear();
     runtimeState.pendingReturnToMainMenu = false;
     runtimeState.pendingInputPrompt.reset();
     runtimeState.pendingArcomageGame.reset();
@@ -11128,6 +11972,46 @@ void advanceDecorationAims(EventRuntimeState &state, float deltaSeconds)
             ? remaining
             : std::copysign(step, remaining);
         aim.recoilElapsedSeconds = std::min(aim.recoilElapsedSeconds + deltaSeconds, aim.recoilSeconds);
+        aim.offsetElapsedSeconds = std::min(aim.offsetElapsedSeconds + deltaSeconds, aim.offsetSeconds);
+        const float t = aim.offsetSeconds > 0.0f ? aim.offsetElapsedSeconds / aim.offsetSeconds : 1.0f;
+
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            aim.offset[axis] = aim.offsetFrom[axis] + (aim.offsetTo[axis] - aim.offsetFrom[axis]) * t;
+        }
+    }
+}
+
+void moveDecoration(EventRuntimeState &state, uint32_t key, const std::array<float, 3> &offset, float seconds)
+{
+    EventRuntimeState::DecorationAim &aim = state.decorationAims[key];
+    aim.offsetFrom = aim.offset;
+    aim.offsetTo = offset;
+    aim.offsetSeconds = std::max(seconds, 0.0f);
+    aim.offsetElapsedSeconds = 0.0f;
+
+    if (aim.offsetSeconds <= 0.0f)
+    {
+        aim.offset = offset;
+    }
+}
+
+void advanceActorPresentations(EventRuntimeState &state, float deltaSeconds)
+{
+    for (auto &[actorIndex, presentation] : state.actorPresentations)
+    {
+        presentation.clipSeconds += deltaSeconds;
+
+        if (presentation.yawRadians)
+        {
+            presentation.turnElapsedSeconds = std::min(presentation.turnElapsedSeconds + deltaSeconds,
+                presentation.turnSeconds);
+            const float t = presentation.turnSeconds > 0.0f
+                ? presentation.turnElapsedSeconds / presentation.turnSeconds : 1.0f;
+            const float turn = std::remainder(presentation.yawToRadians - presentation.yawFromRadians,
+                2.0f * 3.14159265f);
+            presentation.yawRadians = presentation.yawFromRadians + turn * t;
+        }
     }
 }
 }

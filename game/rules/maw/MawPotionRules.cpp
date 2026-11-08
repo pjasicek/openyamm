@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawPotionRules.h"
+#include "engine/Localization.h"
 
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/party/Party.h"
@@ -63,7 +64,7 @@ int mawCappedReagentPower(double power)
 
 std::optional<std::string> MawPotionRules::noBenefitText() const
 {
-    return "Can't benefit anymore";
+    return Engine::tr("Can't benefit anymore");
 }
 
 uint32_t MawPotionRules::mixingAlchemyLevel(const Character &alchemist) const

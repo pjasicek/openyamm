@@ -517,6 +517,11 @@ std::string serializeIndoorGeometryMetadata(const EditorIndoorGeometryMetadata &
             emitter << YAML::Key << "cog_number" << YAML::Value << surface.cogNumber;
         }
 
+        if (!surface.backRoomId.empty())
+        {
+            emitter << YAML::Key << "back_room" << YAML::Value << surface.backRoomId;
+        }
+
         if (surface.runtimeFaceIndex)
         {
             emitter << YAML::Key << "runtime_face_index" << YAML::Value << *surface.runtimeFaceIndex;
@@ -997,6 +1002,7 @@ std::optional<EditorIndoorGeometryMetadata> loadIndoorGeometryMetadataFromText(
             if (!readScalarNode(surfaceNode, "id", surface.id, errorMessage)
                 || !readScalarNode(surfaceNode, "source_node", surface.sourceNodeName, errorMessage)
                 || !readScalarNode(surfaceNode, "material", surface.materialId, errorMessage)
+                || !readScalarNode(surfaceNode, "back_room", surface.backRoomId, errorMessage)
                 || !readStringSequenceNode(surfaceNode, "flags", surface.flags, errorMessage)
                 || !readOptionalSizeNode(surfaceNode, "runtime_face_index", surface.runtimeFaceIndex, errorMessage))
             {

@@ -86,6 +86,16 @@ settings:
   name: Skip event cutscenes
   type: toggle
   desc: Skip event movies. Leave off for a first adventure.
+# The menu adds the installed language packs (languages/<id>/language.yml) to these options.
+- id: language
+  section: interface
+  group: Language
+  name: Language
+  type: select
+  options:
+  - [en, English]
+  - [qps, Pseudo-language (testing)]
+  desc: The language of menus, messages and the games' text. Takes effect at the next start.
 - id: combat_text
   section: interface
   group: Combat messages
@@ -96,8 +106,13 @@ settings:
   section: interface
   group: Combat messages
   name: Combat log
-  type: toggle
-  desc: A button beside the followers' head opens a log of recent hits, each with its damage steps.
+  type: select
+  options:
+  - [auto, MAW games]
+  - ['on', Always]
+  - ['off', 'Off']
+  desc: A button under the minimap opens a log of recent hits, each with its damage steps; with MAW games, only in
+    MAW games outside the MM9 world.
   desktop_only: true
 - id: show_hits
   section: interface
@@ -761,6 +776,9 @@ bindings:
 - id: quick_ref
   name: Quick reference
   group: Party & books
+- id: statistics
+  name: Statistics
+  group: Party & books
 - id: rest
   name: Rest
   group: Party & books
@@ -778,6 +796,9 @@ bindings:
   group: Party & books
 - id: follower_4
   name: Speak with follower 4
+  group: Party & books
+- id: party_formation
+  name: Party formation (MM9)
   group: Party & books
 - id: double_speed
   name: Toggle double speed

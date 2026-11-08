@@ -9,6 +9,7 @@
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
+#include "game/ui/HouseShopLedgerCategory.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -228,6 +229,9 @@ public:
         std::string spellPointsText;
         std::string conditionText;
         std::string quickSpellText;
+        // An MM9 hireling's rows (level, HP, AC, condition, attacks, spells, resistances) in place of the member's
+        // hit points, spell points, condition and quick spell.
+        std::vector<std::string> statLines;
         std::vector<ActiveSpellLine> activeSpells;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
@@ -444,9 +448,19 @@ public:
         float trainerMapCenterY = 0.0f;
     };
 
+    enum class QuickReferencePage : uint8_t
+    {
+        Party,
+        // The playthrough statistics (game/ui/GameplayStatisticsScreen.h).
+        Statistics,
+    };
+
     struct QuickReferenceScreenState
     {
         bool active = false;
+        QuickReferencePage page = QuickReferencePage::Party;
+        // The Statistics page shows the Party tab instead of the Overview.
+        bool statisticsPartyTab = false;
     };
 
     enum class AlchemyIngredientFilter : uint8_t
@@ -590,14 +604,19 @@ public:
         HouseShopMode mode = HouseShopMode::None;
         // Which of a guild's spellbook shelves is open (HouseServiceRuntime::spellbookShelfSchools).
         uint32_t spellbookShelf = 0;
+        // A Ledger shop's list (HouseShopLedger): its top row, merchant tab and the order its column headings chose.
+        size_t ledgerFirstRow = 0;
+        HouseShopLedgerCategory ledgerFilter = HouseShopLedgerCategory::All;
+        HouseShopLedgerSort ledgerSort = {};
     };
 
-    // A stable's or boat's Schedule popup over the house dialogue; the selected departure is a weekday (0 Monday)
-    // and one of its routes.
+    // A stable's or boat's Schedule popup over the house dialogue, or over an MM9 dock's talk (mm9DockId, its RUDE
+    // id); the selected departure is a weekday (0 Monday) and one of its routes.
     struct TransportScheduleState
     {
         bool active = false;
         uint32_t houseId = 0;
+        uint32_t mm9DockId = 0;
         std::optional<int> selectedDay;
         uint32_t selectedRouteIndex = 0;
         // The press a release completes, and whether each input was held last frame (all held when the popup opens,
@@ -812,6 +831,7 @@ public:
     TransportScheduleState &transportSchedule();
     const TransportScheduleState &transportSchedule() const;
     void openTransportSchedule(uint32_t houseId);
+    void openMm9TransportSchedule(uint32_t dockId);
     void closeTransportSchedule();
     void beginHouseShopVisit(uint32_t houseId);
     void markHouseShopTransactionPerformed(uint32_t houseId);

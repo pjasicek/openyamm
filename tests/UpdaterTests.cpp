@@ -16,6 +16,7 @@
 #include <mutex>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 namespace
@@ -802,4 +803,29 @@ TEST_CASE("the packager writes the content format this binary reads")
     const std::string expected =
         "\nCONTENT_FORMAT = " + std::to_string(OpenYAMM::Engine::SupportedContentFormat) + "\n";
     CHECK(packager.find(expected) != std::string::npos);
+}
+
+TEST_CASE("an update plans a language's optional packs only for the languages kept installed")
+{
+    OpenYAMM::Engine::ReleaseManifest manifest;
+    manifest.app.size = 100;
+
+    for (const auto &[pId, pLanguage, size] :
+         {std::tuple{"engine.core", "", 10}, std::tuple{"lang-ru.engine.audio", "ru", 20},
+          std::tuple{"lang-zh-cn.engine.fonts", "zh-cn", 40}})
+    {
+        OpenYAMM::Engine::AssetPackRecord pack;
+        pack.id = pId;
+        pack.file = std::string(pId) + ".zip";
+        pack.size = uint64_t(size);
+        pack.language = pLanguage;
+        manifest.packs.push_back(pack);
+        manifest.packUrls.push_back("packs/" + pack.file);
+    }
+
+    const std::filesystem::path store = makeTemporaryRoot();
+    CHECK(OpenYAMM::Engine::planUpdate(manifest, store, false).downloadBytes == 10);
+    CHECK(OpenYAMM::Engine::planUpdate(manifest, store, false, {"ru"}).downloadBytes == 30);
+    CHECK(OpenYAMM::Engine::planUpdate(manifest, store, true, {"ru", "zh-cn"}).downloadBytes == 170);
+    std::filesystem::remove_all(store);
 }

@@ -9,6 +9,10 @@
 namespace OpenYAMM::Game
 {
 class MapRegistry;
+struct MapStatsEntry;
+
+// The food an MM9 walk between two regions costs, whatever its days: MM6-MM8's journey between outdoor maps.
+constexpr int Mm9RegionWalkFood = 5;
 
 struct Mm9MapTransition
 {
@@ -41,6 +45,14 @@ struct Mm9MapTransition
     std::string overrideId;
     std::string provenance;
 };
+
+// An MM9 exit is a walk between two regions (Sturmford to Drangheim at the region's border) when it has days on the
+// road and both maps are top-level areas in map_stats (area 0), not a dungeon inside one (the Connecting Tunnels).
+bool mm9RegionWalk(
+    int travelDays,
+    const std::vector<MapStatsEntry> *pMapEntries,
+    const std::string &sourceMapFileName,
+    const std::string &destinationMapFileName);
 
 class Mm9MapTransitionTable
 {

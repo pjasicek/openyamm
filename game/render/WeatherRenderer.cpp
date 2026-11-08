@@ -208,6 +208,12 @@ bool WeatherRenderer::initialize()
     m_curtainProgram = loadRuntimeProgram("vs_weather_curtain", "fs_weather_curtain");
     m_splashProgram = loadRuntimeProgram("vs_weather_splash", "fs_weather_splash");
     m_weatherUniform = bgfx::createUniform("u_weather", bgfx::UniformType::Vec4, 6);
+    m_roofSampler = bgfx::createUniform("s_weatherRoof", bgfx::UniformType::Sampler);
+    m_roofUniform = bgfx::createUniform("u_weatherRoof", bgfx::UniformType::Vec4);
+    const float noRoof = WeatherRoofMap::NoSurface;
+    m_noRoofTexture = bgfx::createTexture2D(1, 1, false, 1, bgfx::TextureFormat::R32F,
+        BGFX_SAMPLER_POINT | BGFX_SAMPLER_UVW_CLAMP, bgfx::copy(&noRoof, sizeof(noRoof)));
+    m_roofPlacement = {};
 
     if (!isReady())
     {
@@ -250,12 +256,27 @@ void WeatherRenderer::shutdown()
         *pBuffer = BGFX_INVALID_HANDLE;
     }
 
-    if (bgfx::isValid(m_weatherUniform))
+    for (bgfx::UniformHandle *pUniform : {&m_weatherUniform, &m_roofSampler, &m_roofUniform})
     {
-        bgfx::destroy(m_weatherUniform);
+        if (bgfx::isValid(*pUniform))
+        {
+            bgfx::destroy(*pUniform);
+        }
+
+        *pUniform = BGFX_INVALID_HANDLE;
     }
 
-    m_weatherUniform = BGFX_INVALID_HANDLE;
+    for (bgfx::TextureHandle *pTexture : {&m_roofTexture, &m_noRoofTexture})
+    {
+        if (bgfx::isValid(*pTexture))
+        {
+            bgfx::destroy(*pTexture);
+        }
+
+        *pTexture = BGFX_INVALID_HANDLE;
+    }
+
+    m_roofPlacement = {};
     m_splashes.clear();
     resetCamera();
 }
@@ -264,7 +285,50 @@ bool WeatherRenderer::isReady() const
 {
     return bgfx::isValid(m_dropVertices) && bgfx::isValid(m_dropIndices) && bgfx::isValid(m_curtainVertices)
         && bgfx::isValid(m_curtainIndices) && bgfx::isValid(m_rainProgram) && bgfx::isValid(m_snowProgram)
-        && bgfx::isValid(m_curtainProgram) && bgfx::isValid(m_splashProgram) && bgfx::isValid(m_weatherUniform);
+        && bgfx::isValid(m_curtainProgram) && bgfx::isValid(m_splashProgram) && bgfx::isValid(m_weatherUniform)
+        && bgfx::isValid(m_roofSampler) && bgfx::isValid(m_roofUniform) && bgfx::isValid(m_noRoofTexture);
+}
+
+bool WeatherRenderer::setRoofMap(const WeatherRoofMap *pRoofMap)
+{
+    if (bgfx::isValid(m_roofTexture))
+    {
+        bgfx::destroy(m_roofTexture);
+        m_roofTexture = BGFX_INVALID_HANDLE;
+    }
+
+    m_roofPlacement = {};
+
+    if (pRoofMap == nullptr || pRoofMap->empty() || !isReady())
+    {
+        return pRoofMap == nullptr || pRoofMap->empty();
+    }
+
+    const bgfx::Caps *pCaps = bgfx::getCaps();
+
+    // Read in the vertex shader, as the grass reads its lightmaps (vs_terrain_decoration): every renderer in use
+    // (GL 3.3, GLES 3, Vulkan) reads textures there, though bgfx's GL renderer does not report the vertex cap.
+    if (pCaps == nullptr || (pCaps->formats[bgfx::TextureFormat::R32F] & BGFX_CAPS_FORMAT_TEXTURE_2D) == 0
+        || pRoofMap->width() > pCaps->limits.maxTextureSize || pRoofMap->height() > pCaps->limits.maxTextureSize)
+    {
+        return false;
+    }
+
+    const std::vector<float> &heights = pRoofMap->heights();
+    m_roofTexture = bgfx::createTexture2D(static_cast<uint16_t>(pRoofMap->width()),
+        static_cast<uint16_t>(pRoofMap->height()), false, 1, bgfx::TextureFormat::R32F,
+        BGFX_SAMPLER_POINT | BGFX_SAMPLER_UVW_CLAMP,
+        bgfx::copy(heights.data(), static_cast<uint32_t>(heights.size() * sizeof(float))));
+
+    if (!bgfx::isValid(m_roofTexture))
+    {
+        return false;
+    }
+
+    m_roofPlacement = {pRoofMap->originX(), pRoofMap->originY(),
+        1.0f / (pRoofMap->cellSize() * static_cast<float>(pRoofMap->width())),
+        1.0f / (pRoofMap->cellSize() * static_cast<float>(pRoofMap->height()))};
+    return true;
 }
 
 void WeatherRenderer::resetCamera()
@@ -331,6 +395,9 @@ void WeatherRenderer::submitDrops(uint16_t viewId, bgfx::ProgramHandle program, 
 {
     bgfx::setVertexBuffer(0, m_dropVertices);
     bgfx::setIndexBuffer(m_dropIndices, 0, std::min(count, MaxDrops) * 6);
+    // Drops under the roof map's surfaces are not drawn (none without a map).
+    bgfx::setTexture(0, m_roofSampler, bgfx::isValid(m_roofTexture) ? m_roofTexture : m_noRoofTexture);
+    bgfx::setUniform(m_roofUniform, m_roofPlacement.data());
     bgfx::setState(state);
     bgfx::submit(viewId, program);
 }
@@ -466,7 +533,7 @@ void WeatherRenderer::render(uint16_t viewId, const WeatherDrawFrame &frame)
         // Heavy rain also falls in sheets in the distance.
         const float curtainAlpha = 0.35f * std::pow(level, 1.5f);
 
-        for (uint32_t ring = 0; ring < budget.curtainRings && curtainAlpha > 0.01f; ++ring)
+        for (uint32_t ring = 0; frame.curtain && ring < budget.curtainRings && curtainAlpha > 0.01f; ++ring)
         {
             const float radius = CurtainRadii[ring];
             const float columns = std::round(TwoPi * radius / CurtainStreakSpacing);

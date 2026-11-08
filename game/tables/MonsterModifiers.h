@@ -180,12 +180,23 @@ struct SkirmisherModifier
 
 // spell_conditions: a hit on a party member by its first or second spell leaves that condition (by chance, then the
 // member's save as against a special attack). None: the spell only does its damage. It also lets the monster cast
-// Paralyze and Fear, which deal no damage and which a monster without a condition for them never casts.
+// Paralyze and Fear, which deal no damage and which a monster without a condition for them never casts. A slot's
+// minutes make its condition wear off after that many game minutes (MM9's spell durations); 0 lasts until cured.
 struct SpellConditionsModifier
 {
     MonsterSpecialAttackKind spell1 = MonsterSpecialAttackKind::None;
     MonsterSpecialAttackKind spell2 = MonsterSpecialAttackKind::None;
     float chance = 1.0f;
+    float spell1Minutes = 0.0f;
+    float spell2Minutes = 0.0f;
+};
+
+// missile_blast: its first or second attack's missile bursts where it strikes (an actor, a wall, the floor), hitting
+// everyone within the radius but its shooter and the shooter's friends (MM9 PROJECTILE.txt damageRadius; our units).
+struct MissileBlastModifier
+{
+    float attack1Radius = 0.0f;
+    float attack2Radius = 0.0f;
 };
 
 // reposition (an OpenYAMM addition, devdocs/MONSTER_MODIFIERS.md): a monster that holds its place to shoot or cast
@@ -226,6 +237,7 @@ struct MonsterModifierSet
     std::optional<ActorSoundsModifier> sounds;
     std::optional<SkirmisherModifier> skirmisher;
     std::optional<SpellConditionsModifier> spellConditions;
+    std::optional<MissileBlastModifier> missileBlast;
     std::optional<RepositionModifier> reposition;
     // mm9_ai: the MM9 AI profile of an MM9 row (devdocs/mm9_rework/monster_ai/PROFILE.md); generated, data only.
     std::optional<Mm9AiProfile> mm9Ai;

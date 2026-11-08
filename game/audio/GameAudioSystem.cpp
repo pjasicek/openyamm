@@ -203,11 +203,12 @@ bool GameAudioSystem::initializeSoundCatalog(const Engine::AssetFileSystem &asse
     }
 
     const std::vector<std::vector<std::string>> engineSoundRows = rowsFromTextTable(*parsedEngineSoundCatalog);
-    const std::vector<std::vector<std::string>> worldSoundRows;
+    std::vector<std::vector<std::string>> worldSoundRows;
     const std::vector<std::vector<std::string>> speechRows = rowsFromTextTable(*parsedSpeechReactions);
 
     std::string soundCatalogError;
-    if (!m_soundCatalog.loadFromScopedRows(engineSoundRows, worldSoundRows, soundCatalogError)
+    if (!loadWorldSoundRows(assetFileSystem, engineSoundRows, worldSoundRows, soundCatalogError)
+        || !m_soundCatalog.loadFromScopedRows(engineSoundRows, worldSoundRows, soundCatalogError)
         || !m_speechReactionTable.loadFromRows(speechRows)
         || !m_audioSystem.initialize(assetFileSystem))
     {
@@ -241,6 +242,11 @@ void GameAudioSystem::shutdown()
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = 0.0f;
     m_backgroundMusicPaused = false;
+    m_battleMusicTrack = 0;
+    m_battleMusicInstanceId = 0;
+    m_battleMusicVolume = 0.0f;
+    m_battleMusicFadeVelocity = 0.0f;
+    m_mapMusicSuspended = false;
     m_recordingMapSoundPreloads = false;
     m_soundVolume = 1.0f;
     m_musicVolume = 1.0f;
@@ -264,16 +270,21 @@ void GameAudioSystem::update(
         m_activeMusicTrack = 0;
         m_activeMusicVolume = 0.0f;
         m_backgroundMusicPaused = false;
+        m_mapMusicSuspended = false;
     }
 
-    if (!m_backgroundMusicPaused && m_activeMusicInstanceId == 0 && m_pendingMusicTrack > 0)
+    updateBattleMusic(deltaSeconds);
+    // Under battle music the map's track waits (suspended, or its start pending).
+    const bool battleMusic = m_battleMusicInstanceId != 0;
+
+    if (!m_backgroundMusicPaused && !battleMusic && m_activeMusicInstanceId == 0 && m_pendingMusicTrack > 0)
     {
         const int nextTrack = m_pendingMusicTrack;
         m_pendingMusicTrack = 0;
         startBackgroundMusicTrack(nextTrack);
     }
 
-    if (!m_backgroundMusicPaused && m_activeMusicInstanceId != 0 && m_musicFadeVelocity != 0.0f)
+    if (!m_backgroundMusicPaused && !m_mapMusicSuspended && m_activeMusicInstanceId != 0 && m_musicFadeVelocity != 0.0f)
     {
         m_activeMusicVolume =
             std::clamp(m_activeMusicVolume + m_musicFadeVelocity * deltaSeconds, 0.0f, musicTargetVolume);
@@ -287,7 +298,7 @@ void GameAudioSystem::update(
             m_musicFadeVelocity = 0.0f;
             m_backgroundMusicPaused = false;
 
-            if (m_pendingMusicTrack > 0)
+            if (m_pendingMusicTrack > 0 && !battleMusic)
             {
                 const int nextTrack = m_pendingMusicTrack;
                 m_pendingMusicTrack = 0;
@@ -314,7 +325,7 @@ void GameAudioSystem::update(
 uint64_t GameAudioSystem::playActorSound(
     size_t actorIndex, SoundRef sound, const WorldPosition &position, float pitch)
 {
-    if (sound.id == 0)
+    if (sound.id == 0 || (m_actorClipSoundOwner && m_actorClipSoundOwner(actorIndex)))
     {
         return 0;
     }
@@ -390,6 +401,47 @@ uint64_t GameAudioSystem::playActorSound(
     return instanceId;
 }
 
+void GameAudioSystem::setActorClipSoundOwner(const void *pOwner, std::function<bool(size_t)> owner)
+{
+    m_pActorClipSoundOwnerKey = pOwner;
+    m_actorClipSoundOwner = std::move(owner);
+}
+
+void GameAudioSystem::clearActorClipSoundOwner(const void *pOwner)
+{
+    if (m_pActorClipSoundOwnerKey == pOwner)
+    {
+        m_pActorClipSoundOwnerKey = nullptr;
+        m_actorClipSoundOwner = {};
+    }
+}
+
+uint64_t GameAudioSystem::playActorClipSound(
+    const std::string &soundName,
+    const WorldPosition &position,
+    float volume,
+    float innerRadius,
+    float outerRadius)
+{
+    const std::optional<std::string> virtualPath =
+        m_soundCatalog.buildVirtualPathByName(SoundScope::World, soundName);
+    if (!virtualPath)
+    {
+        if (audioTraceEnabled())
+        {
+            logAudioTracePrefix("request", "actorClipSound");
+            std::cerr << " name=\"" << soundName << "\" result=unresolved\n";
+        }
+        return 0;
+    }
+
+    const uint64_t instanceId = playAssetInstance(
+        *virtualPath, PlaybackGroup::World, position, false, volume, 1.0f, innerRadius, outerRadius);
+    logAudioTraceResolvedSound("play", "actorClipSound", 0, *virtualPath, PlaybackGroup::World, position, false,
+        instanceId, instanceId != 0 ? "started" : "failed");
+    return instanceId;
+}
+
 void GameAudioSystem::updateActorVoices(
     const WorldPosition &listenerFeet,
     const std::function<std::optional<WorldPosition>(size_t)> &sourcePosition)
@@ -454,6 +506,13 @@ float GameAudioSystem::soundVolume() const
 void GameAudioSystem::setMusicVolume(float volume)
 {
     m_musicVolume = std::clamp(volume, 0.0f, 1.0f);
+
+    if (m_battleMusicInstanceId != 0)
+    {
+        m_battleMusicVolume = m_battleMusicFadeVelocity == 0.0f
+            ? targetMusicVolume() : std::clamp(m_battleMusicVolume, 0.0f, targetMusicVolume());
+        m_audioSystem.setClipVolume(m_battleMusicInstanceId, m_battleMusicVolume);
+    }
 
     if (m_activeMusicInstanceId == 0)
     {
@@ -669,11 +728,13 @@ uint64_t GameAudioSystem::playAssetInstance(
     float volume,
     float pitch,
     float innerRadius,
-    float outerRadius)
+    float outerRadius,
+    bool pan)
 {
     Engine::AudioSystem::PlaybackOptions options = {};
     options.volume = playbackGroupVolume(group) * volume;
     options.positional = position.has_value();
+    options.pan = pan;
     options.loop = loop;
     options.pitch = pitch;
     options.innerRadius = innerRadius;
@@ -900,7 +961,8 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
     for (size_t offset = 0; offset < soundIds.size(); ++offset)
     {
         const uint32_t candidateSoundId = soundIds[(pickSeed + offset) % soundIds.size()];
-        const std::optional<std::string> candidateVirtualPath = m_soundCatalog.buildVirtualPath(candidateSoundId);
+        const std::optional<std::string> candidateVirtualPath =
+            m_soundCatalog.buildVirtualPathAnyScope(candidateSoundId);
 
         if (!candidateVirtualPath || !m_pAssetFileSystem->exists(*candidateVirtualPath))
         {
@@ -1049,6 +1111,11 @@ void GameAudioSystem::stopAllPlayback()
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = 0.0f;
     m_backgroundMusicPaused = false;
+    m_battleMusicTrack = 0;
+    m_battleMusicInstanceId = 0;
+    m_battleMusicVolume = 0.0f;
+    m_battleMusicFadeVelocity = 0.0f;
+    m_mapMusicSuspended = false;
     evictUnusedMusicClips();
 }
 
@@ -1096,9 +1163,10 @@ std::optional<uint32_t> GameAudioSystem::resolveCharacterVoiceId(const Character
     return std::nullopt;
 }
 
-void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
+void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack, float repeatGapSeconds)
 {
     const int normalizedTrack = std::max(redbookTrack, 0);
+    m_musicRepeatGapSeconds = std::max(repeatGapSeconds, 0.0f);
 
     if (audioTraceEnabled())
     {
@@ -1107,6 +1175,31 @@ void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
                   << " activeTrack=" << m_activeMusicTrack
                   << " activeInstance=" << m_activeMusicInstanceId
                   << " paused=" << (m_backgroundMusicPaused ? 1 : 0) << '\n';
+    }
+
+    if (m_mapMusicSuspended)
+    {
+        // Under battle music: the paused map track is replaced, and the new one starts once the battle music ends.
+        if (m_activeMusicTrack == normalizedTrack)
+        {
+            m_pendingMusicTrack = 0;
+            return;
+        }
+
+        m_audioSystem.stopClip(m_activeMusicInstanceId);
+        m_activeMusicInstanceId = 0;
+        m_activeMusicTrack = 0;
+        m_activeMusicVolume = 0.0f;
+        m_musicFadeVelocity = 0.0f;
+        m_mapMusicSuspended = false;
+        m_pendingMusicTrack = normalizedTrack;
+        return;
+    }
+
+    if (m_battleMusicInstanceId != 0 && m_activeMusicInstanceId == 0)
+    {
+        m_pendingMusicTrack = normalizedTrack;
+        return;
     }
 
     if (normalizedTrack == 0)
@@ -1153,6 +1246,19 @@ void GameAudioSystem::stopBackgroundMusic()
     m_pendingMusicTrack = 0;
     m_backgroundMusicPaused = false;
 
+    if (m_battleMusicInstanceId != 0)
+    {
+        // the battle music fades out with nothing to resume after it
+        m_battleMusicFadeVelocity = -MusicVolume / m_battleMusicFadeSeconds;
+
+        if (m_mapMusicSuspended)
+        {
+            m_audioSystem.stopClip(m_activeMusicInstanceId);
+            m_activeMusicInstanceId = 0;
+            m_mapMusicSuspended = false;
+        }
+    }
+
     if (m_activeMusicInstanceId == 0)
     {
         m_activeMusicTrack = 0;
@@ -1175,6 +1281,7 @@ void GameAudioSystem::stopBackgroundMusicImmediate()
 
     m_pendingMusicTrack = 0;
     m_backgroundMusicPaused = false;
+    stopBattleMusicImmediate();
 
     if (m_activeMusicInstanceId != 0)
     {
@@ -1209,6 +1316,11 @@ void GameAudioSystem::pauseBackgroundMusic()
     {
         m_audioSystem.pauseClip(m_activeMusicInstanceId);
     }
+
+    if (m_battleMusicInstanceId != 0)
+    {
+        m_audioSystem.pauseClip(m_battleMusicInstanceId);
+    }
 }
 
 void GameAudioSystem::resumeBackgroundMusic()
@@ -1227,9 +1339,14 @@ void GameAudioSystem::resumeBackgroundMusic()
 
     m_backgroundMusicPaused = false;
 
-    if (m_activeMusicInstanceId != 0)
+    if (m_activeMusicInstanceId != 0 && !m_mapMusicSuspended)
     {
         m_audioSystem.resumeClip(m_activeMusicInstanceId);
+    }
+
+    if (m_battleMusicInstanceId != 0)
+    {
+        m_audioSystem.resumeClip(m_battleMusicInstanceId);
     }
 }
 
@@ -1284,7 +1401,8 @@ bool GameAudioSystem::startBackgroundMusicTrack(int redbookTrack)
     const std::string clipKey = "Music/" + std::to_string(redbookTrack) + ".mp3";
     Engine::AudioSystem::PlaybackOptions options = {};
     options.volume = 0.0f;
-    const uint64_t instanceId = m_audioSystem.playStream(std::make_shared<MusicStream>(pTrack), options);
+    const uint64_t instanceId =
+        m_audioSystem.playStream(std::make_shared<MusicStream>(pTrack, m_musicRepeatGapSeconds), options);
 
     if (instanceId == 0)
     {
@@ -1321,7 +1439,7 @@ void GameAudioSystem::evictUnusedMusicClips()
     {
         const int track = iterator->first;
 
-        if (track == m_activeMusicTrack || track == m_pendingMusicTrack)
+        if (track == m_activeMusicTrack || track == m_pendingMusicTrack || track == m_battleMusicTrack)
         {
             ++iterator;
             continue;
@@ -1329,5 +1447,134 @@ void GameAudioSystem::evictUnusedMusicClips()
 
         iterator = m_loadedMusicTracks.erase(iterator);
     }
+}
+
+void GameAudioSystem::setBattleMusic(int track, bool active, float fadeSeconds)
+{
+    m_battleMusicFadeSeconds = std::max(fadeSeconds, 0.05f);
+    const float fadeVelocity = MusicVolume / m_battleMusicFadeSeconds;
+
+    if (m_battleMusicInstanceId != 0)
+    {
+        if (active && track == m_battleMusicTrack)
+        {
+            // still near: keep playing, or fade back in from a fade-out
+            m_battleMusicFadeVelocity = m_battleMusicVolume < targetMusicVolume() ? fadeVelocity : 0.0f;
+        }
+        else if (m_battleMusicFadeVelocity >= 0.0f)
+        {
+            m_battleMusicFadeVelocity = -fadeVelocity;
+        }
+
+        return;
+    }
+
+    if (!active || track <= 0 || m_backgroundMusicPaused)
+    {
+        return;
+    }
+
+    const std::shared_ptr<const std::vector<uint8_t>> pTrack = loadBackgroundMusicTrack(track);
+
+    if (pTrack == nullptr)
+    {
+        return;
+    }
+
+    Engine::AudioSystem::PlaybackOptions options = {};
+    options.volume = targetMusicVolume();
+    const uint64_t instanceId = m_audioSystem.playStream(std::make_shared<MusicStream>(pTrack), options);
+
+    if (instanceId == 0)
+    {
+        return;
+    }
+
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-battle", "setBattleMusic");
+        std::cerr << " track=" << track << " mapTrack=" << m_activeMusicTrack << " instance=" << instanceId << '\n';
+    }
+
+    // MM9 stops the map's song at once, remembering where it was, and plays the battle song (cshell.dll 0x100a9f10).
+    // A track already fading out for another stops instead; the other starts after the battle music.
+    if (m_activeMusicInstanceId != 0 && m_musicFadeVelocity < 0.0f)
+    {
+        m_audioSystem.stopClip(m_activeMusicInstanceId);
+        m_activeMusicInstanceId = 0;
+        m_activeMusicTrack = 0;
+        m_activeMusicVolume = 0.0f;
+        m_musicFadeVelocity = 0.0f;
+    }
+    else if (m_activeMusicInstanceId != 0)
+    {
+        m_audioSystem.pauseClip(m_activeMusicInstanceId);
+        m_mapMusicSuspended = true;
+    }
+
+    m_battleMusicTrack = track;
+    m_battleMusicInstanceId = instanceId;
+    m_battleMusicVolume = options.volume;
+    m_battleMusicFadeVelocity = 0.0f;
+}
+
+bool GameAudioSystem::isBattleMusicPlaying() const
+{
+    return m_battleMusicInstanceId != 0;
+}
+
+void GameAudioSystem::updateBattleMusic(float deltaSeconds)
+{
+    if (m_battleMusicInstanceId == 0 || m_backgroundMusicPaused)
+    {
+        return;
+    }
+
+    if (m_battleMusicFadeVelocity != 0.0f)
+    {
+        m_battleMusicVolume =
+            std::clamp(m_battleMusicVolume + m_battleMusicFadeVelocity * deltaSeconds, 0.0f, targetMusicVolume());
+        m_audioSystem.setClipVolume(m_battleMusicInstanceId, m_battleMusicVolume);
+
+        if (m_battleMusicFadeVelocity > 0.0f && m_battleMusicVolume >= targetMusicVolume())
+        {
+            m_battleMusicFadeVelocity = 0.0f;
+        }
+    }
+
+    if (m_battleMusicVolume > 0.0f && m_audioSystem.isClipPlaying(m_battleMusicInstanceId))
+    {
+        return;
+    }
+
+    // Faded out: the map's track resumes where it stopped and fades in as fast (cshell.dll 0x100a9cb0, 0x100aa0e0).
+    if (m_mapMusicSuspended && m_activeMusicInstanceId != 0)
+    {
+        m_activeMusicVolume = 0.0f;
+        m_audioSystem.setClipVolume(m_activeMusicInstanceId, 0.0f);
+        m_musicFadeVelocity = MusicVolume / m_battleMusicFadeSeconds;
+    }
+
+    stopBattleMusicImmediate();
+}
+
+void GameAudioSystem::stopBattleMusicImmediate()
+{
+    if (m_battleMusicInstanceId != 0)
+    {
+        m_audioSystem.stopClip(m_battleMusicInstanceId);
+    }
+
+    m_battleMusicTrack = 0;
+    m_battleMusicInstanceId = 0;
+    m_battleMusicVolume = 0.0f;
+    m_battleMusicFadeVelocity = 0.0f;
+
+    if (m_mapMusicSuspended && m_activeMusicInstanceId != 0 && !m_backgroundMusicPaused)
+    {
+        m_audioSystem.resumeClip(m_activeMusicInstanceId);
+    }
+
+    m_mapMusicSuspended = false;
 }
 }

@@ -71,6 +71,35 @@ struct ScenarioMovementResult
     ScenarioPose finalPose = {};
 };
 
+// walk_to: the party walks to a point as a player would, with the movement keys only. The route comes from the
+// monsters' indoor path planner (straight on outdoor maps); the party turns toward each waypoint and holds Forward,
+// jumps when stuck and plans again from where it stands.
+struct ScenarioWalkRequest
+{
+    std::vector<ScenarioPose> points;           // the hand-placed waypoints, the last one the target
+    float arriveRadius = 64.0f;
+    float timeoutSeconds = 180.0f;
+    float clearHostilesRadius = 0.0f;           // kills the party's enemies this near every half second (0: none)
+    std::string expectMap;                      // arriving on this map ends the walk (an exit on the way)
+    bool plan = true;
+    size_t nodeLimit = 400000;
+    bool closeDialogs = false;                  // a dialogue an event opens on the way is closed, else it ends the walk
+};
+
+struct ScenarioWalkResult
+{
+    bool arrived = false;
+    bool dialogOpened = false;
+    float seconds = 0.0f;
+    size_t replans = 0;
+    size_t jumps = 0;
+    size_t clicks = 0;
+    size_t hostilesKilled = 0;
+    size_t closedDialogs = 0;
+    std::vector<std::string> trail;             // positions and events along the way, the run's evidence
+    ScenarioPose finalPose = {};
+};
+
 struct ScenarioCombatLootRequest
 {
     std::optional<size_t> actorIndex;
@@ -183,6 +212,7 @@ public:
     bool initialize(std::string &failure);
     // Keeps MAW's Beyond Madness death ledger in the scenario's save folder, not the game's.
     void setMadnessLedgerFile(const std::filesystem::path &file);
+    void setPlaythroughStatisticsDirectory(const std::filesystem::path &directory);
     bool startNewGame(
         uint32_t continentId,
         const std::string &startMapFileName,
@@ -218,6 +248,16 @@ public:
         const ScenarioMovementCommand &command,
         ScenarioMovementResult &result,
         std::string &failure);
+    bool walkTo(const ScenarioWalkRequest &request, ScenarioWalkResult &result, std::string &failure);
+    // Kills the party's living enemies within `radius` of it through the ordinary damage path (deaths, corpses and
+    // loot as in combat); `killed` counts them.
+    bool killHostilesNear(float radius, size_t &killed, std::string &failure);
+    // Lets the world run until nobody in the party can act (at most waitSeconds; knockOut: every member falls at
+    // once), then the game's defeat: the respawn at the world's death destination (its movie skipped); `destination`
+    // is the map it woke on.
+    bool defeatParty(float waitSeconds, bool knockOut, std::string &destination, std::string &failure);
+    // The Immortal cheat for this run only: settings.ini is not written.
+    bool setPartyImmortal(bool immortal, std::string &failure);
     bool waterStatus(ScenarioWaterStatus &status, std::string &failure);
     bool actorInspectState(
         size_t actorIndex,
@@ -235,6 +275,8 @@ public:
         bool &usedActorlessPick,
         std::string &failure);
     bool executeMapEvent(uint16_t eventId, std::string &failure);
+    // A scenario's own Lua (lua_event) run as an event of the current map, after the map's event support.
+    bool runLuaEvent(const std::string &source, std::string &failure);
     bool selectDialogAction(size_t actionIndex, std::string &failure);
     bool selectDialogActionById(uint32_t actionId, std::string &failure);
     bool answerPendingInputPrompt(
@@ -249,7 +291,10 @@ public:
     // The basebar popup open ("potions", "scrolls" or "none") and its member.
     std::pair<std::string, size_t> quickItemPopup() const;
     std::string activeDialogSummary() const;
-    bool advanceRuntime(float seconds, std::string &failure);
+    // presentDialogs: a dialogue that a world event queued during the step is presented at once, as the game's frame
+    // presents it (off by default: older scenarios open queued dialogues themselves).
+    bool advanceRuntime(float seconds, std::string &failure, bool presentDialogs = false,
+        bool followMapMove = false);
     bool advanceGameMinutes(float minutes, std::string &failure);
     // The turn engine of the running game (turn_based_turns, assert turn_based).
     const TurnBasedCombatRuntime &turnBasedCombat() const;
@@ -393,6 +438,11 @@ private:
     GameplayWorldPickRequest buildCenterPickRequest();
     ScenarioInteractionResult pickCenterInteractionTarget(bool ignoreActors, std::string &failure);
     bool activateInteractionResult(ScenarioInteractionResult &result, std::string &failure);
+    void presentGrantedEventItems();
+    // One gameplay frame with this input, as simulateMovementSegment and walkTo run it.
+    bool advanceMovementFrame(const GameplayInputFrame &input, float deltaSeconds, bool actorAi, std::string &failure);
+    std::vector<ScenarioPose> planWalkRoute(const ScenarioPose &from, const ScenarioPose &to, size_t nodeLimit,
+        std::string &status);
 
     std::filesystem::path m_basePath;
     Engine::ApplicationConfig m_config;

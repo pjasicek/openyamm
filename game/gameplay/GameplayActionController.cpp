@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayActionController.h"
+#include "engine/Localization.h"
 
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/CorpseLootRuntime.h"
@@ -10,6 +11,8 @@
 #include "game/gameplay/MeleeContactEffects.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/mm9/Mm9HirelingCombat.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
@@ -234,11 +237,14 @@ std::optional<MeleeContactEffectPlacement> placeMeleeBlow(
         meleeWeaponClassForSkill(canonicalSkillName(pWeapon != nullptr ? pWeapon->skillGroup : "Unarmed"));
     input.strength = strength;
     input.missed = missed;
-    input.elements = meleeWeaponElementsFor(ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+    ElementalDamageBonuses weaponElements = ItemEnchantRuntime::characterAttackElementalDamageRange(
         attacker,
         CharacterAttackMode::Melee,
         config.pItemTable,
-        config.pSpecialItemEnchantTable));
+        config.pSpecialItemEnchantTable).maximum;
+    weaponElements += ItemEnchantRuntime::characterWeaponDamageElements(
+        attacker, CharacterAttackMode::Melee, config.pItemTable);
+    input.elements = meleeWeaponElementsFor(weaponElements);
     input.contact = {contact.point.x, contact.point.y, contact.point.z};
     input.viewer = {config.rangedSource.x, config.rangedSource.y, config.rangedSource.z};
 
@@ -765,13 +771,24 @@ int resolveMeleeAppliedDamage(
               config.pSpecialItemEnchantTable,
               pStats->kindFlags)
         : 1;
-    ElementalDamageBonuses additionalDamage = attack.rulesWeaponElements
-        ? ElementalDamageBonuses{}
-        : ItemEnchantRuntime::characterAttackElementalDamageBonuses(
-              attacker,
-              CharacterAttackMode::Melee,
-              config.pItemTable,
-              config.pSpecialItemEnchantTable);
+    // The weapons' elemental enchantments roll for each blow and join it; a weapon's poison share is already in it.
+    // Each part is resisted by its own element. A ruleset that builds its blows' elements itself supplies them.
+    ElementalDamageBonuses additionalDamage = {};
+
+    if (!attack.rulesWeaponElements && gameRulesFor(config.pParty).combat.addsWeaponElementalDamage())
+    {
+        const ElementalDamageBonuses enchantDamage = ItemEnchantRuntime::rollCharacterAttackElementalDamage(
+            attacker,
+            CharacterAttackMode::Melee,
+            config.pItemTable,
+            config.pSpecialItemEnchantTable,
+            rng);
+        appliedDamage += enchantDamage.total();
+        additionalDamage = enchantDamage;
+        additionalDamage += ItemEnchantRuntime::characterWeaponDamageElements(
+            attacker, CharacterAttackMode::Melee, config.pItemTable);
+    }
+
     additionalDamage.fire *= multiplier;
     additionalDamage.air *= multiplier;
     additionalDamage.water *= multiplier;
@@ -861,6 +878,205 @@ bool cannotCastAttackSpell(
         PartySpellSystem::manaCost(*config.pParty, attacker, *config.pSpellTable, spellId);
     return (manaCost && !config.pParty->canSpendSpellPoints(attackerMemberIndex, int(*manaCost)))
         || config.pParty->rules().spells.castRefusal(*config.pParty, attackerMemberIndex, spellId).has_value();
+}
+// An MM9 hireling's turn (devdocs/mm9/MM9_HIRELINGS.md 9.2): it acts from the party's position at the creature under
+// the crosshair. A blow or shot rolls the row's dice with the monster attack rules (Mm9HirelingCombat; its numbers are
+// a MONSTERS row) and lands through the party's own melee and missile paths, so monster resistances, kills and
+// experience stay with them. A caster's spell goes through PartySpellSystem::castSpell as a wand's does, at the row's
+// skill and mastery and without mana, so each spell keeps its one implementation. Then the row's recovery.
+GameplayActionController::PartyAttackExecutionResult executeHirelingAttack(
+    const GameplayActionController::PartyAttackConfig &config,
+    size_t combatantIndex)
+{
+    GameplayActionController::PartyAttackExecutionResult result = {};
+    Party &party = *config.pParty;
+    const Mm9PartyHireling *pPartyHireling = party.hirelingCombatant(combatantIndex);
+    const Mm9Hireling *pRow = pPartyHireling != nullptr && config.pMm9HirelingTable != nullptr
+        ? config.pMm9HirelingTable->find(pPartyHireling->rudeId)
+        : nullptr;
+    Character *pHireling = party.combatant(combatantIndex);
+
+    if (pRow == nullptr || pHireling == nullptr || !GameMechanics::canTakeGameplayAction(*pHireling))
+    {
+        return result;
+    }
+
+    result.attempted = true;
+    result.actingMemberIndex = combatantIndex;
+
+    if (party.hasPartyBuff(PartyBuffId::Invisibility))
+    {
+        party.clearPartyBuff(PartyBuffId::Invisibility);
+    }
+
+    const std::optional<GameplayActionController::PartyAttackActorFacts> target =
+        resolveUsableActorTarget(config, config.directTargetActorIndex);
+    result.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
+    const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
+    const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
+    std::mt19937 rng = buildPartyAttackRng(config, combatantIndex, result.targetActorIndex);
+    const Mm9HirelingAction action = chooseMm9HirelingAction(
+        *pRow, target.has_value(), targetInMeleeRange, std::uniform_int_distribution<int>(1, 100)(rng));
+    const bool turnBased = config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active();
+    CharacterAttackResult attack = {};
+    attack.recoverySeconds = Party::hirelingRecoverySeconds(*pHireling, pRow->recoverySeconds);
+    bool actionPerformed = false;
+    bool attacked = false;
+    bool killed = false;
+    std::optional<int> appliedMeleeDamage;
+    GameplayActionController::WorldPoint rangedTarget = target ? actorRangedTargetPoint(*target)
+        : config.hasRayRangedTarget ? config.rayRangedTarget
+                                    : config.defaultRangedTarget;
+
+    if (action.kind == Mm9HirelingActionKind::Spell && config.pSpellTable != nullptr && config.pWorldRuntime != nullptr)
+    {
+        const SpellEntry *pSpellEntry = config.pSpellTable->findByName(action.pSpell->name);
+
+        if (pSpellEntry != nullptr)
+        {
+            PartySpellCastRequest spellRequest = {};
+            spellRequest.casterMemberIndex = combatantIndex;
+            spellRequest.spellId = uint32_t(pSpellEntry->id);
+            spellRequest.quickCast = true;
+            spellRequest.targetActorIndex = result.targetActorIndex;
+            spellRequest.hasTargetPoint = true;
+            spellRequest.targetX = rangedTarget.x;
+            spellRequest.targetY = rangedTarget.y;
+            spellRequest.targetZ = rangedTarget.z;
+            spellRequest.skillLevelOverride = std::max<uint32_t>(1, action.pSpell->skillLevel);
+            spellRequest.skillMasteryOverride = action.pSpell->mastery;
+            spellRequest.bypassRequiredMastery = true;
+            spellRequest.turnBasedPendingAction = turnBased;
+            spellRequest.spendMana = false;
+            spellRequest.applyRecovery = false;
+            const PartySpellCastResult spellResult =
+                PartySpellSystem::castSpell(party, *config.pWorldRuntime, *config.pSpellTable, spellRequest);
+            attacked = spellResult.status == PartySpellCastStatus::Succeeded;
+            actionPerformed = attacked;
+            attack.mode = CharacterAttackMode::Wand;
+            attack.canAttack = true;
+            attack.spellId = pSpellEntry->id;
+
+            if (attacked)
+            {
+                config.pWorldRuntime->applyPendingSpellCastWorldEffects(spellResult);
+            }
+        }
+    }
+    else if (action.kind == Mm9HirelingActionKind::Melee && config.pWorldRuntime != nullptr)
+    {
+        attack.mode = CharacterAttackMode::Melee;
+        attack.canAttack = true;
+        attack.damageType = action.pAttack->damageType;
+        attack.targetArmorClass = target->effectiveArmorClass;
+        attack.targetDistance = targetDistance;
+        attack.hit = mm9HirelingAttackHits(*pHireling, true, target->effectiveArmorClass, rng);
+        attack.damage = attack.hit ? rollMm9HirelingAttackDamage(*action.pAttack, *pHireling, true, rng) : 0;
+        actionPerformed = true;
+
+        if (attack.hit)
+        {
+            int elementalDamage = 0;
+            const int appliedDamage =
+                resolveMeleeAppliedDamage(config, *pHireling, *target, attack, rng, elementalDamage);
+            appliedMeleeDamage = appliedDamage;
+            const int beforeHp = target->currentHp;
+            attacked = GameplayCombatController::partyHitLands(appliedDamage, false)
+                && config.pWorldRuntime->applyPartyAttackMeleeDamage(
+                    target->actorIndex,
+                    appliedDamage,
+                    toRuntimeWorldPoint(config.partyPosition),
+                    attack.shieldTier,
+                    attack.shieldModifiers);
+
+            if (attacked)
+            {
+                const std::optional<GameplayPartyAttackActorFacts> afterTarget =
+                    config.pWorldRuntime->partyAttackActorFacts(target->actorIndex, false);
+                killed = beforeHp > 0 && afterTarget && afterTarget->currentHp <= 0;
+
+                if (const std::optional<MeleeContact> contact = resolveMeleeContact(config, *target))
+                {
+                    const MeleeHitStrength strength = resolveMeleeHitStrength(*target, attack, appliedDamage, killed);
+                    queueMeleeContactParticles(config, *target, *contact, strength);
+                    presentMeleeHitFeedback(config, *target, *contact, strength);
+                }
+
+                config.pWorldRuntime->refreshWorldHover(config.worldInspectionRefreshRequest);
+            }
+        }
+    }
+    else if (action.kind == Mm9HirelingActionKind::Ranged && config.pWorldRuntime != nullptr)
+    {
+        attack.mode = CharacterAttackMode::Bow;
+        attack.canAttack = true;
+        attack.damageType = action.pAttack->damageType;
+        attack.damage = rollMm9HirelingAttackDamage(*action.pAttack, *pHireling, false, rng);
+        // The missile's hit roll on impact takes the hireling's level as its attack bonus, as a monster's level
+        // drives its own hit roll.
+        attack.attackBonus = int(pHireling->level) + pHireling->magicalBonuses.rangedAttack;
+        const GameplayPartyAttackProjectileRequest projectileRequest = {
+            .sourcePartyMemberIndex = combatantIndex,
+            .objectId = config.arrowProjectileObjectId,
+            .damage = attack.damage,
+            .attackBonus = attack.attackBonus,
+            .useActorHitChance = true,
+            .damageType = attack.damageType,
+            .source = toRuntimeWorldPoint(config.rangedSource),
+            .target = toRuntimeWorldPoint(rangedTarget),
+            .turnBasedPendingAction = turnBased,
+            .targetActorIndex = result.targetActorIndex,
+        };
+        attacked = config.pWorldRuntime->spawnPartyAttackProjectile(projectileRequest);
+        actionPerformed = attacked;
+    }
+
+    if (actionPerformed)
+    {
+        playPartyAttackSound(config, *pHireling, attack);
+
+        if (turnBased)
+        {
+            config.pRuntime->turnBasedCombatRuntime().storeMemberTurnRecovery(combatantIndex, attack.recoverySeconds);
+        }
+        else
+        {
+            party.applyRecoveryToMember(combatantIndex, attack.recoverySeconds);
+            party.switchToNextReadyMember();
+        }
+    }
+    else if (!turnBased && action.kind == Mm9HirelingActionKind::None)
+    {
+        // Nothing in reach: MM9 passes the hireling over (9.1).
+        party.switchToNextReadyMember();
+    }
+
+    GameplayCombatController::handlePartyAttackPresentation(
+        config.pRuntime,
+        GameplayCombatController::PartyAttackPresentation{
+            .memberIndex = combatantIndex,
+            .attackerName = pHireling->name,
+            .targetName = target ? (!config.directTargetName.empty() ? config.directTargetName : target->displayName)
+                                 : std::string(),
+            .attack = attack,
+            .appliedDamage = appliedMeleeDamage,
+            .actionPerformed = actionPerformed && attack.mode != CharacterAttackMode::Wand,
+            .attacked = attacked,
+            .hadMeleeTarget = targetInMeleeRange,
+            .killed = killed,
+            .targetStrongEnemy = target.has_value() && target->maxHp >= 100,
+        });
+
+    if (config.pWorldRuntime != nullptr)
+    {
+        config.pWorldRuntime->recordPartyAttackWorldResult(result.targetActorIndex, attacked, actionPerformed);
+    }
+
+    result.actionPerformed = actionPerformed;
+    result.attacked = attacked;
+    result.killed = killed;
+    result.attack = attack;
+    return result;
 }
 } // namespace
 
@@ -997,6 +1213,13 @@ GameplayActionController::AttackActionDecision GameplayActionController::updateA
     return {};
 }
 
+bool GameplayActionController::crosshairDestructibleOverridesFallback(
+    bool crosshairOnStandingDestructible,
+    float fallbackDistance)
+{
+    return crosshairOnStandingDestructible && fallbackDistance > CharacterMeleeAttackDistance;
+}
+
 GameplayActionController::PartyAttackExecutionResult GameplayActionController::executePartyAttack(
     const PartyAttackConfig &config)
 {
@@ -1008,11 +1231,33 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     }
 
     Party &party = *config.pParty;
+
+    // An MM9 hireling's turn in the rotation (Party::activeCombatantIndex).
+    {
+        const Character *pActing = party.combatant(party.activeCombatantIndex());
+
+        if (party.activeHireling() != nullptr
+            && (pActing == nullptr || !GameMechanics::canTakeGameplayAction(*pActing)))
+        {
+            party.switchToNextReadyMember();
+        }
+
+        if (party.activeHireling() != nullptr)
+        {
+            return executeHirelingAttack(config, party.activeCombatantIndex());
+        }
+    }
+
     Character *pAttacker = party.activeMember();
 
     if ((pAttacker == nullptr || !GameMechanics::canTakeGameplayAction(*pAttacker))
         && party.switchToNextReadyMember())
     {
+        if (party.activeHireling() != nullptr)
+        {
+            return executeHirelingAttack(config, party.activeCombatantIndex());
+        }
+
         pAttacker = party.activeMember();
     }
 
@@ -1078,31 +1323,43 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         {
             if (config.pRuntime != nullptr)
             {
-                config.pRuntime->setStatusBarEvent("Nobody needs " + pSpellEntry->name);
+                config.pRuntime->setStatusBarEvent(
+                    Engine::tr("Nobody needs {spell}", {{"spell", Engine::localize(pSpellEntry->name, "spell")}}));
             }
 
             return result;
         }
     }
 
-    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, config.directTargetActorIndex);
-
-    if (!target)
-    {
-        target = chooseFallbackRangedTarget(config);
-    }
-
-    result.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
-
-    const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
-    const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
-    // A world target a blow damages: a destructible BModel or face, or a destructible decoration (an entity).
+    // A world target a blow or missile damages: a standing destructible BModel or face, or a destructible decoration
+    // (an entity).
     const bool bModelTargetHit = config.pWorldRuntime != nullptr
         && config.directTargetBModelIndex.has_value()
         && config.pWorldRuntime->isPartyAttackMeleeBModelTarget(*config.directTargetBModelIndex);
     const bool entityTargetHit = config.pWorldRuntime != nullptr
         && config.directTargetEntityIndex.has_value()
         && config.pWorldRuntime->isPartyAttackMeleeEntityTarget(*config.directTargetEntityIndex);
+    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, config.directTargetActorIndex);
+
+    if (!target)
+    {
+        target = chooseFallbackRangedTarget(config);
+
+        // A standing destructible under the crosshair wins over a fallback hostile out of blow reach: the shot flies
+        // at the crosshair (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming").
+        if (target
+            && crosshairDestructibleOverridesFallback(
+                bModelTargetHit || entityTargetHit,
+                actorDistanceFromParty(*target, config.partyPosition)))
+        {
+            target.reset();
+        }
+    }
+
+    result.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
+
+    const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
+    const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
     const bool worldTargetInMeleeRange = (bModelTargetHit || entityTargetHit)
         && config.directWorldTargetDistance <= CharacterMeleeAttackDistance;
     const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
@@ -1534,7 +1791,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             party.applyDamageToMember(
                 actingMemberIndex,
                 std::max(1, pAttacker->maxHealth / 10),
-                "The weapon backfires");
+                Engine::tr("The weapon backfires"));
             equippedStateChanged = true;
         }
 
@@ -1609,7 +1866,7 @@ bool GameplayActionController::tryUnstuckParty(
 
     if (!lift)
     {
-        statusText = "You can't do that yet";
+        statusText = Engine::tr("You can't do that yet");
         return false;
     }
 
@@ -1652,10 +1909,15 @@ GameplayActionController::GatherLootResult GameplayActionController::gatherLoot(
         {
             return items.gathersItem(item);
         });
-    const std::string corpseText = std::to_string(corpses) + " monsters";
-    const std::string itemText = std::to_string(gathered) + " crafting items";
-    result.statusText =
-        "Teleported " + (gathered == 0 ? corpseText : corpses == 0 ? itemText : corpseText + " and " + itemText);
+    // English says "monsters" and "crafting items" for every count; a language gives its own forms.
+    const std::string corpseText =
+        Engine::trn("{count} monsters", "{count} monsters", uint64_t(corpses), {{"count", uint64_t(corpses)}});
+    const std::string itemText = Engine::trn(
+        "{count} crafting items", "{count} crafting items", uint64_t(gathered), {{"count", uint64_t(gathered)}});
+    result.statusText = gathered == 0 ? Engine::tr("Teleported {monsters}", {{"monsters", corpseText}})
+        : corpses == 0               ? Engine::tr("Teleported {items}", {{"items", itemText}})
+                                     : Engine::tr("Teleported {monsters} and {items}",
+                                         {{"monsters", corpseText}, {"items", itemText}});
     return result;
 }
 } // namespace OpenYAMM::Game

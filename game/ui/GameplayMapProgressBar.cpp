@@ -1,4 +1,5 @@
 #include "game/ui/GameplayMapProgressBar.h"
+#include "engine/Localization.h"
 
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -161,7 +162,9 @@ std::string lootAllHint(GameplayScreenRuntime &context, const RulesetMapProgress
 
     const InputBinding &binding =
         context.settingsSnapshot().keyboard.bindings[keyboardActionIndex(KeyboardAction::GatherLoot)];
-    return binding.kind == InputBindingKind::None ? std::string() : inputBindingDisplayName(binding) + ": loot all";
+    return binding.kind == InputBindingKind::None
+        ? std::string()
+        : Engine::tr("{key}: loot all", {{"key", inputBindingDisplayName(binding)}});
 }
 
 std::optional<Layout> resolveLayout(GameplayScreenRuntime &context, int width, int height,
@@ -191,7 +194,7 @@ std::optional<Layout> resolveLayout(GameplayScreenRuntime &context, int width, i
     // The Arena keeps its level on a narrower tab ("Arena L5 \xB7 60 %"), as the study's short form.
     if (progress.kind == RulesetMapProgress::Kind::Arena)
     {
-        texts.push_back("Arena L" + std::to_string(progress.arenaLevel) + " \xB7 "
+        texts.push_back(Engine::tr("Arena L{level}", {{"level", int64_t(progress.arenaLevel)}}) + " \xB7 "
             + GameplayMapProgressBar::percentText(progress.percent));
     }
 
@@ -201,9 +204,9 @@ std::optional<Layout> resolveLayout(GameplayScreenRuntime &context, int width, i
 
     if (progress.kind == RulesetMapProgress::Kind::DimensionRun)
     {
-        const std::string power = "Power " + std::to_string(progress.dimensionPower);
+        const std::string power = Engine::tr("Power {power}", {{"power", int64_t(progress.dimensionPower)}});
         layout.left = fitTab(context, layout, layout.channel.x - TabOverhang * u, false,
-            {"Dimension \xB7 " + power, power}, DimensionText);
+            {Engine::tr("Dimension") + " \xB7 " + power, power}, DimensionText);
     }
 
     return layout;
@@ -404,7 +407,8 @@ std::optional<GameplayMapProgressBar::Popup> GameplayMapProgressBar::popupAt(
 
     // It rises above the bar, its right edge at the channel's.
     Popup popup;
-    popup.title = progress->kind == RulesetMapProgress::Kind::Arena ? "Endless Arena" : "Map progress";
+    popup.title = progress->kind == RulesetMapProgress::Kind::Arena ? Engine::tr("Endless Arena")
+                                                                     : Engine::tr("Map progress");
     popup.body = popupBody(*progress);
     popup.x = layout->channel.x;
     popup.y = layout->channel.y - TabTop * u;

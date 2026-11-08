@@ -217,6 +217,7 @@ uint64_t AudioSystem::playClip(const std::string &virtualPath, const PlaybackOpt
     instance.volume = std::clamp(options.volume * GlobalSoundGain, 0.0f, 2.0f);
     instance.positional = options.positional;
     instance.attenuate = options.attenuate;
+    instance.pan = options.pan;
     instance.loop = options.loop;
     instance.x = options.x;
     instance.y = options.y;
@@ -241,6 +242,7 @@ uint64_t AudioSystem::playStream(std::shared_ptr<AudioStreamSource> pSource, con
     instance.volume = std::clamp(options.volume * GlobalSoundGain, 0.0f, 2.0f);
     instance.positional = options.positional;
     instance.attenuate = options.attenuate;
+    instance.pan = options.pan;
     instance.x = options.x;
     instance.y = options.y;
     instance.z = options.z;
@@ -601,7 +603,7 @@ void AudioSystem::calculateStereoGains(
         const float normalizedDistance = distance / 768.0f;
         attenuation = 1.0f / (1.0f + normalizedDistance * normalizedDistance);
     }
-    const float pan = positionalAudioPan(deltaX, deltaY, listenerState.yawRadians);
+    const float pan = instance.pan ? positionalAudioPan(deltaX, deltaY, listenerState.yawRadians) : 0.0f;
     leftGain = instance.volume * attenuation * (pan <= 0.0f ? 1.0f : (1.0f - pan));
     rightGain = instance.volume * attenuation * (pan >= 0.0f ? 1.0f : (1.0f + pan));
 }

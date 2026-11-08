@@ -596,7 +596,8 @@ TEST_CASE("item generator unique rare item marks party and does not repeat")
             gameData.itemTable,
             gameData.standardItemEnchantTable,
             gameData.specialItemEnchantTable,
-            OpenYAMM::Game::ItemGenerationRequest{6, OpenYAMM::Game::ItemGenerationMode::ChestLoot, true},
+            // Ring of Planes is MM8's: artifacts roll only in their own world (World:<id>).
+            OpenYAMM::Game::ItemGenerationRequest{6, OpenYAMM::Game::ItemGenerationMode::ChestLoot, true, false, "mm8"},
             &party,
             rng,
             [](const OpenYAMM::Game::ItemDefinition &entry)
@@ -1158,15 +1159,16 @@ TEST_CASE("weapon elemental damage keeps its resistance type")
     character.equipment.mainHand = 1;
     character.equipmentRuntime.mainHand.specialEnchantId = *flameEnchantId;
 
-    const OpenYAMM::Game::ElementalDamageBonuses damage =
-        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+    const OpenYAMM::Game::ElementalDamageRange range =
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
             character,
             OpenYAMM::Game::CharacterAttackMode::Melee,
             &gameData.itemTable,
             &gameData.specialItemEnchantTable);
 
-    CHECK_EQ(damage.fire, 12);
-    CHECK_EQ(damage.total(), 12);
+    CHECK_EQ(range.minimum.fire, 2);
+    CHECK_EQ(range.maximum.fire, 12);
+    CHECK_EQ(range.maximum.total(), 12);
 }
 
 TEST_CASE("Hades adds poison damage without turning the whole hit into body damage")
@@ -1176,11 +1178,11 @@ TEST_CASE("Hades adds poison damage without turning the whole hit into body dama
     character.equipment.mainHand = 2035;
 
     const OpenYAMM::Game::ElementalDamageBonuses damage =
-        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
             character,
             OpenYAMM::Game::CharacterAttackMode::Melee,
             &gameData.itemTable,
-            &gameData.specialItemEnchantTable);
+            &gameData.specialItemEnchantTable).maximum;
     CHECK_EQ(damage.body, 20);
     CHECK_EQ(damage.total(), 20);
 
@@ -1248,7 +1250,8 @@ TEST_CASE("merged MM7 artifacts and relics apply their MMerge passive effects")
     {
         OpenYAMM::Game::Character character = {};
         applyMergedRareItemEffects(gameData, 1310, character);
-        CHECK_EQ(character.weaponEnchantmentDamageBonus, 15);
+        CHECK_EQ(character.meleeWeaponDamageBonus, 15);
+        CHECK_EQ(character.rangedWeaponDamageBonus, 0);
     }
 
     SUBCASE("Ethric's Staff drains living wielders but not liches")
@@ -1307,9 +1310,10 @@ TEST_CASE("merged MM6 artifacts and relics apply their MMerge passive effects")
         applyMergedRareItemEffects(gameData, 2035, *pCharacter);
         CHECK_EQ(pCharacter->magicalBonuses.luck, 20);
         CHECK_EQ(pCharacter->itemSkillBonuses["DisarmTraps"], 10);
-        CHECK_EQ(pCharacter->weaponEnchantmentDamageBonus, 20);
+        // The +20 is a separate body component rolled with each blow (rareItemElementalDamageBonuses), not a flat
+        // bonus; the sword's own hit stays physical.
+        CHECK_EQ(pCharacter->meleeWeaponDamageBonus, 0);
         CHECK_EQ(pCharacter->healthRegenPerSecond, doctest::Approx(-1.0f));
-        // The +20 is a separate body component (rareItemElementalDamageBonuses); the sword's own hit stays physical.
         CHECK_FALSE(pCharacter->equippedItemEffectFlags.contains("PoisonWeaponDamage"));
 
         pCharacter->health = 20;

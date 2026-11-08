@@ -322,7 +322,8 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
     if (encoded.find('\n') == std::string::npos && !secondLineFits)
     {
         const float width = measureTextWidth(font, encoded, scale);
-        const float fit = width > 0 ? std::min(1.0f, std::max(0.85f, rect.width / width)) : 1.0f;
+        // A longer language's label is set down to 60 % of its size before it is cut.
+        const float fit = width > 0 ? std::min(1.0f, std::max(0.6f, rect.width / width)) : 1.0f;
         if (fit < 1.0f)
         {
             // A fractional reduction can round back to the same raster size and wrongly trigger an ellipsis.

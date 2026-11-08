@@ -288,6 +288,36 @@ TEST_CASE("rotating mover: a body touches a polygon by its capsule and is moved 
     CHECK(up.z > 79.0f);
 }
 
+TEST_CASE("mover bodies: a floor rising under a body carries it, a ceiling or a leaf coming at it stops")
+{
+    const auto reversed = [](const std::vector<bx::Vec3> &polygon)
+    {
+        return std::vector<bx::Vec3>(polygon.rbegin(), polygon.rend());
+    };
+    // Wound counter-clockwise from above: the normal points up.
+    const auto square = [](float z)
+    {
+        return std::vector<bx::Vec3>{{-100.0f, -100.0f, z}, {100.0f, -100.0f, z}, {100.0f, 100.0f, z},
+            {-100.0f, 100.0f, z}};
+    };
+    const IndoorMoverBody standing = {0.0f, 0.0f, 0.0f, 37.0f, 160.0f};
+    // A pressure plate under the feet rising again: it approaches the capsule but lay beneath the feet.
+    CHECK(indoorMoverFaceApproachesBody(standing, square(0.0f), square(2.0f)));
+    CHECK_FALSE(indoorMoverFaceBlocksBody(standing, square(0.0f), square(2.0f)));
+    CHECK_FALSE(indoorMoverFaceBlocksBody(standing, square(-1.5f), square(0.5f)));
+    // A floor already above the feet (the body beside a lift that rose past them) stops.
+    CHECK(indoorMoverFaceBlocksBody(standing, square(10.0f), square(12.0f)));
+    // A crusher's underside (facing down) coming down on the head stops; the body is behind its top face.
+    CHECK(indoorMoverFaceBlocksBody(standing, reversed(square(161.0f)), reversed(square(159.0f))));
+    CHECK_FALSE(indoorMoverFaceBlocksBody(standing, square(161.0f), square(159.0f)));
+    // A leaf facing the body (wallPolygon faces -y) closing on it stops; one moving away does not.
+    const IndoorMoverBody beside = {0.0f, -30.0f, 0.0f, 37.0f, 160.0f};
+    CHECK(indoorMoverFaceBlocksBody(beside, wallPolygon(20.0f), wallPolygon(0.0f)));
+    CHECK_FALSE(indoorMoverFaceBlocksBody(beside, wallPolygon(0.0f), wallPolygon(20.0f)));
+    // The body behind the leaf (inside the solid, the trailing edge of a grate sliding away) does not stop it.
+    CHECK_FALSE(indoorMoverFaceBlocksBody(beside, reversed(wallPolygon(20.0f)), reversed(wallPolygon(0.0f))));
+}
+
 TEST_CASE("rotating mover: its faces sample the stored pose's lightmap in any pose")
 {
     IndoorBakedLighting lighting;
@@ -360,6 +390,116 @@ TEST_CASE("rotating mover: the scene loader refuses a mover that is not rigid or
 
     map.faces[0].isPortal = true;
     CHECK_FALSE(buildIndoorMoverDefinitions({sceneDoor}, map, movers, error));
+}
+
+TEST_CASE("spinning mover: turns about its pivot, then rides its door's linear travel")
+{
+    // A linear door 256 down (closed at move_length: the stored pose is the BLV's vertices) with a spin about +y
+    // through (50, 0, 100), the leaf's centre in the stored pose.
+    MapDeltaDoor door = leafDoor();
+    door.directionZ = -65536;
+    door.moveLength = 256;
+    door.zOffsets = {256, 256, 456, 456};      // the offsets: the pose at distance 0, 256 above the stored one
+    IndoorMoverDefinition mover;
+    mover.doorId = 7;
+    IndoorMoverSpin spin;
+    spin.pivot = {50.0f, 0.0f, 100.0f};
+    spin.axis = {0.0f, 1.0f, 0.0f};
+    mover.spin = spin;
+    std::vector<IndoorVertex> vertices = leafVertices();
+
+    // no turn: the linear formula's pose
+    applyIndoorMechanismDoorToVertices(door, &mover, 256.0f, 1, vertices, 0.0f);
+    CHECK(vertices[1].x == 100);
+    CHECK(vertices[1].z == 0);
+    // half a turn in the stored pose: (100, 0, 0) about (50, 0, 100) goes to (0, 0, 200)
+    applyIndoorMechanismDoorToVertices(door, &mover, 256.0f, 1, vertices, 180.0f);
+    CHECK(vertices[1].x == 0);
+    CHECK(vertices[1].z == 200);
+    // the same turn carried 256 up by the door's travel (distance 0)
+    applyIndoorMechanismDoorToVertices(door, &mover, 0.0f, 1, vertices, 180.0f);
+    CHECK(vertices[1].x == 0);
+    CHECK(vertices[1].z == 456);
+    // a door without a mover ignores a spin angle
+    applyIndoorMechanismDoorToVertices(door, nullptr, 256.0f, 1, vertices, 90.0f);
+    CHECK(vertices[1].x == 100);
+    CHECK(vertices[1].z == 0);
+}
+
+TEST_CASE("spinning mover: a spin on a rotating door turns before the swing")
+{
+    const MapDeltaDoor door = leafDoor();
+    IndoorMoverDefinition mover = leafMover();
+    IndoorMoverSpin spin;
+    spin.pivot = {50.0f, 0.0f, 100.0f};
+    spin.axis = {0.0f, 1.0f, 0.0f};
+    mover.spin = spin;
+    std::vector<IndoorVertex> vertices = leafVertices();
+    // the half turn takes (100, 0, 0) to (0, 0, 200); the open swing (90 about +z at the origin) leaves it there
+    applyIndoorMechanismDoorToVertices(door, &mover, 0.0f, 1, vertices, 180.0f);
+    CHECK(vertices[1].x == 0);
+    CHECK(vertices[1].y == 0);
+    CHECK(vertices[1].z == 200);
+    // (0, 0, 0) goes to (100, 0, 200), then the swing to (0, 100, 200)
+    CHECK(vertices[0].x == 0);
+    CHECK(vertices[0].y == 100);
+    CHECK(vertices[0].z == 200);
+}
+
+TEST_CASE("spinning mover: the speed ramps up and down, and a reversal stops first")
+{
+    IndoorMoverSpin spin;
+    spin.spinUpSeconds = 1.0f;
+    spin.spinDownSeconds = 4.0f;
+    CHECK(indoorMoverSpinRateStep(spin, 0.0f, 1.0f, 0.5f) == doctest::Approx(0.5f));
+    CHECK(indoorMoverSpinRateStep(spin, 0.5f, 1.0f, 1.0f) == doctest::Approx(1.0f));
+    CHECK(indoorMoverSpinRateStep(spin, 1.0f, 0.0f, 1.0f) == doctest::Approx(0.75f));
+    CHECK(indoorMoverSpinRateStep(spin, 0.1f, 0.0f, 1.0f) == doctest::Approx(0.0f));
+    // reversed while turning forward: down to a stop at the spin-down pace, then up the other way
+    CHECK(indoorMoverSpinRateStep(spin, 1.0f, -1.0f, 2.0f) == doctest::Approx(0.5f));
+    CHECK(indoorMoverSpinRateStep(spin, 0.0f, -1.0f, 0.25f) == doctest::Approx(-0.25f));
+    // no ramps: at once
+    IndoorMoverSpin instant;
+    CHECK(indoorMoverSpinRateStep(instant, 0.0f, 1.0f, 0.01f) == doctest::Approx(1.0f));
+    CHECK(indoorMoverSpinRateStep(instant, 1.0f, -1.0f, 0.01f) == doctest::Approx(-1.0f));
+    CHECK(indoorMoverSpinRateStep(instant, 1.0f, 0.0f, 0.01f) == doctest::Approx(0.0f));
+}
+
+TEST_CASE("spinning mover: the scene loader takes a spin on a linear door and refuses a bad one")
+{
+    IndoorMapData map;
+    map.vertices = leafVertices();
+    IndoorFace face;
+    face.vertexIndices = {0, 1, 2, 3};
+    map.faces = {face};
+    IndoorSceneDoor sceneDoor;
+    sceneDoor.door = leafDoor();
+    sceneDoor.door.directionZ = -65536;
+    sceneDoor.door.moveLength = 256;
+    IndoorMoverDefinition mover;
+    mover.doorId = 7;
+    mover.spin = IndoorMoverSpin{};
+    sceneDoor.mover = mover;
+    std::vector<IndoorMoverDefinition> movers;
+    std::string error;
+    REQUIRE(buildIndoorMoverDefinitions({sceneDoor}, map, movers, error));
+    REQUIRE(movers.size() == 1);
+    CHECK(movers[0].spin.has_value());
+
+    IndoorSceneDoor badAxis = sceneDoor;
+    badAxis.mover->spin->axis = {0.0f, 2.0f, 0.0f};
+    CHECK_FALSE(buildIndoorMoverDefinitions({badAxis}, map, movers, error));
+
+    IndoorSceneDoor stopped = sceneDoor;
+    stopped.mover->spin->degreesPerSecond = 0.0f;
+    CHECK_FALSE(buildIndoorMoverDefinitions({stopped}, map, movers, error));
+
+    IndoorSceneDoor notRigid = sceneDoor;
+    notRigid.door.vertexIds = {0, 1, 2};
+    notRigid.door.xOffsets = {0, 100, 100};
+    notRigid.door.yOffsets = {0, 0, 0};
+    notRigid.door.zOffsets = {0, 0, 200};
+    CHECK_FALSE(buildIndoorMoverDefinitions({notRigid}, map, movers, error));
 }
 
 TEST_CASE("ladder: grabbing needs the body in front of the strip and moving toward it")

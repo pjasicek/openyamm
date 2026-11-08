@@ -589,7 +589,7 @@ bool AssetFileSystem::initialize(
             return false;
         }
 
-        if (!mountMods(m_installedContentOptions.modsRoot))
+        if (!mountLanguagePack(true) || !mountMods(m_installedContentOptions.modsRoot))
         {
             shutdown();
             return false;
@@ -604,6 +604,16 @@ bool AssetFileSystem::initialize(
         }
 
         if (!mountDevelopmentPackageRoots(assetRoot, m_activeWorldId))
+        {
+            shutdown();
+            return false;
+        }
+    }
+
+    // Mods mount after the pack in a release (a player's mod still wins); Android and development roots have no mods.
+    if (!packagedAssetRoot || androidApkAssetRoot)
+    {
+        if (!mountLanguagePack(packagedAssetRoot))
         {
             shutdown();
             return false;
@@ -872,6 +882,14 @@ bool AssetFileSystem::mountAndroidApkAssetRoot(const std::string &activeWorldId)
         {
             // Packs are stored uncompressed in the APK (noCompress "zip"), so PhysicsFS reads them in place.
             const std::string path = storeRoot + pack.file;
+
+            // The APK ships no language packs: a language's packs are downloaded into app storage.
+            if (!pack.language.empty() && !PHYSFS_exists(path.c_str()))
+            {
+                m_languagePacksMissing = true;
+                return true;
+            }
+
             PHYSFS_File *pPackFile = PHYSFS_openRead(path.c_str());
 
             if (pPackFile == nullptr || PHYSFS_fileLength(pPackFile) != PHYSFS_sint64(pack.size))
@@ -946,12 +964,29 @@ bool AssetFileSystem::mountPackagedAssetRoot(
         return false;
     }
 
+    m_missingLanguageBytes.clear();
+
+    for (const std::string &language : assetPackLanguages(*index))
+    {
+        m_missingLanguageBytes.emplace_back(language, Engine::missingLanguagePackBytes(*index, storeRoot, language));
+    }
+
     return mountContentPacks(
         *index,
         activeWorldId,
         [this, &storeRoot](const AssetPackRecord &pack, bool appendToPath)
         {
             const std::string packageMount = "/" + packageMountFolder(pack.package);
+            std::error_code fileError;
+
+            // A language's packs are optional: downloaded only once the player chooses it.
+            if (!pack.language.empty() && !std::filesystem::is_regular_file(storeRoot / pack.file, fileError))
+            {
+                std::cout << "Language pack not installed: " << pack.id << '\n';
+                m_languagePacksMissing = true;
+                return true;
+            }
+
             return mountSearchRootAt(storeRoot / pack.file, pack.mount, appendToPath, packageMount);
         });
 }
@@ -967,7 +1002,7 @@ bool AssetFileSystem::mountContentPacks(
     // single world archive was), then the engine, then the other worlds for unqualified legacy requests.
     for (const AssetPackRecord &pack : index.packs)
     {
-        if (pack.package == normalizedWorldId && !mountPack(pack, false))
+        if (pack.language.empty() && pack.package == normalizedWorldId && !mountPack(pack, false))
         {
             return false;
         }
@@ -977,10 +1012,23 @@ bool AssetFileSystem::mountContentPacks(
     {
         for (const AssetPackRecord &pack : index.packs)
         {
-            if ((pack.package == "engine") == engine && pack.package != normalizedWorldId && !mountPack(pack, true))
+            if (pack.language.empty() && (pack.package == "engine") == engine && pack.package != normalizedWorldId
+                && !mountPack(pack, true))
             {
                 return false;
             }
+        }
+    }
+
+    // The interface language's fonts, sounds and videos in front of the game's (they replace files of the packs
+    // above); the other languages' stay unmounted. A language whose packs were never downloaded has none here.
+    const std::string &languageId = m_installedContentOptions.languageId;
+
+    for (const AssetPackRecord &pack : index.packs)
+    {
+        if (!languageId.empty() && pack.language == languageId && !mountPack(pack, false))
+        {
+            return false;
         }
     }
 
@@ -1121,6 +1169,92 @@ bool AssetFileSystem::mountMods(const std::filesystem::path &modsRoot)
     {
         std::cout << "Mods: " << fileCount << (fileCount == 1 ? " file" : " files") << " from " << utf8String(modsRoot)
                   << '\n';
+    }
+
+    return true;
+}
+
+bool AssetFileSystem::mountLanguagePack(bool packagedRoot)
+{
+    std::error_code error;
+    const std::filesystem::path &userLanguagesRoot = m_installedContentOptions.userLanguagesRoot;
+
+    if (!userLanguagesRoot.empty() && std::filesystem::is_directory(userLanguagesRoot, error)
+        && !mountSearchRootAt(userLanguagesRoot, "/languages", false))
+    {
+        return false;
+    }
+
+    const std::string &languageId = m_installedContentOptions.languageId;
+
+    if (languageId.empty() || languageId == "en" || languageId.find_first_of("/\\.") != std::string::npos)
+    {
+        return true;
+    }
+
+    const std::optional<std::filesystem::path> pack = resolvePhysicalPath("languages/" + languageId);
+
+    if (!pack || !std::filesystem::is_directory(*pack, error))
+    {
+        return true;
+    }
+
+    // The pack mirrors the game's tree like mods/, but only these folders mount: its text goes through its
+    // translation files, never through replaced game files. A release reads them at their package path
+    // (/engine/fonts, /worlds/mm7/audio); a development root at the merged folder (/fonts, /audio:
+    // mountMerged*Roots), where only the active world's mount. PhysFS mounts a folder once, so each takes one place.
+    constexpr std::array<const char *, 3> OverlayDirectories = {"fonts", "audio", "videos"};
+    const auto mountOverlay = [this, &error, packagedRoot](const std::filesystem::path &folder,
+                                                            const std::string &packagePoint, const char *pDirectory)
+    {
+        if (!std::filesystem::is_directory(folder, error))
+        {
+            return true;
+        }
+
+        const std::string mountPoint = packagedRoot ? packagePoint + "/" + pDirectory : std::string("/") + pDirectory;
+        std::cout << "Language: " << utf8String(folder) << " over " << mountPoint << '\n';
+        return mountSearchRootAt(folder, mountPoint, false);
+    };
+
+    for (const char *pDirectory : OverlayDirectories)
+    {
+        if (!mountOverlay(*pack / EngineDevelopmentRootName / pDirectory, "/engine", pDirectory))
+        {
+            return false;
+        }
+    }
+
+    const std::filesystem::path worldsRoot = *pack / WorldsDevelopmentRootName;
+
+    for (std::filesystem::directory_iterator world(worldsRoot, error), end; packagedRoot && !error && world != end;
+         world.increment(error))
+    {
+        const std::string worldId = utf8String(world->path().filename());
+
+        // The active world's files mount last, in front of the engine's and the other worlds'.
+        if (worldId == m_activeWorldId)
+        {
+            continue;
+        }
+
+        for (const char *pDirectory : {"audio", "videos"})
+        {
+            if (!mountOverlay(world->path() / pDirectory, "/worlds/" + worldId, pDirectory))
+            {
+                return false;
+            }
+        }
+    }
+
+    error.clear();
+
+    for (const char *pDirectory : {"audio", "videos"})
+    {
+        if (!mountOverlay(worldsRoot / m_activeWorldId / pDirectory, "/worlds/" + m_activeWorldId, pDirectory))
+        {
+            return false;
+        }
     }
 
     return true;
@@ -1671,6 +1805,24 @@ AssetScaleTier AssetFileSystem::getAssetScaleTierForVirtualPath(const std::strin
     return getAssetScaleTier(category);
 }
 
+bool AssetFileSystem::languagePacksMissing() const
+{
+    return m_languagePacksMissing;
+}
+
+uint64_t AssetFileSystem::missingLanguagePackBytes(const std::string &languageId) const
+{
+    for (const auto &[language, bytes] : m_missingLanguageBytes)
+    {
+        if (language == languageId)
+        {
+            return bytes;
+        }
+    }
+
+    return 0;
+}
+
 const AssetScaleProfile &AssetFileSystem::getAssetScaleProfile() const
 {
     return m_assetScaleProfile;
@@ -1696,6 +1848,8 @@ void AssetFileSystem::shutdown()
     m_iconPackages.clear();
     m_searchMounts.clear();
     m_androidApkAssetRoot = false;
+    m_languagePacksMissing = false;
+    m_missingLanguageBytes.clear();
 }
 
 bool AssetFileSystem::isInitialized() const

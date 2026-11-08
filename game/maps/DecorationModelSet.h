@@ -2,10 +2,12 @@
 
 #include "engine/models/GltfModelLoader.h"
 #include "engine/render/ModelRenderer.h"
+#include "game/fx/TalkPortraitFrame.h"
 #include "game/maps/DecorationModelPlacement.h"
 
 #include <cstddef>
 #include <cstdint>
+#include <array>
 #include <functional>
 #include <optional>
 #include <string>
@@ -76,11 +78,13 @@ public:
     // Swings the swinging placements (chandeliers, cages) to their pose at timeSeconds, and moves the placements
     // turning into a turn_in model's pose.
     void animate(float timeSeconds);
-    // Turns a placed decoration by yawRadians about its origin from its rest pose and pulls it back `back` world units
-    // along its front (asset +z): an aimed gun and its recoil (EventRuntimeState::decorationAims).
-    void pose(size_t billboardIndex, float yawRadians, float back);
-    // Poses every billboard whose sprite override key aimed answers for (its yaw and pull-back).
-    using Aimed = std::function<bool(uint32_t spriteOverrideKey, float &yawRadians, float &back)>;
+    // Turns a placed decoration by yawRadians about its origin from its rest pose, pulls it back `back` world units
+    // along its front (asset +z) and moves it by offset: an aimed gun and its recoil, a sailing boat
+    // (EventRuntimeState::decorationAims).
+    void pose(size_t billboardIndex, float yawRadians, float back, const std::array<float, 3> &offset = {});
+    // Poses every billboard whose sprite override key aimed answers for (its yaw, pull-back and offset).
+    using Aimed = std::function<bool(uint32_t spriteOverrideKey, float &yawRadians, float &back,
+        std::array<float, 3> &offset)>;
     void poseAimed(const std::vector<DecorationBillboard> &billboards, const Aimed &aimed);
     // Billboards of wall-mounted bindings without a wall in reach or a free_model; they keep their map facing.
     const std::vector<size_t> &unmountedBillboards() const
@@ -92,6 +96,11 @@ public:
     {
         return m_billboardIndices[group];
     }
+    // The model the decoration with this sprite override key shows now (a posed talking prop's talk portrait,
+    // ActorModelPreview::renderDecoration): its binding's model, variant, yaw and scale. None when no model draws it
+    // or several decorations share the key.
+    std::optional<DecorationPortraitModel> portraitModel(const std::vector<DecorationBillboard> &billboards,
+        uint32_t spriteOverrideKey) const;
     // Whether a group draws state overlays (never picked or outlined; the decoration's own model is).
     bool overlayGroup(size_t group) const
     {

@@ -455,7 +455,7 @@ std::vector<const RulesetTableContribution *> RulesetDefinition::findTables(
 RulesetDefinition standardRulesetDefinition()
 {
     RulesetDefinition definition = {};
-    definition.description = "The merged Might and Magic VI-VIII rules.";
+    definition.description = Engine::trNoop("The merged Might and Magic VI-VIII rules.");
     definition.panel.summary = definition.description;
     return definition;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/app/GameSettings.h"
+#include "engine/Localization.h"
 #include "game/content/RulesetDefinition.h"
 #include "game/rules/LootFilter.h"
 #include "game/ui/MenuDesignScreen.h"
@@ -117,7 +118,7 @@ class MainMenuScreen : public MenuDesignScreen
     // Owned by the application so that reopening the menu returns to the last Settings section this session.
     std::string &m_section;
     std::string m_location, m_date, m_status, m_search;
-    std::string m_bindingGroup = "All actions";
+    std::string m_bindingGroup = Engine::localize("All actions");
     bool m_paused = false;
     bool m_searchEditing = false;
     bool m_displayPreview = false;

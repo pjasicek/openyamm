@@ -46,6 +46,10 @@ struct WeatherMapChances
     std::optional<float> dryLightningPercent;
     // Its rain's colour before the light (acid rain); unset: DefaultRainColor.
     std::optional<std::array<float, 3>> rainColor;
+    // Weather that never stops (weather.yml `always: rain|snow` at `peak`): MM9's Rain and Snow brushes, on all the
+    // time (Sturmford's rain, Frosgard's snow). Only a kind the map can have; it replaces the daily rolls.
+    PrecipitationKind always = PrecipitationKind::None;
+    float alwaysPeak = 0.5f;
 };
 
 constexpr std::array<float, 3> DefaultRainColor = {0.7f, 0.76f, 0.84f};
@@ -138,6 +142,9 @@ struct WeatherMapSettings
     std::optional<WeatherFlakeLook> ashLook;
     float dryLightningPercent = 0.0f;
     std::array<float, 3> rainColor = DefaultRainColor;
+    // Rain or snow all the time at this peak (weather.yml always), none: the daily rolls.
+    PrecipitationKind always = PrecipitationKind::None;
+    float alwaysPeak = 0.5f;
 };
 
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,

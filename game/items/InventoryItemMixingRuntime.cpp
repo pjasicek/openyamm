@@ -1,4 +1,5 @@
 #include "game/items/InventoryItemMixingRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -119,7 +120,7 @@ InventoryItemMixResult applyEquipmentPotion(
 
         if (targetItem.hardened)
         {
-            result.statusText = "Item already hardened!";
+            result.statusText = Engine::tr("Item already hardened!");
             return result;
         }
 
@@ -287,7 +288,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
 
         if (newCharges == 0)
         {
-            result.statusText = "Wand already charged!";
+            result.statusText = Engine::tr("Wand already charged!");
             return result;
         }
 
@@ -317,7 +318,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
             result.heldItemConsumed = true;
             result.targetItemChanged = true;
             result.action = InventoryItemMixAction::ReagentBottleMix;
-            result.statusText = "Mixed potion";
+            result.statusText = Engine::tr("Mixed potion");
             return result;
         };
 
@@ -371,7 +372,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
         result.heldItemConsumed = true;
         result.targetItemChanged = true;
         result.returnsBottle = true;
-        result.statusText = "Mixed potion";
+        result.statusText = Engine::tr("Mixed potion");
         return result;
     }
 
@@ -393,7 +394,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
         result.heldItemConsumed = true;
         result.targetItemRemoved = true;
         result.failureDamageLevel = damageLevel;
-        result.statusText = "Ooops";
+        result.statusText = Engine::tr("Ooops");
         return result;
     }
 
@@ -415,7 +416,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
         }
     }
 
-    result.statusText = "Mixed potion";
+    result.statusText = Engine::tr("Mixed potion");
     return result;
 }
 

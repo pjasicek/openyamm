@@ -35,6 +35,14 @@ enum class DialogueScenePolicy : uint8_t
     LiveGameplay,
 };
 
+// How a shop's Buy Standard and Buy Special show their stock: the MM6-MM8 shelf picture, or MM9's scrolling ledger
+// (a vendors buy_view cell).
+enum class ShopBuyView : uint8_t
+{
+    Shelf = 0,
+    Ledger,
+};
+
 struct HouseEntry
 {
     struct DeterministicStockItem
@@ -158,6 +166,7 @@ struct HouseEntry
     uint32_t sourceServiceId = 0;
     VendorStockProfile vendorStockProfile = VendorStockProfile::None;
     DialogueScenePolicy dialogueScenePolicy = DialogueScenePolicy::HouseVideo;
+    ShopBuyView shopBuyView = ShopBuyView::Shelf;
     bool vendorCanSell = true;
     bool vendorCanIdentify = true;
     bool vendorCanRepair = true;

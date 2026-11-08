@@ -39,10 +39,23 @@ public:
     virtual MapDeltaData *mapDeltaData() = 0;
     // Every face of a cog number, or one indoor face by EventRuntime::indoorFaceReferenceKey; false when none matches.
     virtual bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) = 0;
+    // The sprite override key (evt.SetSprite's cog) of the one decoration whose click runs eventId; none when no
+    // decoration, or more than one, carries it.
+    virtual std::optional<uint32_t> decorationSpriteKeyForScriptEvent(uint16_t eventId) const
+    {
+        (void)eventId;
+        return std::nullopt;
+    }
     virtual std::vector<uint32_t> resolveIndoorLightReferenceIds(int32_t rawReferenceId) const
     {
         (void)rawReferenceId;
         return {};
+    }
+    // Whether an indoor door's spin (scene `mover.spin`) starts on; none for a door without one.
+    virtual std::optional<bool> indoorMoverSpinStartsOn(uint32_t doorId) const
+    {
+        (void)doorId;
+        return std::nullopt;
     }
 
     virtual bool registerOutdoorModelMechanism(
@@ -174,6 +187,43 @@ public:
         return false;
     }
 
+    // evt.KillMapActor: the living actor dies as any death (its dying clip, corpse and loot; no experience to the
+    // party and no hostility: MM9's script `Die`). False for an actor already dead or none.
+    virtual bool killMapActor(size_t actorIndex)
+    {
+        (void)actorIndex;
+        return false;
+    }
+
+    // evt.SetMapActorHp: the living actor's hit points become the amount, kept within 1 and its maximum (MM9's
+    // dying adventurer on his last hit point, which the load-time bolster fills up). False for a dead actor or none.
+    virtual bool setMapActorHp(size_t actorIndex, int hp)
+    {
+        (void)actorIndex;
+        (void)hp;
+        return false;
+    }
+
+    // evt.SetActorImmobile: the map's `immobile` placement of an actor, saved with the map. Off, the actor walks as its
+    // AI decides (MM9's BaseInit or AddEnemy on an actor the converter placed still because MM9 gives it no wander);
+    // a monster whose row never moves (Stationary, the Immobile kind) still stays. False for no such actor.
+    virtual bool setMapActorImmobile(size_t actorIndex, bool immobile)
+    {
+        (void)actorIndex;
+        (void)immobile;
+        return false;
+    }
+
+    // evt.SetMm9ActorCanReceiveDamage: MM9's `SetPropNumber CanDamage` on a map actor (the scene's
+    // mm9_can_receive_damage, saved with the map): while off no hit hurts it (melee, missiles, spells, areas, stuns).
+    // False for no such actor.
+    virtual bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage)
+    {
+        (void)actorIndex;
+        (void)canReceiveDamage;
+        return false;
+    }
+
     // evt.TurnActor / evt.TurnGroup: the actor (or every living actor of the group) fights for the party, against
     // its own faction too, for the seconds (0: for good), as an enslaved monster does. False for none turned.
     virtual bool turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds)
@@ -189,6 +239,17 @@ public:
     {
         (void)actorIndex;
         (void)group;
+        return false;
+    }
+
+    // evt.SetActorTarget: a living map actor goes for the party (targetActorIndex none) or another living map actor at
+    // once. It wakes from a dormant start; a party target makes it hostile to the party; an MM9 monster's loop holds
+    // the target from its next AI step, whatever their relation (EventRuntimeState::scriptedActorTargets). False for
+    // no such actor or target, or an actor target for a monster without the MM9 loop.
+    virtual bool setMapActorTarget(size_t actorIndex, std::optional<size_t> targetActorIndex)
+    {
+        (void)actorIndex;
+        (void)targetActorIndex;
         return false;
     }
 
@@ -230,6 +291,14 @@ public:
     }
 
     virtual bool isMapActorHostile(size_t actorIndex) const
+    {
+        (void)actorIndex;
+        return false;
+    }
+
+    // evt.IsMapActorDead: the actor is dead or dying (no hit points left); a hidden actor is alive. False for a living
+    // actor or none.
+    virtual bool isMapActorDead(size_t actorIndex) const
     {
         (void)actorIndex;
         return false;

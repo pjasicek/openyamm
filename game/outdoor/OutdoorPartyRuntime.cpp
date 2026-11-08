@@ -1,4 +1,5 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/ItemTable.h"
@@ -31,9 +32,9 @@ void OutdoorPartyRuntime::initialize(float x, float y, float footZHint, bool res
     syncSpellMovementStatesFromPartyBuffs();
 }
 
-void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
+void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint, bool keepHeight)
 {
-    m_movementDriver.initialize(x, y, footZHint);
+    m_movementDriver.initialize(x, y, footZHint, keepHeight);
 }
 
 void OutdoorPartyRuntime::update(
@@ -47,7 +48,9 @@ void OutdoorPartyRuntime::update(
     m_movementDriver.update(rulesInput, deltaSeconds, pPerformanceDiagnostics);
 
     uint64_t stageBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
-    if (!input.turnBasedPhysicsStep)
+    // Turn-based walking spends the turn's movement points, not game time: the clock, buffs and regeneration
+    // advance once per turn (TurnBasedCombatRuntime), as in the original.
+    if (!input.turnBasedPhysicsStep && !input.turnBasedMovementStep)
     {
         // Running halves recovery speed, but only while the party actually runs.
         m_party.updateRecovery(deltaSeconds, m_movementDriver.isRunningMovement(input) ? 0.5f : 1.0f);
@@ -79,11 +82,11 @@ void OutdoorPartyRuntime::update(
 
     if (effects.burningDamageTicks > 0)
     {
-        m_movementStatusText = "You are burning!";
+        m_movementStatusText = Engine::tr("You are burning!");
     }
     else if (effects.waterDamageTicks > 0)
     {
-        m_movementStatusText = "You are drowning!";
+        m_movementStatusText = Engine::tr("You are drowning!");
     }
 
     if (pPerformanceDiagnostics != nullptr)

@@ -1,4 +1,5 @@
 #include "game/ui/GameplayMapProgressBar.h"
+#include "engine/Localization.h"
 
 #include <algorithm>
 #include <cmath>
@@ -38,12 +39,13 @@ std::string GameplayMapProgressBar::tabText(const RulesetMapProgress &progress, 
 
     if (progress.kind == RulesetMapProgress::Kind::Arena)
     {
-        return "Endless Arena" + dot + "Level " + std::to_string(progress.arenaLevel) + dot + percent;
+        return Engine::tr("Endless Arena") + dot
+            + Engine::tr("Level {level}", {{"level", int64_t(progress.arenaLevel)}}) + dot + percent;
     }
 
     if (progress.complete)
     {
-        return "Cleared" + dot + std::to_string(progress.slain) + " / " + std::to_string(progress.counted);
+        return Engine::tr("Cleared") + dot + std::to_string(progress.slain) + " / " + std::to_string(progress.counted);
     }
 
     return percent + dot + std::to_string(progress.slain) + " / " + std::to_string(progress.needed);
@@ -55,38 +57,38 @@ std::string GameplayMapProgressBar::popupBody(const RulesetMapProgress &progress
 
     if (progress.kind == RulesetMapProgress::Kind::Arena)
     {
-        lines.push_back("Wave level: " + std::to_string(progress.arenaLevel));
-        lines.push_back("This wave: " + percentText(progress.percent));
-        lines.push_back("The Arena is never completed");
+        lines.push_back(Engine::tr("Wave level: {level}", {{"level", int64_t(progress.arenaLevel)}}));
+        lines.push_back(Engine::tr("This wave: {percent}", {{"percent", percentText(progress.percent)}}));
+        lines.push_back(Engine::tr("The Arena is never completed"));
     }
     else
     {
         if (progress.kind == RulesetMapProgress::Kind::DimensionRun)
         {
-            lines.push_back("Dimension run: power " + std::to_string(progress.dimensionPower) + ", "
-                + std::to_string(progress.dimensionAffixes)
-                + (progress.dimensionAffixes == 1 ? " affix" : " affixes"));
+            lines.push_back(Engine::trn("Dimension run: power {power}, {affixes} affix",
+                "Dimension run: power {power}, {affixes} affixes", uint64_t(int64_t(progress.dimensionAffixes)),
+                {{"power", int64_t(progress.dimensionPower)}, {"affixes", int64_t(progress.dimensionAffixes)}}));
         }
 
-        lines.push_back("Slain: " + std::to_string(progress.slain) + " of " + std::to_string(progress.counted));
-        lines.push_back("Needed to complete: " + std::to_string(progress.needed) + " ("
-            + percentText(progress.requiredShare * 100) + ")");
-        std::string alive = "Alive: " + std::to_string(std::max(0, progress.counted - progress.slain));
-
-        if (progress.hidden > 0)
-        {
-            alive += ", " + std::to_string(progress.hidden) + " hidden, not counted";
-        }
-
-        lines.push_back(alive);
+        lines.push_back(Engine::tr("Slain: {slain} of {counted}",
+            {{"slain", int64_t(progress.slain)}, {"counted", int64_t(progress.counted)}}));
+        lines.push_back(Engine::tr("Needed to complete: {needed} ({percent})",
+            {{"needed", int64_t(progress.needed)}, {"percent", percentText(progress.requiredShare * 100)}}));
+        const int64_t alive = int64_t(std::max(0, progress.counted - progress.slain));
+        lines.push_back(progress.hidden > 0
+                ? Engine::tr("Alive: {alive}, {hidden} hidden, not counted",
+                    {{"alive", alive}, {"hidden", int64_t(progress.hidden)}})
+                : Engine::tr("Alive: {alive}", {{"alive", alive}}));
 
         if (progress.revival)
         {
-            lines.push_back("Dead rise again on leaving: " + (progress.revivalPassed ? std::string("no longer")
-                : "until " + std::to_string(progress.revivalSlain) + " slain"));
+            lines.push_back(progress.revivalPassed ? Engine::tr("Dead rise again on leaving: no longer")
+                : Engine::tr("Dead rise again on leaving: until {slain} slain",
+                    {{"slain", int64_t(progress.revivalSlain)}}));
         }
 
-        lines.push_back("Reward: " + (progress.rewardPaid ? std::string("paid") : progress.reward));
+        lines.push_back(progress.rewardPaid ? Engine::tr("Reward: paid")
+                                            : Engine::tr("Reward: {reward}", {{"reward", progress.reward}}));
     }
 
     std::string body;

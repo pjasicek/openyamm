@@ -30,6 +30,7 @@
 #include "game/tables/MonsterTable.h"
 #include "game/tables/ObjectTable.h"
 
+#include <array>
 #include <future>
 #include <memory>
 #include <optional>
@@ -44,6 +45,7 @@ class GameplayActorService;
 class GameplayCombatController;
 class GameplayProjectileService;
 struct ChestTrapOpenResult;
+struct Mm9PartyAwareness;
 struct DecorationBillboardSet;
 class IndoorRenderer;
 class IndoorFaceGeometryCache;
@@ -163,6 +165,9 @@ public:
         // runtime only, not saved.
         ActorMm9State mm9;
         ActorMm9WorldFacts mm9World;
+        // A party hit provoked it (Mm9PartyAwareness::provokeRange): it keeps the party it holds that far, and thinks
+        // ahead of the nearest MM9 monsters. Cleared once it holds no target; runtime only, not saved.
+        bool mm9Provoked = false;
         bool suppressLowHealthFlee = false;
         // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
         float yellFleeRemainingSeconds = 0.0f;
@@ -335,8 +340,11 @@ public:
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
     bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
+    std::optional<uint32_t> decorationSpriteKeyForScriptEvent(uint16_t eventId) const override;
     std::vector<uint32_t> resolveIndoorLightReferenceIds(int32_t rawReferenceId) const override;
+    std::optional<bool> indoorMoverSpinStartsOn(uint32_t doorId) const override;
     bool isMapActorHostile(size_t actorIndex) const override;
+    bool isMapActorDead(size_t actorIndex) const override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
     bool useMm9Barrel(const std::string &sourceId) override;
@@ -395,6 +403,7 @@ public:
     size_t turnBasedPendingWorldActionCount() const override;
     void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
+    void advanceTurnBasedActorTimers(float seconds) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
@@ -420,15 +429,26 @@ public:
     bool executeEventHooks(EventRuntimeHookKind kind) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
     EventRuntimeState *eventRuntimeState() override;
+    ISceneEventContext *sceneEventContext() override
+    {
+        return this;
+    }
     const EventRuntimeState *eventRuntimeState() const override;
     bool fireEventMissile(const EventMissileRequest &request) override;
     bool turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds) override;
     bool wakeMapActors(std::optional<size_t> actorIndex, uint32_t group) override;
+    bool setMapActorTarget(size_t actorIndex, std::optional<size_t> targetActorIndex) override;
     bool hasLineOfSight(float fromX, float fromY, float fromZ, float toX, float toY, float toZ) const override;
     bool summonEventGold(uint32_t amount, int32_t x, int32_t y, int32_t z, int32_t speed) override;
     bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override;
     // Moves an actor to stand at a point (feet at z) and makes it its home: evt.SetMapActorPosition indoors.
     bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
+    bool killMapActor(size_t actorIndex) override;
+    bool setMapActorHp(size_t actorIndex, int hp) override;
+    bool setMapActorImmobile(size_t actorIndex, bool immobile) override;
+    bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
+    // MM9's CanDamage off (the scene's mm9_can_receive_damage false): no hit hurts the actor.
+    bool mm9ActorRefusesDamage(size_t actorIndex) const;
     bool castEventSpell(
         uint32_t spellId,
         uint32_t skillLevel,
@@ -771,6 +791,9 @@ public:
     std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
 
+    // The monsters' walk map (the scenarios' walk_to plans the party's route on it); null until it is built.
+    std::shared_ptr<const PathMap> indoorPathMap() const;
+
 private:
     std::string mapWorldId() const;
     const ActorRulesetFacts &actorRulesetFacts(size_t actorIndex) const;
@@ -800,6 +823,11 @@ private:
     // A hit on an MM9 walker (ActorMm9WorldFacts): its attacker (the party, or the actor at attackerActorIndex), the
     // largest hit and the count its AI reacts to. Nothing for any other actor.
     void noteMm9ActorHit(size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage);
+    // The world's Mm9PartyAwareness (the actor service's, MM9's rules without one).
+    const Mm9PartyAwareness &mm9PartyAwareness() const;
+    // A provoking party hit on an MM9 loop monster: it and its awake friends within the provoke radius that it sees
+    // hold the party (MM9_MONSTER_AI_PLAN.md "Awareness of the party").
+    void provokeMm9Actors(size_t actorIndex);
     size_t actorIndexForActorId(uint32_t actorId) const;
     bool summonEventPayload(
         uint32_t payloadId,
@@ -895,7 +923,6 @@ private:
     LootGatherSpot lootGatherSpot() const;
     float flyingFootZUnderCeiling(float x, float y, float aimZ, float footZ, float collisionHeight) const;
     void carryRestingObjectsOnMovedFloors(const std::vector<std::pair<const MapDeltaDoor *, float>> &floorMoves);
-    std::shared_ptr<const PathMap> indoorPathMap() const;
     bool indoorActorPathfindingEnabled() const;
     bool logIndoorPathfindingEnabled() const;
     bool actorAiPerformanceDiagnosticsEnabled() const;
@@ -925,6 +952,8 @@ private:
     void applyMm9Requests(const ActorAiFrameResult &result);
     void deliverMm9Call(size_t senderIndex, const ActorMm9Request &request, const std::vector<uint8_t> &active);
     void answerMm9ResurrectionAsk(size_t corpseIndex, const std::vector<uint8_t> &active);
+    void answerMm9ChatSearch(size_t actorIndex, const std::vector<uint8_t> &active, std::vector<uint8_t> &claimed);
+    void collectIndoorMm9ChatFacts(size_t actorIndex, ActorMm9WorldFacts &world) const;
     void reviveMm9Actor(size_t actorIndex);
     void openMm9Door(size_t actorIndex, uint32_t doorId);
     // The reposition modifier's query (ActorMm9Request::reposition): the first of its spots that passes, answered in
@@ -1016,7 +1045,8 @@ private:
         size_t actorIndex,
         int16_t monsterId,
         int damage,
-        CombatDamageType damageType);
+        CombatDamageType damageType,
+        bool byParty);
     void notifyMonsterKilledEventHooks(size_t actorIndex, int16_t monsterId);
     int effectiveIndoorActorArmorClass(
         size_t actorIndex,
@@ -1112,9 +1142,17 @@ private:
     bool indoorDecorationCogCarriesLight(uint16_t cog) const;
     bool destroyIndoorDestructible(const IndoorDestructible &destructible);
     bool damageIndoorDestructible(const IndoorDestructible &destructible, int damage);
+    // The standing destructibles that take damage, by their boxes, for an area impact; the one whose face or prop the
+    // missile struck is marked direct.
+    std::vector<GameplayProjectileService::ProjectileAreaImpactDestructibleFacts> collectIndoorAreaDestructibles(
+        size_t directFaceIndex,
+        size_t directEntityIndex) const;
     void runPendingDestructibleEvents();
+    // evt.MoveActorTo arrivals (EventRuntimeState::pendingActorArrivals): their events, each with its actor.
+    void runPendingScriptedActorArrivals();
     // MM9's FoundPlayer greetings (RUDE event 56000 + the source object index, as outdoors): a living, visible person
-    // with RUDE dialogue who sees the party within Mm9FoundPlayerRange runs it once per visit.
+    // with RUDE dialogue who perceives the party (mm9Perceives: its placement's sight in front, hearing all round, a
+    // clear line; searched once a second) runs it once per visit.
     void updateMm9FoundPlayerEvents(float deltaSeconds);
     void applyMm9BarrelVisual(const MapMm9BarrelSource &source, const MapDeltaMm9BarrelState &state);
 
@@ -1160,6 +1198,19 @@ private:
     // Destructibles' destroyed and damaged events, run by the next world update (a destruction inside a running event
     // never runs another event inside it).
     std::vector<uint16_t> m_pendingDestructibleEvents;
+    // The destructible props' hit cylinders (each decoration of a destructible's decoration cog), which party and
+    // event missiles strike, and each scene destructible's box (its faces and props; aligned with
+    // IndoorMapData::destructibles; min above max: none) for area impacts. Built by initializeIndoorDestructibles.
+    struct DestructiblePropCollider
+    {
+        size_t entityIndex = 0;
+        size_t destructibleIndex = 0;
+        GameplayWorldPoint base = {};
+        float radius = 0.0f;
+        float height = 0.0f;
+    };
+    std::vector<DestructiblePropCollider> m_destructiblePropColliders;
+    std::vector<std::array<GameplayWorldPoint, 2>> m_destructibleBounds;
     // Per map actor: its FoundPlayer greeting has run this visit; and the time since the last check.
     std::vector<bool> m_mm9FoundPlayerDone;
     float m_mm9FoundPlayerAccumulatorSeconds = 0.0f;

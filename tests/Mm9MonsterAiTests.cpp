@@ -243,6 +243,28 @@ TEST_CASE("an MM9 scene placement parses its settings, markers and patterns")
     CHECK(placementError("{wander_wait: [5, 3]}").find("wander_wait") != std::string::npos);
 }
 
+TEST_CASE("an MM9 placement parses its path's marker stops")
+{
+    const Mm9AiPlacementRecord record = placement("{wander: path, path: [[0, 0, 0], [100, 0, 0], [200, 0, 0]], "
+        "path_stops: [{point: 1, face: 90, wait: [2, 4], clip: fidget2, loop: true}, {point: 2, clip: taunt}]}");
+    REQUIRE_EQ(record.pathStops.size(), 2u);
+    CHECK_EQ(record.pathStops[0].point, 1);
+    CHECK(record.pathStops[0].faces);
+    CHECK(record.pathStops[0].faceYawRadians == doctest::Approx(1.5707963f));
+    CHECK(record.pathStops[0].ownWait);
+    CHECK(record.pathStops[0].waitMinSeconds == doctest::Approx(2.0f));
+    CHECK(record.pathStops[0].waitMaxSeconds == doctest::Approx(4.0f));
+    CHECK_EQ(record.pathStops[0].clip, "fidget2");
+    CHECK(record.pathStops[0].loop);
+    CHECK_FALSE(record.pathStops[1].faces);
+    CHECK_FALSE(record.pathStops[1].ownWait);
+    CHECK_FALSE(record.pathStops[1].loop);
+    CHECK(placementError("{wander: path, path: [[0, 0, 0], [1, 0, 0]], path_stops: [{point: 2}]}")
+              .find("past its path") != std::string::npos);
+    CHECK(placementError("{wander: path, path: [[0, 0, 0], [1, 0, 0]], path_stops: [{point: 1, spin: 3}]}")
+              .find("unknown key") != std::string::npos);
+}
+
 TEST_CASE("an MM9 placement parses the profile its own script decides")
 {
     const Mm9AiPlacementRecord record = placement(R"({"profile": {"archetype": "skirmisher", "ranged": "none",
@@ -469,6 +491,7 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     record.settings.dormantPose = Mm9AiDormantPose::Hang;
     record.settings.faction = Mm9AiFaction::Monk;
     record.pathPoints = {{1, 2, 3}, {4, 5, 6}};
+    record.pathStops = {Mm9AiPathStop{1, true, 1.5f, true, 2.0f, 4.0f, "fidget2", true}};
     record.summonPoints = {{7, 8, 9}};
     record.hidingPlaces = {{10, 11, 12}};
     record.summonClass = "Skeletoid";
@@ -480,6 +503,7 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     record.settings.profile.passive = true;
     record.settings.profile.footwork = Mm9AiFootwork{true, 0.5f, 0.3f, 1.25f};
     actor.mm9Ai = record;
+    actor.drawScale = 1.25f;
     MapDeltaActor plain = {};
     plain.name = "Goblin";
 
@@ -501,5 +525,7 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     REQUIRE(loaded->actors.size() == 2);
     REQUIRE(loaded->actors[0].mm9Ai.has_value());
     CHECK(*loaded->actors[0].mm9Ai == record);
+    CHECK(loaded->actors[0].drawScale == doctest::Approx(1.25f));
     CHECK_FALSE(loaded->actors[1].mm9Ai.has_value());
+    CHECK(loaded->actors[1].drawScale == 0.0f);
 }

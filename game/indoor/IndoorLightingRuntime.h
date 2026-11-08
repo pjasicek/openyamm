@@ -114,6 +114,9 @@ struct IndoorLightingFrameInput
     bool lightsIgnoreReach = false;
     // The renderer's clock: the scene pulsing lights' phase.
     float timeSeconds = 0.0f;
+    // The open air's map lights' strength now (indoorOpenAirLightScale, scene daylight): the sprites, decorations and
+    // creatures sample them as the faces take their share of the vertex light. 1: as authored (every other map).
+    float openAirLightScale = 1.0f;
 };
 
 class IndoorLightingRuntime

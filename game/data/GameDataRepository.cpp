@@ -40,10 +40,12 @@ void GameDataRepository::clear()
     m_pMm9TeacherScheduleTable = nullptr;
     m_pMm9RudeDialogueTable = nullptr;
     m_pMm9SkillTrainerTable = nullptr;
+    m_pMm9HirelingTable = nullptr;
     m_pMm9TransportRouteTable = nullptr;
     m_pMm9QuestInteractionTable = nullptr;
     m_pRosterTable = nullptr;
     m_pCharacterDollTable = nullptr;
+    m_pCharacterVoiceTable = nullptr;
     m_pCharacterInspectTable = nullptr;
     m_pRaceStartingStatsTable = nullptr;
     m_pReadableScrollTable = nullptr;
@@ -100,10 +102,12 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMm9TeacherScheduleTable = &loader.getMm9TeacherScheduleTable();
     m_pMm9RudeDialogueTable = &loader.getMm9RudeDialogueTable();
     m_pMm9SkillTrainerTable = &loader.getMm9SkillTrainerTable();
+    m_pMm9HirelingTable = &loader.getMm9HirelingTable();
     m_pMm9TransportRouteTable = &loader.getMm9TransportRouteTable();
     m_pMm9QuestInteractionTable = &loader.getMm9QuestInteractionTable();
     m_pRosterTable = &loader.getRosterTable();
     m_pCharacterDollTable = &loader.getCharacterDollTable();
+    m_pCharacterVoiceTable = &loader.getMergedCharacterVoiceTable();
     m_pCharacterInspectTable = &loader.getCharacterInspectTable();
     m_pRaceStartingStatsTable = &loader.getRaceStartingStatsTable();
     m_pReadableScrollTable = &loader.getReadableScrollTable();
@@ -259,6 +263,11 @@ const Mm9SkillTrainerTable &GameDataRepository::mm9SkillTrainerTable() const
     return requireBound(m_pMm9SkillTrainerTable);
 }
 
+const Mm9HirelingTable &GameDataRepository::mm9HirelingTable() const
+{
+    return requireBound(m_pMm9HirelingTable);
+}
+
 const Mm9TransportRouteTable &GameDataRepository::mm9TransportRouteTable() const
 {
     return requireBound(m_pMm9TransportRouteTable);
@@ -277,6 +286,11 @@ const RosterTable &GameDataRepository::rosterTable() const
 const CharacterDollTable &GameDataRepository::characterDollTable() const
 {
     return requireBound(m_pCharacterDollTable);
+}
+
+const MergedCharacterVoiceTable &GameDataRepository::characterVoiceTable() const
+{
+    return requireBound(m_pCharacterVoiceTable);
 }
 
 const CharacterInspectTable &GameDataRepository::characterInspectTable() const

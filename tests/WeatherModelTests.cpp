@@ -2,6 +2,7 @@
 
 #include "game/outdoor/WeatherModel.h"
 #include "game/outdoor/WeatherPresentation.h"
+#include "game/render/WeatherRoofMap.h"
 
 #include <cmath>
 #include <filesystem>
@@ -532,4 +533,68 @@ TEST_CASE("weather presentation throws dry lightning without rain, mostly far of
     CHECK(strikes >= 10);
     CHECK(near * 5 < strikes);
     CHECK_FALSE(presentation.storm());
+}
+
+TEST_CASE("a map's always weather rains or snows without a break, only where the map can")
+{
+    WeatherRules rules;
+    std::string errorMessage;
+    REQUIRE_MESSAGE(rules.loadFromYaml("version: 1\nmaps:\n  wet.blv: {always: rain, peak: 0.85}\n"
+        "  cold.blv: {always: snow, peak: 0.4}\n", errorMessage), errorMessage);
+    const WeatherMapSettings wet = resolveWeatherMapSettings(rules, 9001, "wet.blv", true, false);
+    const WeatherMapSettings cold = resolveWeatherMapSettings(rules, 9002, "cold.blv", false, true);
+    // A kind the map cannot have is ignored: the daily rolls apply.
+    const WeatherMapSettings dryCold = resolveWeatherMapSettings(rules, 9003, "cold.blv", true, false);
+    CHECK(wet.always == PrecipitationKind::Rain);
+    CHECK(cold.always == PrecipitationKind::Snow);
+    CHECK(dryCold.always == PrecipitationKind::None);
+    bool storm = false;
+
+    // Past the first game day, every minute has it, across midnights, near the peak.
+    for (double minute = MinutesPerDay; minute < 6.0 * MinutesPerDay; minute += 7.0)
+    {
+        const WeatherSample rain = sampleRolledWeather(rules, wet, minute);
+        const WeatherSample snow = sampleRolledWeather(rules, cold, minute);
+        REQUIRE(rain.precipitation == PrecipitationKind::Rain);
+        REQUIRE(snow.precipitation == PrecipitationKind::Snow);
+        CHECK(rain.intensity >= 0.85f * (1.0f - rules.variationAmount) - 0.01f);
+        CHECK(snow.intensity <= 0.4f * (1.0f + rules.variationAmount) + 0.01f);
+        CHECK_FALSE(snow.storm);
+        storm = storm || rain.storm;
+    }
+
+    CHECK(storm);
+    WeatherRules bad;
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  ash.blv: {always: ash}\n", errorMessage));
+}
+
+TEST_CASE("weather roof map: rain stops at the highest surface seen from the sky")
+{
+    WeatherRoofMap roofMap;
+    roofMap.reset(0.0f, 0.0f, 1000.0f, 1000.0f, 64.0f, 1024);
+    REQUIRE_FALSE(roofMap.empty());
+    // Ground at 0 everywhere, a flat roof at 300 over 200-400, and a wall (no area from above) that changes nothing.
+    roofMap.addTriangle({0.0f, 0.0f, 0.0f}, {1000.0f, 0.0f, 0.0f}, {1000.0f, 1000.0f, 0.0f});
+    roofMap.addTriangle({0.0f, 0.0f, 0.0f}, {1000.0f, 1000.0f, 0.0f}, {0.0f, 1000.0f, 0.0f});
+    roofMap.addTriangle({200.0f, 200.0f, 300.0f}, {400.0f, 200.0f, 300.0f}, {400.0f, 400.0f, 300.0f});
+    roofMap.addTriangle({200.0f, 200.0f, 300.0f}, {400.0f, 400.0f, 300.0f}, {200.0f, 400.0f, 300.0f});
+    roofMap.addTriangle({600.0f, 600.0f, 0.0f}, {600.0f, 800.0f, 0.0f}, {600.0f, 800.0f, 900.0f});
+
+    CHECK(roofMap.heightAt(300.0f, 300.0f) == doctest::Approx(300.0f));
+    CHECK(roofMap.heightAt(700.0f, 700.0f) == doctest::Approx(0.0f));
+    CHECK(roofMap.heightAt(600.0f, 700.0f) == doctest::Approx(0.0f));
+    // Under the roof is covered, on it or in the open is not; off the map there is no surface.
+    CHECK(roofMap.covers(300.0f, 300.0f, 100.0f, 16.0f));
+    CHECK_FALSE(roofMap.covers(300.0f, 300.0f, 350.0f, 16.0f));
+    CHECK_FALSE(roofMap.covers(700.0f, 700.0f, 100.0f, 16.0f));
+    CHECK(roofMap.heightAt(-50.0f, 300.0f) == WeatherRoofMap::NoSurface);
+    // A sloped roof: the height follows the slope.
+    roofMap.addTriangle({600.0f, 100.0f, 200.0f}, {900.0f, 100.0f, 500.0f}, {900.0f, 400.0f, 500.0f});
+    CHECK(roofMap.heightAt(860.0f, 140.0f) == doctest::Approx(200.0f + (864.0f - 600.0f)).epsilon(0.02));
+
+    // A large map grows its cells to stay within the cell limit.
+    WeatherRoofMap large;
+    large.reset(-32000.0f, -32000.0f, 32000.0f, 32000.0f, 16.0f, 512);
+    CHECK(large.width() <= 512);
+    CHECK(large.cellSize() >= 125.0f);
 }

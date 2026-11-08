@@ -9,6 +9,9 @@ Unchanged files produce an unchanged pack, so an update downloads only the packs
   together, and mounted at the domain's folder. A domain may route some files (by extension) into their own
   bucket set, so large rarely-changed files (light bakes) do not ride along with small often-changed ones.
 - A pack's identity (content_id) is its logical content, independent of the compressor's output bytes.
+- A language pack's text ships in the engine package (languages/<id>/, always installed); its fonts, sounds and videos
+  become optional packs with a "language" field, mounted over the game's folders of the same name while that is the
+  interface language and downloaded only for a language the player chose (devdocs/LOCALIZATION.md).
 """
 
 import hashlib
@@ -21,6 +24,8 @@ import zipfile
 import yaml
 
 PACK_FORMAT = 1
+# The fields of a pack in index.json and the release manifest; "language" only on a language's optional packs.
+PACK_RECORD_KEYS = ("id", "package", "mount", "file", "size", "content_id", "sha256", "language")
 INDEX_SCHEMA = 1
 MIB = 1024 * 1024
 # Formats that are already compressed: storing them saves load time at no size cost.
@@ -143,6 +148,7 @@ class PackConfig:
         self.core_maximum = document["core_max_mib"] * MIB
         self.worlds = list(document["worlds"])
         self.packages = document["packages"]
+        self.language_overlays = document.get("languages", {}).get("overlays", {})
 
     @classmethod
     def load(cls, path):
@@ -205,12 +211,45 @@ def assign_packs(package_id, entries, config, profile):
     return packs
 
 
+# The folders of a language pack that mount over the game's (AssetFileSystem::mountLanguagePack), per package kind.
+LANGUAGE_OVERLAYS = {"engine": ("fonts", "audio", "videos"), "world": ("audio", "videos")}
+
+
+def assign_language_packs(language_id, entries, config, profile, worlds):
+    """{pack id: {"mount", "package", "entries"}} of a language's optional packs. entries are named as in the language
+    folder: engine/fonts/..., worlds/<world>/audio/...; files of worlds the release does not ship, and of overlay folders
+    packs.yml marks ship: false, are left out."""
+    packs = {}
+    for name, source in sorted(entries.items()):
+        parts = name.split("/")
+        if parts[0] == "engine" and len(parts) > 2 and parts[1] in LANGUAGE_OVERLAYS["engine"]:
+            package_id, domain, domain_path = "engine", parts[1], "/".join(parts[2:])
+        elif parts[0] == "worlds" and len(parts) > 3 and parts[2] in LANGUAGE_OVERLAYS["world"]:
+            package_id, domain, domain_path = parts[1], parts[2], "/".join(parts[3:])
+            if package_id not in worlds:
+                continue
+        else:
+            raise ValueError(f"Language {language_id}: {name} is in no folder a language pack overlays")
+        if domain not in config.language_overlays:
+            raise ValueError(f"packs.yml lists no language overlay '{domain}' (file {name})")
+        if not config.language_overlays[domain].get("ship", True):
+            continue
+        buckets = profile_value(config.language_overlays[domain].get("buckets", 1), profile)
+        bucket = fnv1a64(group_key(domain_path, "stem", name, {})) % buckets
+        pack_id = f"lang-{language_id}.{package_id}.{domain}" + (f".{bucket}" if buckets > 1 else "")
+        pack = packs.setdefault(pack_id, {"mount": f"{package_mount(package_id)}/{domain}", "package": package_id,
+                                          "entries": {}})
+        pack["entries"][domain_path] = source
+    return packs
+
+
 def pack_file_name(pack_id, identity):
     return f"{pack_id}-{identity[:16]}.zip"
 
 
-def build_packs(packages, config, profile, output, reuse=None):
-    """Write the packs of {package id: entries} into output/packs and return their index records.
+def build_packs(packages, config, profile, output, reuse=None, languages=None):
+    """Write the packs of {package id: entries} and of {language id: overlay entries} into output/packs and return
+    their index records.
 
     reuse maps a content_id to an already published pack file; its bytes are copied instead of packing again, so
     every output carries the published bytes of an unchanged pack."""
@@ -220,31 +259,43 @@ def build_packs(packages, config, profile, output, reuse=None):
     records = []
     problems = []
     seen = {}
+    layout = []
     for package_id, entries in packages.items():
         for pack_id, pack in sorted(assign_packs(package_id, entries, config, profile).items()):
-            for name in pack["entries"]:
-                virtual = pack["mount"] + "/" + name
-                if virtual in seen:
-                    problems.append(f"{virtual} is in both {seen[virtual]} and {pack_id}")
-                seen[virtual] = pack_id
-            identity = content_id(pack["entries"])
-            file_name = pack_file_name(pack_id, identity)
-            target = store / file_name
-            if identity in reuse:
-                data = Path(reuse[identity]).read_bytes()
-                temporary = target.with_suffix(".tmp")
-                temporary.write_bytes(data)
-                temporary.replace(target)
-            elif not target.is_file():
-                write_zip(pack["entries"], target)
-            size = target.stat().st_size
-            limit = config.core_maximum if pack_id.endswith(".core") else config.maximum
-            if size > limit:
-                problems.append(f"{pack_id} is {size / MIB:.1f} MiB, over its {limit // MIB} MiB limit; "
-                                f"raise its bucket count in packs.yml")
-            records.append({"id": pack_id, "package": package_id, "mount": pack["mount"], "file": file_name,
-                            "size": size, "content_id": identity, "sha256": file_sha256(target),
-                            "entries": len(pack["entries"])})
+            layout.append((pack_id, {**pack, "package": package_id}, ""))
+    for language_id, entries in (languages or {}).items():
+        language_packs = assign_language_packs(language_id, entries, config, profile, set(packages))
+        for pack_id, pack in sorted(language_packs.items()):
+            layout.append((pack_id, pack, language_id))
+    for pack_id, pack, language_id in layout:
+        package_id = pack["package"]
+        # A language's files replace the game's at the same path, so only files of one language may collide.
+        for name in pack["entries"]:
+            virtual = (language_id, pack["mount"] + "/" + name)
+            if virtual in seen:
+                problems.append(f"{virtual[1]} is in both {seen[virtual]} and {pack_id}")
+            seen[virtual] = pack_id
+        identity = content_id(pack["entries"])
+        file_name = pack_file_name(pack_id, identity)
+        target = store / file_name
+        if identity in reuse:
+            data = Path(reuse[identity]).read_bytes()
+            temporary = target.with_suffix(".tmp")
+            temporary.write_bytes(data)
+            temporary.replace(target)
+        elif not target.is_file():
+            write_zip(pack["entries"], target)
+        size = target.stat().st_size
+        limit = config.core_maximum if pack_id.endswith(".core") else config.maximum
+        if size > limit:
+            problems.append(f"{pack_id} is {size / MIB:.1f} MiB, over its {limit // MIB} MiB limit; "
+                            f"raise its bucket count in packs.yml")
+        record = {"id": pack_id, "package": package_id, "mount": pack["mount"], "file": file_name,
+                  "size": size, "content_id": identity, "sha256": file_sha256(target),
+                  "entries": len(pack["entries"])}
+        if language_id:
+            record["language"] = language_id
+        records.append(record)
     if problems:
         raise ValueError("Pack layout problems:\n  " + "\n  ".join(problems))
     current = {record["file"] for record in records}
@@ -262,8 +313,7 @@ def write_index(output, records, *, profile, release, build, content_format):
         "profile": profile,
         "content_format": content_format,
         "store": "packs",
-        "packs": [{key: record[key] for key in ("id", "package", "mount", "file", "size", "content_id", "sha256")}
-                  for record in records],
+        "packs": [{key: record[key] for key in PACK_RECORD_KEYS if key in record} for record in records],
     }
     path = Path(output) / "index.json"
     path.write_text(json.dumps(index, indent=1, sort_keys=False) + "\n", encoding="utf-8")

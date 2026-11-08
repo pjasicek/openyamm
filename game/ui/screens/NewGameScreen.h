@@ -138,6 +138,9 @@ public:
 
     void drawScreen(float deltaSeconds) override;
     void drawContinentSelection(float deltaSeconds);
+    // Whether the continent can start a game: its selection row, its start map (continent_settings.txt death map 1)
+    // and that map in its world's package.
+    bool continentOffered(const std::string &continentKey) const;
     void drawCharacterCreation(float deltaSeconds);
     void drawCreationHeader();
     void drawCreationRoster(bool input);
@@ -169,6 +172,11 @@ public:
     void sheetText(const Rect &rect, const std::string &text, const std::string &font, float cssPixels,
                    uint32_t color, int align = -1);
     float sheetTextWidth(const std::string &text, const std::string &font, float cssPixels);
+    // The font size (css pixels) at which the voice lines' buttons fit in a row of the given width: 15, or less for a
+    // language whose lines are longer.
+    float voiceLineSize(float rowWidth);
+    // The width of a button whose label is text: at least minimum, wider for a longer label.
+    float labelButtonWidth(const std::string &text, float minimum);
     void glyph(const std::string &name, const Rect &rect, uint32_t color);
     void horizontalGradient(const Rect &rect, uint32_t left, uint32_t right);
     void verticalGradient(const Rect &rect, uint32_t top, uint32_t bottom);
@@ -176,6 +184,7 @@ public:
     // The voice's number as players see it: the lowest portrait whose own voice it is (portrait #N speaks with
     // Voice N), or the voice id plus one for a voice no portrait owns.
     int voiceDisplayNumber(int voiceId) const;
+    std::string voiceLabel(int voiceId) const;
     void openSheetPopup(SheetPopup popup);
     void chooseCandidateForActiveSlot(size_t candidateIndex);
     void removePartySlotAt(size_t slotIndex);
@@ -300,6 +309,8 @@ public:
     float m_tableContentHeight = 0;
     // The portrait grid's filter: 0 everyone, 1 men, 2 women.
     int m_portraitFilter = 0;
+    // The portrait picker's world filter: a world id (CharacterDollEntry::worldId), or empty for every world.
+    std::string m_portraitWorldFilter;
     uint32_t m_classPreviewId = 0;
     // The skill under the pointer and for how long, for the skill card.
     std::string m_hoverSkill;

@@ -122,7 +122,7 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
     }
 
     // A completed turn is all the time that passes in turn-based combat (OE NextTurn -> _494035_timed_effects): the
-    // clock and buffs and the per-second regeneration advance by the turn's game time.
+    // clock and buffs, the per-second regeneration and the monsters' spell effects advance by the turn's game time.
     constexpr float GameMinutesPerRealSecond = 0.5f;
     const float equivalentRealSeconds = minutes / GameMinutesPerRealSecond;
     Party &party = m_pRuntime->party();
@@ -135,6 +135,7 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
     if (pWorldRuntime != nullptr)
     {
         party.rules().skills.updateRegeneration(party, *pWorldRuntime, equivalentRealSeconds);
+        pWorldRuntime->advanceTurnBasedActorTimers(equivalentRealSeconds);
     }
 
     return true;

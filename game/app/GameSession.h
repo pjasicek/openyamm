@@ -4,7 +4,9 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/app/GameSettings.h"
+#include "game/gameplay/CinematicRuntime.h"
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayInputController.h"
@@ -17,6 +19,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/maps/SaveGame.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/mm9/Mm9QuestMarkers.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/scene/SceneKind.h"
@@ -131,6 +134,37 @@ public:
     {
         m_tavernHirelings = enabled;
     }
+    // Whether the active world's friendly actors without an NPC of their own talk as MMerge street NPCs: their group's
+    // news or a generated NPC (world.yml streetNpcs).
+    void setStreetNpcs(bool enabled)
+    {
+        m_streetNpcs = enabled;
+    }
+    bool streetNpcs() const
+    {
+        return m_streetNpcs;
+    }
+    // Whether the active world has the MM6-MM8 hired NPC followers (world.yml npcFollowers), handed to the party for
+    // each map it enters.
+    void setNpcFollowers(bool enabled)
+    {
+        m_npcFollowers = enabled;
+    }
+    // Whether the active world shows the combat log under its combat_log setting's Auto (world.yml combatLog).
+    void setWorldCombatLog(bool shown)
+    {
+        m_worldCombatLog = shown;
+    }
+    bool worldCombatLog() const
+    {
+        return m_worldCombatLog;
+    }
+    // Whether the active world places the party on MM9's formation grid (world.yml formations), handed to the party
+    // for each map it enters.
+    void setFormations(bool enabled)
+    {
+        m_formations = enabled;
+    }
     // The active world's Hum (world.yml hum), handed to the party for each map it enters.
     void setWorldHum(const WorldHumDefinition &hum)
     {
@@ -212,6 +246,20 @@ public:
     void mergeNamedGlobalVarsFromRuntime(const EventRuntimeState &runtimeState);
     void applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState) const;
 
+    // In-engine cinematics (game/gameplay/CinematicRuntime.h): the current map's <stem>.cinematics.yml, set by the
+    // application at each map load (none: the map has no file), and the playing cinematic with the camera shake.
+    void setMapCinematics(std::optional<CinematicLibrary> library);
+    const std::optional<CinematicLibrary> &mapCinematics() const;
+    CinematicRuntime &cinematicRuntime();
+    const CinematicRuntime &cinematicRuntime() const;
+    // Starts a cinematic of the current map; false (logged, and its done event runs) when the map has none of that id.
+    bool playCinematic(const std::string &id, uint16_t doneEventId);
+    // Ends the playing cinematic and the camera shake without running anything (the map changed).
+    void stopCinematics();
+    // Finishes overheard talk at once (its remaining map events run, as on a skip) so a save can be written; a
+    // cinematic that takes over the view is left playing.
+    void finishAmbientCinematic();
+
     // Camera of the current scene (outdoor or indoor), saved and restored with the game.
     void setCameraAngles(float yawRadians, float pitchRadians);
     float cameraYawRadians() const;
@@ -259,6 +307,19 @@ public:
         const IndoorSceneRuntime::Snapshot &snapshot
     );
 
+    // The layout identity of the map whose runtime is being built (MapAssetInfo::layoutIdentity): the capture
+    // functions stamp it on that map's state (devdocs/SAVED_MAP_STATE_IDENTITY.md).
+    void setCurrentMapLayoutIdentity(uint64_t identity);
+    // Drops a map's saved state (doors, mechanisms, actors, chests, items on the ground, map and decoration
+    // variables, timers): the map starts from its initial state when it is next built. With partyInside (a save made
+    // in that map is being loaded) the party's saved place and camera there go too, so the party starts at the map's
+    // start point. Party state (members, inventory, gold, QBits, journal, hirelings, global variables) stays.
+    void discardMapState(const std::string &mapFileName, bool partyInside);
+
+    // The playthrough's statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md); they outlive clear(), since a load of the
+    // same playthrough continues them.
+    PlaythroughStatistics &playthroughStatistics();
+    const PlaythroughStatistics &playthroughStatistics() const;
     std::optional<GameSaveData> buildSaveData() const;
     void restoreFromSaveData(const GameSaveData &saveData);
     void restoreHeldInventoryItemFromSaveData(const GameSaveData &saveData);
@@ -319,9 +380,14 @@ private:
         float movementDeltaSeconds,
         float frameDeltaSeconds);
     void updateMm9QuestMarkerCache();
+    // Takes the events' cinematic and shake requests, the skip keys and advances the cinematic; true while one plays
+    // (the frame's input is then m_cinematicInputFrame: nothing held).
+    bool updateCinematics(const GameplayInputFrame &input, float deltaSeconds);
+    void renderCinematicOverlay(int width, int height);
 
     const GameDataRepository *m_pDataRepository = nullptr;
     std::optional<std::filesystem::path> m_madnessLedgerFile;
+    PlaythroughStatistics m_playthroughStatistics;
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
@@ -330,6 +396,10 @@ private:
     GameplayUiRuntime m_gameplayUiRuntime;
     GameplayActorService m_gameplayActorService;
     bool m_tavernHirelings = true;
+    bool m_streetNpcs = true;
+    bool m_npcFollowers = true;
+    bool m_worldCombatLog = true;
+    bool m_formations = false;
     WorldHumDefinition m_worldHum;
     WorldFloorBurnDefinition m_worldFloorBurn;
     std::vector<uint32_t> m_worldObjectiveQBits;
@@ -356,6 +426,7 @@ private:
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> m_outdoorWorldStates;
     std::optional<IndoorSceneRuntime::Snapshot> m_currentIndoorSceneState;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> m_indoorSceneStates;
+    uint64_t m_currentMapLayoutIdentity = 0;
     std::unordered_map<std::string, int32_t> m_namedGlobalVars;
     float m_gameMinutes = 9.0f * 60.0f;
     RulesetSelection m_ruleset;
@@ -374,5 +445,8 @@ private:
     GameplayUpdateFramePerformanceDiagnostics m_lastGameplayUpdateFramePerformanceDiagnostics = {};
     GameplayUiFramePerformanceDiagnostics m_lastGameplayUiFramePerformanceDiagnostics = {};
     TurnBasedFrameTraceState m_turnBasedFrameTraceState;
+    std::optional<CinematicLibrary> m_mapCinematics;
+    CinematicRuntime m_cinematicRuntime;
+    GameplayInputFrame m_cinematicInputFrame = {};
 };
 }

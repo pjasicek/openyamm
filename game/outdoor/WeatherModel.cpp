@@ -340,10 +340,32 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                 WeatherMapChances chances;
                 float value = 0.0f;
 
-                if (!parser.checkKeys(entry.second, {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color"},
-                        where))
+                if (!parser.checkKeys(entry.second,
+                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak"}, where))
                 {
                     return false;
+                }
+
+                if (entry.second["always"])
+                {
+                    const std::string kind = toLowerCopy(entry.second["always"].as<std::string>());
+
+                    if (kind != "rain" && kind != "snow")
+                    {
+                        return parser.fail(where + ".always must be rain or snow");
+                    }
+
+                    chances.always = kind == "rain" ? PrecipitationKind::Rain : PrecipitationKind::Snow;
+                }
+
+                if (entry.second["peak"])
+                {
+                    if (!parser.readFloat(entry.second["peak"], value, 0.05f, 1.0f, where + ".peak"))
+                    {
+                        return false;
+                    }
+
+                    chances.alwaysPeak = value;
                 }
 
                 if (entry.second["ash_look"])
@@ -603,6 +625,14 @@ WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t
         settings.dryLightningPercent = it->second.dryLightningPercent.value_or(0.0f);
         settings.rainColor = it->second.rainColor.value_or(DefaultRainColor);
 
+        // Only a kind the map can have (the scene's or bolster row's rain and snow).
+        if ((it->second.always == PrecipitationKind::Rain && rainEnabled)
+            || (it->second.always == PrecipitationKind::Snow && snowEnabled))
+        {
+            settings.always = it->second.always;
+            settings.alwaysPeak = it->second.alwaysPeak;
+        }
+
         if (it->second.ashLook)
         {
             if (const auto look = rules.namedFlakes.find(toLowerCopy(*it->second.ashLook)); look != rules.namedFlakes.end())
@@ -654,6 +684,22 @@ WeatherDayPlan planWeatherDay(const WeatherRules &rules, const WeatherMapSetting
         ? settings.snowChancePercent * rules.snowMonthMultipliers[monthIndex] : 0.0f;
     const float rainChance = settings.rainEnabled
         ? settings.rainChancePercent * rules.rainMonthMultipliers[monthIndex] : 0.0f;
+
+    if (settings.always != PrecipitationKind::None)
+    {
+        // A spell from each midnight past the next day's ramp up: the days overlap, so it never stops.
+        const WeatherSpellShape &shape = settings.always == PrecipitationKind::Snow ? rules.snow : rules.rain;
+        plan.kind = settings.always;
+        plan.peak = settings.alwaysPeak;
+        plan.startMinute = 0.0f;
+        plan.rampUpMinutes = shape.rampUpMinutes[0];
+        plan.rampDownMinutes = shape.rampDownMinutes[0];
+        plan.durationMinutes = static_cast<float>(MinutesPerDay) + 2.0f * (plan.rampUpMinutes + plan.rampDownMinutes);
+        plan.variationPeriodMinutes = rules.variationPeriodMinutes[0]
+            + (rules.variationPeriodMinutes[1] - rules.variationPeriodMinutes[0]) * periodRoll;
+        plan.variationPhase = phaseRoll * TwoPi;
+        return plan;
+    }
 
     if (snowRoll < snowChance)
     {

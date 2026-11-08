@@ -1,4 +1,5 @@
 #include "game/ui/GameplayLootSummaryRenderer.h"
+#include "engine/Localization.h"
 
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemRuntime.h"
@@ -76,7 +77,7 @@ std::vector<SummaryLine> buildLines(const GameplayUiController::LootSummaryOverl
     if (!state.leftItems.empty())
     {
         SummaryLine header;
-        header.header = "Left in satchels: no room in the bags";
+        header.header = Engine::tr("Left in satchels: no room in the bags");
         lines.push_back(header);
         appendItemLines(state.leftItems, nullptr, lines);
     }
@@ -119,10 +120,6 @@ std::string groupedNumber(int value)
     return value < 0 ? "-" + digits : digits;
 }
 
-std::string plural(size_t count, const char *pSingular, const char *pPlural)
-{
-    return std::to_string(count) + " " + (count == 1 ? pSingular : pPlural);
-}
 
 // The rules' rarity colour (0xRRGGBB) as the label's ABGR, else the list's ivory.
 uint32_t itemNameColor(const GameplayScreenRuntime &context, const InventoryItem &item)
@@ -149,8 +146,10 @@ void renderGold(GameplayScreenRuntime &context, const GameplayBenchPainter &pain
         return;
     }
 
-    const std::string text = groupedNumber(goldAmount) + " gold"
-        + (followerGoldShare > 0 ? " (followers took " + groupedNumber(followerGoldShare) + ")" : "");
+    const std::string text = followerGoldShare > 0
+        ? Engine::tr("{gold} gold (followers took {share})",
+            {{"gold", groupedNumber(goldAmount)}, {"share", groupedNumber(followerGoldShare)}})
+        : Engine::tr("{gold} gold", {{"gold", groupedNumber(goldAmount)}});
     const float s = area->scale;
     const float textWidth = context.measureHudTextWidth(pStyle->fontName, text) * s * pStyle->textScale;
     const float iconWidth = GoldIconWidth * s;
@@ -185,9 +184,12 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
     // The HUD under the summary must not answer item inspection; its own items do.
     context.gameplayUiRuntime().clearRenderedInspectableHudItems();
     GameplayUiSkin::renderPanel(context, *panel, false, 0.75f);
-    painter.label("LootSummaryTitle", "Map Looted");
-    painter.label("LootSummaryOverview", plural(state.satchelCount, "satchel", "satchels") + " emptied, "
-        + plural(state.takenItems.size(), "item", "items") + " taken");
+    painter.label("LootSummaryTitle", Engine::tr("Map Looted"));
+    painter.label("LootSummaryOverview", Engine::tr("{satchels} emptied, {items} taken",
+        {{"satchels", Engine::trn("{count} satchel", "{count} satchels", state.satchelCount,
+             {{"count", state.satchelCount}})},
+            {"items", Engine::trn("{count} item", "{count} items", state.takenItems.size(),
+                {{"count", state.takenItems.size()}})}}));
     renderGold(context, painter, state.goldAmount, state.followerGoldShare);
 
     if (const std::optional<Rect> list = painter.rect("LootSummaryList"))
@@ -282,7 +284,7 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
         if (lines.empty())
         {
             painter.text("LootSummaryRowLabel", {left + 4 * s, top, innerWidth, RowHeight * s, s},
-                "The satchels held only gold.", GameplayBenchColors::DimTextColor);
+                Engine::tr("The satchels held only gold."), GameplayBenchColors::DimTextColor);
         }
 
         const float visibleHeight = list->height / s - 2 * ListPadding;
@@ -291,7 +293,7 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
             linesHeight > 0 ? visibleHeight / linesHeight : 1.0f, false);
     }
 
-    painter.button("LootSummaryCloseButton", "Close", true);
+    painter.button("LootSummaryCloseButton", Engine::tr("Close"), true);
 }
 
 bool GameplayLootSummaryRenderer::handleInput(

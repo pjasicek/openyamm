@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawMonsterRules.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayMonsterSpawn.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -389,12 +390,32 @@ void setDisplayedDamage(int &diceRolls, int &diceSides, int &bonus, double damag
 
 std::string mawBossAffixName(MawBossAffix affix)
 {
-    static constexpr std::array<const char *, 22> Names = {
-        "", "Summoner", "Venomous", "Plagueborn", "Fixator", "Exploding", "Thorn", "Reflecting", "Adamantite",
-        "Swapper", "Regenerating", "Puller", "Leecher", "Swift", "Shadow", "Broodlord", "Broodling", "Omnipotent",
-        "Unstoppable", "Berserker", "Cryptic", "Skilled",
+    // English identities (badges, actor names); shown through localizedActorName.
+    static constexpr std::array<std::string_view, 22> Names = {
+        "",
+        Engine::trcNoop("monster affix", "Summoner"),
+        Engine::trcNoop("monster affix", "Venomous"),
+        Engine::trcNoop("monster affix", "Plagueborn"),
+        Engine::trcNoop("monster affix", "Fixator"),
+        Engine::trcNoop("monster affix", "Exploding"),
+        Engine::trcNoop("monster affix", "Thorn"),
+        Engine::trcNoop("monster affix", "Reflecting"),
+        Engine::trcNoop("monster affix", "Adamantite"),
+        Engine::trcNoop("monster affix", "Swapper"),
+        Engine::trcNoop("monster affix", "Regenerating"),
+        Engine::trcNoop("monster affix", "Puller"),
+        Engine::trcNoop("monster affix", "Leecher"),
+        Engine::trcNoop("monster affix", "Swift"),
+        Engine::trcNoop("monster affix", "Shadow"),
+        Engine::trcNoop("monster affix", "Broodlord"),
+        Engine::trcNoop("monster affix", "Broodling"),
+        Engine::trcNoop("monster affix", "Omnipotent"),
+        Engine::trcNoop("monster affix", "Unstoppable"),
+        Engine::trcNoop("monster affix", "Berserker"),
+        Engine::trcNoop("monster affix", "Cryptic"),
+        Engine::trcNoop("monster affix", "Skilled"),
     };
-    return size_t(affix) < Names.size() ? Names[size_t(affix)] : "";
+    return size_t(affix) < Names.size() ? std::string(Names[size_t(affix)]) : std::string();
 }
 
 MawBossAffix mawBossEffectAffix(const ActorRulesetFacts &facts)
@@ -495,7 +516,7 @@ std::optional<RulesetMapProgress> mawMapProgress(const MapKillProgress &progress
 
     if (openRun && facts.completedBefore && !facts.beyondMadness)
     {
-        result.reward = "counts for the Dimensional Maps quest";
+        result.reward = Engine::tr("counts for the Dimensional Maps quest");
     }
     else if (facts.completedBefore && !openRun)
     {
@@ -503,7 +524,7 @@ std::optional<RulesetMapProgress> mawMapProgress(const MapKillProgress &progress
     }
     else
     {
-        result.reward = facts.austerity ? "experience and gold" : "experience, gold, materials";
+        result.reward = Engine::tr(facts.austerity ? "experience and gold" : "experience, gold, materials");
     }
 
     return result;
@@ -1388,7 +1409,7 @@ std::optional<std::string> MawMonsterRules::bountyRefusal(const IGameplayWorldRu
     if (world.mapKillProgress(progress)
         && !m_rules.state().clearedSinceRefill.contains(lowerFileName(progress.mapFileName)))
     {
-        return "You need to clear the area COMPLETELY first.";
+        return Engine::tr("You need to clear the area COMPLETELY first.");
     }
 
     return std::nullopt;
@@ -1448,7 +1469,7 @@ std::optional<BountyTarget> MawMonsterRules::spawnBountyTarget(
     // The bounty texts name the boss as spawned and a "Bounty" note marks its spot (BountyHunt.lua:216-231).
     BountyTarget result;
     result.monsterId = int16_t(target.id);
-    result.mapNote = "Bounty";
+    result.mapNote = Engine::tr("Bounty");
     GameplayRuntimeActorState huntedState = {};
 
     if (!hunted.empty() && world.actorRuntimeState(hunted.front(), huntedState))
@@ -1571,8 +1592,9 @@ std::optional<std::string> MawMonsterRules::mapResetOffer(const std::string &map
     }
 
     const int resets = m_rules.state().resetCount(fileName);
-    return "You have cleared this dungeon. Resetting it brings every monster back "
-        + std::to_string(20 * (resets + 1)) + " levels stronger than at first, with no second completion reward.";
+    return Engine::tr("You have cleared this dungeon. Resetting it brings every monster back {levels} levels stronger "
+                      "than at first, with no second completion reward.",
+        {{"levels", 20 * (resets + 1)}});
 }
 
 void MawMonsterRules::resetMap(const std::string &mapFileName) const
@@ -2081,7 +2103,7 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
         if (pRuntimeState != nullptr && m_rules.options().difficulty >= RulesetDifficulty::Hard
             && mawFlightMap(m_announcedMap))
         {
-            pRuntimeState->statusMessages.push_back("Fly is allowed without restrictions here");
+            pRuntimeState->statusMessages.push_back(Engine::tr("Fly is allowed without restrictions here"));
         }
     }
 
@@ -2102,7 +2124,8 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
             if (mark != weakenedMark(m_rules, progress.mapFileName))
             {
                 mark = weakenedMark(m_rules, progress.mapFileName);
-                pRuntimeState->statusMessages.push_back("Monsters are weakened and can no longer resurrect");
+                pRuntimeState->statusMessages.push_back(
+                    Engine::tr("Monsters are weakened and can no longer resurrect"));
             }
         }
     }
@@ -2253,7 +2276,7 @@ bool MawMonsterRules::teleportBlockedNearEnemies() const
 std::string MawMonsterRules::teleportBlockedText(bool townPortal) const
 {
     return townPortal && m_rules.options().challengeMode == RulesetChallengeMode::BeyondMadness
-        ? "Madness is not a place for cowards"
+        ? Engine::tr("Madness is not a place for cowards")
         : MonsterRules::teleportBlockedText(townPortal);
 }
 
@@ -2318,7 +2341,7 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
 
         if (int(highest) < tier)
         {
-            return formatQuestText(questRules.textTooLow, {}, tier);
+            return formatQuestText(Engine::localize(questRules.textTooLow), {}, tier);
         }
 
         // Keyed by the tier, so asking again after a reload gives the same map (rollQuestMap).
@@ -2349,18 +2372,18 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
 
         if (!party.tryGrantInventoryItem(item))
         {
-            return std::string("Your packs are too full to take the map.");
+            return Engine::tr("Your packs are too full to take the map.");
         }
 
         quest.mapGiven = true;
         quest.cleared = false;
-        return formatQuestText(questRules.textGive, pTarget->name,
+        return formatQuestText(Engine::localize(questRules.textGive), Engine::localize(pTarget->name),
             mawDimensionMapLevel(map.power, m_rules.mapLevels().band(pTarget->fileName)));
     }
 
     if (!quest.cleared)
     {
-        return questRules.textNotCleared;
+        return Engine::localize(questRules.textNotCleared);
     }
 
     // AddGoldExp: the gold, and the same in experience to everyone as an event gives it.
@@ -2368,16 +2391,17 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
     const MapStatsEntry *pCurrentMap =
         m_rules.mapTable() != nullptr ? m_rules.mapTable()->findByFileName(m_rules.currentMap()) : nullptr;
     const uint32_t continentId = pCurrentMap != nullptr ? pCurrentMap->mergedContinentId : 0;
-    party.addGold(reward);
+    party.addGold(reward, GoldReason::Event);
     const int64_t experience =
         m_rules.gameRules().experience.eventExperience(party, reward, continentId, party.members().size());
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
-        party.addExperienceToMember(memberIndex, experience);
+        party.addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
     }
 
-    const std::string text = formatQuestText(questRules.textReward, quest.clearedMapName, reward);
+    const std::string text =
+        formatQuestText(Engine::localize(questRules.textReward), Engine::localize(quest.clearedMapName), reward);
     quest.done = quest.done || tier >= questRules.unlockTier;
     quest.tierLevel = data.nextQuestTier(tier);
     quest.mapGiven = false;

@@ -2971,6 +2971,33 @@ TEST_CASE("relation overrides replace the faction relation, and a turned actor f
     CHECK(service.resolveActorTargetPolicy(turret, kreegan).canTarget);
 }
 
+TEST_CASE("a relation row may name an actor group, which wins over its monsters' rows")
+{
+    using OpenYAMM::Game::GameplayActorService;
+    GameplayActorService service;
+    OpenYAMM::Game::GameplayActorTargetPolicyState barracksGuard = {};
+    barracksGuard.monsterId = 9111;
+    barracksGuard.group = 4;
+    OpenYAMM::Game::GameplayActorTargetPolicyState kitchenGuard = barracksGuard;
+    kitchenGuard.group = 3;
+    OpenYAMM::Game::GameplayActorTargetPolicyState nagate = {};
+    nagate.monsterId = 9081;
+    nagate.hostileToParty = true;
+
+    // Drangheim Prison: only group 4 (GuardToNegate.scr's AddEnemy Nagate) and the Nagate are enemies; the guards'
+    // own monster rows say peace.
+    std::unordered_map<uint32_t, int32_t> overrides;
+    overrides[GameplayActorService::relationOverrideKey(9111, 9081)] = 0;
+    overrides[GameplayActorService::relationOverrideKey(9081, 9111)] = 0;
+    overrides[GameplayActorService::relationOverrideKey(GameplayActorService::relationGroupSide(4), 9081)] = 2;
+    overrides[GameplayActorService::relationOverrideKey(9081, GameplayActorService::relationGroupSide(4))] = 2;
+
+    CHECK(service.resolveActorTargetPolicy(barracksGuard, nagate, &overrides).canTarget);
+    CHECK(service.resolveActorTargetPolicy(nagate, barracksGuard, &overrides).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(kitchenGuard, nagate, &overrides).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(nagate, kitchenGuard, &overrides).canTarget);
+}
+
 namespace
 {
 // A hostile melee skirmisher (ActorTacticsFacts::skirmish) fighting the party, which stands targetDistance away along
@@ -3216,4 +3243,47 @@ TEST_CASE("a skirmisher taunts when it first notices the party and after a back-
     actor.status.hasDetectedParty = false;
     actor.runtime = makeSkirmisher(96.0f).runtime;
     CHECK(*updateSkirmisher(actor).state.motionState == ActorAiMotionState::Attacking);
+}
+
+TEST_CASE("an evt.MoveActorTo walk takes an actor to its point instead of its own fight, also from a post")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    // Adjacent to the party, hostile: by itself it attacks.
+    ActorAiFacts actor = makeEngagedMeleeActor(0.0f);
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult fighting = system.updateActors(frame);
+    REQUIRE_EQ(fighting.actorUpdates.size(), 1u);
+    CHECK(fighting.actorUpdates.front().state.motionState.value_or(ActorAiMotionState::Standing)
+        == ActorAiMotionState::Attacking);
+
+    // The walk: no attack, the path planner's pursuit of the point at its walking speed, even placed immobile.
+    actor.movement.movementAllowed = false;
+    actor.movement.scriptedMoveTarget = OpenYAMM::Game::GameplayWorldPoint{900.0f, 200.0f, 0.0f};
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult walking = system.updateActors(frame);
+    REQUIRE_EQ(walking.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &walk = walking.actorUpdates.front();
+    CHECK_FALSE(walk.attackRequest.has_value());
+    CHECK(walk.state.motionState == ActorAiMotionState::Wandering);
+    CHECK(walk.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(walk.movementIntent.applyMovement);
+    CHECK(walk.movementIntent.meleePursuitActive);
+    CHECK_EQ(walk.movementIntent.targetPosition.x, doctest::Approx(900.0f));
+    CHECK_EQ(walk.movementIntent.moveSpeed, doctest::Approx(200.0f));
+    CHECK_EQ(walk.movementIntent.moveDirectionX, doctest::Approx(1.0f));
+    REQUIRE(walk.state.decision.has_value());
+    CHECK(walk.state.decision->kind == OpenYAMM::Game::ActorAiDecisionKind::Patrol);
+
+    // A run goes at its pursuit speed.
+    actor.movement.scriptedMoveRun = true;
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiUpdate run = system.updateActors(frame).actorUpdates.front();
+    CHECK(run.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(run.movementIntent.moveSpeed > walk.movementIntent.moveSpeed);
+
+    // Turn-based play holding every actor holds the walker too.
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::Hold;
+    frame.activeActors = {actor};
+    CHECK_FALSE(system.updateActors(frame).actorUpdates.front().movementIntent.applyMovement);
 }

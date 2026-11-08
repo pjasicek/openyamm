@@ -383,6 +383,7 @@ void applySettingsConfigOverridesIfConfigured(
     config.hitchThresholdMilliseconds = settings->hitchThresholdMilliseconds;
     config.verticalSync = settings->verticalSync;
     config.installedContent.acceptModifiedPacks = settings->keepModifiedPacks;
+    config.installedContent.languageId = settings->language;
 }
 
 // settings.ini in the user data folder (the working directory by then), or the defaults.
@@ -467,6 +468,8 @@ int runGame(int argc, char **argv, OpenYAMM::Engine::LogFile &logFile)
     // Mounted only over a release's packs (packaging/MODDING.md).
     std::error_code currentPathError;
     config.installedContent.modsRoot = std::filesystem::current_path(currentPathError) / "mods";
+    // The player's own language packs (devdocs/LOCALIZATION.md), on every asset root.
+    config.installedContent.userLanguagesRoot = std::filesystem::current_path(currentPathError) / "languages";
 #endif
 
     const bool headlessCommand = !arguments.empty() && arguments[0].rfind("--headless-", 0) == 0;
@@ -832,8 +835,21 @@ int runGame(int argc, char **argv, OpenYAMM::Engine::LogFile &logFile)
     // A fresh installation from the small download package carries no content yet.
     else if (releaseContent && OpenYAMM::Game::installedContentMissing(config.assetRoot))
     {
-        if (OpenYAMM::Game::runContentSetup(updateChannelUrl(), config.assetRoot)
+        if (OpenYAMM::Game::runContentSetup(updateChannelUrl(), config.assetRoot, config.installedContent.languageId)
             != OpenYAMM::Game::ContentSetupResult::Ready)
+        {
+            return 0;
+        }
+    }
+    // The language chosen in Settings has voices, sounds or videos not downloaded yet (devdocs/LOCALIZATION.md):
+    // the same window downloads them; if the player closes it, the game plays in English this time.
+    else if (releaseContent
+             && OpenYAMM::Game::languageContentMissing(config.assetRoot, config.installedContent.languageId))
+    {
+        const OpenYAMM::Game::ContentSetupResult result =
+            OpenYAMM::Game::runContentSetup(updateChannelUrl(), config.assetRoot, config.installedContent.languageId);
+
+        if (result == OpenYAMM::Game::ContentSetupResult::Restarted)
         {
             return 0;
         }

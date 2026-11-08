@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayHeldItemController.h"
+#include "engine/Localization.h"
 
 #include "game/audio/SoundIds.h"
 #include "game/events/EventRuntime.h"
@@ -48,7 +49,8 @@ void notifyEventGrantedItemReceived(
         pParty->requestSound(SoundId::Gold);
     }
 
-    runtime.setStatusBarEvent("You found something (" + eventGrantedItemStatusName(item, itemTable) + ")!");
+    runtime.setStatusBarEvent(Engine::tr("You found something ({item})!",
+        {{"item", eventGrantedItemStatusName(item, itemTable)}}));
 }
 } // namespace
 
@@ -147,7 +149,8 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
 {
     if (eventRuntimeState.grantedItems.empty()
         && eventRuntimeState.grantedItemIds.empty()
-        && !eventRuntimeState.clearHeldItemRequest)
+        && !eventRuntimeState.clearHeldItemRequest
+        && eventRuntimeState.takenHeldItemId == 0)
     {
         return;
     }
@@ -158,6 +161,18 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
     }
 
     GameplayUiController::HeldInventoryItemState &heldInventoryItem = runtime.heldInventoryItem();
+
+    // An item the event took from the cursor (EventRuntimeState::takenHeldItemId).
+    if (eventRuntimeState.takenHeldItemId != 0)
+    {
+        if (heldInventoryItem.active && heldInventoryItem.item.objectDescriptionId == eventRuntimeState.takenHeldItemId)
+        {
+            clearHeldInventoryItem(heldInventoryItem);
+            runtime.party()->clearHeldItemForQueries();
+        }
+
+        eventRuntimeState.takenHeldItemId = 0;
+    }
 
     if (eventRuntimeState.clearHeldItemRequest)
     {
@@ -244,7 +259,7 @@ bool GameplayHeldItemController::tryAutoPlaceHeldInventoryItemOnPartyMember(
     if (!party.tryAutoPlaceItemInMemberInventory(memberIndex, heldInventoryItem.item))
     {
         failureStatus = party.lastStatus().empty() || party.lastStatus() == "inventory full"
-            ? "Pack is Full!"
+            ? Engine::tr("Pack is Full!")
             : party.lastStatus();
         return false;
     }

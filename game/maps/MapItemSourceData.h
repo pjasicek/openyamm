@@ -76,6 +76,9 @@ struct MapLootContainerSource
     std::vector<MapFixedContainerItem> fixedItems;
     std::vector<uint32_t> randomItemPool;
     uint32_t randomItemCount = 0;
+    // random_records (optional): the random_treasure_level records the container holds; each rolls 1-5 times when
+    // opened, like an MM6-MM8 chest slot (MM9 chests at MM7's average, BALANCE_PLAN.md 3.7).
+    uint32_t randomRecords = 1;
     bool removeWhenEmpty = false;
 };
 

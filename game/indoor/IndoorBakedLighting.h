@@ -84,6 +84,11 @@ struct IndoorBakedLighting
 
     uint64_t geometryHash = 0;
     std::vector<IndoorBakedLightingPage> pages;
+    // Version 2 (a map open to the sky, devdocs/INDOOR_BAKED_LIGHTING.md "Daylight pages"): per page, the share of its
+    // light that is the open air's (ambient and sun at noon), the same size; `pages` then holds the rest (lamps,
+    // interiors). Noon light is the sum; the renderer scales the daylight share by the time of day on the faces of
+    // sectors open to the sky. Empty for version 1 (every other bake).
+    std::vector<IndoorBakedLightingPage> daylightPages;
     // One per BLV face, in face order.
     std::vector<IndoorBakedLightingFace> faces;
     // Per sector: the bake's bounce and ambient floor averaged over the sector's surfaces (RGB, lighting units). Actors,

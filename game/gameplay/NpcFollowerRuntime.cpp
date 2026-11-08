@@ -1,5 +1,7 @@
 #include "game/gameplay/NpcFollowerRuntime.h"
+#include "engine/Localization.h"
 
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/Party.h"
 #include "game/rules/SkillRules.h"
 #include "game/tables/MergedBaseTables.h"
@@ -333,14 +335,23 @@ int hiredNpcResistanceBonus(std::span<const HiredNpcFollower> followers, const s
     });
 }
 
-FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState)
+FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState, const Party *pParty)
 {
     FoundGold foundGold = {};
     foundGold.amount = goldAmount;
 
+    // MM9's Edina A'Mor: gold the party gains times 1.2 (cshell@0x10053de0). Applied to found gold (the world, chests,
+    // corpses); the MM9 world has no followers, so nothing below changes it there.
+    const int hirelingPercent = pParty != nullptr && goldAmount != 0 ? pParty->mm9HirelingPassives().goldPercent : 0;
+
+    if (hirelingPercent > 0)
+    {
+        foundGold.amount += uint32_t(uint64_t(foundGold.amount) * uint32_t(hirelingPercent) / 100u);
+    }
+
     if (pEventRuntimeState == nullptr || goldAmount == 0)
     {
-        foundGold.partyAmount = goldAmount;
+        foundGold.partyAmount = foundGold.amount;
         return foundGold;
     }
 
@@ -387,11 +398,11 @@ std::string foundGoldStatusText(const FoundGold &foundGold)
 {
     if (foundGold.followerShare > 0)
     {
-        return "You found " + std::to_string(foundGold.amount) + " gold (followers take "
-            + std::to_string(foundGold.followerShare) + ")!";
+        return Engine::tr("You found {gold} gold (followers take {share})!",
+            {{"gold", int64_t(foundGold.amount)}, {"share", int64_t(foundGold.followerShare)}});
     }
 
-    return "You found " + std::to_string(foundGold.amount) + " gold!";
+    return Engine::tr("You found {gold} gold!", {{"gold", int64_t(foundGold.amount)}});
 }
 
 bool hiredNpcCanRepairItemKind(std::span<const HiredNpcFollower> followers, const std::string &equipStat)

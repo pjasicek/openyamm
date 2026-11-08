@@ -1167,7 +1167,7 @@ void OutdoorRenderer::updateWeather(OutdoorGameView &view, const OutdoorWorldRun
     if (view.m_pGameAudioSystem != nullptr)
     {
         view.m_weatherAudio.update(*view.m_pGameAudioSystem, view.m_pOutdoorWorldRuntime->weatherRules().sounds,
-            view.m_weatherPresentation, strikes, !atmosphere.underwater, deltaSeconds);
+            view.m_weatherPresentation, strikes, atmosphere.underwater ? 0.0f : 1.0f, deltaSeconds);
     }
 }
 
@@ -3385,7 +3385,8 @@ void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const Outdoo
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
     if (pEvents != nullptr && !pEvents->decorationAims.empty())
     {
-        models.poseAimed(billboards, [pEvents](uint32_t key, float &yawRadians, float &back)
+        models.poseAimed(billboards, [pEvents](uint32_t key, float &yawRadians, float &back,
+            std::array<float, 3> &offset)
         {
             const auto aim = pEvents->decorationAims.find(key);
             if (aim == pEvents->decorationAims.end())
@@ -3394,6 +3395,7 @@ void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const Outdoo
             }
             yawRadians = aim->second.currentRadians;
             back = aim->second.back();
+            offset = aim->second.offset;
             return true;
         });
     }
@@ -4956,7 +4958,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         {
             ensureTerrainDecorations(view, *view.m_pOutdoorMapData);
             const bool viewChanged = view.m_terrainDecorations.setView(
-                cameraPosition, cameraForward, cameraRight, cameraUp, aspectRatio, bx::toRad(CameraVerticalFovDegrees));
+                cameraPosition, cameraForward, cameraRight, cameraUp, aspectRatio,
+                bx::toRad(view.m_viewVerticalFovDegrees));
             const uint64_t now = SDL_GetTicksNS();
             const uint32_t lightCount = view.m_outdoorLightingRuntime.sourceLightCount();
             // Refresh stationary-camera visibility/lighting at 20 Hz. Camera and light-count changes are immediate.
@@ -5080,7 +5083,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
 
                     if (bmodelWorld)
                     {
-                        const float verticalTangent = std::tan(CameraVerticalFovDegrees * Pi / 360.0f);
+                        const float verticalTangent = std::tan(view.m_viewVerticalFovDegrees * Pi / 360.0f);
                         const float horizontalTangent = verticalTangent * aspectRatio;
                         const auto chunkVisible = [&](const OutdoorGameView::BModelWorldRenderChunk &chunk) {
                             if (!chunk.hasBounds)
@@ -5666,8 +5669,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     }
     view.m_shieldDomeRenderer.render(transparentView, view.m_worldFxSystem.shieldDomes(), cameraPosition,
         view.m_worldFxSystem.shieldDomeTimeSeconds());
-    EnemyHealthBarRenderer::render(view.m_gameSession.gameplayScreenRuntime(), view.m_pendingEnemyHealthBars,
-        transparentView, cameraPosition, pViewMatrix, pProjectionMatrix, view.m_lastRenderHeight);
+    // A cinematic draws no health bars (the HUD is hidden).
+    if (!view.m_gameSession.cinematicRuntime().takesOverView())
+    {
+        EnemyHealthBarRenderer::render(view.m_gameSession.gameplayScreenRuntime(), view.m_pendingEnemyHealthBars,
+            transparentView, cameraPosition, pViewMatrix, pProjectionMatrix, view.m_lastRenderHeight);
+    }
     view.m_pendingEnemyHealthBars.clear();
     if (view.m_pPostProcessing != nullptr
         && (view.m_modelRenderer.glowDrawn() || view.m_worldFxRenderResources.glowDrawn()))

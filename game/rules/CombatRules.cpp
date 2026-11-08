@@ -190,6 +190,11 @@ bool CombatRules::weaponKindMultiplierApplies() const
     return true;
 }
 
+bool CombatRules::addsWeaponElementalDamage() const
+{
+    return true;
+}
+
 std::optional<int> CombatRules::worldSpellDamage(const CharacterSpellCast &) const
 {
     return std::nullopt;
@@ -412,9 +417,10 @@ int resolveDamageToMonster(
         hit.pItemTable = missileSource.pItemTable;
         hit.targetCurrentHp = missileSource.targetCurrentHp;
         hit.resistances = missileSource.resistances;
+        hit.weaponElements = missileSource.weaponElements;
     }
 
-    hit.amount = damage;
+    hit.amount = damage + missileSource.addedElementalDamage;
     hit.type = type;
     hit.resistance = resistance;
     hit.hourOfPowerResistanceBonus = hourOfPowerResistanceBonus;

@@ -28,6 +28,7 @@
 namespace OpenYAMM::Game
 {
 class ActorModelPreview;
+struct Mm9DialogueSpeaker;
 class IGameplayWorldRuntime;
 class SpriteAtlasCache;
 
@@ -70,7 +71,8 @@ struct GameplayPortraitMeterState
 
 struct GameplayPortraitPresentationState
 {
-    std::array<GameplayPortraitMeterState, 5> meters;
+    // Per combatant: the five members, then up to three MM9 hirelings (Party::combatant).
+    std::array<GameplayPortraitMeterState, 8> meters;
     uint32_t lastAnimationUpdateTicks = 0;
     std::vector<uint32_t> memberSpeechCooldownUntilTicks;
     std::vector<uint32_t> memberCombatSpeechCooldownUntilTicks;
@@ -165,6 +167,7 @@ public:
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
     void bindSpriteAtlasCache(SpriteAtlasCache &cache);
     void bindActorModelPreview(ActorModelPreview &preview);
+    void bindActorTalkPortrait(ActorModelPreview &preview);
     const Engine::AssetFileSystem *assetFileSystem() const;
 
     bool ensureGameplayLayoutsLoaded(const GameplayUiController &uiController);
@@ -276,6 +279,9 @@ public:
         int &opaqueMaxX,
         int &opaqueMaxY);
     std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName);
+    // An independent outline face (menu_*, fondamento) rasterized at pixelHeight, the way the menus draw it. The
+    // shared cache owns it and may release it on a resize; the handle finds it again by name and height.
+    std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName, int pixelHeight);
     float measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const;
     std::vector<std::string> wrapHudTextToWidth(
         const GameplayHudFontHandle &font,
@@ -314,6 +320,11 @@ public:
         const GameplayResolvedHudLayoutElement &rect, float strokeWidth, float startDegrees, float sweepDegrees,
         float begin = 0, float end = 1, float uRepeat = 1) const;
     uint32_t actorInspectAnimationTicks(bool visible, uint32_t nowTicks);
+    // A speaking MM9 actor's live head and shoulders (ActorModelPreview, Talk), or a talking prop's from its
+    // decoration model, drawn into a circle (the talk ring) or a square (a venue's sidebar); false, drawing nothing,
+    // when the speaker has no model.
+    bool renderTalkPortrait(const IGameplayWorldRuntime &world, const Mm9DialogueSpeaker &speaker,
+        const GameplayResolvedHudLayoutElement &rect, bool round);
     // The inspected actor's 3D portrait when it has a model, otherwise its sprite (name, palette).
     void renderActorInspectPreview(const IGameplayWorldRuntime &world, size_t actorIndex, uint32_t animationTicks,
         const std::string &name, int16_t paletteId, const GameplayResolvedHudLayoutElement &rect, float scale,
@@ -369,6 +380,8 @@ public:
 
 private:
     void registerHudTextureUvScales(size_t firstTexture);
+    // The loaded face a handle names: a HUD font, or the shared cache's face at the handle's pixel height.
+    const GameplayHudFontData *hudFontData(const GameplayHudFontHandle &font) const;
     void recordPerformanceAssetLoad(
         GameplayUiAssetLoadKind kind,
         const std::string &name,
@@ -468,6 +481,7 @@ private:
     mutable HudArcMeshCache m_hudArcMeshCache;
     SpriteAtlasCache *m_pSpriteAtlasCache = nullptr;
     ActorModelPreview *m_pActorModelPreview = nullptr;
+    ActorModelPreview *m_pActorTalkPortrait = nullptr;
     GameplayActorInspectClock m_actorInspectClock;
     std::array<bgfx::UniformHandle, 6> m_previewUniforms = {{
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE,

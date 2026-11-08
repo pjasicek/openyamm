@@ -1,5 +1,7 @@
 #include "game/app/KeyboardBindings.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -17,135 +19,160 @@ struct KeyboardScancodeName
 };
 
 const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBindings = {{
-    {KeyboardAction::Forward, "forward", "Forward", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 0,
+    {KeyboardAction::Forward, "forward", Engine::trNoop("Forward"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 0,
         {InputBindingKind::Keyboard, SDL_SCANCODE_W, 0}, true},
-    {KeyboardAction::Backward, "backward", "Backward", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 1,
+    {KeyboardAction::Backward, "backward", Engine::trNoop("Backward"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 1,
         {InputBindingKind::Keyboard, SDL_SCANCODE_S, 0}, true},
-    {KeyboardAction::Left, "left", "Left", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 2,
+    {KeyboardAction::Left, "left", Engine::trNoop("Left"), KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 2,
         {InputBindingKind::Keyboard, SDL_SCANCODE_A, 0}, true},
-    {KeyboardAction::Right, "right", "Right", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 3,
+    {KeyboardAction::Right, "right", Engine::trNoop("Right"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 3,
         {InputBindingKind::Keyboard, SDL_SCANCODE_D, 0}, true},
-    {KeyboardAction::Yell, "yell", "Yell", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 4,
+    {KeyboardAction::Yell, "yell", Engine::trNoop("Yell"), KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 4,
         {InputBindingKind::Keyboard, SDL_SCANCODE_Y, 0}, true},
-    {KeyboardAction::Jump, "jump", "Jump", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 5,
+    {KeyboardAction::Jump, "jump", Engine::trNoop("Jump"), KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 5,
         {InputBindingKind::Keyboard, SDL_SCANCODE_X, 0}, true},
-    {KeyboardAction::Combat, "combat", "Combat", KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 6,
+    {KeyboardAction::Combat, "combat", Engine::trNoop("Combat"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Left, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_RETURN, 0}, true},
-    {KeyboardAction::CastReady, "cast_ready", "Cast Ready", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 0,
+    {KeyboardAction::CastReady, "cast_ready", Engine::trNoop("Cast Ready"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 0,
         {InputBindingKind::Keyboard, SDL_SCANCODE_Q, 0}, true},
-    {KeyboardAction::Attack, "attack", "Attack", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 1,
+    {KeyboardAction::Attack, "attack", Engine::trNoop("Attack"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 1,
         {InputBindingKind::Keyboard, SDL_SCANCODE_F, 0}, true},
-    {KeyboardAction::Trigger, "trigger", "Trigger", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 2,
+    {KeyboardAction::Trigger, "trigger", Engine::trNoop("Trigger"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 2,
         {InputBindingKind::Keyboard, SDL_SCANCODE_SPACE, 0}, true},
-    {KeyboardAction::Cast, "cast", "Cast", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 4,
+    {KeyboardAction::Cast, "cast", Engine::trNoop("Cast"), KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 4,
         {InputBindingKind::Keyboard, SDL_SCANCODE_C, 0}, true},
-    {KeyboardAction::Pass, "pass", "Pass", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 3,
+    {KeyboardAction::Pass, "pass", Engine::trNoop("Pass"), KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 3,
         {InputBindingKind::Keyboard, SDL_SCANCODE_B, 0}, true},
-    {KeyboardAction::CharCycle, "char_cycle", "Char Cycle", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 5,
+    {KeyboardAction::CharCycle, "char_cycle", Engine::trNoop("Char Cycle"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 5,
         {InputBindingKind::Keyboard, SDL_SCANCODE_TAB, 0}, true},
-    {KeyboardAction::Quest, "quest", "Quest", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 6,
+    {KeyboardAction::Quest, "quest", Engine::trNoop("Quest"),
+        KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_I, 0}, true},
-    {KeyboardAction::QuickRef, "quick_ref", "Quick Ref", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 0,
+    {KeyboardAction::QuickRef, "quick_ref", Engine::trNoop("Quick Ref"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 0,
         {InputBindingKind::Keyboard, SDL_SCANCODE_Z, 0}, true},
-    {KeyboardAction::Rest, "rest", "Rest", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 1,
+    {KeyboardAction::Rest, "rest", Engine::trNoop("Rest"), KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 1,
         {InputBindingKind::Keyboard, SDL_SCANCODE_R, 0}, true},
-    {KeyboardAction::History, "history", "History", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 2,
+    {KeyboardAction::History, "history", Engine::trNoop("History"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 2,
         {InputBindingKind::Keyboard, SDL_SCANCODE_H, 0}, true},
-    {KeyboardAction::Use, "use", "Use", KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 3,
+    {KeyboardAction::Use, "use", Engine::trNoop("Use"), KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 3,
         {InputBindingKind::Keyboard, SDL_SCANCODE_E, 0}, true},
-    {KeyboardAction::MapBook, "map_book", "Map Book", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 4,
+    {KeyboardAction::MapBook, "map_book", Engine::trNoop("Map Book"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 4,
         {InputBindingKind::Keyboard, SDL_SCANCODE_L, 0}, true},
-    {KeyboardAction::AlwaysRun, "always_run_toggle", "Always Run", KeyboardBindingPage::Page2,
+    {KeyboardAction::AlwaysRun, "always_run_toggle", Engine::trNoop("Always Run"), KeyboardBindingPage::Page2,
         KeyboardBindingColumn::Left, 5, {InputBindingKind::Keyboard, SDL_SCANCODE_U, 0}, true},
-    {KeyboardAction::LookUp, "look_up", "Look Up", KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 6,
+    {KeyboardAction::LookUp, "look_up", Engine::trNoop("Look Up"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Left, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_PAGEDOWN, 0}, true},
-    {KeyboardAction::LookDown, "look_down", "Look Down", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 0,
+    {KeyboardAction::LookDown, "look_down", Engine::trNoop("Look Down"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 0,
         {InputBindingKind::Keyboard, SDL_SCANCODE_DELETE, 0}, true},
-    {KeyboardAction::CenterView, "center_view", "Ctr. View", KeyboardBindingPage::Page2,
+    {KeyboardAction::CenterView, "center_view", Engine::trNoop("Ctr. View"), KeyboardBindingPage::Page2,
         KeyboardBindingColumn::Right, 1, {InputBindingKind::Keyboard, SDL_SCANCODE_END, 0}, true},
-    {KeyboardAction::ZoomIn, "zoom_in", "Zoom In", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 2,
+    {KeyboardAction::ZoomIn, "zoom_in", Engine::trNoop("Zoom In"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 2,
         {InputBindingKind::Keyboard, SDL_SCANCODE_KP_PLUS, 0}, true},
-    {KeyboardAction::ZoomOut, "zoom_out", "Zoom Out", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 3,
+    {KeyboardAction::ZoomOut, "zoom_out", Engine::trNoop("Zoom Out"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 3,
         {InputBindingKind::Keyboard, SDL_SCANCODE_KP_MINUS, 0}, true},
-    {KeyboardAction::FlyUp, "fly_up", "Fly Up", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 4,
+    {KeyboardAction::FlyUp, "fly_up", Engine::trNoop("Fly Up"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 4,
         {InputBindingKind::Keyboard, SDL_SCANCODE_J, 0}, true},
-    {KeyboardAction::FlyDown, "fly_down", "Fly Down", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 5,
+    {KeyboardAction::FlyDown, "fly_down", Engine::trNoop("Fly Down"),
+        KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 5,
         {InputBindingKind::Keyboard, SDL_SCANCODE_K, 0}, true},
-    {KeyboardAction::Land, "land", "Land", KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 6,
+    {KeyboardAction::Land, "land", Engine::trNoop("Land"), KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_HOME, 0}, true},
-    {KeyboardAction::DoubleSpeed, "double_speed", "Double Speed", KeyboardBindingPage::Hidden,
+    {KeyboardAction::DoubleSpeed, "double_speed", Engine::trNoop("Double Speed"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F2, 0}, true},
-    {KeyboardAction::Unstuck, "unstuck", "Unstuck", KeyboardBindingPage::Hidden, KeyboardBindingColumn::Left, 0,
+    {KeyboardAction::Unstuck, "unstuck", Engine::trNoop("Unstuck"),
+        KeyboardBindingPage::Hidden, KeyboardBindingColumn::Left, 0,
         {}, true},
-    {KeyboardAction::OpenWorkbench, "open_workbench", "Open Workbench", KeyboardBindingPage::Hidden,
+    {KeyboardAction::OpenWorkbench, "open_workbench", Engine::trNoop("Open Workbench"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::GatherLoot, "gather_loot", "Gather Loot", KeyboardBindingPage::Hidden,
+    {KeyboardAction::GatherLoot, "gather_loot", Engine::trNoop("Gather Loot"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_G, 0}, true},
-    {KeyboardAction::AlchemistPick, "alchemist_pick", "Alchemist", KeyboardBindingPage::Hidden,
+    {KeyboardAction::AlchemistPick, "alchemist_pick", Engine::trNoop("Alchemist"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_A, 0}, true},
-    {KeyboardAction::SkillCover, "skill_cover", "Cover Switch", KeyboardBindingPage::Hidden,
+    {KeyboardAction::SkillCover, "skill_cover", Engine::trNoop("Cover Switch"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_P, 0}, true},
-    {KeyboardAction::SkillManaShield, "skill_mana_shield", "Mana Shield Switch", KeyboardBindingPage::Hidden,
+    {KeyboardAction::SkillManaShield, "skill_mana_shield", Engine::trNoop("Mana Shield Switch"),
+        KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_M, 0}, true},
-    {KeyboardAction::SkillRotation, "skill_rotation", "Rotation Switch", KeyboardBindingPage::Hidden,
+    {KeyboardAction::SkillRotation, "skill_rotation", Engine::trNoop("Rotation Switch"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_R, 0}, true},
-    {KeyboardAction::KnightCharge, "knight_charge", "Knight Charge", KeyboardBindingPage::Hidden,
+    {KeyboardAction::KnightCharge, "knight_charge", Engine::trNoop("Knight Charge"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::ShowItemRarity, "show_item_rarity", "Show Item Rarity", KeyboardBindingPage::Hidden,
+    {KeyboardAction::ShowItemRarity, "show_item_rarity", Engine::trNoop("Show Item Rarity"),
+        KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_LALT, 0}, true},
-    {KeyboardAction::QuickSpell1, "quick_spell_1", "Quick Spell 1", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickSpell1, "quick_spell_1", Engine::trNoop("Quick Spell 1"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F5, 0}, true},
-    {KeyboardAction::QuickSpell2, "quick_spell_2", "Quick Spell 2", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickSpell2, "quick_spell_2", Engine::trNoop("Quick Spell 2"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F6, 0}, true},
-    {KeyboardAction::QuickSpell3, "quick_spell_3", "Quick Spell 3", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickSpell3, "quick_spell_3", Engine::trNoop("Quick Spell 3"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F7, 0}, true},
-    {KeyboardAction::QuickSpell4, "quick_spell_4", "Quick Spell 4", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickSpell4, "quick_spell_4", Engine::trNoop("Quick Spell 4"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F8, 0}, true},
-    {KeyboardAction::FollowerPanel, "follower_panel", "Follower Panel", KeyboardBindingPage::Hidden,
+    {KeyboardAction::FollowerPanel, "follower_panel", Engine::trNoop("Follower Panel"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_0, 0}, true},
-    {KeyboardAction::Follower1, "follower_1", "Follower 1", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Follower1, "follower_1", Engine::trNoop("Follower 1"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_6, 0}, true},
-    {KeyboardAction::Follower2, "follower_2", "Follower 2", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Follower2, "follower_2", Engine::trNoop("Follower 2"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_7, 0}, true},
-    {KeyboardAction::Follower3, "follower_3", "Follower 3", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Follower3, "follower_3", Engine::trNoop("Follower 3"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_8, 0}, true},
-    {KeyboardAction::Follower4, "follower_4", "Follower 4", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Follower4, "follower_4", Engine::trNoop("Follower 4"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_9, 0}, true},
-    {KeyboardAction::Bag1, "bag_1", "Bag 1", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Bag1, "bag_1", Engine::trNoop("Bag 1"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_1, 0}, true},
-    {KeyboardAction::Bag2, "bag_2", "Bag 2", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Bag2, "bag_2", Engine::trNoop("Bag 2"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_2, 0}, true},
-    {KeyboardAction::Bag3, "bag_3", "Bag 3", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Bag3, "bag_3", Engine::trNoop("Bag 3"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_3, 0}, true},
-    {KeyboardAction::Bag4, "bag_4", "Bag 4", KeyboardBindingPage::Hidden,
+    {KeyboardAction::Bag4, "bag_4", Engine::trNoop("Bag 4"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_4, 0}, true},
-    {KeyboardAction::CraftingBag, "crafting_bag", "Crafting Bag", KeyboardBindingPage::Hidden,
+    {KeyboardAction::CraftingBag, "crafting_bag", Engine::trNoop("Crafting Bag"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_B, 0}, true},
-    {KeyboardAction::OpenProgress, "open_progress", "Open Progress", KeyboardBindingPage::Hidden,
+    {KeyboardAction::OpenProgress, "open_progress", Engine::trNoop("Open Progress"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::OpenAuras, "open_auras", "Open Auras", KeyboardBindingPage::Hidden,
+    {KeyboardAction::OpenAuras, "open_auras", Engine::trNoop("Open Auras"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickItemWheel, "quick_item_wheel", "Potions", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItemWheel, "quick_item_wheel", Engine::trNoop("Potions"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_V, 0}, true},
-    {KeyboardAction::ScrollPopup, "scroll_popup", "Scrolls", KeyboardBindingPage::Hidden,
+    {KeyboardAction::ScrollPopup, "scroll_popup", Engine::trNoop("Scrolls"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_T, 0}, true},
     // One quick-use key for the active member's first slot; the other slots are bound on demand (user, 2026-10-25).
-    {KeyboardAction::QuickItem1, "quick_item_1", "Quick Potion (Slot 1)", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem1, "quick_item_1", Engine::trNoop("Quick Potion (Slot 1)"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_N, 0}, true},
-    {KeyboardAction::QuickItem2, "quick_item_2", "Potion Slot 2", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem2, "quick_item_2", Engine::trNoop("Potion Slot 2"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickItem3, "quick_item_3", "Potion Slot 3", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem3, "quick_item_3", Engine::trNoop("Potion Slot 3"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickItem4, "quick_item_4", "Potion Slot 4", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem4, "quick_item_4", Engine::trNoop("Potion Slot 4"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickItem5, "quick_item_5", "Potion Slot 5", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem5, "quick_item_5", Engine::trNoop("Potion Slot 5"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickItem6, "quick_item_6", "Potion Slot 6", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickItem6, "quick_item_6", Engine::trNoop("Potion Slot 6"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::QuickSave, "quick_save", "Quick Save", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickSave, "quick_save", Engine::trNoop("Quick Save"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F9, 0}, true},
-    {KeyboardAction::QuickLoad, "quick_load", "Quick Load", KeyboardBindingPage::Hidden,
+    {KeyboardAction::QuickLoad, "quick_load", Engine::trNoop("Quick Load"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F10, 0}, true},
+    {KeyboardAction::PartyFormation, "party_formation", Engine::trNoop("Party Formation"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_O, 0}, true},
+    {KeyboardAction::Statistics, "statistics", Engine::trNoop("Statistics"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F1, 0}, true},
 }};
 
 const std::array<KeyboardScancodeName, 97> KeyboardScancodeNames = {{
@@ -492,29 +519,31 @@ std::string inputBindingName(const InputBinding &binding)
     }
 }
 
+// Key names stay as the keyboard has them; the mouse's and Unbound show in the interface language.
 std::string inputBindingDisplayName(const InputBinding &binding)
 {
     switch (binding.kind)
     {
     case InputBindingKind::Keyboard:
-        return keyboardBindingDisplayName(binding.scancode);
+        return binding.scancode == SDL_SCANCODE_UNKNOWN ? Engine::tr("Unbound")
+                                                        : keyboardBindingDisplayName(binding.scancode);
 
     case InputBindingKind::MouseWheelUp:
-        return "Wheel Up";
+        return Engine::tr("Wheel Up");
 
     case InputBindingKind::MouseWheelDown:
-        return "Wheel Down";
+        return Engine::tr("Wheel Down");
 
     case InputBindingKind::MouseButton:
         if (binding.mouseButton == SDL_BUTTON_LEFT)
         {
-            return "LMB";
+            return Engine::tr("LMB");
         }
-        return "Mouse " + std::to_string(static_cast<int>(binding.mouseButton));
+        return Engine::tr("Mouse {button}", {{"button", static_cast<int>(binding.mouseButton)}});
 
     case InputBindingKind::None:
     default:
-        return "Unbound";
+        return Engine::tr("Unbound");
     }
 }
 }

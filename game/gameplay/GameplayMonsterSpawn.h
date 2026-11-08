@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <optional>
 #include <random>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -41,8 +42,11 @@ struct GameplayMonsterSpawnRequest
     uint64_t seed = 0;
     // The facing of every monster (an AI arena's placement); none keeps the world's default.
     std::optional<float> yawRadians;
-    // An MM9 placement for every monster (an AI arena's mm9_ai, a death spawn's ScriptParams 1).
+    // An MM9 placement for every monster (an AI arena's mm9_ai, a death spawn's ScriptParams 1, a script's summon:
+    // its wander path, its spawn-in).
     std::optional<Mm9AiPlacementRecord> mm9Ai;
+    // Waypoints every monster walks in turn while it has nothing to fight (a scene actor's patrol).
+    std::vector<std::array<int32_t, 3>> patrolPoints;
 };
 
 // The monster id of one spawned monster: the family's A, B or C as the weights pick, or the request's own id.

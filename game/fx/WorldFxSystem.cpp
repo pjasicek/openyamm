@@ -8,6 +8,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ProjectileEffectBindings.h"
+#include "game/fx/TalkPortraitFrame.h"
 #include "game/fx/import/EffectDefinitionLoader.h"
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/GameplayFxService.h"
@@ -25,6 +26,9 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <string_view>
+#include <cctype>
+#include <cfloat>
 #include <optional>
 #include <cmath>
 #include <iostream>
@@ -36,6 +40,17 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// A talk portrait's head: skin joints named for it (MM9's "Bip01 Head", "FHP Head", "Xhead", "Xheadpiv").
+bool isHeadJointName(const std::string &name)
+{
+    std::string lower = name;
+    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char character)
+    {
+        return char(std::tolower(character));
+    });
+    return lower.find("head") != std::string::npos;
+}
+
 // Seconds the shatter of a broken energy shield shows (fs_model_shield's break animation).
 constexpr float ShieldShellBreakSeconds = 0.75f;
 // Seconds a hit or the raise lifts a resting shell to its full strength, fading back to the rest strength.
@@ -535,7 +550,10 @@ void WorldFxSystem::reset()
     m_namedSoundInstances.clear();
     m_namedEffectLibrary.clear();
     m_namedEffectResources.clear();
-    m_inspectPortrait.reset();
+    for (std::optional<InspectPortraitState> &portrait : m_portraits)
+    {
+        portrait.reset();
+    }
     m_actorModels.clear();
     m_actorModelBindings.clear();
     m_pActorModelManifest.reset();
@@ -635,10 +653,15 @@ const WorldFxSystem::ActorModelBinding *WorldFxSystem::actorModelBinding(const s
     return &m_actorModelBindings.at(descriptor);
 }
 
+namespace
+{
+// A binding's `clips` roles, in ActorAiAnimationState order (ActorModelBinding::clips).
+constexpr std::array<const char *, 8> StateNames = {
+    "standing", "walking", "attack_melee", "attack_ranged", "hit", "dying", "dead", "fidget"};
+}
+
 bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::string &error)
 {
-    constexpr std::array<const char *, 8> StateNames = {
-        "standing", "walking", "attack_melee", "attack_ranged", "hit", "dying", "dead", "fidget"};
     const ActorModelManifest::Entry &manifestEntry = *m_pActorModelManifest->find(descriptor);
     const YAML::Node &entry = manifestEntry.node;
     const std::string &manifestPath = manifestEntry.manifestPath;
@@ -981,6 +1004,7 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 binding.gaitSpeeds[size_t(gait)] = seconds > 0.0f ? binding.gaitStride(gait) / seconds : 0.0f;
             }
             binding.maxGaitRate = ActorModelDefaultMaxGaitRate;
+            binding.gaitFollowsIntent = manifestEntry.gaitFollowsIntent;
             if (const YAML::Node gaitRate = animation["gait_rate"])
             {
                 if (!gaitRate.IsSequence() || gaitRate.size() != 2)
@@ -1192,6 +1216,12 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
         Engine::evaluateModelHierarchy(*binding.asset, Engine::identityModelMatrix(), standing);
         const Engine::ModelBounds standingBounds = Engine::modelExactPoseBounds(*binding.asset, standing, true);
         binding.standingHeight = standingBounds.valid ? standingBounds.max[1] : 0.0f;
+        // Only actors with an actor_sounds.yml entry: a default (null) node is still "defined" in yaml-cpp, and reading
+        // keys through it throws, which failed every MM6-MM8 actor model load.
+        if (manifestEntry.sounds.IsMap())
+        {
+            binding.clipSounds = parseActorClipSounds(manifestEntry.sounds, *binding.asset, descriptor);
+        }
         m_actorModelBindings.emplace(descriptor, std::move(binding));
     }
     catch (const YAML::Exception &exception)
@@ -1381,9 +1411,12 @@ void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRun
 void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float worldDeltaSeconds,
     std::optional<size_t> liveActorIndex, float liveDeltaSeconds)
 {
-    if (m_inspectPortrait && !std::exchange(m_inspectPortrait->requested, false))
+    for (size_t kind = 0; kind < m_portraits.size(); ++kind)
     {
-        releaseInspectPortrait();
+        if (m_portraits[kind] && !std::exchange(m_portraits[kind]->requested, false))
+        {
+            releaseInspectPortrait(ActorPortraitKind(kind));
+        }
     }
     if (m_pActorModelManifest == nullptr || m_pActorModelManifest->entries().empty())
     {
@@ -1457,8 +1490,10 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         ActorModelInstance &model = instance->second;
         model.pBinding = &binding;
-        const float scale = binding.scale * state.visualScale
-            * (pMonster->height > 0 && state.bodyHeight > 0 ? float(state.bodyHeight) / pMonster->height : 1.0f);
+        // A placement's draw_scale, else its height over its descriptor's (a map's size variant).
+        const float sizeScale = state.drawScale > 0.0f ? state.drawScale
+            : pMonster->height > 0 && state.bodyHeight > 0 ? float(state.bodyHeight) / pMonster->height : 1.0f;
+        const float scale = binding.scale * state.visualScale * sizeScale;
         model.fxScale = scale / binding.fxReferenceScale;
         const float distance = std::hypot(state.preciseX - model.previousX, state.preciseY - model.previousY);
         const bool teleported = model.initialized && distance > std::max(256.0f, scale * 8.0f);
@@ -1496,8 +1531,10 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             {
                 if (speed > 4.0f)
                 {
-                    const ActorModelGait chosen =
-                        actorModelGait(gaitSpeed / scale, binding.gaitSpeeds, hurrying, model.gait);
+                    const ActorModelGait chosen = binding.gaitFollowsIntent
+                        ? actorModelIntendedGait(gaitSpeed / scale, binding.gaitSpeeds, hurrying, model.gait,
+                            binding.maxGaitRate)
+                        : actorModelGait(gaitSpeed / scale, binding.gaitSpeeds, hurrying, model.gait);
                     // A body that starts moving, or turns from backpedalling to moving on, takes its gait at once (its
                     // clip changes anyway); one moving on holds it.
                     model.gait = model.locomoted && state.backpedalling == model.backwards
@@ -1517,10 +1554,56 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         const bool moving = speed > 4.0f && !teleported;
         // A behaviour script's clip (see ActorBehaviorRuntime) replaces the AI's fallback animation when the model
-        // maps the role; otherwise the fallback state plays as usual.
-        const auto scriptClip = state.scriptedClip.empty()
-            ? binding.scriptClips.end() : binding.scriptClips.find(state.scriptedClip);
-        const bool scripted = scriptClip != binding.scriptClips.end();
+        // maps the role (`fidget`: its own fidget); otherwise the fallback state plays as usual. One that releases at
+        // its end (a path marker's clip played once) gives the AI's animation back there.
+        uint32_t scriptClip = UINT32_MAX;
+        float scriptClipSeconds = 0.0f;
+        // A fallen body plays its death and lies as its corpse: no layer's clip holds it up (a sleeper killed in its
+        // sleep keeps the dormant pose its AI, no longer updated, never clears; Klusos House, 2026-11-06).
+        const bool fallen = state.animationState == ActorAiAnimationState::Dying
+            || state.animationState == ActorAiAnimationState::Dead;
+        if (!state.scriptedClip.empty() && !fallen)
+        {
+            // A script role, one of the binding's `clips` roles (a path marker's HAttack1 is attack_melee; the
+            // fidget), else one of the model's own clips by name (a cinematic's clip cue).
+            const auto resolveClip = [&](const std::string &name) -> uint32_t
+            {
+                const auto found = binding.scriptClips.find(name);
+                const auto role = std::find(StateNames.begin(), StateNames.end(), std::string_view(name));
+                const uint32_t index = found != binding.scriptClips.end() ? found->second
+                    : role != StateNames.end() ? binding.clips[size_t(role - StateNames.begin())]
+                    : binding.asset->findClip(name).value_or(UINT32_MAX);
+                return index < binding.asset->clips.size() ? index : UINT32_MAX;
+            };
+            // A sequence (scriptedClipThen) plays its clips one after another; the end rule applies to the last. A
+            // clip the model lacks is skipped.
+            float sequenceSeconds = state.scriptedClipSeconds;
+            const size_t count = 1 + state.scriptedClipThen.size();
+            for (size_t position = 0; position < count; ++position)
+            {
+                const uint32_t index =
+                    resolveClip(position == 0 ? state.scriptedClip : state.scriptedClipThen[position - 1]);
+                if (index == UINT32_MAX)
+                {
+                    continue;
+                }
+                const float clipDuration = binding.asset->clips[index].durationSeconds;
+                scriptClip = index;
+                scriptClipSeconds = sequenceSeconds;
+                if (position + 1 == count || sequenceSeconds < clipDuration)
+                {
+                    break;
+                }
+                sequenceSeconds -= clipDuration;
+            }
+            if (scriptClip != UINT32_MAX
+                && state.scriptedClipEnd == GameplayRuntimeActorState::ScriptedClipEnd::Release
+                && scriptClipSeconds >= binding.asset->clips[scriptClip].durationSeconds)
+            {
+                scriptClip = UINT32_MAX;
+            }
+        }
+        const bool scripted = scriptClip != UINT32_MAX && scriptClip < binding.asset->clips.size();
         const bool casting = !scripted && attacking && state.castingSpell && binding.castClip != UINT32_MAX;
         // A blow, ranged attack or spell charges at its glow sockets while it winds up (ActionEvent).
         const ActorCharge chargeRole = casting ? ActorCharge::Cast
@@ -1574,12 +1657,14 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             model.pendingRelease = false;
             model.hasChargeOrigin = false;
         }
-        uint32_t clip = scripted ? scriptClip->second : casting ? binding.castClip : binding.clips[animationIndex];
+        uint32_t clip = scripted ? scriptClip : casting ? binding.castClip : binding.clips[animationIndex];
         float time = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
         const float duration = binding.asset->clips[clip].durationSeconds;
         if (scripted)
         {
-            time = std::clamp(state.scriptedClipSeconds, 0.0f, duration);
+            const bool loop = state.scriptedClipEnd == GameplayRuntimeActorState::ScriptedClipEnd::Loop;
+            time = loop && duration > 0.0f ? wrapPeriod(scriptClipSeconds, duration)
+                                           : std::clamp(scriptClipSeconds, 0.0f, duration);
         }
         if (casting)
         {
@@ -1714,7 +1799,6 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         Engine::ModelAnimationLayer layer;
         bool backwardsChanged = false;
-        bool reversed = false;
         const bool locomoting = binding.strideLength > 0.0f
             && (state.animationState == ActorAiAnimationState::Walking || attackMoving || holdGait);
         // After an attack the legs blend to the stand at once: holding them would add a second blend.
@@ -1729,12 +1813,12 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             const bool backwards = holdGait ? model.backwards : state.backpedalling;
             backwardsChanged = backwards != model.backwards;
             model.backwards = backwards;
-            // A model's own backpedal clip plays forwards; otherwise the gait plays reversed.
+            // A backpedal plays the model's backpedal clip for its gait (BackPedal for the walk, BackPedalRun for
+            // faster gaits); without one the gait itself plays forwards, as MM9's animator fills an empty BackPedal
+            // list from Walk and BackPedalRun from Run (0x1001e266, 0x1001e2b7) and never plays a clip in reverse.
             const uint32_t backpedal = !backwards ? UINT32_MAX
-                : model.gait == ActorModelGait::Walk ? binding.backpedalClip
-                : binding.backpedalRunClip != UINT32_MAX ? binding.backpedalRunClip : binding.backpedalClip;
-            reversed = backwards && backpedal == UINT32_MAX;
-            const float phase = reversed ? wrapPeriod(1.0f - model.gaitPhase, 1.0f) : model.gaitPhase;
+                : model.gait == ActorModelGait::Walk ? binding.backpedalClip : binding.backpedalRunClip;
+            const float phase = model.gaitPhase;
             if (attacking && binding.upperBodyMask)
             {
                 layer = {clip, time, 1.0f, binding.upperBodyMask};
@@ -1815,9 +1899,14 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             : dying ? binding.deathBlendSeconds
             : binding.blendSeconds >= 0.0f ? binding.blendSeconds
             : state.animationState == ActorAiAnimationState::GotHit ? 0.06f : 0.12f;
+        if (binding.clipSounds)
+        {
+            presentActorClipSounds(model, binding, clip, presentedTime, presentedLayer, deltaSeconds,
+                {state.preciseX, state.preciseY, state.preciseZ}, {world.partyX(), world.partyY(), world.partyFootZ()});
+        }
         if (m_pAnimationTrace != nullptr)
         {
-            traceActorAnimation(index, model, clip, presentedTime, presentedLayer, reversed,
+            traceActorAnimation(index, model, clip, presentedTime, presentedLayer,
                 (restart && !continuingFollow) || backwardsChanged, transitionSeconds, speed, deltaSeconds);
         }
         m_models.sampleBlended(model.handle, clip, time, transform, deltaSeconds, transitionSeconds,
@@ -1872,7 +1961,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
 }
 
 void WorldFxSystem::traceActorAnimation(size_t actorIndex, const ActorModelInstance &model, uint32_t clip, float time,
-    const Engine::ModelAnimationLayer &layer, bool reversed, bool restart, float transitionSeconds, float speed,
+    const Engine::ModelAnimationLayer &layer, bool restart, float transitionSeconds, float speed,
     float deltaSeconds) const
 {
     const Engine::ModelAsset &asset = *model.pBinding->asset;
@@ -1886,7 +1975,6 @@ void WorldFxSystem::traceActorAnimation(size_t actorIndex, const ActorModelInsta
     sample.clip = asset.clips[clip].name;
     sample.timeSeconds = time;
     sample.durationSeconds = asset.clips[clip].durationSeconds;
-    sample.reversed = reversed;
     if (layer.weight > 0.0f && layer.clipIndex < asset.clips.size())
     {
         sample.layerClip = asset.clips[layer.clipIndex].name;
@@ -2377,18 +2465,21 @@ void WorldFxSystem::setActorModelVisibility(const std::function<bool(size_t acto
     }
 }
 
-void WorldFxSystem::releaseInspectPortrait()
+void WorldFxSystem::releaseInspectPortrait(ActorPortraitKind kind)
 {
-    if (m_inspectPortrait)
+    std::optional<InspectPortraitState> &portrait = m_portraits[size_t(kind)];
+    if (portrait)
     {
-        m_models.destroy(m_inspectPortrait->portrait.handle);
-        m_inspectPortrait.reset();
+        m_models.destroy(portrait->portrait.handle);
+        portrait.reset();
     }
 }
 
 const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const IGameplayWorldRuntime &world,
-    size_t actorIndex, uint32_t animationTicks)
+    size_t actorIndex, uint32_t animationTicks, ActorPortraitKind kind)
 {
+    std::optional<InspectPortraitState> &portraitSlot = m_portraits[size_t(kind)];
+    const bool talk = kind == ActorPortraitKind::Talk;
     GameplayRuntimeActorState state;
     const MonsterTable *pMonsters = world.monsterTable();
     const MonsterEntry *pMonster = pMonsters != nullptr && world.actorRuntimeState(actorIndex, state)
@@ -2396,13 +2487,13 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
     const ActorModelBinding *pBinding = pMonster != nullptr ? actorModelBinding(pMonster->internalName) : nullptr;
     if (pBinding == nullptr)
     {
-        releaseInspectPortrait();
+        releaseInspectPortrait(kind);
         return nullptr;
     }
-    if (m_inspectPortrait && (m_inspectPortrait->actorIndex != actorIndex
-        || m_inspectPortrait->actorId != state.actorId || m_inspectPortrait->monsterId != state.monsterId))
+    if (portraitSlot && (portraitSlot->decorationKey || portraitSlot->actorIndex != actorIndex
+        || portraitSlot->actorId != state.actorId || portraitSlot->monsterId != state.monsterId))
     {
-        releaseInspectPortrait();
+        releaseInspectPortrait(kind);
     }
     const ActorModelBinding &binding = *pBinding;
     const Engine::ModelTransform transform = Engine::gltfModelPlacement({0.0f, 0.0f, 0.0f}, binding.yawOffset,
@@ -2415,7 +2506,7 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
     {
         return binding.asset->clips[clipFor(animation)].durationSeconds;
     };
-    if (!m_inspectPortrait)
+    if (!portraitSlot)
     {
         InspectPortraitState portrait;
         const Engine::ModelInstanceHandle handle = m_models.create(binding.asset, transform);
@@ -2454,12 +2545,20 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
         const Engine::ModelAsset &asset = *binding.asset;
         const Engine::ModelDeformationBounds *pJointBounds = m_models.deformationBounds(handle);
         constexpr int SamplesPerClip = 6;
+        // A talk portrait: the corners of the head joints' boxes, gathered apart from the body's, and the lowest of
+        // their pivots (the top of the neck; the boxes also hold neck vertices the head shares).
+        std::vector<std::array<float, 3>> headPoints;
+        float headPivotZ = FLT_MAX;
         for (const ActorAiAnimationState animation :
             {ActorAiAnimationState::Standing, ActorAiAnimationState::Bored, ActorAiAnimationState::AttackMelee})
         {
             if (animation == ActorAiAnimationState::AttackMelee)
             {
                 portrait.portrait.restPointCount = points.size();
+                if (talk)
+                {
+                    break;
+                }
             }
             for (int sample = 0; sample <= SamplesPerClip; ++sample)
             {
@@ -2477,11 +2576,21 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
                     const std::vector<Engine::ModelJointBounds> &joints = pJointBounds->nodes[nodeIndex];
                     for (size_t jointIndex = 0; jointIndex < joints.size(); ++jointIndex)
                     {
+                        const size_t pointCount = points.size();
                         addBox(joints[jointIndex].base, node.skinIndex >= 0
                             ? Engine::multiplyModelMatrices(
                                 pPose->globalMatrices[asset.skins[node.skinIndex].joints[jointIndex]],
                                 asset.skins[node.skinIndex].inverseBindMatrices[jointIndex])
                             : pPose->globalMatrices[nodeIndex]);
+                        const size_t jointNode = node.skinIndex >= 0
+                            ? asset.skins[node.skinIndex].joints[jointIndex] : nodeIndex;
+                        if (talk && node.skinIndex >= 0 && points.size() > pointCount
+                            && isHeadJointName(asset.nodes[jointNode].name))
+                        {
+                            headPoints.insert(headPoints.end(), points.begin() + std::ptrdiff_t(pointCount),
+                                points.end());
+                            headPivotZ = std::min(headPivotZ, pPose->globalMatrices[jointNode][14]);
+                        }
                     }
                 }
                 // A swung weapon's sweep would shrink the whole portrait; it may reach past the edge instead.
@@ -2495,17 +2604,26 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
                 }
             }
         }
+        if (talk)
+        {
+            portrait.portrait.restPointCount = points.size();
+            if (!headPoints.empty())
+            {
+                points = talkPortraitHeadAndShoulders(headPoints, headPivotZ);
+                portrait.portrait.restPointCount = points.size();
+            }
+        }
         portrait.animation = ActorAiAnimationState::Bored;
         portrait.lengthSeconds = durationFor(portrait.animation);
         portrait.lastTicks = animationTicks;
-        m_inspectPortrait = std::move(portrait);
+        portraitSlot = std::move(portrait);
         if (!binding.ambientEffect.empty())
         {
-            m_inspectPortrait->portrait.effects.emplace(&m_namedEffectLibrary);
+            portraitSlot->portrait.effects.emplace(&m_namedEffectLibrary);
         }
     }
 
-    InspectPortraitState &portrait = *m_inspectPortrait;
+    InspectPortraitState &portrait = *portraitSlot;
     portrait.requested = true;
     const auto nextRandom = [&]()
     {
@@ -2528,7 +2646,8 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
         }
         else
         {
-            const bool fidget = (pMonster->inspectFidgetWhenMoving && portrait.movingAtFirstInspect)
+            // A speaker only fidgets.
+            const bool fidget = talk || (pMonster->inspectFidgetWhenMoving && portrait.movingAtFirstInspect)
                 || nextRandom() % 100u >= uint32_t(std::max(0, pMonster->inspectAttackChance));
             portrait.animation = fidget ? ActorAiAnimationState::Bored : ActorAiAnimationState::AttackMelee;
             portrait.lengthSeconds = durationFor(portrait.animation);
@@ -2553,6 +2672,62 @@ const WorldFxSystem::InspectPortrait *WorldFxSystem::syncInspectPortrait(const I
     }
     portrait.started = true;
     return &portrait.portrait;
+}
+
+const WorldFxSystem::InspectPortrait *WorldFxSystem::syncDecorationTalkPortrait(uint32_t decorationKey,
+    const DecorationPortraitModel &model)
+{
+    std::optional<InspectPortraitState> &portraitSlot = m_portraits[size_t(ActorPortraitKind::Talk)];
+    if (model.asset == nullptr)
+    {
+        releaseInspectPortrait(ActorPortraitKind::Talk);
+        return nullptr;
+    }
+    if (portraitSlot && (portraitSlot->decorationKey != decorationKey || portraitSlot->decorationAsset != model.asset))
+    {
+        releaseInspectPortrait(ActorPortraitKind::Talk);
+    }
+    if (!portraitSlot)
+    {
+        InspectPortraitState portrait;
+        const Engine::ModelTransform transform =
+            Engine::gltfModelPlacement({0.0f, 0.0f, 0.0f}, model.yawOffset, model.scale);
+        const Engine::ModelInstanceHandle handle = m_models.create(model.asset, transform);
+        m_models.setVisible(handle, false);
+        m_models.setMaterialVariant(handle, model.materialVariant);
+        portrait.portrait.handle = handle;
+        portrait.decorationKey = decorationKey;
+        portrait.decorationAsset = model.asset;
+        // The posed figure's own vertices (its finest mesh), in the portrait's space.
+        std::vector<std::array<float, 3>> points;
+        const Engine::ModelPose *pPose = m_models.pose(handle, false);
+        const Engine::ModelAsset &asset = *model.asset;
+        for (size_t nodeIndex = 0; pPose != nullptr && nodeIndex < asset.nodes.size()
+            && nodeIndex < pPose->globalMatrices.size(); ++nodeIndex)
+        {
+            const int meshIndex = asset.nodes[nodeIndex].meshIndex;
+            const Engine::ModelMatrix &m = pPose->globalMatrices[nodeIndex];
+            if (meshIndex < 0 || size_t(meshIndex) >= asset.meshes.size() || !Engine::modelMatrixVisible(m))
+            {
+                continue;
+            }
+            for (const Engine::ModelPrimitive &primitive : asset.meshes[size_t(meshIndex)].primitives)
+            {
+                for (const Engine::ModelVertex &vertex : primitive.vertices)
+                {
+                    const std::array<float, 3> &p = vertex.position;
+                    points.push_back({m[0] * p[0] + m[4] * p[1] + m[8] * p[2] + m[12],
+                        m[1] * p[0] + m[5] * p[1] + m[9] * p[2] + m[13], m[2] * p[0] + m[6] * p[1] + m[10] * p[2]
+                            + m[14]});
+                }
+            }
+        }
+        portrait.portrait.framePoints = talkPortraitStaticFigureFrame(points);
+        portrait.portrait.restPointCount = portrait.portrait.framePoints.size();
+        portraitSlot = std::move(portrait);
+    }
+    portraitSlot->requested = true;
+    return &portraitSlot->portrait;
 }
 
 bool WorldFxSystem::hasActorModel(size_t actorIndex) const
@@ -2981,7 +3156,67 @@ void WorldFxSystem::bindNamedEffectAudio(GameAudioSystem *pAudioSystem)
         }
     }
     m_namedSoundInstances.clear();
+    if (m_pNamedEffectAudioSystem != nullptr)
+    {
+        m_pNamedEffectAudioSystem->clearActorClipSoundOwner(this);
+    }
     m_pNamedEffectAudioSystem = pAudioSystem;
+    if (m_pNamedEffectAudioSystem != nullptr)
+    {
+        m_pNamedEffectAudioSystem->setActorClipSoundOwner(this,
+            [this](size_t actorIndex)
+            {
+                return actorPlaysClipSounds(actorIndex);
+            });
+    }
+}
+
+bool WorldFxSystem::actorPlaysClipSounds(size_t actorIndex) const
+{
+    const auto model = m_actorModels.find(actorIndex);
+    return model != m_actorModels.end() && model->second.pBinding != nullptr
+        && model->second.pBinding->clipSounds != nullptr;
+}
+
+void WorldFxSystem::presentActorClipSounds(ActorModelInstance &model, const ActorModelBinding &binding, uint32_t clip,
+    float timeSeconds, const Engine::ModelAnimationLayer &layer, float deltaSeconds,
+    const std::array<float, 3> &position, const std::array<float, 3> &listener)
+{
+    ActorClipSoundState &state = model.clipSoundState;
+    if (state.randomState == 1)
+    {
+        state.randomState = model.actorId * 2654435761u | 1u;
+    }
+    state.clockSeconds += deltaSeconds;
+    m_actorClipSoundCues.clear();
+    const std::vector<Engine::ModelAnimationClip> &clips = binding.asset->clips;
+    advanceActorClipSounds(*binding.clipSounds, state, 0, clip, timeSeconds,
+        clip < clips.size() ? clips[clip].durationSeconds : 0.0f, deltaSeconds, m_actorClipSoundCues);
+    const bool layered = layer.weight > 0.0f && layer.clipIndex < clips.size();
+    advanceActorClipSounds(*binding.clipSounds, state, 1, layered ? layer.clipIndex : UINT32_MAX, layer.timeSeconds,
+        layered ? clips[layer.clipIndex].durationSeconds : 0.0f, deltaSeconds, m_actorClipSoundCues);
+    if (m_pNamedEffectAudioSystem == nullptr)
+    {
+        return;
+    }
+    const float distance = std::hypot(position[0] - listener[0], position[1] - listener[1], position[2] - listener[2]);
+    for (const ActorClipSoundCue &cue : m_actorClipSoundCues)
+    {
+        if (distance > cue.outerRadius)
+        {
+            continue;
+        }
+        const uint64_t instance = m_pNamedEffectAudioSystem->playActorClipSound(
+            cue.sound, {position[0], position[1], position[2]}, cue.volume, cue.innerRadius, cue.outerRadius);
+        if (cue.voice && instance != 0)
+        {
+            if (model.voiceSoundInstance != 0)
+            {
+                m_pNamedEffectAudioSystem->stopSoundInstance(model.voiceSoundInstance);
+            }
+            model.voiceSoundInstance = instance;
+        }
+    }
 }
 
 bool WorldFxSystem::loadNamedEffectLibrary(

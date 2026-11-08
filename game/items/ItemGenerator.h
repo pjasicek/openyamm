@@ -63,6 +63,10 @@ public:
         std::mt19937 &rng);
     static void assignPlacedPotionPower(InventoryItem &item, const ItemTable &itemTable, std::mt19937 &rng);
     static void assignMonsterPotionPower(InventoryItem &item, const ItemTable &itemTable, std::mt19937 &rng);
+    // Whether a shop of a world drawing from `worldPool` (ItemTable::lootPoolForWorld) may stock the item: weapons,
+    // armour, jewellery, artifacts and relics only from the world's own pool, everything else from anywhere. Random
+    // loot rolls from every world's items (devdocs/LOOT_POOL.md). An empty pool allows everything.
+    static bool shopPoolAllows(const ItemDefinition &entry, const std::string &worldPool);
     static std::optional<uint32_t> chooseRandomBaseItem(
         const ItemTable &itemTable,
         int treasureLevel,

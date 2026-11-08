@@ -77,3 +77,7 @@ initial_state:
       legacy_attributes: 0xc0000110
     - face_index: 2233
       legacy_attributes: 0xc0000110
+    # Face 115 lies wholly inside face 118 on the same plane with the same texture and mapping: the duplicate
+    # z-fought with it (OY-155). Hidden (0x2000 Invisible) with the attributes it had (0x80000400).
+    - face_index: 115
+      legacy_attributes: 0x80002400

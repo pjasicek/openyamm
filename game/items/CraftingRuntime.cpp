@@ -1,4 +1,5 @@
 #include "game/items/CraftingRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -263,7 +264,7 @@ CraftPlan CraftingRuntime::plan(
 
     if (!targetItem)
     {
-        plan.result.reason = "The item is gone";
+        plan.result.reason = Engine::tr("The item is gone");
         return plan;
     }
 

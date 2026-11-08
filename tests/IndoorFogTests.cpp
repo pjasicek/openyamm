@@ -151,3 +151,34 @@ TEST_CASE("indoor fog: MM9's lightmap pass fog colour")
     CHECK(light[1] * 255.0f == doctest::Approx(179.0f));
     CHECK(light[2] == 0.0f);
 }
+
+TEST_CASE("indoor fog: a script's fog fades in from the fog shown and out again")
+{
+    IndoorFog haze = {};
+    haze.enabled = true;
+    haze.color = {0.5f, 0.5f, 0.5f};
+    haze.nearDistance = 20000.0f;
+    haze.farDistance = 40000.0f;
+    IndoorFog thick = haze;
+    thick.color = {0.0f, 0.0f, 1.0f};
+    thick.nearDistance = 2.0f;
+    thick.farDistance = 16000.0f;
+    thick.sky = 1.0f;
+
+    const IndoorFog half = indoorFogBlend(haze, thick, 0.5f);
+    CHECK(half.enabled);
+    CHECK(half.color[2] == doctest::Approx(0.75f));
+    CHECK(half.nearDistance == doctest::Approx(10001.0f));
+    CHECK(half.farDistance == doctest::Approx(28000.0f));
+    CHECK(half.sky == doctest::Approx(0.5f));
+    CHECK(indoorFogBlend(haze, thick, 1.0f).nearDistance == doctest::Approx(2.0f));
+    CHECK(indoorFogBlend(haze, thick, 0.0f).nearDistance == doctest::Approx(20000.0f));
+
+    // from no fog: the colour is the new fog's from the start, the distances come in from out of sight
+    const IndoorFog none = {};
+    const IndoorFog rising = indoorFogBlend(none, thick, 0.5f);
+    CHECK(rising.enabled);
+    CHECK(rising.color[2] == doctest::Approx(1.0f));
+    CHECK(rising.nearDistance > 100000.0f);
+    CHECK(indoorFogBlend(none, thick, 1.0f).nearDistance == doctest::Approx(2.0f));
+}

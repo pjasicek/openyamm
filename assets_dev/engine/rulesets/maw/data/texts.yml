@@ -720,8 +720,8 @@ skills:
   Staff:
     append: >-
       Each point raises the damage of the staff by 2 % (never less than 1 per point). At Grandmaster, Unarmed adds half
-      its skill to a staff's damage. Expert and above raise Armor Class and all the party's resistances by the full
-      staff attack, counting 10 more points of skill. {stun_line}
+      its skill to a staff's damage. From Expert, the staff also raises your Armor Class and the whole party's
+      resistances by the amounts below, counted as if you had 10 more points of skill. {stun_line}
     normal: "Attack +1 per point"
     expert: "Attack +2, Armor Class +2, resistances +2 per point"
     master: "Attack +3, Armor Class +3, resistances +3 per point; a chance to paralyse for 2 s"
@@ -729,7 +729,8 @@ skills:
   Sword:
     append: >-
       Each point raises the damage of the sword, Armsmaster and special abilities by 2 % (never less than 1 per
-      point). From Master the full sword attack also raises Armor Class, counting 10 more points of skill.
+      point). From Master, the sword also raises your Armor Class by the amount below, counted as if you had 10 more
+      points of skill.
     normal: "Attack +1 per point"
     expert: "Attack +2, speed +1 % per point"
     master: "Attack +3, speed +1 %, Armor Class +1 per point; can dual wield"
@@ -754,7 +755,8 @@ skills:
   Spear:
     append: >-
       Each point raises the damage of the spear, Armsmaster and special abilities by 2 % (never less than 1 per
-      point). From Expert the spear raises Armor Class, counting 10 more points of skill.
+      point). From Expert, the spear also raises your Armor Class by the amount below, counted as if you had 10 more
+      points of skill.
     normal: "Attack +2 per point"
     expert: "Attack +4, Armor Class +4 per point"
     master: "Attack +6, Armor Class +6 per point; can hold with one hand"
@@ -857,9 +859,9 @@ skills:
     grandmaster: "Twice as much"
   Learning:
     append: >-
-      Current bonuses at your skill: damage base +<good>{asc_damage_base}</> %, damage per point +<good>{asc_damage_scaling}</> %,
-      healing base +<good>{asc_heal_base}</> %, healing per point +<good>{asc_heal_scaling}</> %; mana cost {asc_mana_change},
-      control spells mana cost {asc_cc_mana_change}, cast time +<bad>{asc_cast}</> %.
+      At your current skill, spells deal +<good>{asc_damage_base}</> % base damage and
+      +<good>{asc_damage_scaling}</> % damage per point of skill, and heal +<good>{asc_heal_base}</> % base and
+      +<good>{asc_heal_scaling}</> % per point. Mana costs change by {asc_mana_change} ({asc_cc_mana_change} for control spells), and casting takes <bad>{asc_cast}</> % longer.
   Perception:
     normal: "{table}; traps and lava hurt 10 % less"
     expert: "{table}; traps and lava hurt 30 % less"
@@ -877,10 +879,9 @@ skills:
     append: >-
       A Master finds random reagents on 1 % of slain monsters, a Grandmaster on 2 %.
     # zzAlchemy.lua:708-709.
-    master: "Allows to make white potions. Power when mixing will be increased to 1.5 per skill point."
-    grandmaster: "Allows to make black potions. Power when mixing will be increased to 2 and increases potion duration
-      by 6 Minutes per skill point. Allows the Endless potion to be dropped by monsters, which power is determined by
-      Alchemy level."
+    master: "Can mix white potions; potions you mix get 1.5 power per point of skill"
+    grandmaster: "Can mix black potions; potions you mix get 2 power per point of skill and last 6 minutes longer per
+      point. Monsters can drop Endless potions, whose power depends on your Alchemy skill"
   Cover:
     append: >-
       Current cover chance: <good>{cover_chance}</> %. Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and
@@ -982,31 +983,61 @@ class_skills:
   shaman:
     FireMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Melee blows burn <good>{school_share:1}</> % of the monster's hit points as
-        fire.
+        Shaman: your melee blows also deal fire damage equal to <good>{school_share:1}</> % of the monster's
+        current hit points (0.1 % per point, at least 1 damage per point).
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     AirMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. All damage taken falls by <good>{school_cut:1}</> %.
+        Shaman: all damage you take is reduced by <good>{school_cut:1}</> %.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     WaterMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Each hit taken loses <good>{school_flat_cut}</> after resistances.
+        Shaman: every hit you take is reduced by a further <good>{school_flat_cut}</> damage after
+        resistances.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     EarthMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Melee damage +0.5, +1, +1.5 or +2 per point by mastery.
+        Shaman: your melee blows deal 0.5, 1, 1.5 or 2 extra damage per point at Novice, Expert, Master or
+        Grandmaster.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     SpiritMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Melee damage +<good>{school_percent:1}</> %.
+        Shaman: your melee damage is raised by <good>{school_percent:1}</> % (1 % per point).
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     MindMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Melee blows restore <mana>{mind_sp}</> spell points.
+        Shaman: each of your melee blows restores <mana>{mind_sp}</> spell points.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
     BodyMagic:
       append: >-
-        Shamans: every 7 points add 1 to Ascension. Melee blows restore <good>{body_hp}</> hit points.
+        Shaman: each of your melee blows restores <good>{body_hp}</> hit points.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
+        and healing.
   seraphim:
     SpiritMagic:
       append: >-
-        Seraphim: Spirit shrugs off light hits and softens heavy ones: <good>{school_flat_cut}</> off each hit after
-        resistances.
+        Seraphim: every hit you take is reduced by <good>{school_flat_cut}</> damage after resistances, which shrugs off
+        light hits and softens heavy ones.
     MindMagic:
       append: >-
         Seraphim: Mind adds <good>{school_damage}</> damage to each blow, growing with Might, weapon speed and the weapon's
@@ -1154,41 +1185,50 @@ items:
   230: "Increases your Attack, and your Accuracy by {stat}%, for 6 hours."
   231: "Reduces magic damage taken by {shield:1}% and grants Preservation for 6 hours.\nRequires 20 power to work."
   232: "Grants <mana>{meditation}</> bonus to Meditation skill for 6 hours."
-  233: "Regenerates Health for 6 hours."
+  233: "Regenerates hit points for 6 hours."
   234: "Increases your Armor Class for 6 hours."
   235: "Prevents drowning damage for 6 hours.\nRequires 20 power to work."
-  236: "Increases item's roughness, making it more resistant to breaking."
-  237: "Grants 5 +1 per 10 potion power charges of Magic Protection (as the spell) for 6 hours.\nFrom 50 power on it
-    also protects from death and eradication."
-  238: "Grants 1 enchant to an unenchanted item, based on potion Power.\nRequires at least 20 power to work."
+  236: "Hardens an item so that it breaks less easily."
+  237: "Grants 5 charges of Protection from Magic, plus 1 for every 10 points of potion power, for 6 hours.\nFrom 50
+    power it also protects from death and eradication."
+  238: "Adds one enchantment to an item that has none; the potion's power decides how strong it is.\nNeeds at least 20
+    power to work."
   239: "Cures and prevents the Stoned condition for 6 hours.\nRequires 20 power to work."
-  240: "Temporarily increases by 10+(1 x Power) Might and Accuracy for 6 hours."
-  241: "Temporarily increases by 10+(1 x Power) Intellect and Personality for 6 hours."
-  242: "Temporarily increases by 10+(1 x Power) Endurance, Speed and Luck for 6 hours."
+  240: "Raises Might and Accuracy by 10 plus the potion's power for 6 hours."
+  241: "Raises Intellect and Personality by 10 plus the potion's power for 6 hours."
+  242: "Raises Endurance, Speed and Luck by 10 plus the potion's power for 6 hours."
   243: "Adds a random tier 2 elemental damage enchant to a weapon.\nRequires 40 power to work."
-  244: "Adds 'of Swiftness' property to a non-magic weapon.\nRequires 40 power to work."
+  244: "Gives a weapon with no enchantment the 'of Swiftness' property.\nNeeds 40 power to work."
   245: "Grants Haste (+{haste:1}% Attack Speed), Heroism (+{heroism:1}% Melee Damage) and Bless (+{stat}% Accuracy)
     for 6 hours."
   246: "Removes and prevents all conditions, except Dead and Eradication, for 6 hours.\nRequires 40 power to work."
-  247: "<value>Heals {heal_large} Hit Points</>\nHeals based on the potion's power of hit points."
-  248: "<value>Restores {mana_large} Spell Points</>\nRestores based on the potion's power of spell points."
-  249: "Increases your Fire, Air, Water and Earth Resistance, and those stats by {stat}%, for 6 hours."
-  250: "Increases your Mind and Body Resistance, and those stats by {stat}%, for 6 hours."
+  247: "<value>Heals {heal_large} Hit Points</>\nThe amount grows with the potion's power."
+  248: "<value>Restores {mana_large} Spell Points</>\nThe amount grows with the potion's power."
+  249: "Raises your Fire, Air, Water and Earth Resistance, and Intellect, Speed, Luck and Endurance by {stat}%, for 6
+    hours."
+  250: "Raises your Mind and Body Resistance, and Personality and Might by {stat}%, for 6 hours."
   251: "Grants Shield (-{shield:1}% magic damage taken), Stone Skin and Preservation for 6 hours."
-  252: "Permanently adds 20 per 50 potion power to permanent Might and Accuracy.\nPreviously gained bonus do not stack.\n\nAt this power: step {step}. Best step already drunk: {best_step}."
-  253: "Permanently adds 20 per 50 potion power to permanent Intellect and Personality.\nPreviously gained bonus do not
-    stack.\n\nAt this power: step {step}. Best step already drunk: {best_step}."
-  254: "Permanently adds 20 per 50 potion power to permanent Endurance, Speed and Luck.\nPreviously gained bonus do not
-    stack.\n\nAt this power: step {step}. Best step already drunk: {best_step}."
+  252: "Permanently raises Might and Accuracy by 20 for every 50 points of potion power. Only the part above the
+    strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  253: "Permanently raises Intellect and Personality by 20 for every 50 points of potion power. Only the part above
+    the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  254: "Permanently raises Endurance, Speed and Luck by 20 for every 50 points of potion power. Only the part above
+    the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
   255: "Permanently adds a random tier 3 elemental damage enchant to a weapon.\nRequires 50 power to work."
-  256: "Permanently adds 'of Darkness' property to a non-magic weapon.\nRequires 100 power to work."
+  256: "Permanently gives a weapon with no enchantment the 'of Darkness' property.\nNeeds 100 power to work."
   257: "Increases all seven of your Statistics by {stat_light}% for 6 hours."
   258: "Fixes the character's age at 60.\nRequires 50 power to work."
-  259: "Permanently grants {skill_points} Skill Points (step {step}); 50 power per step.\nOnly the difference over the
-    best one already drunk is granted.\n\nBest step already taken: {best_step} ({best_skill_points} Skill Points)"
+  259: "Permanently grants {skill_points} skill points (step {step}; one step for every 50 points of potion
+    power).\nOnly the part above the strongest potion of this kind already drunk is added.\n\nBest step already drunk: {best_step}
+    ({best_skill_points} skill points)"
   260: "Fixes the character's age at 20.\nRequires 50 power to work."
-  261: "Permanently adds 30 per 50 potion power to Fire, Air, Water and Earth Resistance, single-use.\nRequires 50 power
-    per step to work.\nPreviously gained bonus do not stack.\n\nAt this power: step {step}. Best step already drunk: {best_step}."
-  262: "Permanently adds 30 per 50 potion power to Mind and Body Resistance, single-use.\nRequires 50 power per step to
-    work.\nPreviously gained bonus do not stack.\n\nAt this power: step {step}. Best step already drunk: {best_step}."
+  261: "Permanently raises Fire, Air, Water and Earth Resistance by 30 for every 50 points of potion power. Only the
+    part above the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step
+    already drunk: {best_step}."
+  262: "Permanently raises Mind and Body Resistance by 30 for every 50 points of potion power. Only the part above the
+    strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
   263: "Increases every one of your Resistances by {protection} for 6 hours."

@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawSpellRules.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 #include "game/rules/maw/MawAuras.h"
@@ -52,13 +53,14 @@ struct EffectRef
 };
 
 constexpr std::array<uint32_t, 6> ResistanceAuras = {3, 14, 25, 36, 58, 69};
-constexpr std::array<const char *, 6> ResistanceNames = {
-    "Fire resistance", "Air resistance", "Water resistance", "Earth resistance", "Mind resistance",
-    "Body resistance"};
+constexpr std::array<std::string_view, 6> ResistanceNames = {Engine::trNoop("Fire resistance"),
+    Engine::trNoop("Air resistance"), Engine::trNoop("Water resistance"), Engine::trNoop("Earth resistance"),
+    Engine::trNoop("Mind resistance"), Engine::trNoop("Body resistance")};
 // The aura that raises each stat (MawSkillRules::applyStatBonuses).
 constexpr std::array<uint32_t, 7> StatAuras = {69, 3, 58, 36, 46, 14, 25};
-constexpr std::array<const char *, 7> StatNames = {
-    "Might", "Intellect", "Personality", "Endurance", "Accuracy", "Speed", "Luck"};
+constexpr std::array<std::string_view, 7> StatNames = {Engine::trNoop("Might"), Engine::trNoop("Intellect"),
+    Engine::trNoop("Personality"), Engine::trNoop("Endurance"), Engine::trNoop("Accuracy"), Engine::trNoop("Speed"),
+    Engine::trNoop("Luck")};
 
 bool composite(uint32_t spellId)
 {
@@ -233,47 +235,47 @@ void describe(AuraEffect &effect, const EffectRef &ref, uint32_t spellId, const 
     switch (ref.effect)
     {
         case Effect::Resistance:
-            effect.label = ResistanceNames[ref.index];
+            effect.label = Engine::tr(ResistanceNames[ref.index]);
             effect.kind = AuraValueKind::Bonus;
             return;
         case Effect::Stat:
-            effect.label = StatNames[ref.index];
+            effect.label = Engine::tr(StatNames[ref.index]);
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Armour:
-            effect.label = hour ? "Stone Skin, armour" : "Armour class";
+            effect.label = Engine::tr(hour ? "Stone Skin, armour" : "Armour class");
             effect.kind = AuraValueKind::Bonus;
             return;
         case Effect::Attack:
-            effect.label = "Attack, melee and ranged";
+            effect.label = Engine::tr("Attack, melee and ranged");
             effect.kind = AuraValueKind::Bonus;
             return;
         case Effect::HitChance:
-            effect.label = "Chance to hit";
+            effect.label = Engine::tr("Chance to hit");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Haste:
-            effect.label = hour ? "Haste, recovery" : "Faster recovery";
+            effect.label = Engine::tr(hour ? "Haste, recovery" : "Faster recovery");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Shield:
-            effect.label = hour ? "Shield, magic damage taken" : "Magic damage taken";
+            effect.label = Engine::tr(hour ? "Shield, magic damage taken" : "Magic damage taken");
             effect.kind = AuraValueKind::ReductionPercent;
             return;
         case Effect::Fate:
-            effect.label = hour ? "Fate, critical chance" : "Critical chance";
+            effect.label = Engine::tr(hour ? "Fate, critical chance" : "Critical chance");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Heroism:
-            effect.label = "Melee damage";
+            effect.label = Engine::tr("Melee damage");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Hammerhands:
-            effect.label = "Unarmed damage";
+            effect.label = Engine::tr("Unarmed damage");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::EmpowerMagic:
-            effect.label = "Damage spells";
+            effect.label = Engine::tr("Damage spells");
             effect.kind = AuraValueKind::BonusPercent;
             return;
         case Effect::Text:
@@ -285,52 +287,53 @@ void describe(AuraEffect &effect, const EffectRef &ref, uint32_t spellId, const 
     switch (spellId)
     {
         case 1:
-            effect.label = "Light around the party";
-            effect.text = "power " + std::to_string(std::max(source.mastery, 0) + 1);
+            effect.label = Engine::tr("Light around the party");
+            effect.text = Engine::tr("power {power}", {{"power", std::max(source.mastery, 0) + 1}});
             break;
         case 4:
-            effect.label = "Weapons and arrows burn";
-            effect.text = std::to_string(10 + 5 * (std::clamp(source.mastery, 1, 4) - 1)) + " % of level damage";
+            effect.label = Engine::tr("Weapons and arrows burn");
+            effect.text = Engine::tr(
+                "{percent} % of level damage", {{"percent", 10 + 5 * (std::clamp(source.mastery, 1, 4) - 1)}});
             break;
         case 8:
-            effect.label = "Burns nearby monsters";
-            effect.text = "10 + 1-30 per skill point";
+            effect.label = Engine::tr("Burns nearby monsters");
+            effect.text = Engine::tr("10 + 1-30 per skill point");
             break;
         case 12:
-            effect.label = "Minimap";
-            effect.text = "monsters and points of interest";
+            effect.label = Engine::tr("Minimap");
+            effect.text = Engine::tr("monsters and points of interest");
             break;
         case 27:
-            effect.label = "Walking on water";
-            effect.text = "the whole party";
+            effect.label = Engine::tr("Walking on water");
+            effect.text = Engine::tr("the whole party");
             break;
         case 50:
-            effect.label = "Death";
-            effect.text = "delayed at massive hit point loss";
+            effect.label = Engine::tr("Death");
+            effect.text = Engine::tr("delayed at massive hit point loss");
             break;
         case 56:
-            effect.label = "Spell points";
-            effect.text = "regained over time";
+            effect.label = Engine::tr("Spell points");
+            effect.text = Engine::tr("regained over time");
             break;
         case 71:
-            effect.label = "Hit points";
-            effect.text = "regained over time";
+            effect.label = Engine::tr("Hit points");
+            effect.text = Engine::tr("regained over time");
             break;
         case 75:
-            effect.label = "Immune to";
-            effect.text = "poison, disease, stone, death";
+            effect.label = Engine::tr("Immune to");
+            effect.text = Engine::tr("poison, disease, stone, death");
             break;
         case 91:
-            effect.label = "Attacks heal";
-            effect.text = "part of the damage dealt";
+            effect.label = Engine::tr("Attacks heal");
+            effect.text = Engine::tr("part of the damage dealt");
             break;
         case 95:
-            effect.label = "Monsters that hit";
-            effect.text = "take what they inflict";
+            effect.label = Engine::tr("Monsters that hit");
+            effect.text = Engine::tr("take what they inflict");
             break;
         default:
-            effect.label = "Effect";
-            effect.text = "party-wide";
+            effect.label = Engine::tr("Effect");
+            effect.text = Engine::tr("party-wide");
             break;
     }
 }

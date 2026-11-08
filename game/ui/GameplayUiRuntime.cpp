@@ -1,10 +1,12 @@
 #include "game/ui/GameplayUiRuntime.h"
 
 #include "game/render/ActorModelPreview.h"
+#include "game/gameplay/Mm9DialogueSpeaker.h"
 #include "game/ui/GameplayHudGeometry.h"
 
 #include "engine/BgfxContext.h"
 #include "game/StringUtils.h"
+#include "game/content/ContentManifest.h"
 #include "game/render/SpriteAtlasCache.h"
 #include "game/render/TextureFiltering.h"
 #include "game/tables/MapStats.h"
@@ -142,6 +144,12 @@ std::string townPortalGroupNameForMap(const MapStatsEntry &mapEntry)
         return "TPEnroth";
     }
 
+    // MM9 (Chedian): map_stats rows 9001-9080
+    if (mapEntry.id >= 9001 && mapEntry.id <= 9099)
+    {
+        return "TPChedian";
+    }
+
     return "townport";
 }
 
@@ -150,6 +158,7 @@ bool appendTownPortalDestination(
     const MergedTownPortalSwitchGroup &group,
     const MergedTownPortalDestination &sourceDestination,
     const std::vector<MapStatsEntry> &mapEntries,
+    const Engine::AssetFileSystem *pAssetFileSystem,
     const TownPortalDestinationOverride *pOverride = nullptr)
 {
     const std::string &iconName =
@@ -165,6 +174,13 @@ bool appendTownPortalDestination(
     const MapStatsEntry *pDestinationMap = findMapEntryById(mapEntries, mapId);
 
     if (pDestinationMap == nullptr)
+    {
+        return false;
+    }
+
+    // A portal into a world this installation lacks (Chedian without MM9) is not offered.
+    if (pAssetFileSystem != nullptr && !pDestinationMap->worldId.empty()
+        && !isWorldPackageMounted(*pAssetFileSystem, pDestinationMap->worldId))
     {
         return false;
     }
@@ -217,34 +233,30 @@ bool resolveDimensionDoorDestinationOverride(
     destinationOverride.clearDirection = true;
     destinationOverride.iconName = "ui/gameplay/dimensional_travel/" + toLowerCopy(sourceDestination.iconName);
 
-    if (description == "jadame")
+    // Four portals in a row (tpglobal4, 2026-11-06), each with a column of the screen as its hover zone:
+    // Jadame, Enroth, Antagarich, Chedian; the map is a valid one of the continent, the landing comes from
+    // resolveDimensionDoorLanding.
+    struct Door
     {
-        destinationOverride.mapId = 1;
-        destinationOverride.hitX = 0;
-        destinationOverride.hitY = 0;
-        destinationOverride.hitWidth = 213;
-        destinationOverride.hitHeight = 480;
-        return true;
-    }
+        const char *pDescription;
+        uint32_t mapId;
+        int32_t column;
+    };
+    constexpr std::array<Door, 4> doors = {{{"jadame", 1, 0}, {"enroth", 151, 1}, {"antagarich", 62, 2},
+                                            {"chedian", 9021, 3}}};
+    constexpr uint32_t ColumnWidth = 160;
 
-    if (description == "antagarich")
+    for (const Door &door : doors)
     {
-        destinationOverride.mapId = 62;
-        destinationOverride.hitX = 427;
-        destinationOverride.hitY = 0;
-        destinationOverride.hitWidth = 213;
-        destinationOverride.hitHeight = 480;
-        return true;
-    }
-
-    if (description == "enroth")
-    {
-        destinationOverride.mapId = 151;
-        destinationOverride.hitX = 213;
-        destinationOverride.hitY = 0;
-        destinationOverride.hitWidth = 214;
-        destinationOverride.hitHeight = 480;
-        return true;
+        if (description == door.pDescription)
+        {
+            destinationOverride.mapId = door.mapId;
+            destinationOverride.hitX = door.column * int32_t(ColumnWidth);
+            destinationOverride.hitY = 0;
+            destinationOverride.hitWidth = ColumnWidth;
+            destinationOverride.hitHeight = 480;
+            return true;
+        }
     }
 
     return false;
@@ -705,7 +717,7 @@ bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded(const std::string &cu
 
     for (const MergedTownPortalDestination &sourceDestination : pGroup->destinations)
     {
-        appendTownPortalDestination(destinations, *pGroup, sourceDestination, mapEntries);
+        appendTownPortalDestination(destinations, *pGroup, sourceDestination, mapEntries, m_pAssetFileSystem);
     }
 
     m_townPortalBackgroundTextureName = townPortalIconTextureName(pGroup->name);
@@ -763,10 +775,11 @@ bool GameplayUiRuntime::ensureDimensionDoorDestinationsLoaded(uint32_t dayIndex,
             *pGroup,
             sourceDestination,
             mapEntries,
+            m_pAssetFileSystem,
             hasOverride ? &destinationOverride : nullptr);
     }
 
-    m_townPortalBackgroundTextureName = "ui/gameplay/dimensional_travel/tpglobal";
+    m_townPortalBackgroundTextureName = "ui/gameplay/dimensional_travel/tpglobal4";
     m_townPortalDestinations = std::move(destinations);
     m_townPortalDestinationsLoaded = true;
     return !m_townPortalDestinations.empty();
@@ -1495,9 +1508,50 @@ std::optional<GameplayHudFontHandle> GameplayUiRuntime::findHudFont(const std::s
     return result;
 }
 
+std::optional<GameplayHudFontHandle> GameplayUiRuntime::findHudFont(const std::string &fontName, int pixelHeight)
+{
+    if (pixelHeight <= 0)
+    {
+        return findHudFont(fontName);
+    }
+
+    if (fontName.empty() || !canUseBgfxResources() || m_pAssetFileSystem == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayHudFontData *pFont = SharedFontCache::find(fontName, pixelHeight);
+
+    if (pFont == nullptr)
+    {
+        SharedFontCache::ensure(*m_pAssetFileSystem, {{fontName, pixelHeight}});
+        pFont = SharedFontCache::find(fontName, pixelHeight);
+    }
+
+    if (pFont == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    GameplayHudFontHandle result = {};
+    result.fontName = pFont->fontName;
+    result.pixelHeight = pixelHeight;
+    result.fontHeight = pFont->fontHeight;
+    result.mainTextureHandle = pFont->mainTextureHandle;
+    result.shadowTextureHandle = pFont->shadowTextureHandle;
+    return result;
+}
+
+const GameplayHudFontData *GameplayUiRuntime::hudFontData(const GameplayHudFontHandle &font) const
+{
+    return font.pixelHeight > 0
+        ? SharedFontCache::find(font.fontName, font.pixelHeight)
+        : GameplayHudCommon::findHudFont(m_hudFontHandles, font.fontName);
+}
+
 float GameplayUiRuntime::measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const
 {
-    const GameplayHudFontData *pFont = GameplayHudCommon::findHudFont(m_hudFontHandles, font.fontName);
+    const GameplayHudFontData *pFont = hudFontData(font);
     return pFont != nullptr ? GameplayHudCommon::measureHudTextWidth(*pFont, text) : 0.0f;
 }
 
@@ -1506,7 +1560,7 @@ std::vector<std::string> GameplayUiRuntime::wrapHudTextToWidth(
     const std::string &text,
     float maxWidth) const
 {
-    const GameplayHudFontData *pFont = GameplayHudCommon::findHudFont(m_hudFontHandles, font.fontName);
+    const GameplayHudFontData *pFont = hudFontData(font);
     return pFont != nullptr ? GameplayHudCommon::wrapHudTextToWidth(*pFont, text, maxWidth)
                             : std::vector<std::string>{text};
 }
@@ -1602,7 +1656,7 @@ bgfx::TextureHandle GameplayUiRuntime::ensureHudTextureColorModulated(
 
 GameplayHudFontLayer GameplayUiRuntime::hudFontMainLayer(const GameplayHudFontHandle &font, uint32_t colorAbgr) const
 {
-    const GameplayHudFontData *pFont = GameplayHudCommon::findHudFont(m_hudFontHandles, font.fontName);
+    const GameplayHudFontData *pFont = hudFontData(font);
     return pFont != nullptr ? GameplayHudCommon::hudFontMainLayer(*pFont, colorAbgr) : GameplayHudFontLayer();
 }
 
@@ -1742,6 +1796,47 @@ uint32_t GameplayUiRuntime::actorInspectAnimationTicks(bool visible, uint32_t no
 void GameplayUiRuntime::bindActorModelPreview(ActorModelPreview &preview)
 {
     m_pActorModelPreview = &preview;
+}
+
+void GameplayUiRuntime::bindActorTalkPortrait(ActorModelPreview &preview)
+{
+    m_pActorTalkPortrait = &preview;
+}
+
+bool GameplayUiRuntime::renderTalkPortrait(const IGameplayWorldRuntime &world, const Mm9DialogueSpeaker &speaker,
+    const GameplayResolvedHudLayoutElement &rect, bool round)
+{
+    if (!hasHudRenderResources() || m_pActorTalkPortrait == nullptr || m_pAssetFileSystem == nullptr || !speaker)
+    {
+        return false;
+    }
+    // On the real clock; the portrait limits each step to a quarter second.
+    const float pixelSize = std::max(rect.width, rect.height);
+    const bgfx::TextureHandle portrait = speaker.actorIndex
+        ? m_pActorTalkPortrait->render(world, *speaker.actorIndex, pixelSize, currentAnimationTicks(),
+            *m_pAssetFileSystem)
+        : m_pActorTalkPortrait->renderDecoration(*speaker.decorationKey, pixelSize, *m_pAssetFileSystem);
+    if (!bgfx::isValid(portrait))
+    {
+        return false;
+    }
+    // The square portrait cropped to the rectangle's shape about its centre.
+    const float aspect = rect.width / std::max(1.0f, rect.height);
+    const float uInset = aspect < 1.0f ? (1.0f - aspect) * 0.5f : 0.0f;
+    const float vInset = aspect > 1.0f ? (1.0f - 1.0f / aspect) * 0.5f : 0.0f;
+    const bool bottomUp = bgfx::getCaps()->originBottomLeft;
+    const float v0 = bottomUp ? 1.0f - vInset : vInset;
+    const float v1 = bottomUp ? vInset : 1.0f - vInset;
+    if (round)
+    {
+        submitHudTexturedEllipse(portrait, rect.x, rect.y, rect.width, rect.height, uInset, v0, 1.0f - uInset, v1);
+    }
+    else
+    {
+        submitHudTexturedQuad(portrait, rect.x, rect.y, rect.width, rect.height, uInset, v0, 1.0f - uInset, v1,
+            TextureFilterProfile::UiIllustration);
+    }
+    return true;
 }
 
 void GameplayUiRuntime::renderActorInspectPreview(const IGameplayWorldRuntime &world, size_t actorIndex,
@@ -2384,7 +2479,7 @@ void GameplayUiRuntime::renderHudFontLayer(
     float fontScale,
     const GameplayResolvedHudLayoutElement *pClip) const
 {
-    const GameplayHudFontData *pFont = GameplayHudCommon::findHudFont(m_hudFontHandles, font.fontName);
+    const GameplayHudFontData *pFont = hudFontData(font);
 
     if (pFont == nullptr || !hasHudRenderResources() || !bgfx::isValid(layer.textureHandle))
     {

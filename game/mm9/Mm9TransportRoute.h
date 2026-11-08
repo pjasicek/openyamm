@@ -71,6 +71,10 @@ private:
     std::vector<std::string> m_errors;
 };
 
+// MM9's day index (its schedule's own order, 0 Saturday) of the calendar's weekday at that time (the shared calendar
+// starts each week on Monday), so a dock sails its Monday route on the day the game calls Monday.
 uint8_t mm9TransportDayIndex(float gameMinutes);
+// The calendar weekday a route sails on, 0 Monday.
+int mm9TransportWeekday(const Mm9TransportRoute &route);
 bool mm9TransportRouteConditionsSatisfied(const Mm9TransportRoute &route, const Party &party);
 }

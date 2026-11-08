@@ -304,6 +304,21 @@ inline std::string lower(std::string_view text)
     return mapped(text, [](uint32_t point) { return lower(point); });
 }
 
+// The text with its first character as a capital ("меч" → "Меч"), for a name shown at the start of a sentence.
+inline std::string capitalizedFirst(std::string_view text)
+{
+    if (text.empty())
+    {
+        return {};
+    }
+
+    const Character first = decode(text, 0);
+    std::string result;
+    append(result, upper(first.point));
+    result.append(text.substr(first.size));
+    return result;
+}
+
 // The number of characters.
 inline size_t length(std::string_view text)
 {

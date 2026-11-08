@@ -19,6 +19,9 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
+#include "game/mm9/Mm9Formation.h"
+#include "game/mm9/Mm9HirelingServices.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/SpellSchool.h"
 #include "game/render/SkyClock.h"
 #include "game/render/TextureFiltering.h"
@@ -31,11 +34,13 @@
 #include "game/events/EvtEnums.h"
 #include "game/events/ISceneEventContext.h"
 #include "game/maps/MapIdentity.h"
+#include "game/maps/MapLayoutIdentity.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/NpcDialogTable.h"
+#include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/CutsceneVideoScreen.h"
 #include "game/ui/screens/LoadGameScreen.h"
@@ -44,6 +49,8 @@
 #include "game/ui/screens/NewGameScreen.h"
 #include "game/ui/screens/WinGameScreen.h"
 #include "engine/BgfxContext.h"
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "engine/TextTable.h"
 
 #include <imgui.h>
@@ -81,6 +88,17 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// world.yml actorAwareness mm9Sight and mm9Provoke as the actor service takes them (MM9's rules when undeclared).
+Mm9PartyAwareness worldMm9PartyAwareness(const WorldActorAwarenessDefinition &awareness)
+{
+    return Mm9PartyAwareness{
+        .sightAllRound = awareness.mm9SightAllRound,
+        .sightScale = awareness.mm9SightScale,
+        .provokeRange = awareness.mm9ProvokeRange,
+        .provokeRadius = awareness.mm9ProvokeRadius,
+    };
+}
+
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
 constexpr bool IncludeGodLichCharacterCreationCandidate = true;
 #else
@@ -1286,6 +1304,24 @@ bool sameMapFileName(const std::string &left, const std::string &right)
     return toLowerCopy(left) == toLowerCopy(right);
 }
 
+// A console command's forms that only read or show things: no arguments (when bare is set) or a first argument
+// naming one of the actions. Running them does not mark the playthrough as assisted.
+std::function<bool(const std::vector<std::string> &)> readOnlyConsoleActions(
+    bool bare,
+    std::vector<std::string> actions)
+{
+    return [bare, actions = std::move(actions)](const std::vector<std::string> &args)
+    {
+        if (args.empty())
+        {
+            return bare;
+        }
+
+        const std::string action = toLowerCopy(args.front());
+        return std::find(actions.begin(), actions.end(), action) != actions.end();
+    };
+}
+
 int32_t currentLocationDay(float gameMinutes)
 {
     return static_cast<int32_t>(std::floor(std::max(0.0f, gameMinutes) / GameMinutesPerLocationDay)) + 1;
@@ -1340,6 +1376,61 @@ const IndoorSceneRuntime::Snapshot *findSavedIndoorSceneState(
     }
 
     return stateIt != states.end() ? &stateIt->second : nullptr;
+}
+
+// A map's saved state from another layout of the map (rebuilt since the save, game/maps/MapLayoutIdentity.h) is reset
+// before the map is built: its doors, mechanisms, actors and the rest are laid out for the old geometry
+// (devdocs/SAVED_MAP_STATE_IDENTITY.md). It logs one line for each reset map.
+// Returns the status notice for a reset map, empty when its state is kept.
+std::string resetSavedMapStateOfAnotherLayout(GameSession &session, const MapAssetInfo &mapAssetInfo, bool loadingSave)
+{
+    uint64_t savedIdentity = 0;
+
+    if (mapAssetInfo.outdoorMapData)
+    {
+        const OutdoorWorldRuntime::Snapshot *pSnapshot = findSavedOutdoorWorldState(session, mapAssetInfo);
+
+        if (pSnapshot == nullptr)
+        {
+            return {};
+        }
+
+        savedIdentity = pSnapshot->mapLayoutIdentity;
+    }
+    else if (mapAssetInfo.indoorMapData)
+    {
+        const IndoorSceneRuntime::Snapshot *pSnapshot = findSavedIndoorSceneState(session, mapAssetInfo);
+
+        if (pSnapshot == nullptr)
+        {
+            return {};
+        }
+
+        savedIdentity = pSnapshot->mapLayoutIdentity;
+    }
+    else
+    {
+        return {};
+    }
+
+    const SavedMapStateVerdict verdict =
+        judgeSavedMapState(savedIdentity, mapAssetInfo.layoutIdentity, mapAssetInfo.map.worldId);
+
+    if (verdict == SavedMapStateVerdict::Keep)
+    {
+        return {};
+    }
+
+    const std::string &fileName = mapAssetInfo.map.fileName;
+    const bool partyInside = loadingSave && sameMapFileName(session.currentMapFileName(), fileName);
+    session.discardMapState(fileName, partyInside);
+    std::cout << "Saved map state: map " << fileName
+              << (verdict == SavedMapStateVerdict::ResetChanged
+                      ? " changed since the save; its state was reset"
+                      : " has no layout identity in this older save; its state was reset")
+              << (partyInside ? " and the party starts at its start point" : "") << '\n';
+    const std::string mapName = mapAssetInfo.map.name.empty() ? fileName : Engine::localize(mapAssetInfo.map.name);
+    return Engine::tr("{map} has changed since this save: it starts afresh", {{"map", mapName}});
 }
 
 // A saved map state from before MMerge's campfire list or its small stat barrels: renumbers and refills its decoration
@@ -2236,9 +2327,10 @@ std::vector<DebugAwardEntry> loadDebugAwardEntries(const Engine::AssetFileSystem
     return entries;
 }
 
+// Lower-case in every alphabet the fonts write, so a translated answer matches whatever case was typed.
 std::string normalizePromptAnswer(const std::string &value)
 {
-    return toLowerCopy(trimCopy(value));
+    return Engine::Utf8::lower(trimCopy(value));
 }
 
 std::string traceInputPromptQuoted(const std::string &value)
@@ -2764,7 +2856,8 @@ Character buildFreshCreatedCharacter(
     character.merchantBonus = 0;
     character.glamourPower = 0;
     character.glamourMastery = SkillMastery::None;
-    character.weaponEnchantmentDamageBonus = 0;
+    character.meleeWeaponDamageBonus = 0;
+    character.rangedWeaponDamageBonus = 0;
     character.vampiricHealFraction = 0.0f;
     character.physicalAttackDisabled = false;
     character.physicalDamageImmune = false;
@@ -2904,6 +2997,14 @@ void GameApplication::registerDebugConsoleCommands()
         return;
     }
 
+    // A console command that changes the game makes the playthrough an assisted one (help, loc, qbit dump and the
+    // like do not).
+    m_debugConsole.setCommandObserver([this](const DebugConsole::CommandDefinition &command)
+        {
+            m_gameSession.playthroughStatistics().markAssisted(
+                std::string(Engine::trNoop("debug console")), command.name);
+        });
+
     const auto commandResult = [](bool success, const std::string &message)
     {
         return DebugConsole::CommandResult{.success = success, .message = message};
@@ -2974,7 +3075,8 @@ void GameApplication::registerDebugConsoleCommands()
                 << "model list|spawn|play|pause|scrub|visible|markers|nodes|orbit|stop, "
                 << "memory, reload map, menu, ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <other>]";
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "menu",
@@ -2988,7 +3090,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
             m_gameSession.gameplayScreenRuntime().openMenuOverlay();
             return commandResult(true, "Pause menu opened.");
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "ruleset",
@@ -3098,7 +3201,8 @@ void GameApplication::registerDebugConsoleCommands()
             return commandResult(false,
                 "Usage: ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <other> | aura <member 1-5> <spell id>"
                 " | counter <member 1-5> <amount>]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {})});
 
     m_debugConsole.registerCommand({
         .name = "testparty",
@@ -3176,7 +3280,8 @@ void GameApplication::registerDebugConsoleCommands()
 
             m_pendingTestParty = context.args;
             return commandResult(true, "Starting a MAW game: " + request.pParty->title + " at " + request.pStage->title);
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"list"})});
 
     m_debugConsole.registerCommand({
         .name = "model",
@@ -3419,7 +3524,8 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(success, "Model removed.");
             }
             return commandResult(false, "Unknown model action.");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"list"})});
 
     m_debugConsole.registerCommand({
         .name = "effect",
@@ -3636,7 +3742,8 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(success, "Effect stopped.");
             }
             return commandResult(false, "Unknown effect action.");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"list", "stats"})});
 
     m_debugConsole.registerCommand({
         .name = "projectile",
@@ -3873,7 +3980,7 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "combatlog",
-        .description = "Open or close the docked combat log (the combat_log setting must be on).",
+        .description = "Open or close the docked combat log (while it is shown: the combat_log setting).",
         .usage = "combatlog [expand]",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -3894,7 +4001,229 @@ void GameApplication::registerDebugConsoleCommands()
 
             panel.toggle();
             return commandResult(true, panel.open() ? "Combat log open." : "Combat log closed.");
-        }});
+        },
+        .readOnly = true});
+    m_debugConsole.registerCommand({
+        .name = "hireling",
+        .description = "Add, remove, talk to or set up an MM9 hireling by its RUDE id (the MM9 world's hirelings.txt).",
+        .usage = "hireling list | hireling add|remove|active|talk <rude-id> | hireling hp <rude-id> <percent>"
+            " | hireling recovery <rude-id> <seconds> | hireling buff <rude-id> [minutes]"
+            " | hireling condition <rude-id> <name|clear>"
+            " | hireling formation [open|cancel|accept|show|move <combatant> <cell>]",
+        .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
+        {
+            Party *pParty = activeParty();
+            const Mm9HirelingTable &table = m_gameSession.data().mm9HirelingTable();
+
+            if (pParty == nullptr)
+            {
+                return commandResult(false, "No party.");
+            }
+
+            const std::string action = context.args.empty() ? "list" : toLowerCopy(context.args[0]);
+
+            if (action == "list")
+            {
+                std::string text = table.entries().empty() ? "No hireling table (MM9 world only)." : "With the party:";
+
+                for (const Mm9PartyHireling &hireling : pParty->hirelings())
+                {
+                    text += " " + std::to_string(hireling.rudeId) + " " + hireling.character.name + " ("
+                        + std::to_string(hireling.character.health) + " HP);";
+                }
+
+                text += " Table:";
+
+                for (const Mm9Hireling &row : table.entries())
+                {
+                    text += " " + std::to_string(row.rudeId) + " " + row.name + ";";
+                }
+
+                return commandResult(true, text);
+            }
+
+            // The formation builder (phase 10): open it, cancel or accept it, list the cells, or move a combatant (a
+            // member, then the hirelings, from 0) to an empty cell of the open builder (else of the party).
+            if (action == "formation")
+            {
+                GameplayScreenRuntime &runtime = m_gameSession.gameplayScreenRuntime();
+                const std::string step = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "open";
+
+                if (step == "open")
+                {
+                    GameplayFormationBuilder::open(runtime);
+                    return commandResult(GameplayFormationBuilder::isOpen(runtime),
+                        GameplayFormationBuilder::isOpen(runtime) ? "Formation builder open."
+                                                                  : "No formations in this world.");
+                }
+
+                if (step == "cancel")
+                {
+                    GameplayFormationBuilder::close(runtime);
+                    return commandResult(true, "Formation builder closed.");
+                }
+
+                if (step == "accept")
+                {
+                    const bool applied = GameplayFormationBuilder::accept(runtime);
+                    return commandResult(applied,
+                        applied ? "Formation applied." : "Refused: the front line must be covered.");
+                }
+
+                const Mm9FormationBuilderState &builder = runtime.interactionState().formationBuilder;
+                const std::vector<int32_t> cells = builder.open ? builder.cells : pParty->formationCells();
+
+                if (step == "move" && context.args.size() >= 4)
+                {
+                    const std::optional<int32_t> combatant = parseInt32Argument(context.args[2]);
+                    const std::optional<int32_t> cell = parseInt32Argument(context.args[3]);
+
+                    if (!combatant || !cell || *combatant < 0)
+                    {
+                        return commandResult(false, "Usage: hireling formation move <combatant> <cell>");
+                    }
+
+                    const bool moved = builder.open
+                        ? mm9FormationMove(runtime.interactionState().formationBuilder.cells, size_t(*combatant), *cell)
+                        : pParty->setFormationCell(size_t(*combatant), *cell);
+                    return commandResult(moved, moved ? "Moved." : "That cell is taken or invalid.");
+                }
+
+                std::string text = builder.open ? "Builder:" : "Party:";
+
+                for (size_t combatant = 0; combatant < cells.size(); ++combatant)
+                {
+                    const Character *pCombatant = pParty->combatant(combatant);
+                    text += " " + std::to_string(combatant) + " " + (pCombatant != nullptr ? pCombatant->name : "")
+                        + " @" + std::to_string(cells[combatant]) + ";";
+                }
+
+                return commandResult(true, text);
+            }
+
+            const std::optional<int32_t> parsedRudeId =
+                context.args.size() >= 2 ? parseInt32Argument(context.args[1]) : std::nullopt;
+
+            if (!parsedRudeId || *parsedRudeId <= 0)
+            {
+                return commandResult(false, "Usage: hireling add|remove|active|talk|hp|recovery|buff|condition <rude-id>");
+            }
+
+            const uint32_t rudeId = uint32_t(*parsedRudeId);
+
+            if (action == "add")
+            {
+                const Mm9Hireling *pRow = table.find(rudeId);
+
+                if (pRow == nullptr || !pParty->addHireling(*pRow))
+                {
+                    return commandResult(false, pRow == nullptr ? "No such hireling." : "The party cannot take it.");
+                }
+
+                // As a hire does, without the fee: its key unlocks the dismissal and service rows of its dialogue.
+                if (pRow->hireQBit != 0)
+                {
+                    pParty->setQuestBit(pRow->hireQBit, true);
+                }
+
+                return commandResult(true, pRow->name + " joins the party.");
+            }
+
+            // Any hireling's dialogue, along or not (a hire can be tested without walking to the retainer).
+            if (action == "talk")
+            {
+                if (table.find(rudeId) == nullptr)
+                {
+                    return commandResult(false, "No such hireling.");
+                }
+
+                m_gameSession.gameplayScreenRuntime().openHirelingDialogue(rudeId);
+                return commandResult(true, "Dialogue opened.");
+            }
+
+            const auto &hirelings = pParty->hirelings();
+            const auto found = std::find_if(hirelings.begin(), hirelings.end(),
+                [rudeId](const Mm9PartyHireling &hireling)
+                {
+                    return hireling.rudeId == rudeId;
+                });
+
+            if (found == hirelings.end())
+            {
+                return commandResult(false, "That hireling is not with the party.");
+            }
+
+            const size_t combatantIndex = pParty->members().size() + size_t(found - hirelings.begin());
+            Character &hireling = *pParty->combatant(combatantIndex);
+
+            if (action == "remove")
+            {
+                // As a dismissal (RUDE -11): the hire key goes with it.
+                const Mm9Hireling *pRow = table.find(rudeId);
+
+                if (pRow == nullptr || !dismissMm9Hireling(*pParty, *pRow))
+                {
+                    pParty->removeHireling(rudeId);
+                }
+
+                return commandResult(true, "Hireling removed.");
+            }
+
+            if (action == "active")
+            {
+                return commandResult(pParty->setActiveCombatantIndex(combatantIndex), "Active combatant set.");
+            }
+
+            const std::optional<int32_t> parsedAmount =
+                context.args.size() >= 3 ? parseInt32Argument(context.args[2]) : std::nullopt;
+            const bool hasAmount = parsedAmount && *parsedAmount >= 0;
+            const uint32_t amount = hasAmount ? uint32_t(*parsedAmount) : 0;
+
+            if (action == "hp" && hasAmount)
+            {
+                const int maximum = GameMechanics::calculateEffectiveCharacterMaxHealth(hireling);
+                pParty->adjustMemberHealth(combatantIndex,
+                    std::max(0, maximum * int(std::min(amount, 100u)) / 100) - hireling.health);
+                return commandResult(true, std::to_string(hireling.health) + " HP.");
+            }
+
+            if (action == "recovery" && hasAmount)
+            {
+                hireling.recoverySecondsRemaining = float(amount);
+                return commandResult(true, "Recovering.");
+            }
+
+            if (action == "buff")
+            {
+                const float minutes = hasAmount ? float(amount) : 60.0f;
+                pParty->applyCharacterBuff(combatantIndex, CharacterBuffId::Bless, minutes * 60.0f, 5,
+                    spellIdValue(SpellId::Bless), 5, SkillMastery::Expert, 0);
+                return commandResult(true, "Blessed.");
+            }
+
+            if (action == "condition" && context.args.size() >= 3)
+            {
+                if (toLowerCopy(context.args[2]) == "clear")
+                {
+                    hireling.conditions.reset();
+                    return commandResult(true, "Conditions cleared.");
+                }
+
+                for (const auto &[name, condition] : CharacterConditionNames)
+                {
+                    if (toLowerCopy(std::string(name)) == toLowerCopy(context.args[2]))
+                    {
+                        pParty->applyMemberCondition(combatantIndex, condition);
+                        return commandResult(true, std::string(name) + " set.");
+                    }
+                }
+
+                return commandResult(false, "No such condition.");
+            }
+
+            return commandResult(false, "Unknown hireling action.");
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"list"})});
     m_debugConsole.registerCommand({
         .name = "arena",
         .description = "Set up an AI arena (tests/scenarios/mm9/ai/README.md) and control its decision trace.",
@@ -3983,7 +4312,8 @@ void GameApplication::registerDebugConsoleCommands()
 
             return commandResult(false, "Usage: arena load <file> | arena reload | arena trace on|off"
                 " | arena anim on|off | arena overlay on|off | arena dump [lines]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"dump"})});
     m_debugConsole.registerCommand({
         .name = "actor",
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
@@ -4308,7 +4638,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"count"})});
 
     m_debugConsole.registerCommand({
         .name = "memory",
@@ -4327,7 +4658,8 @@ void GameApplication::registerDebugConsoleCommands()
                 << " audio_clip_count=" << audioStats.clipCount
                 << " audio_sample_bytes=" << audioStats.sampleBytes;
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "time",
@@ -4382,6 +4714,40 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, "Current date: " + formatDebugGameDate(m_gameSession.gameMinutes()));
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"get"})});
+
+    m_debugConsole.registerCommand({
+        .name = "rest",
+        .description = "Rest (heal) or wait through the rest screen, as its buttons do: its world checks, its food, a "
+            "script's rest alarm (evt.SetRestAlarm).",
+        .usage = "rest wait|heal <minutes> | rest close",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string mode = context.args.empty() ? std::string() : toLowerCopy(context.args[0]);
+            GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+            if (mode == "close")
+            {
+                // The rest screen's Exit: a finished wait leaves it open, the world paused under it.
+                screenRuntime.closeRestOverlay();
+                return commandResult(true, "Rest screen closed at " + formatDebugGameDate(m_gameSession.gameMinutes()));
+            }
+            const std::optional<int32_t> minutes =
+                context.args.size() >= 2 ? parseInt32Argument(context.args[1]) : std::nullopt;
+            if ((mode != "wait" && mode != "heal") || !minutes || *minutes <= 0)
+            {
+                return commandResult(false, "Usage: rest wait|heal <minutes> | rest close");
+            }
+
+            screenRuntime.openRestOverlay();
+            if (!screenRuntime.restScreenState().active)
+            {
+                return commandResult(false, "The party cannot rest here now.");
+            }
+            screenRuntime.startRestAction(
+                mode == "heal" ? GameplayUiController::RestMode::Heal : GameplayUiController::RestMode::Wait,
+                float(*minutes));
+            return commandResult(true, "Resting from " + formatDebugGameDate(m_gameSession.gameMinutes()));
         }});
 
     m_debugConsole.registerCommand({
@@ -4416,15 +4782,28 @@ void GameApplication::registerDebugConsoleCommands()
                 {
                     weather.setDebugPrecipitation(std::nullopt, 0.0f);
                 }
+                else if (action == "strike")
+                {
+                    weather.forceStrike(value == "near" ? LightningDistance::Near
+                        : value == "far" ? LightningDistance::Far : LightningDistance::Middle);
+                }
                 else if (action != "status")
                 {
-                    return commandResult(false, "Usage on this map: weather rain|snow <0-1> | clear | auto");
+                    return commandResult(false,
+                        "Usage on this map: weather rain|snow <0-1> | clear | auto | strike [near|middle|far]");
                 }
                 const WeatherSample sample = weather.targetSample();
+                const WeatherPresentation &shown = weather.presentation();
                 const char *kind = sample.precipitation == PrecipitationKind::Rain ? "rain"
                     : sample.precipitation == PrecipitationKind::Snow ? "snow" : "none";
+                const std::array<float, 3> camera = m_indoorRenderer.cameraPosition();
+                const bool covered = weather.covers(camera[0], camera[1], camera[2]);
                 return commandResult(true, std::string("Open-sky weather: ") + kind + " "
-                    + std::to_string(sample.intensity) + ", clouds " + std::to_string(sample.cloudCover));
+                    + std::to_string(sample.intensity) + ", clouds " + std::to_string(sample.cloudCover)
+                    + (sample.storm ? ", storm" : "") + "; shown rain " + std::to_string(shown.rainLevel())
+                    + " snow " + std::to_string(shown.snowLevel()) + (shown.storm() ? " storm" : "")
+                    + "; camera " + (covered ? "under cover" : "in the open") + ", sound "
+                    + std::to_string(weather.audibility()) + (weather.hasRoofMap() ? "" : "; no roof map"));
             }
             if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
                 || m_pOutdoorWorldRuntime == nullptr)
@@ -4554,7 +4933,8 @@ void GameApplication::registerDebugConsoleCommands()
                 << " quality=" << weatherQualityValue(m_settings.weatherQuality)
                 << (overrides.precipitation || overrides.wind || overrides.storm ? " (debug override)" : "");
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"status", "forecast"})});
 
     m_debugConsole.registerCommand({
         .name = "terrain",
@@ -4587,7 +4967,8 @@ void GameApplication::registerDebugConsoleCommands()
                 }
             }
             return commandResult(true, m_outdoorGameView.terrainMaterialsStatus());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {})});
 
     m_debugConsole.registerCommand({
         .name = "sky",
@@ -4700,7 +5081,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {})});
 
     m_debugConsole.registerCommand({
         .name = "render",
@@ -4765,13 +5147,14 @@ void GameApplication::registerDebugConsoleCommands()
             // Logged so a profiling run can split its per-second frame statistics by configuration.
             std::cout << "[RenderLayers] " << describe() << std::endl;
             return commandResult(true, describe());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "portals",
         .description = "Indoor portal and visibility view: portal faces, drawn sectors, counts, timings (not saved).",
-        .usage = "portals [on|off] | portals faces all|traversed|off | portals sectors|readout|gpu|rebuild|log "
-                 "on|off|toggle | portals tile <units> | portals stats | portals map",
+        .usage = "portals [on|off] | portals faces all|traversed|off | portals sectors|readout|gpu|rebuild|log|"
+                 "culling on|off|toggle | portals tile <units> | portals stats | portals map",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
             IndoorPortalDebugSettings settings = m_indoorRenderer.portalDebugSettings();
@@ -4784,12 +5167,13 @@ void GameApplication::registerDebugConsoleCommands()
                     << " readout=" << (settings.readout ? "on" : "off")
                     << " gpu=" << (settings.gpuPasses ? "on" : "off")
                     << " rebuild=" << (settings.rebuildEveryFrame ? "on" : "off")
-                    << " log=" << (settings.log ? "on" : "off") << " tile=" << settings.tileSize;
+                    << " log=" << (settings.log ? "on" : "off") << " tile=" << settings.tileSize
+                    << " culling=" << (settings.cullingOff ? "off" : "on");
                 return out.str();
             };
             const std::string usage = "Usage: portals [on|off] | portals faces all|traversed|off | "
-                "portals sectors|readout|gpu|rebuild|log on|off|toggle | portals tile <units> | portals stats | "
-                "portals map";
+                "portals sectors|readout|gpu|rebuild|log|culling on|off|toggle | portals tile <units> | "
+                "portals stats | portals map";
             if (context.args.empty())
             {
                 return commandResult(true, describe());
@@ -4842,9 +5226,10 @@ void GameApplication::registerDebugConsoleCommands()
             }
             else
             {
+                bool culling = !settings.cullingOff;
                 bool *pSwitch = first == "sectors" ? &settings.sectors : first == "readout" ? &settings.readout
                     : first == "gpu" ? &settings.gpuPasses : first == "rebuild" ? &settings.rebuildEveryFrame
-                    : first == "log" ? &settings.log : nullptr;
+                    : first == "log" ? &settings.log : first == "culling" ? &culling : nullptr;
                 const std::string action = context.args.size() == 2 ? second : "toggle";
                 if (pSwitch == nullptr || context.args.size() > 2
                     || (action != "on" && action != "off" && action != "toggle"))
@@ -4852,11 +5237,13 @@ void GameApplication::registerDebugConsoleCommands()
                     return commandResult(false, usage + "; " + describe());
                 }
                 *pSwitch = action == "toggle" ? !*pSwitch : action == "on";
+                settings.cullingOff = !culling;
             }
             applyIndoorPortalDebugSettings(settings);
             std::cout << "[PortalViewSettings] " << describe() << std::endl;
             return commandResult(true, describe());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "cls",
@@ -4867,7 +5254,8 @@ void GameApplication::registerDebugConsoleCommands()
             m_debugConsole.clearMessages();
             m_debugConsole.addMessage(DebugConsole::MessageKind::Info, "Console cleared.");
             return commandResult(true, "");
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "map",
@@ -4892,7 +5280,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "loc",
@@ -4935,7 +5324,8 @@ void GameApplication::registerDebugConsoleCommands()
                 << " yaw_radians=" << normalizedYawRadians
                 << " pitch_degrees=" << pitchDegrees;
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "goto",
@@ -4993,6 +5383,87 @@ void GameApplication::registerDebugConsoleCommands()
         }});
 
     m_debugConsole.registerCommand({
+        .name = "cinematic",
+        .description = "Play, skip or list the map's cinematics, or shake the camera.",
+        .usage = "cinematic list | play <id> [doneEventId] | skip | shake <intensity> <seconds>",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string action = context.args.empty() ? "list" : context.args[0];
+            CinematicRuntime &cinematic = m_gameSession.cinematicRuntime();
+
+            if (action == "list")
+            {
+                const std::optional<CinematicLibrary> &library = m_gameSession.mapCinematics();
+                std::string text = library ? "Cinematics:" : "This map has no cinematics.";
+
+                for (size_t index = 0; library && index < library->cinematics.size(); ++index)
+                {
+                    const CinematicDefinition &definition = library->cinematics[index];
+                    text += " " + definition.id + " (" + std::to_string(int(std::lround(definition.durationSeconds)))
+                        + " s)";
+                }
+
+                if (cinematic.active())
+                {
+                    text += "; playing " + cinematic.activeId() + " at " + std::to_string(cinematic.elapsedSeconds())
+                        + " s";
+                }
+
+                return commandResult(true, text);
+            }
+
+            if (action == "play" && context.args.size() >= 2)
+            {
+                std::optional<int32_t> doneEventId = 0;
+
+                if (context.args.size() >= 3)
+                {
+                    doneEventId = parseInt32Argument(context.args[2]);
+                }
+
+                if (!doneEventId || *doneEventId < 0 || *doneEventId > 65535)
+                {
+                    return commandResult(false, "Invalid done event id.");
+                }
+
+                const bool started = m_gameSession.playCinematic(context.args[1], uint16_t(*doneEventId));
+                return commandResult(started, started ? "Playing " + context.args[1] : "No such cinematic.");
+            }
+
+            if (action == "skip")
+            {
+                IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+                EventRuntimeState *pEvents = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+                if (!cinematic.active() || pEvents == nullptr)
+                {
+                    return commandResult(false, "No cinematic is playing.");
+                }
+
+                pEvents->pendingCinematicSkip = true;
+                return commandResult(true, "Skipping " + cinematic.activeId());
+            }
+
+            if (action == "shake" && context.args.size() >= 3)
+            {
+                const std::optional<float> intensity = parseFloatArgument(context.args[1]);
+                const std::optional<float> seconds = parseFloatArgument(context.args[2]);
+
+                if (!intensity || !seconds || *intensity <= 0.0f || *seconds <= 0.0f)
+                {
+                    return commandResult(false, "Usage: cinematic shake <intensity> <seconds>");
+                }
+
+                cinematic.shake().start(*intensity, *seconds);
+                return commandResult(true, "Shaking.");
+            }
+
+            return commandResult(false,
+                "Usage: cinematic list | play <id> [doneEventId] | skip | shake <intensity> <seconds>");
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"list"})});
+
+    m_debugConsole.registerCommand({
         .name = "event",
         .description = "Execute a map event by id.",
         .usage = "event <id>",
@@ -5036,7 +5507,7 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "destructible",
         .description = "Damage or destroy a scene destructible (devdocs/INDOOR_DESTRUCTIBLES.md) by its id.",
-        .usage = "destructible <id> destroy | destructible <id> damage <amount>",
+        .usage = "destructible <id> destroy | destructible <id> damage <amount> | destructible <id> state",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
             const std::optional<int32_t> id = !context.args.empty() ? parseInt32Argument(context.args[0]) : std::nullopt;
@@ -5044,9 +5515,32 @@ void GameApplication::registerDebugConsoleCommands()
             const std::optional<int32_t> amount =
                 context.args.size() >= 3 ? parseInt32Argument(context.args[2]) : std::nullopt;
 
-            if (!id || *id < 0 || (action != "destroy" && (action != "damage" || !amount)))
+            if (!id || *id < 0 || (action != "destroy" && action != "state" && (action != "damage" || !amount)))
             {
-                return commandResult(false, "Usage: destructible <id> destroy | destructible <id> damage <amount>");
+                return commandResult(false,
+                    "Usage: destructible <id> destroy | destructible <id> damage <amount> | destructible <id> state");
+            }
+
+            // Its saved state: hp and standing or broken; "untouched" before anything has hit it.
+            if (action == "state")
+            {
+                const EventRuntimeState *pState =
+                    m_pMapSceneRuntime != nullptr ? m_pMapSceneRuntime->eventRuntimeState() : nullptr;
+
+                if (pState == nullptr)
+                {
+                    return commandResult(false, "No active map runtime.");
+                }
+
+                const auto stateIt = pState->destructibles.find(static_cast<uint32_t>(*id));
+
+                if (stateIt == pState->destructibles.end())
+                {
+                    return commandResult(true, "Destructible " + std::to_string(*id) + ": untouched");
+                }
+
+                return commandResult(true, "Destructible " + std::to_string(*id) + ": hp "
+                    + std::to_string(stateIt->second.hp) + (stateIt->second.destroyed ? ", broken" : ", standing"));
             }
 
             ISceneEventContext *pContext =
@@ -5062,7 +5556,11 @@ void GameApplication::registerDebugConsoleCommands()
                 : pContext->damageDestructible(static_cast<uint32_t>(*id), *amount);
             return commandResult(changed, changed ? "Destructible " + std::to_string(*id) + ": " + action
                                                   : "Nothing changed (no such destructible, or already broken).");
-        }});
+        },
+        .readOnlyWith = [](const std::vector<std::string> &args)
+            {
+                return args.size() == 2 && toLowerCopy(args[1]) == "state";
+            }});
 
     m_debugConsole.registerCommand({
         .name = "qbit",
@@ -5248,7 +5746,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: qbit get|set|clear <id> [id...] | qbit dump [active|all|filter]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get", "dump"})});
 
     m_debugConsole.registerCommand({
         .name = "ledger",
@@ -5309,7 +5808,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "autonote",
@@ -5364,7 +5864,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, out.str());
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "npc",
@@ -5496,7 +5997,11 @@ void GameApplication::registerDebugConsoleCommands()
                 true,
                 "npc " + std::to_string(npcId) + " greeting=" + std::to_string(greetingId)
                     + " display_count=0 name=\"" + pNpc->name + "\"");
-        }});
+        },
+        .readOnlyWith = [](const std::vector<std::string> &args)
+            {
+                return args.size() >= 2 && toLowerCopy(args[0]) == "greeting" && toLowerCopy(args[1]) == "get";
+            }});
 
     m_debugConsole.registerCommand({
         .name = "mapvar",
@@ -5595,7 +6100,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: mapvar get|set|clear <index> [value] | mapvar dump");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get", "dump"})});
 
     m_debugConsole.registerCommand({
         .name = "global",
@@ -5732,7 +6238,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: global get|set|clear <name> [value] | global dump [filter]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get", "dump"})});
 
     m_debugConsole.registerCommand({
         .name = "award",
@@ -5837,7 +6344,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: award get|set|clear <id> | award dump [active|all|filter]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get", "dump"})});
 
     m_debugConsole.registerCommand({
         .name = "arcomage",
@@ -5964,7 +6472,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, "gold=" + std::to_string(pParty->gold()));
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "skill",
@@ -6079,7 +6588,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, "food=" + std::to_string(pParty->food()));
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "hp",
@@ -6118,7 +6628,8 @@ void GameApplication::registerDebugConsoleCommands()
 
             pParty->reviveAndRestoreAll();
             return commandResult(true, "Party restored.");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"show"})});
 
     m_debugConsole.registerCommand({
         .name = "player",
@@ -6313,7 +6824,7 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(false, "You do not have enough gold.");
             }
 
-            pParty->addGold(-static_cast<int>(pProfession->weeklyCost));
+            pParty->addGold(-static_cast<int>(pProfession->weeklyCost), GoldReason::Other);
 
             HiredNpcFollower follower = {};
             follower.npcId = selectedNpc->id;
@@ -6351,6 +6862,131 @@ void GameApplication::registerDebugConsoleCommands()
                 true,
                 "Hired " + selectedNpc->name + " (npc " + std::to_string(selectedNpc->id)
                     + ", profession " + std::to_string(professionId) + " " + pProfession->profession + ").");
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "doll",
+        .description = "Paperdoll review: change a member's portrait, wear any item without the wearing rules, "
+                       "empty every slot or open the character screen on the member.",
+        .usage = "doll <member 1-5> portrait <character id> | doll <member> equip <slot> <item id, 0 empties>"
+                 " | doll <member> clear | doll <member> show",
+        .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string usage = "Usage: doll <member 1-5> portrait <character id> | doll <member> equip "
+                                      "<slot> <item id> | doll <member> clear | doll <member> show";
+            Party *pParty = activeParty();
+
+            if (pParty == nullptr)
+            {
+                return commandResult(false, "No active party.");
+            }
+
+            if (context.args.size() < 2)
+            {
+                return commandResult(false, usage);
+            }
+
+            const int memberNumber = std::atoi(context.args[0].c_str());
+
+            if (memberNumber < 1 || size_t(memberNumber) > pParty->memberCount())
+            {
+                return commandResult(false, "No party member " + context.args[0] + ".");
+            }
+
+            const size_t memberIndex = size_t(memberNumber - 1);
+            Character *pMember = pParty->member(memberIndex);
+            const std::string action = toLowerCopy(context.args[1]);
+
+            if (action == "portrait" && context.args.size() == 3)
+            {
+                const uint32_t characterId = uint32_t(std::strtoul(context.args[2].c_str(), nullptr, 10));
+                const CharacterDollEntry *pEntry = m_gameDataLoader.getCharacterDollTable().getCharacter(characterId);
+
+                if (pEntry == nullptr)
+                {
+                    return commandResult(false, "No character portrait " + context.args[2] + ".");
+                }
+
+                pMember->characterDataId = pEntry->id;
+                pMember->portraitPictureId = pEntry->id - 1;
+                pMember->portraitTextureName =
+                    pEntry->facePicturesPrefix.empty() ? std::string() : pEntry->facePicturesPrefix + "01";
+                synchronizeSessionFromRuntime();
+                return commandResult(true, "Member " + context.args[0] + " uses portrait " + context.args[2]
+                    + " (doll type " + std::to_string(pEntry->dollTypeId) + ").");
+            }
+
+            if (action == "equip" && context.args.size() == 4)
+            {
+                static const std::array<std::pair<const char *, EquipmentSlot>, 16> SlotNames = {{
+                    {"offhand", EquipmentSlot::OffHand}, {"mainhand", EquipmentSlot::MainHand},
+                    {"bow", EquipmentSlot::Bow}, {"armor", EquipmentSlot::Armor}, {"helm", EquipmentSlot::Helm},
+                    {"belt", EquipmentSlot::Belt}, {"cloak", EquipmentSlot::Cloak},
+                    {"gauntlets", EquipmentSlot::Gauntlets}, {"boots", EquipmentSlot::Boots},
+                    {"amulet", EquipmentSlot::Amulet}, {"ring1", EquipmentSlot::Ring1},
+                    {"ring2", EquipmentSlot::Ring2}, {"ring3", EquipmentSlot::Ring3},
+                    {"ring4", EquipmentSlot::Ring4}, {"ring5", EquipmentSlot::Ring5},
+                    {"ring6", EquipmentSlot::Ring6}}};
+                const std::string slotName = toLowerCopy(context.args[2]);
+                const auto slotIt = std::find_if(SlotNames.begin(), SlotNames.end(),
+                    [&slotName](const auto &entry)
+                    {
+                        return slotName == entry.first;
+                    });
+
+                if (slotIt == SlotNames.end())
+                {
+                    return commandResult(false, "Unknown slot " + context.args[2] + ".");
+                }
+
+                const uint32_t itemId = uint32_t(std::strtoul(context.args[3].c_str(), nullptr, 10));
+                InventoryItem item = {};
+
+                if (itemId != 0)
+                {
+                    const ItemTable &itemTable = m_gameDataLoader.getItemTable();
+
+                    if (itemTable.get(itemId) == nullptr)
+                    {
+                        return commandResult(false, "No item " + context.args[3] + ".");
+                    }
+
+                    item = ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
+                    item.identified = true;
+                }
+
+                pParty->forceEquippedItem(memberIndex, slotIt->second, item);
+                synchronizeSessionFromRuntime();
+                return commandResult(true, "Member " + context.args[0] + " " + slotName + ": item "
+                    + std::to_string(itemId) + ".");
+            }
+
+            if (action == "clear" && context.args.size() == 2)
+            {
+                for (uint8_t slot = 0; slot <= uint8_t(EquipmentSlot::Ring6); ++slot)
+                {
+                    pParty->forceEquippedItem(memberIndex, EquipmentSlot(slot), InventoryItem {});
+                }
+
+                synchronizeSessionFromRuntime();
+                return commandResult(true, "Member " + context.args[0] + " wears nothing.");
+            }
+
+            if (action == "show" && context.args.size() == 2)
+            {
+                GameplayScreenRuntime &runtime = m_gameSession.gameplayScreenRuntime();
+                runtime.closeQuickReferenceOverlay();
+                runtime.closeSpellbookOverlay();
+                GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
+                characterScreen = {};
+                characterScreen.open = true;
+                characterScreen.page = GameplayUiController::CharacterPage::Inventory;
+                characterScreen.source = GameplayUiController::CharacterScreenSource::Party;
+                characterScreen.sourceIndex = memberIndex;
+                return commandResult(true, "Character screen of member " + context.args[0] + ".");
+            }
+
+            return commandResult(false, usage);
         }});
 
     m_debugConsole.registerCommand({
@@ -6432,6 +7068,7 @@ void GameApplication::registerDebugConsoleCommands()
                         ItemGenerationRequest{
                             .treasureLevel = *treasureLevel,
                             .mode = ItemGenerationMode::MonsterLoot,
+                            .worldId = m_activeWorldManifest.id,
                             .dropLevel = dropLevel,
                         },
                         pParty,
@@ -6574,7 +7211,8 @@ void GameApplication::registerDebugConsoleCommands()
                 true,
                 "Granted " + std::to_string(*quantity) + "x " + pItem->name
                     + " (" + std::to_string(pItem->itemId) + ")");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"search"})});
 
     m_debugConsole.registerCommand({
         .name = "tp",
@@ -6802,7 +7440,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: config get|set|toggle <name> [value]");
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "reload",
@@ -6843,7 +7482,8 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return m_debugConsole.executeFile(context.args[0]);
-        }});
+        },
+        .readOnly = true});
 
     m_debugConsole.registerCommand({
         .name = "screenshot",
@@ -6897,7 +7537,8 @@ void GameApplication::registerDebugConsoleCommands()
                         message);
                 });
             return commandResult(true, "Capture requested: " + outputPathText);
-        }});
+        },
+        .readOnly = true});
 
     updateDebugConsoleDataOptions();
     m_debugConsole.addMessage(DebugConsole::MessageKind::Info, "OpenYAMM debug console ready. Type help.");
@@ -7346,6 +7987,9 @@ bool GameApplication::processPendingTestParty()
         return fail("The new MAW game did not start.");
     }
 
+    // The console marked the playthrough it ran in; the new game starts at the stage's party and level.
+    m_gameSession.playthroughStatistics().markAssisted(std::string(Engine::trNoop("test party")));
+
     Party *pParty = m_pMapSceneRuntime != nullptr ? &m_pMapSceneRuntime->party() : nullptr;
     MawRules *pMawRules = m_gameSession.mawRules();
 
@@ -7593,6 +8237,14 @@ bool GameApplication::processPendingDebugMapJump()
 
 void GameApplication::handleSdlEvent(const SDL_Event &event)
 {
+    if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_DOWN
+        || event.type == SDL_EVENT_MOUSE_MOTION || event.type == SDL_EVENT_MOUSE_WHEEL
+        || event.type == SDL_EVENT_FINGER_DOWN || event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN
+        || event.type == SDL_EVENT_GAMEPAD_AXIS_MOTION)
+    {
+        m_lastPlayerInputTicks = SDL_GetTicks();
+    }
+
 #if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
     // PrintScreen saves the frame on every screen, the debug console included.
     if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat && event.key.scancode == SDL_SCANCODE_PRINTSCREEN)
@@ -7882,7 +8534,7 @@ void GameApplication::updatePendingInputPrompt()
         }
     }
 
-    const std::string statusText = "Answer: " + m_pendingInputText + "_";
+    const std::string statusText = Engine::tr("Answer: {answer}_", {{"answer", m_pendingInputText}});
 
     if (statusText != m_pendingInputStatusText)
     {
@@ -7925,12 +8577,17 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     size_t matchedAnswerIndex = 0;
     const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
 
+    // An answer counts in English and in the interface language (devdocs/LOCALIZATION.md).
+    const std::string answerContext = Engine::mapTextContext(pRuntimeState->mapFileName);
+
     for (size_t answerIndex = 0; answerIndex < answers.size(); ++answerIndex)
     {
         const std::string &answer = answers[answerIndex];
         const std::string normalizedAnswer = normalizePromptAnswer(answer);
 
-        if (!answer.empty() && normalizedAnswer == normalizedInput)
+        if (!answer.empty()
+            && (normalizedAnswer == normalizedInput
+                || normalizePromptAnswer(Engine::localize(answer, answerContext)) == normalizedInput))
         {
             matchedAnswer = true;
             matchedAnswerIndex = answerIndex;
@@ -8184,6 +8841,7 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
     m_gameDataLoader.setSurfaceMaterials(m_settings.surfaceMaterials);
     m_gameSession.gameplayUiRuntime().bindSpriteAtlasCache(m_spriteAtlasCache);
     m_gameSession.gameplayUiRuntime().bindActorModelPreview(m_actorModelPreview);
+    m_gameSession.gameplayUiRuntime().bindActorTalkPortrait(m_actorTalkPortrait);
     configureGameplayDebugTrace(m_settings.gameplayTrace, m_settings.gameplayTraceFile, m_settings.gameplayTraceAppend);
     configureGameplayCombatTrace(m_settings.combatTrace, m_settings.combatTraceFile, m_settings.combatTraceAppend);
     setTextureFilteringConfig(textureFilteringConfigFromSettings(m_settings));
@@ -8260,6 +8918,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    m_gameSession.playthroughStatistics().endPlaythrough();
     setGameplayProfilingEnabled(false);
     m_screenManager.setActiveScreen(nullptr);
     LoadGameScreen::stopSaveScan();
@@ -8308,7 +8967,14 @@ bool GameApplication::loadGameData(Engine::AssetFileSystem &assetFileSystem)
     m_gameDataLoader.setInitialMapFileName(m_activeWorldManifest.start.mapFileName);
 
     loadOrCreateSettings();
-    m_pUpdater = GameUpdater::create(m_settings.updateUrl, m_settings.keepModifiedPacks);
+    // The language whose fonts the assets mounted with; a change in Settings takes effect at the next start.
+    Engine::setLocalizationWorld(m_activeWorldManifest.id);
+    // A language whose fonts, voices and videos were not downloaded (a release) plays in English until they are.
+    Engine::activateLanguage(assetFileSystem, assetFileSystem.languagePacksMissing()
+                                                  ? std::string(Engine::EnglishLanguageId)
+                                                  : m_config.installedContent.languageId);
+    m_pUpdater = GameUpdater::create(m_settings.updateUrl, m_settings.keepModifiedPacks,
+                                     m_config.installedContent.languageId);
 
     if (!m_gameAudioSystem.initializeMenuAudio(assetFileSystem))
     {
@@ -8546,9 +9212,30 @@ bool GameApplication::activateWorldForMap(const MapStatsEntry &map)
 
     m_config.activeWorldId = targetWorldId;
     m_activeWorldManifest = std::move(targetManifest);
+    Engine::setLocalizationWorld(targetWorldId);
     m_mapMusicAreas = nullptr;
     m_gameDataLoader.setActiveWorldId(targetWorldId);
     m_gameDataLoader.setInitialMapFileName(m_activeWorldManifest.start.mapFileName);
+
+    // The tables only one world has (MM9's RUDE dialogue, hirelings, trainers, routes) follow the world, as a load
+    // started there has them: a party that travels from MM6 into MM9 talks to its people. The repository and the
+    // party then point at the new tables.
+    if (currentWorldId != targetWorldId && m_commonGameDataLoaded)
+    {
+        if (!m_gameDataLoader.loadWorldScopedTables(*m_pAssetFileSystem))
+        {
+            std::cerr << "GameApplication: failed to load the world tables of " << targetWorldId << '\n';
+            return false;
+        }
+
+        m_gameDataRepository.bind(m_gameDataLoader);
+
+        if (m_gameSession.partyState())
+        {
+            bindPartyDependencies(*m_gameSession.partyState());
+        }
+    }
+
     return true;
 }
 
@@ -8680,7 +9367,57 @@ const ActorBehaviorCatalog *GameApplication::reloadActorBehaviorCatalog()
     return &m_actorBehaviorCatalog;
 }
 
+std::optional<CinematicLibrary> GameApplication::loadMapCinematics(const MapAssetInfo &map) const
+{
+    // Beside the map's geometry: worlds/<world>/maps/<stem>.cinematics.yml for worlds/<world>/maps/<stem>.blv.
+    const size_t dot = map.geometryPath.rfind('.');
+    const size_t slash = map.geometryPath.find_last_of('/');
+
+    if (m_pAssetFileSystem == nullptr || dot == std::string::npos || (slash != std::string::npos && dot < slash))
+    {
+        return std::nullopt;
+    }
+
+    const std::string directory = slash == std::string::npos ? "" : map.geometryPath.substr(0, slash + 1);
+    const std::string stem = map.geometryPath.substr(directory.size(), dot - directory.size());
+    const std::optional<std::string> path = directory + toLowerCopy(stem) + ".cinematics.yml";
+    const std::optional<std::string> text =
+        m_pAssetFileSystem->exists(*path) ? m_pAssetFileSystem->readTextFile(*path) : std::nullopt;
+
+    if (!text)
+    {
+        return std::nullopt;
+    }
+
+    std::string error;
+    std::optional<CinematicLibrary> library = parseCinematicLibrary(*text, error);
+
+    if (!library)
+    {
+        std::cerr << "GameApplication: " << *path << " is not a valid cinematics file: " << error << '\n';
+        return std::nullopt;
+    }
+
+    std::cout << "GameApplication: " << library->cinematics.size() << " cinematics from " << *path << '\n';
+    return library;
+}
+
 bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
+{
+    m_mapStateResetNotice.clear();
+    const bool built = buildSelectedMapRuntime(initializeView);
+
+    if (built && !m_mapStateResetNotice.empty())
+    {
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
+            m_mapStateResetNotice, 6.0f, GameplayUiController::StatusBarEventPriority::High);
+    }
+
+    m_mapStateResetNotice.clear();
+    return built;
+}
+
+bool GameApplication::buildSelectedMapRuntime(bool initializeView)
 {
     if (m_pAssetFileSystem != nullptr)
     {
@@ -8697,14 +9434,25 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
     }
 
     MapLoadTimingLogger timingLogger(selectedMap->map.fileName, "selected_map_runtime");
+    m_gameSession.setCurrentMapLayoutIdentity(selectedMap->layoutIdentity);
+    m_mapStateResetNotice = resetSavedMapStateOfAnotherLayout(m_gameSession, *selectedMap, m_loadingSavedGameRuntime);
+    // The map's cinematics (<stem>.cinematics.yml beside it), before its load events run: they may start one.
+    m_gameSession.stopCinematics();
+    m_gameSession.setMapCinematics(loadMapCinematics(*selectedMap));
     const WorldActorAwarenessDefinition &actorAwareness = m_activeWorldManifest.actorAwareness;
     m_gameSession.gameplayActorService().setPartyEngagementRange(
         actorAwareness.declared
             ? actorAwareness.partyEngagementRange
             : GameplayActorService::MaximumPartyEngagementRange);
+    m_gameSession.gameplayActorService().setMm9PartyAwareness(worldMm9PartyAwareness(actorAwareness));
     m_gameSession.gameplayActorService().setMeleeVerticalReach(m_activeWorldManifest.actorCombat.meleeVerticalReach);
     m_gameSession.gameplayActorService().setLevelRadiusLimit(m_activeWorldManifest.actorMovement.levelRadiusLimit);
+    m_gameSession.gameplayActorService().setFriendlyActorsBlockParty(m_activeWorldManifest.friendlyActorsBlockParty);
     m_gameSession.setTavernHirelings(m_activeWorldManifest.tavernHirelings);
+    m_gameSession.setStreetNpcs(m_activeWorldManifest.streetNpcs);
+    m_gameSession.setNpcFollowers(m_activeWorldManifest.npcFollowers);
+    m_gameSession.setFormations(m_activeWorldManifest.formations);
+    m_gameSession.setWorldCombatLog(m_activeWorldManifest.combatLog);
     m_gameSession.setWorldHum(m_activeWorldManifest.hum);
     m_gameSession.setWorldFloorBurn(m_activeWorldManifest.floorBurn);
     m_gameSession.setWorldObjectiveQBits(m_activeWorldManifest.objectiveQBits);
@@ -8841,6 +9589,22 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         }
         if (outdoorTimedRespawn && pSavedOutdoorState != nullptr)
         {
+            // MM9's ShouldRepopulate 0 (scene respawns_on_refill false): those placements stay as the party left them.
+            const std::vector<MapDeltaActor> *pSceneActors =
+                selectedMap->outdoorMapDeltaData ? &selectedMap->outdoorMapDeltaData->actors : nullptr;
+
+            for (size_t index = 0; pSceneActors != nullptr && index < pSceneActors->size()
+                && index < outdoorTimeSnapshot.mapActors.size() && index < pSavedOutdoorState->mapActors.size(); ++index)
+            {
+                const OutdoorWorldRuntime::MapActorState &left = pSavedOutdoorState->mapActors[index];
+
+                if (!(*pSceneActors)[index].respawnsOnRefill && !left.spawnedAtRuntime
+                    && left.monsterId == outdoorTimeSnapshot.mapActors[index].monsterId)
+                {
+                    outdoorTimeSnapshot.mapActors[index] = left;
+                }
+            }
+
             outdoorTimeSnapshot.locationTime = pSavedOutdoorState->locationTime;
             outdoorTimeSnapshot.hasLocationTime = pSavedOutdoorState->hasLocationTime;
             outdoorTimeSnapshot.fullyRevealedCells = pSavedOutdoorState->fullyRevealedCells;
@@ -8922,7 +9686,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_screenManager.setCurrentMode(AppMode::GameplayOutdoor);
         timingLogger.stage("outdoor app mode set");
 
-        m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+        m_gameAudioSystem.setBackgroundMusicTrack(
+            selectedMap->map.redbookTrack, m_activeWorldManifest.music.repeatGapSeconds);
         startMapAmbienceAndMusic(selectedMap->map.fileName, selectedMap->map.redbookTrack);
         timingLogger.stage("outdoor background music set");
         applyCurrentSettingsToActiveRuntime();
@@ -8980,7 +9745,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_gameSession.setCurrentSceneKind(SceneKind::Indoor);
         m_gameSession.setCurrentMapFileName(selectedMap->map.fileName);
         m_screenManager.setCurrentMode(AppMode::GameplayIndoor);
-        m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+        m_gameAudioSystem.setBackgroundMusicTrack(
+            selectedMap->map.redbookTrack, m_activeWorldManifest.music.repeatGapSeconds);
         startMapAmbienceAndMusic(selectedMap->map.fileName, selectedMap->map.redbookTrack);
         applyCurrentSettingsToActiveRuntime();
         Party &party = ensureSessionPartyState();
@@ -9037,6 +9803,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             if (pSavedIndoorState != nullptr && pSavedIndoorState->mapDeltaData)
             {
                 indoorMapDeltaDataForRuntime->locationTime = pSavedIndoorState->mapDeltaData->locationTime;
+                // MM9's ShouldRepopulate 0: those placements stay as the party left them.
+                keepActorsThroughRefill(*pSavedIndoorState->mapDeltaData, *indoorMapDeltaDataForRuntime);
             }
         }
 
@@ -9241,7 +10009,7 @@ Party &GameApplication::ensureSessionPartyState()
     return *m_gameSession.partyState();
 }
 
-void GameApplication::bindPartyDependencies(Party &party) const
+void GameApplication::bindPartyDependencies(Party &party)
 {
     const GameDataRepository &data = m_gameSession.data();
     party.setRules(m_gameSession.rulesetGameRules());
@@ -9252,6 +10020,97 @@ void GameApplication::bindPartyDependencies(Party &party) const
     party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());
     party.setTrainerDirectory(&data.trainerDirectory());
+    party.setMm9HirelingTable(&data.mm9HirelingTable());
+    party.setNpcFollowersActive(m_activeWorldManifest.npcFollowers);
+    party.setFormationTargetingActive(m_activeWorldManifest.formations);
+    party.setStatistics(&m_gameSession.playthroughStatistics());
+}
+
+std::string GameApplication::worldIdOfMap(const std::string &mapFileName)
+{
+    const MapStatsEntry *pMap = m_gameDataLoader.getMapStats().findByFileName(mapFileName);
+    return pMap != nullptr && !pMap->worldId.empty() ? pMap->worldId : m_activeWorldManifest.id;
+}
+
+std::string GameApplication::statisticsDifficulty(const RulesetSelection &ruleset)
+{
+    return ruleset.isStandard() ? std::string() : std::string(rulesetDifficultyId(ruleset.options.difficulty));
+}
+
+void GameApplication::updatePlaythroughStatistics(float realDeltaSeconds, bool gameplayLoaded)
+{
+    PlaythroughStatistics &statistics = m_gameSession.playthroughStatistics();
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+
+    if (!statistics.active() || !gameplayLoaded || pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    // Development options in use make the playthrough an assisted one.
+    const bool outdoors = m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Outdoor;
+    const std::array<std::pair<bool, const char *>, 6> developmentOptions = {{
+        {m_settings.immortal, Engine::trNoop("immortal").data()},
+        {m_settings.unlimitedMana, Engine::trNoop("unlimited mana").data()},
+        {m_settings.startFlying && outdoors, Engine::trNoop("start flying").data()},
+        {m_gameInputSystem.frame().turboMovementHeld(), Engine::trNoop("turbo movement").data()},
+        {m_settings.movementSpeedMultiplier != 1.0f, Engine::trNoop("movement speed").data()},
+        {m_settings.timeScale != 1.0f, Engine::trNoop("time scale").data()},
+    }};
+
+    for (const auto &[active, reason] : developmentOptions)
+    {
+        if (active)
+        {
+            statistics.markAssisted(reason);
+        }
+    }
+
+    const std::string &mapFileName = m_gameSession.currentMapFileName();
+    statistics.setContext(m_gameSession.gameMinutes(), mapFileName, m_activeWorldManifest.id,
+        m_gameSession.turnBasedCombatRuntime().active());
+
+    if (mapFileName != m_playthroughStatisticsMap)
+    {
+        m_playthroughStatisticsMap = mapFileName;
+        statistics.recordMapEntered(mapFileName);
+        statistics.requestWrite();
+    }
+
+    // Members get their statistics identity when they join; the roster is checked by its ids.
+    if (Party *pParty = pWorldRuntime->party(); pParty != nullptr)
+    {
+        pParty->assignStatsMemberIds();
+        uint64_t rosterSignature = pParty->members().size();
+
+        for (const Character &member : pParty->members())
+        {
+            rosterSignature = rosterSignature * 1099511628211ull ^ member.statsMemberId;
+        }
+
+        if (rosterSignature != m_playthroughStatisticsRoster)
+        {
+            m_playthroughStatisticsRoster = rosterSignature;
+
+            for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+            {
+                statistics.syncMember(pParty->statsMember(memberIndex));
+            }
+        }
+    }
+
+    // Real time counts while the window is in front and someone is playing: five minutes without input stop it.
+    constexpr uint64_t IdleMilliseconds = 5 * 60 * 1000;
+    constexpr float MaximumFrameSeconds = 0.25f;
+    SDL_Window *pWindow = SDL_GetKeyboardFocus();
+    const bool focused = pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_MINIMIZED) == 0;
+    const bool idle = SDL_GetTicks() - m_lastPlayerInputTicks > IdleMilliseconds;
+
+    if (focused && !idle)
+    {
+        statistics.addPlayTime(
+            std::clamp(realDeltaSeconds, 0.0f, MaximumFrameSeconds), m_gameSession.turnBasedCombatRuntime().active());
+    }
 }
 
 void GameApplication::synchronizeActiveReputationToParty()
@@ -9576,7 +10435,7 @@ void GameApplication::updateMusicArea(float partyX, float partyY)
     if (track != m_areaMusicTrack)
     {
         m_areaMusicTrack = track;
-        m_gameAudioSystem.setBackgroundMusicTrack(track);
+        m_gameAudioSystem.setBackgroundMusicTrack(track, m_activeWorldManifest.music.repeatGapSeconds);
     }
 }
 
@@ -10266,14 +11125,17 @@ bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)
 
     if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor && m_pOutdoorPartyRuntime != nullptr)
     {
+        // None when the map's saved state was reset (resetSavedMapStateOfAnotherLayout): the party stays at the
+        // map's start point, facing as it says.
         if (m_gameSession.outdoorPartyState())
         {
             m_pOutdoorPartyRuntime->restoreSnapshot(*m_gameSession.outdoorPartyState());
-        }
 
-        if (initializeView)
-        {
-            m_outdoorGameView.setCameraAngles(m_gameSession.cameraYawRadians(), m_gameSession.cameraPitchRadians());
+            if (initializeView)
+            {
+                m_outdoorGameView.setCameraAngles(
+                    m_gameSession.cameraYawRadians(), m_gameSession.cameraPitchRadians());
+            }
         }
 
         applyCurrentSettingsToActiveRuntime();
@@ -10331,6 +11193,7 @@ void GameApplication::shutdownRenderer()
 {
     m_cinematicGrading.shutdown();
     m_actorModelPreview.shutdown();
+    m_actorTalkPortrait.shutdown();
     m_gameAudioSystem.stopAllPlayback();
     m_mainMenuChildScreensPrepared = false;
     m_outdoorGameView.shutdown();
@@ -10381,7 +11244,7 @@ void GameApplication::updateDoubleSpeedInput()
 
     m_doubleSpeedActive = !m_doubleSpeedActive;
     m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
-        m_doubleSpeedActive ? "Fast mode (2x)" : "Normal mode (1x)");
+        m_doubleSpeedActive ? Engine::tr("Fast mode (2x)") : Engine::tr("Normal mode (1x)"));
 }
 
 float GameApplication::gameplayDeltaSeconds(float deltaSeconds) const
@@ -10686,7 +11549,8 @@ bool GameApplication::processPendingQuickSaveInput()
         if (warning && (!m_quickLoadWarnedTicks || now - *m_quickLoadWarnedTicks > WarningWindowTicks))
         {
             m_quickLoadWarnedTicks = now;
-            m_gameSession.gameplayScreenRuntime().setStatusBarEvent(*warning + " Press again to load.");
+            m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
+                Engine::tr("{warning} Press again to load.", {{"warning", *warning}}));
             return false;
         }
 
@@ -10700,7 +11564,7 @@ bool GameApplication::processPendingQuickSaveInput()
 
         if (!quickSave())
         {
-            m_gameSession.gameplayScreenRuntime().setStatusBarEvent("You can't save here!");
+            m_gameSession.gameplayScreenRuntime().setStatusBarEvent(Engine::tr("You can't save here!"));
             return false;
         }
 
@@ -10746,6 +11610,20 @@ bool GameApplication::quickSaveToPath(
         return false;
     }
 
+    // A cinematic is never saved half played: overheard talk finishes now (an autosave waits for it rather than cut it
+    // short); a cutscene must end or be skipped first.
+    if (!isAutosavePath(path))
+    {
+        m_gameSession.finishAmbientCinematic();
+    }
+
+    if (m_gameSession.cinematicRuntime().active())
+    {
+        GAMEPLAY_DEBUG_TRACE("save_game_failed path=\"" + path.string() + "\" reason=cinematic");
+        reportQuickSaveStatus("Cannot save during a cutscene");
+        return false;
+    }
+
     // Some rulesets make saving cost food (MAW from Nightmare); autosaves are free.
     const SaveFoodCost foodCost = isAutosavePath(path) ? SaveFoodCost{} : saveFoodCost();
 
@@ -10757,7 +11635,7 @@ bool GameApplication::quickSaveToPath(
         if (isQuickSavePath(path))
         {
             m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
-                "Not enough food: saving here costs " + std::to_string(foodCost.food));
+                Engine::tr("Not enough food: saving here costs {food}", {{"food", int64_t(foodCost.food)}}));
         }
 
         return false;
@@ -10810,13 +11688,16 @@ bool GameApplication::quickSaveToPath(
 
         if (isQuickSavePath(path))
         {
-            m_gameSession.gameplayScreenRuntime().setStatusBarEvent("Quick save failed!");
+            m_gameSession.gameplayScreenRuntime().setStatusBarEvent(Engine::tr("Quick save failed!"));
         }
 
         return false;
     }
 
     m_gameSession.setCurrentSavePath(path);
+    m_gameSession.playthroughStatistics().recordSave(
+        isAutosavePath(path) ? StatSaveKind::Auto : isQuickSavePath(path) ? StatSaveKind::Quick : StatSaveKind::Named);
+    m_gameSession.playthroughStatistics().requestWrite();
     GAMEPLAY_DEBUG_TRACE(
         "save_game_written path=\"" + path.string() + "\""
         + " map=\"" + saveData->mapFileName + "\""
@@ -10829,10 +11710,10 @@ bool GameApplication::quickSaveToPath(
 
     if (isQuickSavePath(path))
     {
-        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
-            foodCost.food > 0 ? "Game Saved! " + std::to_string(foodCost.food) + " food ("
-                                    + std::to_string(foodCost.carried - foodCost.food) + " left)"
-                              : "Game Saved!");
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(foodCost.food > 0
+                ? Engine::tr("Game Saved! {food} food ({left} left)",
+                    {{"food", int64_t(foodCost.food)}, {"left", int64_t(foodCost.carried - foodCost.food)}})
+                : Engine::tr("Game Saved!"));
     }
 
     return true;
@@ -10964,6 +11845,16 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
 
     m_gameSession.restoreFromSaveData(*saveData);
     m_gameSession.setCurrentSavePath(path);
+    // The seed restoreFromSaveData kept (or gave a save older than the seeds) links older saves of the party.
+    m_gameSession.playthroughStatistics().attachLoadedSave(
+        saveData->playthroughId,
+        m_gameSession.randomRootSeed(),
+        saveData->playthroughTimeline,
+        isQuickSavePath(path) ? StatLoadKind::Quick : StatLoadKind::Menu,
+        worldIdOfMap(saveData->mapFileName),
+        saveData->ruleset.id,
+        statisticsDifficulty(saveData->ruleset));
+    m_playthroughStatisticsMap.clear();
 
     renderLoadingOverlayProgress(35);
 
@@ -11022,6 +11913,7 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
 
 void GameApplication::openMainMenuScreen()
 {
+    m_gameSession.playthroughStatistics().endPlaythrough();
     openMenuScreen(false);
 }
 
@@ -11104,7 +11996,8 @@ bool GameApplication::applyRulesetOptions(const RulesetOptions &options, std::st
         || options.challengeMode != current.options.challengeMode || options.randomizer != current.options.randomizer
         || !m_gameDataLoader.activeRuleset().offers(options))
     {
-        error = "The " + m_gameDataLoader.activeRuleset().name + " ruleset does not allow that change.";
+        error = Engine::tr("The {ruleset} ruleset does not allow that change.",
+            {{"ruleset", m_gameDataLoader.activeRuleset().name}});
         return false;
     }
 
@@ -11141,7 +12034,8 @@ void GameApplication::openMenuScreen(bool paused)
         location = map->map.name;
     }
     const int days = int(m_gameSession.gameMinutes()) / (24 * 60);
-    const std::string date = m_activeWorldManifest.name + " - Day " + std::to_string(days + 1);
+    const std::string date =
+        Engine::tr("{world} - Day {day}", {{"world", m_activeWorldManifest.name}, {"day", int64_t(days + 1)}});
     std::optional<MainMenuScreen::CurrentGame> currentGame;
     if (paused && !m_gameSession.ruleset().isStandard())
     {
@@ -11487,6 +12381,11 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
     const MapStartDestination startupDestination = resolveStartupDestination();
     m_gameSession.setCurrentMapFileName(startupDestination.mapFileName);
+    m_gameSession.playthroughStatistics().beginNewPlaythrough(
+        worldIdOfMap(startupDestination.mapFileName), ruleset.id, statisticsDifficulty(ruleset));
+    // The debug quick start (a roster party or the configured start, without character creation).
+    m_gameSession.playthroughStatistics().markAssisted(std::string(Engine::trNoop("debug start")));
+    m_playthroughStatisticsMap.clear();
 
     const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;
     std::optional<uint32_t> effectiveRosterId = rosterId;
@@ -11618,6 +12517,15 @@ bool GameApplication::startNewSessionFromCharacterCreation(
         continentId != 0 ? resolveContinentStartDestination(continentId) : std::nullopt;
     const MapStartDestination startupDestination =
         continentStartDestination.value_or(resolveStartupDestination());
+    m_gameSession.playthroughStatistics().beginNewPlaythrough(
+        worldIdOfMap(startupDestination.mapFileName), options.ruleset.id, statisticsDifficulty(options.ruleset));
+
+    if (options.preserveDebugLoadout)
+    {
+        m_gameSession.playthroughStatistics().markAssisted(std::string(Engine::trNoop("god lich party")));
+    }
+
+    m_playthroughStatisticsMap.clear();
     const MergedContinentSettingEntry *pContinentSetting =
         continentId != 0 ? m_gameDataLoader.getMergedContinentSettingTable().findById(continentId) : nullptr;
     GAMEPLAY_DEBUG_TRACE(
@@ -11669,7 +12577,8 @@ bool GameApplication::startNewSessionFromCharacterCreation(
         return false;
     }
 
-    if (m_pOutdoorPartyRuntime == nullptr)
+    // A continent may start indoors (Chedian: Ravensford's training camp, a BLV).
+    if (m_pMapSceneRuntime == nullptr)
     {
         cancelLoadingOverlay();
         openMainMenuScreen();
@@ -11767,6 +12676,7 @@ void GameApplication::requestScreenshotFile()
 
 void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
+    const float realDeltaSeconds = deltaSeconds;
     deltaSeconds *= m_settings.timeScale;
     if (m_loadingOverlayReadyToDismiss)
     {
@@ -11778,14 +12688,25 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (m_pMapSceneRuntime == nullptr)
     {
         m_actorModelPreview.bindScene(nullptr, nullptr);
+        m_actorTalkPortrait.bindScene(nullptr, nullptr);
     }
     else if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
     {
         m_actorModelPreview.bindScene(&m_outdoorGameView.worldFxSystem(), &m_outdoorGameView.modelRenderer());
+        m_actorTalkPortrait.bindScene(&m_outdoorGameView.worldFxSystem(), &m_outdoorGameView.modelRenderer(),
+            [this](uint32_t decorationKey)
+            {
+                return m_outdoorGameView.decorationPortraitModel(decorationKey);
+            });
     }
     else
     {
         m_actorModelPreview.bindScene(&m_indoorRenderer.worldFxSystem(), &m_indoorRenderer.modelRenderer());
+        m_actorTalkPortrait.bindScene(&m_indoorRenderer.worldFxSystem(), &m_indoorRenderer.modelRenderer(),
+            [this](uint32_t decorationKey)
+            {
+                return m_indoorRenderer.decorationPortraitModel(decorationKey);
+            });
     }
     const bool gameplayLoaded =
         !m_loadingOverlayActive
@@ -11794,6 +12715,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         && m_gameSession.activeWorldRuntime() != nullptr
         && (m_pMapSceneRuntime->kind() != SceneKind::Outdoor || !m_outdoorGameView.hasPendingSpriteWarmups());
     setGameplayProfilingEnabled(gameplayLoaded);
+    updatePlaythroughStatistics(realDeltaSeconds, gameplayLoaded);
 
     const bool collectFrameDiagnostics = m_config.performanceTrace;
     const uint64_t frameBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
@@ -12193,6 +13115,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (pWorldRuntime == nullptr || m_pMapSceneRuntime == nullptr || !selectedMap)
     {
         m_worldAmbientSounds.stopAll(m_gameAudioSystem);
+        m_gameAudioSystem.setBattleMusic(0, false, m_activeWorldManifest.music.battleFadeSeconds);
     }
 
     if (pWorldRuntime != nullptr && m_pMapSceneRuntime != nullptr && selectedMap)
@@ -12233,8 +13156,17 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
         {
             advanceDecorationAims(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
+            advanceActorPresentations(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         }
         updateMusicArea(pWorldRuntime->partyX(), pWorldRuntime->partyY());
+
+        // The world's battle music (world.yml music battleTrack; MM9) under the yellow alert, MM9's "monsters nearby".
+        if (const WorldMusicDefinition &music = m_activeWorldManifest.music; music.battleTrack > 0)
+        {
+            m_gameAudioSystem.setBattleMusic(
+                music.battleTrack, partyHasYellowAlert(*pWorldRuntime), music.battleFadeSeconds);
+        }
+
         syncActorSounds(*pWorldRuntime);
         if (!syncActorModels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds,
                 scaledGameplayDeltaSeconds))
@@ -12251,7 +13183,10 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             pWorldRuntime->ambientSounds(),
             {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ() + AmbientSoundListenerHeight},
             pWorldRuntime->gameMinutes(),
-            gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
+            gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds,
+            pWorldRuntime->eventRuntimeState(),
+            WorldAmbientSoundRules{m_activeWorldManifest.ambientSounds.dayStartHour,
+                m_activeWorldManifest.ambientSounds.dayEndHour, m_activeWorldManifest.ambientSounds.pan});
         recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postWorldBeginTickCount);
         const uint64_t renderWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         const float worldRenderDeltaSeconds = gameplayWorldPaused ? deltaSeconds : scaledGameplayDeltaSeconds;
@@ -12783,6 +13718,11 @@ bool GameApplication::applyAiArena(const AiArena &arena, const std::filesystem::
     // The Immortal cheat's immunity; the next settings change sets it from the cheat again.
     party.setDebugDamageImmune(arena.party.invulnerable || m_settings.immortal);
 
+    // The world's awareness of the party, or MM9's own for an arena that asks for it.
+    m_gameSession.gameplayActorService().setMm9PartyAwareness(arena.mm9PartyAwareness
+        ? Mm9PartyAwareness{}
+        : worldMm9PartyAwareness(m_activeWorldManifest.actorAwareness));
+
     if (!applyAiArenaActors(arena, *pWorld, m_aiArenaTrace, m_aiArenaActorIndices, error))
     {
         return false;
@@ -13110,7 +14050,8 @@ bool GameApplication::processPendingMapMove()
         m_pOutdoorPartyRuntime->teleportTo(
             static_cast<float>(pendingMapMove->x),
             static_cast<float>(pendingMapMove->y),
-            static_cast<float>(pendingMapMove->z)
+            static_cast<float>(pendingMapMove->z),
+            pendingMapMove->keepHeight
         );
     }
     else if (m_pMapSceneRuntime != nullptr
@@ -13227,6 +14168,7 @@ void GameApplication::closeTransientGameplayUiForMapMove(bool keepLootView)
     screenRuntime.closeHouseShopOverlay();
     screenRuntime.closeTransportSchedule();
     screenRuntime.closeActiveDialogForMapMove();
+    GameplayFormationBuilder::close(screenRuntime);
 
     if (!lootViewKept)
     {
@@ -13277,9 +14219,9 @@ bool GameApplication::processPendingArcomageGame()
 
     const Character *pActiveMember = pParty->activeMember();
     const std::string playerName =
-        (pActiveMember != nullptr && !pActiveMember->name.empty()) ? pActiveMember->name : "Party";
+        (pActiveMember != nullptr && !pActiveMember->name.empty()) ? pActiveMember->name : Engine::tr("Party");
     const std::string opponentName =
-        !pHouseEntry->proprietorName.empty() ? pHouseEntry->proprietorName : pHouseEntry->name;
+        Engine::localize(!pHouseEntry->proprietorName.empty() ? pHouseEntry->proprietorName : pHouseEntry->name);
     int winGoldReward = 0;
 
     if (!pParty->hasArcomageWinAt(pendingArcomageGame->houseId))
@@ -13312,6 +14254,7 @@ bool GameApplication::processPendingPartyDefeat()
         return false;
     }
 
+    m_gameSession.playthroughStatistics().recordPartyWipe();
     const MapStartDestination respawnDestination = resolvePartyDefeatRespawnDestination();
     m_pendingPartyDefeatRespawnMapFileName = respawnDestination.mapFileName;
     m_pendingPartyDefeatRespawnStart = respawnDestination.start;
@@ -13372,10 +14315,17 @@ bool GameApplication::processPendingCompletionCertificate()
         return false;
     }
 
-    // A story's ending movie plays before its certificate.
+    // A story's ending movie, and a cinematic (pending or playing: MM9's epilogue in the Hall of the Gods), play before
+    // its certificate.
     const EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
 
-    if (pRuntimeState != nullptr && (pRuntimeState->pendingMovie || pRuntimeState->pendingReturnToMainMenu))
+    if (pRuntimeState != nullptr && (pRuntimeState->pendingMovie || pRuntimeState->pendingReturnToMainMenu
+            || pRuntimeState->pendingCinematic))
+    {
+        return false;
+    }
+
+    if (m_gameSession.cinematicRuntime().takesOverView())
     {
         return false;
     }
@@ -13523,7 +14473,7 @@ bool GameApplication::processPendingDimensionDoorOverlay()
 
     if (!screenRuntime.ensureDimensionDoorDestinationsLoaded())
     {
-        screenRuntime.setStatusBarEvent("Dimension Door destinations unavailable");
+        screenRuntime.setStatusBarEvent(Engine::tr("Dimension Door destinations unavailable"));
         return false;
     }
 
@@ -13534,7 +14484,7 @@ bool GameApplication::processPendingDimensionDoorOverlay()
         spellIdValue(SpellId::TownPortal),
         casterMemberIndex);
     screenRuntime.resetUtilitySpellOverlayInteractionState();
-    screenRuntime.setStatusBarEvent("You feel high magic presence here.", 4.0f);
+    screenRuntime.setStatusBarEvent(Engine::tr("You feel high magic presence here."), 4.0f);
     return true;
 }
 
@@ -13644,7 +14594,7 @@ void GameApplication::saveCompletionCertificateImage(
             if (success)
             {
                 m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
-                    "Certificate saved in the certificates folder", 6.0f);
+                    Engine::tr("Certificate saved in the certificates folder"), 6.0f);
             }
         },
         region);
@@ -13668,6 +14618,22 @@ std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
 GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnDestination() const
 {
     const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
+    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
+    const WorldPartyDeathDefinition &worldDeath = m_activeWorldManifest.partyDeath;
+
+    // A world's own death destination (world.yml partyDeath) for a defeat in one of its maps.
+    if (!worldDeath.mapFileName.empty() && pCurrentMap != nullptr && pCurrentMap->worldId == m_activeWorldManifest.id)
+    {
+        return MapStartDestination{
+            .mapFileName = toLowerCopy(worldDeath.mapFileName),
+            .start = DebugMapJumpStart{
+                .x = worldDeath.position[0],
+                .y = worldDeath.position[1],
+                .z = worldDeath.position[2],
+                .directionYawUnits = worldDeath.directionYawUnits,
+            },
+        };
+    }
 
     // The continent's death maps: in an Arena, those of the continent the party came from.
     const std::string continentMapFileName = partyDefeatContinentMapFileName();
@@ -13766,6 +14732,20 @@ std::string GameApplication::resolvePartyDefeatCutsceneStem() const
         return PartyDefeatCutsceneStem;
     }
 
+    const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
+    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
+    const WorldPartyDeathDefinition &worldDeath = m_activeWorldManifest.partyDeath;
+
+    if (!worldDeath.movie.empty() && pCurrentMap != nullptr && pCurrentMap->worldId == m_activeWorldManifest.id)
+    {
+        const std::string resolvedMovieStem = resolveEventMovieStem(*m_pAssetFileSystem, worldDeath.movie);
+
+        if (!resolvedMovieStem.empty())
+        {
+            return resolvedMovieStem;
+        }
+    }
+
     if (const MapStatsEntry *pContinentMap =
             m_gameDataLoader.getMapStats().findByFileName(partyDefeatContinentMapFileName()))
     {
@@ -13799,7 +14779,7 @@ void GameApplication::applyPartyDefeatConsequences()
 
     if (carriedGold > 0)
     {
-        party.addGold(-carriedGold);
+        party.addGold(-carriedGold, GoldReason::Defeat);
         m_gameAudioSystem.playCommonSound(SoundId::Gold, GameAudioSystem::PlaybackGroup::Ui);
     }
 
@@ -13898,12 +14878,14 @@ void GameApplication::handleCompletedArcomageScreen()
             }
 
             pParty->recordArcomageWin(state.houseId, goldReward, firstWinAwardId);
-            arcomageStatusText = goldReward > 0 ? "You have won " + std::to_string(goldReward) + " gold!" : "You won!";
+            arcomageStatusText = goldReward > 0
+                ? Engine::tr("You have won {gold} gold!", {{"gold", int64_t(goldReward)}})
+                : Engine::tr("You won!");
         }
         else if (*state.result.winnerIndex == 1)
         {
             pParty->recordArcomageLoss();
-            arcomageStatusText = "You lost!";
+            arcomageStatusText = Engine::tr("You lost!");
         }
 
         if (m_pMapSceneRuntime != nullptr)
@@ -13937,7 +14919,7 @@ void GameApplication::handleCompletedArcomageScreen()
     {
         if (!arcomageStatusText.has_value())
         {
-            arcomageStatusText = "A tie!";
+            arcomageStatusText = Engine::tr("A tie!");
         }
 
         if (EventRuntimeState *pEventRuntimeState = m_gameplayController.eventRuntimeState())

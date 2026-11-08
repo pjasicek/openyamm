@@ -85,6 +85,24 @@ struct ElementalDamageBonuses
     {
         return fire + air + water + body + light + dark;
     }
+
+    ElementalDamageBonuses &operator+=(const ElementalDamageBonuses &other)
+    {
+        fire += other.fire;
+        air += other.air;
+        water += other.water;
+        body += other.body;
+        light += other.light;
+        dark += other.dark;
+        return *this;
+    }
+};
+
+// The least and most elemental damage a character's weapons add to one blow or arrow.
+struct ElementalDamageRange
+{
+    ElementalDamageBonuses minimum;
+    ElementalDamageBonuses maximum;
 };
 
 struct MonsterDamageResistances

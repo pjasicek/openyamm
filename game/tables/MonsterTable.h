@@ -269,7 +269,8 @@ public:
     const MonsterEntry *findByDisplayEntryId(int id) const;
     std::optional<std::string> findDisplayNameByInternalName(const std::string &internalName) const;
     std::optional<std::string> getUniqueName(int32_t uniqueNameIndex) const;
-    // Relations: a world's relations.yml add-on (relationAddOns) decides where it has a rule, else hostile.txt.
+    // Relations: a world's relations.yml add-on (relationAddOns) decides where it has a rule, then the current map's
+    // own cells of hostile.txt (setMapFactionRelation), else hostile.txt.
     int getRelationToParty(int16_t monsterId) const;
     int getRelationBetweenMonsters(int16_t leftMonsterId, int16_t rightMonsterId) const;
     bool isHostileToParty(int16_t monsterId) const;
@@ -277,6 +278,10 @@ public:
     // Whether a party hit on one monster alerts the other (MM8 0x4391ca): the same hostile.txt class, or both Dark Elf
     // peasant classes. Pass relation monster ids, which already follow an actor's Ally class.
     bool sharesAlertFaction(int16_t leftRelationMonsterId, int16_t rightRelationMonsterId) const;
+    // The loaded map's replacements for hostile.txt cells, as MMMerge's LocalHostileTxt() and map scripts: how
+    // `faction` treats `otherFaction` (0 is the party), in the table's faction numbers. Each map load clears them.
+    void setMapFactionRelation(uint32_t faction, uint32_t otherFaction, int relation);
+    void clearMapFactionRelations();
     MonsterRelationAddOns &relationAddOns()
     {
         return m_relationAddOns;
@@ -343,6 +348,8 @@ private:
     std::unordered_map<std::string, int> m_statsIdByPictureName;
     std::vector<std::string> m_relationLabels;
     std::vector<std::vector<int>> m_relations;
+    // Keyed by mapFactionRelationKey(faction, otherFaction).
+    std::unordered_map<uint64_t, int> m_mapFactionRelations;
     MonsterRelationAddOns m_relationAddOns;
     MonsterShieldTable m_shields;
     MonsterModifierTable m_modifiers;
@@ -351,4 +358,14 @@ private:
     // Indexed like m_entries.
     std::vector<size_t> m_meleeHitMaterialIndexByEntry;
 };
+
+// Monster table cell parsers, shared with tables that describe monster-like combatants (MM9 hirelings).
+// "XdY+Z" or a flat "N"; an unparseable cell gives a zero profile.
+MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value);
+// A number, or "Imm"/"Immune" (200); anything else is 0.
+int parseMonsterResistanceValue(const std::string &value);
+// "Name,Mastery,Skill" spell descriptors: the lowercased name, the skill rank and the mastery (N, B, E, M, G).
+std::string parseMonsterSpellName(const std::string &value);
+uint32_t parseMonsterSpellSkillLevel(const std::string &value);
+SkillMastery parseMonsterSpellSkillMastery(const std::string &value);
 }

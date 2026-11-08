@@ -1,4 +1,5 @@
 #include "game/ui/GameplayCraftingBenchView.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/AlchemyBenchRuntime.h"
@@ -23,27 +24,27 @@ std::string slotName(EquipmentSlot slot)
     switch (slot)
     {
         case EquipmentSlot::OffHand:
-            return "off hand";
+            return Engine::tr("off hand");
         case EquipmentSlot::MainHand:
-            return "main hand";
+            return Engine::tr("main hand");
         case EquipmentSlot::Bow:
-            return "bow";
+            return Engine::tr("bow");
         case EquipmentSlot::Armor:
-            return "armour";
+            return Engine::tr("armour");
         case EquipmentSlot::Helm:
-            return "helm";
+            return Engine::tr("helm");
         case EquipmentSlot::Belt:
-            return "belt";
+            return Engine::tr("belt");
         case EquipmentSlot::Cloak:
-            return "cloak";
+            return Engine::tr("cloak");
         case EquipmentSlot::Gauntlets:
-            return "gauntlets";
+            return Engine::tr("gauntlets");
         case EquipmentSlot::Boots:
-            return "boots";
+            return Engine::tr("boots");
         case EquipmentSlot::Amulet:
-            return "amulet";
+            return Engine::tr("amulet");
         default:
-            return "ring";
+            return Engine::tr("ring");
     }
 }
 
@@ -114,7 +115,7 @@ std::string GameplayCraftingBenchView::itemDisplayName(const GameplayScreenRunti
 std::string GameplayCraftingBenchView::operationName(const GameplayScreenRuntime &context, uint32_t materialItemId)
 {
     const std::string action = rules(context).materialAction(materialItemId);
-    return action.empty() ? "Crafting" : action;
+    return action.empty() ? Engine::tr("Crafting") : action;
 }
 
 std::optional<GameplayCraftingBenchModel> GameplayCraftingBenchView::buildModel(const GameplayScreenRuntime &context)
@@ -209,7 +210,8 @@ std::optional<GameplayCraftingBenchModel> GameplayCraftingBenchView::buildModel(
 
         const Character *pOwner = pParty->member(target.ref.memberIndex);
         const std::string header =
-            std::string(target.ref.worn ? "WORN - " : "PACK - ") + (pOwner != nullptr ? pOwner->name : "");
+            Engine::tr(target.ref.worn ? "WORN - {name}" : "PACK - {name}",
+                {{"name", pOwner != nullptr ? pOwner->name : std::string()}});
 
         if (header != lastHeader)
         {
@@ -228,8 +230,18 @@ std::optional<GameplayCraftingBenchModel> GameplayCraftingBenchView::buildModel(
     {
         const CraftTargetEntry &target = model.targets[*model.selectedTarget];
         const Character *pOwner = pParty->member(target.ref.memberIndex);
-        model.ownerText = (pOwner != nullptr ? pOwner->name + ", level " + std::to_string(pOwner->level) : "")
-            + (target.ref.worn ? ", " + slotName(target.ref.slot) : ", in the pack");
+        if (pOwner != nullptr)
+        {
+            model.ownerText = target.ref.worn
+                ? Engine::tr("{name}, level {level}, {slot}",
+                    {{"name", pOwner->name}, {"level", int64_t(pOwner->level)}, {"slot", slotName(target.ref.slot)}})
+                : Engine::tr("{name}, level {level}, in the pack",
+                    {{"name", pOwner->name}, {"level", int64_t(pOwner->level)}});
+        }
+        else
+        {
+            model.ownerText = target.ref.worn ? ", " + slotName(target.ref.slot) : Engine::tr(", in the pack");
+        }
     }
 
     if (model.selectedTarget && model.selectedMaterial)

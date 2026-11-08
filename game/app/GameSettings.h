@@ -57,6 +57,38 @@ enum class LightGridQuality
     High
 };
 
+// The combat log's button, docked panel and recording (gameplay.combat_log: auto, on, off). Auto shows it in a ruleset
+// other than Standard, in worlds that show it (world.yml combatLog; not MM9): the user, 2026-11-06. INI files from
+// before the choice read true as auto and false as off.
+enum class CombatLogMode
+{
+    Auto,
+    On,
+    Off
+};
+
+inline const char *combatLogModeValue(CombatLogMode mode)
+{
+    return mode == CombatLogMode::On ? "on" : mode == CombatLogMode::Off ? "off" : "auto";
+}
+
+inline std::optional<CombatLogMode> parseCombatLogModeValue(std::string_view value)
+{
+    if (value == "auto" || value == "true")
+    {
+        return CombatLogMode::Auto;
+    }
+    if (value == "on")
+    {
+        return CombatLogMode::On;
+    }
+    if (value == "off" || value == "false")
+    {
+        return CombatLogMode::Off;
+    }
+    return std::nullopt;
+}
+
 // "off", "hold" or "always" (gameplay.rarity_glow).
 inline bool validRarityGlowValue(std::string_view value)
 {
@@ -351,8 +383,12 @@ struct GameSettings
     // (GrayFace MM8Patch TurnBasedSpeed and TurnBasedPartySpeed). The party's own movement stage stays at 1.
     float turnBasedMonsterSpeed = 1.0f;
     float turnBasedPartySpeed = 1.0f;
-    // The combat log button and its docked log of hits (MAW GAPS H.3); off, nothing is recorded.
-    bool combatLog = true;
+    // The combat log button and its docked log of hits (MAW GAPS H.3); hidden, nothing is recorded
+    // (GameplayScreenRuntime::combatLogShown).
+    CombatLogMode combatLog = CombatLogMode::Auto;
+    // The interface language (devdocs/LOCALIZATION.md): "en", the pseudo-language "qps" or a language pack's id.
+    // It takes effect at the next start, when its fonts mount.
+    std::string language = "en";
     std::string enemyHealthBarMode = "combat";
     std::string enemyHealthBarValues = "target";
     bool enemyHealthBarDamageTrail = true;

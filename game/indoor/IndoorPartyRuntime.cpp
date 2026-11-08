@@ -1,4 +1,5 @@
 #include "game/indoor/IndoorPartyRuntime.h"
+#include "engine/Localization.h"
 #include "game/indoor/IndoorMovers.h"
 
 #include "game/debug/GameplayDebugTrace.h"
@@ -364,7 +365,9 @@ void IndoorPartyRuntime::update(
         return;
     }
 
-    if (!turnBasedPhysicsStep)
+    // Turn-based walking spends the turn's movement points, not game time: the clock, buffs and regeneration
+    // advance once per turn (TurnBasedCombatRuntime), as in the original.
+    if (!turnBasedPhysicsStep && !turnBasedMovementStep)
     {
         // Running halves recovery speed, but only while the party actually runs.
         m_party.updateRecovery(deltaSeconds, runningMovement ? 0.5f : 1.0f);
@@ -646,7 +649,7 @@ void IndoorPartyRuntime::update(
 
         if (effects.burningDamageTicks > 0)
         {
-            m_movementStatusText = "You are burning!";
+            m_movementStatusText = Engine::tr("You are burning!");
         }
     }
     else
@@ -834,7 +837,7 @@ void IndoorPartyRuntime::updateWaterBreath(float deltaSeconds)
 
         m_waterSounds.push_back(DrowningSounds[m_drowningTicks % 2]);
         ++m_drowningTicks;
-        m_movementStatusText = "You are drowning!";
+        m_movementStatusText = Engine::tr("You are drowning!");
     }
 }
 

@@ -121,6 +121,20 @@ TEST_CASE("wrapping breaks at spaces and around CJK characters, and gives a word
             "\xe8\xaf\x95" + stop});
     CHECK_EQ(Utf8::wrap("ab " + han, 5, characterCount),
         std::vector<std::string>{"ab \xe4\xb8\xad\xe6\x96\x87", "\xe5\xad\x97\xe7\xac\xa6\xe6\xb5\x8b\xe8\xaf\x95"});
+
+    // A colour code ("\f" and five digits) between Han characters is never cut: the party creation screen once
+    // split it and showed the digits.
+    const std::string coloured = "\xe4\xb8\xad\f655166\f00000\xe6\x96\x87";
+    for (const std::string &line : Utf8::wrap(coloured + coloured + coloured, 2, characterCount))
+    {
+        for (size_t code = line.find('\f'); code != std::string::npos; code = line.find('\f', code + 1))
+        {
+            CHECK_GE(line.size(), code + 6);
+        }
+
+        CHECK_NE(line.front(), '6');
+        CHECK_NE(line.front(), '0');
+    }
 }
 
 TEST_CASE("wrapping keeps line breaks, adds no line for a final newline and gives an empty text one empty line")

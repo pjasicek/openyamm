@@ -7,9 +7,11 @@ add_executable(openyamm_unit_tests
     SettingsFileTests.cpp
     ItemSearchTests.cpp
     ItemVisualTests.cpp
+    LootPoolTests.cpp
     ActorPathRuntimeTests.cpp
     ActorCrowdingTests.cpp
     AudioRegressionTests.cpp
+    ActorClipSoundsTests.cpp
     ArcomageRegressionTests.cpp
     ArenaRuntimeTests.cpp
     MapWorldOwnershipTests.cpp
@@ -18,15 +20,19 @@ add_executable(openyamm_unit_tests
     ContentManifestTests.cpp
     WorldDecorationTests.cpp
     RulesetTests.cpp
+    MapLayoutIdentityTests.cpp
+    PlaythroughStatisticsTests.cpp
     QuickItemSlotTests.cpp
     EffectSystemTests.cpp
     EnergyShieldTests.cpp
     MonsterModifierTests.cpp
+    CinematicRuntimeTests.cpp
     Mm9ActorRulesTests.cpp
     Mm9MonsterAiTests.cpp
     EffectDefinitionLoaderTests.cpp
     WorldMissileTests.cpp
     HouseDialogueRegressionTests.cpp
+    HouseShopLedgerTests.cpp
     ScriptedMapRegressionTests.cpp
     UnitTestMain.cpp
     CharacterSheetRegressionTests.cpp
@@ -114,11 +120,17 @@ add_executable(openyamm_unit_tests
     Mm9TeacherScheduleTests.cpp
     Mm9RudeDialogueTests.cpp
     Mm9MonsterFamilyTests.cpp
+    Mm9HirelingTableTests.cpp
+    Mm9HirelingCombatTests.cpp
+    Mm9HirelingServicesTests.cpp
+    Mm9HirelingHudTests.cpp
+    Mm9FormationTests.cpp
     Mm9SkillTrainerTests.cpp
     Mm9TransportRouteTests.cpp
     Mm9QuestMarkerTests.cpp
     MapItemSourceTests.cpp
     DecorationModelPlacementTests.cpp
+    TalkPortraitTests.cpp
     MapDecorationTexturesTests.cpp
     MapPresentationTests.cpp
     ModelAnimationTests.cpp
@@ -159,12 +171,14 @@ add_executable(openyamm_unit_tests
     WeatherModelTests.cpp
     WorldItemShapeTests.cpp
     ../game/outdoor/WeatherModel.cpp
+    ../game/render/WeatherRoofMap.cpp
     ../game/outdoor/WeatherPresentation.cpp
     ScriptedEventTimerTests.cpp
     SpellRegressionTests.cpp
     RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
+    LocalizationTests.cpp
     TextTableTests.cpp
     Utf8TextTests.cpp
     TerrainDecorationTests.cpp
@@ -212,6 +226,8 @@ add_executable(openyamm_unit_tests
     ../game/render/SpriteAtlasCook.cpp
     ../game/render/NativeSpriteTextureCache.cpp
     ../engine/TextTable.cpp
+    ../engine/TextCatalog.cpp
+    ../engine/Localization.cpp
     ../game/render/TextureFiltering.cpp
     ../game/arcomage/ArcomageAi.cpp
     ../game/arcomage/ArcomageLoader.cpp
@@ -234,17 +250,23 @@ add_executable(openyamm_unit_tests
     ../game/events/EventRuntime.cpp
     ../game/events/MechanismAudio.cpp
     ../game/events/EventDialogContent.cpp
+    ../game/gameplay/Mm9DialogueSpeaker.cpp
+    ../game/fx/ActorClipSounds.cpp
+    ../game/fx/TalkPortraitFrame.cpp
     ../game/events/ScriptedEventProgram.cpp
     ../game/events/ScriptedEventTimer.cpp
     ../game/gameplay/ChestRuntime.cpp
+    ../game/gameplay/TreasureRuntime.cpp
     ../game/gameplay/GameplayBolsterRuntime.cpp
     ../game/gameplay/ActorBehaviorCatalog.cpp
     ../game/gameplay/ActorBehaviorRuntime.cpp
     ../game/gameplay/GameplayActorAiSystem.cpp
+    ../game/gameplay/ScriptedActorMoves.cpp
     ../game/gameplay/Mm9ActorRules.cpp
     ../game/gameplay/GameplayActorHitFeedback.cpp
     ../game/gameplay/GameplayActorShields.cpp
     ../game/gameplay/GameplayActorModifiers.cpp
+    ../game/gameplay/CinematicRuntime.cpp
     ../game/gameplay/GameplayMonsterSpawn.cpp
     ../game/maps/SceneOverlayOperations.cpp
     ../game/gameplay/MeleeContactEffects.cpp
@@ -260,6 +282,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/GameplayWorldItemInteraction.cpp
     ../game/gameplay/InteractiveDecorationRules.cpp
     ../game/gameplay/BountyHuntRuntime.cpp
+    ../game/gameplay/ActorNameText.cpp
     ../game/gameplay/ArenaRuntime.cpp
     ../game/gameplay/AwardRuntime.cpp
     ../game/gameplay/MonsterSpellSupport.cpp
@@ -291,6 +314,7 @@ add_executable(openyamm_unit_tests
     ../game/maps/DecorationModelManifest.cpp
     ../game/maps/MapDecorationTextures.cpp
     ../game/maps/MapIdentity.cpp
+    ../game/maps/MapLayoutIdentity.cpp
     ../game/maps/SaveGame.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
@@ -340,6 +364,8 @@ add_executable(openyamm_unit_tests
     ../game/items/ItemRuntime.cpp
     ../game/items/WorldItemShape.cpp
     ../game/party/Party.cpp
+    ../game/party/PlaythroughStatistics.cpp
+    ../game/party/PlaythroughSeal.cpp
     ../game/party/EventSpellBuffs.cpp
     ../game/party/LloydsBeaconRuntime.cpp
     ../game/party/PartySpellSystem.cpp
@@ -414,6 +440,11 @@ add_executable(openyamm_unit_tests
     ../game/mm9/Mm9BarrelRuntime.cpp
     ../game/mm9/Mm9PrimaryStats.cpp
     ../game/mm9/Mm9PositionedTransitionRuntime.cpp
+    ../game/mm9/Mm9HirelingTable.cpp
+    ../game/mm9/Mm9HirelingCombat.cpp
+    ../game/mm9/Mm9HirelingServices.cpp
+    ../game/mm9/Mm9HirelingHud.cpp
+    ../game/mm9/Mm9Formation.cpp
     ../game/mm9/Mm9SkillTrainer.cpp
     ../game/mm9/Mm9TransportRoute.cpp
     ../game/mm9/Mm9QuestMarkers.cpp
@@ -439,7 +470,9 @@ add_executable(openyamm_unit_tests
     ../game/tables/TextureFrameTable.cpp
     ../game/ui/GameplayUiController.cpp
     ../game/ui/GameplayMapProgressText.cpp
+    ../game/ui/CalendarText.cpp
     ../game/ui/HouseShopLayout.cpp
+    ../game/ui/HouseShopLedger.cpp
     ../game/ui/SpellbookUiLayout.cpp
     ../game/ui/UiLayoutManager.cpp
     ../game/outdoor/OutdoorGeometryUtils.cpp
@@ -497,7 +530,11 @@ target_link_libraries(openyamm_unit_tests
 target_include_directories(openyamm_unit_tests
     PRIVATE
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/include"
+        "${CMAKE_BINARY_DIR}/generated"
 )
+if (OPENYAMM_STATS_PRIVATE_KEY_SOURCE)
+    target_sources(openyamm_unit_tests PRIVATE "${OPENYAMM_STATS_PRIVATE_KEY_SOURCE}")
+endif()
 
 target_link_libraries(openyamm_unit_tests
     PRIVATE
@@ -537,6 +574,7 @@ add_executable(openyamm_runtime_tests
     OutdoorClassicMechanismTests.cpp
     MonsterModifierWorldTests.cpp
     StealingInputRuntimeTests.cpp
+    MapStateResetRuntimeTests.cpp
 )
 
 target_include_directories(openyamm_runtime_tests PRIVATE

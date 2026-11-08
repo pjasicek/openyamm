@@ -27,6 +27,9 @@ When a runner check is added, add its key to the loader's lists in the same chan
 `assert: {party_position: {x, y, radius, z_min, z_max}}` that the party stands within `radius` (default 64) of a point
 (`mm7/barrow_downs_teleporting_chest.yml`).
 
+`interact_actor: {actor_index, activated: false}` passes only when the actor refuses the use (no dialogue, no event):
+an MM9 dog (`mm9/animal_no_street_npc_dialogue.yml`).
+
 Checks added with this rule: `assert: {gold: N}` (the party's gold), `assert: {mechanism: {...}}` (as
 `assert_mechanism`), `press_action: {action: escape|cancel_dialog, expect: {dialogue_canceled: {...}}}`, and for the
 charge modifier `charge_actor: {actor_index}` and `assert: {charges: {started, hits, misses, min_started, min_hits,
@@ -77,9 +80,11 @@ summons the monsters as a party spell's summons, fighting for the party (an outd
 ally 999); `setup_shortcut: {kind: set_experience, value, member_index}` sets a member's experience, or every
 member's without an index; with `assert: {runtime_event_variable: {id: 13, member_index, value | min}}` this checks
 kill experience (`maw_ally_kills.yml`, `standard_ally_kills.yml`). `assert: {dialog: {text_contains}}` checks a piece
-of the open dialog's text and `assert: {journal_map_note: {map, id, text, present}}` a journal map pin
-(`maw_bounty.yml`). `press_action: {action, seconds}` also takes any key binding by its settings name (`attack`,
-`cast_ready`, `follower_1`, ...), held for one frame by default, and `setup_shortcut: {kind: hire_follower, id}` hires
+of the open dialog's text. `advance_runtime: {seconds, present_dialogs: true}` opens a dialogue that a world event
+queued during the step (an MM9 FoundPlayer greeting) as the game's frame does, which then stops the world; without it
+a queued dialogue stays queued (`mm9/found_player_bootcamp.yml`). `assert: {journal_map_note: {map, id, text,
+present}}` checks a journal map pin (`maw_bounty.yml`). `press_action: {action, seconds}` also takes any key
+binding by its settings name (`attack`, `cast_ready`, `follower_1`, ...), held for one frame by default, and `setup_shortcut: {kind: hire_follower, id}` hires
 an NPC as a follower (`follower_keys.yml`). `assert: {quick_item_ring: {open, member_index}}` checks the potion
 radial's ring and `assert: {quick_item_popup: {kind, member_index}}` the basebar's potion or scroll popup
 (`potion_slot_keys.yml`). Each run saves into its own temporary folder (`openyamm_scenario_saves/<id>-<random>`),
@@ -90,12 +95,37 @@ content package schema the game does not have, and `load_game: {name, expect_fai
 load is refused, leaving the game in progress (`cross_ruleset_load_failure.yml`, audit STD3-1). `save_game: {name,
 block_with_directory: true, expect_failure: true}` puts a folder where the save file would go, so the write fails and
 the step passes only then; `assert: {food: N}` checks the party's food (`maw_save_food_refund.yml`).
+`save_game: {name, rebuilt_maps: [6d01.blv, ...]}` rewrites the save as if those maps were rebuilt after it (their
+saved states record another layout identity), so loading it resets them (`release/rebuilt_map_save.yml`,
+[saved map states](../../devdocs/SAVED_MAP_STATE_IDENTITY.md)).
 `assert: {game_hour: N}` checks the clock's hour of the day, 0-23 (`mm7/stone_city_inn_rest.yml`).
 `quick_load: {save, expect: loaded | warned, expect_status}` presses the quick load key (F10) once with a scenario save
 as the quicksave, from a scratch working folder so the real `saves/quicksave.oysav` is never read
 (`maw_quick_load_warning.yml`).
 Scenarios read the local `settings.ini` but always run with the Immortal cheat off, so a `party_health` check gives the
 same answer on every machine (`mm6/abandoned_temple_cage_trap.yml`).
+
+`lua_event: {source}` runs the scenario's own Lua as an event of the current map, after the map's event support
+(`evt.SummonMonstersById`, `evt.SetActorTarget` ...); a Lua error fails the step (`mm9/ai/lua_summon.yml`). The console
+`destructible <id> state` reports a scene destructible's hp and whether it stands (`mm9/destructibles/`).
+
+For playthroughs ([MM9 playthrough](../playthrough/mm9/README.md)): `walk_to: {x, y, z | to, via: [[x, y, z] | pose],
+radius, timeout_seconds, clear_hostiles, expect_map, plan, node_limit, close_dialogs, expect: arrived|dialog}` walks the
+party there with the movement keys on a route from the monsters' indoor path map (when stuck it aims further, jumps,
+steps aside, clicks what is ahead and plans again; it fails, naming the spot, after twelve tries in one place) and
+prints its trail (`WALK` lines); a dialogue an event opens on the way (an exit's prompt) ends it, which `expect: dialog`
+wants. `clear_hostiles: {radius, min}` kills the party's enemies near it. `play_lua: {source, max_seconds}` runs a
+player's reasoning in Lua: `click(event_id)`, `wait(seconds)`, `status()` (the status lines since the last call),
+`qbit(id)`, `has_item(item_id)`, `mapvar(name)`, `log(text)`. `party_defeat: {wait_seconds, knock_out, expect_map}`
+waits until nobody can act (`knock_out`: every member falls at once), then runs the game's defeat and respawn.
+`setup_shortcut: {kind: immortal, value}` is the Immortal cheat for the run only. `save_game: {name, path}` keeps the
+save at a path (relative to the working folder) after the run. `select_topic: {match_label}` without `action_id` picks
+the line by its text (exactly, else the one containing it) and, when missing, lists the lines offered.
+
+For cinematics (devdocs/mm9_rework/MM9_CUTSCENES.md): `advance_runtime: {seconds, follow_map_move: true}` carries
+out a map move an event of the step asked for (a cinematic's last event, an exit), as the game's frame does; without
+it the move stays pending for later steps (`assert: {map_transition_requested: ...}`). `console: cinematic list`,
+`cinematic play <id>` and `cinematic skip` drive and check a cinematic (`mm9r_isleofashes_blv/cinematic_*.yml`).
 
 For swimming (scene `water_volumes`, devdocs/INDOOR_OPEN_SKY.md "Swimming"): `assert: {water: {state, eye_under,
 breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min, foot_z_max}}` checks the party's water
@@ -106,7 +136,7 @@ out), the drowning ticks taken on this map and its feet's height; the swim keys 
 For monster AI (AI arenas, [mm9/ai/README.md](mm9/ai/README.md)): `ai_arena: {path, log}` sets an arena up (the map's
 actors hidden, the arena's monsters spawned, the party placed, the decision trace on), `assert: {ai_trace:
 {actor_index | arena_monster, decision | event, target, min_count, max_count, within_seconds, after, before, report}}`
-counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.
+(`decision` one name or a list, any of which matches) counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.
 
 For turn-based combat ([TURN_BASED_COMBAT_AUDIT.md](../../devdocs/TURN_BASED_COMBAT_AUDIT.md), `turn_based/`):
 `press_action: combat` toggles turn-based mode, `turn_based_turns: {count, max_seconds}` plays turns through the input

@@ -1,6 +1,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/ImageAssetLoader.h"
 #include "game/app/GameSession.h"
+#include "game/content/ContentManifest.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
@@ -19,9 +20,11 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <filesystem>
+#include <string>
 
-TEST_CASE("dimensional travel uses original artwork and matching continent hover regions")
+TEST_CASE("dimensional travel shows four portals with a column of the screen as each one's hover region")
 {
     using namespace OpenYAMM;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -33,48 +36,74 @@ TEST_CASE("dimensional travel uses original artwork and matching continent hover
     data.bind(loader);
     Game::GameplayUiRuntime ui;
     ui.bindDataRepository(&data);
+    ui.bindAssetFileSystem(&assets);
     CHECK_FALSE(ui.ensureDimensionDoorDestinationsLoaded(1, false));
     REQUIRE(ui.ensureDimensionDoorDestinationsLoaded(1, true));
-    REQUIRE_EQ(ui.townPortalDestinations().size(), 3);
+    // Chedian's portal is offered only with the MM9 world installed (1.22 ships without it).
+    const bool mm9Mounted = Game::isWorldPackageMounted(assets, "mm9");
+    REQUIRE_EQ(ui.townPortalDestinations().size(), mm9Mounted ? 4 : 3);
 
+    // tpglobal4 (level_generation/ui/mm9_world_menu_study_20261106) is drawn at x2 into the 640x480 screen.
     Engine::BinaryAssetCache images;
     const std::optional<Engine::ImagePixelsBgra> background =
-        Engine::loadImageAssetPixelsBgra(assets, ui.townPortalBackgroundTextureName() + ".bmp", images);
+        Engine::loadImageAssetPixelsBgra(assets, ui.townPortalBackgroundTextureName() + ".png", images);
     REQUIRE(background.has_value());
-    CHECK_EQ(background->width, 640);
-    CHECK_EQ(background->height, 480);
-    CHECK(background->assetScaleTier == Engine::AssetScaleTier::X1);
+    CHECK_EQ(background->width, 1280);
+    CHECK_EQ(background->height, 960);
 
     struct ExpectedDestination
     {
         const char *pLabel;
         const char *pMapName;
         int32_t hitX;
-        uint32_t hitWidth;
-        int iconWidth;
-        int iconHeight;
+        int32_t iconX;
     };
-    const std::array<ExpectedDestination, 3> expected = {{
-        {"Jadame", "out01.odm", 0, 213, 450, 360},
-        {"Enroth", "oute3.odm", 213, 214, 270, 400},
-        {"Antagarich", "7out01.odm", 427, 213, 460, 360},
+    const std::array<ExpectedDestination, 4> expected = {{
+        {"Jadame", "out01.odm", 0, 17},
+        {"Enroth", "oute3.odm", 160, 177},
+        {"Antagarich", "7out01.odm", 320, 337},
+        {"Chedian", "isleofashes.blv", 480, 498},
     }};
     for (const ExpectedDestination &entry : expected)
     {
         const auto destination = std::find_if(ui.townPortalDestinations().begin(), ui.townPortalDestinations().end(),
             [&entry](const Game::GameplayTownPortalDestination &candidate) { return candidate.label == entry.pLabel; });
+        if (!mm9Mounted && std::string(entry.pLabel) == "Chedian")
+        {
+            CHECK(destination == ui.townPortalDestinations().end());
+            continue;
+        }
         REQUIRE(destination != ui.townPortalDestinations().end());
         CHECK_EQ(destination->mapName, entry.pMapName);
         CHECK_EQ(destination->hitX, entry.hitX);
-        CHECK_EQ(destination->hitWidth, entry.hitWidth);
+        CHECK_EQ(destination->hitWidth, 160u);
         CHECK_EQ(destination->hitY, 0);
         CHECK_EQ(destination->hitHeight, 480);
+        CHECK_EQ(destination->iconX, entry.iconX);
+        CHECK_EQ(destination->iconY, 92);
+        CHECK_EQ(destination->iconWidth, 126u);
+        CHECK_EQ(destination->iconHeight, 151u);
         const std::optional<Engine::ImagePixelsBgra> icon =
-            Engine::loadImageAssetPixelsBgra(assets, destination->iconTextureName + ".bmp", images);
+            Engine::loadImageAssetPixelsBgra(assets, destination->iconTextureName + ".png", images);
         REQUIRE(icon.has_value());
-        CHECK_EQ(icon->width, entry.iconWidth);
-        CHECK_EQ(icon->height, entry.iconHeight);
-        CHECK(icon->assetScaleTier == Engine::AssetScaleTier::X1);
+        CHECK(std::abs(icon->width - 2 * 126) <= 1);
+    }
+
+    // Portrait sets carry their world for the party creation picker's world filter; a world that is not installed
+    // contributes none (MM9's portraits without MM9).
+    const Game::CharacterDollTable &dolls = data.characterDollTable();
+    const std::array<std::pair<uint32_t, const char *>, 4> worlds = {{{1, "mm8"}, {38, "mm6"}, {50, "mm7"},
+                                                                      {9001, "mm9"}}};
+    for (const auto &[characterId, pWorldId] : worlds)
+    {
+        const Game::CharacterDollEntry *pEntry = dolls.getCharacter(characterId);
+        if (std::string(pWorldId) == "mm9" && !mm9Mounted)
+        {
+            CHECK(pEntry == nullptr);
+            continue;
+        }
+        REQUIRE(pEntry != nullptr);
+        CHECK_EQ(pEntry->worldId, pWorldId);
     }
 }
 

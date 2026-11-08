@@ -143,7 +143,8 @@ TEST_CASE("the catalogue lists every modifier with its parameters and defaults")
     CHECK(findMonsterModifierInfo("mm9_ai") != nullptr);
     CHECK(findMonsterModifierInfo("spell_conditions") != nullptr);
     CHECK(findMonsterModifierInfo("reposition") != nullptr);
-    CHECK(monsterModifierCatalogue().size() == 14);
+    CHECK(findMonsterModifierInfo("missile_blast") != nullptr);
+    CHECK(monsterModifierCatalogue().size() == 15);
 }
 
 TEST_CASE("homing steering turns at most the turn rate, keeps the speed and settles on the target")
@@ -457,14 +458,44 @@ TEST_CASE("reposition parses with its defaults and errors and becomes tactics")
     CHECK(catalog.tacticsForMonster(9156) == nullptr);
 }
 
+TEST_CASE("missile_blast parses each attack's burst radius and needs one")
+{
+    MonsterModifierTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
+        "  9212: [{missile_blast: {attack1: 768, attack2: 921.6}}]\n"
+        "  9241: [{missile_blast: {attack1: 307.2}}]\n", "mm9", 9000, 9999, error),
+        error);
+    REQUIRE(table.find(9212)->missileBlast);
+    CHECK(table.find(9212)->missileBlast->attack1Radius == doctest::Approx(768.0f));
+    CHECK(table.find(9212)->missileBlast->attack2Radius == doctest::Approx(921.6f));
+    CHECK(table.find(9241)->missileBlast->attack2Radius == 0.0f);
+    CHECK(OpenYAMM::Game::missileBlastRadius(table.find(9212),
+              OpenYAMM::Game::GameplayProjectileService::MonsterAttackAbility::Attack2) == doctest::Approx(921.6f));
+    CHECK(OpenYAMM::Game::missileBlastRadius(table.find(9212),
+              OpenYAMM::Game::GameplayProjectileService::MonsterAttackAbility::Spell1) == 0.0f);
+    CHECK(OpenYAMM::Game::missileBlastRadius(nullptr,
+              OpenYAMM::Game::GameplayProjectileService::MonsterAttackAbility::Attack1) == 0.0f);
+
+    MonsterModifierTable errors;
+    CHECK_FALSE(errors.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n  9212: [missile_blast]\n",
+        "mm9", 9000, 9999, error));
+    CHECK(error.find("needs a radius") != std::string::npos);
+}
+
 TEST_CASE("spell_conditions parse with their defaults and errors")
 {
     MonsterModifierTable table;
     std::string error;
     REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
         "  9209: [{spell_conditions: {spell1: weak, spell2: cursed}}]\n"
-        "  9162: [{spell_conditions: {spell1: afraid, chance: 0.5}}]\n", "mm9", 9000, 9999, error),
+        "  9162: [{spell_conditions: {spell1: afraid, chance: 0.5}}]\n"
+        "  9230: [{spell_conditions: {spell1: paralyzed, spell2: cursed, spell1_minutes: 10, spell2_minutes: 5}}]\n",
+        "mm9", 9000, 9999, error),
         error);
+    CHECK(table.find(9209)->spellConditions->spell1Minutes == 0.0f);
+    CHECK(table.find(9230)->spellConditions->spell1Minutes == doctest::Approx(10.0f));
+    CHECK(table.find(9230)->spellConditions->spell2Minutes == doctest::Approx(5.0f));
     REQUIRE(table.find(9209)->spellConditions);
     CHECK(table.find(9209)->spellConditions->spell1 == MonsterSpecialAttackKind::Weak);
     CHECK(table.find(9209)->spellConditions->spell2 == MonsterSpecialAttackKind::Curse);

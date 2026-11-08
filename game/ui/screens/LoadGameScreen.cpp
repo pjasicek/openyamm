@@ -1,8 +1,10 @@
 #include "game/ui/screens/LoadGameScreen.h"
 
+#include "engine/Localization.h"
 #include "engine/Utf8Text.h"
 #include "game/content/RulesetDefinition.h"
 #include "game/maps/SaveGame.h"
+#include "game/ui/CalendarText.h"
 #include "engine/UserDataPaths.h"
 
 #include <SDL3/SDL.h>
@@ -76,34 +78,22 @@ CivilTime civilTimeFromGameMinutes(float gameMinutes)
     return time;
 }
 
-std::string weekdayName(int dayOfWeek)
-{
-    static const std::array<const char *, 7> names = {"Monday", "Tuesday",  "Wednesday", "Thursday",
-                                                      "Friday", "Saturday", "Sunday"};
-    return names[std::clamp(dayOfWeek, 1, 7) - 1];
-}
-
-std::string monthName(int month)
-{
-    static const std::array<const char *, 12> names = {"January",   "February", "March",    "April",
-                                                       "May",       "June",     "July",     "August",
-                                                       "September", "October",  "November", "December"};
-    return names[std::clamp(month, 1, 12) - 1];
-}
-
+// "Monday 09:05PM": the list's own clock, with the calendar's weekday names.
 std::string formatClock(const CivilTime &time)
 {
-    char buffer[32] = {};
-    std::snprintf(buffer, sizeof(buffer), "%s %02d:%02d%s", weekdayName(time.dayOfWeek).c_str(), time.hour12,
-                  time.minute, time.isPm ? "PM" : "AM");
-    return buffer;
+    char hour[8] = {};
+    char minute[8] = {};
+    std::snprintf(hour, sizeof(hour), "%02d", time.hour12);
+    std::snprintf(minute, sizeof(minute), "%02d", time.minute);
+    const std::string weekday = weekdayName(time.dayOfWeek);
+    return time.isPm
+        ? Engine::tr("{weekday} {hour}:{minute}PM", {{"weekday", weekday}, {"hour", hour}, {"minute", minute}})
+        : Engine::tr("{weekday} {hour}:{minute}AM", {{"weekday", weekday}, {"hour", hour}, {"minute", minute}});
 }
 
 std::string formatDate(const CivilTime &time)
 {
-    char buffer[64] = {};
-    std::snprintf(buffer, sizeof(buffer), "%d %s %d", time.day, monthName(time.month).c_str(), time.year);
-    return buffer;
+    return formatCalendarDate(time.day, time.month, time.year);
 }
 
 std::string friendlySaveFileLabel(const std::filesystem::path &path)
@@ -112,12 +102,12 @@ std::string friendlySaveFileLabel(const std::filesystem::path &path)
 
     if (stem == "autosave")
     {
-        return "Autosave";
+        return Engine::tr("Autosave");
     }
 
     if (stem == "quicksave")
     {
-        return "Quicksave";
+        return Engine::tr("Quicksave");
     }
 
     if (stem.rfind("save", 0) == 0 && stem.size() > 4)
@@ -128,7 +118,7 @@ std::string friendlySaveFileLabel(const std::filesystem::path &path)
 
         if (allDigits)
         {
-            return "Save " + std::to_string(std::max(1, std::stoi(suffix)));
+            return Engine::tr("Save {number}", {{"number", std::max(1, std::stoi(suffix))}});
         }
     }
 
@@ -421,14 +411,15 @@ void LoadGameScreen::requestLoad()
     {
         if (!tryLoadSelectedSlot())
         {
-            m_error = "Unable to load this save. Check its required content packages.";
+            m_error = Engine::tr("Unable to load this save. Check its required content packages.");
         }
     };
     if (m_fromGameplay)
     {
-        confirm("Load Adventure?",
-                m_loadWarning.empty() ? "Unsaved progress in the current adventure will be lost." : m_loadWarning,
-                {"Cancel", "Load"},
+        confirm(Engine::tr("Load Adventure?"),
+                m_loadWarning.empty() ? Engine::tr("Unsaved progress in the current adventure will be lost.")
+                                      : Engine::localizeKnown(m_loadWarning),
+                {Engine::tr("Cancel"), Engine::tr("Load")},
                 [load](int choice)
                 {
                     if (choice == 1)
@@ -448,10 +439,11 @@ void LoadGameScreen::commitSave()
     const size_t first = m_saveName.find_first_not_of(" \t");
     const size_t last = m_saveName.find_last_not_of(" \t");
     const std::string name = first == std::string::npos ? "" : m_saveName.substr(first, last - first + 1);
-    const std::string lower = toLowerCopy(name);
+    // Typed names compare without case in any language.
+    const std::string lower = Engine::Utf8::lower(name);
     if (name.empty() || lower == "autosave" || lower == "quicksave")
     {
-        m_error = "Choose a name other than Autosave or Quicksave.";
+        m_error = Engine::tr("Choose a name other than Autosave or Quicksave.");
         return;
     }
     std::filesystem::path path;
@@ -472,9 +464,9 @@ void LoadGameScreen::commitSave()
     }
     for (const SaveSlotSummary &slot : m_slots)
     {
-        if (toLowerCopy(slot.fileLabel) == lower && slot.path != path)
+        if (Engine::Utf8::lower(slot.fileLabel) == lower && slot.path != path)
         {
-            m_error = "A save already uses that name. Select it to replace it.";
+            m_error = Engine::tr("A save already uses that name. Select it to replace it.");
             return;
         }
     }
@@ -482,13 +474,14 @@ void LoadGameScreen::commitSave()
     {
         if (!m_saveAction(path, name))
         {
-            m_error = "Saving failed or is not allowed in this location.";
+            m_error = Engine::tr("Saving failed or is not allowed in this location.");
         }
     };
     if (!m_newSave)
     {
-        confirm("Replace Saved Adventure?", "Replace " + m_slots[m_selectedIndex].fileLabel + "?",
-                {"Cancel", "Replace"},
+        confirm(Engine::tr("Replace Saved Adventure?"),
+                Engine::tr("Replace {save}?", {{"save", m_slots[m_selectedIndex].fileLabel}}),
+                {Engine::tr("Cancel"), Engine::tr("Replace")},
                 [save](int choice)
                 {
                     if (choice == 1)
@@ -548,21 +541,23 @@ void LoadGameScreen::finishImportSaves()
     refreshSaveSlots();
     m_revealSelection = true;
 
-    std::string body = result.imported == 1 ? "Imported 1 save." : "Imported " + std::to_string(result.imported)
-                                                                    + " saves.";
+    std::string body = Engine::trn("Imported {count} save.", "Imported {count} saves.", uint64_t(result.imported),
+                                   {{"count", int64_t(result.imported)}});
     if (result.imported == 0 && result.skipped == 0 && result.failed == 0)
     {
-        body = "No saves were found in that folder or in a \"saves\" folder inside it.";
+        body = Engine::tr("No saves were found in that folder or in a \"saves\" folder inside it.");
     }
     if (result.skipped > 0)
     {
-        body += "\n" + std::to_string(result.skipped) + " skipped: a save with the same name already exists.";
+        body += "\n"
+            + Engine::tr("{count} skipped: a save with the same name already exists.",
+                         {{"count", int64_t(result.skipped)}});
     }
     if (result.failed > 0)
     {
-        body += "\n" + std::to_string(result.failed) + " could not be copied.";
+        body += "\n" + Engine::tr("{count} could not be copied.", {{"count", int64_t(result.failed)}});
     }
-    confirm("Import Saves", body, {"OK"}, [](int) {});
+    confirm(Engine::tr("Import Saves"), body, {Engine::tr("OK")}, [](int) {});
 }
 
 void LoadGameScreen::requestDelete()
@@ -578,7 +573,8 @@ void LoadGameScreen::requestDelete()
     m_nameEditing = false;
     setTextEditing(false);
     m_error.clear();
-    confirm("Delete Save?", "Permanently delete \"" + slot.fileLabel + "\"?", {"Cancel", "Delete"},
+    confirm(Engine::tr("Delete Save?"), Engine::tr("Permanently delete \"{save}\"?", {{"save", slot.fileLabel}}),
+            {Engine::tr("Cancel"), Engine::tr("Delete")},
             [this, path](int choice)
             {
                 if (choice != 1)
@@ -589,7 +585,8 @@ void LoadGameScreen::requestDelete()
                 std::error_code error;
                 if (!std::filesystem::remove(path, error))
                 {
-                    m_error = error ? "Unable to delete this save: " + error.message() : "This save no longer exists.";
+                    m_error = error ? Engine::tr("Unable to delete this save: {error}", {{"error", error.message()}})
+                                   : Engine::tr("This save no longer exists.");
                     return;
                 }
 
@@ -732,7 +729,8 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
         }
         if (newRow)
         {
-            textInRect({rect.x + 10 * unit, rect.y + 4 * unit, rect.width - 20 * unit, 22 * unit}, "Create a new save",
+            textInRect({rect.x + 10 * unit, rect.y + 4 * unit, rect.width - 20 * unit, 22 * unit},
+                       Engine::tr("Create a new save"),
                        "menu_arrus", 15.36f);
         }
         else
@@ -745,10 +743,10 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
     const SaveSlotSummary *pSlot = !m_newSave && selectedSlotRow ? &m_slots[m_selectedIndex] : nullptr;
     if (pSlot || saving)
     {
-        const std::string kind = !pSlot                              ? "New save"
-                                 : pSlot->path.stem() == "autosave"  ? "Automatic"
-                                 : pSlot->path.stem() == "quicksave" ? "Quick"
-                                                                     : "Manual";
+        const std::string kind = !pSlot                              ? Engine::tr("New save")
+                                 : pSlot->path.stem() == "autosave"  ? Engine::tr("Automatic")
+                                 : pSlot->path.stem() == "quicksave" ? Engine::tr("Quick")
+                                                                     : Engine::tr("Manual");
         const std::string worldAndKind =
             pSlot && !pSlot->worldName.empty() ? pSlot->worldName + " - " + kind : kind;
         label(prefix + "SelectedWorldAndKind", worldAndKind);
@@ -776,7 +774,7 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
         else
         {
             drawSolidRect(preview, 0xff121a14u);
-            textInRect(preview, "No screenshot available", "menu_lucida", 12, 0xff9bb6c2u, true);
+            textInRect(preview, Engine::tr("No screenshot available"), "menu_lucida", 12, 0xff9bb6c2u, true);
         }
         label(prefix + "PreviewLine1", pSlot ? pSlot->dateText : m_currentDate);
         label(prefix + "PreviewLine2", pSlot ? pSlot->weekdayClockText : m_currentClock);
@@ -791,26 +789,31 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
             label(prefix + "NameField", m_saveName + (m_nameEditing ? "_" : ""));
             if (m_foodCost.food > 0 || m_foodCost.foodWithEnemiesNear > 0)
             {
-                std::string text = m_foodCost.food > 0 ? "Saving here costs " + std::to_string(m_foodCost.food) +
-                                                             " food, you carry " + std::to_string(m_foodCost.carried)
-                                                       : std::string("Saving here is free now");
+                std::string text = m_foodCost.food > 0
+                    ? Engine::tr("Saving here costs {food} food, you carry {carried}",
+                                 {{"food", int64_t(m_foodCost.food)}, {"carried", int64_t(m_foodCost.carried)}})
+                    : Engine::tr("Saving here is free now");
                 if (m_foodCost.foodWithEnemiesNear > m_foodCost.food)
                 {
-                    text += "\nWith enemies near: " + std::to_string(m_foodCost.foodWithEnemiesNear) + " food";
+                    text += "\n"
+                        + Engine::tr("With enemies near: {food} food",
+                                     {{"food", int64_t(m_foodCost.foodWithEnemiesNear)}});
                 }
                 label(prefix + "FoodCost", text, saveAffordable ? 0 : 0xff5c5ce0u);
             }
         }
         else
         {
-            label(prefix + "SelectedMetadata", pSlot->fileLabel + "\nSaved " + pSlot->savedAt);
+            label(prefix + "SelectedMetadata",
+                Engine::tr("{save}\nSaved {saved_at}", {{"save", pSlot->fileLabel}, {"saved_at", pSlot->savedAt}}));
             label(prefix + "SelectedRuleset", pSlot->rulesetBadge);
         }
     }
     else
     {
-        const std::string text = m_slots.empty() ? "No saved games\nStart a new game from the main menu."
-                                                 : "No saved games with this ruleset";
+        const std::string text = m_slots.empty()
+            ? Engine::tr("No saved games\nStart a new game from the main menu.")
+            : Engine::tr("No saved games with this ruleset");
         textInRect(viewport, text, "menu_arrus", 15, 0xffc6dfeau, true);
     }
     if (action(prefix + "CancelButton"))
@@ -844,7 +847,7 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
         m_commitRequested = false;
         if (saving && !saveAffordable)
         {
-            m_error = "Not enough food: saving here costs " + std::to_string(m_foodCost.food) + ".";
+            m_error = Engine::tr("Not enough food: saving here costs {food}.", {{"food", int64_t(m_foodCost.food)}});
         }
         else if (saving)
         {
@@ -862,8 +865,9 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
     else if (m_newerSaveCount > 0)
     {
         textInRect(canvasRect(438.4f, 372, 323.2f, 28),
-                   std::to_string(m_newerSaveCount) + (m_newerSaveCount == 1 ? " save needs" : " saves need")
-                       + " a newer version of OpenYAMM and is not listed.",
+                   Engine::trn("{count} save needs a newer version of OpenYAMM and is not listed.",
+                               "{count} saves need a newer version of OpenYAMM and are not listed.",
+                               uint64_t(m_newerSaveCount), {{"count", int64_t(m_newerSaveCount)}}),
                    "menu_lucida", 10.5f);
     }
     drawConfirmation();
@@ -921,7 +925,8 @@ void LoadGameScreen::refreshSaveSlots()
                     loadRulesetDefinition(assetFileSystem(), summary.ruleset.id, rulesetError);
                 rulesetName = rulesetNames.emplace(
                     summary.ruleset.id,
-                    ruleset ? ruleset->name : summary.ruleset.id + " (not installed)").first;
+                    ruleset ? Engine::localize(ruleset->name)
+                            : Engine::tr("{ruleset} (not installed)", {{"ruleset", summary.ruleset.id}})).first;
             }
 
             slot.rulesetBadge = describeRulesetSelection(summary.ruleset, rulesetName->second);
@@ -952,14 +957,15 @@ void LoadGameScreen::refreshSaveSlots()
                 if (toLowerCopy(entryMap.canonicalId) == toLowerCopy(summary.mapFileName) ||
                     toLowerCopy(entryMap.fileName) == toLowerCopy(summary.mapFileName))
                 {
-                    slot.locationName = entryMap.name;
+                    // map_stats.txt and character_selection.yml texts are English.
+                    slot.locationName = Engine::localize(entryMap.name);
                     slot.worldName = entryMap.worldId;
                     for (const MergedCharacterSelectionContinent &continent :
                          m_pGameData->mergedCharacterSelectionTable().continents())
                     {
                         if (continent.id == entryMap.mergedContinentId)
                         {
-                            slot.worldName = continent.name;
+                            slot.worldName = Engine::localizeKnown(continent.name);
                             break;
                         }
                     }
@@ -1015,14 +1021,15 @@ void LoadGameScreen::refreshRulesetFilters()
 
         for (const RulesetDefinition &ruleset : rulesets)
         {
-            s_rulesetNames[ruleset.id] = ruleset.isStandard() ? "Standard" : ruleset.name;
+            s_rulesetNames[ruleset.id] = ruleset.isStandard() ? std::string(Engine::trNoop("Standard")) : ruleset.name;
         }
     }
 
     for (RulesetFilter &filter : m_rulesetFilters)
     {
         const auto name = s_rulesetNames.find(filter.id);
-        filter.name = name != s_rulesetNames.end() ? name->second : filter.id;
+        // The names are English (ruleset.yml); the tabs show them in the interface language.
+        filter.name = name != s_rulesetNames.end() ? Engine::localize(name->second) : filter.id;
     }
 
     std::stable_sort(m_rulesetFilters.begin(), m_rulesetFilters.end(),
@@ -1075,7 +1082,7 @@ bool LoadGameScreen::drawRulesetFilters(const std::string &prefix)
     for (size_t index = 0; index < count; ++index)
     {
         const std::string id = index == 0 ? std::string() : m_rulesetFilters[index - 1].id;
-        const std::string text = index == 0 ? "All" : m_rulesetFilters[index - 1].name;
+        const std::string text = index == 0 ? Engine::tr("All") : m_rulesetFilters[index - 1].name;
         const Rect rect = {area.x + area.width - float(count - index) * (width + gap) + gap, area.y, width,
                            area.height};
 
@@ -1116,12 +1123,14 @@ bool LoadGameScreen::drawSortButtons(const std::string &prefix)
     const float width = (area.width - gap) / 2;
     bool newestFirst = m_newestFirst;
 
-    if (button(prefix + "SortByName", {area.x, area.y, width, area.height}, "Name", "tab", true, !m_newestFirst))
+    if (button(prefix + "SortByName", {area.x, area.y, width, area.height}, Engine::tr("Name"), "tab", true,
+               !m_newestFirst))
     {
         newestFirst = false;
     }
 
-    if (button(prefix + "SortByNewest", {area.x + width + gap, area.y, width, area.height}, "Newest", "tab", true,
+    if (button(prefix + "SortByNewest", {area.x + width + gap, area.y, width, area.height}, Engine::tr("Newest"), "tab",
+               true,
             m_newestFirst))
     {
         newestFirst = true;

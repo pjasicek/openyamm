@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawTrainerHints.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 #include "game/rules/maw/MawRules.h"
@@ -16,7 +17,8 @@ namespace
 // The tooltip box is short: the nearest teacher only.
 constexpr size_t MaxTrainers = 1;
 // The next mastery's teachers are all ones the party has not found (TrainerDirectory.h trainerKnown).
-constexpr char UnknownTrainers[] = "No trainer known yet: a tavern sells the Ledger of Teachers.";
+constexpr std::string_view UnknownTrainers =
+    Engine::trNoop("No trainer known yet: a tavern sells the Ledger of Teachers.");
 
 bool outdoorFile(const std::string &fileName)
 {
@@ -49,55 +51,57 @@ std::string mawComposeTrainerHint(const MawTrainerHintInfo &info)
 
     if (kind == MawTrainerHintKind::ClassMaximum)
     {
-        return "<value>Highest mastery for this class reached.</>";
+        return Engine::tr("<value>Highest mastery for this class reached.</>");
     }
 
     if (kind == MawTrainerHintKind::Grandmaster)
     {
-        return "<value>Grandmaster reached.</>";
+        return Engine::tr("<value>Grandmaster reached.</>");
     }
 
-    const std::string head = "Next mastery: " + masteryDisplayName(info.nextMastery);
-    const std::string need = std::to_string(info.requiredLevel);
+    const std::string mastery = Engine::tr(masteryDisplayName(info.nextMastery));
+    const std::string noTrainer = Engine::tr(info.unknownTrainers ? UnknownTrainers : "No trainer found.");
 
     if (kind == MawTrainerHintKind::None)
     {
-        return "<value>" + head + "</>\n " + (info.unknownTrainers ? UnknownTrainers : "No trainer found.");
+        return Engine::tr("<value>Next mastery: {mastery}</>", {{"mastery", mastery}}) + "\n " + noTrainer;
     }
 
     if (kind == MawTrainerHintKind::Automatic)
     {
-        return "<value>" + head + "</>\n Learned automatically at skill " + need + ".";
+        return Engine::tr("<value>Next mastery: {mastery}</>", {{"mastery", mastery}}) + "\n "
+            + Engine::tr("Learned automatically at skill {level}.", {{"level", info.requiredLevel}});
     }
 
-    std::string text = "<value>" + head + " (skill </>" + (info.level >= info.requiredLevel ? "<good>" : "<bad>") + need
-        + "</><value> required)</>";
+    std::string text = Engine::tr(info.level >= info.requiredLevel
+            ? "<value>Next mastery: {mastery} (skill </><good>{level}</><value> required)</>"
+            : "<value>Next mastery: {mastery} (skill </><bad>{level}</><value> required)</>",
+        {{"mastery", mastery}, {"level", info.requiredLevel}});
 
     if (kind == MawTrainerHintKind::Promotion)
     {
-        text += "\n Requires a class promotion first.";
+        text += "\n " + Engine::tr("Requires a class promotion first.");
     }
 
     if (info.trainers && info.trainers->empty())
     {
-        text += std::string("\n ") + (info.unknownTrainers ? UnknownTrainers : "No trainer found.");
+        text += "\n " + noTrainer;
     }
 
     for (const PickedTrainer &trainer : info.trainers.value_or(std::vector<PickedTrainer>{}))
     {
         const TrainerEntry &entry = trainer.entry;
-        text += "\n " + entry.name + " - ";
-
-        if (!entry.houseName.empty())
-        {
-            text += entry.houseName + ", ";
-        }
-
-        text += entry.mapName;
+        text += "\n "
+            + (entry.houseName.empty()
+                    ? Engine::tr("{trainer} - {map}",
+                        {{"trainer", Engine::localize(entry.name)}, {"map", Engine::localize(entry.mapName)}})
+                    : Engine::tr("{trainer} - {house}, {map}",
+                        {{"trainer", Engine::localize(entry.name)}, {"house", Engine::localize(entry.houseName)},
+                            {"map", Engine::localize(entry.mapName)}}));
 
         if (trainer.rank == 0)
         {
-            text += trainer.outside ? " <good>(outside)</>" : " <good>(this map)</>";
+            text += " " + Engine::tr(trainer.outside ? "<good>(outside)</>" : "<good>(this map)</>");
             continue;
         }
 
@@ -105,12 +109,12 @@ std::string mawComposeTrainerHint(const MawTrainerHintInfo &info)
 
         if (trainer.rank == 1 && trainer.link)
         {
-            tags.push_back(*trainer.link == TrainerLink::Walk ? "next map" : "coach/boat");
+            tags.push_back(Engine::tr(*trainer.link == TrainerLink::Walk ? "next map" : "coach/boat"));
         }
 
         if (entry.continent && entry.continent != info.currentContinent)
         {
-            const std::string continent = trainerContinentName(*entry.continent);
+            const std::string continent = Engine::localize(trainerContinentName(*entry.continent));
 
             if (!continent.empty())
             {

@@ -148,12 +148,7 @@ function MM7.DistanceToPartySquared(x, y)
     return dx * dx + dy * dy
 end
 
-function MM7.ApplyDeyjaLocalRelations()
-    evt.SetMonsterRelation(91, 0, 0)
-end
-
 function MM7.UpdateDeyjaOutdoorState()
-    MM7.ApplyDeyjaLocalRelations()
     evt.SetMonGroupBit(56, MonsterBits.Hostile, 1)
     evt.SetMonGroupBit(55, MonsterBits.Hostile, IsQBitSet(QBit(611)) and 1 or 0)
 end

@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawItemFormulas.h"
+#include "engine/Localization.h"
 
 #include "game/rules/maw/MawCombatFormulas.h"
 
@@ -56,8 +57,11 @@ double expectedPityWait(double base, double multiplier)
 
 const char *mawRarityName(MawRarity rarity)
 {
+    // English, translated where an item's name shows it.
     static constexpr std::array<const char *, 9> Names = {
-        "", "Common", "Uncommon", "Rare", "Epic", "Ancient", "Primordial", "Legendary", "Celestial",
+        "", Engine::trNoop("Common").data(), Engine::trNoop("Uncommon").data(), Engine::trNoop("Rare").data(),
+        Engine::trNoop("Epic").data(), Engine::trNoop("Ancient").data(), Engine::trNoop("Primordial").data(),
+        Engine::trNoop("Legendary").data(), Engine::trNoop("Celestial").data(),
     };
     return size_t(rarity) < Names.size() ? Names[size_t(rarity)] : "";
 }

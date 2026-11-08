@@ -100,6 +100,10 @@ const std::vector<IndoorVisibilityFrustum> &sectorFrustums(
 
 void IndoorRenderer::setPortalDebugSettings(const IndoorPortalDebugSettings &settings)
 {
+    if (settings.cullingOff != m_portalDebug.cullingOff)
+    {
+        clearPortalVisibilityCaches();
+    }
     m_portalDebug = settings;
     if (!m_portalDebug.active())
     {

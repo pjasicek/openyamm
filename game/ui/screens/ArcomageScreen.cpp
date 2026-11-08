@@ -1,4 +1,5 @@
 #include "game/ui/screens/ArcomageScreen.h"
+#include "engine/Localization.h"
 
 #include "game/audio/GameAudioSystem.h"
 
@@ -62,19 +63,19 @@ std::string resourceTypeName(ArcomageResourceType resourceType)
     switch (resourceType)
     {
         case ArcomageResourceType::Bricks:
-            return "Bricks";
+            return Engine::tr("Bricks");
 
         case ArcomageResourceType::Gems:
-            return "Gems";
+            return Engine::tr("Gems");
 
         case ArcomageResourceType::Recruits:
-            return "Recruits";
+            return Engine::tr("Recruits");
 
         case ArcomageResourceType::None:
             break;
     }
 
-    return "Free";
+    return Engine::tr("Free");
 }
 
 float clamp01(float value)
@@ -222,14 +223,14 @@ void ArcomageScreen::drawScreen(float deltaSeconds)
 
     if (m_resignPrompt)
     {
-        drawScreenText(layout, ArrusFontName, "Are you sure you want to resign?", LogicalWidth * 0.5f, 196.0f, true);
-        drawScreenText(layout, ArrusFontName, "Press ESC again to confirm.", LogicalWidth * 0.5f, 216.0f, true);
+        drawScreenText(layout, ArrusFontName, Engine::tr("Are you sure you want to resign?"), LogicalWidth * 0.5f, 196.0f, true);
+        drawScreenText(layout, ArrusFontName, Engine::tr("Press ESC again to confirm."), LogicalWidth * 0.5f, 216.0f, true);
     }
 
 #if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
     if (m_state.mustDiscard)
     {
-        drawScreenText(layout, ArrusFontName, "Right-click a card to discard.", LogicalWidth * 0.5f, 306.0f, true);
+        drawScreenText(layout, ArrusFontName, Engine::tr("Right-click a card to discard."), LogicalWidth * 0.5f, 306.0f, true);
     }
 #endif
 }
@@ -1286,15 +1287,15 @@ std::string ArcomageScreen::resultText() const
 
     if (!m_state.result.winnerIndex.has_value())
     {
-        return "Arcomage ended in a draw.";
+        return Engine::tr("Arcomage ended in a draw.");
     }
 
     if (*m_state.result.winnerIndex == 0)
     {
-        return "You have won " + std::to_string(m_winGoldReward) + " gold!";
+        return Engine::tr("You have won {gold} gold!", {{"gold", int64_t(m_winGoldReward)}});
     }
 
-    return "You lost the Arcomage match.";
+    return Engine::tr("You lost the Arcomage match.");
 }
 
 std::string ArcomageScreen::hoveredCardText() const
@@ -1341,7 +1342,10 @@ std::string ArcomageScreen::hoveredCardText() const
             break;
     }
 
-    return pCard->name + "  " + std::to_string(cost) + " " + resourceTypeName(pCard->resourceType);
+    return Engine::tr("{card}  {cost} {resource}",
+                      {{"card", Engine::localize(pCard->name)},
+                       {"cost", cost},
+                       {"resource", resourceTypeName(pCard->resourceType)}});
 }
 
 int ArcomageScreen::currentHandCount() const

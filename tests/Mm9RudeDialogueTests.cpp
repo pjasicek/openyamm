@@ -7,11 +7,14 @@
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/gameplay/JournalQuestRuntime.h"
+#include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/SaveGame.h"
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/mm9/Mm9SkillTrainer.h"
 #include "game/party/Party.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/GameplayOverlayTypes.h"
@@ -244,6 +247,55 @@ TEST_CASE("MM9 RUDE topics retain source ordering and use mapped QBit conditions
     CHECK(closeSelection.response.empty());
 }
 
+TEST_CASE("MM9 promotions open second-tier quests and name the promoters' standing topics")
+{
+    // dialogue/promotions.yml (the user, 2026-11-08): Fridleif's Gladiator labours no longer need the Mercenary
+    // promotion (key 127), and once the labours are done (key 221) he keeps a Gladiator promotion topic.
+    OpenYAMM::Game::Mm9RudeDialogueTable table;
+    REQUIRE(table.loadDialogueText(
+        "NPC61.rude",
+        rudeRow(61, 13, 1, "We have Gladiators.", "Three labours.", 14, 127)
+            + rudeRow(61, 61, 1, "News?", "None.", -1)));
+    OpenYAMM::Game::Party party;
+    CHECK(table.visibleRows(61, 13, party).empty());
+    REQUIRE(table.loadPromotionsText(
+        "promotions.yml",
+        "format_version: 1\n"
+        "promotions:\n"
+        "  - {promotion: Gladiator, rude: 61, done_key: 221}\n"
+        "waived_required_keys:\n"
+        "  - {rude: 61, key: 127}\n"
+        "added_rows:\n"
+        "  - '61,61,5,\"Labours done.\",\"Promoted.\",999,218,0,219,0,220,0,0,0,0,26,0,0,0,0,26,0,0,0,0,0,0,0,0,0'\n"));
+    CHECK(table.visibleRows(61, 13, party).size() == 1);
+    // The added row: on his first page once the three hand-ins are done, gone once it is (key 26).
+    CHECK(table.visibleRows(61, 61, party).size() == 1);
+    party.setQuestBit(90218, true);
+    party.setQuestBit(90219, true);
+    party.setQuestBit(90220, true);
+    REQUIRE(table.visibleRows(61, 61, party).size() == 2);
+    CHECK(table.visibleRows(61, 61, party)[1]->prompt == "Labours done.");
+    party.setQuestBit(90026, true);
+    CHECK(table.visibleRows(61, 61, party).size() == 1);
+    const OpenYAMM::Game::Mm9PromotionService *pService = table.promotionService(61);
+    REQUIRE(pService != nullptr);
+    CHECK(pService->promotion == "Gladiator");
+    CHECK(pService->doneRawKey == 221);
+    CHECK(table.promotionService(88) == nullptr);
+
+    // A promoter without dialogue and a waiver no row needs are errors (stale data, not silently ignored).
+    OpenYAMM::Game::Mm9RudeDialogueTable stale;
+    REQUIRE(stale.loadDialogueText("NPC61.rude", rudeRow(61, 61, 1, "News?", "None.", -1)));
+    CHECK_FALSE(stale.loadPromotionsText(
+        "promotions.yml",
+        "format_version: 1\n"
+        "promotions:\n"
+        "  - {promotion: Mage, rude: 4, done_key: 294}\n"
+        "waived_required_keys:\n"
+        "  - {rude: 61, key: 127}\n"));
+    CHECK(stale.errors().size() == 2);
+}
+
 TEST_CASE("MM9 RUDE quest handoff rows close dialogue")
 {
     OpenYAMM::Game::Mm9RudeDialogueTable table;
@@ -366,68 +418,36 @@ TEST_CASE("MM9 RUDE hire and dismiss rows apply their quest key columns")
     CHECK_FALSE(party.hasQuestBit(95017));
 }
 
-TEST_CASE("MM9 RUDE skill trainer payloads map ranks and expand composite core skills")
+TEST_CASE("MM9 RUDE trainer topics list each skill, then a lesson row per party member")
 {
-    OpenYAMM::Game::Mm9RudeDialogueTable table;
-    const std::string text =
-        rudeRowWithFields(80, 80, 1, "Expert Blade", "Ready?", -4, {{16, 2006}})
-        + rudeRowWithFields(80, 80, 2, "Master Blade", "Ready?", -4, {{16, 2006}})
-        + rudeRowWithFields(80, 80, 3, "Grandmaster Armor", "Ready?", -4, {{16, 2029}})
-        + rudeRowWithFields(80, 80, 4, "Grandmaster Spear", "Ready?", -4, {{16, 2014}})
-        + rudeRowWithFields(80, 80, 5, "Grandmaster Elemental", "Ready?", -4, {{16, 2038}});
-    REQUIRE(table.loadDialogueText("NPC80.rude", text));
+    using OpenYAMM::Game::EventDialogActionKind;
+    using OpenYAMM::Game::EventDialogChoiceMark;
+    using OpenYAMM::Game::SkillMastery;
 
-    const OpenYAMM::Game::Mm9RudeRow *pExpertBladeRow = table.rowByIndex(80, 0);
-    REQUIRE(pExpertBladeRow != nullptr);
-    const std::optional<OpenYAMM::Game::Mm9RudeSkillTrainerTopic> expertBladeTopic =
-        OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(*pExpertBladeRow);
-    REQUIRE(expertBladeTopic.has_value());
-    const OpenYAMM::Game::Mm9RudeSkillTrainerTopic &expertBlade = *expertBladeTopic;
-    CHECK(expertBlade.targetMastery == OpenYAMM::Game::SkillMastery::Expert);
-    CHECK((expertBlade.skillNames == std::vector<std::string>{"Sword", "Dagger"}));
-
-    const OpenYAMM::Game::Mm9RudeRow *pMasterBladeRow = table.rowByIndex(80, 1);
-    REQUIRE(pMasterBladeRow != nullptr);
-    const std::optional<OpenYAMM::Game::Mm9RudeSkillTrainerTopic> masterBladeTopic =
-        OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(*pMasterBladeRow);
-    REQUIRE(masterBladeTopic.has_value());
-    const OpenYAMM::Game::Mm9RudeSkillTrainerTopic &masterBlade = *masterBladeTopic;
-    CHECK(masterBlade.targetMastery == OpenYAMM::Game::SkillMastery::Master);
-
-    const OpenYAMM::Game::Mm9RudeRow *pGrandmasterArmorRow = table.rowByIndex(80, 2);
-    REQUIRE(pGrandmasterArmorRow != nullptr);
-    const std::optional<OpenYAMM::Game::Mm9RudeSkillTrainerTopic> grandmasterArmorTopic =
-        OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(*pGrandmasterArmorRow);
-    REQUIRE(grandmasterArmorTopic.has_value());
-    const OpenYAMM::Game::Mm9RudeSkillTrainerTopic &grandmasterArmor = *grandmasterArmorTopic;
-    CHECK(grandmasterArmor.targetMastery == OpenYAMM::Game::SkillMastery::Grandmaster);
-    CHECK((grandmasterArmor.skillNames
-        == std::vector<std::string>{"LeatherArmor", "ChainArmor", "PlateArmor"}));
-
-    const OpenYAMM::Game::Mm9RudeRow *pGrandmasterSpearRow = table.rowByIndex(80, 3);
-    REQUIRE(pGrandmasterSpearRow != nullptr);
-    const std::optional<OpenYAMM::Game::Mm9RudeSkillTrainerTopic> grandmasterSpearTopic =
-        OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(*pGrandmasterSpearRow);
-    REQUIRE(grandmasterSpearTopic.has_value());
-    const OpenYAMM::Game::Mm9RudeSkillTrainerTopic &grandmasterSpear = *grandmasterSpearTopic;
-    CHECK((grandmasterSpear.skillNames == std::vector<std::string>{"Spear"}));
-
-    const OpenYAMM::Game::Mm9RudeRow *pGrandmasterElementalRow = table.rowByIndex(80, 4);
-    REQUIRE(pGrandmasterElementalRow != nullptr);
-    const std::optional<OpenYAMM::Game::Mm9RudeSkillTrainerTopic> grandmasterElementalTopic =
-        OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(*pGrandmasterElementalRow);
-    REQUIRE(grandmasterElementalTopic.has_value());
-    const OpenYAMM::Game::Mm9RudeSkillTrainerTopic &grandmasterElemental = *grandmasterElementalTopic;
-    CHECK((grandmasterElemental.skillNames
-        == std::vector<std::string>{"FireMagic", "AirMagic", "WaterMagic", "EarthMagic"}));
-}
-
-TEST_CASE("MM9 RUDE composite trainer topics use one atomic mastery transaction")
-{
     OpenYAMM::Game::Mm9RudeDialogueTable table;
     REQUIRE(table.loadDialogueText(
         "NPC80.rude",
-        rudeRowWithFields(80, 80, 1, "Expert Blade", "Are you ready?", -4, {{16, 2006}})));
+        rudeRowWithFields(80, 80, 1, "Expert Blade", "Are you ready?", -4, {{16, 2006}})
+            + rudeRowWithFields(80, 80, 2, "Expert Spear", "Hold it so.", -4, {{16, 2007}})));
+    OpenYAMM::Game::Mm9SkillTrainerTable trainerTable;
+    REQUIRE(trainerTable.loadFromRows({
+        {
+            "CanonicalId", "RudeId", "RudeRowIndex", "SourceLine", "ChoiceSlot", "RawTrainerId", "Mm9Skill",
+            "SharedSkills", "TargetMastery", "RequiredSkillRank", "RequiredGold", "RequiredRawKeys",
+            "ForbiddenRawKeys", "ExpectedRegion", "SourceDisplayNames", "Npc998Hint", "ActorOwnership",
+            "ActorSources", "SourceRude", "Provenance",
+        },
+        {
+            "mm9:trainer/80/1", "80", "0", "1", "1", "2006", "Blade", "Sword|Dagger|Axe", "Expert", "4", "0", "",
+            "", "Sturmford", "Katrina Vianni", "Katrina Vianni of Sturmford teaches Blade.", "static",
+            "sturmfordcity.scene.yml", "NPC80.rude", "test",
+        },
+        {
+            "mm9:trainer/80/2", "80", "1", "2", "2", "2007", "Spear", "Spear", "Expert", "4", "0", "",
+            "", "Sturmford", "Katrina Vianni", "Katrina Vianni of Sturmford teaches Spear.", "static",
+            "sturmfordcity.scene.yml", "NPC80.rude", "test",
+        },
+    }, table));
 
     OpenYAMM::Game::ClassSkillTable classSkillTable;
     REQUIRE(classSkillTable.loadCapsFromRows({
@@ -435,21 +455,27 @@ TEST_CASE("MM9 RUDE composite trainer topics use one atomic mastery transaction"
         {"Dagger", "G"},
         {"Sword", "G"},
         {"Axe", "B"},
+        {"Spear", "G"},
     }));
     OpenYAMM::Game::NpcDialogTable npcDialogTable;
 
-    OpenYAMM::Game::Character member = {};
-    member.name = "Trainer Test";
-    member.className = "Test Class";
-    member.maxHealth = 10;
-    member.health = 10;
-    member.skills["Dagger"] = {"Dagger", 4, OpenYAMM::Game::SkillMastery::Normal};
-    member.skills["Sword"] = {"Sword", 4, OpenYAMM::Game::SkillMastery::Normal};
-    member.skills["Axe"] = {"Axe", 4, OpenYAMM::Game::SkillMastery::Normal};
+    OpenYAMM::Game::Character first = {};
+    first.name = "Ari";
+    first.className = "Test Class";
+    first.maxHealth = 10;
+    first.health = 10;
+    first.skills["Dagger"] = {"Dagger", 4, SkillMastery::Normal};
+    first.skills["Axe"] = {"Axe", 4, SkillMastery::Normal};
+    OpenYAMM::Game::Character second = first;
+    second.name = "Bryn";
+    second.skills.clear();
+    second.skills["Dagger"] = {"Dagger", 4, SkillMastery::Normal};
+    second.skills["Spear"] = {"Spear", 4, SkillMastery::Normal};
 
     OpenYAMM::Game::PartySeed seed = {};
     seed.gold = 5000;
-    seed.members.push_back(member);
+    seed.members.push_back(first);
+    seed.members.push_back(second);
     OpenYAMM::Game::Party party;
     party.seed(seed);
 
@@ -466,35 +492,81 @@ TEST_CASE("MM9 RUDE composite trainer topics use one atomic mastery transaction"
         .pClassSkillTable = &classSkillTable,
         .pNpcDialogTable = &npcDialogTable,
         .pMm9RudeDialogueTable = &table,
+        .pMm9SkillTrainerTable = &trainerTable,
     };
     const OpenYAMM::Game::GameplayDialogController controller;
     controller.openMm9RudeDialogue(context, 80);
 
-    REQUIRE(dialog.actions.size() == 1);
+    REQUIRE(dialog.actions.size() == 2);
     CHECK(dialog.actions[0].label == "Expert Blade");
+
+    // The skills, each with how many members can take it now: nobody knows Sword, both Dagger, Axe is capped.
+    selectionIndex = 0;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 4);
+    CHECK(dialog.echo == "Expert Blade");
+    CHECK(dialog.actions[0].kind == EventDialogActionKind::Mm9RudeSkillTrainerSkill);
+    CHECK(dialog.actions[0].label == "Expert Sword");
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[1].label == "Expert Dagger");
+    CHECK(dialog.actions[1].choiceTag == "2 of 2 can learn");
+    CHECK(dialog.actions[2].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[3].kind == EventDialogActionKind::Mm9RudeSkillTrainerBack);
+
+    // Axe: one row per member, each saying why it cannot be taken; Back returns to the skills.
+    selectionIndex = 2;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 3);
+    CHECK(dialog.actions[0].label == "Ari: This skill level can not be learned by the Test Class class.");
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[1].memberIndex == 1);
+    CHECK(dialog.actions[2].kind == EventDialogActionKind::Mm9RudeSkillTrainerOffer);
+    CHECK(dialog.actions[2].choiceMark == EventDialogChoiceMark::Exit);
 
     selectionIndex = 0;
     controller.executeActiveDialogAction(context);
-    REQUIRE(dialog.actions.size() == 2);
-    CHECK(dialog.actions[0].label == "Become Expert in Blade for 2000 gold");
-    CHECK(dialog.actions[1].kind == OpenYAMM::Game::EventDialogActionKind::Mm9RudeSkillTrainerBack);
+    CHECK(party.member(0)->findSkill("Axe")->mastery == SkillMastery::Normal);
+    CHECK(party.gold() == 5000);
+
+    selectionIndex = 2;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 4);
+
+    // Dagger: both members can; the second is trained without being the active member, and the page stays.
+    selectionIndex = 1;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 3);
+    CHECK(dialog.actions[0].label == "Ari: Become Expert in Dagger for 2000 gold");
+    CHECK(dialog.actions[1].label == "Bryn: Become Expert in Dagger for 2000 gold");
+    CHECK(dialog.actions[1].choiceTag == "Train \xC2\xB7 Expert");
+    REQUIRE(party.activeMemberIndex() == 0);
 
     selectionIndex = 1;
     controller.executeActiveDialogAction(context);
-    REQUIRE(dialog.actions.size() == 1);
+    CHECK(party.member(1)->findSkill("Dagger")->mastery == SkillMastery::Expert);
+    CHECK(party.member(0)->findSkill("Dagger")->mastery == SkillMastery::Normal);
+    CHECK(party.gold() == 3000);
+    CHECK(uiController.statusBar().eventText == "Bryn is now a Expert in Dagger.");
+    REQUIRE(dialog.actions.size() == 3);
+    REQUIRE(dialog.lines.size() == 1);
+    CHECK(dialog.lines[0] == "Bryn is now a Expert in Dagger.");
+    CHECK(dialog.actions[1].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(selectionIndex == 0);
 
-    selectionIndex = 0;
+    // Back to the skills, then to the talk; a single-skill trainer lists the members at once.
+    selectionIndex = 2;
+    controller.executeActiveDialogAction(context);
+    selectionIndex = 3;
     controller.executeActiveDialogAction(context);
     REQUIRE(dialog.actions.size() == 2);
 
-    selectionIndex = 0;
+    selectionIndex = 1;
     controller.executeActiveDialogAction(context);
-    REQUIRE(party.activeMember() != nullptr);
-    CHECK(party.activeMember()->findSkill("Dagger")->mastery == OpenYAMM::Game::SkillMastery::Expert);
-    CHECK(party.activeMember()->findSkill("Sword")->mastery == OpenYAMM::Game::SkillMastery::Expert);
-    CHECK(party.activeMember()->findSkill("Axe")->mastery == OpenYAMM::Game::SkillMastery::Normal);
-    CHECK(party.gold() == 3000);
-    CHECK(uiController.statusBar().eventText == "Trainer Test is now a Expert in Blade.");
+    REQUIRE(dialog.actions.size() == 3);
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[1].label == "Bryn: Become Expert in Spear for 2000 gold");
+    CHECK(dialog.actions[2].kind == EventDialogActionKind::Mm9RudeSkillTrainerBack);
+    CHECK(selectionIndex == 1);
 }
 
 TEST_CASE("MM9 actor activation opens the RUDE dialogue with the actor as its source")
@@ -655,6 +727,46 @@ TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
     CHECK(grantedItemId(10589));
     CHECK(grantedItemId(10298));
     CHECK(grantedItemId(10302));
+}
+
+TEST_CASE("MM9 quest experience goes to every member and leaves the current-member selection")
+{
+    const std::string supportLua = loadSourceText("assets_dev/engine/scripts/common/event_support.lua");
+    const std::string commonLua = loadSourceText("assets_dev/worlds/mm9/events/common/mm9_common.lua");
+    REQUIRE_FALSE(supportLua.empty());
+    REQUIRE_FALSE(commonLua.empty());
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> program =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            supportLua + "\n\n" + commonLua + R"lua(
+RegisterEvent(1, "Quest reward", function()
+    MM9.giveExperience(2000)
+    AddValue(Experience, 7)
+end)
+)lua",
+            "@tests/mm9_quest_experience.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+
+    OpenYAMM::Game::Character member = {};
+    member.maxHealth = 10;
+    member.health = 10;
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.resize(5, member);
+    OpenYAMM::Game::Party party;
+    party.seed(seed);
+    party.setActiveMemberIndex(2);
+
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const OpenYAMM::Game::EventRuntime eventRuntime;
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, &party));
+
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        CHECK_EQ(party.members()[index].experience, index == 2 ? 2007 : 2000);
+    }
 }
 
 TEST_CASE("MM9 hire dialogue swaps hire and dismiss topics through ordinary RUDE key conditions")
@@ -888,7 +1000,7 @@ TEST_CASE("MM9 RUDE unresolved vendor remains visible with source-specific feedb
     CHECK_EQ(uiController.statusBar().eventText, "MM9 shop 53 has no mounted service definition.");
 }
 
-TEST_CASE("MM9 RUDE temple and training services open shared house venues and restore RUDE")
+TEST_CASE("MM9 RUDE temple, training, inn and bank services open shared house venues and restore RUDE")
 {
     struct ServiceCase
     {
@@ -898,8 +1010,10 @@ TEST_CASE("MM9 RUDE temple and training services open shared house venues and re
         bool canHeal = false;
         bool canDonate = false;
     };
-    const std::array<ServiceCase, 3> serviceCases = {{
+    const std::array<ServiceCase, 5> serviceCases = {{
         {.opcode = -3, .sourceId = 62, .pType = "Training"},
+        {.opcode = -6, .sourceId = 56, .pType = "Bank"},
+        {.opcode = -7, .sourceId = 57, .pType = "Tavern"},
         {.opcode = -8, .sourceId = 58, .pType = "Temple", .canHeal = true, .canDonate = true},
         {.opcode = -16, .sourceId = 58, .pType = "Temple", .canHeal = true, .canDonate = true},
     }};
@@ -1075,38 +1189,6 @@ TEST_CASE("MM9 world RUDE assets load as one validated package")
     CHECK(table.npcName(436) == "Old Man");
 }
 
-TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping")
-{
-    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
-    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
-    REQUIRE(assetFileSystem.initialize(
-        sourceRoot,
-        sourceRoot / "assets_dev",
-        OpenYAMM::Engine::AssetScaleTier::X1,
-        "mm9"));
-
-    OpenYAMM::Game::Mm9RudeDialogueTable table;
-    REQUIRE(table.load(assetFileSystem));
-
-    size_t trainerRowCount = 0;
-    for (uint32_t rudeId = 1; rudeId <= 999; ++rudeId)
-    {
-        for (const OpenYAMM::Game::Mm9RudeRow &row : table.rows(rudeId))
-        {
-            if (row.next != -4)
-            {
-                continue;
-            }
-
-            ++trainerRowCount;
-            CHECK_MESSAGE(
-                OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(row).has_value(),
-                "Missing trainer mapping for RUDE ", rudeId, " source line ", row.sourceLine);
-        }
-    }
-    CHECK(trainerRowCount == 115);
-}
-
 TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
@@ -1195,7 +1277,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         }
     }
     CHECK_EQ(mm9VendorCount, 48);
-    CHECK_EQ(mm9VendorStockRowCount, 3816);
+    CHECK_EQ(mm9VendorStockRowCount, 5934);
     CHECK(stockItemIdsWithoutMountedIcons.empty());
     const OpenYAMM::Game::HouseEntry *pSturmfordWeaponVendor =
         houseTable.resolvePackageSourceVendorId("mm9", 53);
@@ -1214,11 +1296,18 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             nullptr,
             0.0f,
             OpenYAMM::Game::DialogueMenuId::None);
+    // One merchant list, as in MM9: a single Buy
     REQUIRE_EQ(vendorRootActions.size(), 3);
-    CHECK_EQ(vendorRootActions[0].label, "Buy Standard");
-    CHECK_EQ(vendorRootActions[1].label, "Buy Special");
-    CHECK_EQ(vendorRootActions[2].label, "Display Equipment");
-    CHECK_EQ(pSturmfordWeaponVendor->deterministicStockGenerationVersion, 1);
+    CHECK_EQ(vendorRootActions[0].id, OpenYAMM::Game::HouseActionId::ShopBuyStandard);
+    CHECK_EQ(vendorRootActions[0].label, "Buy");
+    CHECK_EQ(vendorRootActions[1].label, "Display Equipment");
+    // MM9's venues teach at Normal (learn_skills): a weapon shop the split weapon skills
+    CHECK_EQ(vendorRootActions[2].id, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
+    CHECK(std::find(pSturmfordWeaponVendor->offeredSkills.begin(), pSturmfordWeaponVendor->offeredSkills.end(), "Axe")
+        != pSturmfordWeaponVendor->offeredSkills.end());
+    // 5: MM7's shop treasure levels at the same stage, no forced special enchant, tier 5 weighted toward levels 5-6
+    // (generate_mm9_vendors.py STOCK_GENERATION_VERSION; devdocs/mm9_rework/BALANCE_PLAN.md 3.5).
+    CHECK_EQ(pSturmfordWeaponVendor->deterministicStockGenerationVersion, 6);
 
     const OpenYAMM::Game::HouseEntry *pSturmfordTraining =
         houseTable.resolvePackageSourceServiceId("mm9", 62);
@@ -1227,7 +1316,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         == OpenYAMM::Game::HouseServiceType::TrainingHall);
     CHECK_EQ(pSturmfordTraining->trainingMaxLevel, 0);
     CHECK_EQ(pSturmfordTraining->priceMultiplier, doctest::Approx(1.0f));
-    CHECK_FALSE(pSturmfordTraining->serviceCanLearnSkills);
+    CHECK(pSturmfordTraining->serviceCanLearnSkills);
     const std::vector<OpenYAMM::Game::HouseActionOption> trainingActions =
         OpenYAMM::Game::buildHouseActionOptions(
             *pSturmfordTraining,
@@ -1236,8 +1325,9 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             nullptr,
             0.0f,
             OpenYAMM::Game::DialogueMenuId::None);
-    REQUIRE_EQ(trainingActions.size(), 1);
+    REQUIRE_EQ(trainingActions.size(), 2);
     CHECK_EQ(trainingActions[0].id, OpenYAMM::Game::HouseActionId::TrainingTrainActiveMember);
+    CHECK_EQ(trainingActions[1].id, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
 
     const OpenYAMM::Game::HouseEntry *pSturmfordTemple =
         houseTable.resolvePackageSourceServiceId("mm9", 58);
@@ -1248,7 +1338,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK_EQ(pSturmfordTemple->templeHealingTier, doctest::Approx(0.0f));
     CHECK(pSturmfordTemple->templeCanHeal);
     CHECK(pSturmfordTemple->templeCanDonate);
-    CHECK_FALSE(pSturmfordTemple->serviceCanLearnSkills);
+    CHECK(pSturmfordTemple->serviceCanLearnSkills);
     const std::vector<OpenYAMM::Game::HouseActionOption> templeActions =
         OpenYAMM::Game::buildHouseActionOptions(
             *pSturmfordTemple,
@@ -1257,7 +1347,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             nullptr,
             0.0f,
             OpenYAMM::Game::DialogueMenuId::None);
-    REQUIRE_EQ(templeActions.size(), 2);
+    REQUIRE_EQ(templeActions.size(), 3);
     CHECK_EQ(templeActions[0].id, OpenYAMM::Game::HouseActionId::TempleHeal);
     CHECK_EQ(templeActions[1].id, OpenYAMM::Game::HouseActionId::TempleDonate);
 
@@ -1274,8 +1364,40 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             nullptr,
             0.0f,
             OpenYAMM::Game::DialogueMenuId::None);
-    REQUIRE_EQ(midwifeActions.size(), 1);
+    REQUIRE_EQ(midwifeActions.size(), 2);
     CHECK_EQ(midwifeActions[0].id, OpenYAMM::Game::HouseActionId::TempleHeal);
+    CHECK_EQ(midwifeActions[1].id, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
+
+    // MM9's inns are MM6-MM8 taverns (rent a room, fill the packs, learn skills): Sturmford's value 12 is its merchant
+    // base 1.2 times ten, its skills keep the merchant base. The banks are the shared bank.
+    const OpenYAMM::Game::HouseEntry *pSturmfordInn = houseTable.resolvePackageSourceServiceId("mm9", 57);
+    REQUIRE(pSturmfordInn != nullptr);
+    CHECK(OpenYAMM::Game::resolveHouseServiceType(*pSturmfordInn) == OpenYAMM::Game::HouseServiceType::Tavern);
+    CHECK_EQ(pSturmfordInn->priceMultiplier, doctest::Approx(12.0f));
+    CHECK_EQ(pSturmfordInn->skillPriceMultiplier, doctest::Approx(1.2f));
+    const std::vector<OpenYAMM::Game::HouseActionOption> innActions =
+        OpenYAMM::Game::buildHouseActionOptions(
+            *pSturmfordInn,
+            nullptr,
+            nullptr,
+            nullptr,
+            0.0f,
+            OpenYAMM::Game::DialogueMenuId::None);
+    REQUIRE_GE(innActions.size(), 3);
+    CHECK_EQ(innActions[0].id, OpenYAMM::Game::HouseActionId::TavernRentRoom);
+    CHECK_EQ(innActions[0].label, "Rent room for 14 gold");
+    CHECK_EQ(innActions[1].id, OpenYAMM::Game::HouseActionId::TavernBuyFood);
+    CHECK_EQ(innActions[1].label, "Fill packs to 12 days for 17 gold");
+    CHECK_EQ(innActions[2].id, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
+    CHECK(std::find(pSturmfordInn->offeredSkills.begin(), pSturmfordInn->offeredSkills.end(), "Stealing")
+        != pSturmfordInn->offeredSkills.end());
+    const OpenYAMM::Game::HouseEntry *pSturmfordBank = houseTable.resolvePackageSourceServiceId("mm9", 56);
+    REQUIRE(pSturmfordBank != nullptr);
+    CHECK(OpenYAMM::Game::resolveHouseServiceType(*pSturmfordBank) == OpenYAMM::Game::HouseServiceType::Bank);
+    // The Stumbling Hero's innkeeper is NPC339 (MMIXSHOPS names the shop 338)
+    REQUIRE(houseTable.resolvePackageSourceServiceId("mm9", 339) != nullptr);
+    CHECK(OpenYAMM::Game::resolveHouseServiceType(*houseTable.resolvePackageSourceServiceId("mm9", 339))
+        == OpenYAMM::Game::HouseServiceType::Tavern);
 
     const auto libraryIt = std::find_if(
         houseTable.entries().begin(),
@@ -1307,7 +1429,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             *pSturmfordWeaponVendor,
             0.0f,
             OpenYAMM::Game::HouseStockMode::ShopStandard);
-    REQUIRE_EQ(firstStock.size(), 6);
+    // A restock is MM9's 15 rolls from each treasure range
+    REQUIRE_EQ(firstStock.size(), 30);
     CHECK(std::all_of(
         firstStock.begin(),
         firstStock.end(),
@@ -1324,15 +1447,15 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             *pSturmfordWeaponVendor,
             0.0f,
             OpenYAMM::Game::HouseStockMode::ShopSpecial);
-    REQUIRE_EQ(firstSpecialStock.size(), 6);
-    REQUIRE_FALSE(pSturmfordWeaponVendor->deterministicSpecialStockPages.empty());
-    for (size_t slotIndex = 0; slotIndex < firstSpecialStock.size(); ++slotIndex)
+    CHECK(firstSpecialStock.empty());
+    CHECK(pSturmfordWeaponVendor->deterministicSpecialStockPages.empty());
+    for (size_t slotIndex = 0; slotIndex < firstStock.size(); ++slotIndex)
     {
         const OpenYAMM::Game::HouseEntry::DeterministicStockItem &authored =
-            pSturmfordWeaponVendor->deterministicSpecialStockPages[0].items[slotIndex];
-        CHECK_EQ(firstSpecialStock[slotIndex].objectDescriptionId, authored.itemId);
-        CHECK_EQ(firstSpecialStock[slotIndex].standardEnchantId, authored.standardEnchantId);
-        CHECK_EQ(firstSpecialStock[slotIndex].specialEnchantId, authored.specialEnchantId);
+            pSturmfordWeaponVendor->deterministicStandardStockPages[0].items[slotIndex];
+        CHECK_EQ(firstStock[slotIndex].objectDescriptionId, authored.itemId);
+        CHECK_EQ(firstStock[slotIndex].standardEnchantId, authored.standardEnchantId);
+        CHECK_EQ(firstStock[slotIndex].specialEnchantId, authored.specialEnchantId);
     }
     CHECK(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(
         dataLoader.getItemTable(),
@@ -1348,7 +1471,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             libraryIt->second,
             0.0f,
             OpenYAMM::Game::HouseStockMode::ShopStandard);
-    REQUIRE_EQ(libraryStock.size(), 12);
+    REQUIRE_EQ(libraryStock.size(), 30);
     CHECK(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(
         dataLoader.getItemTable(),
         libraryIt->second,
@@ -1388,7 +1511,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         *pSturmfordWeaponVendor,
         100.0f,
         OpenYAMM::Game::HouseStockMode::ShopStandard);
-    CHECK_EQ(pMigrationState->generationVersion, 1);
+    CHECK_EQ(pMigrationState->generationVersion, 6);
     const std::vector<OpenYAMM::Game::InventoryItem> unchangedStock =
         OpenYAMM::Game::HouseServiceRuntime::ensureStock(
             vendorParty,
@@ -1477,7 +1600,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             *pSturmfordWeaponVendor,
             0.0f,
             OpenYAMM::Game::HouseStockMode::ShopStandard);
-    REQUIRE_EQ(buyerStock.size(), 6);
+    REQUIRE_EQ(buyerStock.size(), 30);
     const uint32_t boughtItemId = buyerStock[0].objectDescriptionId;
     std::string buyStatus;
     OpenYAMM::Game::HouseServiceRuntime::ShopItemServiceResult buyResult =
@@ -1580,7 +1703,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             return state.houseId == 30053;
         });
     REQUIRE(loadedStockIt != loadedVendorSave->party.houseStockStates.end());
-    CHECK_EQ(loadedStockIt->generationVersion, 1);
+    CHECK_EQ(loadedStockIt->generationVersion, 6);
     REQUIRE_EQ(loadedStockIt->standardStock.size(), secondStock.size());
     CHECK_EQ(loadedStockIt->standardStock[0].objectDescriptionId, secondStock[0].objectDescriptionId);
     CHECK_EQ(loadedStockIt->standardStock[0].specialEnchantId, secondStock[0].specialEnchantId);
@@ -1594,7 +1717,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
 
     const OpenYAMM::Game::Mm9MapTransitionTable &transitionTable =
         dataLoader.getMm9MapTransitionTable();
-    CHECK_EQ(transitionTable.entries().size(), 104);
+    CHECK_EQ(transitionTable.entries().size(), 105);
     const OpenYAMM::Game::Mm9MapTransition *pDarkPassageTransition =
         transitionTable.findByCanonicalId("mm9:transition/arslegardcity/147");
     REQUIRE(pDarkPassageTransition != nullptr);
@@ -1602,10 +1725,43 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK_EQ(pDarkPassageTransition->resolvedStartPointName, "StartPoint");
     CHECK_EQ(pDarkPassageTransition->travelDays, -1);
     CHECK(pDarkPassageTransition->sourceDefaultTravelDays);
-    CHECK(transitionTable.findByCanonicalId("mm9:transition/arslegardcity/638") == nullptr);
+    // Arslegard City's chasm catch volume (DAT ExitTrigger3), a row the rebuilt city adds.
+    const OpenYAMM::Game::Mm9MapTransition *pChasmTransition =
+        transitionTable.findByCanonicalId("mm9:transition/arslegardcity/638");
+    REQUIRE(pChasmTransition != nullptr);
+    CHECK_EQ(pChasmTransition->sourceMapFileName, "arslegardcity.blv");
+    CHECK_EQ(pChasmTransition->destinationMapFileName, "thjorgard.blv");
 
     const OpenYAMM::Game::Mm9SkillTrainerTable &trainerTable = dataLoader.getMm9SkillTrainerTable();
     CHECK_EQ(trainerTable.entries().size(), 115);
+    size_t trainerRowCount = 0;
+    for (uint32_t rudeId = 1; rudeId <= 999; ++rudeId)
+    {
+        for (const OpenYAMM::Game::Mm9RudeRow &row : dataLoader.getMm9RudeDialogueTable().rows(rudeId))
+        {
+            if (row.next != -4)
+            {
+                continue;
+            }
+            ++trainerRowCount;
+            CHECK_MESSAGE(
+                trainerTable.find(rudeId, row.rowIndex) != nullptr,
+                "Missing trainer service for RUDE ", rudeId, " source line ", row.sourceLine);
+        }
+    }
+    CHECK_EQ(trainerRowCount, 115);
+    const OpenYAMM::Game::Mm9SkillTrainerService *pBladeExpert = trainerTable.find(80, 0);
+    REQUIRE(pBladeExpert != nullptr);
+    CHECK((pBladeExpert->topic.skillNames == std::vector<std::string>{"Sword", "Dagger", "Axe"}));
+    const OpenYAMM::Game::Mm9SkillTrainerService *pCudgelGrandmaster = trainerTable.find(37, 0);
+    REQUIRE(pCudgelGrandmaster != nullptr);
+    CHECK((pCudgelGrandmaster->topic.skillNames == std::vector<std::string>{"Mace", "Staff"}));
+    const OpenYAMM::Game::Mm9SkillTrainerService *pSpiritGrandmaster = trainerTable.findByCanonicalId(
+        "mm9:trainer/407/2");
+    REQUIRE(pSpiritGrandmaster != nullptr);
+    CHECK(pSpiritGrandmaster->topic.targetMastery == OpenYAMM::Game::SkillMastery::Grandmaster);
+    CHECK((pSpiritGrandmaster->topic.skillNames
+        == std::vector<std::string>{"SpiritMagic", "MindMagic", "BodyMagic"}));
     const OpenYAMM::Game::Mm9SkillTrainerService *pArmsmasterExpert = trainerTable.find(390, 1);
     REQUIRE(pArmsmasterExpert != nullptr);
     CHECK(pArmsmasterExpert->mm9Skill == "Armsmaster");
@@ -1629,16 +1785,20 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK_EQ(pTroglodyte->experience, 689);
     // Half its MM9 RunVel (150 x 2.56): the shared AI's doubled pursuit runs at MM9's speed.
     CHECK_EQ(pTroglodyte->speed, 192);
-    // Recovery 30 MM9 game seconds of 33 ms: 0.99 s (59 ticks of 1/60 s).
-    CHECK_EQ(pTroglodyte->recovery, 59);
-    CHECK_EQ(pTroglodyte->fireResistance, 10);
-    CHECK_EQ(pTroglodyte->airResistance, 10);
-    CHECK_EQ(pTroglodyte->waterResistance, 10);
-    CHECK_EQ(pTroglodyte->earthResistance, 10);
-    CHECK_EQ(pTroglodyte->mindResistance, 20);
-    CHECK_EQ(pTroglodyte->spiritResistance, 20);
-    CHECK_EQ(pTroglodyte->bodyResistance, 20);
+    // MM9's Recovery 30 is 0.99 s (59 ticks of 1/60 s); the balance gives levels 1-20 75 ticks (1.25 s,
+    // mm9_monster_balance.py, devdocs/mm9_rework/BALANCE_PLAN.md section 3.2).
+    CHECK_EQ(pTroglodyte->recovery, 75);
+    // Fighting people: no immunity, the level 11-20 base of 5 in every school.
+    CHECK_EQ(pTroglodyte->fireResistance, 5);
+    CHECK_EQ(pTroglodyte->airResistance, 5);
+    CHECK_EQ(pTroglodyte->waterResistance, 5);
+    CHECK_EQ(pTroglodyte->earthResistance, 5);
+    CHECK_EQ(pTroglodyte->mindResistance, 5);
+    CHECK_EQ(pTroglodyte->spiritResistance, 5);
+    CHECK_EQ(pTroglodyte->bodyResistance, 5);
     CHECK_EQ(pTroglodyte->spell1Name, "poison spray");
+    // Spell use: MM9's 50% x 0.4.
+    CHECK_EQ(pTroglodyte->spell1UseChance, 20);
 
     const OpenYAMM::Game::MonsterEntry *pPresentation =
         dataLoader.getMonsterTable().findById(9097);
@@ -1716,11 +1876,11 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
     CHECK_EQ(pPoorSword->packageId, "mm9");
     CHECK_EQ(pPoorSword->canonicalId, "mm9:item/poor_sword");
     CHECK_EQ(pPoorSword->sourceItemId, 2u);
-    CHECK_EQ(pPoorSword->value, 43);
+    CHECK_EQ(pPoorSword->value, 40);
     CHECK_EQ(pPoorSword->inventoryWidth, 1);
     CHECK_EQ(pPoorSword->inventoryHeight, 5);
-    CHECK_EQ(pPoorSword->equipX, 20);
-    CHECK_EQ(pPoorSword->equipY, 139);
+    CHECK_EQ(pPoorSword->equipX, 14);
+    CHECK_EQ(pPoorSword->equipY, 136);
     CHECK_EQ(pPoorSword->visualStatus, "generated_equipped_anchor_candidate");
     CHECK_FALSE(pPoorSword->iconVirtualPath.empty());
     const OpenYAMM::Game::ItemDefinition *pArmingDoublet = dataLoader.getItemTable().get(10086u);
@@ -1988,20 +2148,13 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
 
 TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities")
 {
-    OpenYAMM::Game::OutdoorSceneYmlLoader loader = {};
+    OpenYAMM::Game::IndoorSceneYmlLoader loader = {};
     std::string errorMessage;
-    const std::optional<OpenYAMM::Game::OutdoorSceneData> loadedScene = loader.loadFromText(
+    const std::optional<OpenYAMM::Game::IndoorSceneData> loadedScene = loader.loadFromText(
         loadSourceText("assets_dev/worlds/mm9/maps/bootcamp.scene.yml"),
         errorMessage);
     REQUIRE_MESSAGE(loadedScene.has_value(), errorMessage.c_str());
-
-    OpenYAMM::Game::OutdoorSceneData scene = *loadedScene;
-    REQUIRE_MESSAGE(
-        loader.applyOverlayFromText(
-            scene,
-            loadSourceText("assets_dev/worlds/mm9/maps/bootcamp_authored.scene.yml"),
-            errorMessage),
-        errorMessage.c_str());
+    const OpenYAMM::Game::IndoorSceneData &scene = *loadedScene;
 
     struct ExpectedBinding
     {
@@ -2011,17 +2164,10 @@ TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities
         const char *pName;
     };
     constexpr std::array<ExpectedBinding, 4> ExpectedBindings = {{
-        {436, 207, 0, "Old Man"},
-        {101, 209, 511, "Thorkatla the Indiscreet"},
-        {204, 210, 1542, "Dearbhorgaill A'Washadi"},
-        {206, 211, 1021, "Fiachna A'Lanth"},
-    }};
-
-    constexpr std::array<const char *, 4> ExpectedGreetingSounds = {{
-        "voices/npc/NPC_249.wav",
-        "voices/NPC/NPC_101.wav",
-        "voices/NPC/NPC_204.wav",
-        "voices/NPC/NPC_206.wav",
+        {436, 207, 512, "Old Man"},
+        {101, 209, 1023, "Thorkatla the Indiscreet"},
+        {204, 210, 6, "Dearbhorgaill A'Washadi"},
+        {206, 211, 1533, "Fiachna A'Lanth"},
     }};
 
     std::vector<const OpenYAMM::Game::MapDeltaActor *> dialogueActors;
@@ -2044,15 +2190,93 @@ TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities
         CHECK(actor.initialYawUnits == expected.yawUnits);
         CHECK(actor.immobile);
         CHECK(actor.name == expected.pName);
-
-        const auto greeting = std::find_if(
-            scene.mm9NpcGreetings.begin(),
-            scene.mm9NpcGreetings.end(),
-            [&expected](const OpenYAMM::Game::OutdoorMm9NpcGreeting &entry)
-            {
-                return entry.sourceObjectIndex == expected.sourceObjectIndex;
-            });
-        REQUIRE(greeting != scene.mm9NpcGreetings.end());
-        CHECK(greeting->soundName == ExpectedGreetingSounds[index]);
     }
+}
+
+TEST_CASE("MM9 black chests roll MM9's own artifacts and level-6 drops mix every world's equipment")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(
+        sourceRoot,
+        sourceRoot / "assets_dev",
+        OpenYAMM::Engine::AssetScaleTier::X1,
+        "mm9"));
+
+    OpenYAMM::Game::GameDataLoader dataLoader = {};
+    REQUIRE(dataLoader.loadCommonForGameplay(assetFileSystem));
+    const OpenYAMM::Game::ItemTable &itemTable = dataLoader.getItemTable();
+    std::unordered_set<uint32_t> artifacts;
+    int equipment = 0;
+    int mm9Equipment = 0;
+    int artifactDrops = 0;
+    constexpr uint32_t Rolls = 400;
+
+    for (uint32_t seed = 1; seed <= Rolls; ++seed)
+    {
+        // A black chest's level-7 slot (ChestRuntime.cpp): an artifact or relic of MM9's own, the only world its
+        // World:mm9 flag allows (devdocs/LOOT_POOL.md, BALANCE_PLAN.md 3.8).
+        std::mt19937 chestRng(seed);
+        const std::optional<OpenYAMM::Game::InventoryItem> chestItem =
+            OpenYAMM::Game::ItemGenerator::generateRandomInventoryItem(
+                itemTable,
+                dataLoader.getStandardItemEnchantTable(),
+                dataLoader.getSpecialItemEnchantTable(),
+                OpenYAMM::Game::ItemGenerationRequest{
+                    .treasureLevel = 6,
+                    .mode = OpenYAMM::Game::ItemGenerationMode::ChestLoot,
+                    .allowRareItems = true,
+                    .rareItemsOnly = true,
+                    .worldId = "mm9",
+                },
+                nullptr,
+                chestRng);
+        REQUIRE(chestItem.has_value());
+        const OpenYAMM::Game::ItemDefinition *pChestItem = itemTable.get(chestItem->objectDescriptionId);
+        REQUIRE(pChestItem != nullptr);
+        CHECK(OpenYAMM::Game::ItemRuntime::isArtifact(*pChestItem));
+        CHECK_FALSE(pChestItem->hasContentFlag("NoRandom"));
+        artifacts.insert(pChestItem->itemId);
+        CHECK_EQ(pChestItem->packageId, "mm9");
+
+        // An untyped level-6 monster drop: no artifact (world.yml chestArtifactsOnly); equipment about four times in
+        // five, MM9's weighing like MM6-MM8's items of its family and tier (mm9_item_balance.py), a fifth of it.
+        std::mt19937 dropRng(seed);
+        const std::optional<OpenYAMM::Game::InventoryItem> drop =
+            OpenYAMM::Game::ItemGenerator::generateRandomInventoryItem(
+                itemTable,
+                dataLoader.getStandardItemEnchantTable(),
+                dataLoader.getSpecialItemEnchantTable(),
+                OpenYAMM::Game::ItemGenerationRequest{
+                    .treasureLevel = 6,
+                    .mode = OpenYAMM::Game::ItemGenerationMode::MonsterLoot,
+                    .worldId = "mm9",
+                },
+                nullptr,
+                dropRng);
+        REQUIRE(drop.has_value());
+        const OpenYAMM::Game::ItemDefinition *pDrop = itemTable.get(drop->objectDescriptionId);
+        REQUIRE(pDrop != nullptr);
+        artifactDrops += OpenYAMM::Game::ItemRuntime::isArtifact(*pDrop) ? 1 : 0;
+        static const std::unordered_set<std::string> EquipmentStats = {
+            "Weapon", "Weapon2", "Weapon1or2", "Missile", "Armor", "Shield", "Helm", "Belt", "Cloak", "Gauntlets",
+            "Boots", "Ring", "Amulet"};
+        const bool isEquipment = EquipmentStats.contains(pDrop->equipStat);
+        equipment += isEquipment ? 1 : 0;
+        mm9Equipment += isEquipment && pDrop->packageId == "mm9" ? 1 : 0;
+    }
+
+    // The hand-placed and quest artifacts (Black's Heart, Everstrike, Gungnir, Spencer's Obedience, The Green Man)
+    // never roll, so a chest cannot give a second copy.
+    for (const uint32_t fixedItemId : {10180u, 10184u, 10189u, 10198u, 10213u})
+    {
+        CHECK_FALSE(artifacts.contains(fixedItemId));
+    }
+
+    CHECK_GT(artifacts.size(), 20);
+    CHECK_EQ(artifactDrops, 0);
+    CHECK_GT(equipment, int(Rolls) * 70 / 100);
+    CHECK_LT(equipment, int(Rolls) * 90 / 100);
+    CHECK_GT(mm9Equipment, equipment * 8 / 100);
+    CHECK_LT(mm9Equipment, equipment * 35 / 100);
 }

@@ -173,10 +173,11 @@ def build_charts(scene, profile, emitters):
     (charts, page dimensions)."""
     receivers = []
     # Faces drawn without their lightmap (an open-air map's terrain: blended materials under the daylight,
-    # devdocs/INDOOR_OPEN_SKY.md "Terrain") take no chart.
+    # devdocs/INDOOR_OPEN_SKY.md "Terrain") take no chart; the scene's terrain `exclude_faces` (kept_faces) do.
     skipped = {texture.lower() for texture in profile.get('skip_textures', [])}
+    kept = set(profile.get('keep_faces', []))
     for face in scene['faces']:
-        if not is_receiver(face) or face['texture'].lower() in skipped:
+        if not is_receiver(face) or (face['texture'].lower() in skipped and face['index'] not in kept):
             continue
         points = [tuple(float(v) for v in p) for p in receiver_points(face)]
         n = newell_normal(points)
@@ -609,6 +610,8 @@ def main():
                              'transfer, which fills nearly every texel; devdocs/mm9_rework/MM9_LIGHTMAP_TRANSFER.md)')
     parser.add_argument('--skip-textures', default='',
                         help='comma-separated textures whose faces take no chart (terrain drawn without lightmaps)')
+    parser.add_argument('--keep-faces', default='',
+                        help='comma-separated face indices charted despite --skip-textures (terrain exclude_faces)')
     parser.add_argument('--units-per-texel', type=float,
                         help="texel spacing in native units (default: the profile's)")
     parser.add_argument('--extra-lights', type=Path,
@@ -624,6 +627,8 @@ def main():
         profile['layout_only'] = True
     if args.skip_textures:
         profile['skip_textures'] = sorted({t.strip().lower() for t in args.skip_textures.split(',') if t.strip()})
+    if args.keep_faces:
+        profile['keep_faces'] = sorted({int(f) for f in args.keep_faces.split(',') if f.strip()})
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     scene_path = out / 'scene.json'

@@ -102,6 +102,72 @@ bool readRange(const YAML::Node &node, const std::string &key, float &minimum, f
     return true;
 }
 
+// path_stops: [{point, face (degrees), wait: [minimum, maximum], clip, loop}, ...].
+bool readPathStops(const YAML::Node &node, std::vector<Mm9AiPathStop> &stops, std::string &error)
+{
+    constexpr float DegreesToRadians = 3.14159265f / 180.0f;
+    stops.clear();
+
+    if (!node.IsSequence())
+    {
+        error = "mm9_ai.path_stops must be a list of {point, face, wait, clip, loop} maps";
+        return false;
+    }
+
+    for (const YAML::Node &entry : node)
+    {
+        Mm9AiPathStop stop = {};
+
+        if (!entry.IsMap() || !entry["point"])
+        {
+            error = "mm9_ai.path_stops entries need a point";
+            return false;
+        }
+
+        for (YAML::const_iterator iterator = entry.begin(); iterator != entry.end(); ++iterator)
+        {
+            const std::string key = iterator->first.as<std::string>();
+            const YAML::Node value = iterator->second;
+
+            if (key == "point")
+            {
+                stop.point = value.as<uint16_t>();
+            }
+            else if (key == "face")
+            {
+                stop.faces = true;
+                stop.faceYawRadians = value.as<float>() * DegreesToRadians;
+            }
+            else if (key == "wait")
+            {
+                stop.ownWait = true;
+
+                if (!readRange(value, "path_stops.wait", stop.waitMinSeconds, stop.waitMaxSeconds, error))
+                {
+                    return false;
+                }
+            }
+            else if (key == "clip")
+            {
+                stop.clip = value.as<std::string>();
+            }
+            else if (key == "loop")
+            {
+                stop.loop = value.as<bool>();
+            }
+            else
+            {
+                error = "mm9_ai.path_stops: unknown key " + key;
+                return false;
+            }
+        }
+
+        stops.push_back(std::move(stop));
+    }
+
+    return true;
+}
+
 bool readPoints(const YAML::Node &node, const std::string &key, std::vector<std::array<int32_t, 3>> &points,
     std::string &error)
 {
@@ -301,7 +367,8 @@ bool Mm9AiPlacementRecord::operator==(const Mm9AiPlacementRecord &other) const
         && a.dormantUntil == b.dormantUntil && a.dormantPose == b.dormantPose && a.hostility == b.hostility
         && a.faction == b.faction && a.summoner == b.summoner && a.startsDead == b.startsDead && a.boss == b.boss
         && a.profile == b.profile
-        && pathPoints == other.pathPoints && summonPoints == other.summonPoints && hidingPlaces == other.hidingPlaces
+        && pathPoints == other.pathPoints && pathStops == other.pathStops && summonPoints == other.summonPoints
+        && hidingPlaces == other.hidingPlaces
         && summonClass == other.summonClass
         && script == other.script && scriptParams == other.scriptParams;
 }
@@ -478,6 +545,10 @@ bool parseMm9AiPlacementNode(const YAML::Node &node, Mm9AiPlacementRecord &recor
             {
                 ok = readPoints(value, key, record.pathPoints, error);
             }
+            else if (key == "path_stops")
+            {
+                ok = readPathStops(value, record.pathStops, error);
+            }
             else if (key == "path_random")
             {
                 ok = readFlag(value, key, settings.pathRandom, error);
@@ -562,6 +633,15 @@ bool parseMm9AiPlacementNode(const YAML::Node &node, Mm9AiPlacementRecord &recor
     {
         error = "mm9_ai.wander path needs a path of at least two points";
         return false;
+    }
+
+    for (const Mm9AiPathStop &stop : record.pathStops)
+    {
+        if (stop.point >= record.pathPoints.size())
+        {
+            error = "mm9_ai.path_stops names a point past its path";
+            return false;
+        }
     }
 
     return true;

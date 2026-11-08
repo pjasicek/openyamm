@@ -1,4 +1,5 @@
 #include "game/indoor/IndoorGameView.h"
+#include "engine/Localization.h"
 
 #include "engine/BgfxContext.h"
 #include "game/debug/AiArena.h"
@@ -24,11 +25,13 @@
 #include "game/tables/MergedBaseTables.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
+#include "game/mm9/Mm9RudeDialogue.h"
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
@@ -901,6 +904,19 @@ bool isResidentSelectionMode(const EventDialogContent &dialog)
             });
 }
 
+// An MM9 actor without a dialogue whose map script has its click event (53000 + DAT object: Thjorgard's arm wrestler,
+// Armwrestle.scr's use; Yorwick's ewe, MarySheep.scr's): a click runs that event like a dialogue actor's.
+bool mm9ActorHasOnlyUseEvent(const MapDeltaActor &actor, const std::optional<ScriptedEventProgram> &localEventProgram)
+{
+    if (actor.mm9RudeId > 0 || actor.mm9SourceObjectIndex == 0 || !localEventProgram.has_value())
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> useEventId = mm9RudeUseEventIdForSourceObject(actor.mm9SourceObjectIndex);
+    return useEventId.has_value() && localEventProgram->hasEvent(*useEventId);
+}
+
 bool indoorActorExplicitlyHostile(const MapDeltaActor &actor)
 {
     return (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
@@ -915,7 +931,9 @@ std::optional<GenericActorDialogResolution> resolveIndoorActorDialog(
     const GameplayActorInspectState &inspectState,
     size_t actorIndex)
 {
-    if (actor.npcId > 0)
+    // A world without MMerge street NPCs (world.yml streetNpcs: MM9) gives an actor without its own NPC no group news
+    // and no generated NPC: MM9's groups are its scripts', and its dogs and townsfolk without DoRude say nothing.
+    if (actor.npcId > 0 || !gameSession.streetNpcs())
     {
         return std::nullopt;
     }
@@ -1216,7 +1234,8 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
 
     updateCombatFeedback(deltaSeconds);
 
-    if (renderWorldThisFrame)
+    // Floating combat text is HUD: none over a cinematic.
+    if (renderWorldThisFrame && !m_gameSession.cinematicRuntime().takesOverView())
     {
         renderCombatFeedbackOverlay(width, height);
     }
@@ -1531,7 +1550,9 @@ bool IndoorGameView::canActivateMapActorDialogue(size_t actorIndex) const
         return false;
     }
 
-    if (actor.mm9RudeId > 0 || actor.npcId > 0)
+    if (actor.mm9RudeId > 0
+        || actor.npcId > 0
+        || mm9ActorHasOnlyUseEvent(actor, m_pIndoorSceneRuntime->localEventProgram()))
     {
         return !runtimeState.hostileToParty;
     }
@@ -1622,7 +1643,10 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
         worldRuntime.faceMapActorForTalk(actorIndex, worldRuntime.partyX(), worldRuntime.partyY());
     };
 
-    if (actor.mm9RudeId > 0)
+    // An MM9 actor without a dialogue whose map script has its click event runs that event like a dialogue actor's.
+    const bool mm9UseEventOnly = mm9ActorHasOnlyUseEvent(actor, m_pIndoorSceneRuntime->localEventProgram());
+
+    if (actor.mm9RudeId > 0 || mm9UseEventOnly)
     {
         faceSpeaker();
         GameplayDialogController::Mm9ActorDialogueActivation activation = {};
@@ -2332,8 +2356,9 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height, const 
     IndoorWorldRuntime *pWorldRuntime =
         m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->worldRuntime() : nullptr;
 
-    // The loot summary covers the world.
-    if (pWorldRuntime == nullptr || screenRuntime.lootSummaryOverlayReadOnly().active)
+    // The loot summary and the formation builder cover the world.
+    if (pWorldRuntime == nullptr || screenRuntime.lootSummaryOverlayReadOnly().active
+        || GameplayFormationBuilder::isOpen(screenRuntime))
     {
         return;
     }

@@ -1,3 +1,5 @@
+# Four worlds: Enroth, Antagarich, Jadame and Chedian (MM9), 2026-11-06
+# (level_generation/ui/mm9_world_menu_study_20261106).
 screen: ContinentSelection
 elements:
 - id: ContinentSelectionRoot
@@ -122,8 +124,8 @@ elements:
     anchor: top_left
     offset_x: 91.7333
     offset_y: 171.7333
-    width: 215.1083
-    height: 222.4000
+    width: 158.2667
+    height: 222.4
     z_index: 10
     visible: true
     interactive: true
@@ -133,10 +135,10 @@ elements:
     notes: Hover highlights the card; activation opens party creation for this continent immediately.
   - id: ContinentSelectionEnrothIllustration
     anchor: top_left
-    offset_x: 139.2875
+    offset_x: 110.8666
     offset_y: 183.4667
-    width: 120.0000
-    height: 120.0000
+    width: 120.0
+    height: 120.0
     z_index: 12
     visible: true
     interactive: false
@@ -144,9 +146,9 @@ elements:
       default: hud_x2/menus/omenu_continent_enroth.png
   - id: ContinentSelectionEnrothName
     anchor: top_left
-    offset_x: 103.7333
-    offset_y: 325.5000
-    width: 191.1083
+    offset_x: 99.7333
+    offset_y: 325.5
+    width: 142.2667
     height: 23.6752
     z_index: 13
     visible: true
@@ -161,8 +163,8 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionEnrothGame
     anchor: top_left
-    offset_x: 145.0752
-    offset_y: 309.5000
+    offset_x: 116.6541
+    offset_y: 309.5
     width: 108.4251
     height: 11.6
     z_index: 13
@@ -178,7 +180,7 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionEnrothStart
     anchor: top_left
-    offset_x: 148.2501
+    offset_x: 119.8333
     offset_y: 369.6
     width: 102.0667
     height: 11.7333
@@ -195,10 +197,10 @@ elements:
       pad_x: 4.2667
   - id: ContinentSelectionAntagarichButton
     anchor: top_left
-    offset_x: 319.1083
+    offset_x: 262.2666
     offset_y: 171.7333
-    width: 215.1083
-    height: 222.4000
+    width: 158.2667
+    height: 222.4
     z_index: 10
     visible: true
     interactive: true
@@ -208,10 +210,10 @@ elements:
     notes: Hover highlights the card; activation opens party creation for this continent immediately.
   - id: ContinentSelectionAntagarichIllustration
     anchor: top_left
-    offset_x: 366.6624
+    offset_x: 281.4
     offset_y: 183.4667
-    width: 120.0000
-    height: 120.0000
+    width: 120.0
+    height: 120.0
     z_index: 12
     visible: true
     interactive: false
@@ -219,9 +221,9 @@ elements:
       default: hud_x2/menus/omenu_continent_antagarich.png
   - id: ContinentSelectionAntagarichName
     anchor: top_left
-    offset_x: 331.1083
-    offset_y: 325.5000
-    width: 191.1083
+    offset_x: 270.2666
+    offset_y: 325.5
+    width: 142.2667
     height: 23.6752
     z_index: 13
     visible: true
@@ -236,8 +238,8 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionAntagarichGame
     anchor: top_left
-    offset_x: 370.2165
-    offset_y: 309.5000
+    offset_x: 284.9584
+    offset_y: 309.5
     width: 112.8832
     height: 11.6
     z_index: 13
@@ -253,7 +255,7 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionAntagarichStart
     anchor: top_left
-    offset_x: 371.4832
+    offset_x: 286.2208
     offset_y: 369.6
     width: 110.3584
     height: 11.7333
@@ -270,10 +272,10 @@ elements:
       pad_x: 4.2667
   - id: ContinentSelectionJadameButton
     anchor: top_left
-    offset_x: 546.4832
+    offset_x: 432.8
     offset_y: 171.7333
-    width: 215.1168
-    height: 222.4000
+    width: 158.2667
+    height: 222.4
     z_index: 10
     visible: true
     interactive: true
@@ -283,10 +285,10 @@ elements:
     notes: Hover highlights the card; activation opens party creation for this continent immediately.
   - id: ContinentSelectionJadameIllustration
     anchor: top_left
-    offset_x: 594.0416
+    offset_x: 451.9333
     offset_y: 183.4667
-    width: 120.0000
-    height: 120.0000
+    width: 120.0
+    height: 120.0
     z_index: 12
     visible: true
     interactive: false
@@ -294,9 +296,9 @@ elements:
       default: hud_x2/menus/omenu_continent_jadame.png
   - id: ContinentSelectionJadameName
     anchor: top_left
-    offset_x: 558.4832
-    offset_y: 325.5000
-    width: 191.1168
+    offset_x: 440.8
+    offset_y: 325.5
+    width: 142.2667
     height: 23.6752
     z_index: 13
     visible: true
@@ -311,8 +313,8 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionJadameGame
     anchor: top_left
-    offset_x: 595.3749
-    offset_y: 309.5000
+    offset_x: 453.2667
+    offset_y: 309.5
     width: 117.3333
     height: 11.6
     z_index: 13
@@ -328,7 +330,7 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionJadameStart
     anchor: top_left
-    offset_x: 583.7168
+    offset_x: 441.6083
     offset_y: 369.6
     width: 140.6501
     height: 11.7333
@@ -337,6 +339,81 @@ elements:
     interactive: false
     text:
       value: Begin in Dagger Wound Islands
+      font: menu_lucida
+      color: '#c8c7a7'
+      align_x: center
+      align_y: middle
+      scale: 0.45176
+      pad_x: 4.2667
+  - id: ContinentSelectionChedianButton
+    anchor: top_left
+    offset_x: 603.3333
+    offset_y: 171.7333
+    width: 158.2667
+    height: 222.4
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_world_card.png
+      highlighted: hud_x2/menus/omenu_world_card_selected.png
+    notes: Hover highlights the card; activation opens party creation for this continent immediately.
+  - id: ContinentSelectionChedianIllustration
+    anchor: top_left
+    offset_x: 622.4667
+    offset_y: 183.4667
+    width: 120.0
+    height: 120.0
+    z_index: 12
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_continent_chedian.png
+  - id: ContinentSelectionChedianName
+    anchor: top_left
+    offset_x: 611.3333
+    offset_y: 325.5
+    width: 142.2667
+    height: 23.6752
+    z_index: 13
+    visible: true
+    interactive: false
+    text:
+      value: Chedian
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: center
+      align_y: middle
+      scale: 0.61667
+      pad_x: 0.0
+  - id: ContinentSelectionChedianGame
+    anchor: top_left
+    offset_x: 623.8
+    offset_y: 309.5
+    width: 117.3333
+    height: 11.6
+    z_index: 13
+    visible: true
+    interactive: false
+    text:
+      value: Might and Magic IX
+      font: menu_lucida
+      color: '#c5c9b6'
+      align_x: center
+      align_y: middle
+      scale: 0.56471
+      pad_x: 0.0
+  - id: ContinentSelectionChedianStart
+    anchor: top_left
+    offset_x: 612.1416
+    offset_y: 369.6
+    width: 140.6501
+    height: 11.7333
+    z_index: 13
+    visible: true
+    interactive: false
+    text:
+      value: Begin in Ravensford
       font: menu_lucida
       color: '#c8c7a7'
       align_x: center
@@ -387,7 +464,7 @@ elements:
     offset_x: 91.7333
     offset_y: 141.8667
     width: 55.4667
-    height: 12.8000
+    height: 12.8
     z_index: 10
     visible: true
     interactive: false
@@ -401,9 +478,9 @@ elements:
       pad_x: 0.0
   - id: ContinentSelectionRulesetSwitch
     anchor: top_left
-    offset_x: 150.4000
-    offset_y: 131.2000
-    width: 265.6000
+    offset_x: 150.4
+    offset_y: 131.2
+    width: 265.6
     height: 30.9333
     z_index: 10
     visible: true
@@ -411,9 +488,9 @@ elements:
     notes: 'Renderer primitive: brass outline over a dark plate; one tab per available ruleset, inset 3 px.'
   - id: ContinentSelectionRulesetSummary
     anchor: top_left
-    offset_x: 441.6000
+    offset_x: 441.6
     offset_y: 139.7333
-    width: 320.0000
+    width: 320.0
     height: 14.9333
     z_index: 10
     visible: true
@@ -444,7 +521,7 @@ elements:
       align_y: middle
       scale: 0.67368
       pad_x: 0.0
-    notes: 'Chosen options, such as "Hell difficulty · Free progression"; smaller when a challenge is added.'
+    notes: Chosen options, such as "Hell difficulty · Free progression"; smaller when a challenge is added.
   - id: ContinentSelectionRulesButton
     anchor: top_left
     offset_x: 669.8667
@@ -466,13 +543,13 @@ elements:
       align_y: middle
       scale: 0.36667
       pad_x: 0.0
-    notes: 'Opens the Rules panel (ruleset_rules.yml).'
+    notes: Opens the Rules panel (ruleset_rules.yml).
   - id: ContinentSelectionFooterNote
     anchor: top_left
     offset_x: 170.6667
     offset_y: 421.3333
-    width: 512.0000
-    height: 12.8000
+    width: 512.0
+    height: 12.8
     z_index: 10
     visible: true
     interactive: false

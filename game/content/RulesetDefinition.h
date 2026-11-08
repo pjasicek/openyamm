@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
+#include "engine/Localization.h"
 #include "game/content/ContentManifest.h"
 #include "game/content/RulesetOptions.h"
 
@@ -73,7 +74,7 @@ struct RulesetTableContribution
 struct RulesetDefinition
 {
     std::string id = StandardRulesetId;
-    std::string name = "Standard MMMerge";
+    std::string name = std::string(Engine::trNoop("Standard MMMerge"));
     std::string description;
     std::vector<std::string> credits;
     // A web page explaining the ruleset to players (`guide_url`), linked from its Rules panel and its journal; empty

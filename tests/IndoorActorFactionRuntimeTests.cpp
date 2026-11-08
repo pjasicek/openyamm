@@ -1,6 +1,10 @@
 #include <doctest/doctest.h>
 
+#include "engine/AssetFileSystem.h"
 #include "engine/TextTable.h"
+#include "game/data/GameDataLoader.h"
+#include "game/events/EventRuntime.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorWorldRuntime.h"
@@ -267,4 +271,70 @@ TEST_CASE("indoor faction alert: a monster the party angered still alerts its cl
     fixture.world.restoreSnapshot(saved);
     fixture.hit(1);
     CHECK(fixture.hostile(2));
+}
+
+TEST_CASE("MM9 CanDamage off: no hit hurts an indoor actor until evt.SetMm9ActorCanReceiveDamage turns it on")
+{
+    GoblinwatchFactionFixture fixture;
+    IndoorWorldRuntime &world = fixture.world;
+    std::ifstream supportStream(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportStream.good());
+    const std::string source = std::string(std::istreambuf_iterator<char>(supportStream),
+        std::istreambuf_iterator<char>()) + "\n"
+        "RegisterGlobalEvent(9101, \"Off\", function()\n"
+        "    if evt.SetMm9ActorCanReceiveDamage(0, false) and not evt.SetMm9ActorCanReceiveDamage(99, false) then\n"
+        "        evt.StatusText(\"off\")\n"
+        "    end\n"
+        "end)\n"
+        "RegisterGlobalEvent(9102, \"On\", function() evt.SetMm9ActorCanReceiveDamage(0, 1) end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@can_damage_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9101, runtimeState, nullptr, &world));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.front(), "off");
+    CHECK_FALSE(fixture.delta->actors[0].mm9CanReceiveDamage);
+
+    // Melee, missiles, spells and reflected damage land and do nothing; no stun takes hold.
+    const int hp = fixture.delta->actors[0].hp;
+    const GameplayWorldPoint party = {1356.65f, 4589.76f, 96.0f};
+    CHECK(world.applyPartyAttackMeleeDamage(0, 10000, party, ShieldAttackTier::Physical));
+    CHECK(world.applyPartyAttackMeleeDamage(0, 10000, CombatDamageType::Fire, party, ShieldAttackTier::Spell));
+    CHECK(world.applyPartySpellToActor(0, 2, 10, SkillMastery::Master, 10000, party.x, party.y, party.z, 0, false));
+    CHECK(world.applyReflectedDamageToActor(0, 10000, CombatDamageType::Physical, 0));
+    CHECK_FALSE(world.stunActor(0, 5.0f));
+    CHECK_EQ(fixture.delta->actors[0].hp, hp);
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9102, runtimeState, nullptr, &world));
+    CHECK(fixture.delta->actors[0].mm9CanReceiveDamage);
+    REQUIRE(world.applyPartyAttackMeleeDamage(0, 1, party, ShieldAttackTier::Physical));
+    CHECK_LT(fixture.delta->actors[0].hp, hp);
+}
+
+TEST_CASE("mm6 maps load their own faction relations into the monster table and drop them with the next map")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm6"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    const MonsterTable &monsters = data.getMonsterTable();
+    // hostile.txt has Guards (553-555, faction 185) and Sorcerers (631-633, faction 211) hostile to the party.
+    // MMMerge's oute3.lua makes the guards peaceful in New Sorpigal; outd1.lua makes the sorcerers peaceful in Silver
+    // Cove and sets them against Druidesses (517, faction 173).
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "oute3.odm"));
+    CHECK_FALSE(monsters.isHostileToParty(553));
+    CHECK(monsters.isHostileToParty(631));
+    CHECK(monsters.getRelationBetweenMonsters(631, 517) == 0);
+
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "outd1.odm"));
+    CHECK(monsters.isHostileToParty(553));
+    CHECK_FALSE(monsters.isHostileToParty(631));
+    CHECK(monsters.getRelationBetweenMonsters(631, 517) == 2);
+    CHECK(monsters.getRelationBetweenMonsters(517, 631) == 1);
 }

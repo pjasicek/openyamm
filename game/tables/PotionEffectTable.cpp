@@ -32,27 +32,6 @@ std::optional<Enum> findNamed(const std::array<std::pair<std::string_view, Enum>
     return std::nullopt;
 }
 
-constexpr std::array<std::pair<std::string_view, CharacterCondition>, 18> ConditionNames = {{
-    {"Cursed", CharacterCondition::Cursed},
-    {"Weak", CharacterCondition::Weak},
-    {"Asleep", CharacterCondition::Asleep},
-    {"Fear", CharacterCondition::Fear},
-    {"Drunk", CharacterCondition::Drunk},
-    {"Insane", CharacterCondition::Insane},
-    {"PoisonWeak", CharacterCondition::PoisonWeak},
-    {"DiseaseWeak", CharacterCondition::DiseaseWeak},
-    {"PoisonMedium", CharacterCondition::PoisonMedium},
-    {"DiseaseMedium", CharacterCondition::DiseaseMedium},
-    {"PoisonSevere", CharacterCondition::PoisonSevere},
-    {"DiseaseSevere", CharacterCondition::DiseaseSevere},
-    {"Paralyzed", CharacterCondition::Paralyzed},
-    {"Unconscious", CharacterCondition::Unconscious},
-    {"Dead", CharacterCondition::Dead},
-    {"Petrified", CharacterCondition::Petrified},
-    {"Eradicated", CharacterCondition::Eradicated},
-    {"Zombie", CharacterCondition::Zombie},
-}};
-
 constexpr std::array<std::pair<std::string_view, CharacterBuffId>, 28> CharacterBuffNames = {{
     {"Bless", CharacterBuffId::Bless},
     {"Fate", CharacterBuffId::Fate},
@@ -321,7 +300,7 @@ PotionEffect parseEffect(const YAML::Node &node)
     else if (kind == "cure")
     {
         effect.kind = PotionEffectKind::Cure;
-        effect.conditions = requireNamedList(ConditionNames, value, "condition");
+        effect.conditions = requireNamedList(CharacterConditionNames, value, "condition");
     }
     else if (kind == "buff")
     {
@@ -331,7 +310,7 @@ PotionEffect parseEffect(const YAML::Node &node)
 
         if (value["unless"])
         {
-            effect.conditions.push_back(requireNamed(ConditionNames, value["unless"], "condition"));
+            effect.conditions.push_back(requireNamed(CharacterConditionNames, value["unless"], "condition"));
         }
     }
     else if (kind == "party_buff")
@@ -355,12 +334,12 @@ PotionEffect parseEffect(const YAML::Node &node)
             {
                 for (const char *pStage : {"Weak", "Medium", "Severe"})
                 {
-                    effect.conditions.push_back(*findNamed(ConditionNames, name + pStage));
+                    effect.conditions.push_back(*findNamed(CharacterConditionNames, name + pStage));
                 }
             }
             else
             {
-                effect.conditions.push_back(requireNamed(ConditionNames, item, "condition"));
+                effect.conditions.push_back(requireNamed(CharacterConditionNames, item, "condition"));
             }
         }
 

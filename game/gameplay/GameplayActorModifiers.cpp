@@ -52,7 +52,21 @@ void applyHitConditionModifiers(
         info.spell1Condition = spell1Replaced ? MonsterSpecialAttackKind::None : pModifiers->spellConditions->spell1;
         info.spell2Condition = spell2Replaced ? MonsterSpecialAttackKind::None : pModifiers->spellConditions->spell2;
         info.spellConditionChance = pModifiers->spellConditions->chance;
+        info.spell1ConditionMinutes = pModifiers->spellConditions->spell1Minutes;
+        info.spell2ConditionMinutes = pModifiers->spellConditions->spell2Minutes;
     }
+}
+
+float missileBlastRadius(const MonsterModifierSet *pModifiers, GameplayProjectileService::MonsterAttackAbility ability)
+{
+    if (pModifiers == nullptr || !pModifiers->missileBlast)
+    {
+        return 0.0f;
+    }
+
+    return ability == GameplayProjectileService::MonsterAttackAbility::Attack1 ? pModifiers->missileBlast->attack1Radius
+        : ability == GameplayProjectileService::MonsterAttackAbility::Attack2 ? pModifiers->missileBlast->attack2Radius
+                                                                              : 0.0f;
 }
 
 std::optional<GameplayProjectileService::ProjectileHoming> trueAimProjectileHoming(

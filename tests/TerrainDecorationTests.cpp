@@ -1,4 +1,5 @@
 #include "game/outdoor/TerrainDecorationData.h"
+#include "game/outdoor/OutdoorMeadow.h"
 #include "game/outdoor/TerrainDecorationRenderer.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorLightingRuntime.h"
@@ -9,6 +10,7 @@
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <functional>
 #include <fstream>
 
 using namespace OpenYAMM::Game;
@@ -469,6 +471,15 @@ TEST_CASE("Terrain decoration loader opts in per map and rejects malformed confi
     write("version: 2\nfamilies_file: missing.yml\nrules: []\n");
     CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
     write("version: 2\nfamilies_file: ../families.yml\nrules: []\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    // Another world's library by its virtual path (an open-air BLV's region file): the atlas is beside the library.
+    write("version: 2\nfamilies_file: worlds/mm6/terrain_decorations/families.yml\nrules:\n"
+          "  - {texture: marsh, family: reed}\n");
+    const std::optional<TerrainDecorationConfig> shared = loadTerrainDecorationConfig(assets, map, error);
+    REQUIRE(shared);
+    CHECK(shared->tuftTexture == "worlds/mm6/terrain_decorations/plants.png");
+    CHECK(shared->rules.front().candidates == 18);
+    write("version: 2\nfamilies_file: elsewhere/families.yml\nrules: []\n");
     CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
     write("version: 2\nenabled: false\nreason: underwater\n");
     CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
@@ -1036,19 +1047,49 @@ TEST_CASE("Rendered terrain stays under a pool cut into a hillside terrace")
     CHECK(heights[size_t(70 * Steps) * Side + 64 * Steps + 2] == smoothed[size_t(70 * Steps) * Side + 64 * Steps + 2]);
 }
 
+namespace
+{
+TerrainDecorationPlacement scatterSurface(const std::vector<TerrainDecorationSurfaceTriangle> &ground,
+    const std::function<float(float, float)> &density, const TerrainDecorationConfig &config)
+{
+    TerrainDecorationSurface surface;
+    surface.ground = ground;
+    surface.density = density;
+    return scatterTerrainDecorationsOnSurface(surface, config);
+}
+
+// Two triangles making a flat square of the given side from the origin at height 100.
+std::vector<TerrainDecorationSurfaceTriangle> flatSurface(float side)
+{
+    return {{{{{0.0f, 0.0f, 100.0f}, {side, 0.0f, 100.0f}, {side, side, 100.0f}}}, {0.0f, 0.0f, 1.0f}},
+        {{{{0.0f, 0.0f, 100.0f}, {side, side, 100.0f}, {0.0f, side, 100.0f}}}, {0.0f, 0.0f, 1.0f}}};
+}
+
+// A config with one tall variant (layer 1) besides the short grass (layer 0).
+TerrainDecorationConfig layeredConfig()
+{
+    TerrainDecorationConfig result = config();
+    TerrainDecorationVariant shortGrass;
+    shortGrass.layer = 0;
+    TerrainDecorationVariant tallGrass;
+    tallGrass.layer = 1;
+    result.rules.front().variants = {shortGrass};
+    result.rules.front().tallVariants = {tallGrass};
+    result.minimumNormalZ = 0.62f;
+    return result;
+}
+}
+
 TEST_CASE("Terrain grass on a surface follows its density and skips steep triangles")
 {
-    // Two triangles making a flat 4096 x 4096 square, and a vertical one (a cliff).
-    const std::vector<TerrainDecorationSurfaceTriangle> flat = {
-        {{{{0.0f, 0.0f, 100.0f}, {4096.0f, 0.0f, 100.0f}, {4096.0f, 4096.0f, 100.0f}}}, {0.0f, 0.0f, 1.0f}},
-        {{{{0.0f, 0.0f, 100.0f}, {4096.0f, 4096.0f, 100.0f}, {0.0f, 4096.0f, 100.0f}}}, {0.0f, 0.0f, 1.0f}}};
+    const std::vector<TerrainDecorationSurfaceTriangle> flat = flatSurface(4096.0f);
     const TerrainDecorationConfig grass = config();
     const auto none = [](float, float) { return 0.0f; };
     const auto full = [](float, float) { return 1.0f; };
     const auto half = [](float x, float) { return x < 2048.0f ? 1.0f : 0.0f; };
 
-    CHECK(scatterTerrainDecorationsOnSurface(flat, none, grass).instances.empty());
-    const TerrainDecorationPlacement everywhere = scatterTerrainDecorationsOnSurface(flat, full, grass);
+    CHECK(scatterSurface(flat, none, grass).instances.empty());
+    const TerrainDecorationPlacement everywhere = scatterSurface(flat, full, grass);
     // An outdoor rule's candidates are per 512 x 512 cell: 64 cells here.
     const double expected = 64.0 * double(grass.rules.front().candidates) * grass.rules.front().density;
     CHECK(double(everywhere.instances.size()) > expected * 0.9);
@@ -1058,12 +1099,128 @@ TEST_CASE("Terrain grass on a surface follows its density and skips steep triang
         CHECK(instance.positionYaw[2] == doctest::Approx(97.0f));
     }
     // Deterministic, and only where the density allows.
-    CHECK(scatterTerrainDecorationsOnSurface(flat, full, grass).instances.size() == everywhere.instances.size());
-    for (const TerrainDecorationInstance &instance : scatterTerrainDecorationsOnSurface(flat, half, grass).instances)
+    CHECK(scatterSurface(flat, full, grass).instances.size() == everywhere.instances.size());
+    for (const TerrainDecorationInstance &instance : scatterSurface(flat, half, grass).instances)
     {
         CHECK(instance.positionYaw[0] < 2048.0f);
     }
     const std::vector<TerrainDecorationSurfaceTriangle> cliff = {
         {{{{0.0f, 0.0f, 0.0f}, {4096.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 4096.0f}}}, {0.0f, -1.0f, 0.0f}}};
-    CHECK(scatterTerrainDecorationsOnSurface(cliff, full, grass).instances.empty());
+    CHECK(scatterSurface(cliff, full, grass).instances.empty());
+}
+
+TEST_CASE("Terrain grass on a surface keeps off walls and water and grows uncut verges beside them")
+{
+    TerrainDecorationConfig grass = layeredConfig();
+    grass.verges.distance = 72.0f;
+    grass.verges.tallChance = 1.0f;
+    TerrainDecorationSurface surface;
+    surface.ground = flatSurface(4096.0f);
+    surface.density = [](float, float) { return 1.0f; };
+    // A wall along x = 1024 from the ground up, and water over y < 512.
+    surface.obstacles = {{{{1024.0f, 0.0f, 100.0f}, {1024.0f, 4096.0f, 100.0f}, {1024.0f, 4096.0f, 400.0f}}},
+        {{{1024.0f, 0.0f, 100.0f}, {1024.0f, 4096.0f, 400.0f}, {1024.0f, 0.0f, 400.0f}}}};
+    surface.underWater = [](float, float y, float z) { return y < 512.0f && z < 150.0f; };
+    const TerrainDecorationPlacement placement = scatterTerrainDecorationsOnSurface(surface, grass);
+    REQUIRE_FALSE(placement.instances.empty());
+    const float clearance = grass.rules.front().width * 0.65f + 32.0f;
+    size_t besideWall = 0;
+    size_t tallBesideWall = 0;
+    size_t tallInOpen = 0;
+    for (const TerrainDecorationInstance &instance : placement.instances)
+    {
+        const float x = instance.positionYaw[0];
+        const float y = instance.positionYaw[1];
+        CHECK(y >= 512.0f);
+        // The wall's cells are 32 units wide: the clearance holds to within one cell.
+        CHECK(std::abs(x - 1024.0f) > clearance - 32.0f);
+        const bool tall = instance.groundNormal[3] == 1.0f;
+        if (std::abs(x - 1024.0f) < clearance + grass.verges.distance - 32.0f)
+        {
+            ++besideWall;
+            tallBesideWall += tall ? 1 : 0;
+        }
+        else if (x > 1500.0f && x < 3500.0f && y > 1000.0f && y < 3500.0f)
+        {
+            tallInOpen += tall ? 1 : 0;
+        }
+    }
+    CHECK(besideWall > 0);
+    CHECK(tallBesideWall == besideWall);
+    CHECK(tallInOpen == 0);
+}
+
+TEST_CASE("Terrain grass on a surface grows undergrowth and bushes round its trees and takes the meadow")
+{
+    TerrainDecorationConfig grass = layeredConfig();
+    TerrainDecorationVariant fern;
+    fern.layer = 2;
+    grass.undergrowth.decorations = {"tree"};
+    grass.undergrowth.candidates = 10;
+    grass.undergrowth.variants = {fern};
+    grass.bushes.models = {{"engine/models/meadow_bush01.glb", 120.0f, 1.0f}};
+    grass.bushes.edgeChance = 1.0f;
+    grass.bushes.meadowChance = 0.0f;
+    grass.bushes.lushChance = 0.0f;
+    grass.bushes.vergeChance = 0.0f;
+    grass.meadow.dryTint = {1.2f, 1.0f, 0.6f};
+    grass.meadow.density = 0.35f;
+    TerrainDecorationSurface surface;
+    surface.ground = flatSurface(4096.0f);
+    surface.density = [](float, float) { return 1.0f; };
+    surface.entities = {{"mm9v_tree30_1275", {2048.0f, 2048.0f, 100.0f}},
+        {"mm9v_flower03_25", {800.0f, 800.0f, 100.0f}}};
+    const TerrainDecorationPlacement placement = scatterTerrainDecorationsOnSurface(surface, grass);
+    size_t ferns = 0;
+    for (const TerrainDecorationInstance &instance : placement.instances)
+    {
+        const float distance = std::hypot(instance.positionYaw[0] - 2048.0f, instance.positionYaw[1] - 2048.0f);
+        if (instance.groundNormal[3] == 2.0f)
+        {
+            ++ferns;
+            CHECK(distance >= grass.undergrowth.innerRadius - 0.5f);
+            CHECK(distance <= grass.undergrowth.outerRadius + 0.5f);
+        }
+        // No grass on the trunk.
+        CHECK(distance >= 80.0f);
+    }
+    CHECK(ferns > 0);
+    REQUIRE_FALSE(placement.bushes.empty());
+    for (const TerrainBushInstance &bush : placement.bushes)
+    {
+        const float distance = std::hypot(bush.position[0] - 2048.0f, bush.position[1] - 2048.0f);
+        CHECK(distance > grass.bushes.radius + grass.bushes.clearance);
+        CHECK(bush.position[2] == doctest::Approx(96.0f));
+    }
+
+    // A dry field tints and thins the grass.
+    OutdoorMeadowField dry;
+    dry.values.assign(size_t(OutdoorMapData::TerrainWidth) * OutdoorMapData::TerrainWidth, 1.0f);
+    surface.pMeadow = &dry;
+    const TerrainDecorationPlacement dried = scatterTerrainDecorationsOnSurface(surface, grass);
+    CHECK(dried.instances.size() < placement.instances.size());
+    REQUIRE_FALSE(dried.instances.empty());
+    const TerrainDecorationInstance &tuft = dried.instances.front();
+    CHECK(tuft.color[0] > tuft.color[2]);
+}
+
+TEST_CASE("The meadow field of a surface finds the shore and the crests")
+{
+    // A ridge along x = 0 rising 2000 over the plain at 0, and the sea over x < -12000.
+    std::vector<TerrainDecorationSurfaceTriangle> ground;
+    for (float x0 = -16384.0f; x0 < 16384.0f; x0 += 1024.0f)
+    {
+        const auto height = [](float x) { return std::max(0.0f, 2000.0f - std::abs(x) * 0.5f); };
+        const float x1 = x0 + 1024.0f;
+        ground.push_back({{{{x0, -16384.0f, height(x0)}, {x1, -16384.0f, height(x1)}, {x1, 16384.0f, height(x1)}}},
+            {0.0f, 0.0f, 1.0f}});
+        ground.push_back({{{{x0, -16384.0f, height(x0)}, {x1, 16384.0f, height(x1)}, {x0, 16384.0f, height(x0)}}},
+            {0.0f, 0.0f, 1.0f}});
+    }
+    const OutdoorMeadowField field = buildTerrainSurfaceMeadow(ground,
+        [](float x, float, float z) { return x < -12000.0f && z < 50.0f; });
+    REQUIRE_FALSE(field.values.empty());
+    CHECK(field.sample(0.0f, 0.0f) > 0.2f);
+    CHECK(field.sample(-11000.0f, 0.0f) < -0.2f);
+    CHECK(buildTerrainSurfaceMeadow({}, {}).values.empty());
 }

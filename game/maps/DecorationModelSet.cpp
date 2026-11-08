@@ -282,6 +282,32 @@ Engine::ModelStaticPlacement DecorationModelSet::placementFor(const Binding &bin
     return placement;
 }
 
+std::optional<DecorationPortraitModel> DecorationModelSet::portraitModel(
+    const std::vector<DecorationBillboard> &billboards, uint32_t spriteOverrideKey) const
+{
+    std::optional<DecorationPortraitModel> found;
+    for (size_t index = 0; index < billboards.size() && index < m_slots.size(); ++index)
+    {
+        if (billboards[index].spriteOverrideKey() != spriteOverrideKey)
+        {
+            continue;
+        }
+        const Slot &slot = m_slots[index];
+        if (found || slot.group < 0 || slot.binding < 0 || size_t(slot.binding) >= m_bindings.size())
+        {
+            return std::nullopt;
+        }
+        const Binding &binding = m_bindings[size_t(slot.binding)];
+        const Engine::ModelBounds &bounds = binding.asset->staticBounds;
+        const float extent = bounds.max[1] - bounds.min[1];
+        // A decoration placed at facing 0 shows its front a quarter turn from +X (a posed figure at facing 270 faces
+        // +X in the world): a quarter turn back turns it to the portrait's camera.
+        found = DecorationPortraitModel{binding.asset, binding.materialVariant,
+            binding.yawOffset - 0.5f * std::numbers::pi_v<float>, extent > 0.0f ? binding.height / extent : 1.0f};
+    }
+    return found;
+}
+
 float DecorationModelSet::heightJitter(const Binding &binding, const DecorationBillboard &billboard)
 {
     return 1.0f + binding.heightJitter * (2.0f * placementRandom(billboard.x, billboard.y, 1) - 1.0f);
@@ -444,7 +470,7 @@ void DecorationModelSet::update(const std::vector<DecorationBillboard> &billboar
     m_settled = true;
 }
 
-void DecorationModelSet::pose(size_t billboardIndex, float yawRadians, float back)
+void DecorationModelSet::pose(size_t billboardIndex, float yawRadians, float back, const std::array<float, 3> &offset)
 {
     if (billboardIndex >= m_slots.size() || m_slots[billboardIndex].group < 0 || m_slots[billboardIndex].turning)
     {
@@ -452,7 +478,7 @@ void DecorationModelSet::pose(size_t billboardIndex, float yawRadians, float bac
     }
 
     const Slot &slot = m_slots[billboardIndex];
-    const auto posed = [yawRadians, back](const Engine::ModelMatrix &rest)
+    const auto posed = [yawRadians, back, &offset](const Engine::ModelMatrix &rest)
     {
         Engine::ModelMatrix matrix = rest;
         const float cosine = std::cos(yawRadians);
@@ -471,6 +497,10 @@ void DecorationModelSet::pose(size_t billboardIndex, float yawRadians, float bac
             {
                 matrix[12 + axis] -= matrix[8 + axis] / length * back;
             }
+        }
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            matrix[12 + axis] += offset[axis];
         }
         return matrix;
     };
@@ -492,9 +522,10 @@ void DecorationModelSet::poseAimed(const std::vector<DecorationBillboard> &billb
     {
         float yawRadians = 0.0f;
         float back = 0.0f;
-        if (aimed(billboards[index].spriteOverrideKey(), yawRadians, back))
+        std::array<float, 3> offset = {};
+        if (aimed(billboards[index].spriteOverrideKey(), yawRadians, back, offset))
         {
-            pose(index, yawRadians, back);
+            pose(index, yawRadians, back, offset);
         }
     }
 }

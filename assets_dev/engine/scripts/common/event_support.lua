@@ -1504,13 +1504,17 @@ function support.promotePlayers(promotion)
     return result
 end
 
-function support.applyLocalMonsterRelations(relations)
-    if relations == nil then
-        return
-    end
+-- MMMerge's per-map hostile.txt cells (LocalHostileTxt(), then Game.HostileTxt[faction][otherFaction] = relation):
+-- {faction, otherFaction, relation} in the table's faction numbers, where faction 0 is the party and monster id m is
+-- faction (m - 1) // 3 + 1. Call at the top level of a map script: the game reads them when the map loads, before its
+-- actors take their starting hostility, and they last while the map is loaded. Group and actor hostility bits,
+-- reputation and party attacks still decide over them, as in MMMerge.
+function support.setLocalFactionRelations(relations)
+    local meta = ensureMetaScope("map")
+    meta.factionRelations = meta.factionRelations or {}
 
     for _, relation in ipairs(relations) do
-        evt.SetMonsterRelation(relation[1] or 0, relation[2] or 0, relation[3] or 0)
+        table.insert(meta.factionRelations, {relation[1], relation[2], relation[3]})
     end
 end
 
@@ -1720,7 +1724,7 @@ SetPlayerSkill = support.setPlayerSkill
 PlayerClassMatches = support.playerClassMatches
 ApplyPlayerRewards = support.applyPlayerRewards
 PromotePlayers = support.promotePlayers
-ApplyLocalMonsterRelations = support.applyLocalMonsterRelations
+SetLocalFactionRelations = support.setLocalFactionRelations
 SetNPCName = support.setNpcName
 SetNPCPicture = support.setNpcPicture
 SetNPCProfession = support.setNpcProfession
@@ -1828,4 +1832,4 @@ setPlayerSkill = support.setPlayerSkill
 playerClassMatches = support.playerClassMatches
 applyPlayerRewards = support.applyPlayerRewards
 promotePlayers = support.promotePlayers
-applyLocalMonsterRelations = support.applyLocalMonsterRelations
+setLocalFactionRelations = support.setLocalFactionRelations

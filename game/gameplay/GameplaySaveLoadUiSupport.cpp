@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 
+#include "engine/Localization.h"
 #include "game/gameplay/SavePreviewImage.h"
 #include "game/maps/SaveGame.h"
 #include "game/StringUtils.h"
@@ -25,30 +26,39 @@ struct CivilTime
     int weekday = 0;
 };
 
-constexpr std::array<const char *, 7> WeekdayNames = {
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun"
-};
+// The save slots' short day and month names, under their own contexts ("May" is short and long in English).
+std::string weekdayShortName(int weekday)
+{
+    switch (weekday)
+    {
+        case 0: return Engine::trc("weekday short", "Mon");
+        case 1: return Engine::trc("weekday short", "Tue");
+        case 2: return Engine::trc("weekday short", "Wed");
+        case 3: return Engine::trc("weekday short", "Thu");
+        case 4: return Engine::trc("weekday short", "Fri");
+        case 5: return Engine::trc("weekday short", "Sat");
+        default: return Engine::trc("weekday short", "Sun");
+    }
+}
 
-constexpr std::array<const char *, 12> MonthNames = {
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-};
+std::string monthShortName(int month)
+{
+    switch (month)
+    {
+        case 0: return Engine::trc("month short", "Jan");
+        case 1: return Engine::trc("month short", "Feb");
+        case 2: return Engine::trc("month short", "Mar");
+        case 3: return Engine::trc("month short", "Apr");
+        case 4: return Engine::trc("month short", "May");
+        case 5: return Engine::trc("month short", "Jun");
+        case 6: return Engine::trc("month short", "Jul");
+        case 7: return Engine::trc("month short", "Aug");
+        case 8: return Engine::trc("month short", "Sep");
+        case 9: return Engine::trc("month short", "Oct");
+        case 10: return Engine::trc("month short", "Nov");
+        default: return Engine::trc("month short", "Dec");
+    }
+}
 
 CivilTime civilTimeFromGameMinutes(float gameMinutes)
 {
@@ -73,20 +83,17 @@ std::string formatClock(const CivilTime &time)
         hour = 12;
     }
 
-    const char *pMeridiem = time.hour >= 12 ? "PM" : "AM";
-    return std::string(WeekdayNames[time.weekday])
-        + " "
-        + std::to_string(hour)
-        + ":"
-        + (time.minute < 10 ? "0" : "")
-        + std::to_string(time.minute)
-        + " "
-        + pMeridiem;
+    const std::string minute = (time.minute < 10 ? "0" : "") + std::to_string(time.minute);
+    const std::string weekday = weekdayShortName(time.weekday);
+    return time.hour >= 12
+        ? Engine::tr("{weekday} {hour}:{minute} PM", {{"weekday", weekday}, {"hour", hour}, {"minute", minute}})
+        : Engine::tr("{weekday} {hour}:{minute} AM", {{"weekday", weekday}, {"hour", hour}, {"minute", minute}});
 }
 
 std::string formatDate(const CivilTime &time)
 {
-    return std::string(MonthNames[time.month]) + " " + std::to_string(time.day) + ", " + std::to_string(time.year);
+    return Engine::tr("{month} {day}, {year}",
+        {{"month", monthShortName(time.month)}, {"day", time.day}, {"year", time.year}});
 }
 
 std::string friendlySaveFileLabel(const std::filesystem::path &path)
@@ -147,7 +154,8 @@ std::string resolveSaveLocationName(const std::vector<MapStatsEntry> &mapEntries
     {
         if (toLowerCopy(entry.fileName) == mapId || toLowerCopy(entry.canonicalId) == mapId)
         {
-            return entry.name;
+            // map_stats.txt names are English; the save lists show them in the interface language.
+            return Engine::localize(entry.name);
         }
     }
 
@@ -193,6 +201,7 @@ void refreshSaveGameSlots(
 
         if (slot.fileLabel.empty())
         {
+            // Compared as English by the save screen's input; translated where it is drawn.
             slot.fileLabel = "Empty";
         }
 

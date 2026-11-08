@@ -1,14 +1,17 @@
 #include "game/gameplay/GameplayCombatController.h"
+#include "engine/Localization.h"
 
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayBolsterRuntime.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/gameplay/ActorNameText.h"
 
 #include <algorithm>
 #include <cmath>
@@ -328,12 +331,26 @@ CombatLog *recordingCombatLog()
     return pLog != nullptr && pLog->recording() ? pLog : nullptr;
 }
 
-// A spell's name for the combat log; "a spell" where no spell table is at hand.
-std::string combatLogSpellName(GameplayScreenRuntime *pRuntime, int spellId)
+// A spell's English name, the statistics' identity; "a spell" where no spell table is at hand.
+std::string englishSpellName(GameplayScreenRuntime *pRuntime, int spellId)
 {
     const SpellTable *pSpells = pRuntime != nullptr ? pRuntime->spellTable() : nullptr;
     const SpellEntry *pSpell = pSpells != nullptr ? pSpells->findById(spellId) : nullptr;
     return pSpell != nullptr && !pSpell->name.empty() ? pSpell->name : "a spell";
+}
+
+// A spell's name for the combat log, as the player reads it.
+std::string combatLogSpellName(GameplayScreenRuntime *pRuntime, int spellId)
+{
+    const SpellTable *pSpells = pRuntime != nullptr ? pRuntime->spellTable() : nullptr;
+    const SpellEntry *pSpell = pSpells != nullptr ? pSpells->findById(spellId) : nullptr;
+    return pSpell != nullptr && !pSpell->name.empty() ? Engine::localize(pSpell->name, "spell") : Engine::tr("a spell");
+}
+
+// A monster's name as the player reads it; the actor keeps its English name for statistics and lookups.
+std::string displayedActorName(const std::string &name)
+{
+    return localizedActorName(name);
 }
 
 void showHitStatus(
@@ -476,7 +493,7 @@ MonsterImpactHitCheck resolveMonsterImpactHitCheck(
     result.bolsterAffectsArmorClass = sourceActor.bolsterAffectsPlayerArmorClass;
     result.attackBonus = event.attackBonus > 0 ? event.attackBonus : sourceActor.attackBonus;
 
-    const Character *pMember = context.party.member(targetMemberIndex);
+    const Character *pMember = context.party.combatant(targetMemberIndex);
 
     if (pMember == nullptr)
     {
@@ -564,7 +581,7 @@ int personalShieldPassedDamage(
     const std::optional<GameplayCombatActorInfo> &sourceActor,
     size_t memberIndex)
 {
-    const Character *pMember = context.party.member(memberIndex);
+    const Character *pMember = context.party.combatant(memberIndex);
     const MonsterTable *pMonsterTable =
         context.pWorldRuntime != nullptr ? context.pWorldRuntime->monsterTable() : nullptr;
     const bool attackerFollowsShieldRules = pMonsterTable != nullptr && sourceActor
@@ -1038,11 +1055,13 @@ bool memberImmuneToMonsterSpecialAttack(
     }
 }
 
-// What a monster's hit on a party member may leave, and its chance in percent.
+// What a monster's hit on a party member may leave, its chance in percent, and the game minutes until it wears off
+// (0: until cured).
 struct MonsterHitCondition
 {
     MonsterSpecialAttackKind kind = MonsterSpecialAttackKind::None;
     int chancePercent = 0;
+    float minutes = 0.0f;
 };
 
 // A hit by its Spell1 or Spell2 leaves that spell's spell_conditions condition (none without one); a melee hit or a
@@ -1063,7 +1082,9 @@ std::optional<MonsterHitCondition> monsterHitCondition(
         {
             return std::nullopt;
         }
-        return MonsterHitCondition {kind, int(std::lround(sourceActor.spellConditionChance * 100.0f))};
+        const float minutes = event.ability == GameplayActorAttackAbility::Spell1 ? sourceActor.spell1ConditionMinutes
+                                                                                  : sourceActor.spell2ConditionMinutes;
+        return MonsterHitCondition {kind, int(std::lround(sourceActor.spellConditionChance * 100.0f)), minutes};
     }
 
     const bool monsterMelee = event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact;
@@ -1094,7 +1115,7 @@ bool applyMonsterSpecialAttack(
     const GameplayCombatActorInfo &sourceActor,
     size_t memberIndex)
 {
-    Character *pMember = context.party.member(memberIndex);
+    Character *pMember = context.party.combatant(memberIndex);
 
     if (pMember == nullptr || pMember->health <= 0)
     {
@@ -1190,7 +1211,8 @@ bool applyMonsterSpecialAttack(
         if (alreadyHadCondition || !context.party.blockConditionWithProtectionFromMagic(*condition))
         {
             const float gameMinutes = context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f;
-            applied = context.party.applyMemberCondition(memberIndex, *condition, gameMinutes);
+            const float expireGameMinutes = hitCondition->minutes > 0.0f ? gameMinutes + hitCondition->minutes : 0.0f;
+            applied = context.party.applyMemberCondition(memberIndex, *condition, gameMinutes, expireGameMinutes);
             if (applied && monsterSpecialAttackSetsZeroHealth(kind))
             {
                 pMember->health = 0;
@@ -1388,7 +1410,8 @@ std::string GameplayCombatController::formatPartyProjectileActorImpactStatusText
 
     if (event.killed)
     {
-        return sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName;
+        return Engine::tr("{attacker} inflicts {damage} points killing {target}",
+            {{"attacker", sourceName}, {"damage", int64_t(event.damage)}, {"target", targetName}});
     }
 
     if (!partyHitLands(event.damage, false))
@@ -1396,7 +1419,8 @@ std::string GameplayCombatController::formatPartyProjectileActorImpactStatusText
         return {};
     }
 
-    return sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points";
+    return Engine::tr("{attacker} shoots {target} for {damage} points",
+        {{"attacker", sourceName}, {"target", targetName}, {"damage", int64_t(event.damage)}});
 }
 
 std::string GameplayCombatController::formatPartyAttackStatusText(
@@ -1448,7 +1472,8 @@ std::string GameplayCombatController::formatPartyAttackStatusText(
 
     if (killed)
     {
-        return attackerName + " inflicts " + std::to_string(statusDamage) + " points killing " + targetName;
+        return Engine::tr("{attacker} inflicts {damage} points killing {target}",
+            {{"attacker", attackerName}, {"damage", int64_t(statusDamage)}, {"target", targetName}});
     }
 
     if (!partyHitLands(statusDamage, attack.stunTarget))
@@ -1458,12 +1483,12 @@ std::string GameplayCombatController::formatPartyAttackStatusText(
 
     if (attack.paralyzeTarget)
     {
-        return attackerName + " paralyzes " + targetName;
+        return Engine::tr("{attacker} paralyzes {target}", {{"attacker", attackerName}, {"target", targetName}});
     }
 
     if (attack.stunTarget)
     {
-        return attackerName + " stuns " + targetName;
+        return Engine::tr("{attacker} stuns {target}", {{"attacker", attackerName}, {"target", targetName}});
     }
 
     if (attack.mode == CharacterAttackMode::Bow
@@ -1471,10 +1496,60 @@ std::string GameplayCombatController::formatPartyAttackStatusText(
         || attack.mode == CharacterAttackMode::Blaster
         || attack.mode == CharacterAttackMode::DragonBreath)
     {
-        return attackerName + " shoots " + targetName + " for " + std::to_string(statusDamage) + " points";
+        return Engine::tr("{attacker} shoots {target} for {damage} points",
+            {{"attacker", attackerName}, {"target", targetName}, {"damage", int64_t(statusDamage)}});
     }
 
-    return attackerName + " hits " + targetName + " for " + std::to_string(statusDamage) + " damage";
+    return Engine::tr("{attacker} hits {target} for {damage} damage",
+        {{"attacker", attackerName}, {"target", targetName}, {"damage", int64_t(statusDamage)}});
+}
+
+namespace
+{
+// A party hit for the playthrough statistics: the damage by school and member, and the kill's credit.
+void recordPartyHitStatistics(
+    Party &party,
+    size_t memberIndex,
+    CombatDamageType damageType,
+    int damage,
+    bool critical,
+    bool killed,
+    StatKillMethod method,
+    const std::string &source,
+    const std::string &target)
+{
+    PlaythroughStatistics *pStatistics = party.statistics();
+
+    if (pStatistics == nullptr)
+    {
+        return;
+    }
+
+    // MM9 hirelings fight beside the members; their hits count for the party, not for a member.
+    const bool member = memberIndex < party.members().size() && !party.isHirelingCombatant(memberIndex);
+    const StatMemberRef memberRef = member ? party.statsMember(memberIndex) : StatMemberRef{};
+    const StatMemberRef *pMember = member ? &memberRef : nullptr;
+
+    if (damage > 0)
+    {
+        pStatistics->recordDamageDealt(pMember, size_t(damageType), uint64_t(damage), critical, source, target);
+    }
+
+    if (killed)
+    {
+        pStatistics->recordKillCredit(pMember, method);
+    }
+}
+
+StatDamageTakenKind monsterHitKind(const GameplayCombatController::CombatEvent &event)
+{
+    if (event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact)
+    {
+        return StatDamageTakenKind::Melee;
+    }
+
+    return event.spellId > 0 ? StatDamageTakenKind::Spell : StatDamageTakenKind::Missile;
+}
 }
 
 void GameplayCombatController::handlePartyAttackPresentation(
@@ -1552,12 +1627,21 @@ void GameplayCombatController::handlePartyAttackPresentation(
 
     const std::string status = formatPartyAttackStatusText(
         attack.attackerName,
-        attack.targetName,
+        displayedActorName(attack.targetName),
         attack.attack,
         attack.killed,
         attack.appliedDamage,
         &boundGameRules().combat);
     showHitStatus(pRuntime, status);
+
+    if (pRuntime != nullptr && pRuntime->party() != nullptr && attack.actionPerformed
+        && attack.attack.mode == CharacterAttackMode::Melee && attack.attacked && attack.attack.hit
+        && attack.appliedDamage)
+    {
+        recordPartyHitStatistics(*pRuntime->party(), attack.memberIndex, attack.attack.damageType,
+            *attack.appliedDamage, attack.attack.criticalDamage, attack.killed, StatKillMethod::Melee, "melee",
+            attack.targetName);
+    }
 
     // Missiles and spells are logged when they land (handlePendingCombatEvents).
     CombatLog *pLog = recordingCombatLog();
@@ -1569,7 +1653,7 @@ void GameplayCombatController::handlePartyAttackPresentation(
         entry.kind = CombatLogKind::Dealt;
         entry.attacker = attack.attackerName;
         entry.verb = "hits";
-        entry.target = attack.targetName;
+        entry.target = displayedActorName(attack.targetName);
         entry.amount = *attack.appliedDamage;
         entry.critical = attack.attack.criticalDamage;
         entry.killed = attack.killed;
@@ -1587,7 +1671,7 @@ void logMonsterHit(
     size_t memberIndex,
     int damage)
 {
-    const Character *pMember = context.party.member(memberIndex);
+    const Character *pMember = context.party.combatant(memberIndex);
     CombatLog *pLog = recordingCombatLog();
 
     if (pLog == nullptr || pMember == nullptr || damage <= 0)
@@ -1597,7 +1681,8 @@ void logMonsterHit(
 
     CombatLogEntry entry;
     entry.kind = CombatLogKind::Taken;
-    entry.attacker = sourceActor && !sourceActor->displayName.empty() ? sourceActor->displayName : "A monster";
+    entry.attacker = sourceActor && !sourceActor->displayName.empty() ? displayedActorName(sourceActor->displayName)
+                                                                      : Engine::tr("A monster");
     entry.verb = event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact ? "hits"
         : event.spellId > 0                                                                    ? "casts"
                                                                                                : "shoots";
@@ -1644,11 +1729,13 @@ void GameplayCombatController::handlePendingCombatEvents(
     {
         if (event.type == CombatEventType::PartyProjectileActorImpact)
         {
-            const Character *pSourceMember = context.party.member(event.sourcePartyMemberIndex);
+            const Character *pSourceMember = context.party.combatant(event.sourcePartyMemberIndex);
             const std::optional<GameplayCombatActorInfo> targetActor = resolveActor(context, event.targetActorId);
             const std::string sourceName =
-                pSourceMember != nullptr && !pSourceMember->name.empty() ? pSourceMember->name : "party";
+                pSourceMember != nullptr && !pSourceMember->name.empty() ? pSourceMember->name : Engine::tr("party");
             const std::string targetName = targetActor ? targetActor->displayName : "monster";
+            const std::string displayedTargetName =
+                targetActor ? displayedActorName(targetActor->displayName) : Engine::tr("monster");
 
             GAMEPLAY_COMBAT_TRACE_BLOCK(
             {
@@ -1710,7 +1797,8 @@ void GameplayCombatController::handlePendingCombatEvents(
                     return entry.first == std::pair<uint32_t, int>(event.sourcePartyMemberIndex, event.spellId);
                 });
             const int monstersHit = total != spellTotals.end() ? total->second.first : 1;
-            const std::string status = formatPartyProjectileActorImpactStatusText(sourceName, targetName, event,
+            const std::string status = formatPartyProjectileActorImpactStatusText(sourceName, displayedTargetName,
+                event,
                 &context.party.rules().combat,
                 monstersHit,
                 total != spellTotals.end() ? total->second.second : event.damage);
@@ -1724,7 +1812,7 @@ void GameplayCombatController::handlePendingCombatEvents(
                 entry.attacker = sourceName;
                 entry.verb = event.spellId > 0 ? "casts" : "shoots";
                 entry.spell = event.spellId > 0 ? combatLogSpellName(context.pRuntime, event.spellId) : std::string();
-                entry.target = targetName;
+                entry.target = displayedTargetName;
                 entry.amount = event.damage;
                 entry.critical = event.critical;
                 entry.killed = event.killed;
@@ -1737,15 +1825,26 @@ void GameplayCombatController::handlePendingCombatEvents(
                     == loggedSpellTotals.end())
                 {
                     loggedSpellTotals.push_back(total->first);
-                    entry.target = std::to_string(monstersHit) + " monsters";
+                    entry.target = Engine::trn("{count} monster", "{count} monsters", uint64_t(monstersHit),
+                        {{"count", monstersHit}});
                     entry.amount = total->second.second;
                     entry.killed = false;
                     pLog->add(std::move(entry), false);
                 }
             }
 
+            if (event.hit)
+            {
+                recordPartyHitStatistics(context.party, event.sourcePartyMemberIndex, event.damageType, event.damage,
+                    event.critical, event.killed, event.spellId > 0 ? StatKillMethod::Spell : StatKillMethod::Missile,
+                    event.spellId > 0 ? englishSpellName(context.pRuntime, event.spellId) : std::string("missile"),
+                    targetName);
+            }
+
             // Only rules with hit effects need the hit, and its actor found by a scan of the map's actors (STD3-4).
-            if (event.hit && event.damage > 0 && targetActor && context.party.rules().combat.usesPartyHitEffects())
+            // A hireling's missile has none of the members' hit effects (rulesets' skills and items).
+            if (event.hit && event.damage > 0 && targetActor && context.party.rules().combat.usesPartyHitEffects()
+                && !context.party.isHirelingCombatant(event.sourcePartyMemberIndex))
             {
                 PartyHitOnMonster hit;
                 hit.memberIndex = event.sourcePartyMemberIndex;
@@ -1856,8 +1955,9 @@ void GameplayCombatController::handlePendingCombatEvents(
                         if (pCoverer != nullptr && pCovered != nullptr)
                         {
                             showHitStatus(context.pRuntime, cover->halved
-                                ? pCoverer->name + " covers the blow"
-                                : pCoverer->name + " covers " + pCovered->name);
+                                ? Engine::tr("{name} covers the blow", {{"name", pCoverer->name}})
+                                : Engine::tr("{name} covers {covered}",
+                                    {{"name", pCoverer->name}, {"covered", pCovered->name}}));
                         }
 
                         // As MAW shows it (zzMaw-Monsters.lua:3970-3971): the Shield spell's portrait flash on the
@@ -1878,7 +1978,7 @@ void GameplayCombatController::handlePendingCombatEvents(
             }
         }
 
-        Character *pTargetMember = targetMemberIndex ? context.party.member(*targetMemberIndex) : nullptr;
+        Character *pTargetMember = targetMemberIndex ? context.party.combatant(*targetMemberIndex) : nullptr;
         const bool needsArmorHitRoll = monsterImpactRequiresArmorHitRoll(event, sourceActor);
 
         std::optional<MonsterImpactHitCheck> hitCheck = std::nullopt;
@@ -1963,9 +2063,10 @@ void GameplayCombatController::handlePendingCombatEvents(
 
         if (event.affectsAllParty)
         {
-            for (size_t memberIndex = 0; memberIndex < context.party.members().size(); ++memberIndex)
+            // The whole party: the MM9 hirelings too (Party::combatant; the members alone without hirelings).
+            for (size_t memberIndex = 0; memberIndex < context.party.combatantCount(); ++memberIndex)
             {
-                Character *pMember = context.party.member(memberIndex);
+                Character *pMember = context.party.combatant(memberIndex);
 
                 if (pMember == nullptr
                     || (pMember->health <= 0
@@ -2011,7 +2112,7 @@ void GameplayCombatController::handlePendingCombatEvents(
                         appendMemberDefenseSummary(out, *pMember, context.pRuntime);
                         gameplayCombatTraceWrite(out.str());
                     });
-                    showHitStatus(context.pRuntime, pMember->name + " evades damage");
+                    showHitStatus(context.pRuntime, Engine::tr("{name} evades damage", {{"name", pMember->name}}));
                     continue;
                 }
 
@@ -2022,6 +2123,8 @@ void GameplayCombatController::handlePendingCombatEvents(
                     ? adjustedIncomingDamageForMember(
                         context, event, sourceActor, *pMember, memberIndex, isPhysicalProjectile, shieldedDamage)
                     : 0;
+                context.party.setIncomingDamageSource(
+                    monsterHitKind(event), sourceActor ? sourceActor->displayName : std::string());
                 const bool applied = context.party.applyDamageToMember(memberIndex, adjustedDamage, "", true);
                 damagedParty = applied || damagedParty;
 
@@ -2085,7 +2188,7 @@ void GameplayCombatController::handlePendingCombatEvents(
                     }
                     gameplayCombatTraceWrite(out.str());
                 });
-                showHitStatus(context.pRuntime, pTargetMember->name + " evades damage");
+                showHitStatus(context.pRuntime, Engine::tr("{name} evades damage", {{"name", pTargetMember->name}}));
             }
 
             if (!evaded && targetMemberIndex.has_value())
@@ -2111,6 +2214,12 @@ void GameplayCombatController::handlePendingCombatEvents(
                             coverHalved)
                         : 0)
                     : event.damage;
+
+            if (targetMemberIndex && !evaded)
+            {
+                context.party.setIncomingDamageSource(
+                    monsterHitKind(event), sourceActor ? sourceActor->displayName : std::string());
+            }
 
             damagedParty = targetMemberIndex
                 ? (!evaded && context.party.applyDamageToMember(*targetMemberIndex, adjustedDamage, ""))

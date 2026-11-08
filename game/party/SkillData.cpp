@@ -1,8 +1,11 @@
 #include "game/party/SkillData.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <string_view>
 #include <unordered_map>
 
 namespace OpenYAMM::Game
@@ -243,57 +246,57 @@ const std::unordered_map<std::string, std::string> SkillAliases = {
     {"darkmagic", "DarkMagic"},
 };
 
-const std::unordered_map<std::string, std::string> DisplayClassNames = {
-    {"WarriorMage", "Warrior Mage"},
-    {"MasterArcher", "Master Archer"},
-    {"PriestLight", "Priest of the Light"},
-    {"PriestDark", "Priest of the Dark"},
-    {"DeathKnight", "Death Knight"},
-    {"DeathLord", "Death Lord"},
-    {"LichKing", "Lich King"},
-    {"ElementalAdept", "Elemental Adept"},
-    {"MasterOfElements", "Master of Elements"},
-    {"DarkElf", "Dark Elf"},
-    {"GreatWyrm", "Great Wyrm"},
-    {"GreatDruid", "Great Druid"},
-    {"ArchDruid", "Arch Druid"},
-    {"BlackKnight", "Black Knight"},
-    {"MinotaurLord", "Minotaur Lord"},
-    {"BountyHunter", "Bounty Hunter"},
-    {"RangerLord", "Ranger Lord"},
-    {"WarTroll", "War Troll"},
-    {"ArchMage", "Arch Mage"},
-    {"DarkArchMage", "Dark ArchMage"},
-    {"HighPriest", "High Priest"},
-    {"MasterWizard", "Master Wizard"},
+const std::unordered_map<std::string, std::string_view> DisplayClassNames = {
+    {"WarriorMage", Engine::trNoop("Warrior Mage")},
+    {"MasterArcher", Engine::trNoop("Master Archer")},
+    {"PriestLight", Engine::trNoop("Priest of the Light")},
+    {"PriestDark", Engine::trNoop("Priest of the Dark")},
+    {"DeathKnight", Engine::trNoop("Death Knight")},
+    {"DeathLord", Engine::trNoop("Death Lord")},
+    {"LichKing", Engine::trNoop("Lich King")},
+    {"ElementalAdept", Engine::trNoop("Elemental Adept")},
+    {"MasterOfElements", Engine::trNoop("Master of Elements")},
+    {"DarkElf", Engine::trNoop("Dark Elf")},
+    {"GreatWyrm", Engine::trNoop("Great Wyrm")},
+    {"GreatDruid", Engine::trNoop("Great Druid")},
+    {"ArchDruid", Engine::trNoop("Arch Druid")},
+    {"BlackKnight", Engine::trNoop("Black Knight")},
+    {"MinotaurLord", Engine::trNoop("Minotaur Lord")},
+    {"BountyHunter", Engine::trNoop("Bounty Hunter")},
+    {"RangerLord", Engine::trNoop("Ranger Lord")},
+    {"WarTroll", Engine::trNoop("War Troll")},
+    {"ArchMage", Engine::trNoop("Arch Mage")},
+    {"DarkArchMage", Engine::trNoop("Dark ArchMage")},
+    {"HighPriest", Engine::trNoop("High Priest")},
+    {"MasterWizard", Engine::trNoop("Master Wizard")},
 };
 
-const std::unordered_map<std::string, std::string> DisplaySkillNames = {
-    {"Throwing", "Throwing Weapons"},
-    {"LeatherArmor", "Leather Armor"},
-    {"ChainArmor", "Chain Armor"},
-    {"PlateArmor", "Plate Armor"},
-    {"FireMagic", "Fire Magic"},
-    {"AirMagic", "Air Magic"},
-    {"WaterMagic", "Water Magic"},
-    {"EarthMagic", "Earth Magic"},
-    {"SpiritMagic", "Spirit Magic"},
-    {"MindMagic", "Mind Magic"},
-    {"BodyMagic", "Body Magic"},
-    {"LightMagic", "Light Magic"},
-    {"DarkMagic", "Dark Magic"},
-    {"DarkElfAbility", "Dark Elf Ability"},
-    {"VampireAbility", "Vampire Ability"},
-    {"DragonAbility", "Dragon Ability"},
-    {"IdentifyItem", "Identify Item"},
-    {"RepairItem", "Repair Item"},
-    {"Bodybuilding", "Body Building"},
-    {"IdentifyMonster", "Identify Monster"},
-    {"DisarmTraps", "Disarm Traps"},
-    {"EnergyGuns", "Energy Guns"},
-    {"EnergyBlades", "Energy Blades"},
-    {"ShieldTech", "Shield Tech"},
-    {"ManaShield", "Mana Shield"},
+const std::unordered_map<std::string, std::string_view> DisplaySkillNames = {
+    {"Throwing", Engine::trNoop("Throwing Weapons")},
+    {"LeatherArmor", Engine::trNoop("Leather Armor")},
+    {"ChainArmor", Engine::trNoop("Chain Armor")},
+    {"PlateArmor", Engine::trNoop("Plate Armor")},
+    {"FireMagic", Engine::trNoop("Fire Magic")},
+    {"AirMagic", Engine::trNoop("Air Magic")},
+    {"WaterMagic", Engine::trNoop("Water Magic")},
+    {"EarthMagic", Engine::trNoop("Earth Magic")},
+    {"SpiritMagic", Engine::trNoop("Spirit Magic")},
+    {"MindMagic", Engine::trNoop("Mind Magic")},
+    {"BodyMagic", Engine::trNoop("Body Magic")},
+    {"LightMagic", Engine::trNoop("Light Magic")},
+    {"DarkMagic", Engine::trNoop("Dark Magic")},
+    {"DarkElfAbility", Engine::trNoop("Dark Elf Ability")},
+    {"VampireAbility", Engine::trNoop("Vampire Ability")},
+    {"DragonAbility", Engine::trNoop("Dragon Ability")},
+    {"IdentifyItem", Engine::trNoop("Identify Item")},
+    {"RepairItem", Engine::trNoop("Repair Item")},
+    {"Bodybuilding", Engine::trNoop("Body Building")},
+    {"IdentifyMonster", Engine::trNoop("Identify Monster")},
+    {"DisarmTraps", Engine::trNoop("Disarm Traps")},
+    {"EnergyGuns", Engine::trNoop("Energy Guns")},
+    {"EnergyBlades", Engine::trNoop("Energy Blades")},
+    {"ShieldTech", Engine::trNoop("Shield Tech")},
+    {"ManaShield", Engine::trNoop("Mana Shield")},
 };
 
 std::map<std::string, std::string> RulesetDisplaySkillNames;
@@ -367,12 +370,12 @@ std::string canonicalSkillName(const std::string &name)
 std::string displayClassName(const std::string &className)
 {
     const std::string canonicalName = canonicalClassName(className);
-    const std::unordered_map<std::string, std::string>::const_iterator displayIt =
+    const std::unordered_map<std::string, std::string_view>::const_iterator displayIt =
         DisplayClassNames.find(canonicalName);
 
     if (displayIt != DisplayClassNames.end())
     {
-        return displayIt->second;
+        return std::string(displayIt->second);
     }
 
     return canonicalName;
@@ -387,12 +390,12 @@ std::string displaySkillName(const std::string &skillName)
     {
         return rulesetIt->second;
     }
-    const std::unordered_map<std::string, std::string>::const_iterator displayIt =
+    const std::unordered_map<std::string, std::string_view>::const_iterator displayIt =
         DisplaySkillNames.find(canonicalName);
 
     if (displayIt != DisplaySkillNames.end())
     {
-        return displayIt->second;
+        return std::string(displayIt->second);
     }
 
     return canonicalName;
@@ -408,15 +411,15 @@ std::string masteryDisplayName(SkillMastery mastery)
     switch (mastery)
     {
         case SkillMastery::Normal:
-            return "Normal";
+            return std::string(Engine::trNoop("Normal"));
         case SkillMastery::Expert:
-            return "Expert";
+            return std::string(Engine::trNoop("Expert"));
         case SkillMastery::Master:
-            return "Master";
+            return std::string(Engine::trNoop("Master"));
         case SkillMastery::Grandmaster:
-            return "Grandmaster";
+            return std::string(Engine::trNoop("Grandmaster"));
         default:
-            return "None";
+            return std::string(Engine::trNoop("None"));
     }
 }
 

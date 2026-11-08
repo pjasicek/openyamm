@@ -30,7 +30,7 @@ std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorld
             || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dying
             || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dead
             || pActor->isInvisible
-            || !pActor->hostileToParty
+            || !worldRuntime.mapActorBlocksPartyMovement(*pActor)
             || pActor->radius == 0
             || pActor->height == 0)
         {
@@ -479,12 +479,14 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         {
             result.shouldOpenEventDialog = result.shouldOpenEventDialog
                 || activation->pTransition->askPlayer;
+            // An exit that does not ask is a voyage (Ravensford's ship to the Isle of Ashes, its boat on to Sturmford):
+            // the days pass, but only a walk between regions, which always asks, eats food.
             if (!activation->pTransition->askPlayer
                 && applyTravelDaysSideEffects(
                     m_pPartyRuntime->party(),
                     m_pWorldRuntime,
                     activation->pTransition->travelDays,
-                    std::max(0, activation->pTransition->travelDays))
+                    0)
                 && pEventRuntimeState->pendingMapMove)
             {
                 pEventRuntimeState->pendingMapMove->travelTimeApplied = true;
@@ -742,6 +744,7 @@ bool OutdoorSceneRuntime::processMonsterKilledEvents()
         context.kind = EventRuntimeHookKind::MonsterKilled;
         context.actorIndex = event.actorIndex;
         context.monsterId = event.monsterId;
+        context.byParty = event.byParty;
         pState->activeHookContext = std::move(context);
         executed = executeEventHooks(EventRuntimeHookKind::MonsterKilled) || executed;
     }

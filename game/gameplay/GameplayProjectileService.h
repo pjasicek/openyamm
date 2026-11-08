@@ -6,6 +6,7 @@
 #include <functional>
 #include <cstdint>
 #include <optional>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -366,6 +367,16 @@ public:
         bool directImpactActor = false;
     };
 
+    // A standing destructible that takes damage (devdocs/INDOOR_DESTRUCTIBLES.md), by its box: the world's id for it
+    // (an indoor scene id, an outdoor source object index). The one the missile struck takes only the direct hit.
+    struct ProjectileAreaImpactDestructibleFacts
+    {
+        uint32_t id = 0;
+        GameplayWorldPoint boundsMin = {};
+        GameplayWorldPoint boundsMax = {};
+        bool directImpact = false;
+    };
+
     struct ProjectileAreaImpactInput
     {
         float impactX = 0.0f;
@@ -385,6 +396,12 @@ public:
     struct ProjectileAreaImpactActorHit
     {
         size_t actorIndex = 0;
+        int damage = 0;
+    };
+
+    struct ProjectileAreaImpactDestructibleHit
+    {
+        uint32_t id = 0;
         int damage = 0;
     };
 
@@ -439,6 +456,8 @@ public:
         GameplayWorldPoint point;
         std::string colliderName;
         size_t worldFaceIndex = static_cast<size_t>(-1);
+        // A destructible decoration the missile struck (an indoor entity index; kind World, no face).
+        size_t worldEntityIndex = static_cast<size_t>(-1);
         size_t actorIndex = static_cast<size_t>(-1);
         uint32_t actorId = 0;
         int targetArmorClass = 0;
@@ -869,6 +888,15 @@ public:
     ProjectileAreaImpact buildProjectileAreaImpact(
         const ProjectileState &projectile,
         const ProjectileAreaImpactInput &input) const;
+    // The destructibles an area impact (a fireball's blast) reaches, each within the radius of the impact point by its
+    // box, and the damage each takes: the blast's damage, as an actor takes it. Only a party's or an event's missile
+    // breaks the map (a monster's does not), and the destructible it struck takes only its direct hit.
+    static std::vector<ProjectileAreaImpactDestructibleHit> buildProjectileAreaDestructibleHits(
+        const ProjectileState &projectile,
+        const GameplayWorldPoint &impactPoint,
+        float impactRadius,
+        int nonPartyProjectileDamage,
+        const std::vector<ProjectileAreaImpactDestructibleFacts> &destructibles);
     ProjectileDirectActorImpact buildProjectileDirectActorImpact(
         const ProjectileState &projectile,
         const ProjectileDirectActorImpactInput &input) const;
@@ -918,6 +946,15 @@ public:
         const ItemTable *pItemTable,
         const MonsterTable::MonsterStatsEntry &targetStats,
         int targetCurrentHp);
+    // A party arrow's direct hit gains its bow's elemental enchantment and artifact damage, rolled for the hit and
+    // after the slaying multiplier and shield halving, as MM8 adds it; each element resists its own part. Nothing for
+    // spells, blaster shots, an explosion's splash or rules that add it themselves.
+    static void addPartyArrowElements(
+        PartyMissileSource &source,
+        const ProjectileState &projectile,
+        const Party *pParty,
+        const ItemTable *pItemTable,
+        std::mt19937 &rng);
     // A monster's every resistance, for the rules that pick among them.
     static MonsterDamageResistances monsterDamageResistances(const MonsterTable::MonsterStatsEntry &stats);
 

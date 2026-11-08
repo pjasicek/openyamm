@@ -111,7 +111,7 @@ bool voiceSpeechResolves(
 
     for (uint32_t soundId : soundIds)
     {
-        const std::optional<std::string> virtualPath = soundCatalog.buildVirtualPath(soundId);
+        const std::optional<std::string> virtualPath = soundCatalog.buildVirtualPathAnyScope(soundId);
 
         if (virtualPath && assetFileSystem.exists(*virtualPath))
         {
@@ -280,8 +280,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(classExtraTable.entries()[10].kind, 4u);
 
     CHECK_EQ(characterSelectionTable.raceCount(), 11u);
-    REQUIRE_EQ(characterSelectionTable.continents().size(), 4u);
+    REQUIRE_EQ(characterSelectionTable.continents().size(), 5u);
     CHECK_EQ(characterSelectionTable.continents()[0].name, "Jadam");
+    // MM9's Chedian: every base class but the Necromancer (44), no undead start.
+    const OpenYAMM::Game::MergedCharacterSelectionContinent &chedian = characterSelectionTable.continents()[4];
+    CHECK_EQ(chedian.key, "chedian");
+    CHECK(std::find(chedian.availableClassIds.begin(), chedian.availableClassIds.end(), 44u)
+          == chedian.availableClassIds.end());
+    CHECK(std::find(chedian.availableRaceIds.begin(), chedian.availableRaceIds.end(), 6u)
+          == chedian.availableRaceIds.end());
 
     REQUIRE_EQ(raceSkillTable.overrideCount(), 19u);
     CHECK_EQ(raceSkillTable.overrides()[0].race, "Human");
@@ -396,8 +403,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(pTravelersCloak->points[5].y, 0);
     CHECK(complexItemPictureTable.get(999999u) == nullptr);
 
-    REQUIRE_EQ(continentSettingTable.entries().size(), 4u);
+    REQUIRE_EQ(continentSettingTable.entries().size(), 5u);
     CHECK_EQ(continentSettingTable.entries()[0].note, "Jadam");
+    // A new MM9 game starts in Ravensford's training camp, at its StartPoint0.
+    const OpenYAMM::Game::MergedContinentSettingEntry *pChedianContinent = continentSettingTable.findById(5u);
+    REQUIRE(pChedianContinent != nullptr);
+    CHECK_EQ(pChedianContinent->note, "Chedian");
+    CHECK_EQ(pChedianContinent->deathMap1, "bootcamp.blv");
+    CHECK_EQ(pChedianContinent->deathMap1X, 323);
+    CHECK_EQ(pChedianContinent->deathMap1Direction, 1530);
     const OpenYAMM::Game::MergedContinentSettingEntry *pAntagarichContinent =
         continentSettingTable.findById(2u);
     REQUIRE(pAntagarichContinent != nullptr);
@@ -483,13 +497,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
         });
     REQUIRE(dimensionDoorGroup != townPortalSwitchTable.groups().end());
     CHECK_EQ(dimensionDoorGroup->topicId, 309u);
-    REQUIRE_EQ(dimensionDoorGroup->destinations.size(), 6u);
+    REQUIRE_EQ(dimensionDoorGroup->destinations.size(), 7u);
     CHECK_EQ(dimensionDoorGroup->destinations[0].description, "Jadame");
-    CHECK_EQ(dimensionDoorGroup->destinations[0].iconName, "TPJadam1");
+    CHECK_EQ(dimensionDoorGroup->destinations[0].iconName, "TPJadame4");
     CHECK_EQ(dimensionDoorGroup->destinations[2].description, "Antagarich");
-    CHECK_EQ(dimensionDoorGroup->destinations[2].iconName, "TPAntag1");
+    CHECK_EQ(dimensionDoorGroup->destinations[2].iconName, "TPAntagarich4");
     CHECK_EQ(dimensionDoorGroup->destinations[4].description, "Enroth");
-    CHECK_EQ(dimensionDoorGroup->destinations[4].iconName, "TPEnroth1");
+    CHECK_EQ(dimensionDoorGroup->destinations[4].iconName, "TPEnroth4");
+    CHECK_EQ(dimensionDoorGroup->destinations[6].description, "Chedian");
+    CHECK_EQ(dimensionDoorGroup->destinations[6].iconName, "TPChedian4");
 
     CHECK_GE(transportIndexTable.entries().size(), 20u);
     CHECK_EQ(transportIndexTable.entries()[0].houseEventId, 54u);
@@ -759,9 +775,13 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
     const std::filesystem::path assetsRoot = sourceRoot / "assets_dev";
     REQUIRE(assetFileSystem.initialize(sourceRoot, assetsRoot, OpenYAMM::Engine::AssetScaleTier::X1));
 
+    // The worlds' sounds too: MM9's portraits speak with MM9's own voices (worlds/mm9 pc_voice_sounds.txt).
     OpenYAMM::Game::SoundCatalog soundCatalog;
     std::string soundCatalogError;
-    REQUIRE(soundCatalog.loadFromScopedRows(loadRows("sounds.txt"), {}, soundCatalogError));
+    const std::vector<std::vector<std::string>> engineSoundRows = loadRows("sounds.txt");
+    std::vector<std::vector<std::string>> worldSoundRows;
+    REQUIRE(OpenYAMM::Game::loadWorldSoundRows(assetFileSystem, engineSoundRows, worldSoundRows, soundCatalogError));
+    REQUIRE(soundCatalog.loadFromScopedRows(engineSoundRows, worldSoundRows, soundCatalogError));
     soundCatalog.initializeVirtualPathIndex(assetFileSystem);
 
     OpenYAMM::Game::MergedCharacterVoiceTable voiceTable;
@@ -769,6 +789,30 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
 
     OpenYAMM::Game::SpeechReactionTable speechReactionTable;
     REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
+
+    // MM9's 18 voice sets (generate_mm9_pc_voices.py): columns 79-96 in MM9's getPCVoice order, named, of MM9, by sex.
+    const std::vector<uint32_t> mm9Voices = voiceTable.voiceSetsOfWorld("mm9");
+    REQUIRE_EQ(mm9Voices.size(), 18u);
+    CHECK_EQ(mm9Voices.front(), 79u);
+    CHECK_EQ(mm9Voices.back(), 96u);
+    CHECK_EQ(voiceTable.voiceSetProperty(79, "Name"), "Angry");
+    CHECK_EQ(voiceTable.voiceSetProperty(79, "Woman"), "x");
+    CHECK_EQ(voiceTable.voiceSetProperty(87, "Undead Woman"), "x");
+    CHECK_EQ(voiceTable.voiceSetProperty(94, "Name"), "Sarcastic");
+    CHECK_EQ(voiceTable.voiceSetProperty(94, "Man"), "x");
+    CHECK(voiceTable.voiceSetProperty(4, "Name").empty());
+    CHECK(voiceTable.voiceSetsOfWorld("mm8").empty());
+    // An MM6-MM8 voice keeps its sounds; an MM9 voice has its third takes too (the store is closed: three takes).
+    CHECK_EQ(voiceTable.soundIdsForTypes(0, {"Closed1", "Closed2"}), std::vector<uint32_t>{5002, 5003});
+    CHECK_EQ(voiceTable.soundIdsForTypes(79, {"FailedDisarm1", "FailedDisarm2"}).size(), 3u);
+    for (uint32_t voiceId : mm9Voices)
+    {
+        CAPTURE(voiceId);
+        CHECK(voiceSpeechResolves(voiceTable, speechReactionTable, soundCatalog, assetFileSystem, voiceId,
+            OpenYAMM::Game::SpeechId::SelectCharacter));
+        CHECK(voiceSpeechResolves(voiceTable, speechReactionTable, soundCatalog, assetFileSystem, voiceId,
+            OpenYAMM::Game::SpeechId::DamageMinor));
+    }
 
     const std::array<OpenYAMM::Game::SpeechId, 10> checkedSpeechIds = {{
         OpenYAMM::Game::SpeechId::SelectCharacter,

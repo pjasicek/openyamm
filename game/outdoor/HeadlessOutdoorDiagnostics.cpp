@@ -3358,12 +3358,31 @@ struct SharedHeadlessApplicationSession
 {
     explicit SharedHeadlessApplicationSession(const Engine::ApplicationConfig &config)
         : application(config)
+        , worldId(config.activeWorldId)
     {
     }
 
     GameApplication application;
+    // The world the session's application starts in (its config's): an earlier session's map may have switched the
+    // shared asset file system to another world (activateWorldForMap), so it is switched back before this one loads.
+    std::string worldId;
     bool isGameDataLoaded = false;
 };
+
+bool restoreSessionWorld(
+    const SharedHeadlessApplicationSession &session,
+    Engine::AssetFileSystem &assetFileSystem,
+    std::string &failure)
+{
+    if (session.worldId.empty() || assetFileSystem.getActiveWorldId() == session.worldId
+        || assetFileSystem.switchActiveWorld(session.worldId))
+    {
+        return true;
+    }
+
+    failure = "could not switch the asset file system back to world " + session.worldId;
+    return false;
+}
 
 bool prepareSharedHeadlessGameApplication(
     SharedHeadlessApplicationSession &session,
@@ -3382,6 +3401,11 @@ bool prepareSharedHeadlessGameApplication(
 
     if (!session.isGameDataLoaded)
     {
+        if (!restoreSessionWorld(session, assetFileSystem, failure))
+        {
+            return false;
+        }
+
         if (!GameApplicationTestAccess::loadGameData(session.application, assetFileSystem)
             || !GameApplicationTestAccess::ensureCommonGameDataLoaded(session.application))
         {
@@ -3466,6 +3490,11 @@ bool prepareSharedHeadlessStartupSession(
 
     if (!session.isGameDataLoaded)
     {
+        if (!restoreSessionWorld(session, assetFileSystem, failure))
+        {
+            return false;
+        }
+
         if (!GameApplicationTestAccess::loadGameData(session.application, assetFileSystem))
         {
             failure = "could not load gameplay data";
@@ -28168,7 +28197,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (pActor == nullptr
                     || pActor->isDead
                     || pActor->isInvisible
-                    || !pActor->hostileToParty
+                    || !scenario.world.mapActorBlocksPartyMovement(*pActor)
                     || pActor->radius == 0
                     || pActor->height == 0)
                 {

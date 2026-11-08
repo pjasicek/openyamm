@@ -131,6 +131,28 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.start.introMovie = scalarStringOrDefault(startNode, "introMovie", manifest.start.introMovie);
     }
 
+    if (const YAML::Node deathNode = root["partyDeath"])
+    {
+        const YAML::Node positionNode = deathNode["position"];
+
+        if (!deathNode.IsMap() || !deathNode["map"] || !positionNode || !positionNode.IsSequence()
+            || positionNode.size() != 3)
+        {
+            errorMessage = "world.yml partyDeath must declare map and position [x, y, z]";
+            return false;
+        }
+
+        manifest.partyDeath.mapFileName = scalarStringOrDefault(deathNode, "map", {});
+
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            manifest.partyDeath.position[axis] = positionNode[axis].as<int>();
+        }
+
+        manifest.partyDeath.directionYawUnits = deathNode["yaw"] ? deathNode["yaw"].as<int>() : 0;
+        manifest.partyDeath.movie = scalarStringOrDefault(deathNode, "movie", {});
+    }
+
     const YAML::Node qbitsNode = root["qbits"];
     if (qbitsNode && qbitsNode.IsMap())
     {
@@ -224,6 +246,59 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         {
             errorMessage = "world.yml actorAwareness partyEngagementRange must be finite and positive";
             return false;
+        }
+
+        const auto readNonNegative = [&](const YAML::Node &parent, const char *pKey, float &value, const char *pName)
+        {
+            const YAML::Node node = parent[pKey];
+
+            if (!node)
+            {
+                return true;
+            }
+
+            if (!node.IsScalar() || !std::isfinite(node.as<float>()) || node.as<float>() < 0.0f)
+            {
+                errorMessage = std::string("world.yml actorAwareness ") + pName + " must be a finite number, 0 or more";
+                return false;
+            }
+
+            value = node.as<float>();
+            return true;
+        };
+
+        if (const YAML::Node sightNode = actorAwarenessNode["mm9Sight"])
+        {
+            const YAML::Node allRoundNode = sightNode.IsMap() ? sightNode["allRound"] : YAML::Node();
+
+            if (!sightNode.IsMap() || (allRoundNode && !allRoundNode.IsScalar()))
+            {
+                errorMessage = "world.yml actorAwareness mm9Sight must be a map of allRound and scale";
+                return false;
+            }
+
+            manifest.actorAwareness.mm9SightAllRound = allRoundNode && allRoundNode.as<bool>();
+
+            if (!readNonNegative(sightNode, "scale", manifest.actorAwareness.mm9SightScale, "mm9Sight scale"))
+            {
+                return false;
+            }
+        }
+
+        if (const YAML::Node provokeNode = actorAwarenessNode["mm9Provoke"])
+        {
+            if (!provokeNode.IsMap())
+            {
+                errorMessage = "world.yml actorAwareness mm9Provoke must be a map of range and radius";
+                return false;
+            }
+
+            if (!readNonNegative(provokeNode, "range", manifest.actorAwareness.mm9ProvokeRange, "mm9Provoke range")
+                || !readNonNegative(provokeNode, "radius", manifest.actorAwareness.mm9ProvokeRadius,
+                    "mm9Provoke radius"))
+            {
+                return false;
+            }
         }
     }
 
@@ -395,6 +470,8 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
             {
                 completion.layout.mark[index] = markNode[index].as<float>();
             }
+
+            completion.layout.drawHeadline = layoutNode["draw_headline"].as<bool>(true);
         }
 
         if (const YAML::Node variantsNode = completionNode["variants"])
@@ -455,6 +532,52 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
     }
 
+    if (const YAML::Node musicNode = root["music"])
+    {
+        if (!musicNode.IsMap())
+        {
+            errorMessage = "world.yml music must be a map of repeatGapSeconds, battleTrack and battleFadeSeconds";
+            return false;
+        }
+
+        manifest.music.repeatGapSeconds = musicNode["repeatGapSeconds"].as<float>(0.0f);
+        manifest.music.battleTrack = musicNode["battleTrack"].as<int>(0);
+        manifest.music.battleFadeSeconds = musicNode["battleFadeSeconds"].as<float>(2.5f);
+
+        if (manifest.music.repeatGapSeconds < 0.0f || manifest.music.battleTrack < 0
+            || manifest.music.battleFadeSeconds <= 0.0f)
+        {
+            errorMessage = "world.yml music needs repeatGapSeconds >= 0, battleTrack >= 0 and battleFadeSeconds > 0";
+            return false;
+        }
+    }
+
+    if (const YAML::Node soundsNode = root["ambientSounds"])
+    {
+        const YAML::Node dayNode = soundsNode["dayHours"];
+
+        if (!soundsNode.IsMap() || (dayNode && (!dayNode.IsSequence() || dayNode.size() != 2)))
+        {
+            errorMessage = "world.yml ambientSounds must be a map of dayHours [start, end] and pan";
+            return false;
+        }
+
+        if (dayNode)
+        {
+            manifest.ambientSounds.dayStartHour = dayNode[0].as<float>();
+            manifest.ambientSounds.dayEndHour = dayNode[1].as<float>();
+        }
+
+        manifest.ambientSounds.pan = soundsNode["pan"].as<bool>(true);
+        const WorldAmbientSoundDefinition &sounds = manifest.ambientSounds;
+
+        if (sounds.dayStartHour < 0.0f || sounds.dayStartHour >= sounds.dayEndHour || sounds.dayEndHour > 24.0f)
+        {
+            errorMessage = "world.yml ambientSounds dayHours must be [start, end] within 0-24, start first";
+            return false;
+        }
+    }
+
     if (const YAML::Node hirelingsNode = root["tavernHirelings"])
     {
         if (!hirelingsNode.IsScalar())
@@ -464,6 +587,83 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
 
         manifest.tavernHirelings = hirelingsNode.as<bool>();
+    }
+
+    if (const YAML::Node streetNpcsNode = root["streetNpcs"])
+    {
+        if (!streetNpcsNode.IsScalar())
+        {
+            errorMessage = "world.yml streetNpcs must be true or false";
+            return false;
+        }
+
+        manifest.streetNpcs = streetNpcsNode.as<bool>();
+    }
+
+    if (const YAML::Node blockNode = root["friendlyActorsBlockParty"])
+    {
+        if (!blockNode.IsScalar())
+        {
+            errorMessage = "world.yml friendlyActorsBlockParty must be true or false";
+            return false;
+        }
+
+        manifest.friendlyActorsBlockParty = blockNode.as<bool>();
+    }
+
+    if (const YAML::Node followersNode = root["npcFollowers"])
+    {
+        if (!followersNode.IsScalar())
+        {
+            errorMessage = "world.yml npcFollowers must be true or false";
+            return false;
+        }
+
+        manifest.npcFollowers = followersNode.as<bool>();
+    }
+
+    if (const YAML::Node formationsNode = root["formations"])
+    {
+        if (!formationsNode.IsScalar())
+        {
+            errorMessage = "world.yml formations must be true or false";
+            return false;
+        }
+
+        manifest.formations = formationsNode.as<bool>();
+    }
+
+    if (const YAML::Node combatLogNode = root["combatLog"])
+    {
+        if (!combatLogNode.IsScalar())
+        {
+            errorMessage = "world.yml combatLog must be true or false";
+            return false;
+        }
+
+        manifest.combatLog = combatLogNode.as<bool>();
+    }
+
+    if (const YAML::Node chestArtifactsNode = root["chestArtifactsOnly"])
+    {
+        if (!chestArtifactsNode.IsScalar())
+        {
+            errorMessage = "world.yml chestArtifactsOnly must be true or false";
+            return false;
+        }
+
+        manifest.chestArtifactsOnly = chestArtifactsNode.as<bool>();
+    }
+
+    if (const YAML::Node markersNode = root["treasureMarkersItemsOnly"])
+    {
+        if (!markersNode.IsScalar())
+        {
+            errorMessage = "world.yml treasureMarkersItemsOnly must be true or false";
+            return false;
+        }
+
+        manifest.treasureMarkersItemsOnly = markersNode.as<bool>();
     }
 
     const YAML::Node dependenciesNode = root["dependencies"];
@@ -621,6 +821,12 @@ std::optional<WorldManifest> loadWorldManifest(
     }
 
     return manifest;
+}
+
+bool isWorldPackageMounted(const Engine::AssetFileSystem &assetFileSystem, const std::string &worldId)
+{
+    const std::string normalizedWorldId = normalizeWorldId(worldId);
+    return !normalizedWorldId.empty() && assetFileSystem.exists("worlds/" + normalizedWorldId + "/world.yml");
 }
 
 bool loadMountedWorldManifests(

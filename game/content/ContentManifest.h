@@ -23,6 +23,16 @@ struct WorldStartDefinition
     std::string introMovie;
 };
 
+// world.yml partyDeath: where a party defeated in this world wakes (MM9: Arslegard City's Great Gate, LoseMan.scr)
+// and the movie shown first; unset: MMerge's continent death maps (continent_settings.txt).
+struct WorldPartyDeathDefinition
+{
+    std::string mapFileName;
+    std::array<int, 3> position = {};
+    int directionYawUnits = 0;
+    std::string movie;
+};
+
 struct WorldQBitDefinition
 {
     uint32_t begin = 0;
@@ -44,6 +54,12 @@ struct WorldActorAwarenessDefinition
 {
     float partyEngagementRange = 0.0f;
     bool declared = false;
+    // How monsters on MM9's loop (an mm9_ai profile) perceive the party (Mm9PartyAwareness; MM9_MONSTER_AI_PLAN.md
+    // "Awareness of the party"): mm9Sight {allRound, scale} and mm9Provoke {range, radius}. Undeclared: MM9's rules.
+    bool mm9SightAllRound = false;
+    float mm9SightScale = 1.0f;
+    float mm9ProvokeRange = 0.0f;
+    float mm9ProvokeRadius = 0.0f;
 };
 
 // world.yml hum (Hesper's Hum, COMBAT "The Hum"): the party's damage spells deal percents[n]% of their damage, n the
@@ -55,6 +71,24 @@ struct WorldHumDefinition
     std::vector<uint32_t> qbits;
     std::vector<int> percents;
     std::unordered_map<std::string, int> mapPercents;
+};
+
+// world.yml music (devdocs/mm9_rework/MM9_AMBIENT_AUDIO_RE.md section 2): how the world's music plays. Undeclared: the
+// map's track loops seamlessly and there is no battle music (MM6-MM8).
+struct WorldMusicDefinition
+{
+    float repeatGapSeconds = 0.0f;      // silence between two plays of a map's track (MM9: 10)
+    int battleTrack = 0;                // played while hostile monsters that saw the party are near (MM9: Song03)
+    float battleFadeSeconds = 2.5f;     // the battle track's fade out, and the map track's fade back in
+};
+
+// world.yml ambientSounds: the rules of the world's placed ambient sounds (devdocs/AMBIENT_SOUNDS.md). Undeclared:
+// day 06:00-20:00, panned.
+struct WorldAmbientSoundDefinition
+{
+    float dayStartHour = 6.0f;
+    float dayEndHour = 20.0f;
+    bool pan = true;                    // false: centred, heard by distance only (MM9)
 };
 
 // world.yml floorBurn: the damage type of the world's burning floors (fire, energy, poison, ...; a map may have its own in
@@ -134,6 +168,8 @@ struct WorldCompletionDefinition
         std::array<float, 4> text = {};
         // centre x, centre y, height
         std::array<float, 3> mark = {};
+        // false: the art carries its own headline (MM9's WINBG.pcx), which is then not drawn
+        bool drawHeadline = true;
     };
 
     struct Variant
@@ -160,6 +196,7 @@ struct WorldManifest
     std::string name = "MM8";
     std::string sourceGame = "mm8";
     WorldStartDefinition start;
+    WorldPartyDeathDefinition partyDeath;
     WorldQBitDefinition qbits;
     WorldPartyMovementDefinition partyMovement;
     WorldActorAwarenessDefinition actorAwareness;
@@ -185,8 +222,35 @@ struct WorldManifest
         std::array<float, 4> rect = {};
     };
     std::unordered_map<std::string, std::vector<MusicArea>> musicAreas;
+    WorldMusicDefinition music;
+    WorldAmbientSoundDefinition ambientSounds;
     // world.yml tavernHirelings: false seats no generated mercenaries in the world's taverns (default true, MMerge's).
     bool tavernHirelings = true;
+    // world.yml streetNpcs: false gives this world no MMerge street NPCs: a friendly actor without an NPC of its own
+    // does not answer with its group's news (npc_group.txt) or a generated NPC (bolster creed Peasant). MM9, whose actor
+    // groups are its maps' script groups and whose actors talk only through their RUDE ids and use events (a dog or a
+    // townsperson without DoRude says nothing); default true.
+    bool streetNpcs = true;
+    // world.yml friendlyActorsBlockParty: true makes friendly actors (townsfolk, NPCs, animals) solid to the party as
+    // hostile ones are. MM9, whose NPCs block the player; default false, MM6-MM8's walk-through rule.
+    bool friendlyActorsBlockParty = false;
+    // world.yml npcFollowers: false turns the MM6-MM8 hired NPC followers off in this world (not shown, no share of
+    // found gold, no bonuses; the party keeps them for other worlds). MM9, whose own hirelings replace them.
+    bool npcFollowers = true;
+    // world.yml formations: true places the party on MM9's formation grid, and monsters pick their victims by its
+    // ranks (Party::setFormationTargetingActive). MM9; default false.
+    bool formations = false;
+    // world.yml combatLog: false hides the combat log in this world unless its setting is On (MM9, the user
+    // 2026-11-06: the row under the minimap is the hireling rail's and the formation button's).
+    bool combatLog = true;
+    // world.yml chestArtifactsOnly: true gives this world's random artifacts and relics only from level-7 chest slots
+    // (no 5% roll on level-6 loot), and a level-7 slot with none left gives gold and a level-6 item instead of
+    // nothing. MM9, whose black chests hold them (the user, 2026-11-06); default false.
+    bool chestArtifactsOnly = false;
+    // world.yml treasureMarkersItemsOnly: true makes this world's treasure markers (type-2 spawns) always an item, never
+    // MM6-MM8's 20% nothing or 40% gold heap. MM9, whose markers were placed for items (the user, 2026-11-08);
+    // default false.
+    bool treasureMarkersItemsOnly = false;
     uint32_t contentSchemaVersion = 1;
     std::vector<std::string> dependencies;
     std::vector<ContentIdRangeDefinition> idRanges;
@@ -208,6 +272,10 @@ std::optional<WorldManifest> loadWorldManifest(
     const std::string &fallbackWorldId,
     std::string &errorMessage
 );
+
+// Whether the world package is installed: its world.yml resolves. A release may leave a world out (1.22 ships no MM9),
+// so content that points into another world (its continent card, portal, portraits) is offered only when this holds.
+bool isWorldPackageMounted(const Engine::AssetFileSystem &assetFileSystem, const std::string &worldId);
 
 // The manifests of every mounted world package, sorted by id; false when one fails to load, repeats an id or misses a
 // dependency.

@@ -57,6 +57,7 @@ public:
     // on monsters above level 250 (SP:1714-1718, 1819-1850).
     std::optional<int> spellDamageOnTarget(const CharacterSpellCast &cast, const SpellTargetState &target) const override;
     bool weaponKindMultiplierApplies() const override;
+    bool addsWeaponElementalDamage() const override;
     std::optional<int> worldSpellDamage(const CharacterSpellCast &cast) const override;
     bool usesPartyHitEffects() const override;
     bool callerHalvesWeakMissile(CharacterAttackMode mode) const override;

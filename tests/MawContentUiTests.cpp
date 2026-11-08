@@ -562,8 +562,8 @@ TEST_CASE("MAW potion descriptions carry their numbers at the potion's power (L7
     Character drinker;
     drinker.rulesetState.potionSteps[259] = 1;
     const std::string steps = *items.itemDescription(transcendence, &drinker);
-    CHECK_NE(steps.find("50 Skill Points (step 2)"), std::string::npos);
-    CHECK_NE(steps.find("Best step already taken: 1 (20 Skill Points)"), std::string::npos);
+    CHECK_NE(steps.find("50 skill points (step 2;"), std::string::npos);
+    CHECK_NE(steps.find("Best step already drunk: 1 (20 skill points)"), std::string::npos);
 
     // Items without a text and Standard keep the item table's notes.
     InventoryItem sword;
@@ -786,7 +786,7 @@ TEST_CASE("MAW race cards list the race's skill bonuses, resistances and immunit
     REQUIRE_EQ(vampireNotes.size(), 3);
     CHECK_EQ(vampireNotes[0], "Immune to Mind magic.");
     CHECK_EQ(vampireNotes[1],
-        "Leeches 5% of melee and 2.5% of ranged and spell damage as hit points, twice as much as a Vampire.");
+        "Leeches 5% of melee and 2.5% of ranged and spell damage as hit points, half as much as a Vampire.");
     CHECK_EQ(vampireNotes[2], "Preservation at night and in dungeons.");
     // The Vampire class leeches twice the race's share (mawLeech).
     vampire.className = "Vampire";

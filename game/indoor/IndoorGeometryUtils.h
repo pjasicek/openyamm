@@ -152,13 +152,14 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
 );
 // A door's vertices at `distance`: linear doors as the original engines move them; a door with a rotating mover
 // (pMover, devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md) turned about its hinge, `rotationDirection` its open-away
-// sign.
+// sign; a spinning mover turned `spinDegrees` into its spin first (RuntimeMechanismState::spinDegrees).
 void applyIndoorMechanismDoorToVertices(
     const MapDeltaDoor &door,
     const IndoorMoverDefinition *pMover,
     float distance,
     int8_t rotationDirection,
-    std::vector<IndoorVertex> &vertices
+    std::vector<IndoorVertex> &vertices,
+    float spinDegrees = 0.0f
 );
 std::vector<std::vector<uint16_t>> buildNeighboringIndoorSectorIds(
     const IndoorMapData &indoorMapData,
@@ -287,6 +288,14 @@ std::optional<int16_t> findIndoorSectorForPoint(
     const bx::Vec3 &point,
     IndoorFaceGeometryCache *pGeometryCache = nullptr,
     bool allowBoundingSectorFallback = true
+);
+// Whether one of the sector's floors (as findIndoorSectorForPoint takes them) lies at or under the point.
+bool indoorSectorHasFloorUnderPoint(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    int16_t sectorId,
+    const bx::Vec3 &point,
+    IndoorFaceGeometryCache *pGeometryCache = nullptr
 );
 // The wall face nearest to a point among the solid (non-portal) faces as steep as walls (cave walls are often
 // classed as ceilings or floors), within reach: the nearest point of the face and its horizontal normal turned

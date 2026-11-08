@@ -30,16 +30,28 @@ constexpr const char *FirstStartText = "The game downloads its content on the fi
 
 // What the window says it is doing: the first start of a new installation, or restoring the packs of one that
 // lost or changed some.
-std::string setupIntro(const std::filesystem::path &assetRoot)
+std::string setupIntro(const std::filesystem::path &assetRoot, const std::string &languageId)
 {
     std::string error;
     const std::optional<Engine::AssetPackIndex> index =
         Engine::loadAssetPackIndex(assetRoot / Engine::AssetPackIndexFileName, error);
+
+    if (index && Engine::validateAssetPackFiles(*index, assetRoot / index->store, error))
+    {
+        return "The game downloads the voices, sounds and videos of the language you chose (" + languageId
+            + "). Your saves and settings stay as they are.";
+    }
+
     std::string restoredPack;
     bool anyPackPresent = false;
 
     for (const Engine::AssetPackRecord &pack : index ? index->packs : std::vector<Engine::AssetPackRecord>())
     {
+        if (!pack.language.empty())
+        {
+            continue;
+        }
+
         std::error_code sizeError;
         const uintmax_t size = std::filesystem::file_size(assetRoot / index->store / pack.file, sizeError);
         anyPackPresent = anyPackPresent || !sizeError;
@@ -137,6 +149,14 @@ bool installedContentMissing(const std::filesystem::path &assetRoot)
     return index && !Engine::validateAssetPackFiles(*index, assetRoot / index->store, error);
 }
 
+bool languageContentMissing(const std::filesystem::path &assetRoot, const std::string &languageId)
+{
+    std::string error;
+    const std::optional<Engine::AssetPackIndex> index =
+        Engine::loadAssetPackIndex(assetRoot / Engine::AssetPackIndexFileName, error);
+    return index && Engine::missingLanguagePackBytes(*index, assetRoot / index->store, languageId) > 0;
+}
+
 bool modifiedContentComplete(const std::filesystem::path &assetRoot)
 {
     std::string error;
@@ -156,11 +176,18 @@ bool modifiedContentComplete(const std::filesystem::path &assetRoot)
     return false;
 }
 
-ContentSetupResult runContentSetup(const std::string &updateChannelUrl, const std::filesystem::path &assetRoot)
+ContentSetupResult runContentSetup(const std::string &updateChannelUrl, const std::filesystem::path &assetRoot,
+                                   const std::string &languageId)
 {
-    const std::string intro = setupIntro(assetRoot);
+    const std::string intro = setupIntro(assetRoot, languageId);
 
-    std::unique_ptr<GameUpdater> pUpdater = GameUpdater::create(updateChannelUrl);
+    std::unique_ptr<GameUpdater> pUpdater = GameUpdater::create(updateChannelUrl, false, languageId);
+
+    // Without the updater a language's packs stay missing and the game plays in English.
+    if ((!pUpdater || !pUpdater->updatesInGame()) && !installedContentMissing(assetRoot))
+    {
+        return ContentSetupResult::Quit;
+    }
 
     if (!pUpdater || !pUpdater->updatesInGame())
     {

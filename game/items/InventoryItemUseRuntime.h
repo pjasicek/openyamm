@@ -57,6 +57,9 @@ struct InventoryItemUseContext
     float gameMinutes = 0.0f;
     // Hostile monsters near the party (the yellow alert): drinking may then cost recovery.
     bool enemiesNear = false;
+    // Turn-based combat: only the member whose turn it is (none while monsters act) pays a drink, with its turn.
+    bool turnBased = false;
+    std::optional<size_t> turnBasedReadyMember;
 };
 
 struct InventoryItemUseResult
@@ -77,6 +80,9 @@ struct InventoryItemUseResult
     std::string readableBody;
     // A potion of several drinks that is not used up: the uses its bottle has left (its new charges).
     std::optional<uint32_t> potionUsesLeft;
+    // The member who paid the drink's recovery, and how much; in turn-based combat the caller spends its turn.
+    std::optional<size_t> recoveryPayer;
+    float recoverySeconds = 0.0f;
 };
 
 // What drinking a potion would do for a member now, without drinking it (the basebar potion popup's preview).

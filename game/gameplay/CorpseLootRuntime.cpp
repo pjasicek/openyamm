@@ -1,4 +1,5 @@
 #include "game/gameplay/CorpseLootRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/ChestRuntime.h"
 
@@ -155,14 +156,15 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
 
 std::string foundItemStatusText(int goldAmount, const std::string &itemName)
 {
-    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+    const std::string resolvedItemName = itemName.empty() ? Engine::tr("item") : itemName;
 
     if (goldAmount <= 0)
     {
-        return "You found an item (" + resolvedItemName + ")!";
+        return Engine::tr("You found an item ({item})!", {{"item", resolvedItemName}});
     }
 
-    return "You found " + std::to_string(goldAmount) + " gold and an item (" + resolvedItemName + ")!";
+    return Engine::tr("You found {gold} gold and an item ({item})!",
+        {{"gold", int64_t(goldAmount)}, {"item", resolvedItemName}});
 }
 
 std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTable *pItemTable)
@@ -170,7 +172,7 @@ std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTab
     const ItemDefinition *pItemDefinition =
         pItemTable != nullptr ? pItemTable->get(item.itemId) : nullptr;
 
-    return pItemDefinition != nullptr ? ItemRuntime::foundItemName(*pItemDefinition) : "item";
+    return pItemDefinition != nullptr ? ItemRuntime::foundItemName(*pItemDefinition) : Engine::tr("item");
 }
 
 InventoryItem normalizedCorpseInventoryItem(const GameplayChestItemState &item)
@@ -490,10 +492,11 @@ std::string telepathyLootStatusText(const GameplayCorpseViewState &loot, const I
 
     if (itemName.empty())
     {
-        return goldAmount > 0 ? std::to_string(goldAmount) + " gold" : "Nothing here";
+        return goldAmount > 0 ? Engine::tr("{gold} gold", {{"gold", int64_t(goldAmount)}}) : Engine::tr("Nothing here");
     }
 
-    return goldAmount > 0 ? "(" + itemName + "), and " + std::to_string(goldAmount) + " gold" : "(" + itemName + ")";
+    return goldAmount > 0 ? Engine::tr("({item}), and {gold} gold", {{"item", itemName}, {"gold", int64_t(goldAmount)}})
+                          : Engine::tr("({item})", {{"item", itemName}});
 }
 
 bool isConsumedCorpseView(const std::optional<GameplayCorpseViewState> &corpseView)
@@ -539,8 +542,8 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
                 break;
             }
 
-            const FoundGold foundGold = resolveFoundGold(removedItem.goldAmount, worldRuntime.eventRuntimeState());
-            party.addGold(static_cast<int>(foundGold.partyAmount));
+            const FoundGold foundGold = resolveFoundGold(removedItem.goldAmount, worldRuntime.eventRuntimeState(), &party);
+            party.addGold(static_cast<int>(foundGold.partyAmount), GoldReason::LootCorpse);
             result.goldAmount += static_cast<int>(foundGold.amount);
             result.followerGoldShare += static_cast<int>(foundGold.followerShare);
             result.lootedAny = result.lootedAny || foundGold.amount > 0;
@@ -633,7 +636,7 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     else if (result.blockedByInventory)
     {
         result.statusText = party.lastStatus().empty() || party.lastStatus() == "inventory full"
-            ? "Pack is Full!"
+            ? Engine::tr("Pack is Full!")
             : party.lastStatus();
     }
     else
@@ -729,7 +732,7 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
                     break;
                 }
 
-                const FoundGold foundGold = resolveFoundGold(taken.goldAmount, worldRuntime.eventRuntimeState());
+                const FoundGold foundGold = resolveFoundGold(taken.goldAmount, worldRuntime.eventRuntimeState(), &party);
                 partyGold += static_cast<int>(foundGold.partyAmount);
                 summary.goldAmount += static_cast<int>(foundGold.amount);
                 summary.followerGoldShare += static_cast<int>(foundGold.followerShare);
@@ -761,7 +764,7 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
 
     if (partyGold > 0)
     {
-        party.addGold(partyGold);
+        party.addGold(partyGold, GoldReason::LootCorpse);
     }
     else if (!summary.takenItems.empty())
     {

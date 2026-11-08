@@ -96,8 +96,9 @@ std::optional<FontAtlasImage> loadFontAtlas(
 // logical height. A descriptor with encoding utf-8 makes a Unicode face of the characters in its characters_file.
 // The raster height of a Unicode face: the smallest of a few steps that holds the requested display height, so sizes
 // close to each other share one atlas (a CJK one holds thousands of glyphs). A face asked at its logical height
-// (pixelHeight 0) is magnified on screen, so it rasters at three times that height, up to 48.
-int unicodeRasterHeight(int pixelHeight, int logicalHeight);
+// (pixelHeight 0) is magnified on screen, so it rasters at three times that height, up to 48. A descriptor's
+// max_raster_height (a CJK pack's thousands of glyphs) caps it: larger text is drawn magnified from that atlas.
+int unicodeRasterHeight(int pixelHeight, int logicalHeight, int maxRasterHeight = 0);
 
 std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &assetFileSystem, const std::string &fontName,
                                                     std::string &error, int pixelHeight = 0);

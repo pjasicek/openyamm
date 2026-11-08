@@ -1,5 +1,8 @@
 #pragma once
 
+#include "game/fx/ActorClipSounds.h"
+#include "game/fx/ActorPortraitKind.h"
+#include "game/fx/TalkPortraitFrame.h"
 #include "engine/models/GltfModelLoader.h"
 #include "engine/models/ModelInstance.h"
 #include "game/fx/EffectSystem.h"
@@ -108,7 +111,11 @@ public:
         const std::string &libraryPath,
         const std::string &bindingManifestPath,
         std::string &error);
+    // Also makes the system the audio's clip sound owner (GameAudioSystem::setActorClipSoundOwner).
     void bindNamedEffectAudio(GameAudioSystem *pAudioSystem);
+    // True while the actor is drawn by a model whose clips carry its sounds (actor_sounds.yml): its descriptor sounds
+    // are then not played.
+    bool actorPlaysClipSounds(size_t actorIndex) const;
     // Actor models of the merged world manifests (ActorModelManifest). The monsters a map shows when it loads
     // (eagerDescriptors) get their models now; any other bound monster when it first appears (a summon, an arena
     // opponent). Called every frame: later calls only update the tables later bindings read.
@@ -183,7 +190,8 @@ public:
     // only into the inspect popup, facing +X at the origin. Like the sprite preview it demonstrates the creature on the
     // popup's own clock: fidget first, then standing, then a fidget or an attack (the monster's inspect attack
     // chance). Null when the actor has no model. A portrait not requested since the previous syncActorModels is
-    // released there.
+    // released there. The Talk kind is a second, independent portrait of a speaking actor: its head and shoulders
+    // (the skin joints named for the head; the whole body for a model without one), standing and fidgeting only.
     struct InspectPortrait
     {
         Engine::ModelInstanceHandle handle;
@@ -195,7 +203,11 @@ public:
         std::optional<EffectSystem> effects;
     };
     const InspectPortrait *syncInspectPortrait(const IGameplayWorldRuntime &world, size_t actorIndex,
-        uint32_t animationTicks);
+        uint32_t animationTicks, ActorPortraitKind kind = ActorPortraitKind::Inspect);
+    // The talk portrait of a posed talking prop (an MM9 RUDEProp decoration, keyed by its sprite override key): a copy
+    // of its decoration model, framed on its head and shoulders (talkPortraitStaticFigureFrame); it holds its pose.
+    // Shares the Talk portrait's slot with speaking actors. Null without a model.
+    const InspectPortrait *syncDecorationTalkPortrait(uint32_t decorationKey, const DecorationPortraitModel &model);
     void beginFrame();
     void updateParticles(float deltaSeconds, bool paused);
     void syncProjectileFx(GameSession &session, float deltaSeconds, bool refreshSpatialFx);
@@ -450,8 +462,8 @@ private:
         std::array<ActionEvent, 3> actionEvents;
         // Behaviour script clip roles (actors.yml `script_clips`): role name -> clip index.
         std::unordered_map<std::string, uint32_t> scriptClips;
-        // The `backpedal` and `backpedal_run` script clips (MM9 models): walking and running backwards, played forwards
-        // instead of the walk or run reversed while the actor backs away. UINT32_MAX without them.
+        // The `backpedal` and `backpedal_run` script clips (MM9 models): walking and running backwards while the actor
+        // backs away; without one the walk or run plays forwards, as MM9's. UINT32_MAX without them.
         uint32_t backpedalClip = UINT32_MAX;
         uint32_t backpedalRunClip = UINT32_MAX;
         float strideLength = 0.0f;
@@ -470,6 +482,8 @@ private:
         // (actorModelGaitDistance; default [0, ActorModelDefaultMaxGaitRate]); max 0 is uncapped.
         float minGaitRate = 0.0f;
         float maxGaitRate = 0.0f;
+        // ActorModelManifest::Entry::gaitFollowsIntent: the AI's walk or run picks the clip (actorModelIntendedGait).
+        bool gaitFollowsIntent = false;
         // actors.yml `animation.blend_seconds`: blend length of every clip change except into dying (negative = the
         // defaults, 0.12 s and 0.06 s into a hit), for bodies whose clips change pose a lot (the drake's forward flight
         // and upright hover). `animation.death_blend_seconds`: blend into the death clip (default none).
@@ -478,6 +492,8 @@ private:
         std::shared_ptr<const std::vector<float>> upperBodyMask;
         // The sockets named `eye_left` and `eye_right`, lit with eyeColorAbgr; missing eyes have no glow.
         std::array<std::optional<Socket>, 2> eyes;
+        // The timed sounds of its clips (actor_sounds.yml); null without.
+        std::shared_ptr<const ActorClipSounds> clipSounds;
     };
     // Static copy of a model frozen in its Dead clip at timeSeconds, baked on the first corpse that holds that pose.
     std::shared_ptr<const Engine::ModelAsset> corpseAsset(const std::shared_ptr<const Engine::ModelAsset> &asset,
@@ -550,6 +566,9 @@ private:
         std::array<EffectHandle, 4> chargeEffects;
         EffectHandle ambientEffect;
         float fxScale = 1.0f;
+        // Clip sounds played so far (presentActorClipSounds) and the actor's voice line playing.
+        ActorClipSoundState clipSoundState;
+        uint64_t voiceSoundInstance = 0;
         // Current head look relative to the body's facing (radians), eased toward the party on its own clock.
         float lookYaw = 0.0f;
         float lookPitch = 0.0f;
@@ -585,6 +604,9 @@ private:
         size_t actorIndex = 0;
         uint32_t actorId = 0;
         int16_t monsterId = 0;
+        // Set for a talking prop's portrait (syncDecorationTalkPortrait), whose model is its decoration's.
+        std::optional<uint32_t> decorationKey;
+        std::shared_ptr<const Engine::ModelAsset> decorationAsset;
         bool requested = false;
         bool started = false;
         bool movingAtFirstInspect = false;
@@ -595,8 +617,8 @@ private:
         uint32_t randomState = 0x6d2b79f5u;
         EffectHandle ambientEffect;
     };
-    std::optional<InspectPortraitState> m_inspectPortrait;
-    void releaseInspectPortrait();
+    std::array<std::optional<InspectPortraitState>, ActorPortraitKindCount> m_portraits;
+    void releaseInspectPortrait(ActorPortraitKind kind);
     // The binding of a bound monster, built on first use; null when unbound or when its binding failed to build.
     const ActorModelBinding *actorModelBinding(const std::string &descriptor);
     bool buildActorModelBinding(const std::string &descriptor, std::string &error);
@@ -617,6 +639,7 @@ private:
         m_corpseAssets;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
     uint32_t m_actorModelSyncPass = 0;
+    std::vector<ActorClipSoundCue> m_actorClipSoundCues;
     struct ShieldDomeState
     {
         ShieldDomeDraw draw;
@@ -664,6 +687,10 @@ private:
     bool burningRemains(ActorModelInstance &model, float deltaSeconds);
     void spawnActorBurnFlames(ActorModelInstance &model, const Engine::ModelBurn &burn, float deltaSeconds);
     void stopActorChargeFx(ActorModelInstance &model, EffectStopMode mode);
+    // Plays the clip sounds the actor's full-body clip and upper-body layer passed this frame.
+    void presentActorClipSounds(ActorModelInstance &model, const ActorModelBinding &binding, uint32_t clip,
+        float timeSeconds, const Engine::ModelAnimationLayer &layer, float deltaSeconds,
+        const std::array<float, 3> &position, const std::array<float, 3> &listener);
     // World point of an actor model's socket in its current pose; empty without the node's matrix.
     std::optional<std::array<float, 3>> actorSocketPoint(const ActorModelInstance &model,
         const ActorModelBinding::Socket &socket) const;
@@ -676,7 +703,7 @@ private:
     // The frame syncActorModels is about to sample, for the animation trace: a crossfade starts when sampleBlended
     // will start one (restart, or a new main or layer clip).
     void traceActorAnimation(size_t actorIndex, const ActorModelInstance &model, uint32_t clip, float time,
-        const Engine::ModelAnimationLayer &layer, bool reversed, bool restart, float transitionSeconds, float speed,
+        const Engine::ModelAnimationLayer &layer, bool restart, float transitionSeconds, float speed,
         float deltaSeconds) const;
     ActorAiTrace *m_pAnimationTrace = nullptr;
     struct ProjectileFxTrailState

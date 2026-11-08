@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawMonsterRules.h"
+#include "engine/Localization.h"
 
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
@@ -61,8 +62,8 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
     const int today = gameDay(query.gameMinutes);
 
     // Enroth, Antagarich and Jadame, as the worlds came out (map table continents 3, 2 and 1).
-    const std::array<std::pair<uint32_t, const char *>, 3> continents = {{{3, "Enroth"}, {2, "Antagarich"},
-        {1, "Jadame"}}};
+    const std::array<std::pair<uint32_t, std::string_view>, 3> continents = {{{3, Engine::trNoop("Enroth")},
+        {2, Engine::trNoop("Antagarich")}, {1, Engine::trNoop("Jadame")}}};
     const std::array<const char *, 3> worlds = {"MM6", "MM7", "MM8"};
 
     for (size_t continentIndex = 0; continentIndex < continents.size(); ++continentIndex)
@@ -172,18 +173,22 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
     }
 
     const MawDimensionQuest &quest = state.dimensionQuest;
-    summary.dimensionQuest = quest.done ? "done"
-        : quest.tierLevel == 0 ? "not started"
-        : "level " + std::to_string(quest.tierLevel) + (quest.cleared ? ", cleared" : quest.mapGiven ? ", map given" : "");
+    summary.dimensionQuest = quest.done ? Engine::tr("done")
+        : quest.tierLevel == 0 ? Engine::tr("not started")
+        : Engine::tr(quest.cleared ? "level {level}, cleared"
+                : quest.mapGiven   ? "level {level}, map given"
+                                   : "level {level}",
+            {{"level", int64_t(quest.tierLevel)}});
     summary.dimensionRunsCleared = state.dimensionRunsCleared;
-    summary.currentRun = "none";
+    summary.currentRun = Engine::tr("none");
 
     for (const auto &[file, run] : state.dimensionRuns)
     {
         if (!run.completed)
         {
             const MapStatsEntry *pMap = pMapTable->findByFileName(file);
-            summary.currentRun = (pMap != nullptr ? pMap->name : file) + ", power " + std::to_string(run.power);
+            summary.currentRun = Engine::tr("{map}, power {power}",
+                {{"map", pMap != nullptr ? Engine::localize(pMap->name) : file}, {"power", int64_t(run.power)}});
             break;
         }
     }

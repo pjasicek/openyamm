@@ -18,6 +18,9 @@ namespace OpenYAMM::Game
 struct EventRuntimeState;
 struct GameplayCombatActorInfo;
 
+// The burst radius of a monster's attack missile (MonsterModifierSet::missileBlast); 0 for none and for spells.
+float missileBlastRadius(const MonsterModifierSet *pModifiers, GameplayProjectileService::MonsterAttackAbility ability);
+
 // The homing a true_aim monster gives the projectiles it fires at a target (MonsterModifierSet::trueAim); empty for a
 // monster without it or a shot with no target (actor index invalid for TargetKind::Actor).
 std::optional<GameplayProjectileService::ProjectileHoming> trueAimProjectileHoming(

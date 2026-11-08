@@ -110,6 +110,8 @@ struct IndoorSceneData
     IndoorSceneInitialState initialState = {};
     MapItemSourceData itemSources = {};
     std::vector<IndoorSceneTranslucentFaces> translucentFaces;
+    // Scene `opaque_faces`: face ids drawn opaque whatever their texture's alpha (devdocs/INDOOR_TRANSLUCENT_FACES.md).
+    std::vector<uint16_t> opaqueFaces;
     // Scene `ladders` (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
     std::vector<IndoorLadder> ladders;
     // Scene `fog` (devdocs/INDOOR_FOG.md).
@@ -130,8 +132,12 @@ struct IndoorSceneData
     std::vector<uint16_t> actorBarrierFaceIds;
     // Scene `actor_movement: {drops: follow}`.
     bool actorDropsFollow = false;
+    // Scene `portal_visibility: {near_reach: units}` (0: MM8's rule only).
+    float portalNearReach = 0.0f;
     // Scene `actor_detection: {wakes: none}` clears it.
     bool actorNeighbourWakes = true;
+    // Scene `actor_detection: {provoke_radius: N}`: the world's mm9Provoke radius for this map.
+    std::optional<float> actorProvokeRadius;
     // Scene `static_lights: {sides: front}`.
     bool staticLightsFrontOnly = false;
     // Scene `water_volumes` (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md).

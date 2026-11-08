@@ -41,6 +41,13 @@ bool ActorModelManifest::load(const Engine::AssetFileSystem &assets, const std::
             }
             const bool clipsTimeAttacks = attackTiming == "clip";
             const bool fidgetVariants = document["fidget_variants"].as<bool>(false);
+            const std::string gait = document["gait"].as<std::string>("speed");
+            if (gait != "speed" && gait != "intent")
+            {
+                error = "actor model manifest gait must be speed or intent: " + path;
+                return false;
+            }
+            const bool gaitFollowsIntent = gait == "intent";
             std::unordered_set<std::string> fileDescriptors;
             for (const YAML::Node &entry : document["actors"])
             {
@@ -52,7 +59,7 @@ bool ActorModelManifest::load(const Engine::AssetFileSystem &assets, const std::
                     return false;
                 }
                 const auto [iterator, inserted] = m_entries.try_emplace(pMonster->internalName,
-                    Entry{entry, path, clipsTimeAttacks, fidgetVariants});
+                    Entry{entry, path, clipsTimeAttacks, fidgetVariants, gaitFollowsIntent});
                 if (!inserted)
                 {
                     if (!active)
@@ -61,7 +68,7 @@ bool ActorModelManifest::load(const Engine::AssetFileSystem &assets, const std::
                             + ": " + descriptor;
                         return false;
                     }
-                    iterator->second = Entry{entry, path, clipsTimeAttacks, fidgetVariants};
+                    iterator->second = Entry{entry, path, clipsTimeAttacks, fidgetVariants, gaitFollowsIntent};
                 }
             }
         }
@@ -84,6 +91,47 @@ bool ActorModelManifest::load(const Engine::AssetFileSystem &assets, const std::
     {
         m_entries.clear();
         return false;
+    }
+    // actor_sounds.yml beside each actors.yml: its entries join the bindings that file's actors.yml made.
+    std::vector<std::string> manifestPaths = paths;
+    if (!activePath.empty() && std::find(paths.begin(), paths.end(), activePath) == paths.end())
+    {
+        manifestPaths.push_back(activePath);
+    }
+    for (const std::string &path : manifestPaths)
+    {
+        const std::string soundsPath = path.substr(0, path.rfind('/') + 1) + "actor_sounds.yml";
+        const std::optional<std::string> text = assets.readTextFile(soundsPath);
+        if (!text)
+        {
+            continue;
+        }
+        try
+        {
+            const YAML::Node document = YAML::Load(*text);
+            for (const YAML::Node &item : document["actors"])
+            {
+                const std::string descriptor = item["descriptor"].as<std::string>();
+                const MonsterEntry *pMonster = monsters.findByInternalName(descriptor);
+                const auto entry = pMonster != nullptr ? m_entries.find(pMonster->internalName) : m_entries.end();
+                if (entry == m_entries.end())
+                {
+                    error = soundsPath + ": sounds for an unbound actor model descriptor: " + descriptor;
+                    m_entries.clear();
+                    return false;
+                }
+                if (entry->second.manifestPath == path)
+                {
+                    entry->second.sounds = item;
+                }
+            }
+        }
+        catch (const YAML::Exception &exception)
+        {
+            error = soundsPath + ": " + exception.what();
+            m_entries.clear();
+            return false;
+        }
     }
     // Monster ids index the table's entries (MonsterTable::findById).
     const std::vector<MonsterEntry> &monsterEntries = monsters.getEntries();
@@ -185,7 +233,7 @@ ActorModelManifest::BoundClips ActorModelManifest::readBoundClips(const Entry &e
                     {
                         continue;
                     }
-                    if (result.fidgetRoles.size() >= ActorFidgetClips::MaxVariants || clipSeconds(name) <= 0.0f
+                    if (result.fidgetRoles.size() >= ActorClipChoices::MaxVariants || clipSeconds(name) <= 0.0f
                         || std::find(listedClips.begin(), listedClips.end(), name) != listedClips.end())
                     {
                         continue;
@@ -195,6 +243,26 @@ ActorModelManifest::BoundClips ActorModelManifest::readBoundClips(const Entry &e
                     result.fidgetSeconds.push_back(clipSeconds(name));
                 }
             }
+        }
+        // MM9's conversation list (MM9_AMBIENT_ANIMATION.md section 1): the clip named exactly Conv when the model has
+        // one (the role `conv`), else Conv0-Conv9 (the roles conv<n>); a clip already listed adds nothing.
+        const YAML::Node scriptClips = entry.node["script_clips"];
+        const bool exactConv =
+            scriptClips && scriptClips["conv"] && clipSeconds(scriptClips["conv"].as<std::string>("")) > 0.0f;
+        std::vector<std::string> convClips;
+        for (const auto &scriptClip : scriptClips)
+        {
+            const std::string role = scriptClip.first.as<std::string>();
+            const std::string name = scriptClip.second.as<std::string>();
+            const bool numbered = role.size() == 5 && role.starts_with("conv") && role[4] >= '0' && role[4] <= '9';
+            if ((exactConv ? role != "conv" : !numbered) || result.convRoles.size() >= ActorClipChoices::MaxVariants
+                || clipSeconds(name) <= 0.0f || std::find(convClips.begin(), convClips.end(), name) != convClips.end())
+            {
+                continue;
+            }
+            convClips.push_back(name);
+            result.convRoles.push_back(role);
+            result.convSeconds.push_back(clipSeconds(name));
         }
     }
     catch (const YAML::Exception &)
@@ -223,9 +291,9 @@ ActorAttackTiming actorAttackTiming(const ActorModelManifest *pModels, int16_t m
         pClips->impactSeconds[size_t(role)], pClips->clipsTimeAttacks);
 }
 
-ActorFidgetClips actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId)
+ActorClipChoices actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId)
 {
-    ActorFidgetClips result;
+    ActorClipChoices result;
     const ActorModelManifest::BoundClips *pClips = pModels != nullptr ? pModels->boundClips(monsterId) : nullptr;
     for (size_t index = 0; pClips != nullptr && index < pClips->fidgetSeconds.size(); ++index)
     {
@@ -240,5 +308,24 @@ std::string actorFidgetRole(const ActorModelManifest *pModels, int16_t monsterId
     const ActorModelManifest::BoundClips *pClips = pModels != nullptr ? pModels->boundClips(monsterId) : nullptr;
     return pClips != nullptr && variant >= 0 && size_t(variant) < pClips->fidgetRoles.size()
         ? pClips->fidgetRoles[size_t(variant)] : std::string();
+}
+
+ActorClipChoices actorConvClips(const ActorModelManifest *pModels, int16_t monsterId)
+{
+    ActorClipChoices result;
+    const ActorModelManifest::BoundClips *pClips = pModels != nullptr ? pModels->boundClips(monsterId) : nullptr;
+    for (size_t index = 0; pClips != nullptr && index < pClips->convSeconds.size(); ++index)
+    {
+        result.seconds[index] = pClips->convSeconds[index];
+        result.count = uint8_t(index + 1);
+    }
+    return result;
+}
+
+std::string actorConvRole(const ActorModelManifest *pModels, int16_t monsterId, int8_t variant)
+{
+    const ActorModelManifest::BoundClips *pClips = pModels != nullptr ? pModels->boundClips(monsterId) : nullptr;
+    return pClips != nullptr && variant >= 0 && size_t(variant) < pClips->convRoles.size()
+        ? pClips->convRoles[size_t(variant)] : std::string();
 }
 }

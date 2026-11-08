@@ -1,9 +1,12 @@
 #include "game/gameplay/GameplaySpellService.h"
 
+#include "engine/Localization.h"
+
 #include "game/app/GameSession.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/party/LloydsBeaconRuntime.h"
@@ -72,7 +75,7 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
         || runtime.activeEventDialog().isActive
         || hasActiveLootView)
     {
-        runtime.setStatusBarEvent("Finish current action");
+        runtime.setStatusBarEvent(Engine::tr("Finish current action"));
         return resolution;
     }
 
@@ -111,7 +114,7 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
 
     if (pSpellEntry == nullptr)
     {
-        runtime.setStatusBarEvent("Unknown quick spell");
+        runtime.setStatusBarEvent(Engine::tr("Unknown quick spell"));
         return resolution;
     }
 
@@ -120,7 +123,7 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
 
     if (!pCaster->knowsSpell(spellId))
     {
-        runtime.setStatusBarEvent("Spell not learned");
+        runtime.setStatusBarEvent(Engine::tr("Spell not learned"));
         return resolution;
     }
 
@@ -170,7 +173,7 @@ GameplaySpellService::MemberSpellCastResolution GameplaySpellService::castSpellF
 
         if (pCaster == nullptr || !pCaster->knowsSpell(spellId))
         {
-            runtime.setStatusBarEvent("Spell not learned");
+            runtime.setStatusBarEvent(Engine::tr("Spell not learned"));
             return resolution;
         }
     }
@@ -296,6 +299,21 @@ bool GameplaySpellService::tryResolveQuickCastRequest(
                 request.targetActorIndex = pWorldRuntime->spellActionHoveredActorIndex();
             }
 
+            // A missile spell with no actor under the crosshair flies at a standing destructible there rather than
+            // at the game's pick (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming").
+            if (!usable(request.targetActorIndex) && descriptor.effectKind == PartySpellCastEffectKind::Projectile)
+            {
+                if (const std::optional<bx::Vec3> point = resolveCursorDestructiblePoint(targetQueries, *pWorldRuntime))
+                {
+                    request.targetActorIndex.reset();
+                    request.hasTargetPoint = true;
+                    request.targetX = point->x;
+                    request.targetY = point->y;
+                    request.targetZ = point->z;
+                    return true;
+                }
+            }
+
             if (!usable(request.targetActorIndex))
             {
                 const Party *pParty = runtime.partyReadOnly();
@@ -383,6 +401,26 @@ std::optional<bx::Vec3> GameplaySpellService::resolveCursorTargetPoint(
     return pWorldRuntime->spellActionGroundTargetPoint(targetQueries.cursorX, targetQueries.cursorY);
 }
 
+std::optional<bx::Vec3> GameplaySpellService::resolveCursorDestructiblePoint(
+    const TargetQueries &targetQueries,
+    IGameplayWorldRuntime &worldRuntime)
+{
+    if (targetQueries.screenWidth <= 0.0f || targetQueries.screenHeight <= 0.0f)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayWorldPickRequest pickRequest = worldRuntime.buildWorldPickRequest(
+        GameplayWorldPickRequestInput{
+            .screenX = targetQueries.useCrosshairTarget ? targetQueries.screenWidth * 0.5f : targetQueries.cursorX,
+            .screenY = targetQueries.useCrosshairTarget ? targetQueries.screenHeight * 0.5f : targetQueries.cursorY,
+            .screenWidth = int(targetQueries.screenWidth),
+            .screenHeight = int(targetQueries.screenHeight),
+            .includeRay = true,
+        });
+    return standingDestructibleHitPoint(worldRuntime, worldRuntime.pickPartyAttackTarget(pickRequest));
+}
+
 GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellRequest(
     GameplayScreenRuntime &runtime,
     const PartySpellCastRequest &initialRequest,
@@ -451,7 +489,7 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
         if (isSpellId(request.spellId, SpellId::Telekinesis)
             && !GameplayHeldItemController::tryDisplaceHeldInventoryItem(runtime))
         {
-            runtime.setStatusBarEvent("Finish current action");
+            runtime.setStatusBarEvent(Engine::tr("Finish current action"));
             return resolution;
         }
 
@@ -518,17 +556,15 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
     const GameplayScreenState::PendingSpellTargetState &pendingTargetState =
         m_session.gameplayScreenState().pendingSpellTarget();
 
+    const std::string spellName = Engine::localizeKnown(pendingTargetState.spellName, "spell");
     std::string prompt =
         pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
-            ? "Select actor for "
+            ? Engine::tr("Select actor for {spell}", {{"spell", spellName}})
             : pendingTargetState.targetKind == PartySpellCastTargetKind::Character
-            ? "Select character for "
+            ? Engine::tr("Select character for {spell}", {{"spell", spellName}})
             : pendingTargetState.targetKind == PartySpellCastTargetKind::GroundPoint
-            ? "Select ground point for "
-            : pendingTargetState.targetKind == PartySpellCastTargetKind::TelekinesisTarget
-            ? "Select target for "
-            : "Select target for ";
-    prompt += pendingTargetState.spellName;
+            ? Engine::tr("Select ground point for {spell}", {{"spell", spellName}})
+            : Engine::tr("Select target for {spell}", {{"spell", spellName}});
 
     if (includeControls)
     {
@@ -539,27 +575,27 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
 
         if (mobileGroundTargetConfirmSpell)
         {
-            prompt += "  Drag target  Spell button cast  Pause cancel";
+            prompt += Engine::tr("  Drag target  Spell button cast  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Character)
         {
-            prompt += "  Tap portrait  Pause cancel";
+            prompt += Engine::tr("  Tap portrait  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget)
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += Engine::tr("  Tap target  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
             || pendingTargetState.targetKind == PartySpellCastTargetKind::ActorOrCharacter)
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += Engine::tr("  Tap target  Pause cancel");
         }
         else
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += Engine::tr("  Tap target  Pause cancel");
         }
 #else
-        prompt += "  LMB cast  Esc cancel";
+        prompt += Engine::tr("  LMB cast  Esc cancel");
 #endif
     }
 
@@ -778,7 +814,8 @@ bool GameplaySpellService::tryOpenSelectionUi(
             GameplayUiController::UtilitySpellOverlayMode::InventoryTarget,
             request.spellId,
             request.casterMemberIndex);
-        runtime.setStatusBarEvent("Select item for " + spellName, 4.0f);
+        runtime.setStatusBarEvent(
+            Engine::tr("Select item for {spell}", {{"spell", Engine::localizeKnown(spellName, "spell")}}), 4.0f);
         return true;
     }
 
@@ -796,13 +833,13 @@ bool GameplaySpellService::tryOpenSelectionUi(
             runtime.openDimensionDoorOverlay(
                 request.casterMemberIndex,
                 request.spellId,
-                "You feel high magic presence here.");
+                Engine::tr("You feel high magic presence here."));
             return true;
         }
 
         if (!runtime.ensureTownPortalDestinationsLoaded())
         {
-            runtime.setStatusBarEvent("Town Portal data missing");
+            runtime.setStatusBarEvent(Engine::tr("Town Portal data missing"));
             return true;
         }
 
@@ -811,7 +848,7 @@ bool GameplaySpellService::tryOpenSelectionUi(
             request.spellId,
             request.casterMemberIndex);
         runtime.resetUtilitySpellOverlayInteractionState();
-        runtime.setStatusBarEvent("Choose Town Portal destination", 4.0f);
+        runtime.setStatusBarEvent(Engine::tr("Choose Town Portal destination"), 4.0f);
         return true;
     }
 
@@ -826,7 +863,7 @@ bool GameplaySpellService::tryOpenSelectionUi(
             request.casterMemberIndex,
             lloydsBeaconHasRecallableBeacon(pCaster));
         runtime.resetUtilitySpellOverlayInteractionState();
-        runtime.setStatusBarEvent("Set or recall beacon", 4.0f);
+        runtime.setStatusBarEvent(Engine::tr("Set or recall beacon"), 4.0f);
         return true;
     }
 
@@ -898,7 +935,7 @@ std::string GameplaySpellService::successStatusText(const std::string &spellName
         return {};
     }
 
-    return "Cast " + spellName;
+    return Engine::tr("Cast {spell}", {{"spell", Engine::localizeKnown(spellName, "spell")}});
 }
 
 void GameplaySpellService::applyFailureFeedback(

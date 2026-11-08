@@ -231,6 +231,8 @@ public:
         bool canReceiveDamage = true;
         bool mm9Civilian = false;
         bool mm9Guard = false;
+        // The scene actor's draw_scale (MapDeltaActor::drawScale); 0: none.
+        float drawScale = 0.0f;
         bool mm9FleeingFromParty = false;
         float mm9FleeRemainingSeconds = 0.0f;
         // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
@@ -243,6 +245,9 @@ public:
         // A runtime spawn's MM9 placement (an arena's mm9_ai, a death spawn's ScriptParams 1); a map actor's is the
         // map's (MapDeltaActor::mm9Ai, OutdoorWorldRuntime::mm9Placement).
         std::optional<Mm9AiPlacementRecord> mm9Ai;
+        // A runtime spawn's patrol (evt.SummonMonstersById patrol); a map actor's is the map's
+        // (MapDeltaActor::patrolPoints).
+        std::vector<std::array<int32_t, 3>> patrolPoints;
         bool fromSpawnPoint = false;
         size_t spawnPointIndex = static_cast<size_t>(-1);
         uint32_t group = 0;
@@ -645,6 +650,9 @@ public:
         std::vector<std::string> searchedLootPropSourceIds;
         ActorBehaviorRuntime::Snapshot actorBehaviors;
         bool hasOutdoorRuntimeSaveParityFields = false;
+        // The map's layout this state belongs to (MapAssetInfo::layoutIdentity), stamped by GameSession when it is
+        // captured; 0 in saves before version 160. Entering a map of another layout resets its state.
+        uint64_t mapLayoutIdentity = 0;
     };
 
     void initialize(
@@ -708,6 +716,7 @@ public:
     {
         uint32_t actorIndex = 0;
         uint32_t monsterId = 0;
+        bool byParty = false;   // the party dealt the killing blow (MapActorState::killedByParty)
     };
 
     void setMonsterKilledHooksEnabled(bool enabled);
@@ -773,7 +782,9 @@ public:
     std::optional<uint32_t> corpseLootValue(size_t actorIndex) const override;
     std::optional<CorpseViewState> revealActorLoot(size_t actorIndex) override;
     bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
+    bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
     bool isMapActorHostile(size_t actorIndex) const override;
+    bool isMapActorDead(size_t actorIndex) const override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
     bool useMm9Barrel(const std::string &sourceId) override;
@@ -917,6 +928,9 @@ public:
     // turns back to afterwards (ActorMm9State::beginTalk).
     bool faceMapActorForTalk(size_t actorIndex, float partyX, float partyY);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
+    // Whether this map actor is solid to the party's movement: a hostile one always, a friendly one in a world with
+    // friendlyActorsBlockParty (GameplayActorService::actorBlocksPartyMovement). Callers leave out dead and hidden ones.
+    bool mapActorBlocksPartyMovement(const MapActorState &actor) const;
     float sampleSupportFloorHeight(float x, float y, float z, float maxRise, float xySlack) const;
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
@@ -1063,6 +1077,7 @@ public:
     void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void stopTurnBasedActorMovement() override;
+    void advanceTurnBasedActorTimers(float seconds) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
@@ -1096,6 +1111,7 @@ public:
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
     bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
+    std::optional<uint32_t> decorationSpriteKeyForScriptEvent(uint16_t eventId) const override;
     bool registerOutdoorModelMechanism(
         uint32_t mechanismId,
         const std::string &modelName,
@@ -1106,6 +1122,10 @@ public:
         bool closed,
         bool moveParty) override;
     EventRuntimeState *eventRuntimeState() override;
+    ISceneEventContext *sceneEventContext() override
+    {
+        return this;
+    }
     const EventRuntimeState *eventRuntimeState() const override;
     // evt.DamageDestructible and the rest (ISceneEventContext): an outdoor destructible by its source object index.
     bool damageDestructible(uint32_t id, int damage) override;
@@ -1120,6 +1140,8 @@ public:
     bool fireEventMissile(const EventMissileRequest &request) override;
     bool turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds) override;
     bool wakeMapActors(std::optional<size_t> actorIndex, uint32_t group) override;
+    bool setMapActorTarget(size_t actorIndex, std::optional<size_t> targetActorIndex) override;
+    bool setMapActorImmobile(size_t actorIndex, bool immobile) override;
     bool hasLineOfSight(float fromX, float fromY, float fromZ, float toX, float toY, float toZ) const override;
     bool summonEventGold(uint32_t amount, int32_t x, int32_t y, int32_t z, int32_t speed) override;
     bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override;
@@ -1518,6 +1540,8 @@ private:
     void initializeOutdoorModelMechanismsFromMapData();
     void initializeOutdoorDestructiblesFromMapData();
     void updateOutdoorTriggerVolumes();
+    // evt.MoveActorTo arrivals (EventRuntimeState::pendingActorArrivals): their events, each with its actor.
+    void runPendingScriptedActorArrivals();
     void applyOutdoorDestructibleStates(bool playEffects);
     void projectOutdoorDestructibleGeometry(const OutdoorDestructible &definition, bool destroyed);
     void applyOutdoorDestructibleDeathOutput(const OutdoorDestructible &definition);
@@ -1543,7 +1567,7 @@ private:
     void groundMm9LoadedPlacements(bool updateActorHomes, bool includeRuntimeActors);
     void removeDepletedSemanticLootContainer(uint32_t containerId);
     void spawnMonsterDeathDropsForActor(size_t actorIndex, const MapActorState &actor);
-    void queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId);
+    void queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId, bool byParty);
     bool spawnMonsterDeathDropWorldItem(
         const InventoryItem &item,
         float x,

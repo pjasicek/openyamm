@@ -18,6 +18,8 @@ using BakedLightingFormat::readU64;
 
 constexpr std::array<uint8_t, 8> IndoorLightingMagic = {'O', 'Y', 'I', 'L', 'I', 'T', '1', 0};
 constexpr uint32_t IndoorLightingVersion = 1;
+// Pages in pairs: the static light, then the open air's (daylightPages).
+constexpr uint32_t IndoorLightingDaylightVersion = 2;
 constexpr uint32_t HeaderSize = 64;
 constexpr uint32_t PageRecordSize = 16;
 constexpr uint32_t FaceRecordSize = 36;
@@ -118,7 +120,9 @@ bool indoorMoverFaceBakeable(
     std::span<const MapDeltaDoor *const> doorsMovingFace,
     const IndoorMoverDefinition *pMover)
 {
-    if (doorsMovingFace.size() != 1 || doorsMovingFace[0] == nullptr || face.vertexIndices.size() < 3)
+    // A spinner's faces turn through every angle: its stored-pose light would turn with them (vertex-lit instead).
+    if (doorsMovingFace.size() != 1 || doorsMovingFace[0] == nullptr || face.vertexIndices.size() < 3
+        || (pMover != nullptr && pMover->spin))
     {
         return false;
     }
@@ -166,10 +170,12 @@ std::optional<IndoorBakedLighting> loadIndoorBakedLighting(
     {
         return fail("not an indoor lighting file");
     }
-    if (readU32(bytes, 8) != IndoorLightingVersion || readU32(bytes, 12) != HeaderSize)
+    const uint32_t version = readU32(bytes, 8);
+    if ((version != IndoorLightingVersion && version != IndoorLightingDaylightVersion) || readU32(bytes, 12) != HeaderSize)
     {
         return fail("unsupported indoor lighting version");
     }
+    const bool daylightPairs = version == IndoorLightingDaylightVersion;
     if (readU32(bytes, 60) != bytes.size())
     {
         return fail("indoor lighting length does not match the file");
@@ -196,7 +202,7 @@ std::optional<IndoorBakedLighting> loadIndoorBakedLighting(
         return fail("face or sector count does not match the map (stale): re-bake the map");
     }
     if (pageCount == 0 || pageCount >= IndoorBakedLightingFace::NoPage || dependencyCount == 0
-        || dependencyCount > 100000)
+        || dependencyCount > 100000 || (daylightPairs && pageCount % 2 != 0))
     {
         return fail("invalid indoor lighting page or dependency count");
     }
@@ -235,7 +241,19 @@ std::optional<IndoorBakedLighting> loadIndoorBakedLighting(
         }
         page.rle.assign(bytes.begin() + payloadOffset, bytes.begin() + payloadOffset + payloadBytes);
         expectedPixelOffset = uint64_t(payloadOffset) + payloadBytes;
-        result.pages.push_back(std::move(page));
+        if (daylightPairs && pageIndex % 2 != 0)
+        {
+            const IndoorBakedLightingPage &staticPage = result.pages.back();
+            if (page.width != staticPage.width || page.height != staticPage.height)
+            {
+                return fail("indoor lighting daylight page size differs from its page");
+            }
+            result.daylightPages.push_back(std::move(page));
+        }
+        else
+        {
+            result.pages.push_back(std::move(page));
+        }
     }
     if (expectedPixelOffset != bytes.size())
     {
@@ -253,11 +271,12 @@ std::optional<IndoorBakedLighting> loadIndoorBakedLighting(
         {
             return fail("invalid indoor lighting face flags");
         }
-        if (page != face.NoPage && page >= pageCount)
+        // Version 2: a face references its pair's first record.
+        if (page != face.NoPage && (page >= pageCount || (daylightPairs && page % 2 != 0)))
         {
             return fail("indoor lighting face references a missing page");
         }
-        face.page = page;
+        face.page = page != face.NoPage && daylightPairs ? uint16_t(page / 2) : page;
         for (size_t component = 0; component < 4; ++component)
         {
             face.uAxis[component] = readFloat(bytes, record + 4 + component * 4);

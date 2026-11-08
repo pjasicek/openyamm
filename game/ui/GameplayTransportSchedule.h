@@ -5,7 +5,7 @@ namespace OpenYAMM::Game
 class GameplayScreenRuntime;
 struct GameplayInputFrame;
 
-// A stable's or boat's Schedule popup over the house dialogue
+// A stable's or boat's Schedule popup over the house dialogue, or over an MM9 dock's talk
 // (level_generation/ui/transport_schedule_20261104/README.md): the week's departures from Monday to Sunday with today
 // marked. A click on a day selects its departure (a second click on a day of several picks the next one, a click on a
 // name picks that one); the footer shows the departure, the days on the road, the arrival, the fare and the food the

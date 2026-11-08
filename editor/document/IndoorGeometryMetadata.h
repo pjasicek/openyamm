@@ -82,6 +82,9 @@ struct EditorIndoorGeometrySurfaceMetadata
     std::optional<EditorIndoorGeometrySurfaceTriggerMetadata> trigger = std::nullopt;
     // The face's cog number, the id evt.SetFacetBit and evt.SetTexture address it by (0: none).
     uint16_t cogNumber = 0;
+    // A second room the faces bound (the BLV face's room behind, empty: none): a non-portal face is drawn when
+    // either room is visible. For faces in a wall's thickness that both rooms see (jambs, reveals, wall bases).
+    std::string backRoomId;
     std::optional<size_t> runtimeFaceIndex = std::nullopt;
 };
 

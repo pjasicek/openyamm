@@ -4,7 +4,7 @@
 #   color: [red, green, blue] - water and tar: the lit body tint; lava: the glow of its cracks
 #   terrain_transition_overlay: terrain edge tiles over the liquid keep their overlay art, and its alpha is the
 #     liquid's coverage
-# Optional (none of the liquids below uses them):
+# Optional (MM9's liquids below use worlds, depth and opacity):
 #   worlds: [world ids] - the liquid applies only to those worlds' maps, where it is matched before the shared ones
 #   depth: deep (default) or shallow - a shallow liquid's terrain cells are never deep water for gameplay: the party
 #     and monsters wade through them, no drowning, dropped items stay, whatever the tile table's water flag says
@@ -83,3 +83,300 @@ liquids:
       texture_names: [oiltyl, tartyl]
       texture_prefixes: [hwoil]
     terrain_transition_overlay: true
+
+  - id: slime_mm9
+    kind: water
+    color: [118, 132, 62]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [slim91p4yn]
+
+  - id: water_mm9
+    kind: water
+    color: [44, 92, 102]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [wate27jpcx]
+
+  - id: ocean_mm9_dookscastle
+    kind: water
+    color: [70, 120, 170]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [oceabym7ai]
+
+  - id: ocean_mm9_inventastorca
+    kind: water
+    color: [52, 84, 96]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [ocea8lh6ka]
+
+  - id: water115_mm9
+    # MM9's Water115: the water surfaces of the rebuilt dungeons (level_generation/projects/mm9r_common/liquids.py
+    # retextures them to these names in each map's scene, as the two entries below).
+    kind: water
+    color: [22, 60, 140]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115mm9]
+
+  - id: water125_frame_mm9
+    # water125's first frame (Verhoffin Ruins' electrified pit); the .spr is Beethoven's water_mm9.
+    kind: water
+    color: [44, 92, 102]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw125mm9]
+
+  - id: water123_mm9
+    # water123 (Training Hall's pole room).
+    kind: water
+    color: [48, 64, 104]
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw123mm9]
+
+  - id: sea_mm9
+    # The open sea of an MM9 outdoor map built as a BLV (outdoor_blv.py retextures its Ocean faces to this name):
+    # deep water in the MM6-MM8 outdoor seas' colour (water_mm8), not the indoor oceans' bright tint.
+    kind: water
+    color: [28, 58, 68]
+    applies_to: [face]
+    worlds: [mm9]
+    match:
+      texture_names: [lqseamm9]
+
+  - id: water115_o12_mm9
+    # See-through: MM9 draws these surfaces at 0.12 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.12
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o12]
+
+  - id: water115_o17_mm9
+    # See-through: MM9 draws these surfaces at 0.17 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.17
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o17]
+
+  - id: water115_o21_mm9
+    # See-through: MM9 draws these surfaces at 0.21 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.21
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o21]
+
+  - id: water115_o29_mm9
+    # See-through: MM9 draws these surfaces at 0.29 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.29
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o29]
+
+  - id: water115_o37_mm9
+    # See-through: MM9 draws these surfaces at 0.37 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.37
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o37]
+
+  - id: water115_o42_mm9
+    # See-through: MM9 draws these surfaces at 0.42 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.42
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o42]
+
+  - id: water115_o70_mm9
+    # See-through: MM9 draws these surfaces at 0.7 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [14, 62, 210]
+    opacity: 0.7
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw115o70]
+
+  - id: water125_o17_mm9
+    # See-through: MM9 draws these surfaces at 0.17 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [30, 74, 86]
+    opacity: 0.17
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw125o17]
+
+  - id: water125_o20_mm9
+    # See-through: MM9 draws these surfaces at 0.2 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [30, 74, 86]
+    opacity: 0.2
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw125o20]
+
+  - id: water125_o25_mm9
+    # See-through: MM9 draws these surfaces at 0.25 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [30, 74, 86]
+    opacity: 0.25
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw125o25]
+
+  - id: water123_o40_mm9
+    # See-through: MM9 draws these surfaces at 0.4 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [36, 64, 84]
+    opacity: 0.4
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw123o40]
+
+  - id: water123_o90_mm9
+    # See-through: MM9 draws these surfaces at 0.9 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [36, 64, 84]
+    opacity: 0.9
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqw123o90]
+
+  - id: slime_o70_mm9
+    # See-through: MM9 draws these surfaces at 0.7 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [112, 132, 56]
+    opacity: 0.7
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqslmo70]
+
+  - id: slime_o80_mm9
+    # See-through: MM9 draws these surfaces at 0.8 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [112, 132, 56]
+    opacity: 0.8
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqslmo80]
+
+  - id: ocean3_o90_mm9
+    # See-through: MM9 draws these surfaces at 0.9 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [30, 50, 50]
+    opacity: 0.9
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc3o90]
+
+  - id: ocean4_o50_mm9
+    # See-through: MM9 draws these surfaces at 0.5 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [28, 64, 128]
+    opacity: 0.5
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc4o50]
+
+  - id: ocean4_o70_mm9
+    # See-through: MM9 draws these surfaces at 0.7 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [28, 64, 128]
+    opacity: 0.7
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc4o70]
+
+  - id: ocean4_o80_mm9
+    # See-through: MM9 draws these surfaces at 0.8 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [28, 64, 128]
+    opacity: 0.8
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc4o80]
+
+  - id: ocean4_o85_mm9
+    # See-through: MM9 draws these surfaces at 0.85 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [28, 64, 128]
+    opacity: 0.85
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc4o85]
+
+  - id: ocean4_o95_mm9
+    # See-through: MM9 draws these surfaces at 0.95 (texture alpha x brush alpha; liquids.py).
+    kind: water
+    color: [28, 64, 128]
+    opacity: 0.95
+    applies_to: [face]
+    worlds: [mm9]
+    depth: shallow
+    match:
+      texture_names: [lqoc4o95]

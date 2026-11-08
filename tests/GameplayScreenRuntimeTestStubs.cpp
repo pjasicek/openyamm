@@ -8,6 +8,11 @@ GameplayOverlayInteractionState &GameplayScreenRuntime::interactionState() const
     return interactionState;
 }
 
+Party *GameplayScreenRuntime::party() const
+{
+    return nullptr;
+}
+
 const ItemTable *GameplayScreenRuntime::itemTable() const
 {
     return nullptr;

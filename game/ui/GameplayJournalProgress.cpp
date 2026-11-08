@@ -1,5 +1,7 @@
 #include "game/ui/GameplayJournalProgress.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/rules/GameRules.h"
@@ -51,8 +53,8 @@ constexpr uint32_t Coral = abgr(0xe6a24a);
 // Upright and heavier than the bitmap Lucida (the enemy labels' face), for the page's text.
 constexpr char TextFont[] = "alegreya_semibold";
 
-constexpr std::array<const char *, JournalProgressFilterCount> FilterNames = {"All", "Cleared", "In progress",
-    "Not visited"};
+constexpr std::array<std::string_view, JournalProgressFilterCount> FilterNames = {Engine::trNoop("All"),
+    Engine::trNoop("Cleared"), Engine::trNoop("In progress"), Engine::trNoop("Not visited")};
 
 // The layout in the page's logical units (518 x 456, JournalProgressPage).
 constexpr float CardTop = 58;
@@ -99,11 +101,12 @@ enum class MapFlag : uint8_t
     DimensionRun,
 };
 
-constexpr std::array<const char *, 6> MapFlagNames = {"Cleared since its refill",
-    "The town hall offers a reset", "Refilled: cleared once, its monsters are back", "Completion reward waiting",
-    "This month's bounty target", "A dimension run is open"};
-constexpr std::array<const char *, 6> MapFlagShortNames = {"cleared", "reset", "refilled", "reward",
-    "bounty", "dimension"};
+constexpr std::array<std::string_view, 6> MapFlagNames = {Engine::trNoop("Cleared since its refill"),
+    Engine::trNoop("The town hall offers a reset"), Engine::trNoop("Refilled: cleared once, its monsters are back"),
+    Engine::trNoop("Completion reward waiting"), Engine::trNoop("This month's bounty target"),
+    Engine::trNoop("A dimension run is open")};
+constexpr std::array<std::string_view, 6> MapFlagShortNames = {Engine::trNoop("cleared"), Engine::trNoop("reset"),
+    Engine::trNoop("refilled"), Engine::trNoop("reward"), Engine::trNoop("bounty"), Engine::trNoop("dimension")};
 
 std::vector<MapFlag> mapFlags(const RulesetProgressMap &map)
 {
@@ -165,7 +168,8 @@ std::array<Rect, JournalProgressFilterCount> chipRects(
 
     for (size_t index = 0; index < FilterNames.size(); ++index)
     {
-        const float width = textWidth(context, TextFont, FilterNames[index], scale) / page.scale + 2 * ChipPad;
+        const float width =
+            textWidth(context, TextFont, Engine::tr(FilterNames[index]), scale) / page.scale + 2 * ChipPad;
         rects[index] = pageRect(page, x, ChipTop, width, ChipHeight);
         x += width + ChipGap;
     }
@@ -261,7 +265,8 @@ public:
 
         while (result.size() > 1 && textWidth(m_context, font, result, scale) / m_page.scale > width)
         {
-            result.pop_back();
+            // A whole character: shown names may be translated into letters of several bytes.
+            Engine::Utf8::popBack(result);
 
             while (!result.empty() && result.back() == ' ')
             {
@@ -586,15 +591,20 @@ void renderJournalProgress(
     std::optional<MapFlag> hoveredFlag;
 
     // Header: the title and the game's mode.
-    paint.text("Fondamento", 22, Gold, "Progress", PageWidth / 2, 10, 1);
+    paint.text("Fondamento", 22, Gold, Engine::tr("Progress"), PageWidth / 2, 10, 1);
     // The HUD fonts are single-byte: the middle dot is 0xB7.
     const std::string dot = "  \xB7  ";
-    std::string mode = summary.difficulty + " difficulty" + dot + summary.progression + " progression" + dot
-        + "total level " + std::to_string(summary.totalLevel) + dot + "challenge mode " + summary.challengeMode;
+    // The summary holds the options' English names.
+    std::string mode =
+        Engine::tr("{difficulty} difficulty", {{"difficulty", Engine::localizeKnown(summary.difficulty)}}) + dot
+        + Engine::tr("{progression} progression", {{"progression", Engine::localizeKnown(summary.progression)}})
+        + dot + Engine::tr("total level {level}", {{"level", summary.totalLevel}}) + dot
+        + Engine::tr("challenge mode {mode}", {{"mode", Engine::localizeKnown(summary.challengeMode)}});
 
     if (summary.deaths)
     {
-        mode += dot + std::to_string(*summary.deaths) + (*summary.deaths == 1 ? " death" : " deaths");
+        mode += dot + Engine::trn("{count} death", "{count} deaths", uint64_t(*summary.deaths),
+            {{"count", *summary.deaths}});
     }
 
     paint.text(TextFont, TextHeight, Ivory, mode, PageWidth / 2, 39, 1);
@@ -603,7 +613,8 @@ void renderJournalProgress(
     {
         const bool guideHovered = pointerPageX >= DetailRight - GuideLinkWidth && pointerPageX <= DetailRight
             && pointerPageY >= GuideLinkTop && pointerPageY <= GuideLinkTop + TextHeight + 4;
-        paint.text(TextFont, TextHeight, guideHovered ? Ivory : Gold, "Player's guide", DetailRight, GuideLinkTop, 2);
+        paint.text(TextFont, TextHeight, guideHovered ? Ivory : Gold, Engine::tr("Player's guide"), DetailRight,
+            GuideLinkTop, 2);
     }
 
     // The continents' cards.
@@ -615,19 +626,20 @@ void renderJournalProgress(
         const Rect card = paint.rect(x, CardTop, CardWidth, CardHeight);
         paint.fill(card, selected ? SelectedFill : PanelFill);
         paint.frame(card, selected ? SelectedBorder : PanelBorder);
-        paint.text("Fondamento", 13, Label, continent.name, x + 7, CardTop + 3);
+        paint.text("Fondamento", 13, Label, Engine::localizeKnown(continent.name), x + 7, CardTop + 3);
         paint.text(TextFont, 8, Muted, continent.world, x + CardWidth - 7, CardTop + 6, 2);
         const auto row = [&](float y, const std::string &key, const std::string &value, uint32_t colour)
         {
             paint.text(TextFont, TextHeight, Body, key, x + 7, y);
             paint.text(TextFont, TextHeight, colour, value, x + CardWidth - 7, y, 2);
         };
-        row(CardTop + 21, "Monster levels",
+        row(CardTop + 21, Engine::tr("Monster levels"),
             continent.levelHigh > 0
                 ? std::to_string(continent.levelLow) + " - " + std::to_string(continent.levelHigh) : std::string("-"),
             Ivory);
-        row(CardTop + 33, "Levels banked here", "+" + std::to_string(int(std::lround(continent.levelsBanked))), Amount);
-        row(CardTop + 45, "Maps cleared",
+        row(CardTop + 33, Engine::tr("Levels banked here"),
+            "+" + std::to_string(int(std::lround(continent.levelsBanked))), Amount);
+        row(CardTop + 45, Engine::tr("Maps cleared"),
             std::to_string(continent.mapsCleared) + " / " + std::to_string(continent.maps.size()), Ivory);
         const float barWidth = CardWidth - 14;
         paint.fill(paint.rect(x + 7, CardTop + 62, barWidth, 6), BarTrack);
@@ -643,15 +655,15 @@ void renderJournalProgress(
         const bool on = index == journal.progressFilter;
         paint.fill(chips[index], on ? SelectedFill : PanelFill);
         paint.frame(chips[index], on ? SelectedBorder : PanelBorder);
-        paint.text(TextFont, TextHeight, on ? Ivory : Body, FilterNames[index],
+        paint.text(TextFont, TextHeight, on ? Ivory : Body, Engine::tr(FilterNames[index]),
             (chips[index].x - page.x) / page.scale + ChipPad, ChipTop + 2.5f);
     }
 
     // The map list.
-    paint.text(TextFont, 8, Muted, "Map", ListLeft + 4, HeaderTop);
-    paint.text(TextFont, 8, Muted, "Level", LevelRight, HeaderTop, 2);
-    paint.text(TextFont, 8, Muted, "Cleared", BarLeft, HeaderTop);
-    paint.text(TextFont, 8, Muted, "Resets", ResetsRight, HeaderTop, 2);
+    paint.text(TextFont, 8, Muted, Engine::tr("Map"), ListLeft + 4, HeaderTop);
+    paint.text(TextFont, 8, Muted, Engine::tr("Level"), LevelRight, HeaderTop, 2);
+    paint.text(TextFont, 8, Muted, Engine::tr("Cleared"), BarLeft, HeaderTop);
+    paint.text(TextFont, 8, Muted, Engine::tr("Resets"), ResetsRight, HeaderTop, 2);
     const std::vector<const RulesetProgressMap *> maps = journalProgressMaps(journal);
     const RulesetProgressMap *pShown = shownMap(journal);
 
@@ -666,8 +678,8 @@ void renderJournalProgress(
         }
 
         paint.fill(paint.rect(ListLeft, y + RowHeight - 0.5f, ListRight - ListLeft, 0.5f), RowRule);
-        paint.text(TextFont, TextHeight, Ivory, paint.fitted(TextFont, TextHeight, map.name, NameWidth), ListLeft + 4,
-            y + 4);
+        paint.text(TextFont, TextHeight, Ivory,
+            paint.fitted(TextFont, TextHeight, Engine::localizeKnown(map.name), NameWidth), ListLeft + 4, y + 4);
 
         // The flags, the one under the pointer named below.
         float flagX = FlagLeft;
@@ -711,7 +723,7 @@ void renderJournalProgress(
     }
     else if (maps.empty())
     {
-        paint.text(TextFont, TextHeight, Muted, "No maps", ListLeft + 4, RowTop + 4);
+        paint.text(TextFont, TextHeight, Muted, Engine::tr("No maps"), ListLeft + 4, RowTop + 4);
     }
 
     // The legend of the flags.
@@ -721,7 +733,7 @@ void renderJournalProgress(
     {
         paint.glyph(MapFlag(index), legendX, LegendTop + 1, FlagSize);
         legendX += FlagSize + 3;
-        legendX += paint.text(TextFont, 8, Body, MapFlagShortNames[index], legendX, LegendTop) + 10;
+        legendX += paint.text(TextFont, 8, Body, Engine::tr(MapFlagShortNames[index]), legendX, LegendTop) + 10;
     }
 
     // The shown map's details.
@@ -733,7 +745,8 @@ void renderJournalProgress(
         const RulesetProgressMap &map = *pShown;
         constexpr float Left = DetailLeft + 8;
         constexpr float Right = DetailRight - 6;
-        paint.text("Fondamento", 14, Label, paint.fitted("Fondamento", 14, map.name, Right - Left), Left, DetailTop + 4);
+        const std::string mapName = Engine::localizeKnown(map.name);
+        paint.text("Fondamento", 14, Label, paint.fitted("Fondamento", 14, mapName, Right - Left), Left, DetailTop + 4);
         float y = DetailTop + 26;
         const auto row = [&](const std::string &key, const std::string &value)
         {
@@ -749,26 +762,27 @@ void renderJournalProgress(
                 y += 11;
             }
         };
-        row("Monster level", map.levelFromResets > 0
-            ? std::to_string(map.level) + " (+" + std::to_string(map.levelFromResets) + " from resets)"
+        row(Engine::tr("Monster level"), map.levelFromResets > 0
+            ? Engine::tr("{level} (+{added} from resets)", {{"level", map.level}, {"added", map.levelFromResets}})
             : std::to_string(map.level));
-        row("State", map.state == RulesetMapProgressState::NotVisited ? std::string("-") : percentText(map.slainShare));
-        note(map.state == RulesetMapProgressState::Cleared ? "Cleared since its refill"
-            : map.state == RulesetMapProgressState::NotVisited ? "Not visited"
-            : map.completedOnce && map.slainShare <= 0 ? "Completed once, refilled since"
-            : percentText(map.slainShare) + " of its monsters slain", Body);
+        row(Engine::tr("State"),
+            map.state == RulesetMapProgressState::NotVisited ? std::string("-") : percentText(map.slainShare));
+        note(map.state == RulesetMapProgressState::Cleared ? Engine::tr("Cleared since its refill")
+            : map.state == RulesetMapProgressState::NotVisited ? Engine::tr("Not visited")
+            : map.completedOnce && map.slainShare <= 0 ? Engine::tr("Completed once, refilled since")
+            : Engine::tr("{percent} of its monsters slain", {{"percent", percentText(map.slainShare)}}), Body);
         y += 2;
-        row("Completion reward", map.completedOnce ? "claimed" : "waiting");
-        row("Resets", std::to_string(map.resets));
-        row("Refills in", !map.refillInDays ? std::string("-")
-            : *map.refillInDays == 0 ? std::string("next visit")
-            : std::to_string(*map.refillInDays) + (*map.refillInDays == 1 ? " day" : " days"));
+        row(Engine::tr("Completion reward"), map.completedOnce ? Engine::tr("claimed") : Engine::tr("waiting"));
+        row(Engine::tr("Resets"), std::to_string(map.resets));
+        row(Engine::tr("Refills in"), !map.refillInDays ? std::string("-")
+            : *map.refillInDays == 0 ? Engine::tr("next visit")
+            : Engine::trn("{count} day", "{count} days", uint64_t(*map.refillInDays), {{"count", *map.refillInDays}}));
         y += 4;
 
         for (const MapFlag flag : mapFlags(map))
         {
             paint.glyph(flag, Left, y + 1, FlagSize);
-            paint.text(TextFont, 8.5f, Body, MapFlagNames[size_t(flag)], Left + FlagSize + 4, y);
+            paint.text(TextFont, 8.5f, Body, Engine::tr(MapFlagNames[size_t(flag)]), Left + FlagSize + 4, y);
             y += 11;
         }
 
@@ -776,11 +790,12 @@ void renderJournalProgress(
 
         if (map.resetOffer)
         {
-            note("The town hall offers a reset: " + *map.resetOffer, Body);
+            note(Engine::tr("The town hall offers a reset: {offer}", {{"offer", *map.resetOffer}}), Body);
         }
         else if (!map.completedOnce)
         {
-            note("Clearing it banks experience on this continent and adds it to the dimension map pool.", Body);
+            note(Engine::tr("Clearing it banks experience on this continent and adds it to the dimension map pool."),
+                Body);
         }
     }
 
@@ -791,16 +806,16 @@ void renderJournalProgress(
         x += paint.text(TextFont, TextHeight, Body, key + " ", x, FooterTop);
         x += paint.text(TextFont, TextHeight, Ivory, value, x, FooterTop) + 14;
     };
-    record("Dimension quest", summary.dimensionQuest);
-    record("Dimension runs", std::to_string(summary.dimensionRunsCleared) + " cleared");
-    record("Current run", summary.currentRun);
-    record("Bounties", std::to_string(summary.bountiesClaimed) + " claimed, " + std::to_string(summary.bountyGold)
-        + " gold");
+    record(Engine::tr("Dimension quest"), summary.dimensionQuest);
+    record(Engine::tr("Dimension runs"), Engine::tr("{count} cleared", {{"count", summary.dimensionRunsCleared}}));
+    record(Engine::tr("Current run"), summary.currentRun);
+    record(Engine::tr("Bounties"), Engine::tr("{count} claimed, {gold} gold",
+        {{"count", summary.bountiesClaimed}, {"gold", summary.bountyGold}}));
 
     // The name of the flag under the pointer.
     if (hoveredFlag)
     {
-        const std::string name = MapFlagNames[size_t(*hoveredFlag)];
+        const std::string name = Engine::tr(MapFlagNames[size_t(*hoveredFlag)]);
         const float nameWidth =
             textWidth(context, TextFont, name, fontScale(context, TextFont, 8.5f, page.scale)) / page.scale;
         const float tipX = std::min(pointerPageX + 8, PageWidth - nameWidth - 10);

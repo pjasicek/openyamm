@@ -24,6 +24,7 @@
 #include "game/mm9/Mm9TeacherSchedule.h"
 #include "game/mm9/Mm9QuestMarkers.h"
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/mm9/Mm9SkillTrainer.h"
 #include "game/mm9/Mm9TransportRoute.h"
 #include "game/outdoor/WeatherModel.h"
@@ -73,6 +74,9 @@ class GameDataLoader
 {
 public:
     void setActiveWorldId(const std::string &worldId);
+    // (Re)loads the tables only one world has (MM9's RUDE dialogue, hirelings, trainers, routes, ...) for the active
+    // world, as the full load does; a world switch calls it after setActiveWorldId and rebinds GameDataRepository.
+    bool loadWorldScopedTables(const Engine::AssetFileSystem &assetFileSystem);
     // The ruleset whose table overrides the next load applies; Standard (no overrides) until set.
     void setActiveRuleset(const RulesetDefinition &ruleset);
     const RulesetDefinition &activeRuleset() const;
@@ -140,6 +144,8 @@ public:
     const Mm9TeacherScheduleTable &getMm9TeacherScheduleTable() const;
     const Mm9RudeDialogueTable &getMm9RudeDialogueTable() const;
     const Mm9SkillTrainerTable &getMm9SkillTrainerTable() const;
+    // The MM9 world's hirelings; empty in other worlds.
+    const Mm9HirelingTable &getMm9HirelingTable() const;
     const Mm9TransportRouteTable &getMm9TransportRouteTable() const;
     const Mm9QuestInteractionTable &getMm9QuestInteractionTable() const;
     const RosterTable &getRosterTable() const;
@@ -237,6 +243,7 @@ private:
     bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9SkillTrainerTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9QuestInteractionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -324,6 +331,7 @@ private:
     std::shared_ptr<Mm9TeacherScheduleTable> m_pMm9TeacherScheduleTable;
     std::shared_ptr<Mm9RudeDialogueTable> m_pMm9RudeDialogueTable;
     std::shared_ptr<Mm9SkillTrainerTable> m_pMm9SkillTrainerTable;
+    std::shared_ptr<Mm9HirelingTable> m_pMm9HirelingTable;
     std::shared_ptr<Mm9TransportRouteTable> m_pMm9TransportRouteTable;
     Mm9QuestInteractionTable m_mm9QuestInteractionTable;
     RosterTable m_rosterTable;

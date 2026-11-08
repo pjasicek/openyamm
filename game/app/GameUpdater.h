@@ -17,7 +17,10 @@ public:
     // Null where this build does not update itself. With keepModifiedPacks (settings.ini [updates]
     // keep_modified_packs), a check only reports that updates are off and nothing downloads, as an update would
     // replace the packs the player edited; the start counting of the rollback rule continues.
-    static std::unique_ptr<GameUpdater> create(const std::string &baseUrl, bool keepModifiedPacks = false);
+    // languageId: the interface language chosen in Settings; its optional packs (fonts, voices, cutscenes) download
+    // and update with the game's, as do those of every language already installed (devdocs/LOCALIZATION.md).
+    static std::unique_ptr<GameUpdater> create(const std::string &baseUrl, bool keepModifiedPacks = false,
+                                               const std::string &languageId = {});
 
     virtual ~GameUpdater() = default;
     virtual std::string installedVersion() const = 0;

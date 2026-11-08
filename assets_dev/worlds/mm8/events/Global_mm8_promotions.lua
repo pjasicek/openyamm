@@ -26,8 +26,8 @@ local function validateJars(promotion)
 
     for _, player in ipairs(PartyMembers()) do
         if PlayerClassMatches(player, promotion.from) and not PlayerHasItem(player, promotion.jar) then
-            evt.SetMessage("The Necromancer in party slot " .. (player + 1)
-                .. " needs a Lich Jar in their own inventory before the transformation can begin.")
+            evt.SetMessage(tr("The Necromancer in party slot {slot} needs a Lich Jar in their own inventory before the"
+                .. " transformation can begin.", {slot = player + 1}))
             return false
         end
     end

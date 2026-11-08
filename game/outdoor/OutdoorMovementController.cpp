@@ -1803,9 +1803,10 @@ OutdoorMoveState OutdoorMovementController::initializePartyArrivalState(
     float y,
     float footZHint,
     float bodyRadius,
-    float stepUp) const
+    float stepUp,
+    bool keepHeight) const
 {
-    return initializeStateForBody(x, y, footZHint, bodyRadius, false, false, stepUp);
+    return initializeStateForBody(x, y, footZHint, bodyRadius, false, keepHeight, stepUp);
 }
 
 OutdoorMoveState OutdoorMovementController::initializeActorStateForBody(
@@ -3403,6 +3404,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
     OutdoorMoveState result = {};
     result.x = actorPosition.x;
     result.y = actorPosition.y;
+    clampPositionToBounds(body.radius, result.x, result.y);
     result.footZ = actorPosition.z;
     result.verticalVelocity = actorVelocity.z;
     result.supportKind = !finalFloor.hasFloor

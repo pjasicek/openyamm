@@ -285,6 +285,55 @@ TEST_CASE("MM9 treasure bag materializes through chest records without bone-pile
     CHECK_EQ(chest.flags, 0);
 }
 
+TEST_CASE("loot container random_records holds that many random treasure records")
+{
+    const YAML::Node sourceNode = YAML::Load(R"(
+loot_containers:
+  - source_id: mm9:test:chest
+    source_object_index: 0
+    source_name: TreasureChest0
+    position: {x: 0, y: 0, z: 0}
+    container_id: 0
+    kind: chest
+    presentation: mm9_chest
+    random_treasure_level: 3
+    treasure_type: 7
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: false
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+)");
+    OpenYAMM::Game::MapItemSourceData sources;
+    std::string error;
+    REQUIRE(OpenYAMM::Game::parseMapItemSourceData(sourceNode, sources, error));
+    const OpenYAMM::Game::MapDeltaChest chest =
+        OpenYAMM::Game::buildLootContainerChest(sources.lootContainers.front(), 2, 9036, 7, nullptr, nullptr);
+    REQUIRE_EQ(chest.rawItems.size(), 3u * 36u);
+
+    for (size_t offset = 0; offset < chest.rawItems.size(); offset += 36)
+    {
+        int32_t itemId = 0;
+        std::memcpy(&itemId, chest.rawItems.data() + offset, sizeof(itemId));
+        CHECK_EQ(itemId, -3);
+    }
+
+    YAML::Node withoutField = YAML::Clone(sourceNode);
+    withoutField["loot_containers"][0].remove("random_records");
+    OpenYAMM::Game::MapItemSourceData single;
+    REQUIRE(OpenYAMM::Game::parseMapItemSourceData(withoutField, single, error));
+    CHECK_EQ(single.lootContainers.front().randomRecords, 1u);
+
+    YAML::Node zero = YAML::Clone(sourceNode);
+    zero["loot_containers"][0]["random_records"] = 0;
+    OpenYAMM::Game::MapItemSourceData rejected;
+    CHECK_FALSE(OpenYAMM::Game::parseMapItemSourceData(zero, rejected, error));
+}
+
 TEST_CASE("Map-local chest item pools validate and produce persistent native item records")
 {
     const YAML::Node sourceNode = YAML::Load(R"(
@@ -394,7 +443,7 @@ TEST_CASE("MM9 loot-container presentation resolves through the shared chest tab
     CHECK_EQ(chestTable.get(chest.chestTypeId)->textureName, "mm9_treasure_bag");
 
     const std::filesystem::path iconRoot =
-        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/icons";
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/icons_x2";
     CHECK(std::filesystem::exists(iconRoot / "mm9_chest.png"));
     CHECK(std::filesystem::exists(iconRoot / "mm9_treasure_bag.png"));
 }

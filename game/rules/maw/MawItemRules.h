@@ -292,7 +292,7 @@ private:
 // slotMult (zzMaw-Items.lua:1405): what both base enchantments of this kind of item are multiplied by when rolled
 // (two-handed weapons 2, bows, helms, gauntlets and boots 1.25, body armour 1.5, rings 0.75, the rest 1).
 double mawEnchantSlotMultiplier(const ItemDefinition &itemDefinition, const MawBaseItem &base);
-// The stat or skill a base enchantment (standard enchant id 1-24) raises, as the player reads it.
+// The stat or skill a base enchantment (standard enchant id 1-24) raises, as the player reads it (translated).
 std::string mawEnchantStatName(const StandardItemEnchantTable *pTable, int type);
 // An artifact's item text without MMMerge's "(Special ...)" part and a leading "(...)" summary.
 std::string mawArtifactDescription(const std::string &notes);

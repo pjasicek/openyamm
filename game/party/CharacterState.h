@@ -4,11 +4,14 @@
 #include "game/tables/ItemTable.h"
 #include "game/party/SkillData.h"
 
+#include <array>
 #include <bitset>
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 namespace OpenYAMM::Game
 {
@@ -56,6 +59,29 @@ enum class EquipmentSlot : uint8_t
 };
 
 static constexpr size_t CharacterConditionCount = static_cast<size_t>(CharacterCondition::Count);
+
+// The conditions' names in data tables (potions.yml, the MM9 hireling table), in enum order.
+inline constexpr std::array<std::pair<std::string_view, CharacterCondition>, CharacterConditionCount>
+    CharacterConditionNames = {{
+        {"Cursed", CharacterCondition::Cursed},
+        {"Weak", CharacterCondition::Weak},
+        {"Asleep", CharacterCondition::Asleep},
+        {"Fear", CharacterCondition::Fear},
+        {"Drunk", CharacterCondition::Drunk},
+        {"Insane", CharacterCondition::Insane},
+        {"PoisonWeak", CharacterCondition::PoisonWeak},
+        {"DiseaseWeak", CharacterCondition::DiseaseWeak},
+        {"PoisonMedium", CharacterCondition::PoisonMedium},
+        {"DiseaseMedium", CharacterCondition::DiseaseMedium},
+        {"PoisonSevere", CharacterCondition::PoisonSevere},
+        {"DiseaseSevere", CharacterCondition::DiseaseSevere},
+        {"Paralyzed", CharacterCondition::Paralyzed},
+        {"Unconscious", CharacterCondition::Unconscious},
+        {"Dead", CharacterCondition::Dead},
+        {"Petrified", CharacterCondition::Petrified},
+        {"Eradicated", CharacterCondition::Eradicated},
+        {"Zombie", CharacterCondition::Zombie},
+    }};
 
 struct CharacterResistanceSet
 {

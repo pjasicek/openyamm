@@ -1,4 +1,5 @@
 #include "game/rules/MonsterRules.h"
+#include "engine/Localization.h"
 
 #include "game/tables/MapStats.h"
 
@@ -43,7 +44,7 @@ void MonsterRules::updateMonsters(IGameplayWorldRuntime &, float) const
 
 std::string MonsterRules::teleportBlockedText(bool) const
 {
-    return "Can't teleport now";
+    return Engine::tr("Can't teleport now");
 }
 
 bool MonsterRules::teleportBlockedNearEnemies() const
@@ -205,7 +206,7 @@ std::string MonsterRules::actorDisplayName(const ActorRulesetFacts &, const std:
 
 std::string MonsterRules::monsterResistanceText(int resistance, const ActorRulesetFacts &) const
 {
-    return resistance >= 200 ? "Imm" : std::to_string(resistance);
+    return resistance >= 200 ? Engine::tr("Imm") : std::to_string(resistance);
 }
 
 std::optional<MonsterInspectNumbers> MonsterRules::inspectNumbers(const MonsterInspectQuery &) const

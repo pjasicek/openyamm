@@ -60,23 +60,27 @@ IndoorMapData makeMapData()
     return mapData;
 }
 
-std::vector<uint8_t> makeLightingBytes(const std::vector<uint8_t> &geometryBytes)
+// daylightPairs: version 2, the page followed by its daylight page (another two-texel span).
+std::vector<uint8_t> makeLightingBytes(const std::vector<uint8_t> &geometryBytes, bool daylightPairs = false)
 {
     const std::string dependency = "worlds/mm9/maps/test.blv";
     // One repeat span of two identical BGRM texels.
     const std::vector<uint8_t> payload = {0x81, 0x40, 0x80, 0xff, 0x10};
+    const std::vector<uint8_t> daylightPayload = {0x81, 0x20, 0x20, 0x20, 0x08};
+    const uint32_t pageCount = daylightPairs ? 2 : 1;
     constexpr uint32_t PageOffset = 64;
-    constexpr uint32_t FaceOffset = PageOffset + 16;
-    constexpr uint32_t SectorOffset = FaceOffset + 2 * 36;
-    constexpr uint32_t DependencyOffset = SectorOffset + 12;
-    const uint32_t pixelOffset = DependencyOffset + 12 + uint32_t(dependency.size());
-    const uint32_t fileSize = pixelOffset + uint32_t(payload.size());
+    const uint32_t faceOffset = PageOffset + 16 * pageCount;
+    const uint32_t sectorOffset = faceOffset + 2 * 36;
+    const uint32_t dependencyOffset = sectorOffset + 12;
+    const uint32_t pixelOffset = dependencyOffset + 12 + uint32_t(dependency.size());
+    const uint32_t fileSize =
+        pixelOffset + uint32_t(payload.size()) + (daylightPairs ? uint32_t(daylightPayload.size()) : 0);
 
     std::vector<uint8_t> bytes = {'O', 'Y', 'I', 'L', 'I', 'T', '1', 0};
-    appendU32(bytes, 1);
+    appendU32(bytes, daylightPairs ? 2 : 1);
     appendU32(bytes, 64);
     appendU64(bytes, OpenYAMM::Game::BakedLightingFormat::contentHash(geometryBytes));
-    for (uint32_t value : {2u, 1u, 1u, 1u, PageOffset, FaceOffset, SectorOffset, DependencyOffset, pixelOffset,
+    for (uint32_t value : {2u, 1u, pageCount, 1u, PageOffset, faceOffset, sectorOffset, dependencyOffset, pixelOffset,
              fileSize})
     {
         appendU32(bytes, value);
@@ -85,6 +89,13 @@ std::vector<uint8_t> makeLightingBytes(const std::vector<uint8_t> &geometryBytes
     appendU32(bytes, 1);
     appendU32(bytes, pixelOffset);
     appendU32(bytes, uint32_t(payload.size()));
+    if (daylightPairs)
+    {
+        appendU32(bytes, 2);
+        appendU32(bytes, 1);
+        appendU32(bytes, pixelOffset + uint32_t(payload.size()));
+        appendU32(bytes, uint32_t(daylightPayload.size()));
+    }
     // Face 0: page 0, u = x / 64 + 0.25, v = y / 32.
     appendU16(bytes, 0);
     appendU16(bytes, 1);
@@ -106,6 +117,10 @@ std::vector<uint8_t> makeLightingBytes(const std::vector<uint8_t> &geometryBytes
     appendU64(bytes, 0x1234);
     bytes.insert(bytes.end(), dependency.begin(), dependency.end());
     bytes.insert(bytes.end(), payload.begin(), payload.end());
+    if (daylightPairs)
+    {
+        bytes.insert(bytes.end(), daylightPayload.begin(), daylightPayload.end());
+    }
     REQUIRE(bytes.size() == fileSize);
     return bytes;
 }
@@ -133,6 +148,37 @@ TEST_CASE("indoor baked lighting parses pages, face mappings, sector ambient and
     REQUIRE(lighting->dependencies.size() == 1);
     CHECK(lighting->dependencies[0].path == "worlds/mm9/maps/test.blv");
     CHECK(lighting->dependencies[0].hash == 0x1234);
+}
+
+TEST_CASE("indoor baked lighting version 2 pairs each page with its daylight page")
+{
+    const std::vector<uint8_t> geometry = {1, 2, 3, 4};
+    std::string error;
+    const std::vector<uint8_t> bytes = makeLightingBytes(geometry, true);
+    const std::optional<IndoorBakedLighting> lighting =
+        OpenYAMM::Game::loadIndoorBakedLighting(bytes, geometry, makeMapData(), error);
+    REQUIRE_MESSAGE(lighting.has_value(), error);
+    REQUIRE(lighting->pages.size() == 1);
+    REQUIRE(lighting->daylightPages.size() == 1);
+    CHECK(lighting->pages[0].decodePixels() == std::vector<uint32_t>{0x10ff8040u, 0x10ff8040u});
+    CHECK(lighting->daylightPages[0].decodePixels() == std::vector<uint32_t>{0x08202020u, 0x08202020u});
+    // The face's record names the pair's first page; it draws with page 0 of each.
+    CHECK(IndoorBakedLighting::facePage(&*lighting, true, 0) == 0);
+
+    // A version 1 file has no daylight pages.
+    const std::optional<IndoorBakedLighting> plain =
+        OpenYAMM::Game::loadIndoorBakedLighting(makeLightingBytes(geometry), geometry, makeMapData(), error);
+    REQUIRE(plain.has_value());
+    CHECK(plain->daylightPages.empty());
+
+    // A face on a pair's daylight page.
+    std::vector<uint8_t> oddPage = bytes;
+    oddPage[96] = 1;
+    CHECK_FALSE(OpenYAMM::Game::loadIndoorBakedLighting(oddPage, geometry, makeMapData(), error).has_value());
+    // A daylight page of another size.
+    std::vector<uint8_t> otherSize = bytes;
+    putU32(otherSize, 80, 1);
+    CHECK_FALSE(OpenYAMM::Game::loadIndoorBakedLighting(otherSize, geometry, makeMapData(), error).has_value());
 }
 
 TEST_CASE("indoor baked lighting of other geometry is stale and ignored")

@@ -1,0 +1,34 @@
+# A party that stops on a stair just after stepping up stays on the tread (2026-11-07). The step-up lifts a body onto a
+# tread as soon as its lower sphere meets the tread's edge, with its centre still up to a radius short of it; support
+# was tested at the centre alone, so a party stopped there sank back down the edge (or, lifted again, bobbed), and a
+# climbing one dipped between treads. A grounded body now keeps a flat tread its footprint overlaps while it stands
+# or heads onto it (IndoorMovementController::holdFootprintSupport). In 6d01 a stair with treads 24 units apart:
+# the party walks up from z 48, steps onto the z 96 tread at x 34 and stops at x 15, its centre still 15 short of it.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm6/party_stops_on_stair_tread.yml --scenario-no-color
+id: mm6.party_stops_on_stair_tread
+title: "MM6: a party stopped on a stair just after a step-up stays on the tread"
+world: mm6
+mode: faithful
+tags: [mm6, movement, indoor]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+  - movement_segment:
+      input: forward
+      seconds: 0.09
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d01.blv, x: 80, y: 3008, z: 48, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: 6d01.blv, x: 15, y: 3008, z: 96, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 3
+      tolerance_z: 0.5
+  - advance_runtime: {seconds: 0.05}
+  - assert:
+      water: {state: dry, foot_z_min: 95.5, foot_z_max: 96.5}
+  - advance_runtime: {seconds: 0.2}
+  - assert:
+      water: {foot_z_min: 95.5, foot_z_max: 96.5}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      water: {foot_z_min: 95.5, foot_z_max: 96.5}

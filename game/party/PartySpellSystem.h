@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/Localization.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
@@ -164,7 +165,7 @@ class PartySpellSystem
 {
 public:
     // The refusal of a spell cast underwater (OY-350), the original's "You can't do that while underwater".
-    static constexpr const char *UnderwaterText = "You can't do that while underwater";
+    static constexpr const char *UnderwaterText = Engine::trNoop("You can't do that while underwater").data();
 
     static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);
     // Mana an ordinary cast would spend, or nullopt when the caster lacks the skill for the spell.

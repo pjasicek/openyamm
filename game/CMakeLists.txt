@@ -12,6 +12,7 @@ add_library(openyamm_game STATIC
     render/ShieldDomeRenderer.cpp
     render/SurfaceReflectionBinding.cpp
     render/WeatherRenderer.cpp
+    render/WeatherRoofMap.cpp
     render/SkyPresets.cpp
     render/SkyState.cpp
     render/SkyRenderer.cpp
@@ -64,6 +65,8 @@ add_library(openyamm_game STATIC
     fx/ParticleSystem.cpp
     fx/WorldFxRenderer.cpp
     fx/WorldFxRenderResources.cpp
+    fx/TalkPortraitFrame.cpp
+    fx/ActorClipSounds.cpp
     fx/WorldFxSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayActionController.cpp
@@ -78,6 +81,7 @@ add_library(openyamm_game STATIC
     gameplay/MonsterDeathExplosion.cpp
     gameplay/ChestRuntime.cpp
     gameplay/BountyHuntRuntime.cpp
+    gameplay/ActorNameText.cpp
     gameplay/ArenaRuntime.cpp
     gameplay/AwardRuntime.cpp
     gameplay/GameplayBolsterRuntime.cpp
@@ -85,10 +89,13 @@ add_library(openyamm_game STATIC
     gameplay/ActorBehaviorRuntime.cpp
     gameplay/ActorAiTrace.cpp
     gameplay/GameplayActorAiSystem.cpp
+    gameplay/ScriptedActorMoves.cpp
     gameplay/Mm9ActorRules.cpp
+    gameplay/Mm9DialogueSpeaker.cpp
     gameplay/GameplayActorHitFeedback.cpp
     gameplay/GameplayActorShields.cpp
     gameplay/GameplayActorModifiers.cpp
+    gameplay/CinematicRuntime.cpp
     gameplay/GameplayMonsterSpawn.cpp
     maps/SceneOverlayOperations.cpp
     gameplay/MeleeContactEffects.cpp
@@ -156,6 +163,11 @@ add_library(openyamm_game STATIC
     mm9/Mm9TransportRoute.cpp
     mm9/Mm9PositionedTransitionRuntime.cpp
     mm9/Mm9RudeDialogue.cpp
+    mm9/Mm9HirelingTable.cpp
+    mm9/Mm9HirelingCombat.cpp
+    mm9/Mm9HirelingServices.cpp
+    mm9/Mm9HirelingHud.cpp
+    mm9/Mm9Formation.cpp
     mm9/Mm9SkillTrainer.cpp
     mm9/Mm9QuestMarkers.cpp
     maps/MechanismAudioYml.cpp
@@ -200,6 +212,7 @@ add_library(openyamm_game STATIC
     maps/DecorationModelSet.cpp
     maps/MapDecorationTextures.cpp
     maps/MapIdentity.cpp
+    maps/MapLayoutIdentity.cpp
     maps/MapRegistry.cpp
     tables/MapStats.cpp
     gameplay/MasteryTeacherDialog.cpp
@@ -297,6 +310,8 @@ add_library(openyamm_game STATIC
     party/Party.cpp
     party/EventSpellBuffs.cpp
     party/LloydsBeaconRuntime.cpp
+    party/PlaythroughStatistics.cpp
+    party/PlaythroughSeal.cpp
     party/PartySpellSystem.cpp
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
@@ -331,12 +346,15 @@ add_library(openyamm_game STATIC
     outdoor/OutdoorDistantSea.cpp
     ui/GameplayDialogueRenderer.cpp
     ui/HouseShopLayout.cpp
+    ui/HouseShopLedger.cpp
+    ui/GameplayHouseShopLedgerRenderer.cpp
     ui/EnemyHealthBarRenderer.cpp
     ui/GameplayHudRenderer.cpp
     ui/GameplayUiSkin.cpp
     ui/GameplayPortraitGems.cpp
     ui/GameplayBuffHud.cpp
     ui/GameplayCombatLogPanel.cpp
+    ui/CalendarText.cpp
     ui/GameplayHudCommon.cpp
     ui/GameplayHudOverlaySupport.cpp
     ui/GameplayHudOverlayRenderer.cpp
@@ -349,6 +367,7 @@ add_library(openyamm_game STATIC
     ui/GameplayAlchemyBenchRenderer.cpp
     ui/GameplayAlchemyBenchView.cpp
     ui/GameplayLootSummaryRenderer.cpp
+    ui/GameplayFormationBuilder.cpp
     ui/GameplayCraftingBenchRenderer.cpp
     ui/GameplayCraftingBenchView.cpp
     ui/GameplayJournalAuras.cpp
@@ -359,8 +378,8 @@ add_library(openyamm_game STATIC
     ui/GameplayQuickItems.cpp
     ui/GameplayTransportSchedule.cpp
     ui/GameplayMm9TalkBar.cpp
-    gameplay/GameplayTalkCamera.cpp
     ui/GameplayPartyOverlayRenderer.cpp
+    ui/GameplayStatisticsScreen.cpp
     ui/GameplayUiOverlayOrchestrator.cpp
     ui/GameplayUiRuntime.cpp
     ui/KeyboardScreenLayout.cpp
@@ -437,7 +456,14 @@ target_link_libraries(openyamm_game
         imgui::imgui
         Threads::Threads
         yaml-cpp::yaml-cpp
+        openyamm_monocypher
 )
+
+# The playthrough statistics' release key: a private source given at configure time (cmake/PlaythroughStatisticsKey.cmake).
+target_include_directories(openyamm_game PRIVATE "${CMAKE_BINARY_DIR}/generated")
+if (OPENYAMM_STATS_PRIVATE_KEY_SOURCE)
+    target_sources(openyamm_game PRIVATE "${OPENYAMM_STATS_PRIVATE_KEY_SOURCE}")
+endif()
 
 target_compile_features(openyamm_game PRIVATE cxx_std_20)
 add_dependencies(openyamm_game openyamm_runtime_shaders)

@@ -1707,37 +1707,12 @@ bool GameDataLoader::loadInternal(
         return false;
     }
 
-    if (!loadMm9MapTransitionTable(assetFileSystem))
-    {
-        return false;
-    }
-
-    if (!loadMm9TeacherScheduleTable(assetFileSystem))
-    {
-        return false;
-    }
-
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
     }
 
-    if (!loadMm9RudeDialogueTable(assetFileSystem))
-    {
-        return false;
-    }
-
-    if (!loadMm9TransportRouteTable(assetFileSystem))
-    {
-        return false;
-    }
-
-    if (!loadMm9SkillTrainerTable(assetFileSystem))
-    {
-        return false;
-    }
-
-    if (!loadMm9QuestInteractionTable(assetFileSystem))
+    if (!loadWorldScopedTables(assetFileSystem))
     {
         return false;
     }
@@ -2032,6 +2007,12 @@ const Mm9SkillTrainerTable &GameDataLoader::getMm9SkillTrainerTable() const
 {
     static const Mm9SkillTrainerTable EmptyTable;
     return m_pMm9SkillTrainerTable != nullptr ? *m_pMm9SkillTrainerTable : EmptyTable;
+}
+
+const Mm9HirelingTable &GameDataLoader::getMm9HirelingTable() const
+{
+    static const Mm9HirelingTable EmptyTable;
+    return m_pMm9HirelingTable != nullptr ? *m_pMm9HirelingTable : EmptyTable;
 }
 
 const Mm9TransportRouteTable &GameDataLoader::getMm9TransportRouteTable() const
@@ -2953,6 +2934,19 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     return true;
 }
 
+bool GameDataLoader::loadWorldScopedTables(const Engine::AssetFileSystem &assetFileSystem)
+{
+    // The tables only the MM9 world has (each is empty in another world). A world switch loads them again for the
+    // new world: GameApplication::activateWorldForMap.
+    return loadMm9MapTransitionTable(assetFileSystem)
+        && loadMm9TeacherScheduleTable(assetFileSystem)
+        && loadMm9RudeDialogueTable(assetFileSystem)
+        && loadMm9TransportRouteTable(assetFileSystem)
+        && loadMm9SkillTrainerTable(assetFileSystem)
+        && loadMm9HirelingTable(assetFileSystem)
+        && loadMm9QuestInteractionTable(assetFileSystem);
+}
+
 bool GameDataLoader::loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     m_pMm9RudeDialogueTable.reset();
@@ -3020,6 +3014,58 @@ bool GameDataLoader::loadMm9SkillTrainerTable(const Engine::AssetFileSystem &ass
     {
         std::cerr << "Failed to load MM9 skill-trainer contribution: " << path << '\n';
         for (const std::string &error : m_pMm9SkillTrainerTable->errors())
+        {
+            std::cerr << "  " << error << '\n';
+        }
+        return false;
+    }
+    return true;
+}
+
+bool GameDataLoader::loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    m_pMm9HirelingTable.reset();
+    if (m_activeWorldId != "mm9")
+    {
+        return true;
+    }
+
+    std::string manifestError;
+    const WorldManifest manifest =
+        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
+    if (!manifestError.empty() || !manifest.loadedFromFile)
+    {
+        std::cerr << "Failed to resolve MM9 hireling contribution: " << manifestError << '\n';
+        return false;
+    }
+
+    const TableContributionDefinition *pHirelingContribution = nullptr;
+    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    {
+        if (contribution.table != "hirelings")
+        {
+            continue;
+        }
+        if (pHirelingContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
+        {
+            std::cerr << "MM9 requires one distribution-mode hirelings contribution\n";
+            return false;
+        }
+        pHirelingContribution = &contribution;
+    }
+    if (pHirelingContribution == nullptr)
+    {
+        std::cerr << "MM9 world manifest has no hirelings contribution\n";
+        return false;
+    }
+
+    m_pMm9HirelingTable = std::make_shared<Mm9HirelingTable>();
+    std::vector<std::vector<std::string>> rows;
+    const std::string path = "worlds/" + manifest.id + "/" + pHirelingContribution->path;
+    if (!loadTextTableRows(assetFileSystem, path, rows) || !m_pMm9HirelingTable->loadFromRows(rows))
+    {
+        std::cerr << "Failed to load MM9 hireling contribution: " << path << '\n';
+        for (const std::string &error : m_pMm9HirelingTable->errors())
         {
             std::cerr << "  " << error << '\n';
         }
@@ -3440,6 +3486,25 @@ bool GameDataLoader::loadCharacterDollTable(const Engine::AssetFileSystem &asset
     {
         std::cerr << "Failed to parse doll type table: " << dollTypesPath << '\n';
         return false;
+    }
+
+    std::vector<std::string> unmountedWorldIds;
+
+    for (const auto &[characterId, entry] : m_characterDollTable.characters())
+    {
+        (void)characterId;
+
+        if (!entry.worldId.empty()
+            && std::find(unmountedWorldIds.begin(), unmountedWorldIds.end(), entry.worldId) == unmountedWorldIds.end()
+            && !isWorldPackageMounted(assetFileSystem, entry.worldId))
+        {
+            unmountedWorldIds.push_back(entry.worldId);
+        }
+    }
+
+    for (const std::string &worldId : unmountedWorldIds)
+    {
+        m_characterDollTable.removeCharactersOfWorld(worldId);
     }
 
     return true;
@@ -4534,12 +4599,58 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
         return false;
     }
 
-    std::vector<std::vector<std::string>> randomItemRows;
+    std::vector<std::vector<std::string>> baseRandomItemRows;
 
     const std::string randomItemsPath = engineDataTablePath("random_items.txt");
 
-    if (!loadTextTableRows(assetFileSystem, randomItemsPath, randomItemRows))
+    if (!loadTextTableRows(assetFileSystem, randomItemsPath, baseRandomItemRows))
     {
+        return false;
+    }
+
+    // A world weights its own items for random treasure (random_items contributions, same rows as the engine's
+    // random_items.txt), inside its item id range.
+    std::vector<KeyedTableContributionRows> randomItemContributions;
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
+        {
+            if (contribution.table != "random_items")
+            {
+                continue;
+            }
+
+            const ContentIdRangeDefinition *pItemRange = manifest.findIdRange(contribution.idDomain);
+
+            if (contribution.mode != TableContributionMode::Append || pItemRange == nullptr)
+            {
+                std::cerr << "random_items contribution from package '" << manifest.id
+                          << "' needs mode append and an item id range\n";
+                return false;
+            }
+
+            KeyedTableContributionRows contributionRows = {};
+            contributionRows.packageId = manifest.id;
+            contributionRows.idRange = *pItemRange;
+            const std::string contributionPath = "worlds/" + manifest.id + "/" + contribution.path;
+
+            if (!loadTextTableRows(assetFileSystem, contributionPath, contributionRows.rows))
+            {
+                std::cerr << "Failed to read random_items contribution from package '" << manifest.id << "': "
+                          << contributionPath << '\n';
+                return false;
+            }
+
+            randomItemContributions.push_back(std::move(contributionRows));
+        }
+    }
+
+    std::vector<std::vector<std::string>> randomItemRows;
+
+    if (!composeKeyedAppendTableRows(baseRandomItemRows, randomItemContributions, randomItemRows, compositionError))
+    {
+        std::cerr << "Failed to compose random item table: " << compositionError << '\n';
         return false;
     }
 
@@ -4663,6 +4774,25 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
             return false;
         }
     }
+
+    std::unordered_set<std::string> chestArtifactsOnlyWorlds;
+    std::unordered_set<std::string> treasureMarkersItemsOnlyWorlds;
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        if (manifest.chestArtifactsOnly)
+        {
+            chestArtifactsOnlyWorlds.insert(manifest.id);
+        }
+
+        if (manifest.treasureMarkersItemsOnly)
+        {
+            treasureMarkersItemsOnlyWorlds.insert(manifest.id);
+        }
+    }
+
+    m_itemTable.setChestArtifactsOnlyWorlds(std::move(chestArtifactsOnlyWorlds));
+    m_itemTable.setTreasureMarkersItemsOnlyWorlds(std::move(treasureMarkersItemsOnlyWorlds));
 
     ItemModelBindings groundModels;
     std::string groundModelError;
@@ -4953,6 +5083,7 @@ bool GameDataLoader::loadSelectedMap(
 )
 {
     m_selectedMap.reset();
+    m_monsterTable.clearMapFactionRelations();
     m_selectedMapRenderSourcePixelsReleased = false;
     m_lastReleasedMapRenderSourcePixelBytes = 0;
     m_mapAssetLoadSharedCache.beginLoad(assetFileSystem.contentGeneration());
@@ -5055,6 +5186,13 @@ bool GameDataLoader::loadSelectedMap(
             {
                 std::cerr << "Failed to load local event Lua: " << resolvedLuaPath << ": " << error << '\n';
                 return false;
+            }
+
+            // The map's own faction relations replace hostile.txt cells while it is loaded, before its actors take
+            // their starting hostility from the table.
+            for (const ScriptedEventProgram::FactionRelation &relation : program->factionRelations())
+            {
+                m_monsterTable.setMapFactionRelation(relation.faction, relation.otherFaction, relation.relation);
             }
 
             m_selectedMap->localEventProgram = std::move(program);

@@ -1,4 +1,5 @@
 #include "game/app/GameUpdater.h"
+#include "engine/Localization.h"
 
 #if defined(__APPLE__)
 #include "game/app/AppleBundlePaths.h"
@@ -8,6 +9,9 @@
 #include <SDL3/SDL_process.h>
 #include <SDL3/SDL_system.h>
 #include <SDL3/SDL_timer.h>
+
+#include <algorithm>
+#include <filesystem>
 
 #if defined(__ANDROID__)
 #include <jni.h>
@@ -20,9 +24,9 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-const char *KeptPacksMessage =
+constexpr std::string_view KeptPacksMessage = Engine::trNoop(
     "Updates are off while settings.ini has keep_modified_packs=on: an update would replace the content packs you "
-    "changed.";
+    "changed.");
 
 // The updater of a versioned installation: this executable runs from app/<version>/.
 class InstallationUpdater final : public GameUpdater
@@ -35,6 +39,34 @@ public:
         , m_updater(installation, version, Engine::releasePlatformName(), baseUrl, std::move(transport))
         , m_keepModifiedPacks(keepModifiedPacks)
     {
+    }
+
+    // The languages whose optional packs stay installed and current: any with a pack in the store, and the chosen one.
+    void keepLanguages(const std::string &chosenLanguage)
+    {
+        std::vector<std::string> languages;
+        std::string error;
+        const std::optional<Engine::AssetPackIndex> index = Engine::loadAssetPackIndex(
+            m_installation.appDirectory(m_version) / Engine::AssetPackIndexFileName, error);
+
+        for (const Engine::AssetPackRecord &pack : index ? index->packs : std::vector<Engine::AssetPackRecord>())
+        {
+            std::error_code fileError;
+
+            if (!pack.language.empty() && std::find(languages.begin(), languages.end(), pack.language) == languages.end()
+                && std::filesystem::is_regular_file(m_installation.packStore() / pack.file, fileError))
+            {
+                languages.push_back(pack.language);
+            }
+        }
+
+        if (!chosenLanguage.empty() && chosenLanguage != "en"
+            && std::find(languages.begin(), languages.end(), chosenLanguage) == languages.end())
+        {
+            languages.push_back(chosenLanguage);
+        }
+
+        m_updater.setLanguages(std::move(languages));
     }
 
     std::string installedVersion() const override
@@ -59,7 +91,8 @@ public:
         {
             Engine::UpdateStatus status;
             status.state = Engine::UpdateState::Failed;
-            status.message = KeptPacksMessage;
+            // The main menu shows it.
+            status.message = Engine::tr(KeptPacksMessage);
             return status;
         }
 
@@ -144,7 +177,8 @@ private:
     bool m_checkRefused = false;
 };
 
-std::unique_ptr<InstallationUpdater> createInstallationUpdater(const std::string &baseUrl, bool keepModifiedPacks)
+std::unique_ptr<InstallationUpdater> createInstallationUpdater(const std::string &baseUrl, bool keepModifiedPacks,
+                                                               const std::string &languageId = {})
 {
     const char *pBasePath = SDL_GetBasePath();
 
@@ -171,8 +205,10 @@ std::unique_ptr<InstallationUpdater> createInstallationUpdater(const std::string
         return nullptr;
     }
 
-    return std::make_unique<InstallationUpdater>(*installation, version, baseUrl, std::move(transport),
-                                                 keepModifiedPacks);
+    std::unique_ptr<InstallationUpdater> updater = std::make_unique<InstallationUpdater>(
+        *installation, version, baseUrl, std::move(transport), keepModifiedPacks);
+    updater->keepLanguages(languageId);
+    return updater;
 }
 
 #if defined(__ANDROID__)
@@ -316,15 +352,17 @@ private:
 #endif
 }
 
-std::unique_ptr<GameUpdater> GameUpdater::create(const std::string &baseUrl, bool keepModifiedPacks)
+std::unique_ptr<GameUpdater> GameUpdater::create(const std::string &baseUrl, bool keepModifiedPacks,
+                                                 const std::string &languageId)
 {
 #if defined(__ANDROID__)
     // Development APKs bundle their content and take no updates; an APK installs its packs itself.
     (void)keepModifiedPacks;
+    (void)languageId;
     std::unique_ptr<GameUpdater> updater = std::make_unique<AndroidUpdater>(baseUrl);
     return updater->installedVersion().empty() ? nullptr : std::move(updater);
 #else
-    return createInstallationUpdater(baseUrl, keepModifiedPacks);
+    return createInstallationUpdater(baseUrl, keepModifiedPacks, languageId);
 #endif
 }
 

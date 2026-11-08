@@ -1,5 +1,6 @@
 #include "game/rules/SkillRules.h"
 
+#include "engine/Localization.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/party/Party.h"
 #include "game/StringUtils.h"
@@ -7,7 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include <iterator>
-#include <tuple>
+#include <string_view>
 
 namespace OpenYAMM::Game
 {
@@ -146,43 +147,60 @@ std::string SkillRules::statTooltip(
     const int luckBonus = GameMechanics::primaryStatBonus(sheet.luck.actual);
     const auto signedText = [](int number) { return (number >= 0 ? "+" : "") + std::to_string(number); };
     const auto percentText = [](float share) { return std::to_string(int(std::lround(100.0f * share))) + "%"; };
-    // A monster effect's save adds Luck to the stat bonus or resistance against it.
-    const auto resistText = [&percentText, luckBonus](const std::string &effects, int bonus)
+    // A monster effect's save adds Luck to the stat bonus or resistance against it. Each template is one whole line.
+    const auto resistText = [&percentText, luckBonus](std::string_view lineTemplate, int bonus)
     {
-        return "\nChance to resist " + effects + ": "
-            + percentText(GameMechanics::monsterEffectResistChance(bonus + luckBonus));
+        return "\n"
+            + Engine::tr(lineTemplate,
+                {{"chance", percentText(GameMechanics::monsterEffectResistChance(bonus + luckBonus))}});
     };
     std::string text = table.empty() ? std::string() : table + "\n";
     // The lines below start with a line break: none before the first without a table text.
     const auto finish = [](std::string body) { return !body.empty() && body.front() == '\n' ? body.substr(1) : body; };
 
     // A resistance row: the damage it takes off with Luck, and the monster effects it resists.
-    const std::tuple<const char *, const char *, const CharacterSheetValue *, const char *> resistances[] = {
-        {"FireResistance", "Fire", &sheet.fireResistance, nullptr},
-        {"AirResistance", "Air", &sheet.airResistance, nullptr},
-        {"WaterResistance", "Water", &sheet.waterResistance, nullptr},
-        {"EarthResistance", "Earth", &sheet.earthResistance, "petrification"},
-        {"MindResistance", "Mind", &sheet.mindResistance, "insanity, paralysis and fear"},
-        {"BodyResistance", "Body", &sheet.bodyResistance, "poison and death"},
+    struct ResistanceRow
+    {
+        const char *pRow;
+        std::string_view immune;
+        std::string_view taken;
+        const CharacterSheetValue *pValue;
+        std::string_view resist;
+    };
+    const ResistanceRow resistances[] = {
+        {"FireResistance", Engine::trNoop("Immune to fire damage"),
+            Engine::trNoop("Fire damage taken: {share} less on average (Luck included)"), &sheet.fireResistance, {}},
+        {"AirResistance", Engine::trNoop("Immune to air damage"),
+            Engine::trNoop("Air damage taken: {share} less on average (Luck included)"), &sheet.airResistance, {}},
+        {"WaterResistance", Engine::trNoop("Immune to water damage"),
+            Engine::trNoop("Water damage taken: {share} less on average (Luck included)"), &sheet.waterResistance, {}},
+        {"EarthResistance", Engine::trNoop("Immune to earth damage and to petrification"),
+            Engine::trNoop("Earth damage taken: {share} less on average (Luck included)"), &sheet.earthResistance,
+            Engine::trNoop("Chance to resist petrification: {chance}")},
+        {"MindResistance", Engine::trNoop("Immune to mind damage and to insanity, paralysis and fear"),
+            Engine::trNoop("Mind damage taken: {share} less on average (Luck included)"), &sheet.mindResistance,
+            Engine::trNoop("Chance to resist insanity, paralysis and fear: {chance}")},
+        {"BodyResistance", Engine::trNoop("Immune to body damage and to poison and death"),
+            Engine::trNoop("Body damage taken: {share} less on average (Luck included)"), &sheet.bodyResistance,
+            Engine::trNoop("Chance to resist poison and death: {chance}")},
     };
 
-    for (const auto &[pRow, pDamage, pValue, pEffects] : resistances)
+    for (const ResistanceRow &row : resistances)
     {
-        if (statName != pRow)
+        if (statName != row.pRow)
         {
             continue;
         }
 
-        if (pValue->infinite)
+        if (row.pValue->infinite)
         {
-            return finish(text + "\nImmune to " + toLowerCopy(pDamage) + " damage"
-                + (pEffects != nullptr ? std::string(" and to ") + pEffects : std::string()));
+            return finish(text + "\n" + Engine::tr(row.immune));
         }
 
-        text += "\n" + std::string(pDamage) + " damage taken: "
-            + percentText(GameMechanics::averageResistedDamageShare(pValue->actual + luckBonus))
-            + " less on average (Luck included)";
-        return finish(pEffects != nullptr ? text + resistText(pEffects, pValue->actual) : text);
+        text += "\n"
+            + Engine::tr(row.taken,
+                {{"share", percentText(GameMechanics::averageResistedDamageShare(row.pValue->actual + luckBonus))}});
+        return finish(!row.resist.empty() ? text + resistText(row.resist, row.pValue->actual) : text);
     }
 
     const std::pair<const char *, int> stats[] = {
@@ -210,45 +228,52 @@ std::string SkillRules::statTooltip(
 
     if (statName == "Might")
     {
-        text += "\nMelee damage: " + signedText(bonus);
+        text += "\n" + Engine::tr("Melee damage: {bonus}", {{"bonus", signedText(bonus)}});
     }
     else if (statName == "Intellect" || statName == "Personality")
     {
         const std::optional<int> spellPoints = GameMechanics::primaryStatSpellPointBonus(character, statName, value);
-        text += spellPoints ? "\nSpell points: " + signedText(*spellPoints)
-                            : "\nNo effect on this class's spell points";
+        text += "\n"
+            + (spellPoints ? Engine::tr("Spell points: {bonus}", {{"bonus", signedText(*spellPoints)}})
+                           : Engine::tr("No effect on this class's spell points"));
 
         if (statName == "Personality")
         {
-            text += resistText("curses", bonus);
+            text += resistText(Engine::trNoop("Chance to resist curses: {chance}"), bonus);
         }
 
-        text += resistText("mana drain", manaDrainBonus);
+        text += resistText(Engine::trNoop("Chance to resist mana drain: {chance}"), manaDrainBonus);
     }
     else if (statName == "Endurance")
     {
-        text += "\nHit points: " + signedText(GameMechanics::enduranceHealthBonus(character, value))
-            + resistText("disease, sleep, weakness and aging", bonus);
+        text += "\n"
+            + Engine::tr("Hit points: {bonus}",
+                {{"bonus", signedText(GameMechanics::enduranceHealthBonus(character, value))}})
+            + resistText(Engine::trNoop("Chance to resist disease, sleep, weakness and aging: {chance}"), bonus);
     }
     else if (statName == "Accuracy")
     {
-        text += "\nAttack and Shoot: " + signedText(bonus);
+        text += "\n" + Engine::tr("Attack and Shoot: {bonus}", {{"bonus", signedText(bonus)}});
     }
     else if (statName == "Speed")
     {
-        text += "\nArmor class: " + signedText(bonus) + "\nRecovery time: " + signedText(-bonus);
+        text += "\n" + Engine::tr("Armor class: {bonus}", {{"bonus", signedText(bonus)}}) + "\n"
+            + Engine::tr("Recovery time: {bonus}", {{"bonus", signedText(-bonus)}});
     }
     else
     {
         // Luck joins every resistance roll that may halve a hit, physical ones too, and every monster effect's save.
-        text += "\nPhysical damage taken: " + percentText(GameMechanics::averageResistedDamageShare(bonus))
-            + " less on average\nAlso improves every resistance and every chance to resist curses, poison, disease and "
-              "other monster effects";
+        text += "\n"
+            + Engine::tr("Physical damage taken: {share} less on average",
+                {{"share", percentText(GameMechanics::averageResistedDamageShare(bonus))}})
+            + "\n"
+            + Engine::tr("Also improves every resistance and every chance to resist curses, poison, disease and other "
+                         "monster effects");
     }
 
     if (const std::optional<int> next = GameMechanics::nextPrimaryStatBonusValue(value))
     {
-        text += "\nNext bonus threshold: " + std::to_string(*next);
+        text += "\n" + Engine::tr("Next bonus threshold: {value}", {{"value", *next}});
     }
 
     return finish(text);

@@ -1,6 +1,8 @@
 #include "engine/AssetFileSystem.h"
 #include "tests/ContentPackTestSupport.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/Localization.h"
+#include "game/gameplay/ActorNameText.h"
 
 #include <doctest/doctest.h>
 
@@ -446,6 +448,207 @@ TEST_CASE("AssetFileSystem mounts mods in front of the packs only when mods/ hol
                               options));
         CHECK(fs.readTextFile("engine/data_tables/house_data.txt") == std::optional<std::string>("dev-houses"));
     }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos over the game's, and nothing else")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+
+    const auto writePack = [](const std::filesystem::path &pack)
+    {
+        writeTextFile(pack / "language.yml", "name: Test\n");
+        writeTextFile(pack / "engine" / "fonts" / "truetype" / "lucida.yml", "pack-font");
+        writeTextFile(pack / "engine" / "audio" / "zm1.wav", "pack-sound");
+        writeTextFile(pack / "worlds" / "mm7" / "audio" / "w7.wav", "pack-world-sound");
+        writeTextFile(pack / "worlds" / "mm7" / "videos" / "Cutscenes" / "7intro.ogv", "pack-video");
+        // Text goes through translation files: a pack's data table never replaces the game's.
+        writeTextFile(pack / "engine" / "data_tables" / "items.txt", "pack-items");
+    };
+
+    // A development root: the pack in assets_dev/languages.
+    const std::filesystem::path developmentRoot = temporaryRoot / "assets_dev";
+    writeTextFile(developmentRoot / "engine" / "fonts" / "truetype" / "lucida.yml", "game-font");
+    writeTextFile(developmentRoot / "engine" / "audio" / "zm1.wav", "game-sound");
+    writeTextFile(developmentRoot / "engine" / "data_tables" / "items.txt", "game-items");
+    writeTextFile(developmentRoot / "worlds" / "mm7" / "audio" / "w7.wav", "game-world-sound");
+    writeTextFile(developmentRoot / "worlds" / "mm7" / "videos" / "Cutscenes" / "7intro.ogv", "game-video");
+    writePack(developmentRoot / "languages" / "ts");
+
+    InstalledContentOptions english;
+    InstalledContentOptions language;
+    language.languageId = "ts";
+    const auto check = [&](const std::filesystem::path &assetRoot, const InstalledContentOptions &options,
+                           const std::string &prefix)
+    {
+        AssetFileSystem fs;
+        REQUIRE(fs.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm7", options));
+        CHECK(fs.readTextFile("fonts/truetype/lucida.yml") == std::optional<std::string>(prefix + "-font"));
+        CHECK(fs.readTextFile("Data/EnglishD/zm1.wav") == std::optional<std::string>(prefix + "-sound"));
+        CHECK(fs.readTextFile("Data/EnglishD/w7.wav") == std::optional<std::string>(prefix + "-world-sound"));
+        CHECK(fs.readTextFile("Videos/Cutscenes/7intro.ogv") == std::optional<std::string>(prefix + "-video"));
+        CHECK(fs.readTextFile("data_tables/items.txt") == std::optional<std::string>("game-items"));
+        CHECK(fs.exists("languages/ts/language.yml"));
+        // A world switch mounts the pack again.
+        REQUIRE(fs.switchActiveWorld("mm7"));
+        CHECK(fs.readTextFile("Data/EnglishD/zm1.wav") == std::optional<std::string>(prefix + "-sound"));
+    };
+    check(developmentRoot, english, "game");
+    check(developmentRoot, language, "pack");
+
+    // A release: the packs, with the player's own pack in <user data>/languages.
+    const std::filesystem::path releaseRoot = temporaryRoot / "assets";
+    writeZipFile(releaseRoot / "packs/engine.core.zip", {
+        {"fonts/truetype/lucida.yml", "game-font"},
+        {"audio/zm1.wav", "game-sound"},
+        {"data_tables/items.txt", "game-items"}
+    });
+    writeZipFile(releaseRoot / "packs/mm7.core.zip", {
+        {"audio/w7.wav", "game-world-sound"},
+        {"videos/Cutscenes/7intro.ogv", "game-video"}
+    });
+    writeCorePackIndex(releaseRoot, {"engine", "mm7"});
+    writePack(temporaryRoot / "languages" / "ts");
+    english.userLanguagesRoot = temporaryRoot / "languages";
+    language.userLanguagesRoot = temporaryRoot / "languages";
+    check(releaseRoot, english, "game");
+    check(releaseRoot, language, "pack");
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("A language's translation is found for a table cell with spaces or line breaks around its text")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+    const std::filesystem::path developmentRoot = temporaryRoot / "assets_dev";
+    writeTextFile(developmentRoot / "engine" / "data_tables" / "items.txt", "game-items");
+    writeTextFile(developmentRoot / "languages" / "ts" / "language.yml", "name: Test\n");
+    writeTextFile(developmentRoot / "languages" / "ts" / "text" / "engine.po",
+                  "msgid \"Elvis\"\nmsgstr \"Elvisz\"\n\n"
+                  "msgid \"Hello.\\nGoodbye.\"\nmsgstr \"Ahoj.\\nNashle.\"\n");
+
+    InstalledContentOptions options;
+    options.languageId = "ts";
+    AssetFileSystem fs;
+    REQUIRE(fs.initialize(temporaryRoot, developmentRoot, AssetScaleTier::X1, profile, "mm7", options));
+    REQUIRE(activateLanguage(fs, "ts"));
+    CHECK(localize("Elvis") == "Elvisz");
+    CHECK(localize("Elvis ") == "Elvisz ");
+    CHECK(localize("Hello.\nGoodbye.\n") == "Ahoj.\nNashle.\n");
+    CHECK(localizeKnown("  Elvis") == "  Elvisz");
+    CHECK(localize(" Elvis Presley ") == " Elvis Presley ");
+    CHECK(localize("   ") == "   ");
+    REQUIRE(activateLanguage(fs, EnglishLanguageId));
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("A composed boss name takes the affix's own translation and the language's word order")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+    const std::filesystem::path developmentRoot = temporaryRoot / "assets_dev";
+    writeTextFile(developmentRoot / "engine" / "data_tables" / "items.txt", "game-items");
+    writeTextFile(developmentRoot / "languages" / "ts" / "language.yml", "name: Test\n");
+    // "Swift" alone is an item suffix ("of Swiftness"); the affix has its own entry.
+    writeTextFile(developmentRoot / "languages" / "ts" / "text" / "engine.po",
+                  "msgid \"Swift\"\nmsgstr \"of Speed\"\n\n"
+                  "msgctxt \"monster affix\"\nmsgid \"Swift\"\nmsgstr \"speed\"\n\n"
+                  "msgid \"{affix} {monster}\"\nmsgstr \"{monster} ({affix})\"\n\n"
+                  "msgid \"Resurrected {monster}\"\nmsgstr \"{monster} from the dead\"\n\n"
+                  "msgid \"Goblin\"\nmsgstr \"Gobline\"\n");
+
+    InstalledContentOptions options;
+    options.languageId = "ts";
+    AssetFileSystem fs;
+    REQUIRE(fs.initialize(temporaryRoot, developmentRoot, AssetScaleTier::X1, profile, "mm7", options));
+    REQUIRE(activateLanguage(fs, "ts"));
+    CHECK(OpenYAMM::Game::localizedActorName("Swift Goblin") == "Gobline (speed)");
+    CHECK(OpenYAMM::Game::localizedActorName("Resurrected Swift Goblin") == "Gobline (speed) from the dead");
+    REQUIRE(activateLanguage(fs, EnglishLanguageId));
+    CHECK(OpenYAMM::Game::localizedActorName("Swift Goblin") == "Swift Goblin");
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("AssetFileSystem mounts a release's optional language packs only for their language, when installed")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets";
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+    struct Pack
+    {
+        std::string id;
+        std::string package;
+        std::string mount;
+        std::string language;
+        std::vector<std::pair<std::string, std::string>> files;
+    };
+    const std::vector<Pack> packs = {
+        {"engine.core", "engine", "/engine", "",
+         {{"fonts/truetype/lucida.yml", "game-font"}, {"audio/zm1.wav", "game-sound"}}},
+        // Every language's text is always installed.
+        {"engine.languages", "engine", "/engine/languages", "", {{"ts/language.yml", "name: Test\n"},
+                                                                 {"tz/language.yml", "name: Other\n"}}},
+        {"mm7.core", "mm7", "/worlds/mm7", "", {{"videos/Cutscenes/7intro.ogv", "game-video"}}},
+        {"lang-ts.engine.fonts", "engine", "/engine/fonts", "ts", {{"truetype/lucida.yml", "ts-font"}}},
+        {"lang-ts.engine.audio", "engine", "/engine/audio", "ts", {{"zm1.wav", "ts-sound"}}},
+        {"lang-ts.mm7.videos", "mm7", "/worlds/mm7/videos", "ts", {{"Cutscenes/7intro.ogv", "ts-video"}}},
+        {"lang-tz.engine.audio", "engine", "/engine/audio", "tz", {{"zm1.wav", "tz-sound"}}},
+    };
+    std::string index = "{\"schema\": 1, \"release\": \"test\", \"build\": \"test\", \"profile\": \"desktop\", "
+                        "\"content_format\": 1, \"store\": \"packs\", \"packs\": [";
+
+    for (const Pack &pack : packs)
+    {
+        // The language tz was never downloaded: its pack is in the index only.
+        if (pack.language != "tz")
+        {
+            writeZipFile(assetRoot / "packs" / (pack.id + ".zip"), pack.files);
+        }
+
+        const uint64_t size =
+            pack.language == "tz" ? 1234 : std::filesystem::file_size(assetRoot / "packs" / (pack.id + ".zip"));
+        index += std::string(&pack == packs.data() ? "" : ", ") + "{\"id\": \"" + pack.id + "\", \"package\": \""
+            + pack.package + "\", \"mount\": \"" + pack.mount + "\", \"file\": \"" + pack.id + ".zip\", \"size\": "
+            + std::to_string(size) + ", \"content_id\": \"c" + pack.id + "\", \"sha256\": \"s\""
+            + (pack.language.empty() ? "" : ", \"language\": \"" + pack.language + "\"") + "}";
+    }
+
+    writeTextFile(assetRoot / "index.json", index + "]}");
+    std::string error;
+    const std::optional<AssetPackIndex> parsed = loadAssetPackIndex(assetRoot / "index.json", error);
+    REQUIRE_MESSAGE(parsed.has_value(), error);
+    CHECK(assetPackLanguages(*parsed) == std::vector<std::string>{"ts", "tz"});
+    CHECK_EQ(missingLanguagePackBytes(*parsed, assetRoot / "packs", "ts"), 0u);
+    CHECK_EQ(missingLanguagePackBytes(*parsed, assetRoot / "packs", "tz"), 1234u);
+    // A language's packs are optional: a missing one leaves the content usable.
+    CHECK(validateAssetPackFiles(*parsed, assetRoot / "packs", error));
+
+    const auto check = [&](const std::string &languageId, const std::string &prefix)
+    {
+        InstalledContentOptions options;
+        options.languageId = languageId;
+        AssetFileSystem fs;
+        REQUIRE(fs.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm7", options));
+        CHECK(fs.readTextFile("fonts/truetype/lucida.yml") == std::optional<std::string>(prefix + "-font"));
+        CHECK(fs.readTextFile("Data/EnglishD/zm1.wav") == std::optional<std::string>(prefix + "-sound"));
+        CHECK(fs.readTextFile("Videos/Cutscenes/7intro.ogv") == std::optional<std::string>(prefix + "-video"));
+        CHECK(fs.exists("languages/ts/language.yml"));
+        CHECK(fs.exists("languages/tz/language.yml"));
+        CHECK(fs.languagePacksMissing() == (languageId == "tz"));
+    };
+    check("", "game");
+    check("ts", "ts");
+    // Chosen but not downloaded yet: the game's own files.
+    check("tz", "game");
 
     std::filesystem::remove_all(temporaryRoot);
 }

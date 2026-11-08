@@ -34,6 +34,8 @@ packages:
       # The optional rulesets (engine/rulesets/<id>, devdocs/maw/HANDOFF.md): small text and YAML, one pack. They
       # live in the engine package because releases up to 1.10 accept only /engine and /worlds/<id> mounts.
       rulesets:          {buckets: 1}
+      # The text of every language pack (languages/<id>/language.yml and text/): small, always installed.
+      languages:         {buckets: 1}
   # Every world; a world entry below replaces single domains or the core list.
   world:
     core: [audio, behaviors, effects, events, terrain_decorations, terrain_materials, textures]
@@ -60,3 +62,12 @@ packages:
       textures_x4:       {buckets: {desktop: 9, android: 1}}
       textures_x2:       {buckets: {desktop: 1, android: 3}}
       surface_materials_x4: {buckets: {desktop: 14, android: 1}}
+# A language pack's fonts, sounds and videos (assets_dev/languages/<id>/engine and worlds/<world>): optional packs
+# "lang-<id>.<package>.<folder>[.<bucket>]" with a language field, downloaded only for a language the player chose.
+# ship: false leaves a folder out of releases. Sounds and videos stay out until releases from 1.22 on are the ones
+# updating: the updater of 1.21 and earlier knows no optional packs and would download every language's (2026-11-08).
+languages:
+  overlays:
+    fonts:               {buckets: 1}
+    audio:               {buckets: 2, ship: false}
+    videos:              {buckets: 1, ship: false}

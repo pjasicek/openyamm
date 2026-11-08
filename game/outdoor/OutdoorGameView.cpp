@@ -1,4 +1,5 @@
 #include "game/render/RuntimeShader.h"
+#include "engine/Localization.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/debug/AiArena.h"
 #include "game/outdoor/OutdoorSunlight.h"
@@ -736,7 +737,7 @@ std::string resolveItemInspectTypeText(const InventoryItem *pItemState, const It
 {
     if (pItemState != nullptr && !pItemState->identified && ItemRuntime::requiresIdentification(itemDefinition))
     {
-        return "Not identified";
+        return Engine::tr("Not identified");
     }
 
     if (!itemDefinition.skillGroup.empty()
@@ -840,11 +841,12 @@ std::string resolveItemInspectDetailText(const InventoryItem *pItemState, const 
 
         if (damageText.empty())
         {
-            return isBroken ? "Broken" : std::string {};
+            return isBroken ? Engine::tr("Broken") : std::string {};
         }
 
-        const std::string detail = "Attack: +" + std::to_string(attackBonus) + "   Damage: " + damageText;
-        return isBroken ? "Broken   " + detail : detail;
+        const std::string detail =
+            Engine::tr("Attack: +{attack}   Damage: {damage}", {{"attack", attackBonus}, {"damage", damageText}});
+        return isBroken ? Engine::tr("Broken   {detail}", {{"detail", detail}}) : detail;
     }
 
     if (equipStat == "Missile")
@@ -854,22 +856,23 @@ std::string resolveItemInspectDetailText(const InventoryItem *pItemState, const 
 
         if (damageText.empty())
         {
-            return isBroken ? "Broken" : std::string {};
+            return isBroken ? Engine::tr("Broken") : std::string {};
         }
 
-        const std::string detail = "Shoot: +" + std::to_string(shootBonus) + "   Damage: " + damageText;
-        return isBroken ? "Broken   " + detail : detail;
+        const std::string detail =
+            Engine::tr("Shoot: +{shoot}   Damage: {damage}", {{"shoot", shootBonus}, {"damage", damageText}});
+        return isBroken ? Engine::tr("Broken   {detail}", {{"detail", detail}}) : detail;
     }
 
     if (equipStat == "WeaponW")
     {
         if (hasMod2Int && mod2Value > 0)
         {
-            const std::string detail = "Charges: " + std::to_string(mod2Value);
-            return isBroken ? "Broken   " + detail : detail;
+            const std::string detail = Engine::tr("Charges: {charges}", {{"charges", mod2Value}});
+            return isBroken ? Engine::tr("Broken   {detail}", {{"detail", detail}}) : detail;
         }
 
-        return isBroken ? "Broken" : std::string {};
+        return isBroken ? Engine::tr("Broken") : std::string {};
     }
 
     if (equipStat == "Armor"
@@ -886,14 +889,14 @@ std::string resolveItemInspectDetailText(const InventoryItem *pItemState, const 
 
         if (armorValue > 0)
         {
-            const std::string detail = "Armor: +" + std::to_string(armorValue);
-            return isBroken ? "Broken   " + detail : detail;
+            const std::string detail = Engine::tr("Armor: +{armor}", {{"armor", armorValue}});
+            return isBroken ? Engine::tr("Broken   {detail}", {{"detail", detail}}) : detail;
         }
 
-        return isBroken ? "Broken" : std::string {};
+        return isBroken ? Engine::tr("Broken") : std::string {};
     }
 
-    return isBroken ? "Broken" : std::string {};
+    return isBroken ? Engine::tr("Broken") : std::string {};
 }
 
 constexpr const char *WeaponSkillNames[] = {
@@ -2726,6 +2729,42 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         return;
     }
 
+    // A playing cinematic draws the frame from its camera (devdocs/mm9_rework/MM9_CUTSCENES.md): its eye, angles and
+    // field of view stand in for the party's for this render and are put back at its end; the party keeps its own.
+    const CinematicRuntime &cinematic = m_gameSession.cinematicRuntime();
+    m_viewShakeYawRadians = cinematic.shake().yawRadians();
+    m_viewShakePitchRadians = cinematic.shake().pitchRadians();
+    struct CinematicViewRestore
+    {
+        OutdoorGameView &view;
+        std::optional<std::array<float, 5>> saved;
+
+        ~CinematicViewRestore()
+        {
+            if (saved)
+            {
+                view.m_cameraTargetX = (*saved)[0];
+                view.m_cameraTargetY = (*saved)[1];
+                view.m_cameraTargetZ = (*saved)[2];
+                view.m_cameraYawRadians = (*saved)[3];
+                view.m_cameraPitchRadians = (*saved)[4];
+                view.m_viewVerticalFovDegrees = CameraVerticalFovDegrees;
+            }
+        }
+    } cinematicViewRestore{*this, std::nullopt};
+
+    if (const std::optional<CinematicCameraView> &cinematicView = cinematic.cameraView())
+    {
+        cinematicViewRestore.saved = std::array<float, 5>{
+            m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ, m_cameraYawRadians, m_cameraPitchRadians};
+        m_cameraTargetX = cinematicView->eye.x;
+        m_cameraTargetY = cinematicView->eye.y;
+        m_cameraTargetZ = cinematicView->eye.z;
+        m_cameraYawRadians = cinematicView->yawRadians;
+        m_cameraPitchRadians = cinematicView->pitchRadians;
+        m_viewVerticalFovDegrees = cinematicView->verticalFovDegrees.value_or(CameraVerticalFovDegrees);
+    }
+
     GameplayScreenState &gameplayScreenState = m_gameSession.gameplayScreenState();
     GameplayMouseLookState &gameplayMouseLookState = gameplayScreenState.gameplayMouseLookState();
 
@@ -2743,8 +2782,6 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     }
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-    m_talkCamera.update(overlayContext, m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ, CameraVerticalFovDegrees,
-        deltaSeconds, m_cameraYawRadians, m_cameraPitchRadians);
 
     if (!preparingResources && m_pendingSavePreviewCapture.active
         && m_pendingSavePreviewCapture.screenshotRequested
@@ -2998,7 +3035,7 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         bx::Handedness::Right);
     bx::mtxProj(
         wireframeProjectionMatrix,
-        CameraVerticalFovDegrees,
+        m_viewVerticalFovDegrees,
         wireframeAspectRatio,
         OutdoorCameraNearClip,
         farClipDistance,
@@ -3076,7 +3113,11 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
 
     float gameplayViewProjectionMatrix[16] = {};
     bx::mtxMul(gameplayViewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-    renderCombatFeedbackOverlay(width, height, gameplayViewProjectionMatrix);
+    // Floating combat text is HUD: none over a cinematic.
+    if (!m_gameSession.cinematicRuntime().takesOverView())
+    {
+        renderCombatFeedbackOverlay(width, height, gameplayViewProjectionMatrix);
+    }
     captureFrameTimingStage(audioStageNanoseconds);
 
     if (frameTimingEnabled)
@@ -3172,6 +3213,13 @@ const SpriteFrameTable *OutdoorGameView::actorSpriteFrameTable() const
 WorldFxSystem &OutdoorGameView::worldFxSystem()
 {
     return m_worldFxSystem;
+}
+
+std::optional<DecorationPortraitModel> OutdoorGameView::decorationPortraitModel(uint32_t spriteOverrideKey) const
+{
+    return m_outdoorDecorationBillboardSet
+        ? m_decorationModels.portraitModel(m_outdoorDecorationBillboardSet->billboards, spriteOverrideKey)
+        : std::nullopt;
 }
 
 const EffectRenderer::Diagnostics &OutdoorGameView::effectRenderDiagnostics() const
@@ -3927,10 +3975,10 @@ float OutdoorGameView::effectiveCameraYawRadians() const
 {
     if (m_pOutdoorWorldRuntime == nullptr)
     {
-        return m_cameraYawRadians;
+        return m_cameraYawRadians + m_viewShakeYawRadians;
     }
 
-    return m_cameraYawRadians + m_pOutdoorWorldRuntime->armageddonCameraShakeYawRadians()
+    return m_cameraYawRadians + m_viewShakeYawRadians + m_pOutdoorWorldRuntime->armageddonCameraShakeYawRadians()
         + m_pOutdoorWorldRuntime->actorHitFeedback().cameraKickYawRadians();
 }
 
@@ -3938,10 +3986,11 @@ float OutdoorGameView::effectiveCameraPitchRadians() const
 {
     if (m_pOutdoorWorldRuntime == nullptr)
     {
-        return m_cameraPitchRadians;
+        return m_cameraPitchRadians + m_viewShakePitchRadians;
     }
 
-    return m_cameraPitchRadians + m_pOutdoorWorldRuntime->armageddonCameraShakePitchRadians()
+    return m_cameraPitchRadians + m_viewShakePitchRadians
+        + m_pOutdoorWorldRuntime->armageddonCameraShakePitchRadians()
         + m_pOutdoorWorldRuntime->actorHitFeedback().cameraKickPitchRadians();
 }
 

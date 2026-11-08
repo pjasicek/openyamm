@@ -419,8 +419,9 @@ private:
 };
 }
 
-MusicStream::MusicStream(std::shared_ptr<const std::vector<uint8_t>> pEncodedTrack)
+MusicStream::MusicStream(std::shared_ptr<const std::vector<uint8_t>> pEncodedTrack, float loopGapSeconds)
     : m_pEncodedTrack(std::move(pEncodedTrack))
+    , m_loopGapFrames(uint32_t(std::clamp(loopGapSeconds, 0.0f, 600.0f) * float(OutputSampleRate)))
     , m_buffer(size_t(BufferFrames) * OutputChannels)
 {
     m_worker = std::thread([this]()
@@ -501,6 +502,22 @@ void MusicStream::decodeTrack()
             const std::lock_guard<std::mutex> lock(m_mutex);
             m_failed = true;
             return;
+        }
+
+        // The silence before the next pass.
+        constexpr uint32_t SilenceChunkFrames = 4096;
+        samples.assign(size_t(SilenceChunkFrames) * OutputChannels, 0.0f);
+
+        for (uint32_t gapFrames = m_loopGapFrames; gapFrames > 0;)
+        {
+            const uint32_t frameCount = std::min(gapFrames, SilenceChunkFrames);
+
+            if (!writeFrames(samples.data(), frameCount))
+            {
+                return;
+            }
+
+            gapFrames -= frameCount;
         }
     }
 }

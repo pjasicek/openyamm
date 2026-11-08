@@ -1,4 +1,5 @@
 #include "game/ui/MenuSettingsModel.h"
+#include "engine/Localization.h"
 #include "game/render/CombatActorHealthBarPolicy.h"
 #include <algorithm>
 #include <array>
@@ -75,7 +76,7 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     }
     if (id == "combat_log")
     {
-        return settings.combatLog ? "true" : "false";
+        return combatLogModeValue(settings.combatLog);
     }
     if (id == "turn_based_monster_speed")
     {
@@ -84,6 +85,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "turn_based_party_speed")
     {
         return turnBasedSpeedValue(settings.turnBasedPartySpeed);
+    }
+    if (id == "language")
+    {
+        return settings.language;
     }
     if (id == "enemy_health_bars")
     {
@@ -411,11 +416,12 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
     }
     if (id == "combat_log")
     {
-        if (value != "true" && value != "false")
+        const std::optional<CombatLogMode> mode = parseCombatLogModeValue(value);
+        if (!mode)
         {
             return false;
         }
-        settings.combatLog = value == "true";
+        settings.combatLog = *mode;
         return true;
     }
     if (id == "turn_based_monster_speed")
@@ -425,6 +431,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
     if (id == "turn_based_party_speed")
     {
         return parseTurnBasedSpeedValue(value, settings.turnBasedPartySpeed);
+    }
+    if (id == "language")
+    {
+        if (!Engine::validLanguageId(value))
+        {
+            return false;
+        }
+        settings.language = value;
+        return true;
     }
     if (id == "enemy_health_bars")
     {

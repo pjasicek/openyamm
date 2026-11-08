@@ -17,12 +17,14 @@ class IndoorFaceGeometryCache;
 // A uniform x/y grid over each sector's faces, so that line of sight, projectile and item sweeps and the sector
 // lookup for a point test only the faces near them instead of every face of the sector
 // (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2). A cell lists the faces whose bounds, widened by a small padding,
-// overlap it. Faces a door or mover can move (and faces without usable geometry) are not placed by their bounds:
+// overlap it. A face a sliding door moves is placed by the bounds of its whole travel, so a moving door needs no
+// rebuild. Faces a rotating or spinning mover moves (and faces without usable geometry) are not placed by bounds:
 // segment queries always return them, and point queries list them in every cell.
 class IndoorSectorFaceGrid
 {
 public:
-    // `vertices` are the map's vertices in the current door pose; only faces no door moves are placed by them.
+    // `vertices` are the map's vertices in the current door pose; faces sliding doors move are placed by the doors'
+    // travel, from the doors' stored vertex offsets.
     void build(
         const IndoorMapData &indoorMapData,
         const std::vector<IndoorVertex> &vertices,

@@ -648,24 +648,42 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
             const bool nearPortal = nodeIndex == 0
                 && std::fabs(planeSide) <= NearPortalPlaneDistance
                 && cameraNearPortal(input.cameraPosition, portalPolygon);
+            // A portal beside the camera that the view would drop passes on the view it is reached through instead
+            // (nearPortalReach: a converter's map, whose floor or wall near a doorway may be the room's across it, so
+            // the camera's sector from the floor under it is that room's; MM9's voxels are 41 units). At the camera's
+            // own sector that is the whole view; deeper, the frustum the portal's sector was entered with (a camera at
+            // a corner where two portals meet sees the second one edge-on).
+            const bool portalWithinReach = input.nearPortalReach > 0.0f
+                && std::fabs(planeSide) <= input.nearPortalReach
+                && cameraNearPortal(input.cameraPosition, portalPolygon, input.nearPortalReach);
             if (currentNode.sectorId != face.roomNumber)
             {
                 planeSide = -planeSide;
             }
-            if (!nearPortal && planeSide >= 0.0f)
+            bool wholeView = nearPortal;
+            bool passOnView = false;
+            if (!wholeView && planeSide >= 0.0f)
             {
-                ++result.rejectedPortalCount;
-                ++result.directionRejectedPortalCount;
-                appendPortalTrace(
-                    result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
-                    faceId, portalLinkId, currentNode.depth, false, "portal_facing");
-                continue;
+                if (!portalWithinReach)
+                {
+                    ++result.rejectedPortalCount;
+                    ++result.directionRejectedPortalCount;
+                    appendPortalTrace(
+                        result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
+                        faceId, portalLinkId, currentNode.depth, false, "portal_facing");
+                    continue;
+                }
+                passOnView = true;
             }
 
             std::vector<IndoorVisibilityPlane> childFrustumPlanes;
-            if (nearPortal)
+            if (wholeView)
             {
                 childFrustumPlanes = rootFrustumPlanes;
+            }
+            else if (passOnView)
+            {
+                childFrustumPlanes = currentNode.frustumPlanes;
             }
             else
             {
@@ -691,25 +709,23 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
                         continue;
                     }
                 }
-                if (!portalHasScreenHeight(clippedPortal, input.cameraPosition, forward, up,
+                if (portalHasScreenHeight(clippedPortal, input.cameraPosition, forward, up,
                         projectionScale, input.viewportHeight))
                 {
-                    ++result.rejectedPortalCount;
-                    ++result.clippedPortalRejectedCount;
-                    appendPortalTrace(
-                        result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
-                        faceId, portalLinkId, currentNode.depth, false, "clipped_portal");
-                    continue;
+                    childFrustumPlanes = buildPortalFrustumPlanes(input.cameraPosition, clippedPortal);
                 }
-                childFrustumPlanes = buildPortalFrustumPlanes(input.cameraPosition, clippedPortal);
                 if (childFrustumPlanes.size() < 3)
                 {
-                    ++result.rejectedPortalCount;
-                    ++result.clippedPortalRejectedCount;
-                    appendPortalTrace(
-                        result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
-                        faceId, portalLinkId, currentNode.depth, false, "clipped_portal");
-                    continue;
+                    if (!portalWithinReach)
+                    {
+                        ++result.rejectedPortalCount;
+                        ++result.clippedPortalRejectedCount;
+                        appendPortalTrace(
+                            result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
+                            faceId, portalLinkId, currentNode.depth, false, "clipped_portal");
+                        continue;
+                    }
+                    childFrustumPlanes = currentNode.frustumPlanes;
                 }
             }
 

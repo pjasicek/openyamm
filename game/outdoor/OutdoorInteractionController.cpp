@@ -1,4 +1,5 @@
 #include "game/outdoor/OutdoorInteractionController.h"
+#include "engine/Localization.h"
 #include "game/rules/GameRules.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
@@ -178,14 +179,15 @@ EventRuntimeState::MapNoteSourcePoint mapNoteSourcePointForInspectHit(
 
 std::string formatFoundItemStatusText(int goldAmount, const std::string &itemName)
 {
-    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+    const std::string resolvedItemName = itemName.empty() ? Engine::tr("item") : itemName;
 
     if (goldAmount > 0)
     {
-        return "You found " + std::to_string(goldAmount) + " gold and an item (" + resolvedItemName + ")!";
+        return Engine::tr("You found {gold} gold and an item ({item})!",
+            {{"gold", goldAmount}, {"item", resolvedItemName}});
     }
 
-    return "You found an item (" + resolvedItemName + ")!";
+    return Engine::tr("You found an item ({item})!", {{"item", resolvedItemName}});
 }
 
 uint32_t currentAnimationTicks()
@@ -1260,7 +1262,7 @@ std::optional<std::string> OutdoorInteractionController::resolveDecorationHint(
         }
         if (pEntry != nullptr && !pEntry->hint.empty())
         {
-            return pEntry->hint;
+            return Engine::localize(pEntry->hint);
         }
         return std::nullopt;
     }
@@ -1885,7 +1887,8 @@ std::string OutdoorInteractionController::resolveActorInspectDisplayName(
         return inspectHit.name;
     }
 
-    if (pActorState->hostileToParty || pActorState->npcId > 0)
+    // world.yml streetNpcs: false (MM9): no generated NPC, so no generated name either.
+    if (pActorState->hostileToParty || pActorState->npcId > 0 || !view.m_gameSession.streetNpcs())
     {
         return inspectHit.name;
     }
@@ -4913,13 +4916,16 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
             return false;
         }
 
-        const std::optional<GenericActorDialogResolution> resolution = resolveGenericActorDialog(
-            view.m_map ? view.m_map->fileName : std::string(), resolvedActorName, resolvedActorGroup,
-            *pEventRuntimeState, view.data().npcDialogTable(), &view.data().mergedMonsterPortraitTable(),
-            view.m_map ? &*view.m_map : nullptr, &view.data().mergedNewsAreaTopicTable(),
-            &view.data().mergedNewsContinentTopicTable(), &view.data().mergedNpcNameTable(),
-            &view.data().mergedNpcProfessionTable(), &view.data().mergedBolsterMapTable(),
-            &view.data().mergedBolsterMonsterTable(), resolvedMonsterId, resolvedRuntimeActorIndex);
+        // A world without MMerge street NPCs (world.yml streetNpcs: MM9): no group news, no generated NPC.
+        const std::optional<GenericActorDialogResolution> resolution = !view.m_gameSession.streetNpcs()
+            ? std::nullopt
+            : resolveGenericActorDialog(
+                view.m_map ? view.m_map->fileName : std::string(), resolvedActorName, resolvedActorGroup,
+                *pEventRuntimeState, view.data().npcDialogTable(), &view.data().mergedMonsterPortraitTable(),
+                view.m_map ? &*view.m_map : nullptr, &view.data().mergedNewsAreaTopicTable(),
+                &view.data().mergedNewsContinentTopicTable(), &view.data().mergedNpcNameTable(),
+                &view.data().mergedNpcProfessionTable(), &view.data().mergedBolsterMapTable(),
+                &view.data().mergedBolsterMonsterTable(), resolvedMonsterId, resolvedRuntimeActorIndex);
 
         if (resolution)
         {
@@ -5017,7 +5023,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
 
     const ItemDefinition *pItemDefinition = view.data().itemTable().get(pWorldItem->item.objectDescriptionId);
     const std::string itemName =
-        pItemDefinition != nullptr ? ItemRuntime::foundItemName(*pItemDefinition) : "item";
+        pItemDefinition != nullptr ? ItemRuntime::foundItemName(*pItemDefinition) : Engine::tr("item");
 
     if (pWorldItem->isGold)
     {
@@ -5029,8 +5035,9 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
         }
 
         EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
-        const FoundGold foundGold = resolveFoundGold(std::max<uint32_t>(1u, worldItem.goldAmount), pEventRuntimeState);
-        view.m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(foundGold.partyAmount));
+        const FoundGold foundGold = resolveFoundGold(
+            std::max<uint32_t>(1u, worldItem.goldAmount), pEventRuntimeState, &view.m_pOutdoorPartyRuntime->party());
+        view.m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(foundGold.partyAmount), GoldReason::LootGround);
         view.setStatusBarEvent(foundGoldStatusText(foundGold));
 
         if (pEventRuntimeState != nullptr)
@@ -5387,7 +5394,7 @@ bool OutdoorInteractionController::canActivateActorInspectEvent(
         return !inspectHitTargetsLivingHostileActor(view, inspectHit);
     }
 
-    if (inspectHitTargetsLivingHostileActor(view, inspectHit))
+    if (inspectHitTargetsLivingHostileActor(view, inspectHit) || !view.m_gameSession.streetNpcs())
     {
         return false;
     }

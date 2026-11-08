@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -211,6 +212,8 @@ struct MergedCharacterVoiceEntry
 {
     std::string soundType;
     std::vector<uint32_t> soundIdsByVoiceSetId;
+    // The row's cells as written, by voice set: the sets' properties (Name, World, Man, Woman, Undead Man, ...).
+    std::vector<std::string> cellsByVoiceSetId;
 };
 
 struct MergedClassStartingStatEntry
@@ -604,6 +607,10 @@ public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
     const std::vector<MergedCharacterVoiceEntry> &entries() const;
     std::vector<uint32_t> soundIdsForTypes(uint32_t voiceSetId, const std::vector<std::string> &soundTypes) const;
+    // A voice set's cell in the named property row (Name, World, Man, Woman, Undead Man, Undead Woman), or empty.
+    std::string voiceSetProperty(uint32_t voiceSetId, std::string_view rowName) const;
+    // The voice sets whose World row names the world (MM9's own voices).
+    std::vector<uint32_t> voiceSetsOfWorld(std::string_view worldId) const;
 
 private:
     std::vector<MergedCharacterVoiceEntry> m_entries;

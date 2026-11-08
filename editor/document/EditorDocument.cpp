@@ -5432,6 +5432,21 @@ std::string EditorDocument::serializeIndoorScene(
                 emitter << YAML::EndMap;
             }
 
+            if (mover.spin)
+            {
+                const Game::IndoorMoverSpin &spin = *mover.spin;
+                emitter << YAML::Key << "spin" << YAML::Value << YAML::BeginMap;
+                emitter << YAML::Key << "pivot" << YAML::Value << YAML::Flow << YAML::BeginSeq
+                        << spin.pivot[0] << spin.pivot[1] << spin.pivot[2] << YAML::EndSeq;
+                emitter << YAML::Key << "axis" << YAML::Value << YAML::Flow << YAML::BeginSeq
+                        << spin.axis[0] << spin.axis[1] << spin.axis[2] << YAML::EndSeq;
+                emitter << YAML::Key << "degrees_per_second" << YAML::Value << spin.degreesPerSecond;
+                emitter << YAML::Key << "spin_up_seconds" << YAML::Value << spin.spinUpSeconds;
+                emitter << YAML::Key << "spin_down_seconds" << YAML::Value << spin.spinDownSeconds;
+                emitter << YAML::Key << "start_on" << YAML::Value << spin.startOn;
+                emitter << YAML::EndMap;
+            }
+
             emitter << YAML::Key << "easing" << YAML::Value
                     << (mover.easing == Game::IndoorMoverEasing::Sine ? "sine" : "linear");
             emitter << YAML::Key << "bodies" << YAML::Value << pBodies[static_cast<size_t>(mover.bodies)];

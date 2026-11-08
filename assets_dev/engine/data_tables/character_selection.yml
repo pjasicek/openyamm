@@ -115,3 +115,12 @@ new_game_continents:
     available_class_ids: [4, 8, 16, 20, 38, 40, 44]
     available_race_ids: [0, 1, 2, 3, 4, 9]
     portrait_exceptions: []
+  # MM9 (Chedian, worlds/mm9), offered when that world is mounted: every base class but the Necromancer (the user,
+  # 2026-11-05: no Necromancer start, as in MM6/MM7), every race but the undead; the start is continent_settings.txt
+  # row 5 (Ravensford, bootcamp.blv).
+  - id: 5
+    key: chedian
+    name: Chedian
+    available_class_ids: [0, 4, 8, 10, 12, 16, 20, 22, 26, 30, 34, 38, 40, 42]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []

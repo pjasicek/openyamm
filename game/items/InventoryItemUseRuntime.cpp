@@ -1,4 +1,5 @@
 #include "game/items/InventoryItemUseRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/tables/ItemTable.h"
@@ -625,20 +626,21 @@ std::string inactiveCharacterStatusText(const Character &member)
 
     if (condition)
     {
-        return "That player is " + conditionDisplayName(*condition);
+        return Engine::tr("That player is {condition}",
+            {{"condition", Engine::localize(conditionDisplayName(*condition))}});
     }
 
-    return "That player is not active";
+    return Engine::tr("That player is not active");
 }
 
 std::string itemDisplayNameForStatus(const ItemDefinition &itemDefinition)
 {
-    return itemDefinition.name.empty() ? "Item" : itemDefinition.name;
+    return itemDefinition.name.empty() ? Engine::tr("Item") : Engine::localize(itemDefinition.name);
 }
 
 std::string itemCannotBeUsedStatusText(const ItemDefinition &itemDefinition)
 {
-    return itemDisplayNameForStatus(itemDefinition) + " can not be used that way";
+    return Engine::tr("{item} can not be used that way", {{"item", itemDisplayNameForStatus(itemDefinition)}});
 }
 
 bool isFoodItem(const InventoryItem &item, const ItemDefinition &itemDefinition)
@@ -696,43 +698,43 @@ std::string applyGenieLampReward(Party &party, Character &member, size_t memberI
     {
         case 0:
             addPermanentStatBonus(member, &CharacterStatBonuses::might, value);
-            return "+" + std::to_string(value) + " Might Permanent";
+            return Engine::tr("+{value} Might Permanent", {{"value", int64_t(value)}});
         case 1:
             addPermanentStatBonus(member, &CharacterStatBonuses::intellect, value);
-            return "+" + std::to_string(value) + " Intellect Permanent";
+            return Engine::tr("+{value} Intellect Permanent", {{"value", int64_t(value)}});
         case 2:
             addPermanentStatBonus(member, &CharacterStatBonuses::personality, value);
-            return "+" + std::to_string(value) + " Personality Permanent";
+            return Engine::tr("+{value} Personality Permanent", {{"value", int64_t(value)}});
         case 3:
             addPermanentStatBonus(member, &CharacterStatBonuses::endurance, value);
-            return "+" + std::to_string(value) + " Endurance Permanent";
+            return Engine::tr("+{value} Endurance Permanent", {{"value", int64_t(value)}});
         case 4:
             addPermanentStatBonus(member, &CharacterStatBonuses::accuracy, value);
-            return "+" + std::to_string(value) + " Accuracy Permanent";
+            return Engine::tr("+{value} Accuracy Permanent", {{"value", int64_t(value)}});
         case 5:
             addPermanentStatBonus(member, &CharacterStatBonuses::speed, value);
-            return "+" + std::to_string(value) + " Speed Permanent";
+            return Engine::tr("+{value} Speed Permanent", {{"value", int64_t(value)}});
         case 6:
             addPermanentStatBonus(member, &CharacterStatBonuses::luck, value);
-            return "+" + std::to_string(value) + " Luck Permanent";
+            return Engine::tr("+{value} Luck Permanent", {{"value", int64_t(value)}});
         case 7:
         {
             const int gold = 1000 * value;
-            party.addGold(gold);
-            return "+" + std::to_string(gold) + " Gold";
+            party.addGold(gold, GoldReason::Other);
+            return Engine::tr("+{value} Gold", {{"value", int64_t(gold)}});
         }
         case 8:
         {
             const int food = 5 * value;
             party.addFood(food);
-            return "+" + std::to_string(food) + " Food";
+            return Engine::tr("+{value} Food", {{"value", int64_t(food)}});
         }
         case 9:
             member.skillPoints += static_cast<uint32_t>(2 * value);
-            return "+" + std::to_string(2 * value) + " Skill Points";
+            return Engine::tr("+{value} Skill Points", {{"value", int64_t(2 * value)}});
         case 10:
             party.addExperienceToMember(memberIndex, 2500LL * value);
-            return "+" + std::to_string(2500 * value) + " Experience";
+            return Engine::tr("+{value} Experience", {{"value", int64_t(2500 * value)}});
         case 11:
         {
             static thread_local std::mt19937 rng(std::random_device{}());
@@ -742,22 +744,22 @@ std::string applyGenieLampReward(Party &party, Character &member, size_t memberI
             {
                 case 0:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::fire, value);
-                    return "+" + std::to_string(value) + " Fire Permanent";
+                    return Engine::tr("+{value} Fire Permanent", {{"value", int64_t(value)}});
                 case 1:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::air, value);
-                    return "+" + std::to_string(value) + " Air Permanent";
+                    return Engine::tr("+{value} Air Permanent", {{"value", int64_t(value)}});
                 case 2:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::water, value);
-                    return "+" + std::to_string(value) + " Water Permanent";
+                    return Engine::tr("+{value} Water Permanent", {{"value", int64_t(value)}});
                 case 3:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::earth, value);
-                    return "+" + std::to_string(value) + " Earth Permanent";
+                    return Engine::tr("+{value} Earth Permanent", {{"value", int64_t(value)}});
                 case 4:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::mind, value);
-                    return "+" + std::to_string(value) + " Mind Permanent";
+                    return Engine::tr("+{value} Mind Permanent", {{"value", int64_t(value)}});
                 default:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::body, value);
-                    return "+" + std::to_string(value) + " Body Permanent";
+                    return Engine::tr("+{value} Body Permanent", {{"value", int64_t(value)}});
             }
         }
         default:
@@ -775,40 +777,40 @@ std::string applyDeckOfFateReward(Character &member, float gameMinutes)
     {
         case 0:
             addPermanentStatBonus(member, &CharacterStatBonuses::might, value);
-            return "+" + std::to_string(value) + " Might!";
+            return Engine::tr("+{value} Might!", {{"value", int64_t(value)}});
         case 1:
             addPermanentStatBonus(member, &CharacterStatBonuses::intellect, value);
-            return "+" + std::to_string(value) + " Intellect!";
+            return Engine::tr("+{value} Intellect!", {{"value", int64_t(value)}});
         case 2:
             addPermanentStatBonus(member, &CharacterStatBonuses::personality, value);
-            return "+" + std::to_string(value) + " Personality!";
+            return Engine::tr("+{value} Personality!", {{"value", int64_t(value)}});
         case 3:
             addPermanentStatBonus(member, &CharacterStatBonuses::endurance, value);
-            return "+" + std::to_string(value) + " Endurance!";
+            return Engine::tr("+{value} Endurance!", {{"value", int64_t(value)}});
         case 4:
             addPermanentStatBonus(member, &CharacterStatBonuses::accuracy, value);
-            return "+" + std::to_string(value) + " Accuracy!";
+            return Engine::tr("+{value} Accuracy!", {{"value", int64_t(value)}});
         case 5:
             addPermanentStatBonus(member, &CharacterStatBonuses::speed, value);
-            return "+" + std::to_string(value) + " Speed!";
+            return Engine::tr("+{value} Speed!", {{"value", int64_t(value)}});
         case 6:
             addPermanentStatBonus(member, &CharacterStatBonuses::luck, value);
-            return "+" + std::to_string(value) + " Luck!";
+            return Engine::tr("+{value} Luck!", {{"value", int64_t(value)}});
         case 7:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::fire, value);
-            return "+" + std::to_string(value) + " Fire Resistance!";
+            return Engine::tr("+{value} Fire Resistance!", {{"value", int64_t(value)}});
         case 8:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::air, value);
-            return "+" + std::to_string(value) + " Air Resistance!";
+            return Engine::tr("+{value} Air Resistance!", {{"value", int64_t(value)}});
         case 9:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::water, value);
-            return "+" + std::to_string(value) + " Water Resistance!";
+            return Engine::tr("+{value} Water Resistance!", {{"value", int64_t(value)}});
         case 10:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::earth, value);
-            return "+" + std::to_string(value) + " Earth Resistance!";
+            return Engine::tr("+{value} Earth Resistance!", {{"value", int64_t(value)}});
         case 11:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::body, value);
-            return "+" + std::to_string(value) + " Body Resistance!";
+            return Engine::tr("+{value} Body Resistance!", {{"value", int64_t(value)}});
         default:
             break;
     }
@@ -1040,7 +1042,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
     if (pItemDefinition == nullptr || pTargetMember == nullptr)
     {
-        return makeFailure(result.action, "Item can not be used that way");
+        return makeFailure(result.action, Engine::tr("Item can not be used that way"));
     }
 
     switch (result.action)
@@ -1054,12 +1056,12 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (context.underwater)
             {
-                return makeFailure(result.action, "You can not do that while you are underwater!");
+                return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
             }
 
             if (pTargetMember->recoverySecondsRemaining > 0.0f)
             {
-                return makeFailure(result.action, "That player is not active");
+                return makeFailure(result.action, Engine::tr("That player is not active"));
             }
 
             const std::optional<uint32_t> spellId = tryParseSpellId(*pItemDefinition);
@@ -1087,12 +1089,12 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (context.underwater)
             {
-                return makeFailure(result.action, "You can not do that while you are underwater!");
+                return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
             }
 
             if (pTargetMember->recoverySecondsRemaining > 0.0f)
             {
-                return makeFailure(result.action, "That player is not active");
+                return makeFailure(result.action, Engine::tr("That player is not active"));
             }
 
             result.handled = true;
@@ -1138,7 +1140,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 return makeFailure(
                     result.action,
-                    displayClassName(pTargetMember->className) + "s can't learn spells from books",
+                    Engine::tr("{class}s can't learn spells from books",
+                        {{"class", Engine::localize(displayClassName(pTargetMember->className), "class")}}),
                     SpeechId::CantLearnSpell);
             }
 
@@ -1146,7 +1149,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 return makeFailure(
                     result.action,
-                    "You don't have the skill to learn " + itemDisplayNameForStatus(*pItemDefinition),
+                    Engine::tr("You don't have the skill to learn {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}),
                     SpeechId::CantLearnSpell);
             }
 
@@ -1156,7 +1160,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 return makeFailure(
                     result.action,
-                    "You don't have the skill to learn " + itemDisplayNameForStatus(*pItemDefinition),
+                    Engine::tr("You don't have the skill to learn {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}),
                     SpeechId::CantLearnSpell);
             }
 
@@ -1164,7 +1169,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 result = makeFailure(
                     result.action,
-                    "You already know the " + itemDisplayNameForStatus(*pItemDefinition) + " spell");
+                    Engine::tr("You already know the {item} spell",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 result.alreadyKnown = true;
                 return result;
             }
@@ -1219,7 +1225,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 result = makeFailure(
                     result.action,
-                    "You already know one or more skills in " + itemDisplayNameForStatus(*pItemDefinition));
+                    Engine::tr("You already know one or more skills in {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 result.alreadyKnown = true;
                 return result;
             }
@@ -1228,7 +1235,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 result = makeFailure(
                     result.action,
-                    "This character cannot learn the skills in " + itemDisplayNameForStatus(*pItemDefinition));
+                    Engine::tr("This character cannot learn the skills in {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 return result;
             }
 
@@ -1236,7 +1244,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 if (!party.learnMemberSkill(targetMemberIndex, skillName))
                 {
-                    return makeFailure(result.action, "The skill could not be learned");
+                    return makeFailure(result.action, Engine::tr("The skill could not be learned"));
                 }
             }
 
@@ -1244,8 +1252,9 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.consumed = true;
             result.learnedSkills = learnableSkills;
             result.statusText = learnableSkills.size() == 1
-                ? "Learned " + displaySkillName(learnableSkills.front())
-                : "Learned the skills in " + itemDisplayNameForStatus(*pItemDefinition);
+                ? Engine::tr("Learned {skill}",
+                    {{"skill", Engine::localize(displaySkillName(learnableSkills.front()), "skill")}})
+                : Engine::tr("Learned the skills in {item}", {{"item", itemDisplayNameForStatus(*pItemDefinition)}});
             return result;
         }
 
@@ -1270,7 +1279,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (potionPower < pPotion->minimumPower)
             {
-                return makeFailure(result.action, "This potion has not enough power", SpeechId::PotionFail);
+                return makeFailure(result.action, Engine::tr("This potion has not enough power"), SpeechId::PotionFail);
             }
 
             // A drink needs a ready member, who pays its recovery (the active member in Standard, as in the original
@@ -1279,12 +1288,14 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (effects.combatRecoveryTicks() > 0.0f)
             {
-                recoveryPayer =
-                    potionRecoveryPayer(party, targetMemberIndex, effects.combatRecoveryActiveMemberPays());
+                // In turn-based combat every member's recovery is zero; the turn queue says who may act.
+                recoveryPayer = context.turnBased
+                    ? context.turnBasedReadyMember
+                    : potionRecoveryPayer(party, targetMemberIndex, effects.combatRecoveryActiveMemberPays());
 
                 if (!recoveryPayer)
                 {
-                    return makeFailure(result.action, "Player must be active to consume the potion");
+                    return makeFailure(result.action, Engine::tr("Player must be active to consume the potion"));
                 }
 
                 if (effects.combatRecoveryOnlyNearEnemies() && !context.enemiesNear)
@@ -1311,8 +1322,9 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (recoveryPayer)
             {
-                party.applyRecoveryToMember(
-                    *recoveryPayer, ticksToRecoverySeconds(static_cast<int>(effects.combatRecoveryTicks())));
+                result.recoveryPayer = recoveryPayer;
+                result.recoverySeconds = ticksToRecoverySeconds(static_cast<int>(effects.combatRecoveryTicks()));
+                party.applyRecoveryToMember(*recoveryPayer, result.recoverySeconds);
             }
 
             // A bottle of several drinks keeps its uses in its charges, 0 meaning a full bottle. A potion of one drink
@@ -1347,8 +1359,10 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             }
 
             result.handled = true;
-            result.readableTitle = pItemDefinition->name.empty() ? pEntry->itemName : pItemDefinition->name;
-            result.readableBody = pEntry->text;
+            // The scroll and book tables stay English; their text is shown in the interface language.
+            result.readableTitle =
+                Engine::localize(pItemDefinition->name.empty() ? pEntry->itemName : pItemDefinition->name);
+            result.readableBody = Engine::localize(pEntry->text);
             return result;
         }
 
@@ -1357,7 +1371,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             pTargetMember->skillPoints += 2;
             result.handled = true;
             result.consumed = true;
-            result.statusText = "+2 Skill Points!";
+            result.statusText = Engine::tr("+2 Skill Points!");
             result.soundId = SoundId::Quest;
             result.speechId = SpeechId::QuestGot;
             return result;
@@ -1369,7 +1383,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             pTargetMember->techPoints += techPoints;
             result.handled = true;
             result.consumed = true;
-            result.statusText = "+" + std::to_string(techPoints) + " Tech Points!";
+            result.statusText = Engine::tr("+{points} Tech Points!", {{"points", int64_t(techPoints)}});
             result.soundId = SoundId::Quest;
             result.speechId = SpeechId::QuestGot;
             return result;
@@ -1379,7 +1393,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
         {
             result.handled = true;
             result.consumed = party.chargePersonalShield(targetMemberIndex);
-            result.statusText = result.consumed ? "Shield charged" : "";
+            result.statusText = result.consumed ? Engine::tr("Shield charged") : "";
             result.soundId = result.consumed ? SoundId::Drink : SoundId::Error;
             return result;
         }
@@ -1388,7 +1402,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
         {
             result.handled = true;
             result.consumed = party.burstPersonalShields();
-            result.statusText = result.consumed ? "Shields charged" : "No shields to charge";
+            result.statusText = Engine::tr(result.consumed ? "Shields charged" : "No shields to charge");
             result.soundId = result.consumed ? SoundId::Drink : SoundId::Error;
             return result;
         }
@@ -1420,7 +1434,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             result.handled = true;
             result.consumed = true;
-            result.statusText = "The charge blows!";
+            result.statusText = Engine::tr("The charge blows!");
             return result;
         }
 
@@ -1433,7 +1447,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             result.handled = true;
             result.consumed = true;
-            result.statusText = "EMP!";
+            result.statusText = Engine::tr("EMP!");
             return result;
         }
 

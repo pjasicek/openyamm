@@ -242,6 +242,7 @@ std::optional<ReleaseManifest> parseReleaseManifest(const std::string &text, std
             pack.size = file.size;
             pack.contentId = requiredString(packNode, "content_id");
             pack.sha256 = file.sha256;
+            pack.language = packNode["language"] ? packNode["language"].as<std::string>() : std::string();
 
             if (!validateAssetPackRecord(pack, error))
             {

@@ -32,6 +32,9 @@ public:
     const SoundCatalogEntry *findById(SoundRef sound) const;
     std::optional<std::string> buildVirtualPath(uint32_t soundId) const;
     std::optional<std::string> buildVirtualPath(SoundRef sound) const;
+    // A sound named by id alone (the voice table: MM6-MM8's voices are engine sounds, MM9's its world's): the engine's
+    // sound of that id, else a world's. A world sound never takes an engine id (loadWorldSoundRows), so it is one.
+    std::optional<std::string> buildVirtualPathAnyScope(uint32_t soundId) const;
     std::optional<std::string> buildVirtualPathByName(SoundScope scope, const std::string &soundName) const;
 
 private:
@@ -50,4 +53,13 @@ private:
     std::unordered_map<std::string, std::string> m_worldVirtualPathByLowerName;
     std::string m_activeWorldId = "mm8";
 };
+
+// The sound table rows every mounted world contributes (world.yml `sounds` table contributions, read into the world
+// sound scope): false when a manifest fails to load, a table is missing, or a row's id lies outside the world's
+// declared id range or is one of the engine table's ids (a world sound never shadows an engine sound).
+bool loadWorldSoundRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::vector<std::vector<std::string>> &engineRows,
+    std::vector<std::vector<std::string>> &worldRows,
+    std::string &errorMessage);
 }

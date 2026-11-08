@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayDialogController.h"
+#include "engine/Localization.h"
 
 #include "game/StringUtils.h"
 #include "game/audio/SoundIds.h"
@@ -13,6 +14,8 @@
 #include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/PartyHostileAlert.h"
 #include "game/gameplay/TravelRuntime.h"
+#include "game/mm9/Mm9HirelingServices.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/mm9/Mm9RudeDialogue.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9SkillTrainer.h"
@@ -20,6 +23,7 @@
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/items/PriceCalculator.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/party/EventSpellBuffs.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
@@ -50,6 +54,8 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t DefaultAdventurersInnHouseId = 185;
+// The context of an MM9 conversation line the party says, for a text an NPC also says to the party.
+constexpr std::string_view Mm9PartyLineContext = "said by the party";
 constexpr uint32_t ArcomageRulesTextId = 136;
 constexpr uint32_t AutoNoteVariableTag = 0x00E1u;
 constexpr uint32_t HeroismEffectSoundId = 14060;
@@ -126,6 +132,8 @@ const char *eventDialogActionKindName(EventDialogActionKind kind)
             return "mm9_rude_topic";
         case EventDialogActionKind::Mm9RudeSkillTrainerOffer:
             return "mm9_rude_skill_trainer_offer";
+        case EventDialogActionKind::Mm9RudeSkillTrainerSkill:
+            return "mm9_rude_skill_trainer_skill";
         case EventDialogActionKind::Mm9RudeSkillTrainerLearn:
             return "mm9_rude_skill_trainer_learn";
         case EventDialogActionKind::Mm9RudeSkillTrainerBack:
@@ -134,6 +142,10 @@ const char *eventDialogActionKindName(EventDialogActionKind kind)
             return "mm9_rude_transport_route";
         case EventDialogActionKind::Mm9RudeTransportBack:
             return "mm9_rude_transport_back";
+        case EventDialogActionKind::Mm9RudeTransportSchedule:
+            return "mm9_rude_transport_schedule";
+        case EventDialogActionKind::Mm9RudePromotionService:
+            return "mm9_rude_promotion_service";
         case EventDialogActionKind::EventChoice:
             return "event_choice";
     }
@@ -332,27 +344,27 @@ bool isOutdoorMapFileName(const std::string &mapFileName)
     return toLowerCopy(mapFileName).ends_with(".odm");
 }
 
-const char *mercenarySelfImpression(uint32_t level)
+std::string mercenarySelfImpression(uint32_t level)
 {
-    static constexpr std::array<const char *, 5> Impressions = {
-        "apprentice",
-        "skilled",
-        "well known",
-        "masterful",
-        "great",
+    static constexpr std::array<std::string_view, 5> Impressions = {
+        Engine::trNoop("apprentice"),
+        Engine::trNoop("skilled"),
+        Engine::trNoop("well_known"),
+        Engine::trNoop("masterful"),
+        Engine::trNoop("great"),
     };
     const uint32_t bucket = std::clamp<uint32_t>((std::max<uint32_t>(1, level) + 9) / 10, 1, 5);
-    return Impressions[bucket - 1];
+    return Engine::tr(Impressions[bucket - 1]);
 }
 
 std::string generatedMercenaryJoinOfferText(
     const EventRuntimeState::GeneratedMercenaryRecruit &recruit)
 {
-    return "Good tidings. I am " + recruit.character.name
-        + ", " + mercenarySelfImpression(recruit.character.level)
-        + " " + displayClassName(recruit.character.className)
-        + ". I'd love to see the world and taste the adventure, but it'd be foolish to go alone. "
-          "Perhaps I could come with you?";
+    return Engine::tr("Good tidings. I am {name}, {impression} {class}. I'd love to see the world and taste the "
+                      "adventure, but it'd be foolish to go alone. Perhaps I could come with you?",
+                      {{"name", recruit.character.name},
+                       {"impression", mercenarySelfImpression(recruit.character.level)},
+                       {"class", Engine::localize(displayClassName(recruit.character.className), "class")}});
 }
 
 int mapTransitionTravelFoodRequired(
@@ -653,6 +665,23 @@ bool executeMm9RudeExitCallback(GameplayDialogController::Context &context)
     return executed;
 }
 
+// Ends an MM9 talk: its exit hook runs, and a dialogue the hook opens (the next talk, a travel prompt: Skraelos takes
+// the party to the Afterworld, the Questioner follows him) is shown in the talk's place, where a close would drop it.
+// True when the hook opened one.
+bool endMm9RudeTalk(GameplayDialogController::Context &context)
+{
+    context.eventRuntimeState.pendingDialogueContext.reset();
+    executeMm9RudeExitCallback(context);
+
+    if (!context.eventRuntimeState.pendingDialogueContext.has_value())
+    {
+        return false;
+    }
+
+    context.eventRuntimeState.dialogueState = {};
+    return true;
+}
+
 bool samePendingMapMove(
     const EventRuntimeState::PendingMapMove &left,
     const EventRuntimeState::PendingMapMove &right)
@@ -835,6 +864,7 @@ bool tryAddRuntimeMapNote(
 
     JournalMapNote note = {};
     note.id = noteId;
+    // Saved: English, as every stored text (devdocs/LOCALIZATION.md).
     note.text = displaySkillName(teacherTopic.skillName) + " - " + masteryDisplayName(teacherTopic.targetMastery);
     note.mapFileName = noteMapFileName;
     note.listedWithTrainerNotes = !teacherHasAutonote;
@@ -1102,7 +1132,7 @@ bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, ui
 
     if (context.pParty->adventurersInnMembers().empty())
     {
-        context.uiController.setStatusBarEvent("The Adventurer's Inn is empty.");
+        context.uiController.setStatusBarEvent(Engine::tr("The Adventurer's Inn is empty."));
         return true;
     }
 
@@ -1485,7 +1515,7 @@ bool executeNpcTopicEvent(
     if (executed && pFirst != nullptr && context.pParty->gold() > goldBefore && pFirst->experience > experienceBefore)
     {
         context.pParty->addGold(context.pParty->rules().experience.questGoldBonus(
-            context.pParty->gold() - goldBefore, context.eventRuntimeState.activeHistoryContinentId));
+            context.pParty->gold() - goldBefore, context.eventRuntimeState.activeHistoryContinentId), GoldReason::Event);
     }
 
     return executed;
@@ -1502,7 +1532,7 @@ bool executeBuiltInNpcTopic(
 
     if (context.pWorldRuntime == nullptr)
     {
-        context.eventRuntimeState.messages.push_back("The bounty office is unavailable right now.");
+        context.eventRuntimeState.messages.push_back(Engine::tr("The bounty office is unavailable right now."));
         return true;
     }
 
@@ -1711,7 +1741,7 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
 
     if (context.pParty == nullptr || context.pNpcDialogTable == nullptr)
     {
-        context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+        context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
         return execution;
     }
 
@@ -1727,7 +1757,7 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
             npcId,
             context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : -1.0f))
     {
-        context.eventRuntimeState.messages.push_back("Sorry, come back another day");
+        context.eventRuntimeState.messages.push_back(Engine::tr("Sorry, come back another day"));
         return execution;
     }
 
@@ -1765,7 +1795,7 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
             {
                 if (context.pParty->food() >= MaxFoodForCookFollower)
                 {
-                    context.eventRuntimeState.messages.push_back("Your packs are already full!");
+                    context.eventRuntimeState.messages.push_back(Engine::tr("Your packs are already full!"));
                     return execution;
                 }
 
@@ -1791,7 +1821,7 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
             {
                 if (partyHasIndoorExitAlert(context))
                 {
-                    context.eventRuntimeState.messages.push_back("There are hostile creatures nearby!");
+                    context.eventRuntimeState.messages.push_back(Engine::tr("There are hostile creatures nearby!"));
                     return execution;
                 }
                 markNpcProfessionActionUsed(context.eventRuntimeState, npcId, context.pWorldRuntime, context.pParty);
@@ -1832,12 +1862,12 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
 
     if (!applied)
     {
-        context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+        context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
         return execution;
     }
 
     markNpcProfessionActionUsed(context.eventRuntimeState, npcId, context.pWorldRuntime, context.pParty);
-    context.eventRuntimeState.messages.push_back("Done!");
+    context.eventRuntimeState.messages.push_back(Engine::tr("Done!"));
     return execution;
 }
 
@@ -1902,7 +1932,7 @@ std::string npcTextOrFallback(const NpcDialogTable *pNpcDialogTable, uint32_t te
     }
 
     const std::optional<std::string> text = pNpcDialogTable->getText(textId);
-    return text && !text->empty() ? *text : fallback;
+    return text && !text->empty() ? Engine::localize(*text) : fallback;
 }
 
 std::optional<NpcEntry> runtimeNpcEntry(
@@ -1962,27 +1992,12 @@ int effectiveReputationForContext(const GameplayDialogController::Context &conte
         : 0;
 }
 
-const Character *mm9TransportMerchantMember(const Party &party)
-{
-    if (const Character *pRulesMerchant = PriceCalculator::rulesMerchantMember(party))
-    {
-        return pRulesMerchant;
-    }
-
-    const Character *pMerchant = party.bestPartyWideUtilitySkillMember("Merchant");
-    return pMerchant != nullptr ? pMerchant : party.activeMember();
-}
-
 int mm9TransportPrice(
     const Mm9TransportRoute &route,
     const Party &party,
     const GameplayDialogController::Context &context)
 {
-    return PriceCalculator::transportPrice(
-        mm9TransportMerchantMember(party),
-        static_cast<int>(route.basePrice),
-        route.priceMultiplier,
-        effectiveReputationForContext(context));
+    return mm9TransportFare(route, party, context.pWorldRuntime);
 }
 
 int requiredNpcReputationForBtb(const MergedNpcBtbEntry &btbEntry)
@@ -2036,19 +2051,19 @@ std::string mm9RudeServiceTag(int32_t opcode)
 {
     switch (opcode)
     {
-        case -2: return "Shop";
-        case -3: return "Training";
-        case -4: return "Train";
-        case -5: return "Travel";
-        case -6: return "Bank";
-        case -7: return "Inn";
-        case -8: return "Healer";
-        case -10: return "Hire";
-        case -11: return "Dismiss";
-        case -13: return "Combine";
-        case -14: return "Quest";
-        case -15: return "Town Portal";
-        case -16: return "Donate";
+        case -2: return Engine::tr("Shop");
+        case -3: return Engine::tr("Training");
+        case -4: return Engine::tr("Train");
+        case -5: return Engine::tr("Travel");
+        case -6: return Engine::tr("Bank");
+        case -7: return Engine::tr("Inn");
+        case -8: return Engine::tr("Healer");
+        case -10: return Engine::tr("Hire");
+        case -11: return Engine::tr("Dismiss");
+        case -13: return Engine::tr("Combine");
+        case -14: return Engine::tr("Quest");
+        case -15: return Engine::tr("Service");
+        case -16: return Engine::tr("Donate");
         default: return {};
     }
 }
@@ -2085,17 +2100,18 @@ EventDialogContent buildMm9RudeContent(
     content.dialogueNodeId = nodeId;
     content.sourceActorIndex = sourceActorIndex;
     content.presentation = EventDialogPresentation::Mm9Rude;
-    content.title = table.npcName(rudeId);
+    // MM9's dialogue tables stay English; the interface language's text is looked up where it is shown.
+    content.title = Engine::localize(table.npcName(rudeId));
     if (content.title.empty())
     {
-        content.title = "NPC " + std::to_string(rudeId);
+        content.title = Engine::tr("NPC {id}", {{"id", rudeId}});
     }
 
     if (response.has_value())
     {
         if (!response->empty())
         {
-            content.lines.push_back(*response);
+            content.lines.push_back(Engine::localize(*response));
         }
     }
     else
@@ -2103,7 +2119,7 @@ EventDialogContent buildMm9RudeContent(
         const std::string blurb = table.topBlurb(rudeId);
         if (!blurb.empty())
         {
-            content.lines.push_back(blurb);
+            content.lines.push_back(Engine::localize(blurb));
         }
     }
 
@@ -2113,19 +2129,17 @@ EventDialogContent buildMm9RudeContent(
         const Mm9SkillTrainerService *pTrainerService = pSkillTrainerTable != nullptr
             ? pSkillTrainerTable->find(static_cast<uint32_t>(pRow->rudeId), pRow->rowIndex)
             : nullptr;
-        const std::optional<Mm9RudeSkillTrainerTopic> trainerTopic = pTrainerService != nullptr
-            ? std::optional<Mm9RudeSkillTrainerTopic>(pTrainerService->topic)
-            : resolveMm9RudeSkillTrainerTopic(*pRow);
-        if (trainerTopic)
+        if (pTrainerService != nullptr)
         {
             EventDialogAction action = {};
             action.kind = EventDialogActionKind::Mm9RudeSkillTrainerOffer;
             action.id = static_cast<uint32_t>(pRow->rowIndex);
-            action.label = pRow->prompt;
-            action.argument = "trainer=" + std::to_string(trainerTopic->rawTrainerId)
+            action.label = Engine::localize(pRow->prompt, Mm9PartyLineContext);
+            action.argument = "trainer=" + std::to_string(pTrainerService->topic.rawTrainerId)
                 + ";source_line=" + std::to_string(pRow->sourceLine);
             action.choiceMark = mm9RudeChoiceMark(*pRow, party);
-            action.choiceTag = "Train \xC2\xB7 " + masteryDisplayName(trainerTopic->targetMastery);
+            action.choiceTag = Engine::tr("Train \xC2\xB7 {mastery}",
+                {{"mastery", Engine::localize(masteryDisplayName(pTrainerService->topic.targetMastery), "mastery")}});
             content.actions.push_back(std::move(action));
             continue;
         }
@@ -2134,7 +2148,7 @@ EventDialogContent buildMm9RudeContent(
         action.kind = EventDialogActionKind::Mm9RudeTopic;
         action.id = static_cast<uint32_t>(pRow->rowIndex);
         action.secondaryId = static_cast<uint32_t>(pRow->sourceLine);
-        action.label = pRow->prompt;
+        action.label = Engine::localize(pRow->prompt, Mm9PartyLineContext);
         action.argument = "choice=" + std::to_string(pRow->choiceSlot)
             + ";next=" + std::to_string(pRow->next);
         action.choiceMark = mm9RudeChoiceMark(*pRow, party);
@@ -2142,7 +2156,165 @@ EventDialogContent buildMm9RudeContent(
         content.actions.push_back(std::move(action));
     }
 
+    // A promotion quest done, its promoter's first page keeps offering the promotion to the members eligible now
+    // (before the row that ends the talk).
+    const Mm9PromotionService *pPromotion = table.promotionService(rudeId);
+    if (pPromotion != nullptr && nodeId == int32_t(rudeId)
+        && party.hasQuestBit(*mm9QBitForRawQuestKey(pPromotion->doneRawKey)))
+    {
+        EventDialogAction action = {};
+        action.kind = EventDialogActionKind::Mm9RudePromotionService;
+        action.label = Engine::tr("Promote our eligible characters.");
+        action.choiceTag = Engine::tr("Promotion");
+        const auto exitRow = std::find_if(content.actions.begin(), content.actions.end(),
+            [](const EventDialogAction &existing) { return existing.choiceMark == EventDialogChoiceMark::Exit; });
+        content.actions.insert(exitRow, std::move(action));
+    }
+
     return content;
+}
+
+// The MM9 hirelings' RUDE services (devdocs/mm9/MM9_HIRELINGS_PLAN.md phase 7): -10 hire, -11 dismiss and -15 the
+// hireling's own service, for the dialogue's RUDE id.
+GameplayDialogController::Result executeMm9HirelingRudeRow(
+    GameplayDialogController::Context &context,
+    const Mm9RudeRow &row,
+    GameplayDialogController::Result result)
+{
+    Party &party = *context.pParty;
+    const uint32_t rudeId = context.activeEventDialog.sourceId;
+    const Mm9HirelingTable *pTable = party.mm9HirelingTable();
+    const Mm9Hireling *pHireling = pTable != nullptr ? pTable->find(rudeId) : nullptr;
+
+    if (pHireling == nullptr)
+    {
+        // Huber Carryall's hire row: no table row, so MM9's error sound and nothing else (cshell@0x10028b0d).
+        party.requestSound(SoundId::Error);
+        return result;
+    }
+
+    if (row.next == -10)
+    {
+        const Mm9HireOutcome outcome = hireMm9Hireling(party, *pHireling);
+
+        if (outcome == Mm9HireOutcome::Refused)
+        {
+            party.requestSound(SoundId::Error);
+            return result;
+        }
+
+        if (outcome == Mm9HireOutcome::NotEnoughGold)
+        {
+            context.uiController.setStatusBarEvent(Engine::tr("You don't have enough gold."));
+            playSpeechReaction(context, party.activeMemberIndex(), SpeechId::NotEnoughGold, true);
+            return result;
+        }
+
+        // The row's own keys (Forad's 29 and 371), then MM9's server hides the speaking body at once
+        // (object@0x100b6bd3); the maps' scripts keep it hidden on later loads while the hire key is held.
+        applyMm9RudeRowActions(row, party, &context.eventRuntimeState);
+        party.recordChosenMm9RudeRow(rudeId, row.rowIndex);
+
+        // A posed talking prop (Ake) goes as evt.SetSprite(cog, 0) hides it, kept in the map's event state.
+        const std::optional<uint32_t> decorationKey =
+            context.eventRuntimeState.dialogueState.mm9RudeSourceDecorationKey;
+
+        if (context.activeEventDialog.sourceActorIndex)
+        {
+            hideMapActorByIndex(context.eventRuntimeState, *context.activeEventDialog.sourceActorIndex);
+        }
+        else if (decorationKey)
+        {
+            context.eventRuntimeState.spriteOverrides[*decorationKey].hidden = true;
+            ++context.eventRuntimeState.indoorLightRevision;
+        }
+
+        if ((context.activeEventDialog.sourceActorIndex || decorationKey) && context.pWorldRuntime != nullptr)
+        {
+            context.pWorldRuntime->applyEventRuntimeState();
+        }
+
+        context.uiController.setStatusBarEvent(
+            Engine::tr("{name} joins the party.", {{"name", Engine::localize(pHireling->name)}}));
+        executeMm9RudeExitCallback(context);
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
+
+    if (row.next == -11)
+    {
+        applyMm9RudeRowActions(row, party, &context.eventRuntimeState);
+        party.recordChosenMm9RudeRow(rudeId, row.rowIndex);
+
+        if (dismissMm9Hireling(party, *pHireling))
+        {
+            context.uiController.setStatusBarEvent(
+                Engine::tr("{name} leaves the party.", {{"name", Engine::localize(pHireling->name)}}));
+        }
+
+        executeMm9RudeExitCallback(context);
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
+
+    const Mm9HirelingServiceOutcome outcome = useMm9HirelingService(party, *pHireling);
+
+    if (outcome == Mm9HirelingServiceOutcome::Unavailable)
+    {
+        party.requestSound(SoundId::Error);
+        return result;
+    }
+
+    if (outcome == Mm9HirelingServiceOutcome::CoolingDown)
+    {
+        context.uiController.setStatusBarEvent(mm9HirelingServiceCooldownText(Engine::localize(pHireling->name)));
+
+        if (pHireling->service != Mm9HirelingService::TownPortal)
+        {
+            party.requestSound(SoundId::Fizzle);
+        }
+
+        return result;
+    }
+
+    party.recordChosenMm9RudeRow(rudeId, row.rowIndex);
+
+    if (outcome == Mm9HirelingServiceOutcome::TownPortal)
+    {
+        // Ehwaz casts Town Portal for the party (cshell@0x1002aee3): the spell's destination choice, free.
+        const size_t casterMemberIndex = party.members().empty() ? 0u : party.activeMemberIndex();
+        context.uiController.openUtilitySpellOverlay(
+            GameplayUiController::UtilitySpellOverlayMode::TownPortal,
+            spellIdValue(SpellId::TownPortal),
+            casterMemberIndex);
+        GameplayUiController::UtilitySpellOverlayState &overlay = context.uiController.utilitySpellOverlay();
+        overlay.skillLevelOverride = 10;
+        overlay.skillMasteryOverride = SkillMastery::Grandmaster;
+        overlay.spendMana = false;
+        overlay.applyRecovery = false;
+        overlay.bypassGameplayCasterValidation = true;
+        executeMm9RudeExitCallback(context);
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
+
+    // Healed: the conversation goes on with the row's response.
+    const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
+    context.activeEventDialog = buildMm9RudeContent(
+        *context.pMm9RudeDialogueTable,
+        context.pMm9SkillTrainerTable,
+        party,
+        rudeId,
+        context.activeEventDialog.dialogueNodeId,
+        row.response,
+        context.activeEventDialog.sourceActorIndex);
+    context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
+    context.activeEventDialog.echo =
+        row.response.empty() ? std::string() : Engine::localize(row.prompt, Mm9PartyLineContext);
+    context.selectionIndex = 0;
+    context.uiController.setStatusBarEvent(
+        Engine::tr("{name} heals the party.", {{"name", Engine::localize(pHireling->name)}}));
+    return result;
 }
 }
 
@@ -2225,6 +2397,76 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         return result;
     }
 
+    if (action.kind == EventDialogActionKind::Mm9RudePromotionService)
+    {
+        const Mm9PromotionService *pPromotion = context.pMm9RudeDialogueTable != nullptr
+            ? context.pMm9RudeDialogueTable->promotionService(context.activeEventDialog.sourceId)
+            : nullptr;
+        if (pPromotion == nullptr || context.pParty == nullptr || context.pWorldRuntime == nullptr
+            || context.activeEventDialog.presentation != EventDialogPresentation::Mm9Rude)
+        {
+            return result;
+        }
+
+        // mm9_common.lua promotes (the one class-line table); the members whose class changed are the answer.
+        std::vector<std::string> classesBefore;
+        for (size_t memberIndex = 0; memberIndex < context.pParty->memberCount(); ++memberIndex)
+        {
+            classesBefore.push_back(context.pParty->member(memberIndex)->className);
+        }
+
+        EventRuntimeState::ActiveHookContext hookContext = {};
+        hookContext.npcId = context.activeEventDialog.sourceId;
+        hookContext.actorIndex = context.activeEventDialog.sourceActorIndex;
+        hookContext.mm9Promotion = pPromotion->promotion;
+        const std::optional<EventRuntimeState::ActiveHookContext> previousHookContext =
+            context.eventRuntimeState.activeHookContext;
+        context.eventRuntimeState.activeHookContext = std::move(hookContext);
+        size_t previousMessageCount = context.eventRuntimeState.messages.size();
+        context.pWorldRuntime->executeMapEvent(Mm9PromotionServiceEventId, previousMessageCount);
+        context.eventRuntimeState.activeHookContext = previousHookContext;
+
+        std::vector<std::string> lines;
+        for (size_t memberIndex = 0; memberIndex < classesBefore.size(); ++memberIndex)
+        {
+            const Character *pMember = context.pParty->member(memberIndex);
+            if (pMember != nullptr && pMember->className != classesBefore[memberIndex])
+            {
+                lines.push_back(Engine::tr("{name} is now a {class}.",
+                    {{"name", pMember->name}, {"class", displayClassName(pMember->className)}}));
+            }
+        }
+        if (lines.empty())
+        {
+            lines.push_back(Engine::tr("No one among you can take this promotion now."));
+        }
+
+        const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
+        context.activeEventDialog = buildMm9RudeContent(
+            *context.pMm9RudeDialogueTable,
+            context.pMm9SkillTrainerTable,
+            *context.pParty,
+            context.activeEventDialog.sourceId,
+            context.activeEventDialog.dialogueNodeId,
+            std::string(),
+            context.activeEventDialog.sourceActorIndex);
+        context.activeEventDialog.lines = std::move(lines);
+        context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
+        context.activeEventDialog.echo = Engine::tr("Promote our eligible characters.");
+        context.selectionIndex = 0;
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::Mm9RudeTransportSchedule)
+    {
+        if (context.activeEventDialog.presentation == EventDialogPresentation::Mm9Rude)
+        {
+            context.uiController.openMm9TransportSchedule(context.activeEventDialog.sourceId);
+        }
+
+        return result;
+    }
+
     if (action.kind == EventDialogActionKind::Mm9RudeTransportRoute)
     {
         if (context.pMm9TransportRouteTable == nullptr
@@ -2235,31 +2477,54 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             return result;
         }
 
-        const uint8_t currentDayIndex = mm9TransportDayIndex(context.pWorldRuntime->gameMinutes());
-        const Mm9TransportRoute *pRoute = context.pMm9TransportRouteTable->findForServiceDay(
-            context.activeEventDialog.sourceId,
-            currentDayIndex);
-        if (pRoute == nullptr || pRoute->canonicalId != action.argument
+        // Today's boat, or (from the Schedule) the boat of a later weekday, which the party waits for.
+        const int today = (int(mm9TransportDayIndex(context.pWorldRuntime->gameMinutes())) + 5) % 7;
+        const int departureDay = action.secondaryId > 0 ? int(action.secondaryId) - 1 : today;
+        const Mm9TransportRoute *pRoute = context.pMm9TransportRouteTable->findByCanonicalId(action.argument);
+        if (pRoute == nullptr || pRoute->dockNpcId != context.activeEventDialog.sourceId
+            || departureDay < 0 || departureDay > 6 || mm9TransportWeekday(*pRoute) != departureDay
             || !mm9TransportRouteConditionsSatisfied(*pRoute, *context.pParty))
         {
-            context.uiController.setStatusBarEvent("That route is not available.");
+            context.uiController.setStatusBarEvent(Engine::tr("That route is not available."));
             return result;
         }
 
         const int price = mm9TransportPrice(*pRoute, *context.pParty, context);
         if (context.pParty->gold() < price)
         {
-            context.uiController.setStatusBarEvent("You don't have enough gold.");
+            context.uiController.setStatusBarEvent(Engine::tr("You don't have enough gold."));
             playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::NotEnoughGold, true);
             return result;
         }
 
-        context.pParty->addGold(-price);
+        // The party eats while it waits for the departure, as at an MM6-MM8 dock.
+        const int waitDays = transportWaitDays(today, departureDay);
+        const int waitFood = waitDays * transportWaitFoodPerDay();
+        if (context.pParty->food() < waitFood)
+        {
+            context.uiController.setStatusBarEvent(Engine::trn("You don't have enough food to wait {days} day.",
+                "You don't have enough food to wait {days} days.", uint64_t(waitDays), {{"days", waitDays}}));
+            return result;
+        }
+
+        context.pParty->addGold(-price, GoldReason::Travel);
+        if (waitDays > 0)
+        {
+            context.pParty->addFood(-waitFood);
+            const float waitMinutes = float(waitDays) * 24.0f * 60.0f;
+            context.pWorldRuntime->advanceGameMinutes(waitMinutes);
+            context.pParty->advanceTimedStates(waitMinutes * 60.0f);
+        }
         applyTravelDaysSideEffects(
             *context.pParty,
             context.pWorldRuntime,
             static_cast<int>(pRoute->travelDays),
             0);
+
+        if (PlaythroughStatistics *pStatistics = context.pParty->statistics())
+        {
+            pStatistics->recordTravel(false, double(waitDays) + double(pRoute->travelDays));
+        }
 
         EventRuntimeState::PendingMapMove pendingMove = {};
         pendingMove.travelTimeApplied = true;
@@ -2291,20 +2556,22 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         };
         context.eventRuntimeState.pendingMapMove = std::move(pendingMove);
         context.uiController.setStatusBarEvent(
-            "It will take " + std::to_string(pRoute->travelDays)
-                + (pRoute->travelDays == 1 ? " day" : " days")
-                + " to travel to " + pRoute->destinationName + ".");
+            Engine::trn("It will take {days} day to travel to {destination}.",
+                "It will take {days} days to travel to {destination}.", uint64_t(pRoute->travelDays),
+                {{"days", pRoute->travelDays}, {"destination", Engine::localize(pRoute->destinationName)}}));
         executeMm9RudeExitCallback(context);
         result.shouldCloseActiveDialog = true;
         return result;
     }
 
     if (action.kind == EventDialogActionKind::Mm9RudeSkillTrainerOffer
+        || action.kind == EventDialogActionKind::Mm9RudeSkillTrainerSkill
         || action.kind == EventDialogActionKind::Mm9RudeSkillTrainerLearn)
     {
         const EventDialogActionKind trainerActionKind = action.kind;
         const uint32_t trainerRowIndex = action.id;
         const uint32_t trainerSkillIndex = action.secondaryId;
+        const size_t trainerMemberIndex = action.memberIndex;
 
         if (context.pMm9RudeDialogueTable == nullptr
             || context.pParty == nullptr
@@ -2324,110 +2591,190 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                     context.activeEventDialog.sourceId,
                     trainerRowIndex)
                 : nullptr;
-        const std::optional<Mm9RudeSkillTrainerTopic> trainerTopic = pTrainerService != nullptr
-            ? std::optional<Mm9RudeSkillTrainerTopic>(pTrainerService->topic)
-            : (pRow != nullptr ? resolveMm9RudeSkillTrainerTopic(*pRow) : std::nullopt);
         if (pRow == nullptr
             || pRow->nodeId != context.activeEventDialog.dialogueNodeId
-            || !trainerTopic)
+            || pTrainerService == nullptr
+            || (trainerActionKind != EventDialogActionKind::Mm9RudeSkillTrainerOffer
+                && trainerSkillIndex >= pTrainerService->topic.skillNames.size()))
         {
             context.uiController.setStatusBarEvent("MM9 skill trainer topic is no longer valid.");
             return result;
         }
-        const SkillMasteryGroupTrainingRequest trainingRequest = {
-            .displayName = trainerTopic->displayName,
-            .skillNames = trainerTopic->skillNames,
-            .targetMastery = trainerTopic->targetMastery,
-            .requiredGold = trainerTopic->requiredGold,
-            .requiredSkill = trainerTopic->requiredSkillRank,
+
+        // Each skill the trainer teaches is its own lesson with the shared single-skill mastery training: its own
+        // price, requirement and class/race cap (no composite MM9 skills, user decision 2026-11-05). The talk hides
+        // the party, so a lesson is offered to every member on its own row (user, 2026-11-06): a trainer of several
+        // skills first lists its skills, then the chosen skill's members; one of a single skill lists the members.
+        Party &party = *context.pParty;
+        const Mm9RudeSkillTrainerTopic &trainerTopic = pTrainerService->topic;
+        const bool severalSkills = trainerTopic.skillNames.size() > 1;
+        const std::string masteryName = Engine::localize(masteryDisplayName(trainerTopic.targetMastery), "mastery");
+        const std::string trainTag = Engine::tr("Train \xC2\xB7 {mastery}", {{"mastery", masteryName}});
+        const auto trainingRequest = [&trainerTopic](size_t skillIndex)
+        {
+            return SkillMasteryTrainingRequest{
+                .skillName = trainerTopic.skillNames[skillIndex],
+                .targetMastery = trainerTopic.targetMastery,
+                .requiredGold = trainerTopic.requiredGold,
+                .requiredSkill = trainerTopic.requiredSkillRank,
+            };
+        };
+        const auto evaluate = [&](size_t skillIndex, size_t memberIndex)
+        {
+            return evaluateSkillMasteryTraining(
+                trainingRequest(skillIndex),
+                party,
+                memberIndex,
+                *context.pClassSkillTable,
+                *context.pNpcDialogTable);
+        };
+
+        // A trainer page: the topic's sentence quoted, the reply, then rows that replace the talk's.
+        const auto openPage = [&](const std::optional<std::string> &reply)
+        {
+            const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
+            context.activeEventDialog = buildMm9RudeContent(
+                *context.pMm9RudeDialogueTable,
+                context.pMm9SkillTrainerTable,
+                party,
+                context.activeEventDialog.sourceId,
+                context.activeEventDialog.dialogueNodeId,
+                reply,
+                context.activeEventDialog.sourceActorIndex);
+            context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
+            context.activeEventDialog.echo = Engine::localize(pRow->prompt, Mm9PartyLineContext);
+            context.activeEventDialog.actions.clear();
+            context.selectionIndex = 0;
+        };
+
+        // The skill's rows, one per member in party order: the lesson and its price, or why that member cannot take
+        // it (shown muted). The selection starts on the first member who can.
+        const auto listMembers = [&](size_t skillIndex)
+        {
+            std::optional<size_t> firstApproved;
+
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                const std::optional<MasteryTeacherEvaluation> evaluation = evaluate(skillIndex, memberIndex);
+
+                if (!evaluation || evaluation->displayText.empty())
+                {
+                    continue;
+                }
+
+                EventDialogAction learnAction = {};
+                learnAction.kind = EventDialogActionKind::Mm9RudeSkillTrainerLearn;
+                learnAction.id = trainerRowIndex;
+                learnAction.secondaryId = static_cast<uint32_t>(skillIndex);
+                learnAction.memberIndex = memberIndex;
+                learnAction.label = Engine::tr("{member}: {lesson}",
+                    {{"member", party.member(memberIndex)->name}, {"lesson", evaluation->displayText}});
+
+                if (evaluation->approved)
+                {
+                    learnAction.choiceTag = trainTag;
+                    firstApproved = firstApproved ? firstApproved : context.activeEventDialog.actions.size();
+                }
+                else
+                {
+                    learnAction.choiceMark = EventDialogChoiceMark::Locked;
+                }
+
+                context.activeEventDialog.actions.push_back(std::move(learnAction));
+            }
+
+            // Back to the skills of a trainer that has several, else to the talk.
+            EventDialogAction backAction = {};
+            backAction.kind = severalSkills
+                ? EventDialogActionKind::Mm9RudeSkillTrainerOffer : EventDialogActionKind::Mm9RudeSkillTrainerBack;
+            backAction.id = trainerRowIndex;
+            backAction.label = Engine::tr("Back");
+            backAction.choiceMark = EventDialogChoiceMark::Exit;
+            context.activeEventDialog.actions.push_back(std::move(backAction));
+            context.selectionIndex = firstApproved.value_or(0);
         };
 
         if (trainerActionKind == EventDialogActionKind::Mm9RudeSkillTrainerOffer)
         {
-            context.pParty->recordChosenMm9RudeRow(context.activeEventDialog.sourceId, pRow->rowIndex);
-            const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
-            context.activeEventDialog = buildMm9RudeContent(
-                *context.pMm9RudeDialogueTable,
-                context.pMm9SkillTrainerTable,
-                *context.pParty,
-                context.activeEventDialog.sourceId,
-                context.activeEventDialog.dialogueNodeId,
-                selectMm9RudeRow(*pRow).response,
-                context.activeEventDialog.sourceActorIndex);
-            context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
-            context.activeEventDialog.echo = pRow->prompt;
-            context.activeEventDialog.actions.clear();
+            party.recordChosenMm9RudeRow(context.activeEventDialog.sourceId, pRow->rowIndex);
+            openPage(selectMm9RudeRow(*pRow).response);
 
-            const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryGroupTraining(
-                trainingRequest,
-                *context.pParty,
-                *context.pClassSkillTable,
-                *context.pNpcDialogTable);
-            if (evaluation)
+            if (!severalSkills)
             {
-                EventDialogAction learnAction = {};
-                learnAction.kind = EventDialogActionKind::Mm9RudeSkillTrainerLearn;
-                learnAction.id = trainerRowIndex;
-                learnAction.secondaryId = 0;
-                learnAction.label = evaluation->displayText;
-                learnAction.choiceTag = "Train \xC2\xB7 " + masteryDisplayName(trainerTopic->targetMastery);
-                context.activeEventDialog.actions.push_back(std::move(learnAction));
+                listMembers(0);
+                return result;
+            }
+
+            // The skills, each with how many members can take its lesson now; none, and it is shown muted.
+            for (size_t skillIndex = 0; skillIndex < trainerTopic.skillNames.size(); ++skillIndex)
+            {
+                size_t learners = 0;
+
+                for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+                {
+                    const std::optional<MasteryTeacherEvaluation> evaluation = evaluate(skillIndex, memberIndex);
+                    learners += evaluation && evaluation->approved ? 1 : 0;
+                }
+
+                EventDialogAction skillAction = {};
+                skillAction.kind = EventDialogActionKind::Mm9RudeSkillTrainerSkill;
+                skillAction.id = trainerRowIndex;
+                skillAction.secondaryId = static_cast<uint32_t>(skillIndex);
+                skillAction.label = Engine::tr("{mastery} {skill}",
+                    {{"mastery", masteryName},
+                     {"skill", Engine::localize(displaySkillName(trainerTopic.skillNames[skillIndex]), "skill")}});
+
+                if (learners > 0)
+                {
+                    skillAction.choiceTag = Engine::tr("{learners} of {members} can learn",
+                        {{"learners", learners}, {"members", party.members().size()}});
+                }
+                else
+                {
+                    skillAction.choiceMark = EventDialogChoiceMark::Locked;
+                }
+
+                context.activeEventDialog.actions.push_back(std::move(skillAction));
             }
 
             EventDialogAction backAction = {};
             backAction.kind = EventDialogActionKind::Mm9RudeSkillTrainerBack;
-            backAction.label = "Back";
+            backAction.label = Engine::tr("Back");
             backAction.choiceMark = EventDialogChoiceMark::Exit;
             context.activeEventDialog.actions.push_back(std::move(backAction));
-            context.selectionIndex = 0;
             return result;
         }
 
-        if (trainerSkillIndex != 0)
+        if (trainerActionKind == EventDialogActionKind::Mm9RudeSkillTrainerSkill)
         {
-            context.uiController.setStatusBarEvent("MM9 skill trainer topic is no longer valid.");
+            openPage(selectMm9RudeRow(*pRow).response);
+            listMembers(trainerSkillIndex);
             return result;
         }
 
+        // A member's lesson: trained, the reply says so and the rows show the new state; refused, the row already
+        // says why.
         std::string message;
-        if (applySkillMasteryGroupTraining(
-                trainingRequest,
-                *context.pParty,
+        if (!applySkillMasteryTraining(
+                trainingRequest(trainerSkillIndex),
+                party,
+                trainerMemberIndex,
                 *context.pClassSkillTable,
                 *context.pNpcDialogTable,
                 message))
         {
-            context.uiController.setStatusBarEvent(message);
-            playSpeechReaction(
-                context,
-                context.pParty->activeMemberIndex(),
-                SpeechId::SkillMasteryIncreased,
-                true);
-
-            const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
-            context.activeEventDialog = buildMm9RudeContent(
-                *context.pMm9RudeDialogueTable,
-                context.pMm9SkillTrainerTable,
-                *context.pParty,
-                context.activeEventDialog.sourceId,
-                context.activeEventDialog.dialogueNodeId,
-                std::nullopt,
-                context.activeEventDialog.sourceActorIndex);
-            context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
-            context.selectionIndex = 0;
-        }
-        else
-        {
-            const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryGroupTraining(
-                trainingRequest,
-                *context.pParty,
-                *context.pClassSkillTable,
-                *context.pNpcDialogTable);
+            const std::optional<MasteryTeacherEvaluation> evaluation = evaluate(trainerSkillIndex, trainerMemberIndex);
             if (evaluation && !evaluation->displayText.empty())
             {
                 context.uiController.setStatusBarEvent(evaluation->displayText);
             }
+            return result;
         }
+
+        context.uiController.setStatusBarEvent(message);
+        playSpeechReaction(context, trainerMemberIndex, SpeechId::SkillMasteryIncreased, true);
+        openPage(message);
+        listMembers(trainerSkillIndex);
         return result;
     }
 
@@ -2449,13 +2796,19 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             return result;
         }
 
+        if (pRow->next == -10 || pRow->next == -11 || pRow->next == -15)
+        {
+            return executeMm9HirelingRudeRow(context, *pRow, result);
+        }
+
         applyMm9RudeRowActions(*pRow, *context.pParty, &context.eventRuntimeState);
         context.pParty->recordChosenMm9RudeRow(context.activeEventDialog.sourceId, pRow->rowIndex);
         const Mm9RudeSelection selection = selectMm9RudeRow(*pRow);
         if (selection.kind == Mm9RudeSelectionKind::Close)
         {
-            executeMm9RudeExitCallback(context);
-            result.shouldCloseActiveDialog = true;
+            const bool nextDialog = endMm9RudeTalk(context);
+            result.shouldOpenPendingEventDialog = nextDialog;
+            result.shouldCloseActiveDialog = !nextDialog;
             return result;
         }
 
@@ -2473,13 +2826,16 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             selection.response,
             context.activeEventDialog.sourceActorIndex);
         context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
-        context.activeEventDialog.echo = selection.response.empty() ? std::string() : pRow->prompt;
+        context.activeEventDialog.echo =
+            selection.response.empty() ? std::string() : Engine::localize(pRow->prompt, Mm9PartyLineContext);
         context.selectionIndex = 0;
 
         if (selection.kind == Mm9RudeSelectionKind::Service)
         {
             if (selection.serviceOpcode == -2
                 || selection.serviceOpcode == -3
+                || selection.serviceOpcode == -6
+                || selection.serviceOpcode == -7
                 || selection.serviceOpcode == -8
                 || selection.serviceOpcode == -16)
             {
@@ -2508,6 +2864,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 const bool serviceMatches =
                     (selection.serviceOpcode == -2 && serviceType == HouseServiceType::Shop)
                     || (selection.serviceOpcode == -3 && serviceType == HouseServiceType::TrainingHall)
+                    || (selection.serviceOpcode == -6 && serviceType == HouseServiceType::Bank)
+                    || (selection.serviceOpcode == -7 && serviceType == HouseServiceType::Tavern)
                     || (selection.serviceOpcode == -8
                         && serviceType == HouseServiceType::Temple
                         && pVenue->templeCanHeal)
@@ -2526,6 +2884,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                         .rudeId = context.activeEventDialog.sourceId,
                         .nodeId = nextNodeId,
                         .sourceActorIndex = context.activeEventDialog.sourceActorIndex,
+                        .sourceDecorationKey = context.eventRuntimeState.dialogueState.mm9RudeSourceDecorationKey,
                         .response = selection.response,
                         .selectionIndex = static_cast<uint32_t>(previousSelectionIndex),
                         .exitCallbackExecuted = exitCallbackExecuted,
@@ -2559,21 +2918,33 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                     EventDialogAction routeAction = {};
                     routeAction.kind = EventDialogActionKind::Mm9RudeTransportRoute;
                     routeAction.id = pRoute->sourceDayIndex;
-                    routeAction.label = std::to_string(pRoute->travelDays)
-                        + (pRoute->travelDays == 1 ? " day" : " days")
-                        + " to " + pRoute->destinationName
-                        + " for " + std::to_string(price) + " gold";
+                    routeAction.label = Engine::trn("{days} day to {destination} for {price} gold",
+                        "{days} days to {destination} for {price} gold", uint64_t(pRoute->travelDays),
+                        {{"days", pRoute->travelDays},
+                         {"destination", Engine::localize(pRoute->destinationName)},
+                         {"price", price}});
                     routeAction.argument = pRoute->canonicalId;
                     context.activeEventDialog.actions.push_back(std::move(routeAction));
                 }
                 else
                 {
-                    context.activeEventDialog.lines.push_back("Sorry, come back another day.");
+                    context.activeEventDialog.lines.push_back(Engine::tr("Sorry, come back another day."));
+                }
+
+                // The week's boats, in the transport Schedule popup.
+                if (context.pMm9TransportRouteTable != nullptr && context.pParty != nullptr
+                    && !buildMm9TransportSchedule(*context.pMm9TransportRouteTable, context.activeEventDialog.sourceId,
+                        context.pParty, context.pWorldRuntime).routes.empty())
+                {
+                    EventDialogAction scheduleAction = {};
+                    scheduleAction.kind = EventDialogActionKind::Mm9RudeTransportSchedule;
+                    scheduleAction.label = Engine::tr("Schedule");
+                    context.activeEventDialog.actions.push_back(std::move(scheduleAction));
                 }
 
                 EventDialogAction backAction = {};
                 backAction.kind = EventDialogActionKind::Mm9RudeTransportBack;
-                backAction.label = "Back";
+                backAction.label = Engine::tr("Back");
                 backAction.choiceMark = EventDialogChoiceMark::Exit;
             backAction.choiceMark = EventDialogChoiceMark::Exit;
                 context.activeEventDialog.actions.push_back(std::move(backAction));
@@ -2637,11 +3008,26 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             if (pMm9Transition != nullptr && context.pParty != nullptr)
             {
+                // A walk between two regions is MM6-MM8's journey between outdoor maps: guides shorten the road
+                // and it costs five food; any other exit with days on the road costs a food a day.
+                const bool regionWalk = context.pCurrentMap != nullptr
+                    && mm9RegionWalk(
+                        pMm9Transition->travelDays,
+                        context.pMapEntries,
+                        context.pCurrentMap->fileName,
+                        pMm9Transition->destinationMapFileName);
+                const int travelDays = regionWalk
+                    ? hiredNpcWalkingTravelDays(pMm9Transition->travelDays, context.eventRuntimeState)
+                    : std::max(0, pMm9Transition->travelDays);
+                if (regionWalk && context.eventRuntimeState.lastMapTransitionConfirmed)
+                {
+                    context.eventRuntimeState.lastMapTransitionConfirmed->travelDays = uint32_t(travelDays);
+                }
                 travelTimeApplied = applyTravelDaysSideEffects(
                     *context.pParty,
                     context.pWorldRuntime,
-                    pMm9Transition->travelDays,
-                    std::max(0, pMm9Transition->travelDays));
+                    travelDays,
+                    regionWalk ? Mm9RegionWalkFood : travelDays);
             }
             else
             {
@@ -2900,9 +3286,9 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         {
             if (!partyCanPlayArcomageInHouse(*pHouseEntry, context.pParty))
             {
-                const char *pMessage = arcomageDeckRequiredMessage();
-                context.eventRuntimeState.messages.push_back(pMessage);
-                context.uiController.setStatusBarEvent(pMessage);
+                const std::string message = arcomageDeckRequiredMessage();
+                context.eventRuntimeState.messages.push_back(message);
+                context.uiController.setStatusBarEvent(message);
                 refreshCurrentHouseServiceDialog(context, pHouseEntry->id);
                 result.shouldOpenPendingEventDialog = true;
                 return result;
@@ -3164,7 +3550,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (recruitIt == context.eventRuntimeState.generatedMercenaryRecruitsByNpcId.end())
         {
-            context.eventRuntimeState.messages.push_back("That companion is not ready to join yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That companion is not ready to join yet."));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3197,7 +3583,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (!offer)
         {
-            context.eventRuntimeState.messages.push_back("That companion is not ready to join yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That companion is not ready to join yet."));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3259,7 +3645,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 context.pParty->setNpcUnavailable(invite.npcId, true);
                 context.pParty->clearNpcHouseOverride(invite.npcId);
                 context.eventRuntimeState.messages.push_back(
-                    recruit.character.name + " waits at the Adventurer's Inn.");
+                    Engine::tr("{name} waits at the Adventurer's Inn.", {{"name", recruit.character.name}}));
                 setPendingDialogueContext(
                     context.eventRuntimeState,
                     DialogueContextKind::NpcTalk,
@@ -3272,7 +3658,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             if (!context.pParty->recruitCharacter(recruit.character))
             {
-                context.eventRuntimeState.messages.push_back("Recruitment is not available for this companion yet.");
+                context.eventRuntimeState.messages.push_back(Engine::tr("Recruitment is not available for this companion yet."));
                 setPendingDialogueContext(
                     context.eventRuntimeState,
                     DialogueContextKind::NpcTalk,
@@ -3287,7 +3673,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.npcHouseOverrides.erase(invite.npcId);
             context.pParty->setNpcUnavailable(invite.npcId, true);
             context.pParty->clearNpcHouseOverride(invite.npcId);
-            context.eventRuntimeState.messages.push_back(recruit.character.name + " joined the party.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("{name} joined the party.", {{"name", recruit.character.name}}));
             queueUiSound(context.eventRuntimeState, HeroismEffectSoundId);
             playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::HireNpc, true);
             setPendingDialogueContext(
@@ -3344,7 +3730,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (pRosterEntry == nullptr || !context.pParty->recruitRosterMember(*pRosterEntry))
         {
-            context.eventRuntimeState.messages.push_back("Recruitment is not available for this companion yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("Recruitment is not available for this companion yet."));
             setPendingDialogueContext(
                 context.eventRuntimeState,
                 DialogueContextKind::NpcTalk,
@@ -3358,7 +3744,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         context.eventRuntimeState.npcHouseOverrides.erase(invite.npcId);
         context.pParty->setNpcUnavailable(invite.npcId, true);
         context.pParty->clearNpcHouseOverride(invite.npcId);
-        context.eventRuntimeState.messages.push_back(pRosterEntry->name + " joined the party.");
+        context.eventRuntimeState.messages.push_back(Engine::tr("{name} joined the party.", {{"name", pRosterEntry->name}}));
         queueUiSound(context.eventRuntimeState, HeroismEffectSoundId);
         playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::HireNpc, true);
         setPendingDialogueContext(
@@ -3488,7 +3874,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (!offer)
         {
-            context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3498,7 +3884,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back(npcTextOrFallback(
                 context.pNpcDialogTable,
                 124,
-                "You're already a member of this guild."));
+                Engine::tr("You're already a member of this guild.")));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3542,7 +3928,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (!offer)
         {
-            context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3552,19 +3938,19 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back(npcTextOrFallback(
                 context.pNpcDialogTable,
                 124,
-                "You're already a member of this guild."));
+                Engine::tr("You're already a member of this guild.")));
         }
         else if (context.pParty->gold() < static_cast<int>(offer->cost))
         {
             context.eventRuntimeState.messages.push_back(npcTextOrFallback(
                 context.pNpcDialogTable,
                 125,
-                "You don't have enough gold!"));
+                Engine::tr("You don't have enough gold!")));
             playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::NotEnoughGold, true);
         }
         else
         {
-            context.pParty->addGold(-static_cast<int>(offer->cost));
+            context.pParty->addGold(-static_cast<int>(offer->cost), GoldReason::Other);
             grantGuildMembership(context.eventRuntimeState, context.pParty, *offer);
             playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::JoinedGuild, true);
 
@@ -3605,9 +3991,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 *pNpc,
                 *pProfession,
                 currentDialogueHostHouseId(context.eventRuntimeState) == 0 || pNpc->topicIds.empty())
-            || !continentAllowsNpcFollowers(context.pCurrentMap, context.pContinentSettingTable))
+            || !continentAllowsNpcFollowers(context.pCurrentMap, context.pContinentSettingTable)
+            || (context.pParty != nullptr && !context.pParty->npcFollowersActive()))
         {
-            context.eventRuntimeState.messages.push_back("That follower is not available.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That follower is not available."));
             result.shouldOpenPendingEventDialog = true;
             return result;
         }
@@ -3615,7 +4002,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         std::string message = npcTextOrFallback(
             context.pNpcDialogTable,
             pProfession->joinTextId,
-            "I will join you.");
+            Engine::tr("I will join you."));
 
         if (pProfession->descriptionTextId != 0)
         {
@@ -3623,7 +4010,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             if (description && !description->empty())
             {
-                message += "\n(" + *description + ")";
+                message += "\n(" + Engine::localize(*description) + ")";
             }
         }
 
@@ -3679,13 +4066,15 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 *pNpc,
                 *pProfession,
                 currentDialogueHostHouseId(context.eventRuntimeState) == 0 || pNpc->topicIds.empty())
-            || !continentAllowsNpcFollowers(context.pCurrentMap, context.pContinentSettingTable))
+            || !continentAllowsNpcFollowers(context.pCurrentMap, context.pContinentSettingTable)
+            || (context.pParty != nullptr && !context.pParty->npcFollowersActive()))
         {
-            context.eventRuntimeState.messages.push_back("That follower is not available.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That follower is not available."));
         }
         else if (hasHiredNpcFollower(context.eventRuntimeState, offer.npcId))
         {
-            context.eventRuntimeState.messages.push_back(pNpc->name + " is already following you.");
+            context.eventRuntimeState.messages.push_back(
+                Engine::tr("{name} is already following you.", {{"name", Engine::localize(pNpc->name)}}));
         }
         else if (context.eventRuntimeState.hiredNpcFollowers.size() >= MaxNpcFollowerCount
             || hiredNpcFollowerFeePercent(context.eventRuntimeState) >= MaxNpcFollowerFeePercent)
@@ -3693,7 +4082,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back(npcTextOrFallback(
                 context.pNpcDialogTable,
                 533,
-                "You already have enough followers."));
+                Engine::tr("You already have enough followers.")));
         }
         else if (const std::optional<FollowerHireRefusal> refusal =
                      context.pParty->rules().classes.followerHireRefusal(
@@ -3706,11 +4095,11 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back(npcTextOrFallback(
                 context.pNpcDialogTable,
                 125,
-                "You do not have enough gold."));
+                Engine::tr("You do not have enough gold.")));
         }
         else
         {
-            context.pParty->addGold(-static_cast<int>(pProfession->weeklyCost));
+            context.pParty->addGold(-static_cast<int>(pProfession->weeklyCost), GoldReason::Other);
 
             EventRuntimeState::HiredNpcFollower follower = {};
             follower.npcId = offer.npcId;
@@ -3738,7 +4127,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 context.pWorldRuntime->applyEventRuntimeState();
             }
 
-            context.eventRuntimeState.messages.push_back(pNpc->name + " joined the followers.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("{name} joined the followers.", {{"name", pNpc->name}}));
             playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::HireNpc, true);
             if (context.pScreenRuntime != nullptr)
             {
@@ -3809,7 +4198,9 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
 
             context.eventRuntimeState.messages.push_back(
-                (pNpc != nullptr && !pNpc->name.empty() ? pNpc->name : "The follower") + " left the followers.");
+                Engine::tr("{name} left the followers.",
+                    {{"name", pNpc != nullptr && !pNpc->name.empty() ? Engine::localize(pNpc->name)
+                                                                     : Engine::tr("The follower")}}));
         }
 
         result.shouldCloseActiveDialog = true;
@@ -3879,11 +4270,11 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 {
                     accepted = false;
                     textId = 0;
-                    context.eventRuntimeState.messages.push_back("You don't have enough gold.");
+                    context.eventRuntimeState.messages.push_back(Engine::tr("You don't have enough gold."));
                 }
                 else
                 {
-                    context.pParty->addGold(-static_cast<int>(bribeCost));
+                    context.pParty->addGold(-static_cast<int>(bribeCost), GoldReason::Other);
                     bribePaid = true;
                 }
             }
@@ -3987,7 +4378,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (!executed)
         {
-            context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
         }
 
         if (!context.eventRuntimeState.pendingDialogueContext
@@ -4012,7 +4403,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         const uint32_t npcId = context.activeEventDialog.sourceId;
         if (context.pWorldRuntime == nullptr)
         {
-            context.eventRuntimeState.messages.push_back("The Arena is unavailable here.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("The Arena is unavailable here."));
         }
         else if (action.kind == EventDialogActionKind::ArenaChallenge)
         {
@@ -4073,7 +4464,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (!executed)
         {
-            context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+            context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
         }
 
         if (context.eventRuntimeState.pendingDimensionDoorOverlay)
@@ -4139,6 +4530,7 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
     {
         result.wasDialogAlreadyActive = context.activeEventDialog.isActive;
         openMm9RudeDialogue(context, originalContext.sourceId, originalContext.sourceActorIndex);
+        context.eventRuntimeState.dialogueState.mm9RudeSourceDecorationKey = originalContext.sourceDecorationKey;
         if (!context.activeEventDialog.isActive
             || context.activeEventDialog.presentation != EventDialogPresentation::Mm9Rude)
         {
@@ -4419,6 +4811,7 @@ GameplayDialogController::Result GameplayDialogController::openMm9RudeDialogue(
 
     context.eventRuntimeState.pendingDialogueContext.reset();
     context.eventRuntimeState.dialogueState.hostHouseId = 0;
+    context.eventRuntimeState.dialogueState.mm9RudeSourceDecorationKey.reset();
     context.activeEventDialog = buildMm9RudeContent(
         *context.pMm9RudeDialogueTable,
         context.pMm9SkillTrainerTable,
@@ -4486,8 +4879,9 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
 
     if (context.activeEventDialog.presentation == EventDialogPresentation::Mm9Rude)
     {
-        executeMm9RudeExitCallback(context);
-        result.shouldCloseActiveDialog = true;
+        const bool nextDialog = endMm9RudeTalk(context);
+        result.shouldOpenPendingEventDialog = nextDialog;
+        result.shouldCloseActiveDialog = !nextDialog;
         return result;
     }
 
@@ -4725,6 +5119,7 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
             *context.eventRuntimeState.dialogueState.suspendedMm9RudeDialogue;
         context.eventRuntimeState.pendingDialogueContext.reset();
         context.eventRuntimeState.dialogueState = {};
+        context.eventRuntimeState.dialogueState.mm9RudeSourceDecorationKey = suspended.sourceDecorationKey;
         context.activeEventDialog = buildMm9RudeContent(
             *context.pMm9RudeDialogueTable,
             context.pMm9SkillTrainerTable,
@@ -4788,14 +5183,15 @@ bool GameplayDialogController::refreshHouseBankInputDialog(Context &context, boo
         return false;
     }
 
-    const std::string promptLabel =
-        houseBankState.inputMode == GameplayUiController::HouseBankInputMode::Deposit ? "Deposit" : "Withdraw";
+    const std::string promptLabel = houseBankState.inputMode == GameplayUiController::HouseBankInputMode::Deposit
+        ? Engine::tr("Deposit")
+        : Engine::tr("Withdraw");
     context.activeEventDialog.lines.clear();
     context.activeEventDialog.lines.push_back(
-        "Balance: " + std::to_string(context.pParty != nullptr ? context.pParty->bankGold() : 0));
+        Engine::tr("Balance: {gold}", {{"gold", context.pParty != nullptr ? context.pParty->bankGold() : 0}}));
     context.activeEventDialog.lines.push_back(std::string {});
     context.activeEventDialog.lines.push_back(promptLabel);
-    context.activeEventDialog.lines.push_back("How Much?");
+    context.activeEventDialog.lines.push_back(Engine::tr("How Much?"));
     context.activeEventDialog.lines.push_back(std::string {});
     context.activeEventDialog.actions.clear();
     context.selectionIndex = 0;

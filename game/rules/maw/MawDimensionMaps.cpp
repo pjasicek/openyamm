@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawDimensionMaps.h"
+#include "engine/Localization.h"
 
 #include "game/items/ItemRulesetFields.h"
 #include "game/rules/RandomStreams.h"
@@ -213,7 +214,8 @@ std::string MawDimensionData::affixLine(int affixId, int power) const
         return {};
     }
 
-    std::string line = pAffix->text;
+    // In the interface language, its {X} kept by the translation.
+    std::string line = Engine::localize(pAffix->text);
     const size_t placeholder = line.find("{X}");
 
     if (placeholder != std::string::npos)

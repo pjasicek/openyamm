@@ -577,7 +577,7 @@ TEST_CASE("MMerge follower bonuses expose skill, gold, food, and item-service ef
     CHECK_EQ(hiredNpcSkillBonus(state.hiredNpcFollowers, "Learning"), 20);
     CHECK_EQ(hiredNpcRestFoodReduction(state), 2);
     // The Banker raises 1000 to 1200; costs of 800 take 8% of that.
-    const FoundGold foundGold = resolveFoundGold(1000, &state);
+    const FoundGold foundGold = resolveFoundGold(1000, &state, nullptr);
     CHECK_EQ(foundGold.amount, 1200u);
     CHECK_EQ(foundGold.followerShare, 96u);
     CHECK_EQ(foundGold.partyAmount, 1104u);
@@ -586,11 +586,11 @@ TEST_CASE("MMerge follower bonuses expose skill, gold, food, and item-service ef
     // Any fee takes at least one coin, and cheap followers still count.
     EventRuntimeState cheapState = {};
     cheapState.hiredNpcFollowers.push_back({1005, 1, 1});
-    const FoundGold smallFind = resolveFoundGold(20, &cheapState);
+    const FoundGold smallFind = resolveFoundGold(20, &cheapState, nullptr);
     CHECK_EQ(smallFind.followerShare, 1u);
     CHECK_EQ(smallFind.partyAmount, 19u);
 
-    const FoundGold noFollowers = resolveFoundGold(20, nullptr);
+    const FoundGold noFollowers = resolveFoundGold(20, nullptr, nullptr);
     CHECK_EQ(noFollowers.partyAmount, 20u);
     CHECK_EQ(foundGoldStatusText(noFollowers), "You found 20 gold!");
     CHECK(hiredNpcHasProfession(state.hiredNpcFollowers, 4));

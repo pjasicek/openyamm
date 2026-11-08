@@ -141,7 +141,7 @@ initial_state:
   travel being tenths of a degree, so the door state machine, `SetDoorState`, reversal mid-move, timers and saves
   need no change. The loader refuses a record whose `move_length` is not `round(|open_degrees| * 10)`, whose
   direction is not zero, whose axis is not unit length, or whose `open_degrees` is outside (0, 360] (the hazards'
-  multi-turn swings and the spinners are later work).
+  multi-turn swings are later work; the spinners are `spin`, "Continuous spinners").
 - **Defaults** are today's behaviour: `easing: linear`, `bodies: ignore`, `carry: false` (a vertical linear door keeps
   its existing carry), no auto-close.
 - **The stored pose is the closed pose.** `x/y/z_offsets` (and the BLV vertex array) hold every vertex closed; with
@@ -361,6 +361,52 @@ ladder leans takes its bottom and top from the rung faces, as Drangheim's `conve
   record in the scene (`build.py`). A trap's or hatch's mover is not solid in the voxel pass, so its pit's air floods
   from the corridor; `rect_portals` in `overrides.yml` cut the pit off as a room at the floor plane.
 - **`survey.py`** suggests `rotate` for `RotatingDoor` instead of `rise`/`nudge`.
+
+## Continuous spinners (2026-11-06)
+
+MM9's `RotatingBrush` (15 objects: Training Hall's horse wheels d2w1-4/d4w1-4, 1000 Terrors' ElevatorGear1/2, Dungeon
+of Secrets' saw8a/b and saw9, Ruined Temple's RopeWheel, Verhoffin's SawBlade1): a model turning about one axis
+through its `Pos`, one turn per `<Axis>AxisRevTime` seconds, ramping over `<Axis>AxisSpinUpTime` / `SpinDownTime`,
+`<Axis>RotateForward` its sense, `StartOn` (0 for all), switched by On / Off / Toggle / Reverse messages. All but the
+winch are `AttachTo` another mover: they ride it.
+
+**Data.** A door's `mover` block may carry `spin` (on a linear door, a rotating one, or a door of no travel):
+
+```yaml
+mover:
+  spin:
+    pivot: [1474.6, -2068.5, 102.4]   # native, a point on the spin axis in the stored pose (the BLV's vertices)
+    axis: [0.0, 0.0, 1.0]             # unit; positive turns right-handed
+    degrees_per_second: 1440.0
+    spin_up_seconds: 1.0              # from stopped to full speed (0: at once)
+    spin_down_seconds: 4.0
+    start_on: false
+```
+
+The loader refuses a spin whose axis is not a unit vector, whose speed is not above zero or whose ramps are
+negative, and a spinning mover that is not rigid (as a rotating one).
+
+**Runtime.** `RuntimeMechanismState` keeps `spinDegrees`, `spinRate` (a signed share of full speed), `spinOn`,
+`spinDirection` and `spinSet` (saved, save version 161; `spinOn` takes `start_on` when the map first runs).
+`IndoorSceneRuntime::advanceMoverSpins` ramps the rate toward the target (`indoorMoverSpinRateStep`: up at the
+spin-up pace, down at the spin-down pace, a reversal stops first) and turns the angle every mechanism step.
+`evt.SpinMover(door, "on" | "off" | "toggle" | "reverse")` switches it. The pose: `indoorRotatingMoverMotion(...,
+spinDegrees)` turns the stored offsets about the pivot (moved into the offsets' frame by a linear door's full travel)
+before the door's own swing or linear travel carries them, so a saw spins on its moving rail; every pose caller passes
+the mechanism's angle (renderer, collision caches, movement controller, mover body rules). A spinner counts as moving
+while its rate is not zero (`mechanismFacesMoving`), and its turning does not refresh the monsters' path map. Its
+faces keep their stored texels and are never baked (`indoorMoverFaceBakeable`): the stored-pose light would turn with
+them. Not carried: MM9's spin sounds (SpinUp/Busy/SpinDownSound) and DamagePerSecond.
+
+**Converter.** `dungeon/movers.py` `spin_block`: a `RotatingBrush` mover gets the spin from its own properties (the
+native frame mirrors LithTech's, so `RotateForward 1` is a negative native turn) and the motion of its `AttachTo`
+parent (rule `motion_from` names another); motion `spin` is a spinner of no travel. The maps send MM9's messages:
+Training Hall's lever (Trigger2 on + reverse, Trigger3 reverse + on, TriggerHorseGo off when the horse arrives; the
+second horse's wheels get on and off in the same moment in MM9 and never turn), 1000 Terrors' lift levers (the gears
+ride the lift and turn while it moves), Dungeon of Secrets' dispatcher (`saw` targets), Verhoffin's blade (on as it
+comes out, off once the arm is back) and the Ruined Temple's winch (reverse + on as the prison gate opens,
+SunTemplePrison.scr). Tests: `tests/IndoorMoversTests.cpp` "spinning mover: ..."; the scenario assert `mechanism`
+takes `spinning` and `spin_rate_min` (`mm9r_traininghall/scenario_spin.yml`).
 
 ## Monsters and doors (a later step)
 

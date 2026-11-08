@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/Localization.h"
 #include "game/party/Party.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include <algorithm>
@@ -118,28 +119,43 @@ struct GameplayBuffHudDefinition
 // Invisibility draws no badge: the party portraits show it.
 // Flight and Water Walk retain separate animated indicators. Special is reserved for future modifiers.
 inline constexpr std::array<GameplayBuffHudDefinition, PartyBuffCount> GameplayBuffHudDefinitions = {{
-    {"Torch Light", "obsidian_buff_sbf01a", GameplayBuffPresentation::Skull, &GameplayBuffHudTorch},
-    {"Wizard Eye", "obsidian_buff_sba01a", GameplayBuffPresentation::Skull, &GameplayBuffHudNearEye},
-    {"Feather Fall", "obsidian_buff_sba02a", GameplayBuffPresentation::Skull, &GameplayBuffHudClouds},
-    {"Detect Life", "obsidian_buff_sbs01a", GameplayBuffPresentation::Skull, &GameplayBuffHudFarEye},
-    {"Water Walk", "obsidian_buff_sbw05a", GameplayBuffPresentation::Movement},
-    {"Fly", "obsidian_buff_sba10a", GameplayBuffPresentation::Movement},
-    {"Invisibility", "obsidian_buff_sba08a", GameplayBuffPresentation::Skull, nullptr, 0, 0, false},
-    {"Stoneskin", "obsidian_buff_sbe05a", GameplayBuffPresentation::Skull, &GameplayBuffHudStone},
-    {"Day of the Gods", "obsidian_buff_sbl06a", GameplayBuffPresentation::Skull, &GameplayBuffHudHalo},
-    {"Protection from Magic", "obsidian_buff_sbb09a", GameplayBuffPresentation::Skull, &GameplayBuffHudGarland},
-    {"Fire Resistance", "obsidian_buff_sbf03a", GameplayBuffPresentation::Hero, &GameplayBuffHudFireResistance},
-    {"Water Resistance", "obsidian_buff_sbw03a", GameplayBuffPresentation::Hero, &GameplayBuffHudWaterResistance},
-    {"Air Resistance", "obsidian_buff_sba03a", GameplayBuffPresentation::Hero, &GameplayBuffHudAirResistance},
-    {"Earth Resistance", "obsidian_buff_sbe03a", GameplayBuffPresentation::Hero, &GameplayBuffHudEarthResistance},
-    {"Mind Resistance", "obsidian_buff_sbm03a", GameplayBuffPresentation::Hero, &GameplayBuffHudMindResistance},
-    {"Body Resistance", "obsidian_buff_sbb03a", GameplayBuffPresentation::Hero, &GameplayBuffHudBodyResistance},
-    {"Shield", "obsidian_buff_sba06a", GameplayBuffPresentation::Hero, &GameplayBuffHudShield},
-    {"Heroism", "obsidian_buff_sbs07a", GameplayBuffPresentation::Hero, &GameplayBuffHudSword},
-    {"Haste", "obsidian_buff_sbf05a", GameplayBuffPresentation::Hero, &GameplayBuffHudWings},
-    {"Immolation", "obsidian_buff_sbf08a", GameplayBuffPresentation::Hero, &GameplayBuffHudFlames},
-    {"Glamour", "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
-    {"Levitate", "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement}
+    {Engine::trNoop("Torch Light").data(),
+        "obsidian_buff_sbf01a", GameplayBuffPresentation::Skull, &GameplayBuffHudTorch},
+    {Engine::trNoop("Wizard Eye").data(),
+        "obsidian_buff_sba01a", GameplayBuffPresentation::Skull, &GameplayBuffHudNearEye},
+    {Engine::trNoop("Feather Fall").data(),
+        "obsidian_buff_sba02a", GameplayBuffPresentation::Skull, &GameplayBuffHudClouds},
+    {Engine::trNoop("Detect Life").data(),
+        "obsidian_buff_sbs01a", GameplayBuffPresentation::Skull, &GameplayBuffHudFarEye},
+    {Engine::trNoop("Water Walk").data(), "obsidian_buff_sbw05a", GameplayBuffPresentation::Movement},
+    {Engine::trNoop("Fly").data(), "obsidian_buff_sba10a", GameplayBuffPresentation::Movement},
+    {Engine::trNoop("Invisibility").data(),
+        "obsidian_buff_sba08a", GameplayBuffPresentation::Skull, nullptr, 0, 0, false},
+    {Engine::trNoop("Stoneskin").data(),
+        "obsidian_buff_sbe05a", GameplayBuffPresentation::Skull, &GameplayBuffHudStone},
+    {Engine::trNoop("Day of the Gods").data(),
+        "obsidian_buff_sbl06a", GameplayBuffPresentation::Skull, &GameplayBuffHudHalo},
+    {Engine::trNoop("Protection from Magic").data(),
+        "obsidian_buff_sbb09a", GameplayBuffPresentation::Skull, &GameplayBuffHudGarland},
+    {Engine::trNoop("Fire Resistance").data(),
+        "obsidian_buff_sbf03a", GameplayBuffPresentation::Hero, &GameplayBuffHudFireResistance},
+    {Engine::trNoop("Water Resistance").data(),
+        "obsidian_buff_sbw03a", GameplayBuffPresentation::Hero, &GameplayBuffHudWaterResistance},
+    {Engine::trNoop("Air Resistance").data(),
+        "obsidian_buff_sba03a", GameplayBuffPresentation::Hero, &GameplayBuffHudAirResistance},
+    {Engine::trNoop("Earth Resistance").data(),
+        "obsidian_buff_sbe03a", GameplayBuffPresentation::Hero, &GameplayBuffHudEarthResistance},
+    {Engine::trNoop("Mind Resistance").data(),
+        "obsidian_buff_sbm03a", GameplayBuffPresentation::Hero, &GameplayBuffHudMindResistance},
+    {Engine::trNoop("Body Resistance").data(),
+        "obsidian_buff_sbb03a", GameplayBuffPresentation::Hero, &GameplayBuffHudBodyResistance},
+    {Engine::trNoop("Shield").data(), "obsidian_buff_sba06a", GameplayBuffPresentation::Hero, &GameplayBuffHudShield},
+    {Engine::trNoop("Heroism").data(), "obsidian_buff_sbs07a", GameplayBuffPresentation::Hero, &GameplayBuffHudSword},
+    {Engine::trNoop("Haste").data(), "obsidian_buff_sbf05a", GameplayBuffPresentation::Hero, &GameplayBuffHudWings},
+    {Engine::trNoop("Immolation").data(),
+        "obsidian_buff_sbf08a", GameplayBuffPresentation::Hero, &GameplayBuffHudFlames},
+    {Engine::trNoop("Glamour").data(), "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
+    {Engine::trNoop("Levitate").data(), "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement}
 }};
 
 inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentation)

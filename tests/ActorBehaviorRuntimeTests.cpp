@@ -1075,6 +1075,31 @@ TEST_CASE("actor behaviour runtime leaves actors without a turret scan untouched
     CHECK_FALSE(state.hasAimTarget);
 }
 
+TEST_CASE("actor behaviour effects: at the actor (height, forward along its facing) and at a point")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:effect("mm9:dragon_smoke", 1.0, 0.5, 300)
+                self:effectAt("mm9:fireblue", 10, 20, 30, 2)
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    ActorBehaviorActorFacts actor = makeActor(100);
+    actor.yawRadians = 1.5707964f;
+
+    const ActorBehaviorFrameResult result = runtime.update(makeFrame(actor));
+    REQUIRE_EQ(result.effects.size(), 2u);
+    CHECK_EQ(result.effects[0].position.x, doctest::Approx(1000.0f).epsilon(0.001));
+    CHECK_EQ(result.effects[0].position.y, doctest::Approx(300.0f));
+    CHECK_EQ(result.effects[0].position.z, doctest::Approx(100.0f));
+    CHECK_EQ(result.effects[1].effectId, "mm9:fireblue");
+    CHECK_EQ(result.effects[1].position.z, doctest::Approx(30.0f));
+    CHECK_EQ(result.effects[1].scale, doctest::Approx(2.0f));
+}
+
 TEST_CASE("actor behaviour commands: blink, shield, leave, speed, invulnerability and QBit queries")
 {
     const ActorBehaviorCatalog catalog = makeCatalog(R"(

@@ -2,6 +2,7 @@
 
 #include "game/tables/ClassSkillTable.h"
 
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -40,15 +41,8 @@ struct SkillMasteryTrainingRequest
     SkillMastery targetMastery = SkillMastery::None;
     uint32_t requiredGold = 0;
     uint32_t requiredSkill = 0;
-};
-
-struct SkillMasteryGroupTrainingRequest
-{
-    std::string displayName;
-    std::vector<std::string> skillNames;
-    SkillMastery targetMastery = SkillMastery::None;
-    uint32_t requiredGold = 0;
-    uint32_t requiredSkill = 0;
+    // False approves a lesson the party cannot pay for yet (the MM9 trainer marker).
+    bool checkGold = true;
 };
 
 std::optional<MasteryTeacherTopicDefinition> resolveMasteryTeacherTopic(
@@ -61,28 +55,19 @@ bool isMasteryTeacherTopic(
     uint32_t topicId,
     const MergedTeacherTopicTable *pTeacherTopicTable
 );
+// The lesson for one party member (the house and MM6-MM8 teachers pass the active member; an MM9 trainer lists
+// every member).
 std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
     const SkillMasteryTrainingRequest &request,
     const Party &party,
+    size_t memberIndex,
     const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable
 );
 bool applySkillMasteryTraining(
     const SkillMasteryTrainingRequest &request,
     Party &party,
-    const ClassSkillTable &classSkillTable,
-    const NpcDialogTable &npcDialogTable,
-    std::string &message
-);
-std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryGroupTraining(
-    const SkillMasteryGroupTrainingRequest &request,
-    const Party &party,
-    const ClassSkillTable &classSkillTable,
-    const NpcDialogTable &npcDialogTable
-);
-bool applySkillMasteryGroupTraining(
-    const SkillMasteryGroupTrainingRequest &request,
-    Party &party,
+    size_t memberIndex,
     const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable,
     std::string &message

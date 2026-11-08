@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayWorldItemPolicy.h"
+#include "engine/Localization.h"
 
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemGenerator.h"
@@ -105,8 +106,8 @@ bool applyWorldItemPolicyActions(
 std::string formatWorldItemPickupStatusText(const InventoryItem &item, const ItemTable &itemTable)
 {
     const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
-    const std::string itemName = pDefinition != nullptr ? ItemRuntime::foundItemName(*pDefinition) : "item";
-    return "You found an item (" + itemName + ")!";
+    const std::string itemName = pDefinition != nullptr ? ItemRuntime::foundItemName(*pDefinition) : Engine::tr("item");
+    return Engine::tr("You found an item ({item})!", {{"item", itemName}});
 }
 
 std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem &item, const ItemTable *pItemTable)

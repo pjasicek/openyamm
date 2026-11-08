@@ -39,7 +39,26 @@ one true region (water fog) waits for diving. What it would need: one per-frame 
 (`indoorFogAt` with `skyNightAmount`: the sun from 1 degree above to 7 below the horizon, about 21:00-21:40). MM9's
 WeatherMan with `TurnOffAtNight 1` switches its FogOn state (by day) to its FogOff state at night: Thjorgard City grey
 `Fog0` by day, black `Fog1` at night (Drangheim City the same). Other switching (weather sequences, scripted `FogOn`)
-would be a Lua call changing the same values; no map needs it yet.
+is a Lua call changing the same values ("Fog from Lua" below).
+
+## Fog from Lua (2026-11-06)
+
+`evt.SetFog(r, g, b, near, far [, seconds [, sky]])` replaces the fog an indoor map draws (its scene fog, its night
+mix, or an outdoor view's haze) with a script's: colour 0..255, distances native from the eye, `sky` 0..1 of an open
+sky in the fog colour; it fades in from the fog shown over `seconds` (real time). `evt.ClearFog([seconds])` fades back
+to the scene's. The state is `EventRuntimeState::scriptedFog` (each call raises its revision), not saved: the map's Lua
+sets it again on load. `IndoorRenderer::applyScriptedFog` mixes it in each frame (`indoorFogBlend`: colours, distances
+and sky cover; a disabled end counts as the other's colour out of sight); under water a volume's fog still wins. It
+needs the fog programs, so it shows on a map with a scene fog, an outdoor view or a water volume's fog; elsewhere the
+call is kept and nothing is drawn. Outdoor (ODM) maps have their own `evt.SetOutdoorFog`.
+
+MM9 user: the WeatherMan a touch Trigger switches (Frosgard's pass, Trigger1-4: On fades to the thick Fog0 in 1 s,
+Off to Fog1, whose fog begins past its far clip, so clear, in 8 s). `dungeon/objects.py` `weather_triggers` /
+`weather_lines` (every converted map, a 4 Hz poll, event 905; map variable `Weather<index>`, set again without the
+fade on load); `fog_state_lua` writes a Fog state as `evt.SetFog` (sky 1 when its SkyFogNearZ is inside the sky box)
+or `evt.ClearFog`. The other WeatherMen either start on (the scene fog and its `night`) or are switched by nothing in
+the DAT (Thronheim City's Clear/Foggy, Lindisfarne's and the monastery's). Tests: `tests/IndoorFogTests.cpp` "a
+script's fog fades in ..."; `mm9r_frosgard_blv/scenario_fog.yml` (the `scripted_fog` assert).
 
 ## MM9's fog model (`model: lithtech`, opt-in)
 

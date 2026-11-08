@@ -1,4 +1,5 @@
 #include "game/ui/GameplayBuffHud.h"
+#include "engine/Localization.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SkillData.h"
@@ -10,11 +11,18 @@
 namespace OpenYAMM::Game
 {
 const std::array<const char *, CharacterBuffCount> GameplayPersonalBuffNames = {{
-    "Bless", "Fate", "Preservation", "Regeneration", "Hammerhands", "Pain Reflection",
-    "Fire Aura", "Vampiric Weapon", "Mistform", "Glamour", "Haste", "Heroism", "Shield", "Stoneskin",
-    "Water Breathing", "Temp Might", "Temp Intellect", "Temp Personality", "Temp Endurance", "Temp Speed",
-    "Temp Accuracy", "Temp Luck", "Fire Resistance", "Air Resistance", "Water Resistance", "Earth Resistance",
-    "Mind Resistance", "Body Resistance"
+    Engine::trNoop("Bless").data(), Engine::trNoop("Fate").data(), Engine::trNoop("Preservation").data(),
+    Engine::trNoop("Regeneration").data(), Engine::trNoop("Hammerhands").data(),
+    Engine::trNoop("Pain Reflection").data(), Engine::trNoop("Fire Aura").data(),
+    Engine::trNoop("Vampiric Weapon").data(), Engine::trNoop("Mistform").data(), Engine::trNoop("Glamour").data(),
+    Engine::trNoop("Haste").data(), Engine::trNoop("Heroism").data(), Engine::trNoop("Shield").data(),
+    Engine::trNoop("Stoneskin").data(), Engine::trNoop("Water Breathing").data(), Engine::trNoop("Temp Might").data(),
+    Engine::trNoop("Temp Intellect").data(), Engine::trNoop("Temp Personality").data(),
+    Engine::trNoop("Temp Endurance").data(), Engine::trNoop("Temp Speed").data(),
+    Engine::trNoop("Temp Accuracy").data(), Engine::trNoop("Temp Luck").data(),
+    Engine::trNoop("Fire Resistance").data(), Engine::trNoop("Air Resistance").data(),
+    Engine::trNoop("Water Resistance").data(), Engine::trNoop("Earth Resistance").data(),
+    Engine::trNoop("Mind Resistance").data(), Engine::trNoop("Body Resistance").data()
 }};
 
 std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
@@ -28,8 +36,9 @@ std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
     for (const uint32_t spellId : rules.heldAurasWithoutBuffSlot(party))
     {
         const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(int(spellId)) : nullptr;
-        lines.push_back({pSpell != nullptr ? rules.spellName(member, *pSpell) : "Aura",
-            rules.heldBuffText(party, spellId).value_or("Held")});
+        lines.push_back({pSpell != nullptr ? Engine::localize(rules.spellName(member, *pSpell), "spell")
+                                    : Engine::tr("Aura"),
+            rules.heldBuffText(party, spellId).value_or(Engine::tr("Held"))});
     }
 
     return lines;
@@ -37,11 +46,15 @@ std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
 
 std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character &member, const SpellTable *pSpellTable)
 {
-    static constexpr std::array<const char *, size_t(CharacterCondition::Count)> ConditionNames = {
-        "Curse", "Weakness", "Sleep", "Fear", "Drunkenness", "Insanity", "Poison", "Disease", "Poison", "Disease",
-        "Poison", "Disease", "Paralysis", "Unconsciousness", "Death", "Stone", "Eradication", "Zombie",
+    static constexpr std::array<std::string_view, size_t(CharacterCondition::Count)> ConditionNames = {
+        Engine::trNoop("Curse"), Engine::trNoop("Weakness"), Engine::trNoop("Sleep"), Engine::trNoop("Fear"),
+        Engine::trNoop("Drunkenness"), Engine::trNoop("Insanity"), Engine::trNoop("Poison"),
+        Engine::trNoop("Disease"), Engine::trNoop("Poison"), Engine::trNoop("Disease"), Engine::trNoop("Poison"),
+        Engine::trNoop("Disease"), Engine::trNoop("Paralysis"), Engine::trNoop("Unconsciousness"),
+        Engine::trNoop("Death"), Engine::trNoop("Stone"), Engine::trNoop("Eradication"), Engine::trNoop("Zombie"),
     };
     std::vector<GameplayPotionEffectLine> lines;
+    std::vector<std::string_view> immuneNames;
     std::string immunities;
     float immunitySeconds = 0;
 
@@ -57,9 +70,12 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
             case TimedPotionEffect::Kind::Immunity:
                 // Poison and disease stages read as one immunity each.
                 if (effect.key < ConditionNames.size()
-                    && immunities.find(ConditionNames[effect.key]) == std::string::npos)
+                    && std::find(immuneNames.begin(), immuneNames.end(), ConditionNames[effect.key])
+                        == immuneNames.end())
                 {
-                    immunities += (immunities.empty() ? "" : ", ") + std::string(ConditionNames[effect.key]);
+                    immuneNames.push_back(ConditionNames[effect.key]);
+                    immunities += (immunities.empty() ? "" : Engine::tr(", "))
+                        + Engine::localize(ConditionNames[effect.key], "condition");
                 }
 
                 immunitySeconds = std::max(immunitySeconds, effect.remainingSeconds);
@@ -67,26 +83,31 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
             case TimedPotionEffect::Kind::Aura:
             {
                 const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(int(effect.key)) : nullptr;
-                lines.push_back({(pSpell != nullptr ? pSpell->name : std::string("Aura")) + " (potion)",
+                const std::string effectName =
+                    pSpell != nullptr ? Engine::localize(pSpell->name, "spell") : Engine::tr("Aura");
+                lines.push_back({Engine::tr("{effect} (potion)", {{"effect", effectName}}),
                     effect.remainingSeconds});
                 break;
             }
             case TimedPotionEffect::Kind::SkillBonus:
             {
                 const std::optional<std::string> skill = skillNameForSkillId(effect.key);
-                lines.push_back({(skill ? displaySkillName(*skill) : std::string("Skill")) + " +"
-                    + std::to_string(effect.amount) + " (potion)", effect.remainingSeconds});
+                const std::string skillName =
+                    skill ? Engine::localize(displaySkillName(*skill), "skill") : Engine::tr("Skill");
+                lines.push_back({Engine::tr("{skill} +{amount} (potion)",
+                                     {{"skill", skillName}, {"amount", int64_t(effect.amount)}}),
+                    effect.remainingSeconds});
                 break;
             }
             case TimedPotionEffect::Kind::Regeneration:
-                lines.push_back({"Regeneration (potion)", effect.remainingSeconds});
+                lines.push_back({Engine::tr("Regeneration (potion)"), effect.remainingSeconds});
                 break;
         }
     }
 
     if (!immunities.empty())
     {
-        lines.push_back({"Immune to " + immunities, immunitySeconds});
+        lines.push_back({Engine::tr("Immune to {conditions}", {{"conditions", immunities}}), immunitySeconds});
     }
 
     return lines;

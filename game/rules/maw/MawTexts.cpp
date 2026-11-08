@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawTexts.h"
+#include "engine/Localization.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -16,6 +17,8 @@ namespace
 {
 constexpr std::array<const char *, 4> MasteryKeys = {"normal", "expert", "master", "grandmaster"};
 
+// Descriptions and mastery lines are read in the interface language, before the rules fill their {placeholders};
+// names stay English: the rules compare them with the spell table's (devdocs/LOCALIZATION.md).
 MawSpellTextEntry parseEntry(const YAML::Node &node)
 {
     MawSpellTextEntry entry;
@@ -27,14 +30,14 @@ MawSpellTextEntry parseEntry(const YAML::Node &node)
 
     if (node["description"])
     {
-        entry.description = node["description"].as<std::string>();
+        entry.description = Engine::localize(node["description"].as<std::string>());
     }
 
     for (size_t mastery = 0; mastery < MasteryKeys.size(); ++mastery)
     {
         if (node[MasteryKeys[mastery]])
         {
-            entry.masteryLines[mastery] = node[MasteryKeys[mastery]].as<std::string>();
+            entry.masteryLines[mastery] = Engine::localize(node[MasteryKeys[mastery]].as<std::string>());
         }
     }
 
@@ -47,19 +50,19 @@ MawSkillTextEntry parseSkillEntry(const YAML::Node &node)
 
     if (node["description"])
     {
-        entry.description = node["description"].as<std::string>();
+        entry.description = Engine::localize(node["description"].as<std::string>());
     }
 
     if (node["append"])
     {
-        entry.append = node["append"].as<std::string>();
+        entry.append = Engine::localize(node["append"].as<std::string>());
     }
 
     for (size_t mastery = 0; mastery < MasteryKeys.size(); ++mastery)
     {
         if (node[MasteryKeys[mastery]])
         {
-            entry.masteryLines[mastery] = node[MasteryKeys[mastery]].as<std::string>();
+            entry.masteryLines[mastery] = Engine::localize(node[MasteryKeys[mastery]].as<std::string>());
         }
     }
 
@@ -156,11 +159,11 @@ bool MawTextData::loadFromYaml(const std::string &text, std::string &errorMessag
 
             if (!key.empty() && std::all_of(key.begin(), key.end(), [](char c) { return c >= '0' && c <= '9'; }))
             {
-                m_items[uint32_t(std::stoul(key))] = item.second.as<std::string>();
+                m_items[uint32_t(std::stoul(key))] = Engine::localize(item.second.as<std::string>());
             }
             else
             {
-                m_itemKinds[key] = item.second.as<std::string>();
+                m_itemKinds[key] = Engine::localize(item.second.as<std::string>());
             }
         }
 

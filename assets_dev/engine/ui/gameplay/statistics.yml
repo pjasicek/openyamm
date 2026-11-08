@@ -1,0 +1,75 @@
+# The Statistics page of the Quick Reference overlay (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md,
+# level_generation/ui/playthrough_stats_20261107/). GameplayStatisticsScreen draws the groups, the party table and the
+# held right-click breakdowns in the root's units; this file places the root and the buttons.
+screen: Statistics
+elements:
+- id: StatisticsRoot
+  anchor: center
+  width: 640
+  height: 480
+  z_index: 440
+  visible: true
+  scale:
+    min: 1.0
+    max: 8.0
+  children:
+  - id: StatisticsOverviewButton
+    anchor: top_left
+    offset_x: 18
+    offset_y: 324.266667
+    width: 82.666667
+    height: 28.266667
+    z_index: 20
+    interactive: true
+    asset:
+      default: obsidian_button_quick_exit_normal
+      highlighted: obsidian_button_quick_exit_hover
+      pressed: obsidian_button_quick_exit_pressed
+      selected: obsidian_button_quick_exit_selected
+    text:
+      value: Overview
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: StatisticsPartyButton
+    anchor: top_left
+    offset_x: 106
+    offset_y: 324.266667
+    width: 82.666667
+    height: 28.266667
+    z_index: 20
+    interactive: true
+    asset:
+      default: obsidian_button_quick_exit_normal
+      highlighted: obsidian_button_quick_exit_hover
+      pressed: obsidian_button_quick_exit_pressed
+      selected: obsidian_button_quick_exit_selected
+    text:
+      value: Party
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: StatisticsExitButton
+    anchor: top_left
+    offset_x: 539.333333
+    offset_y: 324.266667
+    width: 82.666667
+    height: 28.266667
+    z_index: 20
+    interactive: true
+    asset:
+      default: obsidian_button_quick_exit_normal
+      highlighted: obsidian_button_quick_exit_hover
+      pressed: obsidian_button_quick_exit_pressed
+      selected: obsidian_button_quick_exit_selected
+    text:
+      value: Exit
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667

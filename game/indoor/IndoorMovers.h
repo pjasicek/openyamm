@@ -34,13 +34,21 @@ IndoorRigidMotion composeIndoorRigidMotions(const IndoorRigidMotion &second, con
 float indoorMoverEase(IndoorMoverEasing easing, float fraction);
 // How open the door is at `distance` (0 closed, 1 open; distance runs from move_length closed to 0 open), eased.
 float indoorMoverOpenFraction(const MapDeltaDoor &door, const IndoorMoverDefinition *pMover, float distance);
-// The motion of a rotating mover from its stored (closed) pose to its pose at `distance`; nullopt for a door without
-// a rotation.
+// A turn of `degrees` about the axis through `pivot`.
+IndoorRigidMotion indoorAxisRotationMotion(const std::array<float, 3> &pivot, const std::array<float, 3> &axis,
+    float degrees);
+// The motion of a rotating or spinning mover from its stored offsets to its pose at `distance` (and `spinDegrees`
+// into its spin, which turns first; the door's swing or linear travel carries the spun pose); nullopt for a door
+// without a rotation or a spin, whose pose is the linear formula.
 std::optional<IndoorRigidMotion> indoorRotatingMoverMotion(
     const MapDeltaDoor &door,
     const IndoorMoverDefinition *pMover,
     float distance,
-    int8_t rotationDirection);
+    int8_t rotationDirection,
+    float spinDegrees = 0.0f);
+// A spinner's speed (a signed share of full speed) after `seconds` heading for `targetRate` (-1, 0 or 1): up at the
+// spin-up pace, down at the spin-down pace; a reversal stops first.
+float indoorMoverSpinRateStep(const IndoorMoverSpin &spin, float rate, float targetRate, float seconds);
 // A rotating mover's vertices at `distance`: each stored vertex (the door's offsets) moved by the motion, rounded.
 void applyIndoorRotatingMoverToVertices(
     const MapDeltaDoor &door,
@@ -71,6 +79,18 @@ float indoorBodyAxisPolygonDistance(
     bx::Vec3 *pClosestOnAxis = nullptr,
     bx::Vec3 *pClosestOnPolygon = nullptr);
 bool indoorBodyTouchesPolygon(const IndoorMoverBody &body, std::span<const bx::Vec3> polygon);
+// Whether a mover face moving from `previous` to `current` comes toward the body and within its radius.
+bool indoorMoverFaceApproachesBody(
+    const IndoorMoverBody &body,
+    std::span<const bx::Vec3> previous,
+    std::span<const bx::Vec3> current);
+// Whether that face stops a mover that holds or reverses on bodies. A face that lay wholly beneath the body's feet is
+// the floor it stands on (a lift, a pressure plate rising again): the mechanism support movement carries the body. A
+// face whose back the body is behind moves the solid away from it (faces wind as BLV faces, normals outward).
+bool indoorMoverFaceBlocksBody(
+    const IndoorMoverBody &body,
+    std::span<const bx::Vec3> previous,
+    std::span<const bx::Vec3> current);
 // The move that takes the body clear of the polygon (zero when it does not touch it). `sideHint` points to the side
 // of the polygon the body came from; it decides the direction when the polygon cuts through the body's axis.
 bx::Vec3 indoorBodyPolygonClearance(

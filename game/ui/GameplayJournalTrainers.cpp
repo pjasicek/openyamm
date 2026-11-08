@@ -1,5 +1,7 @@
 #include "game/ui/GameplayJournalTrainers.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
@@ -58,8 +60,15 @@ constexpr uint32_t SealGold = abgr(0xe0b860);
 constexpr uint32_t SealRim = abgr(0x2b200c);
 // The party creation screen's mastery colours: white Expert, turquoise Master, gold Grand Master.
 constexpr std::array<uint32_t, 3> MasteryColours = {0xffe2ecf0u, 0xffccd88fu, 0xff4cc9f2u};
-constexpr std::array<const char *, 3> MasteryNames = {"Expert", "Master", "Grand Master"};
-constexpr std::array<const char *, 3> MasteryLetters = {"E", "M", "G"};
+constexpr std::array<std::string_view, 3> MasteryNames = {Engine::trNoop("Expert"), Engine::trNoop("Master"),
+    Engine::trNoop("Grand Master")};
+
+// The mastery toggles' letters.
+std::string masteryLetter(size_t index)
+{
+    return index == 0 ? Engine::trc("mastery letter", "E")
+        : index == 1 ? Engine::trc("mastery letter", "M") : Engine::trc("mastery letter", "G");
+}
 
 constexpr char BodyFont[] = "AUTONOTE";
 constexpr char LabelFont[] = "Create";
@@ -118,10 +127,10 @@ Rect pageRect(const GameplayResolvedHudLayoutElement &page, float x, float y, fl
     return {page.x + x * page.scale, page.y + y * page.scale, width * page.scale, height * page.scale};
 }
 
-std::string lowerCopy(std::string text)
+// The search matches the shown (translated) text, so it lowers every letter, not only ASCII ones.
+std::string lowerCopy(const std::string &text)
 {
-    std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return char(std::tolower(c)); });
-    return text;
+    return Engine::Utf8::lower(text);
 }
 
 std::vector<std::string> searchWords(const std::string &search)
@@ -212,15 +221,23 @@ std::string trainerTown(const TrainerEntry &entry)
 {
     if (entry.place && entry.place->kind == TrainerPlaceKind::Door && !entry.markerMapName.empty())
     {
-        return entry.markerMapName;
+        return Engine::localize(entry.markerMapName);
     }
 
-    return entry.mapName;
+    return Engine::localize(entry.mapName);
 }
 
 std::string trainerHouse(const TrainerEntry &entry)
 {
-    return entry.houseName.empty() ? entry.name + "'s home" : entry.houseName;
+    return entry.houseName.empty() ? Engine::tr("{name}'s home", {{"name", Engine::localize(entry.name)}})
+                                   : Engine::localize(entry.houseName);
+}
+
+// The house and the map it stands on, as the list shows them.
+std::string trainerPlace(const TrainerEntry &entry)
+{
+    const std::string map = Engine::localize(entry.mapName);
+    return entry.houseName.empty() ? map : Engine::localize(entry.houseName) + ", " + map;
 }
 
 // What the teacher asks: the skill level, the price (the ruleset's, for the active member) and the mastery before.
@@ -236,16 +253,17 @@ std::string requirementText(const Party &party, const TrainerEntry &entry)
         price = skills.masteryTeacherCost(*pMember, entry.skill, entry.mastery, price);
     }
 
-    std::string text = "skill " + std::to_string(level);
+    std::string text = Engine::tr("skill {level}", {{"level", level}});
 
     if (price > 0)
     {
-        text += ", " + std::to_string(price) + " gold";
+        text += ", " + Engine::tr("{price} gold", {{"price", price}});
     }
 
     if (entry.mastery > SkillMastery::Expert)
     {
-        text += std::string(", ") + MasteryNames[masteryIndex(entry.mastery) - 1] + " first";
+        text += ", "
+            + Engine::tr("{mastery} first", {{"mastery", Engine::tr(MasteryNames[masteryIndex(entry.mastery) - 1])}});
     }
 
     return text;
@@ -344,7 +362,8 @@ public:
 
         while (result.size() > 1)
         {
-            result.pop_back();
+            // A whole character: shown names may be translated into letters of several bytes.
+            Engine::Utf8::popBack(result);
 
             while (!result.empty() && result.back() == ' ')
             {
@@ -503,13 +522,13 @@ FinderModel buildModel(
 {
     FinderModel model;
     model.continent = shownContinent(context, journal);
-    model.continentName = trainerContinentName(model.continent);
+    model.continentName = Engine::localizeKnown(trainerContinentName(model.continent));
     const Party *pParty = context.partyReadOnly();
 
     if (pParty == nullptr || pParty->trainerDirectory() == nullptr)
     {
         FinderBlock block;
-        block.messageLines = {"The trainer list is not available."};
+        block.messageLines = {Engine::tr("The trainer list is not available.")};
         block.height = RowHeight + 2 * BlockPad;
         model.blocks.push_back(block);
         model.pages = {{0}};
@@ -525,8 +544,9 @@ FinderModel buildModel(
         const std::string &map)
     {
         return (masteryFilter == SkillMastery::None || row.mastery == masteryFilter)
-            && trainerSearchMatches(journal.notesSearch, {row.skillName, MasteryNames[masteryIndex(row.mastery)],
-                masteryDisplayName(row.mastery), row.name, row.town, house, map});
+            && trainerSearchMatches(journal.notesSearch,
+                {row.skillName, Engine::tr(MasteryNames[masteryIndex(row.mastery)]),
+                    Engine::tr(masteryDisplayName(row.mastery)), row.name, row.town, house, map});
     };
 
     std::vector<FinderRow> rows;
@@ -553,12 +573,13 @@ FinderModel buildModel(
                 ++known;
                 FinderRow row;
                 row.pEntry = &entry;
-                row.skillName = displaySkillName(entry.skill);
+                // The search matches what the list shows.
+                row.skillName = Engine::localize(displaySkillName(entry.skill));
                 row.mastery = entry.mastery;
-                row.name = entry.name;
+                row.name = Engine::localize(entry.name);
                 row.town = trainerTown(entry);
 
-                if (matches(row, entry.houseName, entry.mapName))
+                if (matches(row, Engine::localize(entry.houseName), Engine::localize(entry.mapName)))
                 {
                     rows.push_back(std::move(row));
                 }
@@ -572,10 +593,10 @@ FinderModel buildModel(
         for (size_t index = 0; index < levels.size(); ++index)
         {
             FinderRow row;
-            row.skillName = displaySkillName(skill);
+            row.skillName = Engine::localize(displaySkillName(skill));
             row.mastery = SkillMastery(int(SkillMastery::Expert) + int(index));
-            row.name = "learned at skill " + std::to_string(levels[index]);
-            row.town = "no trainer";
+            row.name = Engine::tr("learned at skill {level}", {{"level", levels[index]}});
+            row.town = Engine::tr("no trainer");
 
             if (matches(row, {}, {}))
             {
@@ -621,16 +642,17 @@ FinderModel buildModel(
     if (rows.empty())
     {
         addMessage(!words.empty() || masteryFilter != SkillMastery::None
-                ? "No trainer you know on " + model.continentName + " matches."
-                : "You have not found any trainer on " + model.continentName + " yet.",
+                ? Engine::tr("No trainer you know on {continent} matches.", {{"continent", model.continentName}})
+                : Engine::tr("You have not found any trainer on {continent} yet.",
+                    {{"continent", model.continentName}}),
             false);
     }
 
     if (!model.ledger)
     {
-        addMessage("You have found " + std::to_string(known) + " of the " + std::to_string(model.trainerRows)
-                + " trainers on " + model.continentName + ". The Ledger of Teachers names them all: ask for it in any "
-                + "tavern on " + model.continentName + ".",
+        addMessage(Engine::tr("You have found {known} of the {count} trainers on {continent}. The Ledger of Teachers "
+                              "names them all: ask for it in any tavern on {continent}.",
+                       {{"known", known}, {"count", model.trainerRows}, {"continent", model.continentName}}),
             true);
     }
 
@@ -699,17 +721,19 @@ size_t clampedPage(const FinderModel &model, size_t page)
 
 std::string statusForMap(const TrainerEntry &entry)
 {
-    std::string place = entry.houseName.empty() ? entry.mapName : entry.houseName + ", " + entry.mapName;
+    const std::string place = trainerPlace(entry);
 
     if (entry.place && entry.place->kind == TrainerPlaceKind::Entrance)
     {
-        return place + " \xB7 inside, through the marked entrance on " + entry.markerMapName;
+        return place + " \xB7 "
+            + Engine::tr("inside, through the marked entrance on {map}",
+                {{"map", Engine::localize(entry.markerMapName)}});
     }
 
     if (entry.place && entry.place->kind == TrainerPlaceKind::Door && !entry.markerMapName.empty()
         && entry.markerMapName != entry.mapName)
     {
-        return place + " \xB7 " + entry.markerMapName;
+        return place + " \xB7 " + Engine::localize(entry.markerMapName);
     }
 
     return place;
@@ -734,16 +758,18 @@ void renderMap(
     const TrainerEntry &entry = *journal.trainerShown;
 
     // The header: the lesson and the teacher, and Close.
-    const std::string lesson = std::string(MasteryNames[masteryIndex(entry.mastery)]) + " "
-        + displaySkillName(entry.skill);
+    const std::string lesson = Engine::tr("{mastery} {skill}",
+        {{"mastery", Engine::tr(MasteryNames[masteryIndex(entry.mastery)])},
+            {"skill", Engine::localize(displaySkillName(entry.skill))}});
     const float headerY = (HeaderHeight - SkillText) / 2;
     const float lessonWidth = paint.text(BodyFont, SkillText, Heading, lesson, ContentLeft + 2, headerY);
     paint.text(BodyFont, SkillText, Ink,
-        paint.fitted(BodyFont, SkillText, " \xB7 " + entry.name, ContentWidth - CloseWidth - lessonWidth - 10),
+        paint.fitted(BodyFont, SkillText, " \xB7 " + Engine::localize(entry.name),
+            ContentWidth - CloseWidth - lessonWidth - 10),
         ContentLeft + 2 + lessonWidth, headerY);
     const Rect close = closeRect(page);
     const bool closeHovered = close.contains(pointerX, pointerY);
-    paint.button(close, "Close", false, closeHovered, closeHovered && leftHeld);
+    paint.button(close, Engine::tr("Close"), false, closeHovered, closeHovered && leftHeld);
 
     // The map, framed as the Map view's.
     const Rect area = mapRect(page);
@@ -796,7 +822,7 @@ void renderMap(
             paint.disc(cx, cy, 4.6f, Marker);
 
             const std::string label = entry.place->kind == TrainerPlaceKind::Entrance
-                ? "Entrance: " + entry.mapName : trainerHouse(entry);
+                ? Engine::tr("Entrance: {map}", {{"map", Engine::localize(entry.mapName)}}) : trainerHouse(entry);
             const float labelWidth = paint.width(LabelFont, LabelText, label) + 10;
             const float labelHeight = LabelText + 6;
             const float labelX = std::clamp(cx - labelWidth / 2, MapLeft + 2, MapLeft + MapSize - labelWidth - 2);
@@ -808,9 +834,9 @@ void renderMap(
     }
     else
     {
-        const std::string place = entry.houseName.empty() ? entry.mapName : entry.houseName + ", " + entry.mapName;
-        paint.text(BodyFont, RowText, Dim, place, MapLeft + MapSize / 2, MapTop + MapSize / 2 - RowText, 1);
-        paint.text(BodyFont, RowText, Dim, "No map of this place yet.", MapLeft + MapSize / 2,
+        paint.text(BodyFont, RowText, Dim, trainerPlace(entry), MapLeft + MapSize / 2, MapTop + MapSize / 2 - RowText,
+            1);
+        paint.text(BodyFont, RowText, Dim, Engine::tr("No map of this place yet."), MapLeft + MapSize / 2,
             MapTop + MapSize / 2 + 2, 1);
     }
 
@@ -1071,7 +1097,8 @@ void renderJournalTrainers(
 
     if (journal.notesSearch.empty() && !journal.notesSearchActive)
     {
-        paint.text(LabelFont, LabelText + 1, Placeholder, "Skill, mastery, trainer or town", searchX + 22, textY);
+        paint.text(LabelFont, LabelText + 1, Placeholder, Engine::tr("Skill, mastery, trainer or town"), searchX + 22,
+            textY);
     }
     else
     {
@@ -1079,12 +1106,12 @@ void renderJournalTrainers(
             journal.notesSearch + (journal.notesSearchActive ? "_" : ""), searchWidth), searchX + 22, textY);
     }
 
-    for (size_t index = 0; index < MasteryLetters.size(); ++index)
+    for (size_t index = 0; index < MasteryNames.size(); ++index)
     {
         const Rect toggle = toggleRect(page, index);
         const bool on = journal.trainerMastery == uint8_t(int(SkillMastery::Expert) + int(index));
         const bool hovered = toggle.contains(pointerX, pointerY);
-        paint.button(toggle, MasteryLetters[index], on, hovered, hovered && leftHeld, MasteryColours[index]);
+        paint.button(toggle, masteryLetter(index), on, hovered, hovered && leftHeld, MasteryColours[index]);
 
         if (on)
         {
@@ -1156,7 +1183,8 @@ void renderJournalTrainers(
 
         const size_t mastery = masteryIndex(row.mastery);
         const float labelY = placed.y + (RowText - LabelText) / 2 + 0.5f;
-        paint.marked(LabelFont, LabelText, MasteryColours[mastery], MasteryNames[mastery], MasteryLeft, labelY, words);
+        paint.marked(LabelFont, LabelText, MasteryColours[mastery], Engine::tr(MasteryNames[mastery]), MasteryLeft,
+            labelY, words);
         const float right = ContentLeft + ContentWidth - 4;
         const std::string town = paint.fitted(LabelFont, LabelText, row.town, 118);
         const float townWidth = paint.width(LabelFont, LabelText, town);
@@ -1171,8 +1199,7 @@ void renderJournalTrainers(
     if (pHovered != nullptr && pParty != nullptr)
     {
         const TrainerEntry &entry = *pHovered->pEntry;
-        status = (entry.houseName.empty() ? entry.mapName : entry.houseName + ", " + entry.mapName) + " \xB7 "
-            + requirementText(*pParty, entry);
+        status = trainerPlace(entry) + " \xB7 " + requirementText(*pParty, entry);
     }
     else
     {
@@ -1184,9 +1211,11 @@ void renderJournalTrainers(
                 [](const FinderRow &row) { return row.pEntry != nullptr; }));
         }
 
-        status = count > 0 ? std::to_string(count) + (count == 1 ? " trainer" : " trainers") + " on "
-                + model.continentName + ". Click one to see where."
-            : "Try another word, or clear the search.";
+        status = count > 0
+            ? Engine::trn("{count} trainer on {continent}. Click one to see where.",
+                "{count} trainers on {continent}. Click one to see where.", count,
+                {{"count", count}, {"continent", model.continentName}})
+            : Engine::tr("Try another word, or clear the search.");
     }
 
     renderStatus(paint, status);

@@ -29,6 +29,9 @@ constexpr uint32_t Mm9RudeUseEventIdBegin = 53000;
 constexpr uint32_t Mm9RudeUseEventIdEnd = 55999;
 constexpr uint32_t Mm9RudeFoundPlayerEventIdBegin = 56000;
 constexpr uint32_t Mm9RudeFoundPlayerEventIdEnd = 58999;
+// The promoters' standing topic (dialogue/promotions.yml): the shared MM9 Lua event (mm9_common.lua) that promotes the
+// eligible members, with the promotion's name in the hook context.
+constexpr uint16_t Mm9PromotionServiceEventId = 49990;
 
 std::optional<uint32_t> mm9QBitForRawQuestKey(int32_t rawKeyId);
 std::optional<int32_t> mm9RawQuestKeyForQBit(uint32_t qbitId);
@@ -79,6 +82,16 @@ struct Mm9RudeSkillTrainerTopic
     uint32_t requiredGold = 0;
 };
 
+// An MM9 promotion quest's standing topic (devdocs/mm9/MM9_RUDE_SCR_INTEGRATION.md "Promotions And Classes"): once the
+// party holds the quest's done key, the promoter's first page offers to promote the members eligible now, without the
+// quest's experience or gold.
+struct Mm9PromotionService
+{
+    std::string promotion;
+    uint32_t rudeId = 0;
+    int32_t doneRawKey = 0;
+};
+
 class Mm9RudeDialogueTable
 {
 public:
@@ -86,6 +99,9 @@ public:
     bool loadDialogueText(const std::string &sourceName, const std::string &text);
     bool loadNpcNamesText(const std::string &sourceName, const std::string &text);
     bool loadTopBlurbsText(const std::string &sourceName, const std::string &text);
+    // dialogue/promotions.yml, after the dialogue rows: the promoters' standing topics, rows MM9's dialogue lacks
+    // (added_rows) and the required keys waived so that every promotion quest is offered without the one before it.
+    bool loadPromotionsText(const std::string &sourceName, const std::string &text);
     void clear();
 
     bool empty() const;
@@ -95,19 +111,20 @@ public:
     std::vector<const Mm9RudeRow *> visibleRows(uint32_t rudeId, int32_t nodeId, const Party &party) const;
     const std::vector<Mm9RudeRow> &rows(uint32_t rudeId) const;
     const Mm9RudeRow *rowByIndex(uint32_t rudeId, size_t rowIndex) const;
+    const Mm9PromotionService *promotionService(uint32_t rudeId) const;
     const std::vector<std::string> &errors() const;
 
 private:
     void addError(const std::string &sourceName, size_t sourceLine, const std::string &message);
 
     std::unordered_map<uint32_t, std::vector<Mm9RudeRow>> m_rowsByRudeId;
+    std::unordered_map<uint32_t, Mm9PromotionService> m_promotionServices;
     std::unordered_map<uint32_t, std::string> m_npcNames;
     std::unordered_map<uint32_t, std::string> m_topBlurbs;
     std::vector<std::string> m_errors;
 };
 
 Mm9RudeSelection selectMm9RudeRow(const Mm9RudeRow &row);
-std::optional<Mm9RudeSkillTrainerTopic> resolveMm9RudeSkillTrainerTopic(const Mm9RudeRow &row);
 bool mm9RudeRowPassesQuestKeys(
     const Mm9RudeRow &row,
     const std::function<bool(uint32_t)> &hasQBit);

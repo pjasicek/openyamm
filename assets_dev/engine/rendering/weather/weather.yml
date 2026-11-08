@@ -13,6 +13,7 @@ month_multipliers:
   snow: [1.8, 1.6, 1.0, 0.4, 0.1, 0.0, 0.0, 0.0, 0.2, 0.6, 1.2, 1.8]
 
 # Per-map chance overrides (map file name), replacing the global chances before the month multiplier.
+# always: rain|snow with peak (0-1) makes that weather never stop (a kind the map can have; it replaces the rolls).
 # rain/snow set the chance; a snow chance only applies to maps bolster_maps.txt lets snow.
 # ash (falling volcanic ash) is the daily chance on that map alone: only maps listed with an ash chance get ash,
 # with or without a bolster_maps.txt row, and it has no month multiplier. No MM6-MM8 map has it.
@@ -25,6 +26,13 @@ maps:
   outb1.odm: {snow: 30}   # Kriegspire: snowfields
   out12.odm: {snow: 25}   # The Land of the Giants
   out08.odm: {rain: 10}   # Ravage Roaming: cracked barren wastes
+  # MM9 open-sky BLVs (scene sky weather): MM9's own Rain and Snow brushes are on all the time (StartOn, no WeatherMan
+  # switches them): Sturmford's covers the whole region (Rate 256, with 13 placed thunder sounds: a standing storm),
+  # Frosgard's its valley (Rate 100) and Frosgard City's 31 its streets (Rate 200). always: that kind every hour at
+  # about this peak (the usual variation round it); no other MM9 map rains or snows in MM9 (the rolls apply there).
+  sturmford.blv: {always: rain, peak: 0.85}
+  frosgard.blv: {always: snow, peak: 0.4}
+  frosgardcity.blv: {always: snow, peak: 0.55}
 
 # A spell's peak intensity (0-1) is picked by weight; wind and fog scale with it.
 intensities:

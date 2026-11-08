@@ -30,6 +30,8 @@ struct BakedStaticLightSource
     // The light's index in the renderer's enabled-state list: map lights, then decoration billboards. It selects the
     // light's reach (the sectors it may bake into).
     uint32_t sourceId = 0;
+    // The open air's light (indoorOpenAirLights): its share of the static vertex light follows the daylight.
+    bool openAir = false;
 };
 
 constexpr float IndoorBakedStaticLightScale = 1.35f;
@@ -46,7 +48,8 @@ std::optional<BakedStaticLightSource> bakedStaticLightSourceForDecoration(
     const DecorationBillboard &billboard,
     const EventRuntimeState *pEventRuntimeState,
     bool includeInactiveSources);
-BakedStaticLightSource bakedStaticLightSourceForIndoorLight(const IndoorLight &light);
+// The map light lightId as a static light source (its sourceId, and whether it is the open air's light).
+BakedStaticLightSource bakedStaticLightSourceForIndoorLight(const IndoorMapData &indoorMapData, size_t lightId);
 // Every static light of an indoor map: its map lights with a radius, then its light-emitting decorations; only those
 // enabled in pEventRuntimeState unless includeInactiveSources. sourceId is the light's index in that order.
 std::vector<BakedStaticLightSource> buildBakedStaticLightSources(

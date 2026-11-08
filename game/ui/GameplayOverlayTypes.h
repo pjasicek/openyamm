@@ -2,6 +2,7 @@
 
 #include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/mm9/Mm9Formation.h"
 #include "game/party/Party.h"
 #include "game/party/QuickItemSlot.h"
 #include "game/ui/GameplayUiController.h"
@@ -38,6 +39,14 @@ enum class GameplayHudScreenState
 };
 
 inline bool activeEventDialogPreservesGameplayHud(const EventDialogContent &activeEventDialog)
+{
+    return activeEventDialog.isActive
+        && activeEventDialog.presentation == EventDialogPresentation::Mm9Rude;
+}
+
+// An MM9 talk keeps the gameplay HUD but hides the party frame (basebar, portraits, hireling rail): its conversation
+// bar stands where the basebar was and lists a trainer's lessons per member (user, 2026-11-06).
+inline bool activeEventDialogHidesPartyFrame(const EventDialogContent &activeEventDialog)
 {
     return activeEventDialog.isActive
         && activeEventDialog.presentation == EventDialogPresentation::Mm9Rude;
@@ -184,6 +193,9 @@ struct GameplayHudTextureHandle
 struct GameplayHudFontHandle
 {
     std::string fontName;
+    // An independent outline face rasterized at this display height (drawn at scale 1, so it stays sharp); 0 for the
+    // face's own size.
+    int pixelHeight = 0;
     int fontHeight = 0;
     bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
@@ -549,6 +561,7 @@ enum class GameplayHudPointerTargetType
     InventoryButton,
     DimensionDoorButton,
     QuickReferenceButton,
+    StatisticsButton,
     QuickCastButton,
     AttackButton,
     TriggerButton,
@@ -559,6 +572,8 @@ enum class GameplayHudPointerTargetType
     MinimapZoomInButton,
     MinimapZoomOutButton,
     FollowerPanelToggleButton,
+    // The MM9 world's formation button under the minimap (GameplayFormationBuilder).
+    FormationButton,
     // The combat log's button, one of its lines (index: the entry id) and the rest of its panel.
     CombatLogToggleButton,
     CombatLogEntry,
@@ -610,7 +625,10 @@ enum class GameplayControlsPointerTargetType
 enum class GameplayQuickReferencePointerTargetType
 {
     None,
-    ExitButton
+    ExitButton,
+    // The Statistics page's tabs (GameplayStatisticsScreen).
+    StatisticsOverviewTab,
+    StatisticsPartyTab
 };
 
 struct GameplayQuickReferencePointerTarget
@@ -791,6 +809,9 @@ struct GameplayOverlayInteractionState
     size_t quickItemPopupScroll = 0;
     std::optional<size_t> quickItemPopupHovered;
     std::optional<size_t> quickItemPopupKeyEntry;
+    // The MM9 formation builder (GameplayFormationBuilder): open over the paused game while it edits.
+    Mm9FormationBuilderState formationBuilder;
+    bool formationToggleLatch = false;
     bool menuToggleLatch = false;
     bool menuClickLatch = false;
     GameplayMenuPointerTarget menuPressedTarget = {};
@@ -847,6 +868,9 @@ struct GameplayOverlayInteractionState
     GameplayDialoguePointerTarget dialoguePressedTarget = {};
     bool houseShopClickLatch = false;
     size_t houseShopPressedSlotIndex = static_cast<size_t>(-1);
+    // A Ledger shop's scrollbar thumb follows the pointer; the grab keeps it under the pointer.
+    bool houseShopLedgerScrollDrag = false;
+    float houseShopLedgerScrollGrab = 0.0f;
     bool chestClickLatch = false;
     bool chestItemClickLatch = false;
     GameplayChestPointerTarget chestPressedTarget = {};

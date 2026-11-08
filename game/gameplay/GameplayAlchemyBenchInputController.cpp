@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
+#include "engine/Localization.h"
 
 #include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayCraftingBenchInputController.h"
@@ -125,7 +126,7 @@ void placeInSlot(
 
     if (itemId == otherSlotItemId && (pIngredient == nullptr || pIngredient->count < 2))
     {
-        context.setStatusBarEvent("The party carries only one of those.");
+        context.setStatusBarEvent(Engine::tr("The party carries only one of those."));
         return;
     }
 

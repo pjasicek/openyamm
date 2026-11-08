@@ -155,29 +155,22 @@ TEST_CASE("promoted MM9 map catalog and PCX asset are runtime decodable")
     const std::string catalog(catalogBytes.begin(), catalogBytes.end());
     std::string errorMessage;
     const std::optional<OpenYAMM::Game::MapPresentation> bootcamp =
-        OpenYAMM::Game::loadMapPresentationFromCatalog(catalog, "bootcamp.odm", errorMessage);
+        OpenYAMM::Game::loadMapPresentationFromCatalog(catalog, "bootcamp.blv", errorMessage);
     REQUIRE(bootcamp.has_value());
     CHECK(errorMessage.empty());
-    CHECK(bootcamp->worldMinX == doctest::Approx(-11796.48f));
-    CHECK(bootcamp->worldMaxX == doctest::Approx(60293.12f));
+    // The rebuilt Boot Camp's frame: the old import's bounds moved by the conversion offset (-25646, -1777).
+    CHECK(bootcamp->worldMinX == doctest::Approx(-37442.48f));
+    CHECK(bootcamp->worldMaxX == doctest::Approx(34647.12f));
 
     OpenYAMM::Game::GameplayMinimapState bootcampState = {};
     REQUIRE(OpenYAMM::Game::applyMapPresentationToMinimapState(*bootcamp, 0.0f, bootcampState));
     const OpenYAMM::Game::GameplayMinimapPoint ravensfordParty =
-        OpenYAMM::Game::gameplayMinimapWorldToUv(bootcampState, 25969.0f, -6717.0f);
+        OpenYAMM::Game::gameplayMinimapWorldToUv(bootcampState, 323.0f, -8494.0f);
     CHECK(ravensfordParty.x == doctest::Approx(0.52387f));
     CHECK(ravensfordParty.y == doctest::Approx(0.88933f));
 
-    // MM9's own floor choice (cshell.dll): A over 512-1728 LT, B over -256-512, C above and below, by body centre.
-    const std::optional<OpenYAMM::Game::MapPresentation> terrors =
-        OpenYAMM::Game::loadMapPresentationFromCatalog(catalog, "1000terrors.odm", errorMessage);
-    REQUIRE(terrors.has_value());
-    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, 1000.0f * 2.56f)->textureName
-        == "ui/maps/1000terrorsa.pcx");
-    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, 0.0f)->textureName
-        == "ui/maps/1000terrorsb.pcx");
-    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, -800.0f * 2.56f)->textureName
-        == "ui/maps/1000terrorsc.pcx");
+    // The rebuilt dungeons draw the BLV line map: their painted MM9 maps are no longer in the catalog.
+    CHECK_FALSE(OpenYAMM::Game::loadMapPresentationFromCatalog(catalog, "1000terrors.blv", errorMessage).has_value());
     CHECK_FALSE(OpenYAMM::Game::loadMapPresentationFromCatalog(
         catalog,
         "greatgate.odm",

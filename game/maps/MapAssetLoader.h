@@ -252,6 +252,8 @@ struct MapAssetInfo
     std::optional<std::string> lightingDataPath;
     std::optional<size_t> lightingDataSize;
     AuthoredCompanionSource authoredCompanionSource = AuthoredCompanionSource::None;
+    // What a saved state of this map is laid out against (game/maps/MapLayoutIdentity.h), computed when it loads.
+    uint64_t layoutIdentity = 0;
     std::optional<OutdoorMapData> outdoorMapData;
     std::optional<IndoorMapData> indoorMapData;
     // Per indoor face: the party's speed share while it wades on it (a shallow liquid's wade_speed); empty when the

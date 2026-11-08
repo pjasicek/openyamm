@@ -9,7 +9,6 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/render/ModelRenderer.h"
-#include "game/gameplay/GameplayTalkCamera.h"
 #include "game/indoor/IndoorFaceDrawGroups.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMapData.h"
@@ -21,6 +20,8 @@
 #include "game/indoor/IndoorPortalDebugView.h"
 #include "game/indoor/IndoorTerrainSurface.h"
 #include "game/indoor/IndoorOpenSkyWeather.h"
+#include "game/outdoor/OutdoorMeadow.h"
+#include "game/outdoor/TerrainBushSet.h"
 #include "game/outdoor/TerrainDecorationRenderer.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/ObjectTable.h"
@@ -149,6 +150,8 @@ public:
     bool isWaterSupportFace(size_t faceIndex) const;
     WorldFxSystem &worldFxSystem();
     const WorldFxSystem &worldFxSystem() const;
+    // The model a decoration shows now, by its sprite override key (a talking prop's talk portrait).
+    std::optional<DecorationPortraitModel> decorationPortraitModel(uint32_t spriteOverrideKey) const;
     // Sprite frames of a monster the map did not preload (a summon by id), into the renderer's actor frames, which the
     // runtime and the actor models share.
     bool ensureMonsterVisualResources(int16_t monsterId);
@@ -185,6 +188,11 @@ public:
     const std::vector<int16_t> &visibleIndoorMapRevealSectorIds() const;
     uint64_t indoorMapRevealRevision() const;
     float cameraYawRadians() const;
+    // The camera's last world position (for `weather status`).
+    std::array<float, 3> cameraPosition() const
+    {
+        return {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+    }
     float cameraPitchRadians() const;
     // Width over height of the last drawn view; 4:3 before the first frame.
     float viewAspectRatio() const;
@@ -211,6 +219,8 @@ private:
     void setFaceFog();
     // This frame's daylight (scene daylight, devdocs/INDOOR_OPEN_SKY.md) and fog (its night state), by the game time.
     void updateFrameDaylightAndFog();
+    // evt.SetFog / evt.ClearFog over this frame's fog, faded in over the script's seconds.
+    void applyScriptedFog();
     // Multiplies the frame by the tint of the water the party's eye is in (scene water volumes); nothing out of it.
     void renderWaterTint(uint16_t viewId);
     // The daylight's room light for the models and sprites of the sectors open to the sky.
@@ -508,6 +518,10 @@ private:
     // Grass over the terrain (scene `terrain: {grass}`): scattered on first use from the terrain faces and the grass
     // layers' density, drawn into viewId with the open sky's daylight and haze (settings: terrain decorations).
     void ensureTerrainGrass();
+    // The terrain faces as triangles, each with the smooth ground normal at its face's centre.
+    std::vector<TerrainDecorationSurfaceTriangle> terrainSurfaceTriangles() const;
+    // The low bushes placed with the grass: their dissolve by distance and the open sky's light.
+    void updateTerrainBushes(const bx::Vec3 &eye);
     void renderTerrainGrass(uint16_t viewId, const bx::Vec3 &eye, const bx::Vec3 &forward,
         const float *pProjectionMatrix, float aspect);
     static TexturedVertex interpolateTexturedVertex(const TexturedVertex &first, const TexturedVertex &second);
@@ -914,11 +928,20 @@ private:
     std::vector<uint8_t> m_grassDensity;
     int m_grassDensitySize = 0;
     TerrainDecorationRenderer m_terrainGrass;
+    TerrainBushSet m_terrainBushes;
+    // Dry crests, lush hollows and shores (level_generation/terrain/MEADOW.md): the terrain's grass layers and the
+    // grass take its tint; empty without terrain.
+    OutdoorMeadowField m_terrainMeadow;
     bool m_terrainGrassAttempted = false;
     bool m_terrainGrassReady = false;
     bgfx::UniformHandle m_grassSunlightUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_grassFxLightParamsUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_grassCameraPositionUniform = BGFX_INVALID_HANDLE;
+    // The terrain faces' far grass colour (the grass's foliage map, GRASS_LOD.md), unbound (zero) while no grass draws.
+    bgfx::UniformHandle m_terrainFoliageSampler = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_terrainFoliageUniform = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle m_noTerrainFoliage = BGFX_INVALID_HANDLE;
+    bool m_terrainGrassShown = false;
     std::vector<TerrainDecorationPatch> m_terrainGrassDraws;
     bool m_terrainAntiTiling = true;
     bool m_surfaceParallaxEnabled = false;
@@ -930,6 +953,13 @@ private:
     bgfx::ProgramHandle m_indoorBakedMaterialProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_lightmapSamplerHandle = BGFX_INVALID_HANDLE;
     std::vector<bgfx::TextureHandle> m_lightmapTextureHandles;
+    // A version 2 bake's daylight pages (IndoorBakedLighting::daylightPages, one per lightmap page; empty otherwise)
+    // and u_indoorBakedDaylight[3]: the scales of their light this frame (indoorBakedDaylightScale; [0].w 1 when the
+    // map has them).
+    bgfx::UniformHandle m_daylightmapSamplerHandle = BGFX_INVALID_HANDLE;
+    std::vector<bgfx::TextureHandle> m_daylightmapTextureHandles;
+    bgfx::UniformHandle m_indoorBakedDaylightUniformHandle = BGFX_INVALID_HANDLE;
+    std::array<float, 12> m_frameBakedDaylight = {};
     bool m_bakedLightingActive = false;
     // Translucent faces (IndoorMapData::translucentFaces): their programs (vertex-lit and baked) and the tint/opacity
     // uniform, created only for a map that has such faces.
@@ -943,6 +973,13 @@ private:
     IndoorFog m_fog;
     // The fog drawn this frame: m_fog, or its mix into the night state by the sky's night (updateFrameDaylightAndFog).
     IndoorFog m_frameFog;
+    // A map script's fog (EventRuntimeState::scriptedFog, applyScriptedFog): the revision shown, the fog it fades
+    // from (the last frame's) and when, and the last frame's fog.
+    uint32_t m_scriptedFogRevision = 0;
+    IndoorFog m_scriptedFogFrom;
+    float m_scriptedFogStartSeconds = 0.0f;
+    float m_scriptedFogSeconds = 0.0f;
+    IndoorFog m_lastFrameFog;
     // The face programs' fog mode and the light's fog colour (MM9's fog), created only for a map with fog.
     bgfx::UniformHandle m_indoorFogModeUniformHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorFogLightUniformHandle = BGFX_INVALID_HANDLE;
@@ -950,6 +987,8 @@ private:
     // face programs' u_indoorDaylight, zero on every face without it.
     IndoorDaylight m_daylight;
     IndoorDaylightLight m_frameDaylight;
+    // The open air's lights' scale this frame (indoorOpenAirLightScale; u_indoorDaylight[0].w), 1 without daylight.
+    float m_frameOpenAirLightScale = 1.0f;
     bgfx::UniformHandle m_indoorDaylightUniformHandle = BGFX_INVALID_HANDLE;
     std::array<bgfx::ProgramHandle, 6> m_indoorFogProgramHandles = {{
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE,
@@ -1080,7 +1119,13 @@ private:
     float m_cameraPositionZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
-    GameplayTalkCamera m_talkCamera;
+    // This frame's view: a playing cinematic's field of view (60 otherwise) and the camera shake, set by render().
+    float m_viewVerticalFovDegrees = 60.0f;
+    float m_viewShakeYawRadians = 0.0f;
+    float m_viewShakePitchRadians = 0.0f;
+    // A cinematic camera's sector (the portal walk's start while it draws), and the eye it was found for; -1: the party's.
+    int16_t m_viewSectorOverride = -1;
+    std::array<float, 3> m_viewSectorEye = {};
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;

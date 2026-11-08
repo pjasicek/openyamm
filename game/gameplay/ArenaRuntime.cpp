@@ -1,4 +1,5 @@
 #include "game/gameplay/ArenaRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -52,10 +53,11 @@ const char *arenaDifficultyName(ArenaDifficulty difficulty)
 {
     switch (difficulty)
     {
-    case ArenaDifficulty::Page: return "Page";
-    case ArenaDifficulty::Squire: return "Squire";
-    case ArenaDifficulty::Knight: return "Knight";
-    case ArenaDifficulty::Lord: return "Lord";
+    // Shown through tr().
+    case ArenaDifficulty::Page: return Engine::trNoop("Page").data();
+    case ArenaDifficulty::Squire: return Engine::trNoop("Squire").data();
+    case ArenaDifficulty::Knight: return Engine::trNoop("Knight").data();
+    case ArenaDifficulty::Lord: return Engine::trNoop("Lord").data();
     }
     return "";
 }
@@ -163,7 +165,7 @@ bool interactWithArena(IGameplayWorldRuntime &world, uint32_t npcId)
     }
     if (pArena == nullptr || pParty == nullptr || pMapData == nullptr)
     {
-        pState->messages.push_back("The Arena is unavailable here.");
+        pState->messages.push_back(Engine::tr("The Arena is unavailable here."));
         return false;
     }
 
@@ -175,12 +177,13 @@ bool interactWithArena(IGameplayWorldRuntime &world, uint32_t npcId)
         offer.npcId = npcId;
         offer.topicId = ArenaTopicId;
         pState->dialogueState.currentOffer = offer;
-        pState->messages.push_back("Welcome to the Arena. Choose the difficulty of your challenge.");
+        pState->messages.push_back(Engine::tr("Welcome to the Arena. Choose the difficulty of your challenge."));
         return false;
     }
     if (arenaVariable(*pState, ClaimedVariable) != 0)
     {
-        pState->messages.push_back("You have already won this Arena challenge. Come back for another tournament.");
+        pState->messages.push_back(
+            Engine::tr("You have already won this Arena challenge. Come back for another tournament."));
         return false;
     }
 
@@ -197,10 +200,10 @@ bool interactWithArena(IGameplayWorldRuntime &world, uint32_t npcId)
 
     const int32_t reward = arenaVariable(*pState, RewardVariable);
     pState->namedMapVars[ClaimedVariable] = 1;
-    pParty->addGold(reward);
+    pParty->addGold(reward, GoldReason::Event);
     pParty->addEventVariableValue(uint16_t(EvtVariable::ArenaWinsPage) + difficulty - 1, 1);
     pParty->addAward(45 + difficulty);
-    pState->messages.push_back("Congratulations! You have won " + std::to_string(reward) + " gold.");
+    pState->messages.push_back(Engine::tr("Congratulations! You have won {gold} gold.", {{"gold", reward}}));
     EventRuntimeState::PendingSound sound = {};
     sound.soundId = 14060;
     pState->pendingSounds.push_back(sound);
@@ -226,7 +229,7 @@ bool startArenaChallenge(
         generateArenaChallenge(*pMonsters, *pArenaMap, *pParty, difficulty, seed);
     if (!challenge || challenge->monsterIds.size() > pArena->monsterPositions.size())
     {
-        pState->messages.push_back("The Arena cannot prepare opponents for this challenge.");
+        pState->messages.push_back(Engine::tr("The Arena cannot prepare opponents for this challenge."));
         return false;
     }
 

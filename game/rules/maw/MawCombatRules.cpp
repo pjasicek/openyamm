@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawCombatRules.h"
+#include "engine/Localization.h"
 
 #include "game/StringUtils.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
@@ -2058,6 +2059,13 @@ bool MawCombatRules::weaponKindMultiplierApplies() const
     return false;
 }
 
+bool MawCombatRules::addsWeaponElementalDamage() const
+{
+    // resolveCharacterAttack adds the weapons' enchantments, Fire Auras and artifacts itself: to a blow as its
+    // elements, to an arrow's own damage (stage_weaponRecompute).
+    return false;
+}
+
 std::optional<int> MawCombatRules::spellDamageOnTarget(const CharacterSpellCast &cast, const SpellTargetState &target)
     const
 {
@@ -2507,7 +2515,7 @@ int MawCombatRules::legendaryProtection(Party &party, size_t memberIndex, int da
 
     readyMinutes = m_gameMinutes + 150;
     member.health = Party::effectiveMaximumHealth(member) / 4;
-    m_statusMessages.push_back("Legendary power saves you from lethal damage");
+    m_statusMessages.push_back(Engine::tr("Legendary power saves you from lethal damage"));
     return 0;
 }
 
@@ -2541,7 +2549,7 @@ int MawCombatRules::divineProtection(Party &party, size_t memberIndex, int damag
     readyMinutes = m_gameMinutes + 150;
     const int maximum = pMember->maxHealth + pMember->permanentBonuses.maxHealth + pMember->magicalBonuses.maxHealth;
     pMember->health += int(mawRound(maximum * 0.25));
-    m_statusMessages.push_back("Divine Protection saves you from lethal damage");
+    m_statusMessages.push_back(Engine::tr("Divine Protection saves you from lethal damage"));
     return std::min(damage, pMember->health - 1);
 }
 
@@ -2710,7 +2718,7 @@ void MawCombatRules::updateArtifacts(Party &party, IGameplayWorldRuntime &world)
 
     if (repaired && world.eventRuntimeState() != nullptr)
     {
-        world.eventRuntimeState()->statusMessages.push_back("Repaired");
+        world.eventRuntimeState()->statusMessages.push_back(Engine::tr("Repaired"));
     }
 
     for (size_t index = 0; index < party.members().size(); ++index)
@@ -2855,7 +2863,8 @@ void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, fl
 
                 if (pRuntimeState != nullptr)
                 {
-                    pRuntimeState->statusMessages.push_back(member.name + "'s poison effect expired");
+                    pRuntimeState->statusMessages.push_back(
+                        Engine::tr("{name}'s poison effect expired", {{"name", member.name}}));
                 }
 
                 continue;
@@ -2884,7 +2893,7 @@ void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, fl
             if (party.member(memberIndex)->health < -10 * deathThreshold(*party.member(memberIndex))
                 && party.dismissMemberToAdventurersInn(memberIndex))
             {
-                m_statusMessages.push_back("Disintegrated");
+                m_statusMessages.push_back(Engine::tr("Disintegrated"));
             }
         }
     }
@@ -3604,7 +3613,7 @@ void MawCombatRules::applyMonsterHitEffects(
     CombatDamageType type) const
 {
     static thread_local std::mt19937 rng(std::random_device{}());
-    const bool special = !immuneToMonsterSpecialAttacks(*party.member(memberIndex));
+    const bool special = !immuneToMonsterSpecialAttacks(*party.combatant(memberIndex));
     std::optional<size_t> attackerIndex;
     GameplayRuntimeActorState attackerState = {};
 
@@ -3899,21 +3908,26 @@ std::optional<std::string> MawCombatRules::partyHitStatusText(const PartyHitStat
         ? m_rules.spellTable()->findById(int(status.spellId))
         : nullptr;
     const bool spell = pSpell != nullptr;
-    const std::string &name = spell ? pSpell->name : status.attackerName;
+    const std::string name = spell ? Engine::localize(pSpell->name, "spell") : status.attackerName;
     const std::string points = mawShortNumber(status.damage, true, 4);
-    const std::string critical = status.critical ? "\f65516(CRIT!)\f00000" : "";
+    const std::string critical = status.critical ? "\f65516" + Engine::tr("(CRIT!)") + "\f00000" : "";
 
     if (spell && status.monstersHit >= 2)
     {
-        return name + " hits for a total of " + points + " points!" + critical;
+        return Engine::tr("{attacker} hits for a total of {damage} points!", {{"attacker", name}, {"damage", points}})
+            + critical;
     }
 
     if (status.killed)
     {
-        return name + " inflicts " + points + " points killing " + status.targetName + "!" + critical;
+        return Engine::tr("{attacker} inflicts {damage} points killing {target}!",
+                   {{"attacker", name}, {"damage", points}, {"target", status.targetName}})
+            + critical;
     }
 
-    return name + (status.missile && !spell ? " shoots " : " hits ") + status.targetName + " for " + points
-        + " points!" + critical;
+    return Engine::tr(status.missile && !spell ? "{attacker} shoots {target} for {damage} points!"
+                                               : "{attacker} hits {target} for {damage} points!",
+               {{"attacker", name}, {"target", status.targetName}, {"damage", points}})
+        + critical;
 }
 }

@@ -1,10 +1,14 @@
 #include "game/audio/SoundCatalog.h"
 
+#include "engine/TextTable.h"
+#include "game/content/ContentManifest.h"
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
 #include <functional>
 #include <optional>
+#include <unordered_set>
 
 namespace OpenYAMM::Game
 {
@@ -376,6 +380,11 @@ std::optional<std::string> SoundCatalog::buildVirtualPath(uint32_t soundId) cons
     return buildVirtualPath(engineSound(soundId));
 }
 
+std::optional<std::string> SoundCatalog::buildVirtualPathAnyScope(uint32_t soundId) const
+{
+    return buildVirtualPath(findById(engineSound(soundId)) != nullptr ? engineSound(soundId) : worldSound(soundId));
+}
+
 std::optional<std::string> SoundCatalog::buildVirtualPath(SoundRef sound) const
 {
     const SoundCatalogEntry *pEntry = findById(sound);
@@ -485,4 +494,67 @@ std::optional<std::string> SoundCatalog::buildVirtualPathByName(SoundScope scope
     return std::nullopt;
 }
 
+bool loadWorldSoundRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::vector<std::vector<std::string>> &engineRows,
+    std::vector<std::vector<std::string>> &worldRows,
+    std::string &errorMessage)
+{
+    worldRows.clear();
+    std::vector<WorldManifest> manifests;
+    if (!loadMountedWorldManifests(assetFileSystem, manifests, errorMessage))
+    {
+        return false;
+    }
+
+    std::unordered_set<uint32_t> engineIds;
+    for (const std::vector<std::string> &row : engineRows)
+    {
+        if (row.size() >= 2 && !row[0].empty() && row[0][0] != '/')
+        {
+            if (const std::optional<uint32_t> soundId = parseSoundId(row[1]))
+            {
+                engineIds.insert(*soundId);
+            }
+        }
+    }
+
+    for (const WorldManifest &manifest : manifests)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
+        {
+            if (contribution.table != "sounds")
+            {
+                continue;
+            }
+            const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+            const ContentIdRangeDefinition *pRange = manifest.findIdRange(contribution.idDomain);
+            const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+            const std::optional<Engine::TextTable> table =
+                text ? Engine::TextTable::parseTabSeparated(*text) : std::nullopt;
+            if (contribution.mode != TableContributionMode::Append || pRange == nullptr || !table)
+            {
+                errorMessage = path + ": a world sound table needs append mode, an id range and a readable file";
+                return false;
+            }
+            for (size_t rowIndex = 0; rowIndex < table->getRowCount(); ++rowIndex)
+            {
+                std::vector<std::string> row = table->getRow(rowIndex);
+                if (row.size() < 2 || row[0].empty() || row[0][0] == '/')
+                {
+                    continue;
+                }
+                const std::optional<uint32_t> soundId = parseSoundId(row[1]);
+                if (!soundId || *soundId < pRange->begin || *soundId > pRange->end || engineIds.contains(*soundId))
+                {
+                    errorMessage = path + ": sound id " + row[1] + " is outside the world's " + contribution.idDomain
+                        + " range or an engine sound id";
+                    return false;
+                }
+                worldRows.push_back(std::move(row));
+            }
+        }
+    }
+    return true;
+}
 }

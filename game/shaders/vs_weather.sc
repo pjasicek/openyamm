@@ -18,6 +18,10 @@ $output v_texcoord0, v_texcoord1, v_color0
 // [5] sway amplitude, sway rate, curtain radius, world size of one pixel at unit view distance
 // Snow uses the base size as the flake radius; rain as the streak half-width.
 uniform vec4 u_weather[6];
+// Drops and flakes fall only above the map's highest surfaces (WeatherRoofMap: roofs, bridges, the terrain over a
+// tunnel; heights in s_weatherRoof). xy its origin, zw one over its extent; z 0: no map (every outdoor map).
+uniform vec4 u_weatherRoof;
+SAMPLER2D(s_weatherRoof, 0);
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDensities;
 uniform vec4 u_fogDistances;
@@ -100,6 +104,19 @@ void main()
     world.xy += vec2(sin(swayTime), cos(swayTime * 0.77)) * u_weather[5].x * (0.4 + random.z);
 #endif
 
+    // Under a roof: not drawn (the quad collapses outside the view below).
+    float covered = 0.0;
+
+    if (u_weatherRoof.z > 0.0)
+    {
+        vec2 roofUv = (world.xy - u_weatherRoof.xy) * u_weatherRoof.zw;
+
+        if (roofUv.x >= 0.0 && roofUv.y >= 0.0 && roofUv.x < 1.0 && roofUv.y < 1.0)
+        {
+            covered = step(world.z, texture2DLod(s_weatherRoof, roofUv, 0.0).x);
+        }
+    }
+
     // Each drop or flake is drawn along its motion over the streak time: long thin streaks for rain, flakes leaning
     // slightly into the wind for snow.
     vec3 tail = world - u_weather[3].xyz * u_weather[3].w * (0.8 + 0.4 * random.y);
@@ -132,6 +149,11 @@ void main()
     // Nothing pops up right in front of the lens.
     fade *= weatherSmoothstep(u_weather[1].w * 0.4, u_weather[1].w, distance);
     v_texcoord0 = a_texcoord0;
-    v_color0 = weatherFoggedColor(world, u_weather[4].w * fade * (0.55 + 0.45 * random.w));
+    v_color0 = weatherFoggedColor(world, u_weather[4].w * fade * (0.55 + 0.45 * random.w) * (1.0 - covered));
+
+    if (covered > 0.5)
+    {
+        gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
+    }
 #endif
 }

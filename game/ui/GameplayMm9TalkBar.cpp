@@ -1,8 +1,10 @@
 #include "game/ui/GameplayMm9TalkBar.h"
 
+#include "engine/Localization.h"
 #include "game/events/EventDialogContent.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
-#include "game/ui/GameplayHudCommon.h"
+#include "game/gameplay/Mm9DialogueSpeaker.h"
 #include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
 
@@ -38,10 +40,12 @@ constexpr bool TouchRows = true;
 constexpr bool TouchRows = false;
 #endif
 
-constexpr char NameFont[] = "Fondamento";
-constexpr char SpeechFont[] = "Arrus";
-constexpr char ChoiceFont[] = "Create";
-constexpr char SmallFont[] = "Lucida";
+// Outline faces rasterized at the size they are drawn (the menus' way), so the text stays sharp at any resolution: a
+// legacy face's four-times atlas, mipmapped down to the bar's sizes, read soft and thin (user, 2026-11-06).
+constexpr char NameFont[] = "fondamento";
+constexpr char SpeechFont[] = "talk_arrus";
+constexpr char ChoiceFont[] = "talk_create";
+constexpr char SmallFont[] = "talk_lucida";
 constexpr char DiamondGlyph[] = "hud_x2/menus/omenu_glyph_diamond.png";
 constexpr char CheckGlyph[] = "hud_x2/menus/omenu_glyph_check.png";
 constexpr char UpGlyph[] = "hud_x2/menus/omenu_glyph_up.png";
@@ -171,45 +175,62 @@ public:
     {
     }
 
-    float scale(const char *pFont, float height) const
-    {
-        const float wanted = height / float(std::max(1, m_context.hudFontHeight(pFont)));
-        return wanted >= 1.0f ? GameplayHudCommon::snappedHudFontScale(wanted) : std::max(0.5f, wanted);
-    }
-
     float width(const char *pFont, float height, const std::string &value) const
     {
-        return m_context.measureHudTextWidth(pFont, value) * scale(pFont, height);
+        const std::optional<GameplayScreenRuntime::HudFontHandle> font = face(pFont, height);
+        return font ? m_context.measureHudTextWidth(*font, value) : 0.0f;
     }
 
     std::vector<std::string> wrap(const char *pFont, float height, const std::string &value, float maxWidth) const
     {
-        if (value.empty())
+        const std::optional<GameplayScreenRuntime::HudFontHandle> font = face(pFont, height);
+
+        if (value.empty() || !font)
         {
             return {};
         }
 
-        return m_context.wrapHudTextToWidth(pFont, value, maxWidth / scale(pFont, height));
+        return m_context.wrapHudTextToWidth(*font, value, maxWidth);
     }
 
-    // Align 0 left, 1 centred on x, 2 ending at x; a soft shadow one pixel below for the scene behind.
+    // Align 0 left, 1 centred on x, 2 ending at x; a soft shadow one pixel below for the scene behind. Whole pixels,
+    // as the face is rasterized at its drawn size.
     void draw(const char *pFont, float height, uint32_t colour, const std::string &value, float x, float y,
         int align = 0, bool shadow = true) const
     {
-        const float fontScale = scale(pFont, height);
-        const float textWidth = m_context.measureHudTextWidth(pFont, value) * fontScale;
-        x -= align == 1 ? textWidth / 2 : align == 2 ? textWidth : 0;
+        const std::optional<GameplayScreenRuntime::HudFontHandle> font = face(pFont, height);
+
+        if (!font)
+        {
+            return;
+        }
+
+        const float textWidth = m_context.measureHudTextWidth(*font, value);
+        x = std::round(x - (align == 1 ? textWidth / 2 : align == 2 ? textWidth : 0));
+        y = std::round(y);
 
         if (shadow)
         {
-            m_context.renderHudTextLine(pFont, Shadow, value, std::round(x), std::round(y + std::max(1.0f,
-                height / 14.0f)), fontScale);
+            line(*font, Shadow, value, x, y + std::max(1.0f, std::round(height / 14.0f)));
         }
 
-        m_context.renderHudTextLine(pFont, colour, value, std::round(x), std::round(y), fontScale);
+        line(*font, colour, value, x, y);
     }
 
 private:
+    // The face's own edge shadow, then the glyphs in the colour.
+    void line(const GameplayScreenRuntime::HudFontHandle &font, uint32_t colour, const std::string &value, float x,
+        float y) const
+    {
+        m_context.renderHudFontLayer(font, GameplayHudFontLayer(font.shadowTextureHandle), value, x, y, 1.0f);
+        m_context.renderHudFontLayer(font, m_context.hudFontMainLayer(font, colour), value, x, y, 1.0f);
+    }
+
+    std::optional<GameplayScreenRuntime::HudFontHandle> face(const char *pFont, float height) const
+    {
+        return m_context.findHudFont(pFont, std::max(8, int(std::lround(height))));
+    }
+
     GameplayScreenRuntime &m_context;
 };
 
@@ -236,8 +257,8 @@ std::string keyLabel(const EventDialogContent &dialog, size_t action)
     return {};
 }
 
-// The bar for the open talk, laid out bottom-up from the basebar: its height follows the text and the rows, up to
-// MaxHeightShare of the screen, past which only the rows round the selection show.
+// The bar for the open talk, laid out bottom-up from the screen's bottom edge: its height follows the text and the
+// rows, up to MaxHeightShare of the screen, past which only the rows round the selection show.
 std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int height)
 {
     const EventDialogContent &dialog = context.activeEventDialog();
@@ -247,9 +268,11 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
         return std::nullopt;
     }
 
+    // A talk hides the party basebar (user, 2026-11-06); the bar keeps the basebar's scale and stands where it was,
+    // on the screen's bottom edge.
     const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
     const float k = bar ? bar->height / StudyBasebarHeight : float(height) / 900.0f;
-    const float barTop = bar ? bar->y : float(height) - StudyBasebarHeight * k;
+    const float panelBottom = bar ? bar->y + bar->height : float(height);
     const Text text(context);
     const std::vector<size_t> order = GameplayMm9TalkBar::displayOrder(dialog);
 
@@ -271,7 +294,8 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
     if (!dialog.echo.empty())
     {
         result.echo.lines = text.wrap(SmallFont, 17 * k,
-            "\xE2\x80\x9C" + collapseSpaces(dialog.echo) + "\xE2\x80\x9D", contentWidth - 4 * k);
+            Engine::tr("\xE2\x80\x9C{quote}\xE2\x80\x9D", {{"quote", collapseSpaces(dialog.echo)}}),
+            contentWidth - 4 * k);
         result.echo.lineHeight = 22 * k;
         result.echo.x = 2 * k;
         result.echo.y = y;
@@ -357,7 +381,6 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
 
     const float bottomInset = (6 + FrameBorder) * k;
     const float topInset = (2 + FrameBorder) * k;
-    const float panelBottom = barTop - 8 * k;
     // The room: under the height limit and below the top HUD, the medallion included.
     const float maximumHeight = std::min(float(height) * MaxHeightShare, panelBottom - 150 * k);
     float rowsHeight = rowY > 0 ? rowY - rowGap : 0;
@@ -537,8 +560,10 @@ void renderRule(const Painter &paint, const Layout &layout, float y)
         abgr(0xa8915c));
 }
 
-// The speaker's medallion: MM9 has no portraits for its talking people, so their initials in a brass ring.
-void renderMedallion(const Painter &paint, const Text &text, const Layout &layout, const std::string &name)
+// The speaker's medallion: their live head and shoulders in a brass ring, from their model (a talking prop's from its
+// decoration's). MM9 has no portraits for its talking people, so a speaker without a model shows their initials.
+void renderMedallion(GameplayScreenRuntime &context, const Painter &paint, const Text &text, const Layout &layout,
+    const std::string &name)
 {
     const Box &box = layout.portrait;
     const float k = layout.k;
@@ -549,6 +574,14 @@ void renderMedallion(const Painter &paint, const Text &text, const Layout &layou
     paint.disc(box, MedallionFill);
     paint.disc({box.x + box.width * 0.12f, box.y + box.height * 0.08f, box.width * 0.62f, box.height * 0.62f},
         abgr(0x2d3d3a, 0x70));
+    const IGameplayWorldRuntime *pWorld = context.worldRuntime();
+    const Mm9DialogueSpeaker speaker =
+        pWorld != nullptr ? findMm9DialogueSpeaker(*pWorld, context.activeEventDialog(), nullptr) : Mm9DialogueSpeaker{};
+    if (speaker && context.gameplayUiRuntime().renderTalkPortrait(*pWorld, speaker,
+        {box.x, box.y, box.width, box.height, k}, true))
+    {
+        return;
+    }
     const float letters = 44 * k;
     text.draw(NameFont, letters, Heading, initials(name), box.x + box.width / 2,
         box.y + (box.height - letters) / 2 - 2 * k, 1);
@@ -608,12 +641,15 @@ void renderRow(const Painter &paint, const Text &text, const Layout &layout, con
             paint.fill({door.x + door.width - stroke - 2 * k, door.y + 1 * k, 2 * k, stroke}, Muted);
             break;
         }
+        case EventDialogChoiceMark::Locked:
         case EventDialogChoiceMark::None:
             break;
     }
 
     x += 24 * k;
-    const uint32_t colour = hot ? Hot
+    const bool locked = choice.choiceMark == EventDialogChoiceMark::Locked;
+    const uint32_t colour = locked ? (hot ? Seen : Muted)
+        : hot ? Hot
         : exitRow ? Muted
         : choice.choiceMark == EventDialogChoiceMark::Visited ? Seen
         : choice.choiceMark == EventDialogChoiceMark::New ? NewText
@@ -690,6 +726,12 @@ std::optional<size_t> GameplayMm9TalkBar::actionForNumberKey(const EventDialogCo
     return std::nullopt;
 }
 
+std::optional<float> GameplayMm9TalkBar::panelTop(GameplayScreenRuntime &context, int width, int height)
+{
+    const std::optional<Layout> bar = layout(context, width, height);
+    return bar ? std::optional<float>(bar->panel.y) : std::nullopt;
+}
+
 std::optional<size_t> GameplayMm9TalkBar::actionAtPoint(GameplayScreenRuntime &context, int width, int height,
     float x, float y)
 {
@@ -741,13 +783,13 @@ void GameplayMm9TalkBar::render(GameplayScreenRuntime &context, int width, int h
         bar->panel.height, FrameBorder * k / 30.933333f};
     GameplayUiSkin::renderPanel(context, panelRect, false, 1.0f, 236);
 
-    renderMedallion(paint, text, *bar, dialog.title);
+    renderMedallion(context, paint, text, *bar, dialog.title);
 
     // The header: name, place, the key hint.
     const float nameX = bar->content.x + 112 * k;
     const float nameHeight = 30 * k;
     text.draw(NameFont, nameHeight, Heading, dialog.title, nameX, bar->headerY + 6 * k);
-    const std::string place = context.mapDisplayName(context.currentMapFileName());
+    const std::string place = Engine::localizeKnown(context.mapDisplayName(context.currentMapFileName()));
 
     if (!place.empty())
     {
@@ -767,12 +809,13 @@ void GameplayMm9TalkBar::render(GameplayScreenRuntime &context, int width, int h
 
         if (numbered > 0)
         {
-            hint = numbered == 1 ? "1 choose" : "1-" + std::to_string(numbered % 10) + " choose";
+            hint = numbered == 1 ? Engine::tr("1 choose")
+                                 : Engine::tr("1-{last} choose", {{"last", int(numbered % 10)}});
         }
 
         if (GameplayMm9TalkBar::exitAction(dialog))
         {
-            hint += std::string(hint.empty() ? "" : "  \xC2\xB7  ") + "Esc leave";
+            hint += std::string(hint.empty() ? "" : "  \xC2\xB7  ") + Engine::tr("Esc leave");
         }
 
         text.draw(SmallFont, 13 * k, Muted, hint, bar->content.x + bar->content.width, bar->headerY + 14 * k, 2,

@@ -792,3 +792,28 @@ TEST_CASE("indoors a monster casts Meteor Shower only with the indoor_meteor_sho
     const std::pair<size_t, size_t> with = meteorsAndShots(true);
     CHECK(with.first > 0);
 }
+
+TEST_CASE("outdoors MM9's CanDamage turned off at runtime lets no hit hurt the actor until it is on again")
+{
+    OutdoorFixture fixture;
+    REQUIRE(fixture.load("mm6", "oute3.odm"));
+    const int16_t monsterId = rangedMonsterId(fixture.monsters, false);
+    REQUIRE(monsterId != 0);
+    fixture.start();
+    OutdoorWorldRuntime &world = *fixture.world;
+    const size_t actorIndex = world.mapActorCount();
+    REQUIRE(world.summonHostileMonsterById(monsterId, 1, 0.0f, 0.0f, fixture.ground(0.0f, 0.0f), 0));
+    const OutdoorWorldRuntime::MapActorState &actor = *world.mapActorState(actorIndex);
+    const int hp = actor.currentHp;
+    REQUIRE_GT(hp, 1);
+
+    CHECK_FALSE(world.setMm9ActorCanReceiveDamage(actorIndex + 1, false));
+    REQUIRE(world.setMm9ActorCanReceiveDamage(actorIndex, false));
+    CHECK(world.applyPartyAttackToMapActor(actorIndex, 100000, 0.0f, 300.0f, actor.preciseZ + 96.0f));
+    CHECK_FALSE(world.stunActor(actorIndex, 5.0f));
+    CHECK_EQ(actor.currentHp, hp);
+
+    REQUIRE(world.setMm9ActorCanReceiveDamage(actorIndex, true));
+    REQUIRE(world.applyPartyAttackToMapActor(actorIndex, 1, 0.0f, 300.0f, actor.preciseZ + 96.0f));
+    CHECK_LT(actor.currentHp, hp);
+}

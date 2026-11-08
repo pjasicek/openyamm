@@ -1,4 +1,5 @@
 #include "game/ui/GameplayQuickItems.h"
+#include "engine/Localization.h"
 
 #include "game/app/GameSettings.h"
 #include "game/app/KeyboardBindings.h"
@@ -245,7 +246,7 @@ std::vector<PickerRow> pickerRows(GameplayScreenRuntime &context, const Party &p
         row.power = kind.power;
         row.count = kind.count;
         row.scroll = kind.scroll;
-        row.name = pDefinition->name;
+        row.name = Engine::localize(pDefinition->name);
         row.icon = pDefinition->iconName;
 
         for (size_t carrier : kind.carriers)
@@ -391,18 +392,18 @@ std::string hubState(GameplayScreenRuntime &context, const Party &party, size_t 
 
     if (GameMechanics::canTakeGameplayAction(*pMember))
     {
-        return "ready";
+        return Engine::tr("ready");
     }
 
     if (!InventoryItemUseRuntime::drinkRecoveryApplies(context.mergedPotionSettingTable()))
     {
-        return "recovering";
+        return Engine::tr("recovering");
     }
 
     const std::optional<size_t> payer =
         InventoryItemUseRuntime::drinkRecoveryPayer(*context.mergedPotionSettingTable(), party, member);
     const Character *pPayer = payer ? party.member(*payer) : nullptr;
-    return pPayer != nullptr ? "next fed by " + pPayer->name : "nobody ready";
+    return pPayer != nullptr ? Engine::tr("next fed by {name}", {{"name", pPayer->name}}) : Engine::tr("nobody ready");
 }
 
 void closeRing(GameplayScreenRuntime &context)
@@ -427,9 +428,9 @@ void renderPicker(GameplayScreenRuntime &context, const Party &party, const Char
     const QuickItemSlot &quickSlot = member.quickItemSlots[slot];
     paint.fill(layout.panel, PanelFill);
     paint.frame(layout.panel, std::max(1.0f, u), PanelBorder);
-    paint.text("Fondamento", 18 * u, Label, "Slot " + std::to_string(slot + 1), layout.panel.x + 12 * u,
-        layout.panel.y + 9 * u);
-    const std::array<const char *, 2> rules = {"Weakest first", "Strongest first"};
+    paint.text("Fondamento", 18 * u, Label, Engine::tr("Slot {slot}", {{"slot", int64_t(slot + 1)}}),
+        layout.panel.x + 12 * u, layout.panel.y + 9 * u);
+    const std::array<std::string, 2> rules = {Engine::tr("Weakest first"), Engine::tr("Strongest first")};
 
     for (size_t index = 0; index < rules.size(); ++index)
     {
@@ -470,7 +471,9 @@ void renderPicker(GameplayScreenRuntime &context, const Party &party, const Char
         }
 
         // The HUD fonts are single-byte: the middle dot is 0xB7.
-        const std::string note = (row.power > 0 ? "strength " + std::to_string(row.power) + "  \xB7  " : std::string())
+        const std::string note =
+            (row.power > 0 ? Engine::tr("strength {power}", {{"power", int64_t(row.power)}}) + "  \xB7  "
+                           : std::string())
             + carriers;
         paint.text(TextFont, 10 * u, Muted, paint.fitted(TextFont, 10 * u, note, box.width - 44 * u), box.x + 38 * u,
             box.y + 21 * u);
@@ -478,7 +481,7 @@ void renderPicker(GameplayScreenRuntime &context, const Party &party, const Char
 
     if (rows.empty())
     {
-        paint.text(TextFont, 12 * u, Muted, "Nobody carries a potion or a scroll", layout.list.x + 6 * u,
+        paint.text(TextFont, 12 * u, Muted, Engine::tr("Nobody carries a potion or a scroll"), layout.list.x + 6 * u,
             layout.list.y + 8 * u);
     }
 
@@ -496,8 +499,8 @@ void renderPicker(GameplayScreenRuntime &context, const Party &party, const Char
         paint.frame(box, std::max(1.0f, u), ChipOnBorder);
         paint.text("Fondamento", 14 * u, abgr(0xe8d1a4), pLabel, box.x + box.width / 2, box.y + 3 * u, 1);
     };
-    button(layout.clear, "Clear slot");
-    button(layout.close, "Close");
+    button(layout.clear, Engine::tr("Clear slot").c_str());
+    button(layout.close, Engine::tr("Close").c_str());
 }
 
 // The picker's clicks and wheel: true when the pointer was over it.
@@ -673,8 +676,8 @@ std::vector<PopupEntry> popupEntries(GameplayScreenRuntime &context, const Party
             continue;
         }
 
-        entries.push_back({item.itemId, item.power, item.count, pDefinition->name, pDefinition->iconName,
-            item.carriers});
+        entries.push_back({item.itemId, item.power, item.count, Engine::localize(pDefinition->name),
+            pDefinition->iconName, item.carriers});
     }
 
     std::sort(entries.begin(), entries.end(), [](const PopupEntry &left, const PopupEntry &right)
@@ -836,11 +839,11 @@ std::optional<std::pair<std::string, uint32_t>> scrollSchool(const ItemTable &it
     {
         if (*skill == name)
         {
-            return std::pair<std::string, uint32_t>{displaySkillName(*skill), colour};
+            return std::pair<std::string, uint32_t>{Engine::localize(displaySkillName(*skill), "skill"), colour};
         }
     }
 
-    return std::pair<std::string, uint32_t>{displaySkillName(*skill), Muted};
+    return std::pair<std::string, uint32_t>{Engine::localize(displaySkillName(*skill), "skill"), Muted};
 }
 
 void closePopup(GameplayScreenRuntime &context)
@@ -916,7 +919,7 @@ void renderPopupBar(const Painter &paint, const Box &box, int value, int maximum
 
     if (maximum <= 0)
     {
-        paint.text(TextFont, 11 * k, Muted, "no SP", box.x + box.width + 8 * k, box.y - 2 * k);
+        paint.text(TextFont, 11 * k, Muted, Engine::tr("no SP"), box.x + box.width + 8 * k, box.y - 2 * k);
         return;
     }
 
@@ -976,7 +979,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
     paint.frame(panel, std::max(1.0f, k), Brass);
 
     // Header: title, the member, their HP and SP, Close.
-    paint.text("Fondamento", 30 * k, Ivory, potions ? "Potions" : "Scrolls", panel.x + 16 * k, panel.y + 15 * k);
+    paint.text("Fondamento", 30 * k, Ivory, potions ? Engine::tr("Potions") : Engine::tr("Scrolls"), panel.x + 16 * k,
+        panel.y + 15 * k);
     const Box &chip = layout->memberChip;
     paint.fill(chip, abgr(0x0d1716));
     paint.frame(chip, std::max(1.0f, k), ChipBorder);
@@ -991,7 +995,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
     paint.text("Fondamento", 19 * k, Label, paint.fitted("Fondamento", 19 * k, pMember->name, chip.width - 52 * k),
         chip.x + 46 * k, chip.y + 4 * k);
     paint.text(TextFont, 11 * k, Muted,
-        std::string(potions ? "drinks" : "reads") + "  \xB7  " + hubState(context, party, state.quickItemPopupMember),
+        (potions ? Engine::tr("drinks") : Engine::tr("reads")) + "  \xB7  "
+            + hubState(context, party, state.quickItemPopupMember),
         chip.x + 46 * k, chip.y + 27 * k);
 
     const std::optional<size_t> hovered =
@@ -1017,14 +1022,16 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
     const Box &close = layout->close;
     paint.fill(close, ChipFill);
     paint.frame(close, std::max(1.0f, k), ChipOnBorder);
-    paint.text("Fondamento", 19 * k, abgr(0xe8d1a4), "Close", close.x + close.width / 2, close.y + 7 * k, 1);
+    paint.text("Fondamento", 19 * k, abgr(0xe8d1a4), Engine::tr("Close"), close.x + close.width / 2,
+        close.y + 7 * k, 1);
     paint.fill({panel.x, panel.y + 64 * k, panel.width, std::max(1.0f, k)}, abgr(0x3a4234));
 
     // The hint line.
-    paint.text(TextFont, 12 * k, Muted, potions ? "Click a portrait below to choose who drinks"
-                                                : "Click a portrait below to choose who reads",
+    paint.text(TextFont, 12 * k, Muted,
+        potions ? Engine::tr("Click a portrait below to choose who drinks")
+                : Engine::tr("Click a portrait below to choose who reads"),
         panel.x + 16 * k, panel.y + 68 * k);
-    paint.text(TextFont, 12 * k, Muted, "Right-click: put on a quick slot", panel.x + panel.width - 16 * k,
+    paint.text(TextFont, 12 * k, Muted, Engine::tr("Right-click: put on a quick slot"), panel.x + panel.width - 16 * k,
         panel.y + 68 * k, 2);
 
     // The entries, two to a row.
@@ -1067,15 +1074,16 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
 
         if (potions)
         {
-            const std::string sub = "strength " + std::to_string(entry.power) + "  \xB7  " + carriers;
+            const std::string sub =
+                Engine::tr("strength {power}", {{"power", int64_t(entry.power)}}) + "  \xB7  " + carriers;
             const std::string fitted = paint.fitted(TextFont, 11 * k, sub, box->width - 70 * k - countWidth
-                - (idle ? paint.width(TextFont, 11 * k, "  \xB7  no effect now") : 0));
+                - (idle ? paint.width(TextFont, 11 * k, "  \xB7  " + Engine::tr("no effect now")) : 0));
             paint.text(TextFont, 11 * k, Muted, fitted, subX, box->y + 28 * k);
 
             if (idle)
             {
                 subX += paint.width(TextFont, 11 * k, fitted);
-                paint.text(TextFont, 11 * k, Warn, "  \xB7  no effect now", subX, box->y + 28 * k);
+                paint.text(TextFont, 11 * k, Warn, "  \xB7  " + Engine::tr("no effect now"), subX, box->y + 28 * k);
             }
         }
         else
@@ -1117,7 +1125,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
                 box->height - 6 * k};
             paint.fill(strip, abgr(0x0b1212, 0xf4));
             paint.frame(strip, std::max(1.0f, k), ChipOnBorder);
-            paint.text(TextFont, 11 * k, Body, "Quick slot", strip.x + 8 * k, strip.y + strip.height / 2 - 7 * k);
+            paint.text(TextFont, 11 * k, Body, Engine::tr("Quick slot"), strip.x + 8 * k,
+                strip.y + strip.height / 2 - 7 * k);
 
             for (size_t slot = 0; slot < QuickItemSlotCount; ++slot)
             {
@@ -1133,7 +1142,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
 
     if (entries.empty())
     {
-        paint.text(TextFont, 14 * k, Muted, potions ? "The party carries no potion" : "The party carries no scroll",
+        paint.text(TextFont, 14 * k, Muted,
+            potions ? Engine::tr("The party carries no potion") : Engine::tr("The party carries no scroll"),
             layout->list.x + 8 * k, layout->list.y + 10 * k);
     }
 
@@ -1159,7 +1169,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
 
     if (!hovered)
     {
-        paint.text(TextFont, 13 * k, Muted, "Point at a potion to see what it does for " + pMember->name,
+        paint.text(TextFont, 13 * k, Muted,
+            Engine::tr("Point at a potion to see what it does for {name}", {{"name", pMember->name}}),
             footer.x + 16 * k, footer.y + 32 * k);
         return;
     }
@@ -1170,8 +1181,9 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
         party, state.quickItemPopupMember, entry.itemId, entry.power, bags);
     const Character *pSource = source ? party.member(source->memberIndex) : nullptr;
     paint.text("Fondamento", 19 * k, Label, entry.name, footer.x + 16 * k, footer.y + 12 * k);
-    paint.text(TextFont, 13 * k, Muted, "strength " + std::to_string(entry.power)
-            + (pSource != nullptr ? "  \xB7  from " + pSource->name + "'s pack" : std::string()),
+    paint.text(TextFont, 13 * k, Muted, Engine::tr("strength {power}", {{"power", int64_t(entry.power)}})
+            + (pSource != nullptr ? "  \xB7  " + Engine::tr("from {name}'s pack", {{"name", pSource->name}})
+                                  : std::string()),
         footer.x + 24 * k + paint.width("Fondamento", 19 * k, entry.name), footer.y + 17 * k);
     float x = footer.x + 16 * k;
     const float y = footer.y + 46 * k;
@@ -1183,43 +1195,49 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
 
     if (preview.noEffectNow())
     {
-        say("No effect on " + pMember->name + " now", Warn);
+        say(Engine::tr("No effect on {name} now", {{"name", pMember->name}}), Warn);
         return;
     }
 
     if (preview.healthGain > 0)
     {
         say(pMember->name + " ", Body);
-        say("+" + std::to_string(preview.healthGain) + " HP", Good);
-        say(" (" + std::to_string(preview.healthBefore) + " to "
-                + std::to_string(preview.healthBefore + preview.healthGain) + " of "
-                + std::to_string(preview.healthMaximum) + ")   ",
+        say(Engine::tr("+{gain} HP", {{"gain", int64_t(preview.healthGain)}}), Good);
+        say(Engine::tr(" ({from} to {to} of {maximum})", {{"from", int64_t(preview.healthBefore)},
+                {"to", int64_t(preview.healthBefore + preview.healthGain)},
+                {"maximum", int64_t(preview.healthMaximum)}})
+                + "   ",
             Muted);
     }
 
     if (preview.spellPointGain > 0)
     {
         say(preview.healthGain > 0 ? "" : pMember->name + " ", Body);
-        say("+" + std::to_string(preview.spellPointGain) + " SP", Good);
-        say(" (" + std::to_string(preview.spellPointsBefore) + " to "
-                + std::to_string(preview.spellPointsBefore + preview.spellPointGain) + " of "
-                + std::to_string(preview.spellPointsMaximum) + ")   ",
+        say(Engine::tr("+{gain} SP", {{"gain", int64_t(preview.spellPointGain)}}), Good);
+        say(Engine::tr(" ({from} to {to} of {maximum})", {{"from", int64_t(preview.spellPointsBefore)},
+                {"to", int64_t(preview.spellPointsBefore + preview.spellPointGain)},
+                {"maximum", int64_t(preview.spellPointsMaximum)}})
+                + "   ",
             Muted);
     }
 
     for (CharacterCondition condition : preview.cures)
     {
-        say("Cures " + GameMechanics::conditionName(condition) + "   ", Good);
+        say(Engine::tr("Cures {condition}",
+                {{"condition", Engine::localizeKnown(GameMechanics::conditionName(condition))}})
+                + "   ",
+            Good);
     }
 
     if (preview.healthGain == 0 && preview.spellPointGain == 0 && preview.cures.empty())
     {
         const ItemDefinition *pDefinition = pItemTable->get(entry.itemId);
         // The item's description, without its inventory hint ("(To drink, pick the potion up ...)").
-        std::string notes = pDefinition != nullptr ? pDefinition->notes : std::string();
+        std::string notes = pDefinition != nullptr ? Engine::localize(pDefinition->notes) : std::string();
         notes = notes.substr(0, notes.find("  (To "));
         notes = notes.substr(0, notes.find(" (To "));
-        say(!notes.empty() ? paint.fitted(TextFont, 13 * k, notes, footer.width - 48 * k) : pMember->name + " drinks it",
+        say(!notes.empty() ? paint.fitted(TextFont, 13 * k, notes, footer.width - 48 * k)
+                             : Engine::tr("{name} drinks it", {{"name", pMember->name}}),
             Body);
     }
 }
@@ -1549,7 +1567,7 @@ void GameplayQuickItems::renderHud(GameplayScreenRuntime &context, int width, in
     paint.ring(layout->hub, 3.0f, false);
     paint.text("Fondamento", 19 * unit, Label, pMember->name, layout->hub.x, layout->hub.y - 16 * unit, 1);
     const std::string stateText = hubState(context, *pParty, state.quickItemRingMember);
-    paint.text("Lucida", 11 * unit, stateText == "nobody ready" ? Warn : Muted, stateText, layout->hub.x,
+    paint.text("Lucida", 11 * unit, stateText == Engine::tr("nobody ready") ? Warn : Muted, stateText, layout->hub.x,
         layout->hub.y + 8 * unit, 1);
 
     if (state.quickItemPickerSlot && *state.quickItemPickerSlot < QuickItemSlotCount)

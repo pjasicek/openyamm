@@ -1,14 +1,16 @@
 -- MMMerge map supplement: Mire of the Damned local outdoor state.
 
+-- MMMerge Scripts/Maps/outd1.lua: this map's own hostile.txt cells (faction numbers, 0 is the party).
+SetLocalFactionRelations({
+    {211, 0, 0},
+    {211, 173, 2},
+    {211, 181, 2},
+    {173, 211, 1},
+    {181, 211, 1},
+})
+
 RegisterMapOnLoadEvent(65027, "MMMerge outd1 town portal", function()
     SetQBit(QBit(314)) -- Silver Cove town portal destination discovered.
-    MM6.ApplyLocalMonsterRelations({
-        {211, 0, 0},
-        {211, 173, 2},
-        {211, 181, 2},
-        {173, 211, 1},
-        {181, 211, 1},
-    })
     MM6.ApplyDragonTowerState(1182, 117, 42)
 end)
 

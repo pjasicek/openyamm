@@ -186,6 +186,8 @@ bool buildSectorBsp(
         }
 
         // Minimize unsplit crossing faces, then balance the remaining tree. Stable source order breaks ties.
+        // The partial score only grows, so a candidate stops being counted once it can no longer beat the best (the
+        // same choice; a city of 15 000 faces took six minutes counting every pair).
         uint16_t partitionFace = work.faces.front();
         size_t bestScore = size_t(-1);
         for (uint16_t candidate : work.faces)
@@ -193,14 +195,19 @@ bool buildSectorBsp(
             size_t front = 0;
             size_t back = 0;
             size_t crossing = 0;
+            size_t score = 0;
             for (uint16_t faceId : work.faces)
             {
                 const int side = classifyFace(geometry, faceId, planes[candidate]);
                 front += side == 1;
                 back += side == 2;
                 crossing += side == 3;
+                score = crossing * (work.faces.size() + 1) + std::max(front, back);
+                if (score >= bestScore)
+                {
+                    break;
+                }
             }
-            const size_t score = crossing * (work.faces.size() + 1) + std::max(front, back);
             if (score < bestScore)
             {
                 bestScore = score;

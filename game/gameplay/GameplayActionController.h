@@ -18,6 +18,7 @@ namespace OpenYAMM::Game
 class ItemTable;
 class MonsterProjectileTable;
 class MonsterTable;
+class Mm9HirelingTable;
 class Party;
 class GameplayScreenRuntime;
 class GameplaySpellService;
@@ -106,6 +107,10 @@ public:
             && actor.lineOfSightToParty;
     }
 
+    // With no actor under the crosshair, a standing destructible there (a face, BModel or prop a party blow or
+    // missile damages) takes the attack instead of the nearest hostile, unless that hostile is within blow reach.
+    static bool crosshairDestructibleOverridesFallback(bool crosshairOnStandingDestructible, float fallbackDistance);
+
     struct AttackCastResult
     {
         bool castStarted = false;
@@ -124,6 +129,8 @@ public:
         // The worlds' party guns (monster_projectiles.yml party): a listed gun fires its own missile and sound.
         const MonsterProjectileTable *pMonsterProjectileTable = nullptr;
         const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr;
+        // The MM9 hirelings' rows, for an active hireling's attack or spell (MM9 world only).
+        const Mm9HirelingTable *pMm9HirelingTable = nullptr;
         std::optional<size_t> directTargetActorIndex;
         std::optional<WorldPoint> directTargetHitPoint;
         std::optional<size_t> directTargetBModelIndex;

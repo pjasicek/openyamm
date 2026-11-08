@@ -52,6 +52,18 @@ public:
     void shutdown();
     void update(float listenerX, float listenerY, float listenerZ, float deltaSeconds, float listenerYawRadians = 0.0f);
     uint64_t playActorSound(size_t actorIndex, SoundRef sound, const WorldPosition &position, float pitch = 1.0f);
+    // The actors whose sounds come from their 3D model's clips (WorldFxSystem::actorPlaysClipSounds): playActorSound
+    // drops their descriptor sounds, which the clips replace. Keyed by the world presenting them (pOwner): clearing
+    // with another owner keeps the current one.
+    void setActorClipSoundOwner(const void *pOwner, std::function<bool(size_t)> owner);
+    void clearActorClipSoundOwner(const void *pOwner);
+    // A sound of an actor's clip (actors' actor_sounds.yml), by name in the world's audio, heard within outerRadius.
+    uint64_t playActorClipSound(
+        const std::string &soundName,
+        const WorldPosition &position,
+        float volume,
+        float innerRadius,
+        float outerRadius);
     void updateActorVoices(
         const WorldPosition &listenerFeet,
         const std::function<std::optional<WorldPosition>(size_t)> &sourcePosition);
@@ -61,7 +73,13 @@ public:
     std::optional<std::string> soundVirtualPathByName(SoundScope scope, const std::string &soundName) const;
     // True while the speaker's latest speech line is this speech and has not finished.
     bool isSpeechPlaying(uint32_t speakerKey, SpeechId speechId) const;
-    void setBackgroundMusicTrack(int redbookTrack);
+    // repeatGapSeconds: the silence between two plays of the track (world.yml music; 0 loops it seamlessly).
+    void setBackgroundMusicTrack(int redbookTrack, float repeatGapSeconds = 0.0f);
+    // Battle music (world.yml music battleTrack; MM9): while active, the track plays in place of the map's, which waits
+    // paused; once inactive it fades out over fadeSeconds and the map's track resumes where it stopped, fading in as
+    // fast. Called every frame; track 0 or inactive with no battle music playing does nothing.
+    void setBattleMusic(int track, bool active, float fadeSeconds);
+    bool isBattleMusicPlaying() const;
     void stopBackgroundMusic();
     void stopBackgroundMusicImmediate();
     void pauseBackgroundMusic();
@@ -110,7 +128,8 @@ public:
         float volume = 1.0f,
         float pitch = 1.0f,
         float innerRadius = -1.0f,
-        float outerRadius = -1.0f);
+        float outerRadius = -1.0f,
+        bool pan = true);
     bool playLoopingSound(
         uint32_t soundId,
         PlaybackGroup group,
@@ -159,6 +178,8 @@ private:
     // The encoded track, read once and kept while it is active or pending; MusicStream decodes it as it plays.
     std::shared_ptr<const std::vector<uint8_t>> loadBackgroundMusicTrack(int redbookTrack);
     bool startBackgroundMusicTrack(int redbookTrack);
+    void updateBattleMusic(float deltaSeconds);
+    void stopBattleMusicImmediate();
     void evictUnusedMusicClips();
     float targetMusicVolume() const;
     float playbackGroupVolume(PlaybackGroup group) const;
@@ -174,6 +195,8 @@ private:
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
     const MergedCharacterVoiceTable *m_pCharacterVoiceTable = nullptr;
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    const void *m_pActorClipSoundOwnerKey = nullptr;
+    std::function<bool(size_t)> m_actorClipSoundOwner;
     SoundCatalog m_soundCatalog;
     SpeechReactionTable m_speechReactionTable;
     Engine::AudioSystem m_audioSystem;
@@ -194,6 +217,14 @@ private:
     std::unordered_map<int, std::shared_ptr<const std::vector<uint8_t>>> m_loadedMusicTracks;
     int m_activeMusicTrack = 0;
     int m_pendingMusicTrack = 0;
+    float m_musicRepeatGapSeconds = 0.0f;   // of the latest setBackgroundMusicTrack: tracks start with it
+    // Battle music over the map's track (setBattleMusic): the map's instance stays paused under it (suspended).
+    int m_battleMusicTrack = 0;
+    uint64_t m_battleMusicInstanceId = 0;
+    float m_battleMusicVolume = 0.0f;
+    float m_battleMusicFadeVelocity = 0.0f;
+    float m_battleMusicFadeSeconds = 2.5f;
+    bool m_mapMusicSuspended = false;
     uint64_t m_activeMusicInstanceId = 0;
     uint64_t m_ambienceInstanceId = 0;
     float m_activeMusicVolume = 0.0f;

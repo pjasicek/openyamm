@@ -7,6 +7,7 @@
 #include "game/party/CharacterRulesetState.h"
 #include "game/party/CharacterState.h"
 #include "game/party/InventoryItem.h"
+#include "game/party/PlaythroughStatisticsTypes.h"
 #include "game/party/QuickItemSlot.h"
 #include "game/party/SpeechIds.h"
 #include "game/tables/ClassSkillTable.h"
@@ -18,6 +19,7 @@
 #include <cstdint>
 #include <functional>
 #include <optional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -39,6 +41,10 @@ struct EventRuntimeState;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 class TrainerDirectory;
+struct Mm9Hireling;
+struct Mm9HirelingPassives;
+class Mm9HirelingTable;
+enum class Mm9HirelingKind : uint8_t;
 
 // A pin on the journal map of mapFileName (lowercase); ids are unique within one map.
 struct JournalMapNote
@@ -99,6 +105,9 @@ struct Character
     uint32_t portraitSequenceCounter = 0;
     uint16_t portraitImageIndex = 0;
     uint32_t rosterId = 0;
+    // The member's identity in the playthrough statistics (game/party/PlaythroughStatistics.h): random, given out the
+    // first time the member is in the party, kept when dismissed and hired back. 0 until then. Saved.
+    uint64_t statsMemberId = 0;
     uint32_t characterDataId = 0;
     int32_t voiceId = -1;
     uint32_t birthYear = 0;
@@ -146,6 +155,9 @@ struct Character
     CharacterEquipmentRuntimeState equipmentRuntime = {};
     std::bitset<CharacterConditionCount> conditions = {};
     std::array<float, CharacterConditionCount> conditionStartGameMinutes = {};
+    // When a timed condition wears off (game minutes; 0: it lasts until cured), from a monster spell's duration
+    // (spell_conditions minutes). Party::setGameMinutes clears it once the clock passes.
+    std::array<float, CharacterConditionCount> conditionExpireGameMinutes = {};
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
     std::unordered_map<uint16_t, int32_t> eventVariables;
@@ -164,7 +176,10 @@ struct Character
     // its mastery.
     int glamourPower = 0;
     SkillMastery glamourMastery = SkillMastery::None;
-    int weaponEnchantmentDamageBonus = 0;
+    // Flat damage the equipment adds to melee blows and to bow and gun shots (artifacts, item content effects); a
+    // weapon's adds only to its own attacks. Elemental enchantment damage is rolled per hit instead.
+    int meleeWeaponDamageBonus = 0;
+    int rangedWeaponDamageBonus = 0;
     float vampiricHealFraction = 0.0f;
     bool physicalAttackDisabled = false;
     bool physicalDamageImmune = false;
@@ -393,9 +408,44 @@ struct WorldCompletionRecord
     bool timed = true;
 };
 
+// An MM9 hireling with the party (devdocs/mm9/MM9_HIRELINGS_PLAN.md). Kept apart from Party::members(), so MM6-MM8
+// code never sees hirelings; the systems that include them opt in.
+struct Mm9PartyHireling
+{
+    // Its row in the MM9 hireling table (Mm9HirelingTable::find).
+    uint32_t rudeId = 0;
+    Mm9HirelingKind kind = {};
+    // HP, conditions, recovery and the row's level, armour class (armorClassModifier) and resistances; never an
+    // inventory, equipment or spellbook.
+    Character character;
+    // Its personal buffs, as the members' (Party::characterBuff).
+    std::array<CharacterBuffState, CharacterBuffCount> buffs = {};
+    // Day index (game minutes / 1440) of the hire.
+    uint32_t hireDay = 0;
+    // When the next 28-day wage is due; 0 for story companions, who take none.
+    float nextWageGameMinutes = 0.0f;
+    // The -15 service is ready again from this time.
+    float serviceReadyGameMinutes = 0.0f;
+    // Its cell in the formation grid (Party::formationCell); -1 unset.
+    int32_t formationCell = -1;
+};
+
+// The MM9 formation grid (MM9_HIRELINGS.md section 10): cells 0-8 row by row, 0-2 the front rank, 3-5 the middle,
+// 6-8 the rear.
+constexpr int32_t Mm9FormationCellCount = 9;
+constexpr int32_t Mm9FormationRankSize = 3;
+
 class Party
 {
 public:
+    // MM9: at most three hirelings, at most two of them paid retainers (the third slot is a story companion's).
+    static constexpr size_t MaxMm9Hirelings = 3;
+    static constexpr size_t MaxPaidMm9Hirelings = 2;
+    static constexpr float Mm9HirelingWagePeriodGameMinutes = 28.0f * 24.0f * 60.0f;
+    // A hireling's primary stats: the value whose parameter bonus is 0 (MM's table gives 0 for 13-14), so the shared
+    // formulas (armour from speed, saves and resistance rolls from luck) add nothing to its row's values.
+    static constexpr uint32_t Mm9HirelingPrimaryStat = 13;
+
     struct HouseStockState
     {
         uint32_t houseId = 0;
@@ -460,6 +510,9 @@ public:
         std::unordered_map<uint32_t, uint32_t> npcItemOverrides;
         std::unordered_set<uint32_t> unavailableNpcIds;
         std::vector<HiredNpcFollower> hiredNpcFollowers;
+        std::vector<Mm9PartyHireling> mm9Hirelings;
+        // The members' formation cells (Party::formationCell), one per member; older saves have none (defaults).
+        std::vector<int32_t> memberFormationCells;
         // The outdoor map the party was last on (MMerge's vars.LastOutdoorMap); older saves have none.
         std::string lastOutdoorMapFileName;
         // Potion pairs (target << 32 | held) that exploded when mixed, so the alchemy bench can warn.
@@ -530,6 +583,15 @@ public:
     void setRulesMovementMultiplier(float multiplier);
     float rulesMovementMultiplier() const;
     const GameRules &rules() const;
+    // The session's playthrough statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md). A copy of the party does not
+    // carry it, so trial copies never record; assigning another party's state keeps this party's binding.
+    void setStatistics(PlaythroughStatistics *pStatistics);
+    PlaythroughStatistics *statistics() const;
+    // Gives every member without one a statistics identity (Character::statsMemberId).
+    void assignStatsMemberIds();
+    StatMemberRef statsMember(size_t memberIndex) const;
+    // What the next applyDamageToMember is from: the combat controller names a monster's hit before it lands.
+    void setIncomingDamageSource(StatDamageTakenKind kind, const std::string &cause);
     const ClassSkillTable *classSkillTable() const;
     // Every skill teacher (the journal's trainer finder, the Ledger of Teachers, the trainer hints).
     void setTrainerDirectory(const TrainerDirectory *pTrainerDirectory);
@@ -552,13 +614,16 @@ public:
     bool applyDamageToActiveMember(int damage, const std::string &status);
     bool applyPotionExplosionToMember(size_t memberIndex, uint8_t damageLevel);
     bool applyDamageToAllLivingMembers(int damage, const std::string &status);
-    uint64_t addExperienceToMember(size_t memberIndex, int64_t amount);
+    // The statistics count a gain under the reason given; kill experience (grantMonsterKillExperience) as Monster.
+    uint64_t addExperienceToMember(
+        size_t memberIndex, int64_t amount, ExperienceReason reason = ExperienceReason::Other);
     uint64_t setMemberExperience(size_t memberIndex, uint64_t experience);
-    uint32_t grantSharedExperience(uint32_t totalExperience);
+    uint32_t grantSharedExperience(uint32_t totalExperience, ExperienceReason reason = ExperienceReason::Other);
     // Shares the experience for killing a monster under the experience rules; returns the amount before sharing.
     uint32_t grantMonsterKillExperience(const MonsterKillReward &kill);
     std::optional<size_t> chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint);
-    void addGold(int amount);
+    // The statistics count the change under the reason given (game/party/PlaythroughStatisticsTypes.h).
+    void addGold(int amount, GoldReason reason = GoldReason::Other);
     void addFood(int amount);
     void requestSound(SoundId soundId);
     void requestDamageImpactSoundForMember(size_t memberIndex);
@@ -600,6 +665,64 @@ public:
     void addHiredNpcFollower(const HiredNpcFollower &follower);
     void removeHiredNpcFollower(uint32_t npcId);
     void setHiredNpcFollowerAbilityUsedDay(uint32_t npcId, uint32_t day);
+    // Whether the MM6-MM8 hired NPC followers count in the active world (world.yml npcFollowers; off in MM9, whose
+    // hirelings replace them). Off, the party keeps its followers but they are not shown, take no share of found gold
+    // and give no bonuses; they come back in a world that has them.
+    void setNpcFollowersActive(bool active);
+    bool npcFollowersActive() const;
+    // The MM9 hirelings with the party, in hiring order.
+    const std::vector<Mm9PartyHireling> &hirelings() const;
+    const Mm9PartyHireling *findHireling(uint32_t rudeId) const;
+    Mm9PartyHireling *findHireling(uint32_t rudeId);
+    size_t paidHirelingCount() const;
+    // False when the hireling is already along or the party is at a limit (MaxMm9Hirelings, MaxPaidMm9Hirelings).
+    bool canAddHireling(const Mm9Hireling &row) const;
+    // Adds the table row's hireling at full HP, hired now, its first wage due in 28 days; false as canAddHireling.
+    bool addHireling(const Mm9Hireling &row);
+    bool removeHireling(uint32_t rudeId);
+    // Adds the table row of rudeId (a script: Tamur Leng joins); no fee, and keys stay as the script sets them. False
+    // without a table or a row, or as addHireling.
+    bool addHirelingByRudeId(uint32_t rudeId);
+    // The MM9 world's hireling table (GameDataRepository::mm9HirelingTable), for the hirelings' passives and scripts.
+    void setMm9HirelingTable(const Mm9HirelingTable *pTable);
+    const Mm9HirelingTable *mm9HirelingTable() const;
+    // What the hirelings along give (mm9PartyHirelingPassives): +20 % found gold (Edina), +10 % experience
+    // (Cleirach), identify and repair that never fail, skill bonuses for the members who have the skill.
+    Mm9HirelingPassives mm9HirelingPassives() const;
+    // Combatants (MM9 hirelings, devdocs/mm9/MM9_HIRELINGS_PLAN.md phases 3-5): the members (0 .. memberCount() - 1),
+    // then the hirelings in hiring order. Without hirelings (every MM6-MM8 party) they are exactly the members. The
+    // damage, condition, heal, buff and recovery calls below take combatant indices; member() and members() stay the
+    // player characters only.
+    size_t combatantCount() const;
+    const Character *combatant(size_t combatantIndex) const;
+    Character *combatant(size_t combatantIndex);
+    bool isHirelingCombatant(size_t combatantIndex) const;
+    // The hireling a combatant index names; nullptr for a member.
+    const Mm9PartyHireling *hirelingCombatant(size_t combatantIndex) const;
+    // The acting combatant: the active member, or the active hireling while one is selected (the active-member
+    // rotation runs over the members, then the hirelings, as MM9's). activeMember() stays the last active member, so
+    // the inventory, spellbook and other character screens keep showing a player character.
+    size_t activeCombatantIndex() const;
+    const Mm9PartyHireling *activeHireling() const;
+    // A member index makes that member active; a hireling's index makes the hireling act. False when out of range.
+    bool setActiveCombatantIndex(size_t combatantIndex);
+    bool canSelectCombatantInGameplay(size_t combatantIndex) const;
+    // A hireling's recovery after its attack or spell: the row's recovery_seconds less what haste takes off a
+    // member's attack (attackRecoveryReductionTicks), at least a melee blow's minimum.
+    static float hirelingRecoverySeconds(const Character &hireling, float rowRecoverySeconds);
+    // MM9's formation (world.yml formations; devdocs/mm9/MM9_HIRELINGS.md section 10). Each member and hireling has a
+    // cell 0-8; new ones take the lowest free cell. With formation targeting on (the MM9 world), a monster's blow picks
+    // its victim by rank: front 70 %, middle 20 %, rear 10 %, then a cell of that rank. Off (MM6-MM8), monsters choose
+    // among the members as before and the cells are unused.
+    void setFormationTargetingActive(bool active);
+    bool formationTargetingActive() const;
+    int32_t formationCell(size_t combatantIndex) const;
+    // Moves a combatant to an empty cell; false for an occupied or invalid cell.
+    bool setFormationCell(size_t combatantIndex, int32_t cell);
+    // Every combatant's cell, in combatant order (the formation builder edits a copy).
+    std::vector<int32_t> formationCells() const;
+    // Applies a whole arrangement: one valid, distinct cell per combatant, else false and nothing changes.
+    bool setFormationCells(const std::vector<int32_t> &cells);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     // tryGrantItem, tryGrantInventoryItem and tryGrantInventoryItemStartingAt give to the first member with room, from
     // the active one (or the first named) on, in any of their bags (MAW has four; the open bag first);
@@ -700,6 +823,8 @@ public:
     bool takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, InventoryItem &item);
     // Puts a changed copy of a worn item back in its slot (crafting); nothing about wearing it is checked again.
     bool replaceEquippedItem(size_t memberIndex, EquipmentSlot slot, const InventoryItem &item);
+    // Debug paperdoll review: wears the item in the slot without any wearing rules (an item id of 0 empties it).
+    bool forceEquippedItem(size_t memberIndex, EquipmentSlot slot, const InventoryItem &item);
     bool tryEquipItemOnMember(
         size_t memberIndex,
         EquipmentSlot targetSlot,
@@ -830,6 +955,10 @@ public:
     // Starts the condition at the party's current game time.
     bool applyMemberCondition(size_t memberIndex, CharacterCondition condition);
     bool applyMemberCondition(size_t memberIndex, CharacterCondition condition, float gameMinutes);
+    // A timed condition wears off at expireGameMinutes (0: until cured). Recast on a member who has it, until-cured
+    // beats any time, and of two times the later wins.
+    bool applyMemberCondition(
+        size_t memberIndex, CharacterCondition condition, float gameMinutes, float expireGameMinutes);
     bool clearMemberCondition(size_t memberIndex, CharacterCondition condition);
     bool hasMemberConditionImmunity(size_t memberIndex, CharacterCondition condition) const;
     bool healMember(size_t memberIndex, int amount);
@@ -901,6 +1030,25 @@ private:
     void queueSound(SoundId soundId);
     void queueSpeech(size_t memberIndex, SpeechId speechId);
     SoundId resolveDamageImpactSoundForMember(size_t memberIndex) const;
+    // The followers that count in the active world: none where they are off (setNpcFollowersActive).
+    std::span<const HiredNpcFollower> activeHiredNpcFollowers() const;
+    // A combatant's personal buffs: the member's row of m_characterBuffs or the hireling's own; nullptr out of range.
+    std::array<CharacterBuffState, CharacterBuffCount> *combatantBuffs(size_t combatantIndex);
+    const std::array<CharacterBuffState, CharacterBuffCount> *combatantBuffs(size_t combatantIndex) const;
+    // MM9's knock-out (MM9_HIRELINGS.md 9.3): a hireling at 0 HP is Unconscious, never Dead and never below 0; any HP
+    // wakes it. Dead and Eradicated set by an effect stay.
+    void updateHirelingKnockOut(Character &hireling) const;
+    bool applyDamageToHireling(size_t combatantIndex, int damage, const std::string &status);
+    // The hirelings' magical bonuses from the party buffs and their own (rebuildMagicalBonusesFromBuffs).
+    void applyBuffBonusesToHirelings();
+    // What the party buffs and a character's own buffs add (rebuildMagicalBonusesFromBuffs), for members and hirelings.
+    void applyPartyBuffBonuses(Character &member) const;
+    void applyCharacterBuffBonuses(
+        Character &member,
+        const std::array<CharacterBuffState, CharacterBuffCount> &buffs) const;
+    // Gives every member and hireling without a valid cell the lowest free one, keeping the cells already held.
+    void normalizeFormationCells();
+    std::optional<size_t> chooseFormationAttackTarget(uint32_t selectionSeed) const;
 
     const ItemTable *m_pItemTable = nullptr;
     const PartyShieldRules *m_pPersonalShieldRules = nullptr;
@@ -911,7 +1059,30 @@ private:
     const ClassMultiplierTable *m_pClassMultiplierTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     const TrainerDirectory *m_pTrainerDirectory = nullptr;
+    const Mm9HirelingTable *m_pMm9HirelingTable = nullptr;
     const GameRules *m_pRules = nullptr;
+
+    // Not copied with the party; kept by assignment (setStatistics).
+    struct StatisticsBinding
+    {
+        StatisticsBinding() = default;
+        StatisticsBinding(const StatisticsBinding &)
+        {
+        }
+        StatisticsBinding &operator=(const StatisticsBinding &)
+        {
+            return *this;
+        }
+
+        PlaythroughStatistics *pStatistics = nullptr;
+    };
+
+    StatisticsBinding m_statistics;
+    void recordConditionStatistics(size_t memberIndex, CharacterCondition condition);
+    ExperienceReason m_experienceReasonScope = ExperienceReason::Other;
+    std::optional<std::pair<StatDamageTakenKind, std::string>> m_incomingDamageSource;
+    // The last thing that hurt each member (by statistics identity), named in the death log.
+    std::unordered_map<uint64_t, std::string> m_lastDamageCause;
     std::vector<Character> m_members;
     std::vector<AdventurersInnMember> m_adventurersInnMembers;
     size_t m_activeMemberIndex = 0;
@@ -964,8 +1135,17 @@ private:
     std::unordered_map<uint32_t, uint32_t> m_npcItemOverrides;
     std::unordered_set<uint32_t> m_unavailableNpcIds;
     std::vector<HiredNpcFollower> m_hiredNpcFollowers;
+    // World configuration like m_pRules: not saved, not reset.
+    bool m_npcFollowersActive = true;
+    std::vector<Mm9PartyHireling> m_mm9Hirelings;
+    // The active hireling (an index into m_mm9Hirelings) while one acts; runtime only.
+    std::optional<size_t> m_activeHirelingIndex;
+    // One cell per member (formationCell); saved.
+    std::vector<int32_t> m_memberFormationCells;
     // The outdoor map the party was last on; saved. A defeat in an Arena wakes the party on its continent.
     std::string m_lastOutdoorMapFileName;
+    // World configuration like m_npcFollowersActive: not saved, not reset.
+    bool m_formationTargetingActive = false;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;

@@ -1,19 +1,25 @@
 #include "game/rules/LootFilter.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
+#include <string_view>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
 // The study's presets (level_generation/ui/maw_loot_progress_20261025/index.html PRESETS), by RulesetLootFilterPreset.
+// The names here are English; the window translates them where it shows them.
 const std::array<LootFilterPresetDefinition, 6> Presets = {{
-    {"Every drop stays an item.", 0, {}},
-    {"Plain Common weapons and armour only. A first game.", 1, {{{1, 30}, {1, 30}, {0, 0}}}},
-    {"Common and Uncommon gear; Rare once 20 levels behind.", 2, {{{2, 20}, {2, 20}, {1, 20}}}},
-    {"Gear up to Rare, Epic once 20 levels behind; scrolls too.", 3, {{{3, 20}, {3, 20}, {2, 20}}}},
-    {"Only Ancient and Primordial gear stays; wands and scrolls go. Late game.", 4, {{{4, 30}, {4, 30}, {3, 20}}}},
-    {"Your own rules, from the preset you had.", -1, {}},
+    {Engine::trNoop("Every drop stays an item.").data(), 0, {}},
+    {Engine::trNoop("Plain Common weapons and armour only. A first game.").data(), 1, {{{1, 30}, {1, 30}, {0, 0}}}},
+    {Engine::trNoop("Common and Uncommon gear; Rare once 20 levels behind.").data(), 2, {{{2, 20}, {2, 20}, {1, 20}}}},
+    {Engine::trNoop("Gear up to Rare, Epic once 20 levels behind; scrolls too.").data(), 3,
+        {{{3, 20}, {3, 20}, {2, 20}}}},
+    {Engine::trNoop("Only Ancient and Primordial gear stays; wands and scrolls go. Late game.").data(), 4,
+        {{{4, 30}, {4, 30}, {3, 20}}}},
+    {Engine::trNoop("Your own rules, from the preset you had.").data(), -1, {}},
 }};
 }
 
@@ -24,23 +30,27 @@ const LootFilterPresetDefinition &lootFilterPreset(RulesetLootFilterPreset prese
 
 const char *lootFilterGroupName(LootFilterGroup group)
 {
-    constexpr std::array<const char *, LootFilterGroupCount> Names = {"Weapons", "Armour", "Jewellery"};
-    return Names[size_t(group)];
+    constexpr std::array<std::string_view, LootFilterGroupCount> Names = {
+        Engine::trNoop("Weapons"), Engine::trNoop("Armour"), Engine::trNoop("Jewellery")};
+    return Names[size_t(group)].data();
 }
 
 const char *lootFilterRarityName(int rarity)
 {
-    constexpr std::array<const char *, LootFilterRarityCount> Names = {
-        "Common", "Uncommon", "Rare", "Epic", "Ancient", "Primordial"};
-    return rarity >= 1 && rarity <= LootFilterRarityCount ? Names[size_t(rarity - 1)] : "";
+    constexpr std::array<std::string_view, LootFilterRarityCount> Names = {Engine::trNoop("Common"),
+        Engine::trNoop("Uncommon"), Engine::trNoop("Rare"), Engine::trNoop("Epic"), Engine::trNoop("Ancient"),
+        Engine::trNoop("Primordial")};
+    return rarity >= 1 && rarity <= LootFilterRarityCount ? Names[size_t(rarity - 1)].data() : "";
 }
 
 const char *lootFilterKindName(RulesetLootKind kind)
 {
-    constexpr std::array<const char *, RulesetLootKindCount> Names = {"Wands", "Scrolls", "Potions", "Reagents", "Gems"};
-    return Names[size_t(kind)];
+    constexpr std::array<std::string_view, RulesetLootKindCount> Names = {Engine::trNoop("Wands"),
+        Engine::trNoop("Scrolls"), Engine::trNoop("Potions"), Engine::trNoop("Reagents"), Engine::trNoop("Gems")};
+    return Names[size_t(kind)].data();
 }
 
+// The cell's English, compared by the window and the tests; the window shows its translation.
 std::string lootFilterCellText(RulesetLootFilterPreset preset, LootFilterGroup group, int rarity)
 {
     const LootFilterPresetColumn &column = lootFilterPreset(preset).columns[size_t(group)];

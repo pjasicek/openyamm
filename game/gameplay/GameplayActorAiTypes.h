@@ -163,6 +163,12 @@ enum class ActorAiDecisionKind : uint8_t
     Reposition,
     RepositionArrived,
     BackOffRush,
+    // A townsperson's chat with another (NPCBase.inc, MM9_AMBIENT_ANIMATION.md section 2.3; target: the other one).
+    // Note look (its search for someone to talk to starts), refused (the one it found is busy), approach (it walks to
+    // the one who accepted), hello (another asked it), give_up, begin (they stand together), converse (a Conv clip:
+    // its variant and length), end (its chat time is over), goodbye (the other left), leave (it turns away; seconds:
+    // the wait to its next search).
+    Chat,
 };
 
 // One decision: its kind, the target it was taken against, the ability of an attack, and the chance it rolled
@@ -184,7 +190,8 @@ struct ActorAiDecision
     bool hasPoint = false;
     GameplayWorldPoint point = {};
     int checks = -1;
-    // The clip variant it picked (a fidget, ActorRuntimeFacts::fidgetClips; negative: none).
+    // The clip variant it picked (a fidget or a chat's Conv clip, ActorRuntimeFacts::fidgetClips and convClips;
+    // negative: none).
     int variant = -1;
 };
 
@@ -315,6 +322,38 @@ enum class Mm9WanderPhase : uint8_t
 
 inline constexpr float Mm9WanderStartupDelaySeconds = 1.0f;
 
+// A townsperson's chats (NPCBase.inc, MM9_AMBIENT_ANIMATION.md section 2.3). Startup: not set up yet; Off: it never
+// looks for anyone (no aimless wander without a leash), though others may talk to it; Waiting: until its next search;
+// Looking: its search window; Approaching: it walks to the one who accepted; Listening: it waits for the one who asked
+// it to arrive; Talking: they stand together and take turns; Leaving: it turns away.
+enum class Mm9ChatPhase : uint8_t
+{
+    Startup,
+    Off,
+    Waiting,
+    Looking,
+    Approaching,
+    Listening,
+    Talking,
+    Leaving,
+};
+
+// In a chat with someone (it looks at that one; an end of either side ends the other's).
+inline bool mm9ChatEngaged(Mm9ChatPhase phase)
+{
+    return phase == Mm9ChatPhase::Approaching || phase == Mm9ChatPhase::Listening || phase == Mm9ChatPhase::Talking;
+}
+
+// The world's answer to a chat search (ActorMm9Request::chatSearch), or another's ask: Accepted, the one it found
+// talks to it; Refused, that one is busy (LeaveMeAlone); Asked, another found it and it accepted (Hello).
+enum class Mm9ChatAnswer : uint8_t
+{
+    None,
+    Accepted,
+    Refused,
+    Asked,
+};
+
 // The reposition modifier's state (ActorRepositionRules.h): a query out to the world (a spot that sees the target, or
 // room to back off), walking to a spot, walking back to its post, backpedalling from a rush.
 enum class Mm9RepositionPhase : uint8_t
@@ -443,6 +482,12 @@ struct ActorMm9State
     bool pathFirst = true;
     bool wanderObstacle = false;
     bool wanderHalted = false;
+    // What its walk touched since the wander last read it (BaseWanderObstacle's notice; the world notes it after each
+    // movement step): a wall, with the wall's horizontal normal pointing away from it, or another actor. Not saved.
+    bool wallContact = false;
+    bool actorContact = false;
+    float wallNormalX = 0.0f;
+    float wallNormalY = 0.0f;
 
     // BaseRun.inc: how it flees, its tick (a run's re-aim or a hiding run's re-run), the hiding place it runs to and
     // whether the last flight began by cowering.
@@ -473,6 +518,9 @@ struct ActorMm9State
     float raiseRetrySeconds = 0.0f;
     float raiseSeconds = 0.0f;
     uint32_t seenRaiseSerial = 0;
+    // It has risen once: MM9 raises a monster once per script start (AICommon.inc OnDeathDone clears
+    // g_bCanBeResurrected, which only BaseInit sets), so its next death is for good.
+    bool risen = false;
 
     // BaseDoor.inc: the door it opens, all its timers paused meanwhile (the door's open time).
     float doorSeconds = 0.0f;
@@ -531,6 +579,30 @@ struct ActorMm9State
     // had (NPCBase.inc OnRUDEExit) once its AI idles again, unless it walks or fights first.
     bool talkTurnBack = false;
     float talkYawRadians = 0.0f;
+    // Its chats (NPCBase.inc): the phase and its timer (the wait, the search window, the walk's or the wait's give-up,
+    // the next search while it turns away), an initiator's chat time left once they stand together, its next search
+    // (once a second), the other one, whether it asked, the Conv clips it finished in this chat, the one under way (its
+    // variant in ActorRuntimeFacts::convClips, negative: none) and its time left, the facing it turns to on leaving,
+    // the world answer it has seen and its rolls (their own counter).
+    Mm9ChatPhase chatPhase = Mm9ChatPhase::Startup;
+    float chatSeconds = 0.0f;
+    float chatTalkSeconds = 0.0f;
+    float chatSearchSeconds = 0.0f;
+    size_t chatPartner = static_cast<size_t>(-1);
+    bool chatInitiator = false;
+    uint16_t chatTurns = 0;
+    int8_t chatClip = -1;
+    float chatClipSeconds = 0.0f;
+    float chatLeaveYawRadians = 0.0f;
+    uint32_t seenChatSerial = 0;
+    uint32_t chatRollCount = 0;
+    // A path marker's stop (BaseWander.inc OnWanderAtMarkerNext): the stop whose clip plays (an index in
+    // ActorMovementFacts::mm9PathStops; negative: none) and for how long it has, and the marker's facing it turns to
+    // (360 degrees a second) while it waits.
+    int16_t markerStop = -1;
+    float markerClipSeconds = 0.0f;
+    bool markerTurn = false;
+    float markerYawRadians = 0.0f;
 
     // The native NPC use: it stands idle anew (a fidget cut, its timer armed again when its AI next idles) and keeps
     // the facing it had, to turn back to after the talk (a second talk before it has turned back keeps the first).
@@ -545,6 +617,30 @@ struct ActorMm9State
         idleThisStep = false;
         fidgetVariant = -1;
         fidgetSeconds = 0.0f;
+        // NPCBase.inc OnUse: DisableChat (the other one leaves), and OnRUDEExit's EnableChat sets the next one up;
+        // SetIdle ends a marker's clip.
+        endChat();
+        clearMarkerStop();
+    }
+
+    // No marker clip playing and no marker facing to turn to.
+    void clearMarkerStop()
+    {
+        markerStop = -1;
+        markerTurn = false;
+    }
+
+    // Out of any chat (the other one sees it gone); set up anew when it next idles.
+    void endChat()
+    {
+        if (chatPhase != Mm9ChatPhase::Off)
+        {
+            chatPhase = Mm9ChatPhase::Startup;
+        }
+
+        chatPartner = static_cast<size_t>(-1);
+        chatClip = -1;
+        chatClipSeconds = 0.0f;
     }
 };
 
@@ -558,6 +654,8 @@ struct ActorMm9WorldFacts
     size_t attackerActorIndex = static_cast<size_t>(-1);
     float attackerDistance = 0.0f;
     GameplayWorldPoint attackerPosition = {};
+    // The party hit it from beyond the world's provoke range (Mm9PartyAwareness): no reason to take a target.
+    bool attackerTooFar = false;
     // The largest single hit it took (MM9's ShouldRunAway).
     int largestHit = 0;
     // Counts the targets it killed.
@@ -627,6 +725,18 @@ struct ActorMm9WorldFacts
     bool repositionFound = false;
     GameplayWorldPoint repositionSpot = {};
     int repositionSightChecks = 0;
+    // A townsperson's chats: the world's last answer (counted by chatSerial) and the other one it names; and, set
+    // each step while it is in a chat (ActorMm9State::chatPartner), whether the other is still in it with it, where it
+    // stands (its feet), its radius, its phase, the Conv clips it finished and whether it plays one now.
+    uint32_t chatSerial = 0;
+    Mm9ChatAnswer chatAnswer = Mm9ChatAnswer::None;
+    size_t chatOther = static_cast<size_t>(-1);
+    bool chatPartnerPresent = false;
+    GameplayWorldPoint chatPartnerPosition = {};
+    float chatPartnerRadius = 0.0f;
+    Mm9ChatPhase chatPartnerPhase = Mm9ChatPhase::Startup;
+    uint16_t chatPartnerTurns = 0;
+    bool chatPartnerSpeaking = false;
 };
 
 // What an MM9 monster asks of the world this step (MM9_MONSTER_AI_PLAN.md phase 4a).
@@ -651,11 +761,14 @@ struct ActorMm9Request
     bool wake = false;
     // The reposition modifier: spots for the world to test (ActorMm9WorldFacts::repositionSerial answers).
     std::optional<ActorRepositionQuery> reposition;
+    // A townsperson looks for someone to talk to (ActorMm9WorldFacts::chatSerial answers when it finds one).
+    bool chatSearch = false;
 };
 
-// The fidget clips an actor's model picks from (actors.yml `fidget_variants`, ActorModelManifest::BoundClips): their
-// lengths, the binding's own fidget (the Bored clip) first. None: its one fidget, as long as boredAnimationSeconds.
-struct ActorFidgetClips
+// The clips an actor's model picks one of (ActorModelManifest::BoundClips): its fidgets (actors.yml
+// `fidget_variants`; the binding's own fidget, the Bored clip, first; none: its one fidget, as long as
+// boredAnimationSeconds) or its chat's Conv clips (none: it stands while it talks), with their lengths.
+struct ActorClipChoices
 {
     static constexpr size_t MaxVariants = 8;
     std::array<float, MaxVariants> seconds = {};
@@ -685,7 +798,8 @@ struct ActorRuntimeFacts
     float meleeAttackSoundDelaySeconds = 0.0f;
     float rangedAttackSoundDelaySeconds = 0.0f;
     float boredAnimationSeconds = 2.0f;
-    ActorFidgetClips fidgetClips;
+    ActorClipChoices fidgetClips;
+    ActorClipChoices convClips;
     float attackCooldownSeconds = 0.0f;
     float idleDecisionSeconds = 0.0f;
     float actionSeconds = 0.0f;
@@ -909,6 +1023,10 @@ struct ActorMovementFacts
     bool dormant = false;
     // The waypoint of its patrol (MapDeltaActor::patrolPoints) it walks to while it has nothing to fight.
     std::optional<GameplayWorldPoint> patrolTarget;
+    // A map script's walk (evt.MoveActorTo, applyScriptedActorMoves): it walks there (runs: scriptedMoveRun) whatever
+    // it would do by itself, until the world ends the move on its arrival.
+    std::optional<GameplayWorldPoint> scriptedMoveTarget;
+    bool scriptedMoveRun = false;
     bool hasHomeYaw = false;
     float homeYawRadians = 0.0f;
     // An MM9 placement's AI settings (MapDeltaActor::mm9Ai, scene mm9_ai); ActorBehaviorRuntime gives an actor with an
@@ -916,6 +1034,8 @@ struct ActorMovementFacts
     std::optional<Mm9AiPlacement> mm9Placement;
     // Its placement's marker path and hiding places (Mm9AiPlacementRecord), valid for the AI step that reads them.
     std::span<const std::array<int32_t, 3>> mm9PathPoints;
+    // The stops of that path with a marker's facing, wait or clip (Mm9AiPlacementRecord::pathStops).
+    std::span<const Mm9AiPathStop> mm9PathStops;
     std::span<const std::array<int32_t, 3>> mm9HidingPlaces;
     // Phase 4b: a townsperson on a stand-in row without an MM9 profile (scene mm9_civilian: the MM9 cities' people on
     // engine peasant rows) runs NPCBase.inc (mm9StandInCivilianProfile); MM9 spawned it with ScriptParams 1

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/Localization.h"
 #include "game/items/InventoryBags.h"
 #include "game/party/Party.h"
 #include "game/ui/GameplayOverlayTypes.h"
@@ -48,12 +49,12 @@ inline std::string tabNumeral(int tab)
     return tab >= 0 && tab < int(Numerals.size()) ? Numerals[size_t(tab)] : std::to_string(tab + 1);
 }
 
-// "bag 3", or with several tabs "tab II, bag 3": the bag as the tab and bag buttons name it.
+// "bag 3", or with several tabs "tab II, bag 3": the bag as the tab and bag buttons name it, translated.
 inline std::string bagName(int bag, int bagCount)
 {
-    const std::string inTab = "bag " + std::to_string(bag % Bags + 1);
-    return InventoryBags::tabCount(bagCount) > 1 ? "tab " + tabNumeral(bag / Bags) + ", " + inTab
-                                                 : "bag " + std::to_string(bag + 1);
+    return InventoryBags::tabCount(bagCount) > 1
+        ? Engine::tr("tab {tab}, bag {bag}", {{"tab", tabNumeral(bag / Bags)}, {"bag", bag % Bags + 1}})
+        : Engine::tr("bag {bag}", {{"bag", bag + 1}});
 }
 
 // The first bag the overview shows: that of the character's open bag's tab.

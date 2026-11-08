@@ -42,7 +42,15 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
         loader.load("engine/effects/mm9/library.yml", error);
     INFO(error);
     REQUIRE(definitions.has_value());
-    REQUIRE_EQ(definitions->size(), 37);
+    REQUIRE_EQ(definitions->size(), 40);
+    // A body-anchored recipe the scripts play (Wizard's Lab): both hand emitters at the effect's origin.
+    const auto blueDotsIterator = std::find_if(definitions->begin(), definitions->end(),
+        [](const std::shared_ptr<const Game::EffectDefinition> &definition)
+        {
+            return definition->id == "mm9:bluedots";
+        });
+    REQUIRE(blueDotsIterator != definitions->end());
+    CHECK_EQ((*blueDotsIterator)->spriteEmitters.size(), 2);
     const auto columnIterator = std::find_if(
         definitions->begin(),
         definitions->end(),
@@ -277,7 +285,7 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         // five ground item sparkles, two beams, four destructibles breaking), the 122 generated projectile flight, settled, impact and aura
         // effects, the 63 melee effects (nine blows, three misses, 18 element accents, eleven material contacts in
         // three strengths), the MM8 wisp stars and the MM9 library.
-        REQUIRE_EQ(definitions->size(), 241);
+        REQUIRE_EQ(definitions->size(), 244);
         Game::EffectLibrary library;
         REQUIRE(library.replace(*definitions, error));
         REQUIRE(library.find("mm9:spell_reaver") != nullptr);

@@ -89,7 +89,35 @@ struct RuntimeMechanismState
     float currentDistance = 0.0f;
     int8_t rotationDirection = 1;
     bool isMoving = false;
+    // A spinning mover (IndoorMoverSpin): its angle, its speed as a share of full speed (signed), whether it is
+    // switched on, the direction it turns when on, and whether spinOn holds its state (set from its startOn when the
+    // map first runs, then by evt.SpinMover).
+    float spinDegrees = 0.0f;
+    float spinRate = 0.0f;
+    bool spinOn = false;
+    int8_t spinDirection = 1;
+    bool spinSet = false;
+    // A door a monster opened (an MM9 monster's BaseDoor.inc): an open-away leaf swings away from that monster, not
+    // from the party (IndoorSceneRuntime::chooseMoverOpenAwayDirections). Runtime only, not saved.
+    bool openerSet = false;
+    float openerX = 0.0f;
+    float openerY = 0.0f;
+    float openerZ = 0.0f;
 };
+
+// Whether a mechanism's faces are moving: a door on its way, or a mover spinning.
+inline bool mechanismFacesMoving(const RuntimeMechanismState &mechanism)
+{
+    return mechanism.isMoving || mechanism.spinRate != 0.0f;
+}
+
+// Whether two states put the mechanism's faces in different poses.
+inline bool mechanismPoseDiffers(const RuntimeMechanismState &left, const RuntimeMechanismState &right)
+{
+    const float distance = left.currentDistance - right.currentDistance;
+    const float spin = left.spinDegrees - right.spinDegrees;
+    return distance > 0.0001f || distance < -0.0001f || spin > 0.0001f || spin < -0.0001f;
+}
 
 struct RuntimeDestructibleState
 {
@@ -137,6 +165,10 @@ struct EventRuntimeState
         bool useFullscreenLoading = false;
         // Travel time, food or fare were already spent, so the travel autosave belongs to the arrival map.
         bool travelTimeApplied = false;
+        // The party arrives at the given height and falls from there instead of standing on the ground below
+        // (evt.MoveToMap's options keepHeight: falling off Celeste into the Bracada Desert sky, OY Celeste fall).
+        // Not saved: a move pending in a save lands on the ground.
+        bool keepHeight = false;
         std::string traceSourceKind;
         uint32_t traceSourceId = 0;
         uint32_t traceActionId = 0;
@@ -155,6 +187,9 @@ struct EventRuntimeState
         DialogueContextKind kind = DialogueContextKind::None;
         uint32_t sourceId = 0;
         std::optional<uint32_t> sourceActorIndex;
+        // An MM9 dialogue opened by a decoration's click event (a posed talking prop, Ake the Righteous): that
+        // decoration's sprite override key, hidden when the dialogue hires (evt.SetSprite's cog).
+        std::optional<uint32_t> sourceDecorationKey;
         uint32_t hostHouseId = 0;
         uint32_t newsId = 0;
         uint32_t participantPictureId = 0;
@@ -162,6 +197,8 @@ struct EventRuntimeState
         std::optional<PendingMapMove> transitionMapMove;
         // Walking off an outdoor map edge (sourceId holds the MapBoundaryEdge); transitionMapMove is the arrival.
         bool boundaryTravel = false;
+        // An MM9 exit's days on the road (Mm9MapTransition::travelDays), stated in the dialogue.
+        int transitionTravelDays = 0;
         uint32_t transitionTextId = 0;
         uint32_t transitionImageId = 0;
         std::optional<MapNoteSourcePoint> mapNoteSourcePoint;
@@ -171,6 +208,27 @@ struct EventRuntimeState
     {
         std::string movieName;
         bool restoreAfterPlayback = false;
+    };
+
+    // evt.PlayCinematic(id[, doneEventId]): a cinematic of the map's .cinematics.yml (game/gameplay/CinematicRuntime).
+    struct PendingCinematic
+    {
+        std::string id;
+        uint16_t doneEventId = 0;
+    };
+
+    // evt.CameraShake(intensity, seconds[, x, y, z, innerRadius, outerRadius]): with a point, full strength within
+    // innerRadius of the party and none past outerRadius (MM9's EarthQuake).
+    struct CameraShakeRequest
+    {
+        float intensity = 0.0f;
+        float seconds = 0.0f;
+        bool positional = false;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float innerRadius = 0.0f;
+        float outerRadius = 0.0f;
     };
 
     struct PendingInputPrompt
@@ -246,6 +304,8 @@ struct EventRuntimeState
         uint32_t rudeId = 0;
         int32_t nodeId = 0;
         std::optional<uint32_t> sourceActorIndex;
+        // The talking prop whose click opened the talk (DialogueRuntimeState::mm9RudeSourceDecorationKey).
+        std::optional<uint32_t> sourceDecorationKey;
         std::string response;
         uint32_t selectionIndex = 0;
         bool exitCallbackExecuted = false;
@@ -266,6 +326,8 @@ struct EventRuntimeState
         uint32_t trainingHouseId = 0;
         std::vector<uint32_t> trainingLevelsByMember;
         std::optional<SuspendedMm9RudeDialogue> suspendedMm9RudeDialogue;
+        // The open MM9 dialogue's source decoration (PendingDialogueContext::sourceDecorationKey); not saved.
+        std::optional<uint32_t> mm9RudeSourceDecorationKey;
         // Presentation cache for the current conversation; only the greeting visit count is saved.
         std::optional<GeneratedNpcGreeting> generatedNpcGreeting;
     };
@@ -323,6 +385,28 @@ struct EventRuntimeState
         float seconds = 0.0f;
     };
 
+    // evt.MoveActorTo: a map actor walks (or runs) to a point, whatever it would do by itself, and stops there; its
+    // arrival runs arrivalEventId (0: none) with the hook context's actor index (ScriptedActorMoves.h).
+    struct ScriptedActorMove
+    {
+        std::array<float, 3> point = {};
+        uint16_t arrivalEventId = 0;
+        bool run = false;
+    };
+
+    // evt.SetActorTarget: the target an actor's MM9 loop takes at its next AI step (applyScriptedActorTargets): the
+    // party, or another map actor.
+    struct ScriptedActorTarget
+    {
+        std::optional<uint32_t> actorIndex;
+    };
+
+    struct ScriptedActorArrival
+    {
+        uint32_t actorIndex = 0;
+        uint16_t eventId = 0;
+    };
+
     // evt.AimDecoration / evt.RecoilDecoration: a decoration model turned about its origin from its map facing
     // (counter-clockwise, as facings run), slewing at radiansPerSecond (0: at once), and kicked back along its front
     // (asset +z) for recoilSeconds. Keyed by cog as spriteOverrides; runtime only, advanced by advanceDecorationAims.
@@ -334,9 +418,36 @@ struct EventRuntimeState
         float recoilDistance = 0.0f;
         float recoilSeconds = 0.0f;
         float recoilElapsedSeconds = 0.0f;
+        // evt.MoveDecoration and the cinematics' decoration cues: an offset from its map position (world units),
+        // gliding from offsetFrom to offsetTo over offsetSeconds (0: at once).
+        std::array<float, 3> offset = {};
+        std::array<float, 3> offsetFrom = {};
+        std::array<float, 3> offsetTo = {};
+        float offsetSeconds = 0.0f;
+        float offsetElapsedSeconds = 0.0f;
 
         // How far it is pulled back now: out in the first tenth of the recoil, then home again.
         float back() const;
+    };
+
+    // evt.PlayActorClip / evt.FaceActorTo and the cinematics' actor clip and face cues: a map actor's model plays a
+    // named clip (an actors.yml script_clips role or the model's own clip name; once, then its own animation again,
+    // or looping) and faces a heading, over what its AI shows. Presentation only, runtime only (never saved); the
+    // worlds apply it in actorRuntimeState (applyActorPresentation), advanceActorPresentations runs its clocks.
+    struct ActorPresentation
+    {
+        std::string clip;
+        // Clips after `clip`, in order (evt.PlayActorClip with a list); `loop` applies to the last one.
+        std::vector<std::string> then;
+        bool loop = false;
+        // Past its end the last clip holds its last frame (evt.PlayActorClip(..., "hold")) instead of releasing.
+        bool hold = false;
+        float clipSeconds = 0.0f;
+        std::optional<float> yawRadians;
+        float yawFromRadians = 0.0f;
+        float yawToRadians = 0.0f;
+        float turnSeconds = 0.0f;
+        float turnElapsedSeconds = 0.0f;
     };
 
     struct WorldModelRequest
@@ -459,6 +570,9 @@ struct EventRuntimeState
         uint32_t monsterId = 0;
         int32_t damage = 0;
         uint32_t damageType = 0;
+        // MonsterDamage, MonsterKilled: the party dealt the hit or the killing blow (its weapons, missiles and spells,
+        // damage it reflects), not another monster, a trap or an area effect.
+        bool byParty = false;
         uint32_t houseId = 0;
         uint32_t houseServiceType = 0;
         uint32_t menuId = 0;
@@ -471,6 +585,8 @@ struct EventRuntimeState
         uint32_t inventorySourceIndex = 0;
         uint32_t inventoryPage = 0;
         std::string destinationMapName;
+        // Mm9PromotionServiceEventId: the promotion to give (mm9_common.lua MM9.promoteParty).
+        std::string mm9Promotion;
         int32_t baseRestFoodCost = 0;
         std::optional<int32_t> restFoodCostOverride;
         std::optional<int32_t> damageOverride;
@@ -516,6 +632,16 @@ struct EventRuntimeState
     // Runtime only, not saved: a map that dims or lights a room sets it again from its own map variables on load.
     std::unordered_map<uint16_t, int16_t> sectorAmbientLevels;
     std::unordered_map<uint32_t, DecorationAim> decorationAims;
+    std::unordered_map<uint32_t, ActorPresentation> actorPresentations;
+    // evt.MoveActorTo walks by map actor index, and the arrivals whose events the world runs at its next update.
+    // Runtime only, not saved: a map that walks an actor walks it again from its own map variables on load.
+    std::unordered_map<uint32_t, ScriptedActorMove> scriptedActorMoves;
+    std::vector<ScriptedActorArrival> pendingActorArrivals;
+    // evt.SetRestAlarm: the game minute a rest or wait stops at (MM9's clock triggers fire during a wait: Atli's dock
+    // watch). Runtime only, not saved: the map's script arms it again from its own map variables.
+    std::optional<float> restAlarmGameMinutes;
+    // evt.SetActorTarget orders by map actor index, until the actor's next AI step takes them. Runtime only.
+    std::unordered_map<uint32_t, ScriptedActorTarget> scriptedActorTargets;
     // evt.StartTimer / evt.StopTimer, applied by updateScriptedEventTimers (a timer's own handler's at once).
     using TimerControl = ScriptedEventTimerControl;
     std::vector<TimerControl> timerControls;
@@ -524,6 +650,20 @@ struct EventRuntimeState
     std::optional<bool> snowEnabled;
     std::optional<bool> rainEnabled;
     std::optional<std::string> outdoorSkyTextureOverride;
+    // evt.SetFog / evt.ClearFog: a map script's fog over an indoor map's scene fog (devdocs/INDOOR_FOG.md "Fog from
+    // Lua"), faded in over `seconds` from the fog shown; each call raises `revision`. Not saved: the map's Lua sets it
+    // again on load.
+    struct ScriptedFog
+    {
+        bool active = false;
+        std::array<float, 3> color = {0.0f, 0.0f, 0.0f};    // display space, 0..1
+        float nearDistance = 0.0f;
+        float farDistance = 0.0f;
+        float sky = 0.0f;
+        float seconds = 0.0f;
+        uint32_t revision = 0;
+    };
+    ScriptedFog scriptedFog;
     std::optional<int32_t> outdoorFogWeakDistanceOverride;
     std::optional<int32_t> outdoorFogStrongDistanceOverride;
     std::unordered_map<uint32_t, uint32_t> actorSetMasks;
@@ -583,6 +723,10 @@ struct EventRuntimeState
     std::vector<InventoryItem> grantedItems;
     std::vector<uint32_t> grantedItemIds;
     bool clearHeldItemRequest = false;
+    // An item an event took that no pack held: the one on the cursor goes, as the originals' Subtract takes it
+    // (a quest item an event just gave lands on the cursor). Kept from event to event until the next frame takes the
+    // item off the cursor (GameplayHeldItemController). 0: none.
+    uint32_t takenHeldItemId = 0;
     std::vector<uint32_t> removedItemIds;
     std::vector<uint32_t> grantedAwardIds;
     std::vector<uint32_t> removedAwardIds;
@@ -596,6 +740,10 @@ struct EventRuntimeState
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingMovie> pendingMovie;
+    // Transient requests the session takes each frame (never saved).
+    std::optional<PendingCinematic> pendingCinematic;
+    bool pendingCinematicSkip = false;
+    std::vector<CameraShakeRequest> cameraShakeRequests;
     bool pendingReturnToMainMenu = false;
     // AddValue(Experience) gives the value as it is, past the rules' event experience (MAW's unscaled rewards).
     bool unscaledExperience = false;
@@ -637,6 +785,10 @@ const std::unordered_map<uint32_t, int32_t> &historyEventTimesForActiveContinent
 
 // Turns the aimed decorations toward their aims and plays their recoils on by deltaSeconds.
 void advanceDecorationAims(EventRuntimeState &state, float deltaSeconds);
+// Runs the actor presentations' clip and turn clocks by deltaSeconds.
+void advanceActorPresentations(EventRuntimeState &state, float deltaSeconds);
+// Starts a decoration's glide to offset (world units from its map position) over seconds (0: at once).
+void moveDecoration(EventRuntimeState &state, uint32_t key, const std::array<float, 3> &offset, float seconds);
 
 class EventRuntime
 {

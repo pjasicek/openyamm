@@ -1,4 +1,5 @@
 #include "game/items/ItemEnchantTables.h"
+#include "engine/Localization.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -758,7 +759,7 @@ bool loadWorldEnchantments(const std::string &text, const std::string &worldId, 
             }
 
             entry.kind = StandardItemEnchantKind::EnergyResistance;
-            entry.statName = "Energy Resistance";
+            entry.statName = Engine::trNoop("Energy Resistance");
             entry.suffix = node["name"].as<std::string>();
             entry.worlds = {worldId};
 

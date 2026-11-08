@@ -31,6 +31,8 @@ constexpr size_t MaxWaterReflections = 2;
 constexpr uint16_t SkyImageView = 238;
 // Offscreen actor inspect portrait (ActorModelPreview), rendered before the HUD view that draws it.
 constexpr uint16_t ActorPortraitView = 239;
+// The second actor portrait: a speaking MM9 actor's head and shoulders (ActorModelPreview, ActorPortraitKind::Talk).
+constexpr uint16_t ActorTalkPortraitView = 243;
 // MenuDesignScreen menus (pause, settings, save and load), drawn after the world and the HUD.
 constexpr uint16_t MenuDesignView = 240;
 // Screen-space reflections of surface materials: the finished world's colour and positions at half resolution, which
@@ -68,8 +70,8 @@ constexpr bool uniqueGameViewIds()
     {
         views[count++] = view;
     }
-    for (uint16_t view : {SkyImageView, ActorPortraitView, MenuDesignView, ReflectionHistoryColorView,
-             ReflectionHistoryPositionView, AmbientOcclusionDepthView,
+    for (uint16_t view : {SkyImageView, ActorPortraitView, ActorTalkPortraitView, MenuDesignView,
+             ReflectionHistoryColorView, ReflectionHistoryPositionView, AmbientOcclusionDepthView,
              AmbientOcclusionView, AmbientOcclusionBlurView, AmbientOcclusionCompositeView, WorldTransparentView,
              WorldGradingView, DebugImGuiView, LoadingReadbackView, LoadingOverlayView})
     {
@@ -237,6 +239,7 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     }
     order[index++] = SkyImageView;
     order[index++] = ActorPortraitView;
+    order[index++] = ActorTalkPortraitView;
     order[index++] = 0;
     for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews; ++view)
     {
@@ -273,6 +276,7 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
             && view != SkyImageView
             && view != ActorPortraitView
+            && view != ActorTalkPortraitView
             && (view < FirstIndoorDebugPassView || view >= FirstIndoorDebugPassView + IndoorDebugPassViews)
             && (!grading || view != WorldGradingView)
             && (!ambientOcclusion || view < AmbientOcclusionDepthView || view > WorldTransparentView)

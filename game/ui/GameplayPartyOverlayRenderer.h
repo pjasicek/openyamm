@@ -3,10 +3,25 @@
 #include "game/ui/GameplayUiController.h"
 
 #include <memory>
+#include <optional>
+#include <string>
 
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
+struct InventoryItem;
+struct ItemDefinition;
+struct ItemBaseStats;
+struct PotionDefinition;
+
+// The item inspect popup's Type text and its detail line ("Attack: +2   Damage: 2d4", "Armor: +8"); the shop ledger
+// shows the same.
+std::string resolveItemInspectTypeText(const InventoryItem *pItemState, const ItemDefinition &itemDefinition);
+std::string resolveItemInspectDetailText(
+    const InventoryItem *pItemState,
+    const ItemDefinition &itemDefinition,
+    const std::optional<ItemBaseStats> &rulesetStats,
+    const PotionDefinition *pPotion);
 // What the character screen works out for a frame (the sheet, the rules' rows, the skill lists), kept by the first of
 // its two passes for the second.
 struct CharacterOverlayFrameData;

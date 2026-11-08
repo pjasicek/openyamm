@@ -164,6 +164,10 @@ private:
     static std::optional<bx::Vec3> resolveCursorTargetPoint(
         const TargetQueries &targetQueries,
         const IGameplayWorldRuntime *pWorldRuntime);
+    // The standing destructible under the crosshair (or the cursor), where a missile spell flies with no actor there.
+    static std::optional<bx::Vec3> resolveCursorDestructiblePoint(
+        const TargetQueries &targetQueries,
+        IGameplayWorldRuntime &worldRuntime);
     static bool tryValidateCasterForGameplayCast(GameplayScreenRuntime &runtime, size_t casterMemberIndex);
     static bool isQuickCastable(const PartySpellDescriptor &descriptor);
     static bool requiresTargetSelection(const PartySpellCastResult &result);

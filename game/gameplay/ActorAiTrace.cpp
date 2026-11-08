@@ -85,10 +85,11 @@ constexpr auto DecisionNames = std::to_array<DecisionName>({
     {ActorAiDecisionKind::Reposition, "reposition", false},
     {ActorAiDecisionKind::RepositionArrived, "reposition_arrived", false},
     {ActorAiDecisionKind::BackOffRush, "back_off_rush", false},
+    {ActorAiDecisionKind::Chat, "chat", false},
 });
 
 // Every decision kind has a name: a new kind adds its row here.
-static_assert(DecisionNames.size() == size_t(ActorAiDecisionKind::BackOffRush) + 1);
+static_assert(DecisionNames.size() == size_t(ActorAiDecisionKind::Chat) + 1);
 
 const DecisionName *findDecision(ActorAiDecisionKind kind)
 {
@@ -509,7 +510,7 @@ void ActorAiTrace::scheduleAction(const ActorAiArenaAction &action)
 namespace
 {
 // Opens a map door as a click on it would (its mechanism to Open).
-void openArenaDoor(IGameplayWorldRuntime &world, uint32_t doorId)
+void openArenaDoor(IGameplayWorldRuntime &world, uint32_t doorId, bool hold)
 {
     ISceneEventContext *pScene = dynamic_cast<ISceneEventContext *>(&world);
     EventRuntimeState *pEventState = world.eventRuntimeState();
@@ -541,6 +542,12 @@ void openArenaDoor(IGameplayWorldRuntime &world, uint32_t doorId)
     }
 
     EventRuntime::applyMechanismAction(mechanism, &*door, MechanismAction::Open);
+
+    // A held door's auto-close (a mover's auto_close_seconds, MM9's CloseWaitTime) never comes.
+    if (hold && mechanism.state == static_cast<uint16_t>(EvtMechanismState::Open))
+    {
+        mechanism.timeSinceTriggeredMs = 0.0f;
+    }
 }
 }
 
@@ -578,6 +585,14 @@ void ActorAiTrace::runDueActions(IGameplayWorldRuntime &world)
             }
         }
 
+        // A held door is opened again every step from its time on, and stays scheduled.
+        if (walk.kind == ActorAiArenaAction::Kind::Door && walk.holdOpen)
+        {
+            openArenaDoor(world, walk.doorId, true);
+            ++index;
+            continue;
+        }
+
         const ActorAiArenaAction action = m_actions[index];
         m_actions.erase(m_actions.begin() + std::ptrdiff_t(index));
 
@@ -590,13 +605,20 @@ void ActorAiTrace::runDueActions(IGameplayWorldRuntime &world)
         }
         else if (action.kind == ActorAiArenaAction::Kind::Door)
         {
-            openArenaDoor(world, action.doorId);
+            openArenaDoor(world, action.doorId, false);
         }
         else if (action.kind == ActorAiArenaAction::Kind::Trigger)
         {
             if (ActorBehaviorRuntime *pBehaviors = world.actorBehaviorRuntime())
             {
                 pBehaviors->trigger(action.actorIndex, action.message);
+            }
+        }
+        else if (action.kind == ActorAiArenaAction::Kind::Target)
+        {
+            if (ISceneEventContext *pScene = dynamic_cast<ISceneEventContext *>(&world))
+            {
+                pScene->setMapActorTarget(action.actorIndex, action.targetActorIndex);
             }
         }
         else if (EventRuntimeState *pEventState = world.eventRuntimeState();
@@ -925,7 +947,7 @@ void ActorAiTrace::observeAnimation(size_t actorIndex, const ActorAnimationTrace
     }
 
     ActorState &state = iterator->second;
-    const bool sameClip = state.animSeen && state.animClip == sample.clip && state.animReversed == sample.reversed;
+    const bool sameClip = state.animSeen && state.animClip == sample.clip;
     const bool sameLayer = state.animSeen && state.animLayerClip == sample.layerClip && !sample.layerClip.empty();
     const bool measured = measureAnimationRate(state.animRate, sameClip, sample.timeSeconds,
         sample.durationSeconds, sample.deltaSeconds);
@@ -948,7 +970,6 @@ void ActorAiTrace::observeAnimation(size_t actorIndex, const ActorAnimationTrace
 
     state.animSeen = true;
     state.animClip = sample.clip;
-    state.animReversed = sample.reversed;
 
     if (!changed && !rateMoved && sample.blendSeconds < 0.0f)
     {
@@ -956,7 +977,7 @@ void ActorAiTrace::observeAnimation(size_t actorIndex, const ActorAnimationTrace
     }
 
     state.animLayerClip = sample.layerClip;
-    std::string detail = "main=" + std::string(sample.clip) + (sample.reversed ? " rev" : "");
+    std::string detail = "main=" + std::string(sample.clip);
 
     if (!sample.layerClip.empty())
     {

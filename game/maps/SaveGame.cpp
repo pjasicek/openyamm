@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 156;
+constexpr uint32_t SaveVersion = 164;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -247,6 +247,29 @@ constexpr uint32_t SaveVersionBowDisabled = 154;
 constexpr uint32_t SaveVersionLastOutdoorMap = 155;
 // A character's crafting and alchemy bag tags take 32 bits, for a solo character's 25 bags (OY-344); before, 8.
 constexpr uint32_t SaveVersionWideBagTags = 156;
+// The party keeps its MM9 hirelings (Party::Snapshot::mm9Hirelings); older saves have none.
+constexpr uint32_t SaveVersionMm9Hirelings = 157;
+// The members' MM9 formation cells (Party::Snapshot::memberFormationCells); older saves take the default formation.
+// Hirelings saved before it had primary stats of 0 and get Party::Mm9HirelingPrimaryStat.
+constexpr uint32_t SaveVersionMm9Formation = 158;
+// The members' timed conditions (Character::conditionExpireGameMinutes, MM9 monster spells), and an MM9 placement's
+// path stops (Mm9AiPlacementRecord::pathStops: the markers' facing, wait and clip), and a placed actor's draw scale
+// (MapDeltaActor::drawScale, OutdoorWorldRuntime::MapActorState::drawScale); older saves have none of them.
+constexpr uint32_t SaveVersionConditionExpiry = 159;
+constexpr uint32_t SaveVersionMm9PathStops = 159;
+constexpr uint32_t SaveVersionActorDrawScale = 159;
+// An outdoor runtime spawn's patrol (OutdoorWorldRuntime::MapActorState::patrolPoints, evt.SummonMonstersById
+// patrol); older saves have none.
+constexpr uint32_t SaveVersionOutdoorSpawnPatrol = 160;
+// A spinning mover's angle, speed and switch (RuntimeMechanismState::spin*, scene `mover.spin`); older saves have none.
+constexpr uint32_t SaveVersionMoverSpin = 161;
+// Each saved map state records the layout of the map it was saved on (mapLayoutIdentity, game/maps/MapLayoutIdentity.h);
+// entering a map whose layout differs resets its state. Older states have none (0): judgeSavedMapState decides.
+constexpr uint32_t SaveVersionMapLayoutIdentity = 162;
+// The playthrough id, its statistics timeline and each member's statistics identity (PLAYTHROUGH_STATISTICS_PLAN.md).
+constexpr uint32_t SaveVersionPlaythroughStatistics = 163;
+// A placed actor's posed flag (MapDeltaActor::posed: MM9's posed props, never moved); older saves have none.
+constexpr uint32_t SaveVersionActorPosed = 164;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -382,6 +405,8 @@ bool readValue(BinaryReader &reader, MawDimensionRun &value);
 void writeValue(BinaryWriter &writer, const MawMapVisit &value);
 bool readValue(BinaryReader &reader, MawMapVisit &value);
 bool readValue(BinaryReader &reader, HiredNpcFollower &value);
+void writeValue(BinaryWriter &writer, const Mm9PartyHireling &value);
+bool readValue(BinaryReader &reader, Mm9PartyHireling &value);
 void writeValue(BinaryWriter &writer, const GameplayProjectileService::Snapshot &value);
 bool readValue(BinaryReader &reader, GameplayProjectileService::Snapshot &value);
 void writeValue(BinaryWriter &writer, const ActorBehaviorRuntime::Snapshot &value);
@@ -1481,6 +1506,8 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.quickItemSlots);
     writeValue(writer, value.spellbookSchool);
     writeValue(writer, value.implants);
+    writeValue(writer, value.conditionExpireGameMinutes);
+    writeValue(writer, value.statsMemberId);
 }
 
 // Saves before SaveVersionWideExperience hold a character's experience in 32 bits.
@@ -1571,7 +1598,9 @@ bool readValue(BinaryReader &reader, Character &value)
         && (reader.version() < SaveVersionExtraQuickSpells || readValue(reader, value.extraQuickSpellNames))
         && (reader.version() < SaveVersionQuickItemSlots || readValue(reader, value.quickItemSlots))
         && (reader.version() < SaveVersionSpellbookSchool || readValue(reader, value.spellbookSchool))
-        && (reader.version() < SaveVersionCharacterImplants || readValue(reader, value.implants));
+        && (reader.version() < SaveVersionCharacterImplants || readValue(reader, value.implants))
+        && (reader.version() < SaveVersionConditionExpiry || readValue(reader, value.conditionExpireGameMinutes))
+        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.statsMemberId));
 }
 
 void writeValue(BinaryWriter &writer, const PartyBuffState &value)
@@ -1740,6 +1769,53 @@ bool readCharacterBuffs(
     return true;
 }
 
+void writeValue(BinaryWriter &writer, const Mm9PartyHireling &value)
+{
+    writeValue(writer, value.rudeId);
+    writeValue(writer, value.kind);
+    writeValue(writer, value.character);
+    writeValue(writer, value.buffs);
+    writeValue(writer, value.hireDay);
+    writeValue(writer, value.nextWageGameMinutes);
+    writeValue(writer, value.serviceReadyGameMinutes);
+    writeValue(writer, value.formationCell);
+}
+
+bool readValue(BinaryReader &reader, Mm9PartyHireling &value)
+{
+    return readValue(reader, value.rudeId)
+        && readValue(reader, value.kind)
+        && readValue(reader, value.character)
+        && readValue(reader, value.buffs)
+        && readValue(reader, value.hireDay)
+        && readValue(reader, value.nextWageGameMinutes)
+        && readValue(reader, value.serviceReadyGameMinutes)
+        && readValue(reader, value.formationCell);
+}
+
+// Hirelings saved before SaveVersionMm9Formation had primary stats of 0, which the shared formulas read as penalties.
+bool migrateMm9HirelingStats(const BinaryReader &reader, Party::Snapshot &value)
+{
+    if (reader.version() >= SaveVersionMm9Formation)
+    {
+        return true;
+    }
+
+    for (Mm9PartyHireling &hireling : value.mm9Hirelings)
+    {
+        Character &character = hireling.character;
+        character.might = Party::Mm9HirelingPrimaryStat;
+        character.intellect = Party::Mm9HirelingPrimaryStat;
+        character.personality = Party::Mm9HirelingPrimaryStat;
+        character.endurance = Party::Mm9HirelingPrimaryStat;
+        character.speed = Party::Mm9HirelingPrimaryStat;
+        character.accuracy = Party::Mm9HirelingPrimaryStat;
+        character.luck = Party::Mm9HirelingPrimaryStat;
+    }
+
+    return true;
+}
+
 void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
 {
     writeValue(writer, value.members);
@@ -1788,6 +1864,8 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.worldCompletionsUntracked);
     writeValue(writer, value.chosenMm9RudeRows);
     writeValue(writer, value.teacherLedgers);
+    writeValue(writer, value.mm9Hirelings);
+    writeValue(writer, value.memberFormationCells);
     writeValue(writer, value.lastOutdoorMapFileName);
 }
 
@@ -1841,7 +1919,10 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && readWorldCompletions(reader, value)
         && (reader.version() < SaveVersionChosenMm9RudeRows || readValue(reader, value.chosenMm9RudeRows))
         && (reader.version() < SaveVersionTeacherLedgers || readValue(reader, value.teacherLedgers))
-        && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName));
+        && (reader.version() < SaveVersionMm9Hirelings || readValue(reader, value.mm9Hirelings))
+        && (reader.version() < SaveVersionMm9Formation || readValue(reader, value.memberFormationCells))
+        && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName))
+        && migrateMm9HirelingStats(reader, value);
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -2431,6 +2512,11 @@ void writeValue(BinaryWriter &writer, const RuntimeMechanismState &value)
     writeValue(writer, value.currentDistance);
     writeValue(writer, value.isMoving);
     writeValue(writer, value.rotationDirection);
+    writeValue(writer, value.spinDegrees);
+    writeValue(writer, value.spinRate);
+    writeValue(writer, value.spinOn);
+    writeValue(writer, value.spinDirection);
+    writeValue(writer, value.spinSet);
 }
 
 bool readValue(BinaryReader &reader, RuntimeMechanismState &value)
@@ -2440,7 +2526,13 @@ bool readValue(BinaryReader &reader, RuntimeMechanismState &value)
         && readValue(reader, value.currentDistance)
         && readValue(reader, value.isMoving)
         && (reader.version() < SaveVersionOutdoorMechanismRotationDirection
-            || readValue(reader, value.rotationDirection));
+            || readValue(reader, value.rotationDirection))
+        && (reader.version() < SaveVersionMoverSpin
+            || (readValue(reader, value.spinDegrees)
+                && readValue(reader, value.spinRate)
+                && readValue(reader, value.spinOn)
+                && readValue(reader, value.spinDirection)
+                && readValue(reader, value.spinSet)));
 }
 
 void writeValue(BinaryWriter &writer, const RuntimeDestructibleState &value)
@@ -3203,6 +3295,30 @@ bool readValue(BinaryReader &reader, Mm9AiPlacementProfile &value)
     return true;
 }
 
+void writeValue(BinaryWriter &writer, const Mm9AiPathStop &value)
+{
+    writeValue(writer, value.point);
+    writeValue(writer, value.faces);
+    writeValue(writer, value.faceYawRadians);
+    writeValue(writer, value.ownWait);
+    writeValue(writer, value.waitMinSeconds);
+    writeValue(writer, value.waitMaxSeconds);
+    writeValue(writer, value.clip);
+    writeValue(writer, value.loop);
+}
+
+bool readValue(BinaryReader &reader, Mm9AiPathStop &value)
+{
+    return readValue(reader, value.point)
+        && readValue(reader, value.faces)
+        && readValue(reader, value.faceYawRadians)
+        && readValue(reader, value.ownWait)
+        && readValue(reader, value.waitMinSeconds)
+        && readValue(reader, value.waitMaxSeconds)
+        && readValue(reader, value.clip)
+        && readValue(reader, value.loop);
+}
+
 void writeValue(BinaryWriter &writer, const Mm9AiPlacementRecord &value)
 {
     const Mm9AiPlacement &settings = value.settings;
@@ -3232,6 +3348,7 @@ void writeValue(BinaryWriter &writer, const Mm9AiPlacementRecord &value)
     writeValue(writer, value.scriptParams);
     writeValue(writer, value.hidingPlaces);
     writeValue(writer, settings.profile);
+    writeValue(writer, value.pathStops);
 }
 
 bool readValue(BinaryReader &reader, Mm9AiPlacementRecord &value)
@@ -3263,7 +3380,8 @@ bool readValue(BinaryReader &reader, Mm9AiPlacementRecord &value)
         && readValue(reader, value.scriptParams)
         && (reader.version() < SaveVersionActorMm9HidingPlaces || readValue(reader, value.hidingPlaces))
         && (reader.version() < SaveVersionActorMm9PlacementProfile ? (settings.profile.fromScene = true)
-            : readValue(reader, settings.profile));
+            : readValue(reader, settings.profile))
+        && (reader.version() < SaveVersionMm9PathStops || readValue(reader, value.pathStops));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
@@ -3310,6 +3428,8 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.dormant);
     writeValue(writer, value.patrolPoints);
     writeValue(writer, value.mm9Ai);
+    writeValue(writer, value.drawScale);
+    writeValue(writer, value.posed);
 }
 
 bool readHitPoints(BinaryReader &reader, int32_t &value)
@@ -3405,7 +3525,9 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
             || (readValue(reader, value.keepsHeight) && readValue(reader, value.leashRadius)
                 && readValue(reader, value.dormant)))
         && (reader.version() < SaveVersionActorPatrol || readValue(reader, value.patrolPoints))
-        && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai));
+        && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai))
+        && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
+        && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
@@ -3937,6 +4059,8 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.angeredByParty);
     writeValue(writer, value.nearby);
     writeValue(writer, value.mm9Ai);
+    writeValue(writer, value.drawScale);
+    writeValue(writer, value.patrolPoints);
 }
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
@@ -4098,7 +4222,9 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionActorDormant || readValue(reader, value.dormant))
         && (reader.version() < SaveVersionActorAngeredByParty || readValue(reader, value.angeredByParty))
         && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby))
-        && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai));
+        && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai))
+        && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
+        && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)
@@ -4692,6 +4818,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value
     writeValue(writer, value.searchedLootPropSourceIds);
     writeValue(writer, value.actorBehaviors);
     writeValue(writer, value.mapActorRevealedLoot);
+    writeValue(writer, value.mapLayoutIdentity);
 }
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
@@ -4738,7 +4865,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
         && (reader.version() < SaveVersionMm9ItemSourceState
             || readValue(reader, value.searchedLootPropSourceIds))
         && (reader.version() < SaveVersionActorBehaviors || readValue(reader, value.actorBehaviors))
-        && (reader.version() < SaveVersionActorRevealedLoot || readValue(reader, value.mapActorRevealedLoot));
+        && (reader.version() < SaveVersionActorRevealedLoot || readValue(reader, value.mapActorRevealedLoot))
+        && (reader.version() < SaveVersionMapLayoutIdentity || readValue(reader, value.mapLayoutIdentity));
 
     if (loaded && reader.version() >= SaveVersionOutdoorRuntimeSaveParity)
     {
@@ -4757,6 +4885,7 @@ void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
     writeValue(writer, value.timers);
     writeValue(writer, value.lastProcessedPartyMoveStateForFaceTriggers);
     writeValue(writer, value.mechanismAccumulatorMilliseconds);
+    writeValue(writer, value.mapLayoutIdentity);
 }
 
 bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
@@ -4768,7 +4897,8 @@ bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
         && (reader.version() < SaveVersionIndoorSaveLoadParity || readIndoorTimerStates(reader, value.timers))
         && (reader.version() < SaveVersionIndoorSaveLoadParity
             || readValue(reader, value.lastProcessedPartyMoveStateForFaceTriggers))
-        && readValue(reader, value.mechanismAccumulatorMilliseconds);
+        && readValue(reader, value.mechanismAccumulatorMilliseconds)
+        && (reader.version() < SaveVersionMapLayoutIdentity || readValue(reader, value.mapLayoutIdentity));
 }
 
 void writeValue(BinaryWriter &writer, const RulesetSelection &value)
@@ -4869,6 +4999,8 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.requiredContentPackages);
     writeValue(writer, value.randomRootSeed);
     writeValue(writer, value.mawState);
+    writeValue(writer, value.playthroughId);
+    writeValue(writer, value.playthroughTimeline);
 }
 
 bool readValue(BinaryReader &reader, GameSaveData &value)
@@ -4922,6 +5054,8 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         && (summaryFirst || reader.version() < SaveVersionRuleset || readValue(reader, value.ruleset))
         && (reader.version() < SaveVersionRandomRootSeed || readValue(reader, value.randomRootSeed))
         && (reader.version() < SaveVersionActorRulesetFacts || readValue(reader, value.mawState))
+        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.playthroughId))
+        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.playthroughTimeline))
         && (summaryFirst || readValue(reader, value.saveName))
         && (summaryFirst || readValue(reader, value.previewBmp));
     value.cameraAnglesValid = reader.version() >= SaveVersionIndoorCamera || value.currentSceneKind == SceneKind::Outdoor;

@@ -152,7 +152,7 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
     }
 
     if (!checkKeys(root, {"schema", "name", "note", "world", "map", "asset_root", "party", "clear_actors", "trace",
-            "trace_animation", "seed", "monsters", "events"}, "arena", error))
+            "trace_animation", "seed", "party_awareness", "monsters", "events"}, "arena", error))
     {
         return false;
     }
@@ -171,6 +171,15 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
     arena.trace = root["trace"].as<bool>(true);
     arena.traceAnimation = root["trace_animation"].as<bool>(false);
     arena.seed = root["seed"].as<uint64_t>(1);
+    const std::string awareness = root["party_awareness"].as<std::string>("world");
+
+    if (awareness != "world" && awareness != "mm9")
+    {
+        error = "arena: party_awareness must be world or mm9";
+        return false;
+    }
+
+    arena.mm9PartyAwareness = awareness == "mm9";
 
     const YAML::Node party = root["party"];
 
@@ -239,7 +248,8 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
         AiArenaEvent event = {};
 
         if (!node.IsMap()
-            || !checkKeys(node, {"at", "wake", "relation", "trigger", "door", "party_walk", "note"}, context, error))
+            || !checkKeys(node, {"at", "wake", "relation", "trigger", "door", "party_walk", "target", "note"}, context,
+                error))
         {
             error = error.empty() ? context + " must be a map" : error;
             return false;
@@ -248,9 +258,27 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
         event.atSeconds = node["at"].as<float>(0.0f);
 
         const int kinds = (node["wake"] ? 1 : 0) + (node["relation"] ? 1 : 0) + (node["trigger"] ? 1 : 0)
-            + (node["door"] ? 1 : 0) + (node["party_walk"] ? 1 : 0);
+            + (node["door"] ? 1 : 0) + (node["party_walk"] ? 1 : 0) + (node["target"] ? 1 : 0);
 
-        if (kinds == 1 && node["trigger"] && node["trigger"].IsSequence() && node["trigger"].size() == 2)
+        if (kinds == 1 && node["target"] && node["target"].IsSequence() && node["target"].size() == 2)
+        {
+            // target: [arena monster, party | arena monster]: a map script's evt.SetActorTarget.
+            event.kind = ActorAiArenaAction::Kind::Target;
+            event.monster = node["target"][0].as<size_t>();
+
+            if (node["target"][1].as<std::string>() != "party")
+            {
+                event.targetMonster = node["target"][1].as<size_t>();
+            }
+
+            if (event.monster >= arena.monsters.size()
+                || (event.targetMonster && *event.targetMonster >= arena.monsters.size()))
+            {
+                error = context + ": target names no arena monster";
+                return false;
+            }
+        }
+        else if (kinds == 1 && node["trigger"] && node["trigger"].IsSequence() && node["trigger"].size() == 2)
         {
             // trigger: [arena monster, message]: MM9's Trigger <object>, <message> to its behaviour script.
             event.kind = ActorAiArenaAction::Kind::Trigger;
@@ -265,9 +293,26 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
         }
         else if (kinds == 1 && node["door"])
         {
-            // door: <door id>: the map door opens, as a click on it.
+            // door: <door id>, or {id, hold}: the map door opens, as a click on it; a held door stays open (its
+            // auto-close, MM9's CloseWaitTime, never comes).
             event.kind = ActorAiArenaAction::Kind::Door;
-            event.doorId = node["door"].as<uint32_t>();
+            const YAML::Node door = node["door"];
+
+            if (door.IsMap())
+            {
+                if (!checkKeys(door, {"id", "hold"}, context + ".door", error) || !door["id"])
+                {
+                    error = error.empty() ? context + ".door: id is required" : error;
+                    return false;
+                }
+
+                event.doorId = door["id"].as<uint32_t>();
+                event.holdOpen = door["hold"].as<bool>(false);
+            }
+            else
+            {
+                event.doorId = door.as<uint32_t>();
+            }
         }
         else if (kinds == 1 && node["party_walk"] && node["party_walk"].IsMap())
         {
@@ -304,7 +349,8 @@ bool parseArena(const YAML::Node &root, AiArena &arena, std::string &error)
         else
         {
             error = context + ": give one of wake: <arena monster>, relation: [from id, to id, level], trigger: "
-                "[arena monster, message], door: <door id> or party_walk: {to: [x, y, z], seconds}";
+                "[arena monster, message], target: [arena monster, party | arena monster], door: <door id> or "
+                "party_walk: {to: [x, y, z], seconds}";
             return false;
         }
 
@@ -448,7 +494,10 @@ bool applyAiArenaActors(
         action.toMonsterId = event.toMonsterId;
         action.relation = event.relation;
         action.message = event.message;
+        action.targetActorIndex = event.targetMonster
+            ? std::optional<size_t>(spawnedActorIndices[*event.targetMonster]) : std::nullopt;
         action.doorId = event.doorId;
+        action.holdOpen = event.holdOpen;
         action.walkTo = event.walkTo;
         action.walkSeconds = event.walkSeconds;
         trace.scheduleAction(action);

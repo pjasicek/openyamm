@@ -1008,7 +1008,7 @@ elements:
   anchor: top_left
   offset_x: 0
   offset_y: 0
-  width: 268
+  width: 298
   height: 26
   scale:
     min: 0.5
@@ -1019,7 +1019,7 @@ elements:
     anchor: top_left
     offset_x: 0
     offset_y: 0
-    width: 268
+    width: 298
     height: 26
     asset:
       default: obsidian_hud_topbar_flat
@@ -1076,7 +1076,7 @@ elements:
     anchor: top_left
     offset_x: 144
     offset_y: 0
-    width: 120
+    width: 150
     height: 26
     children:
     - id: OutdoorButtonBooks
@@ -1117,9 +1117,29 @@ elements:
         asset:
           default: obsidian_party
       interactive: true
-    - id: OutdoorButtonRest
+    - id: OutdoorButtonStatistics
       anchor: top_left
       offset_x: 60
+      offset_y: 0
+      width: 28
+      height: 26
+      asset:
+        hover: obsidian_hud_command_hover
+        pressed: obsidian_hud_buff_hover
+      children:
+      - id: ObsidianCommandIconStatistics
+        anchor: top_left
+        offset_x: 2.8
+        offset_y: 2.866667
+        width: 22.4
+        height: 20.266667
+        asset:
+          default: obsidian_statistics
+      interactive: true
+      notes: Opens the playthrough statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md).
+    - id: OutdoorButtonRest
+      anchor: top_left
+      offset_x: 90
       offset_y: 0
       width: 28
       height: 26
@@ -1138,7 +1158,7 @@ elements:
       interactive: true
     - id: OutdoorButtonOptions
       anchor: top_left
-      offset_x: 90
+      offset_x: 120
       offset_y: 0
       width: 28
       height: 26
@@ -1628,6 +1648,194 @@ elements:
     min: 0.5
     max: 8.0
   z_index: 200
+- id: Mm9HirelingRail
+  anchor: top_right
+  anchor_space: screen
+  offset_x: 0
+  offset_y: 178
+  width: 70
+  height: 194
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 210
+  notes: 'MM9 hirelings at the right edge (level_generation/ui/mm9_hirelings_20261106, revision 2): the basebar''s
+    panel (border scale 0.75), 6 units under the combat-log/followers row, 70 wide, an 8-unit band and 58 units a slot,
+    2 between. Its height is for three; GameplayHirelingRail ends it 8 units under the last live slot and draws
+    nothing without hirelings. Each slot: the face 34 x 46 (72 % of a party face) and its HP arc as a group centred in
+    the rail, no mana; the aggro diamond and buff medallion as the party''s.'
+  children:
+  - id: Mm9Hireling1
+    anchor: top_left
+    offset_x: 8
+    offset_y: 8
+    width: 54
+    height: 58
+    interactive: true
+    notes: A click makes the hireling the active combatant (its index after the party's), a click on the active
+      one or a double click opens its RUDE dialogue, held RMB inspects it.
+    children:
+    - id: Mm9Hireling1Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+      notes: The animated face (the 9npcNN family); the whole slot takes the clicks (GameplayHirelingRail).
+    - id: Mm9Hireling1Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling1Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling1Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling1Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling1PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
+  - id: Mm9Hireling2
+    anchor: top_left
+    offset_x: 8
+    offset_y: 68
+    width: 54
+    height: 58
+    interactive: true
+    children:
+    - id: Mm9Hireling2Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+    - id: Mm9Hireling2Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling2Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling2Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling2Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling2PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
+  - id: Mm9Hireling3
+    anchor: top_left
+    offset_x: 8
+    offset_y: 128
+    width: 54
+    height: 58
+    interactive: true
+    children:
+    - id: Mm9Hireling3Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+    - id: Mm9Hireling3Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling3Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling3Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling3Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling3PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
 - id: CombatLogToggle
   anchor: top_right
   offset_x: -28
@@ -1751,6 +1959,21 @@ elements:
     max: 8.0
   z_index: 220
   notes: Right-edge head tab toggles the original three-slot followers panel. No separate followers text button.
+- id: Mm9FormationButton
+  anchor: top_right
+  offset_x: -4
+  offset_y: 148
+  width: 24
+  height: 24
+  interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 220
+  notes: 'The MM9 world''s formation button (level_generation/ui/mm9_formation_20261106), in the followers'' place
+    (hidden in MM9): a carved slab with a 3 x 3 grid of brass diamonds, the front rank gold. Opens the formation
+    builder (mm9_formation.yml); shown with world.yml formations. Drawn by GameplayFormationBuilder.'
 - id: OutdoorFollowerPanel
   anchor_space: screen
   anchor: top_right

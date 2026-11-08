@@ -61,6 +61,10 @@ struct PartyMissileSource
     int targetCurrentHp = 0;
     // The struck monster's every resistance (MAW: a dragon's breath takes the lowest).
     MonsterDamageResistances resistances;
+    // An arrow's elemental damage from its bow, which joins the hit, and the hit's elemental parts, each resisted by
+    // its own element (GameplayProjectileService::addPartyArrowElements).
+    int addedElementalDamage = 0;
+    std::optional<ElementalDamageBonuses> weaponElements;
 };
 
 // A monster's attack reaching a party member, before it lands.
@@ -314,6 +318,10 @@ public:
     // whole blow or arrow. Standard: yes; MAW rebuilds every hit and gives the artifacts' versus damage on their
     // on-hit part only.
     virtual bool weaponKindMultiplierApplies() const;
+    // Whether a blow or an arrow gains its own weapons' elemental enchantment and artifact damage, rolled for each hit
+    // and resisted by its element (ItemEnchantRuntime::rollCharacterAttackElementalDamage). Standard: yes; MAW builds
+    // each hit's additions in resolveCharacterAttack.
+    virtual bool addsWeaponElementalDamage() const;
     // A party spell whose damage the world rolls itself (a Fire Spike trap, Armageddon on the monsters), when the rules
     // roll it as the spell instead (MAW: rollSpellDamage at the caster's stored skill and mastery, SPL-5, SPL-6).
     // Standard: none, the world's own roll.

@@ -80,6 +80,19 @@ The publish job (`packaging/publish_release.py`):
    gh secret set OPENYAMM_ANDROID_KEY_ALIAS --env release           # only when it is not "openyamm"
    ```
 
+   The playthrough statistics' sealing key is a **repository** secret, not a `release` one, because every package
+   build compiles it in (cmake/PlaythroughStatisticsKey.cmake). The secret is a private C++ source that holds the key
+   and assembles it; neither the key nor the scheme is in the repository. The private generator
+   `~/openyamm-keys/make_stats_key_source.py` makes `stats-key.hex` once and a new randomized source on every run:
+
+   ```sh
+   python3 ~/openyamm-keys/make_stats_key_source.py
+   gh secret set OPENYAMM_STATS_KEY_SOURCE < ~/openyamm-keys/stats-key-source.cpp
+   ```
+
+   Local release builds use it with `-DOPENYAMM_STATS_KEY_SOURCE=$HOME/openyamm-keys/stats-key-source.cpp`.
+   Regenerating with the same `stats-key.hex` changes only the scheme. A new key needs a new version label
+   (`--version release-2`), and records sealed with the old key then no longer open.
 5. **Repository variables** (Settings → Secrets and variables → Actions → Variables), only when they differ from the
    defaults: `OPENYAMM_DEPLOY_PORT` (default 2222) and `OPENYAMM_DEPLOY_REMOTE` (default `openyamm-deploy@jasicek.net:`).
 6. **Offline copies.** The slot-2 manifest key (`manifest-ed25519-offline.key`) never goes to GitHub: it is the
@@ -96,10 +109,19 @@ The publish job (`packaging/publish_release.py`):
    `linux`, `windows` under Wine, `android` on the emulator) installs the staged packages as a player would and
    renders a map; `clean` removes the installations afterwards.
 2. Publish: create an annotated tag whose message is the release notes (plain text, at most 1500 characters; the
-   update question shows them) and push it:
+   update question shows them in a scrolling box) and push it. Write one change per line as a `- ` bullet (wrapped
+   lines align after the dash); a blank line separates groups, and a line such as `MM7:` can head one. Line breaks
+   are kept as written, so never write the notes as one long paragraph. Write the message in a file:
 
    ```sh
-   git tag -a v1.7 -m "Faster loading and the new 3D monsters."
+   cat > notes.txt <<'EOF'
+   - Faster loading.
+   - The new 3D monsters.
+
+   MM7:
+   - The Priest of the Moon is hostile.
+   EOF
+   git tag -a v1.7 -F notes.txt
    git push origin v1.7
    ```
 
@@ -133,8 +155,9 @@ removes it, stops the local site, uninstalls the game from the emulator and stop
 
 ## Security
 
-- Push builds and the build jobs of a release hold no secrets. Only the publish job, which runs only for `v*` tags and
-  manual runs on `main`, sees the keys.
+- Push builds and the build jobs of a release hold no signing or deploy secrets. Only the publish job, which runs only
+  for `v*` tags and manual runs on `main`, sees those keys. The build jobs hold only `OPENYAMM_STATS_KEY_SOURCE`, whose
+  key ships inside every package anyway: it deters casual editing of the statistics and protects nothing else.
 - Someone who can push tags or start the workflow can publish (with required reviewers, only after an approval). A
   leaked manifest key lets an attacker sign manifests that clients accept: publish a release whose game trusts only
   slot 2, then make a new slot 1 key. A leaked deploy key can change the release folders, but clients reject any

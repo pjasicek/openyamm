@@ -227,6 +227,18 @@ std::vector<MonsterModifierInfo> buildCatalogue()
                 choice("spell1", "none", SpellConditionChoices, "the condition its first spell leaves"),
                 choice("spell2", "none", SpellConditionChoices, "the condition its second spell leaves"),
                 number("chance", 1.0f, 0.0f, 1.0f, "chance per struck member before the save"),
+                number("spell1_minutes", 0.0f, 0.0f, 100000.0f,
+                    "game minutes until its first spell's condition wears off (0: until cured)"),
+                number("spell2_minutes", 0.0f, 0.0f, 100000.0f,
+                    "game minutes until its second spell's condition wears off (0: until cured)"),
+            }},
+        {"missile_blast",
+            "Its first or second attack's missile bursts where it strikes (an actor, a wall, the floor) and hits "
+            "everyone within the radius but its shooter and the shooter's friends, each with the attack's damage "
+            "(MM9's PROJECTILE.txt damageRadius).",
+            {
+                number("attack1", 0.0f, 0.0f, 4096.0f, "burst radius of its first attack's missile (our units)"),
+                number("attack2", 0.0f, 0.0f, 4096.0f, "burst radius of its second attack's missile (our units)"),
             }},
         {"reposition",
             "An OpenYAMM addition for a monster that holds its place to shoot or cast (an MM9 ranged holder): with its "
@@ -726,12 +738,26 @@ bool applyModifier(const ParsedModifier &parsed, const std::string &line, Monste
         conditions.spell1 = spellConditionKind(parsed.textOf("spell1"));
         conditions.spell2 = spellConditionKind(parsed.textOf("spell2"));
         conditions.chance = parsed.numberOf("chance");
+        conditions.spell1Minutes = parsed.numberOf("spell1_minutes");
+        conditions.spell2Minutes = parsed.numberOf("spell2_minutes");
         if (conditions.spell1 == MonsterSpecialAttackKind::None && conditions.spell2 == MonsterSpecialAttackKind::None)
         {
             error = line + ": spell_conditions needs a condition for spell1 or spell2";
             return false;
         }
         set.spellConditions = conditions;
+    }
+    else if (name == "missile_blast")
+    {
+        MissileBlastModifier blast;
+        blast.attack1Radius = parsed.numberOf("attack1");
+        blast.attack2Radius = parsed.numberOf("attack2");
+        if (blast.attack1Radius <= 0.0f && blast.attack2Radius <= 0.0f)
+        {
+            error = line + ": missile_blast needs a radius for attack1 or attack2";
+            return false;
+        }
+        set.missileBlast = blast;
     }
     else if (name == "reposition")
     {

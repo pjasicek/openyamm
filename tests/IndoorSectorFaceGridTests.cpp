@@ -145,8 +145,11 @@ std::set<size_t> sortedSectorFaces(const IndoorMapData &map, const std::vector<i
 }
 
 // Compares the grid with the full sector lists on random segments and points. A door moves some faces after the
-// grid is built, so faces the grid cannot place must still be found.
-void checkGridAgainstSectorLists(const IndoorMapData &map, uint32_t seed, size_t segmentCount, size_t sweepCount)
+// grid is built, so faces it moves must still be found: a door without vertex offsets (moved off its travel, as a
+// rotating mover does) leaves them unplaced; a sliding door, with offsets, moves them part of its travel, and the grid
+// places them (and the faces that share their vertices, stretched on the way) by the whole travel.
+void checkGridAgainstSectorLists(
+    const IndoorMapData &map, uint32_t seed, size_t segmentCount, size_t sweepCount, bool slidingDoor)
 {
     MapDeltaData mapDelta = {};
     MapDeltaDoor door = {};
@@ -159,16 +162,44 @@ void checkGridAgainstSectorLists(const IndoorMapData &map, uint32_t seed, size_t
             door.vertexIds.end(), map.faces[faceIndex].vertexIndices.begin(), map.faces[faceIndex].vertexIndices.end());
     }
 
+    std::sort(door.vertexIds.begin(), door.vertexIds.end());
+    door.vertexIds.erase(std::unique(door.vertexIds.begin(), door.vertexIds.end()), door.vertexIds.end());
+    // The sliding door's travel: 120 units along (0.8, -0.6, 0.2) from the stored offsets; it stands 70 along.
+    constexpr float SlideLength = 120.0f;
+    constexpr float SlideDistance = 70.0f;
+    const bx::Vec3 slideDirection = {0.8f, -0.6f, 0.2f};
+
+    if (slidingDoor)
+    {
+        door.directionX = int(std::lround(slideDirection.x * 65536.0f));
+        door.directionY = int(std::lround(slideDirection.y * 65536.0f));
+        door.directionZ = int(std::lround(slideDirection.z * 65536.0f));
+        door.moveLength = uint32_t(SlideLength);
+
+        for (uint16_t vertexId : door.vertexIds)
+        {
+            door.xOffsets.push_back(int16_t(map.vertices[vertexId].x));
+            door.yOffsets.push_back(int16_t(map.vertices[vertexId].y));
+            door.zOffsets.push_back(int16_t(map.vertices[vertexId].z));
+        }
+    }
+
     mapDelta.doors.push_back(door);
     IndoorSectorFaceGrid grid;
     grid.build(map, map.vertices, &mapDelta);
     REQUIRE_FALSE(grid.empty());
     std::vector<IndoorVertex> vertices = map.vertices;
-    std::sort(door.vertexIds.begin(), door.vertexIds.end());
-    door.vertexIds.erase(std::unique(door.vertexIds.begin(), door.vertexIds.end()), door.vertexIds.end());
 
     for (uint16_t vertexId : door.vertexIds)
     {
+        if (slidingDoor)
+        {
+            vertices[vertexId].x = int16_t(std::lround(vertices[vertexId].x + slideDirection.x * SlideDistance));
+            vertices[vertexId].y = int16_t(std::lround(vertices[vertexId].y + slideDirection.y * SlideDistance));
+            vertices[vertexId].z = int16_t(std::lround(vertices[vertexId].z + slideDirection.z * SlideDistance));
+            continue;
+        }
+
         vertices[vertexId].x = int16_t(vertices[vertexId].x + 40);
         vertices[vertexId].y = int16_t(vertices[vertexId].y - 30);
         vertices[vertexId].z = int16_t(vertices[vertexId].z + 12);
@@ -328,7 +359,8 @@ void checkGridAgainstSectorLists(const IndoorMapData &map, uint32_t seed, size_t
 
 TEST_CASE("indoor sector face grid finds every face a segment can hit in a pillar hall")
 {
-    checkGridAgainstSectorLists(pillarHall(), 11u, 3000, 600);
+    checkGridAgainstSectorLists(pillarHall(), 11u, 3000, 600, false);
+    checkGridAgainstSectorLists(pillarHall(), 12u, 3000, 600, true);
 }
 
 TEST_CASE("indoor segment face candidates list each face of overlapping sectors once")
@@ -373,7 +405,8 @@ TEST_CASE("indoor sector face grid matches the full sector lists on real maps")
         }
 
         INFO(path.filename().string());
-        checkGridAgainstSectorLists(*map, seed++, 800, 100);
+        checkGridAgainstSectorLists(*map, seed++, 800, 100, false);
+        checkGridAgainstSectorLists(*map, seed++, 800, 100, true);
     }
 }
 

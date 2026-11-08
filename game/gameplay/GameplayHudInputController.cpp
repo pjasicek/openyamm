@@ -1,8 +1,10 @@
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/ui/GameplayBuffHud.h"
+#include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/GameplayJournalAuras.h"
 #include "game/gameplay/GameplayHudInputController.h"
 
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
@@ -142,6 +144,12 @@ void GameplayHudInputController::activatePartyPortrait(
         return;
     }
 
+    if (const Party *pParty = context.partyReadOnly(); pParty != nullptr && pParty->isHirelingCombatant(memberIndex))
+    {
+        activateHirelingPortrait(context, memberIndex);
+        return;
+    }
+
     if (context.heldInventoryItem().active)
     {
         const bool switchCharacterOnFailedPlacement =
@@ -211,6 +219,53 @@ void GameplayHudInputController::activatePartyPortrait(
 
     context.interactionState().lastPartyPortraitClickTicks = nowTicks;
     context.interactionState().lastPartyPortraitClickedIndex = memberIndex;
+}
+
+void GameplayHudInputController::activateHirelingPortrait(GameplayScreenRuntime &context, size_t combatantIndex)
+{
+    Party *pParty = context.party();
+    const Mm9PartyHireling *pHireling = pParty != nullptr ? pParty->hirelingCombatant(combatantIndex) : nullptr;
+
+    // A hireling has no inventory and no character screen: a held item or an open screen takes no click on it.
+    if (pHireling == nullptr || context.heldInventoryItem().active || context.characterScreenReadOnly().open)
+    {
+        return;
+    }
+
+    // MM9 (MM9_HIRELINGS.md 7.3): the first click makes the hireling the active member, a click on the active one opens
+    // its dialogue; a double click opens it too, also for a hireling that cannot act (to dismiss it).
+    const uint64_t nowTicks = SDL_GetTicks();
+    const bool doubleClick = context.interactionState().lastPartyPortraitClickedIndex == combatantIndex
+        && nowTicks >= context.interactionState().lastPartyPortraitClickTicks
+        && nowTicks - context.interactionState().lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
+    context.interactionState().lastPartyPortraitClickTicks = nowTicks;
+    context.interactionState().lastPartyPortraitClickedIndex = combatantIndex;
+
+    if (doubleClick || pParty->activeCombatantIndex() == combatantIndex)
+    {
+        context.interactionState().lastPartyPortraitClickedIndex = std::nullopt;
+        context.openHirelingDialogue(pHireling->rudeId);
+        return;
+    }
+
+    if (!pParty->canSelectCombatantInGameplay(combatantIndex))
+    {
+        return;
+    }
+
+    // Turn-based combat: as for a member, the turn's actor stays until it has acted.
+    if (context.turnBasedCombatRuntime().active())
+    {
+        const Character *pActing = pParty->combatant(pParty->activeCombatantIndex());
+
+        if (pActing != nullptr && GameMechanics::canTakeGameplayAction(*pActing)
+            && context.turnBasedCombatRuntime().canBeginPlayerAction(*pParty))
+        {
+            return;
+        }
+    }
+
+    pParty->setActiveCombatantIndex(combatantIndex);
 }
 
 bool GameplayHudInputController::useHeldItemOnPortraitAtPointer(
@@ -345,7 +400,7 @@ void GameplayHudInputController::handlePartyPortraitInput(
             {
                 return std::nullopt;
             }
-            return context.resolvePartyPortraitIndexAtPoint(config.screenWidth, config.screenHeight, x, y);
+            return context.resolveCombatantPortraitIndexAtPoint(config.screenWidth, config.screenHeight, x, y);
         },
         [&context, &config](const std::optional<size_t> &memberIndex)
         {
@@ -430,7 +485,7 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 return context.interactionState().gameplayHudPressedTarget;
             }
 
-            if (context.settingsSnapshot().combatLog
+            if (context.combatLogShown()
                 && pointerInsideHudElement(context, config, "CombatLogToggle", pointerX, pointerY))
             {
                 return {GameplayHudPointerTargetType::CombatLogToggleButton};
@@ -451,12 +506,22 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 return {GameplayHudPointerTargetType::CombatLogPanel};
             }
 
-            if (pointerInsideHudElement(context, config, "OutdoorFollowerToggle", pointerX, pointerY))
+            // A world without the MM6-MM8 followers (MM9) has neither their button nor their panel.
+            const Party *pParty = context.partyReadOnly();
+            const bool followersShown = pParty != nullptr && pParty->npcFollowersActive();
+            if (followersShown && pointerInsideHudElement(context, config, "OutdoorFollowerToggle", pointerX, pointerY))
             {
                 return {GameplayHudPointerTargetType::FollowerPanelToggleButton};
             }
 
-            if (context.interactionState().followerPanelOpen)
+            // The MM9 world's formation button in the followers' place.
+            if (GameplayFormationBuilder::buttonContains(
+                    context, config.screenWidth, config.screenHeight, pointerX, pointerY))
+            {
+                return {GameplayHudPointerTargetType::FormationButton};
+            }
+
+            if (followersShown && context.interactionState().followerPanelOpen)
             {
                 static constexpr std::array<const char *, VisibleFollowerPanelSlots> FollowerSlots = {{
                     "OutdoorFollowerSlot_1",
@@ -547,6 +612,10 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                         "OutdoorButtonQuickReference",
                         "OutdoorStandardButtonQuickReference"),
                     GameplayHudPointerTargetType::QuickReferenceButton
+                },
+                {
+                    activeGameplayButtonLayoutId(context, "OutdoorButtonStatistics", ""),
+                    GameplayHudPointerTargetType::StatisticsButton
                 },
                 {
                     activeGameplayButtonLayoutId(
@@ -680,6 +749,9 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
             case GameplayHudPointerTargetType::QuickReferenceButton:
                 context.openQuickReferenceOverlay();
                 break;
+            case GameplayHudPointerTargetType::StatisticsButton:
+                context.openQuickReferenceOverlay(GameplayUiController::QuickReferencePage::Statistics);
+                break;
             case GameplayHudPointerTargetType::QuickCastButton:
                 context.interactionState().gameplayHudQuickCastRequested = true;
                 break;
@@ -766,6 +838,9 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 break;
             case GameplayHudPointerTargetType::FollowerPanelToggleButton:
                 context.toggleFollowerPanel();
+                break;
+            case GameplayHudPointerTargetType::FormationButton:
+                GameplayFormationBuilder::open(context);
                 break;
             case GameplayHudPointerTargetType::CombatLogToggleButton:
                 context.combatLogPanel().toggle();

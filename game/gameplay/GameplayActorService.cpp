@@ -129,6 +129,16 @@ float GameplayActorService::configuredPartyEngagementRange() const
     return m_partyEngagementRange;
 }
 
+void GameplayActorService::setMm9PartyAwareness(const Mm9PartyAwareness &awareness)
+{
+    m_mm9PartyAwareness = awareness;
+}
+
+const Mm9PartyAwareness &GameplayActorService::mm9PartyAwareness() const
+{
+    return m_mm9PartyAwareness;
+}
+
 void GameplayActorService::setMeleeVerticalReach(float share)
 {
     m_meleeVerticalReach = share;
@@ -137,6 +147,23 @@ void GameplayActorService::setMeleeVerticalReach(float share)
 void GameplayActorService::setLevelRadiusLimit(float limit)
 {
     m_levelRadiusLimit = limit;
+}
+
+void GameplayActorService::setFriendlyActorsBlockParty(bool enabled)
+{
+    m_friendlyActorsBlockParty = enabled;
+}
+
+bool GameplayActorService::actorBlocksPartyMovement(
+    bool hostileToParty,
+    GameplayActorControlMode controlMode) const
+{
+    if (hostileToParty)
+    {
+        return true;
+    }
+
+    return m_friendlyActorsBlockParty && !isPartyControlledActor(controlMode);
 }
 
 bool GameplayActorService::meleeReachesVertically(float share, float attackerFootZ, float attackerHeight,
@@ -706,8 +733,22 @@ bool GameplayActorService::isPartyControlledActor(GameplayActorControlMode contr
     }
 }
 
-bool GameplayActorService::monsterIdsAreFriendly(int16_t leftMonsterId, int16_t rightMonsterId) const
+bool GameplayActorService::monsterIdsAreFriendly(
+    int16_t leftMonsterId,
+    int16_t rightMonsterId,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
 {
+    if (pRelationOverrides != nullptr && !pRelationOverrides->empty())
+    {
+        const auto overrideIterator =
+            pRelationOverrides->find(relationOverrideKey(uint32_t(leftMonsterId), uint32_t(rightMonsterId)));
+
+        if (overrideIterator != pRelationOverrides->end())
+        {
+            return overrideIterator->second <= 0;
+        }
+    }
+
     return m_pMonsterTable != nullptr
         && m_pMonsterTable->getRelationBetweenMonsters(leftMonsterId, rightMonsterId) <= 0;
 }
@@ -921,8 +962,26 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
         uint32_t(actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId);
     const uint32_t targetRelationMonsterId =
         uint32_t(target.relationMonsterId > 0 ? target.relationMonsterId : target.monsterId);
-    const auto overrideIterator =
-        pRelationOverrides->find(relationOverrideKey(actorRelationMonsterId, targetRelationMonsterId));
+    const auto findRow = [pRelationOverrides](uint32_t left, uint32_t right)
+    {
+        return pRelationOverrides->find(relationOverrideKey(left, right));
+    };
+    auto overrideIterator = pRelationOverrides->end();
+
+    if (actor.group != 0)
+    {
+        overrideIterator = findRow(relationGroupSide(actor.group), targetRelationMonsterId);
+    }
+
+    if (overrideIterator == pRelationOverrides->end() && target.group != 0)
+    {
+        overrideIterator = findRow(actorRelationMonsterId, relationGroupSide(target.group));
+    }
+
+    if (overrideIterator == pRelationOverrides->end())
+    {
+        overrideIterator = findRow(actorRelationMonsterId, targetRelationMonsterId);
+    }
 
     if (overrideIterator == pRelationOverrides->end())
     {

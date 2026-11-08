@@ -259,11 +259,30 @@ struct Mm9AiPlacement
     Mm9AiPlacementProfile profile;
 };
 
+// A stop of its wander path at a marker (BaseWander.inc OnWanderAtMarkerNext; scene mm9_ai.path_stops): the path
+// point it belongs to, the marker's facing (UseMarkerRotation: radians in the map's frame), its own wait
+// (UseMarkerWaitTime: [minimum, maximum] seconds) and its clip (AnimationName, a binding's role; looped or once).
+struct Mm9AiPathStop
+{
+    uint16_t point = 0;
+    bool faces = false;
+    float faceYawRadians = 0.0f;
+    bool ownWait = false;
+    float waitMinSeconds = 0.0f;
+    float waitMaxSeconds = 0.0f;
+    std::string clip;
+    bool loop = false;
+
+    bool operator==(const Mm9AiPathStop &other) const = default;
+};
+
 // A placed actor's record: its settings, the points its path and summons use and its MM9 placement script.
 struct Mm9AiPlacementRecord
 {
     Mm9AiPlacement settings;
     std::vector<std::array<int32_t, 3>> pathPoints;
+    // The stops of its path that have a marker's facing, wait or clip.
+    std::vector<Mm9AiPathStop> pathStops;
     std::vector<std::array<int32_t, 3>> summonPoints;
     // Its named hiding places (HidingPlace0-2): MM9's ShouldRunAway lets only a monster with one flee by morale.
     std::vector<std::array<int32_t, 3>> hidingPlaces;

@@ -119,6 +119,42 @@ inline ActorModelGait actorModelGait(float speed, const std::array<float, 3> &cl
     return best;
 }
 
+// The gait of a model whose manifest says `gait: intent` (MM9's): MM9 plays the walk while its AI walks and the run
+// while it runs (WalkTo, RunTo: devdocs/mm9_rework/MM9_ANIMATION_AUDIT.md A5), whatever the speed, so a townsperson
+// strolling at its walking speed never jogs a slow run. The AI picks the walk or, hurrying, the run or sprint that suits
+// the speed better. That clip plays when it fits: its misfit (actorModelGaitMisfit) at most the cap's, a rate within
+// [1 / sqrt(maxRate), maxRate] of authored (maxRate 0: any rate), the clip playing now with an 8 % margin. Otherwise the
+// clip that suits the speed best (actorModelGait) plays when it fits (the Grey Wolf, whose walk would scurry at 4x,
+// trots), and when neither fits the AI's clip still plays if it is only too fast (its feet slide past the cap, as MM9's
+// do), never a run in slow motion.
+inline ActorModelGait actorModelIntendedGait(float speed, const std::array<float, 3> &clipSpeeds, bool hurrying,
+    ActorModelGait current, float maxRate)
+{
+    ActorModelGait intended = hurrying ? ActorModelGait::Run : ActorModelGait::Walk;
+    if (!(speed > 0.0f) || !(clipSpeeds[0] > 0.0f) || !(clipSpeeds[1] > 0.0f))
+    {
+        return intended;
+    }
+    const auto misfit = [&](ActorModelGait gait)
+    {
+        return actorModelGaitMisfit(speed, clipSpeeds[size_t(gait)]) - (gait == current ? std::log(1.08f) : 0.0f);
+    };
+    if (hurrying && clipSpeeds[2] > 0.0f && misfit(ActorModelGait::Sprint) < misfit(ActorModelGait::Run))
+    {
+        intended = ActorModelGait::Sprint;
+    }
+    const auto fits = [&](ActorModelGait gait)
+    {
+        return !(maxRate > 0.0f) || (clipSpeeds[size_t(gait)] > 0.0f && misfit(gait) <= std::log(maxRate));
+    };
+    if (fits(intended))
+    {
+        return intended;
+    }
+    const ActorModelGait best = actorModelGait(speed, clipSpeeds, hurrying, current);
+    return fits(best) || speed < clipSpeeds[size_t(intended)] ? best : intended;
+}
+
 // An attack's legs are decided when it starts, as MM9's animator does (devdocs/mm9_rework/MM9_ANIMATION_AUDIT.md A1):
 // an actor that moves plays its gait under the attack (the upper-body layer, MM9's `Top` track), one that stands plays
 // the attack with its whole body. AIs move and stop an attacker from one step to the next (MM9's loops call RunTo and

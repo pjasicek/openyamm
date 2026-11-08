@@ -145,7 +145,28 @@ it, with all Cycles re-bakes, to the end of the MM9 integration: since 2026-10-3
 scene-changed MM9 dungeons carry no sidecar (classic lighting; copies in each project's
 `work/lighting_stale_20261031/`).
 
-## Format (`<map>.lighting`, version 1)
+**Daylight pages (version 2, 2026-11-06).** A map open to the sky (scene `daylight`: the MM9 cities and regions)
+lights its lightmapped faces by the hour as the vertex-lit ones are. Before, MM9's transferred lightmaps (its
+AmbientLight, StaticSunLight with shadows and lamps in one value) drew noon light at midnight: Sturmford City's streets
+measured 85 at noon and 72 at midnight (centre-crop luma) while the region's vertex-lit ground went 63 to 27.
+`level_generation/projects/mm9r_common/lightmap_transfer.py` now splits each texel of such a map into the open air's
+share D (ambient and sun at noon) and the rest (lamps, and everything under a roof), per channel: the lamps predicted
+from MM9's Light and DirLight objects as its preprocessor lights them, unshadowed (on MM9's own shaded faces this
+matches the lightmap's light over the ambient at a median ratio of 1.01), and D = clamp(V - lamps, min(A, V),
+min(V, A + sun x clamp(4 N.L) + open air))), A the AmbientLight and "open air" MM9's lights over the open land
+(`LightRadius` 750 LT and up, which stand in for the sun on the regions; lamps reach at most 700 LT; 2026-11-07,
+INDOOR_OPEN_SKY.md "Daylight", open-air lights), predicted like the lamps; before, they counted as lamps and kept the
+regions' structures lit at night. So a face turned away from the sun keeps only A as daylight, a
+lamp pool in shade stays a lamp pool, and a sunlit texel MM9 clipped at 255 keeps its predicted lamps at night. At run
+time (`fs_indoor_textured_lit.sc` `indoorStaticLight`, `u_indoorBakedDaylight`, `indoorBakedDaylightScale`) a face of
+a sector open to the sky (`v_faceInfo.z`) draws `rest + min(D, A) x ambientScale + (D - min(D, A)) x sunScale`, the
+scales being the scene daylight now over at noon (the same light, night floor and sky hue as the vertex-lit faces open
+to the sky); every other face, and every map without daylight, draws `rest + D` = the bake. The lightmapped faces take
+no `u_indoorDaylight` term. A map whose sidecar is version 1 draws as before (one uniform test per pixel, no fetch).
+Cost on such a map: a second page texture of the same size and one more fetch per lightmapped pixel. Sturmford City:
+noon 85 / midnight 72 before, see the city README for after.
+
+## Format (`<map>.lighting`, versions 1 and 2)
 
 Little endian. Magic `OYILIT1\0` (the indoor member of the `OYMLIT1` outdoor family). Lengths, offsets, counts, page
 references, finite values, dependency paths and RLE spans are validated; trailing data is rejected.
@@ -168,6 +189,9 @@ references, finite values, dependency paths and RLE spans are validated; trailin
   lightmapped, set exactly when the page is), then `uAxis` and `vAxis` (4 f32 each): `u = dot(p, uAxis.xyz) + uAxis.w`.
   For a face a door moves, `p` is the vertex in the BLV's stored pose (the vertex array as stored). Sidecars from
   before 2026-10-30 have no page on any mover face; the format and version are unchanged.
+- **Version 2** (daylight pages, above): the same layout with an even page count; page records come in pairs of equal
+  size, the static light (2i) then the open air's light at noon (2i+1), and a face references its pair's first
+  record. Noon light is their sum. The loader keeps the pairs as `pages` and `daylightPages`.
 - **Sector** (12 bytes, one per sector): actor ambient RGB in lighting units, 0–4.
 - **Dependency**: path length u32, FNV-1a 64 u64, UTF-8 path rooted at `engine/` or `worlds/`. The producer records
   the BLV, its scene file, every drawn face's texture and the installed recipe (`<map>.bake.json`, which holds the

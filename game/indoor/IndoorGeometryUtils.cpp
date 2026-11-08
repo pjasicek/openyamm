@@ -696,6 +696,62 @@ int16_t indoorSectorBehindPortal(const IndoorFaceGeometryData &geometry, int16_t
     return -1;
 }
 
+namespace
+{
+// The sector behind a portal of the start's sector that the start already lies just beyond (at most FloorSlack, as
+// findIndoorSectorForPoint's floors take a point on a doorway: an actor a unit past a doorway keeps the sector it came
+// from), the line going on away from it; -1 if none. Without it such a line never crosses that portal and finds no
+// way into the sector it starts in.
+int16_t indoorSectorBehindStartPortal(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const bx::Vec3 &start,
+    const bx::Vec3 &end,
+    int16_t sectorId)
+{
+    const IndoorSector &sector = indoorMapData.sectors[sectorId];
+
+    for (uint16_t faceId : sector.portalFaceIds)
+    {
+        const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(indoorMapData, vertices, faceId);
+
+        if (pGeometry == nullptr || !pGeometry->hasPlane || !pGeometry->isPortal || pGeometry->vertices.empty()
+            || indoorSectorBehindPortal(*pGeometry, sectorId) < 0
+            || !indoorSegmentMayTouchFaceBounds(start, end, *pGeometry, FloorSlack))
+        {
+            continue;
+        }
+
+        // Distances along the normal turned towards this sector: positive on its side.
+        const float toward = sectorId == static_cast<int16_t>(pGeometry->sectorId) ? 1.0f : -1.0f;
+        const bx::Vec3 &planePoint = pGeometry->vertices.front();
+        const float startSide = toward * indoorDotProduct(pGeometry->normal,
+            {start.x - planePoint.x, start.y - planePoint.y, start.z - planePoint.z});
+        const float endSide = toward * indoorDotProduct(pGeometry->normal,
+            {end.x - planePoint.x, end.y - planePoint.y, end.z - planePoint.z});
+
+        if (startSide > 0.0f || startSide < -FloorSlack || endSide >= startSide)
+        {
+            continue;
+        }
+
+        const bx::Vec3 onPlane = {
+            start.x - pGeometry->normal.x * toward * startSide,
+            start.y - pGeometry->normal.y * toward * startSide,
+            start.z - pGeometry->normal.z * toward * startSide
+        };
+
+        if (isPointInsideIndoorPolygonProjected(onPlane, pGeometry->vertices, pGeometry->normal))
+        {
+            return indoorSectorBehindPortal(*pGeometry, sectorId);
+        }
+    }
+
+    return -1;
+}
+}
+
 IndoorPortalSectorTrace traceIndoorLineThroughPortalSectors(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
@@ -795,6 +851,22 @@ IndoorPortalSectorTrace traceIndoorLineThroughPortalSectors(
 
             nextSectorId = indoorSectorBehindPortal(*pGeometry, currentSectorId);
             break;
+        }
+
+        if (nextSectorId < 0 && portalStep == 0)
+        {
+            nextSectorId = indoorSectorBehindStartPortal(indoorMapData, vertices, geometryCache, start, end,
+                currentSectorId);
+        }
+
+        if (nextSectorId < 0
+            && indoorSectorBehindStartPortal(indoorMapData, vertices, geometryCache, end, start, targetSectorId)
+                == currentSectorId)
+        {
+            // The end lies just this side of a portal of its own sector (the same doorway as above, seen from here)
+            appendSectorId(targetSectorId);
+            trace.reachedTargetSector = true;
+            return trace;
         }
 
         if (nextSectorId < 0 || nextSectorId == currentSectorId)
@@ -948,11 +1020,12 @@ void applyIndoorMechanismDoorToVertices(
     const IndoorMoverDefinition *pMover,
     float distance,
     int8_t rotationDirection,
-    std::vector<IndoorVertex> &vertices
+    std::vector<IndoorVertex> &vertices,
+    float spinDegrees
 )
 {
     if (const std::optional<IndoorRigidMotion> motion =
-            indoorRotatingMoverMotion(door, pMover, distance, rotationDirection))
+            indoorRotatingMoverMotion(door, pMover, distance, rotationDirection, spinDegrees))
     {
         applyIndoorRotatingMoverToVertices(door, *motion, vertices);
         return;
@@ -1016,6 +1089,7 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
             || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
         float distance = runtimeMechanism.currentDistance;
         int8_t rotationDirection = runtimeMechanism.rotationDirection;
+        float spinDegrees = 0.0f;
 
         if (pEventRuntimeState != nullptr)
         {
@@ -1026,11 +1100,12 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
             {
                 distance = mechanismIterator->second.currentDistance;
                 rotationDirection = mechanismIterator->second.rotationDirection;
+                spinDegrees = mechanismIterator->second.spinDegrees;
             }
         }
 
-        applyIndoorMechanismDoorToVertices(
-            door, findIndoorMoverDefinition(indoorMapData, door.doorId), distance, rotationDirection, vertices);
+        applyIndoorMechanismDoorToVertices(door, findIndoorMoverDefinition(indoorMapData, door.doorId), distance,
+            rotationDirection, vertices, spinDegrees);
     }
 
     return vertices;
@@ -1054,7 +1129,7 @@ std::vector<std::optional<IndoorRigidMotion>> buildIndoorRotatingFaceMotions(
     {
         const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(indoorMapData, door.doorId);
 
-        if (pMover == nullptr || !pMover->rotation)
+        if (pMover == nullptr || (!pMover->rotation && !pMover->spin))
         {
             continue;
         }
@@ -1074,8 +1149,8 @@ std::vector<std::optional<IndoorRigidMotion>> buildIndoorRotatingFaceMotions(
             }
         }
 
-        const std::optional<IndoorRigidMotion> motion =
-            indoorRotatingMoverMotion(door, pMover, mechanism.currentDistance, mechanism.rotationDirection);
+        const std::optional<IndoorRigidMotion> motion = indoorRotatingMoverMotion(
+            door, pMover, mechanism.currentDistance, mechanism.rotationDirection, mechanism.spinDegrees);
 
         for (uint16_t faceId : door.faceIds)
         {
@@ -2370,6 +2445,52 @@ std::optional<int16_t> findIndoorSectorForPoint(
     }
 
     return bestAboveSectorId;
+}
+
+bool indoorSectorHasFloorUnderPoint(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    int16_t sectorId,
+    const bx::Vec3 &point,
+    IndoorFaceGeometryCache *pGeometryCache
+)
+{
+    if (sectorId < 0 || static_cast<size_t>(sectorId) >= indoorMapData.sectors.size())
+    {
+        return false;
+    }
+
+    const IndoorSector &sector = indoorMapData.sectors[sectorId];
+    const auto hasFloorUnder = [&](const std::vector<uint16_t> &faceIds)
+    {
+        for (uint16_t faceId : faceIds)
+        {
+            IndoorFaceGeometryData geometryStorage = {};
+            const IndoorFaceGeometryData *pGeometry =
+                getIndoorFaceGeometry(indoorMapData, vertices, faceId, pGeometryCache, geometryStorage);
+
+            if (pGeometry == nullptr
+                || hasFaceAttribute(pGeometry->attributes, FaceAttribute::Untouchable)
+                || !faceCanDefineFloorHeight(*pGeometry)
+                || point.x < pGeometry->minX - FloorSlack
+                || point.x > pGeometry->maxX + FloorSlack
+                || point.y < pGeometry->minY - FloorSlack
+                || point.y > pGeometry->maxY + FloorSlack
+                || !isPointInsideFaceXYPolygon(point, pGeometry->vertices))
+            {
+                continue;
+            }
+
+            if (calculateIndoorFaceHeight(*pGeometry, point.x, point.y) <= point.z)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    return hasFloorUnder(sector.floorFaceIds) || ((sector.flags & 0x8) != 0 && hasFloorUnder(sector.portalFaceIds));
 }
 
 std::optional<DecorationWallContact> findIndoorWallContact(

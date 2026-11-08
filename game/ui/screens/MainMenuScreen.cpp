@@ -1,5 +1,7 @@
 #include "game/ui/screens/MainMenuScreen.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 #include "game/app/GameUpdater.h"
 #include "game/data/GameDataRepository.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
@@ -34,10 +36,10 @@ std::string capitalized(const std::string &value)
     }
     return result;
 }
-std::string lower(std::string value)
+// The search compares the displayed (translated) names, so it lowers every letter, not only ASCII ones.
+std::string lower(const std::string &value)
 {
-    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) { return char(std::tolower(c)); });
-    return value;
+    return Engine::Utf8::lower(value);
 }
 
 // The catalog section whose rows are the ruleset options of the game in progress.
@@ -206,7 +208,7 @@ void MainMenuScreen::loadCatalog()
         {
             continue;
         }
-        m_sections.push_back({item["id"].as<std::string>(), item["name"].as<std::string>()});
+        m_sections.push_back({item["id"].as<std::string>(), Engine::localize(item["name"].as<std::string>())});
     }
     for (const YAML::Node &item : catalog["settings"])
     {
@@ -214,14 +216,15 @@ void MainMenuScreen::loadCatalog()
         setting.id = item["id"].as<std::string>();
         setting.section = item["section"].as<std::string>();
         setting.group = item["group"].as<std::string>();
-        setting.name = item["name"].as<std::string>();
-        setting.description = item["desc"].as<std::string>();
+        // Names, descriptions and choices show in the interface language; ids, values and groups stay English.
+        setting.name = Engine::localize(item["name"].as<std::string>());
+        setting.description = Engine::localize(item["desc"].as<std::string>());
         if (m_currentGame && item["ruleset_desc"])
         {
-            setting.description = item["ruleset_desc"].as<std::string>();
+            setting.description = Engine::localize(item["ruleset_desc"].as<std::string>());
         }
         setting.type = item["type"].as<std::string>();
-        setting.unit = item["unit"].as<std::string>("");
+        setting.unit = Engine::localize(item["unit"].as<std::string>(""));
         setting.depends = item["depends"].as<std::string>("");
         setting.minimum = item["min"].as<int>(0);
         setting.maximum = item["max"].as<int>(100);
@@ -229,13 +232,26 @@ void MainMenuScreen::loadCatalog()
         {
             for (const YAML::Node &option : item["options"])
             {
-                setting.options.emplace_back(option[0].as<std::string>(), option[1].as<std::string>());
+                setting.options.emplace_back(option[0].as<std::string>(),
+                                             Engine::localize(option[1].as<std::string>()));
             }
         }
         // An action row stores no setting; drawUpdateSettings draws the only one, update_now.
         if (setting.type == "action")
         {
             continue;
+        }
+        // English and the pseudo-language come from the catalog, the rest from the installed language packs.
+        if (setting.id == "language")
+        {
+            for (const Engine::LanguagePack &pack : Engine::findLanguagePacks(assetFileSystem()))
+            {
+                // A release language whose voices and videos are not downloaded yet: the next start fetches them.
+                const uint64_t download = assetFileSystem().missingLanguagePackBytes(pack.id);
+                setting.options.emplace_back(pack.id, download == 0 ? pack.name
+                    : Engine::tr("{language} (download {size} MB)",
+                                 {{"language", pack.name}, {"size", (download + 1024 * 1024 - 1) / (1024 * 1024)}}));
+            }
         }
         if (setting.section == GameSection)
         {
@@ -318,8 +334,9 @@ void MainMenuScreen::loadCatalog()
             {
                 if (listed)
                 {
-                    m_bindings.push_back({definition.action, id, item["name"].as<std::string>(),
-                                          item["group"].as<std::string>(), item["context"].as<std::string>("")});
+                    m_bindings.push_back({definition.action, id, Engine::localize(item["name"].as<std::string>()),
+                                          Engine::localize(item["group"].as<std::string>()),
+                                          item["context"].as<std::string>("")});
                 }
                 found = true;
             }
@@ -346,7 +363,7 @@ void MainMenuScreen::drawScreen(float deltaSeconds)
         loadDesign("menu/credits");
         beginDesign("Credits");
         drawDesign();
-        if (button("github", designRect("CreditsProjectLink"), "OpenYAMM on GitHub", "button_quiet"))
+        if (button("github", designRect("CreditsProjectLink"), Engine::tr("OpenYAMM on GitHub"), "button_quiet"))
         {
             SDL_OpenURL("https://github.com/pjasicek/OpenYAMM");
         }
@@ -374,8 +391,9 @@ void MainMenuScreen::drawHome()
     {
         if (m_paused)
         {
-            confirm("Start a New Adventure?", "Unsaved progress in this adventure will be lost.",
-                    {"Cancel", "New Game"},
+            confirm(Engine::tr("Start a New Adventure?"),
+                    Engine::tr("Unsaved progress in this adventure will be lost."),
+                    {Engine::tr("Cancel"), Engine::tr("New Game")},
                     [this](int choice)
                     {
                         if (choice == 1)
@@ -391,9 +409,10 @@ void MainMenuScreen::drawHome()
     };
     const auto quit = [this]()
     {
-        confirm("Leave OpenYAMM?",
-                m_paused ? "Unsaved progress will be lost. Return to your desktop?" : "Return to your desktop?",
-                {"Cancel", "Quit"},
+        confirm(Engine::tr("Leave OpenYAMM?"),
+                m_paused ? Engine::tr("Unsaved progress will be lost. Return to your desktop?")
+                         : Engine::tr("Return to your desktop?"),
+                {Engine::tr("Cancel"), Engine::tr("Quit")},
                 [this](int choice)
                 {
                     if (choice == 1)
@@ -429,7 +448,8 @@ void MainMenuScreen::drawHome()
         }
         if (action("MenuButtonMainMenu"))
         {
-            confirm("Return to Main Menu?", "Unsaved progress in this adventure will be lost.", {"Cancel", "Main Menu"},
+            confirm(Engine::tr("Return to Main Menu?"), Engine::tr("Unsaved progress in this adventure will be lost."),
+                    {Engine::tr("Cancel"), Engine::tr("Main Menu")},
                     [this](int choice)
                     {
                         if (choice == 1)
@@ -449,12 +469,13 @@ void MainMenuScreen::drawHome()
         {
             m_latestSaveLocation = resolveSaveLocationName(m_gameData.mapEntries(), m_latestSaveMap);
         }
-        label("MainMenuContinueInfo", m_latestSave ? m_latestSaveLocation : "Your adventure begins here");
+        label("MainMenuContinueInfo",
+              m_latestSave ? m_latestSaveLocation : Engine::tr("Your adventure begins here"));
         if (action("MainMenuContinueButton", m_latestSave.has_value()))
         {
             if (!m_actions.continueGame(*m_latestSave))
             {
-                m_status = "The saved adventure could not be loaded.";
+                m_status = Engine::tr("The saved adventure could not be loaded.");
             }
         }
         if (action("MainMenuNewGameButton"))
@@ -502,9 +523,11 @@ void MainMenuScreen::drawUpdates()
 
         if (const std::optional<std::string> failed = m_pUpdater->takeRollbackNotice())
         {
-            confirm("Update Undone", "OpenYAMM " + *failed + " did not start, so OpenYAMM "
-                        + m_pUpdater->installedVersion() + " was restored. Your saves are unchanged.",
-                    {"OK"}, [](int) {});
+            confirm(Engine::tr("Update Undone"),
+                    Engine::tr("OpenYAMM {failed} did not start, so OpenYAMM {installed} was restored. Your saves "
+                               "are unchanged.",
+                               {{"failed", *failed}, {"installed", m_pUpdater->installedVersion()}}),
+                    {Engine::tr("OK")}, [](int) {});
         }
         else if (m_committed.keepModifiedPacks)
         {
@@ -537,13 +560,13 @@ void MainMenuScreen::drawUpdates()
 
     if (status.state == Engine::UpdateState::Ready)
     {
-        text = "Restart to play OpenYAMM " + status.release;
+        text = Engine::tr("Restart to play OpenYAMM {release}", {{"release", status.release}});
     }
     else if (status.state == Engine::UpdateState::Available
              || (status.state == Engine::UpdateState::Failed && !m_updateRelease.empty()))
     {
-        text = "Update to OpenYAMM " + m_updateRelease + " ("
-            + std::to_string((status.totalBytes + 999999) / 1000000) + " MB)";
+        text = Engine::tr("Update to OpenYAMM {release} ({megabytes} MB)", {{"release", m_updateRelease},
+            {"megabytes", int64_t((status.totalBytes + 999999) / 1000000)}});
     }
 
     if (!text.empty() && button("update", canvasRect(14, 430, 250, 22), text, "button_quiet") && !modalOpen())
@@ -563,52 +586,59 @@ void MainMenuScreen::drawUpdateSettings(const std::string &prefix)
     }
 
     const Engine::UpdateStatus status = m_pUpdater->status();
-    const std::string size = std::to_string((status.totalBytes + 999999) / 1000000) + " MB";
-    std::string text = "Check Now looks for a new version on jasicek.net. Nothing downloads without asking.";
-    std::string buttonText = "Check Now";
+    const int64_t megabytes = int64_t((status.totalBytes + 999999) / 1000000);
+    std::string text =
+        Engine::tr("Check Now looks for a new version on jasicek.net. Nothing downloads without asking.");
+    std::string buttonText = Engine::tr("Check Now");
     bool enabled = true;
     bool install = false;
 
     if (status.state == Engine::UpdateState::Checking)
     {
-        text = "Looking for a new version on jasicek.net...";
-        buttonText = "Checking...";
+        text = Engine::tr("Looking for a new version on jasicek.net...");
+        buttonText = Engine::tr("Checking...");
         enabled = false;
     }
     else if (status.state == Engine::UpdateState::UpToDate)
     {
-        text = "This is the newest version.";
+        text = Engine::tr("This is the newest version.");
     }
     else if (status.state == Engine::UpdateState::Failed)
     {
-        text = "The last check failed: " + status.message;
+        text = Engine::tr("The last check failed: {reason}", {{"reason", status.message}});
     }
     else if (status.state == Engine::UpdateState::Available)
     {
         m_updateRelease = status.release;
-        text = "OpenYAMM " + status.release + " is available (" + size + ")."
-            + (m_paused ? " Update it from the main menu." : "");
-        buttonText = m_paused ? "Check Now" : "Update";
+        text = m_paused ? Engine::tr("OpenYAMM {release} is available ({megabytes} MB). Update it from the main menu.",
+                                     {{"release", status.release}, {"megabytes", megabytes}})
+                        : Engine::tr("OpenYAMM {release} is available ({megabytes} MB).",
+                                     {{"release", status.release}, {"megabytes", megabytes}});
+        buttonText = m_paused ? Engine::tr("Check Now") : Engine::tr("Update");
         install = !m_paused;
     }
     else if (status.state == Engine::UpdateState::Downloading)
     {
-        text = "Downloading OpenYAMM " + m_updateRelease + ": " + std::to_string(status.doneBytes / 1000000) + " of "
-            + size + ".";
-        buttonText = "Downloading...";
+        text = Engine::tr("Downloading OpenYAMM {release}: {done} of {megabytes} MB.",
+                          {{"release", m_updateRelease}, {"done", int64_t(status.doneBytes / 1000000)},
+                           {"megabytes", megabytes}});
+        buttonText = Engine::tr("Downloading...");
         enabled = false;
     }
     else if (status.state == Engine::UpdateState::Ready)
     {
-        text = "OpenYAMM " + status.release + " is downloaded. Restart"
-            + (m_paused ? " from the main menu" : "") + " to play it.";
-        buttonText = "Restart";
+        text = m_paused ? Engine::tr("OpenYAMM {release} is downloaded. Restart from the main menu to play it.",
+                                     {{"release", status.release}})
+                        : Engine::tr("OpenYAMM {release} is downloaded. Restart to play it.",
+                                     {{"release", status.release}});
+        buttonText = Engine::tr("Restart");
         enabled = !m_paused;
         install = !m_paused;
     }
 
     const std::string id = prefix + "UpdateNow";
-    label(id + "Label", "Installed: OpenYAMM " + m_pUpdater->installedVersion(), 0, -m_scroll);
+    label(id + "Label", Engine::tr("Installed: OpenYAMM {version}", {{"version", m_pUpdater->installedVersion()}}), 0,
+          -m_scroll);
     label(id + "Description", text, 0, -m_scroll);
     Rect rect = designRect(id + "Control");
     rect.y -= m_scroll * designScale();
@@ -628,9 +658,10 @@ void MainMenuScreen::drawUpdateSettings(const std::string &prefix)
 
 void MainMenuScreen::askAboutUpdates()
 {
-    confirm("Check for Updates?",
-            "OpenYAMM can look for a new version on jasicek.net when it starts. Nothing is downloaded without asking.",
-            {"Never", "At start"},
+    confirm(Engine::tr("Check for Updates?"),
+            Engine::tr("OpenYAMM can look for a new version on jasicek.net when it starts. Nothing is downloaded "
+                       "without asking."),
+            {Engine::tr("Never"), Engine::tr("At start")},
             [this](int choice)
             {
                 if (choice < 0)
@@ -667,19 +698,20 @@ void MainMenuScreen::offerUpdate()
         return;
     }
 
-    const std::string size = std::to_string((status.totalBytes + 999999) / 1000000) + " MB";
+    const int64_t megabytes = int64_t((status.totalBytes + 999999) / 1000000);
     const std::string body = m_pUpdater->updatesInGame()
-        ? "Downloads " + size + ". Your saves and settings stay as they are."
-        : "Downloads " + size + " in the update screen. Your saves and settings stay as they are.";
+        ? Engine::tr("Downloads {megabytes} MB. Your saves and settings stay as they are.", {{"megabytes", megabytes}})
+        : Engine::tr("Downloads {megabytes} MB in the update screen. Your saves and settings stay as they are.",
+                     {{"megabytes", megabytes}});
     const bool hasNotesPage = !status.notesUrl.empty();
-    std::vector<std::string> choices = {"Later", "Update"};
+    std::vector<std::string> choices = {Engine::tr("Later"), Engine::tr("Update")};
 
     if (hasNotesPage)
     {
-        choices.insert(choices.begin() + 1, "Release Notes");
+        choices.insert(choices.begin() + 1, Engine::tr("Release Notes"));
     }
 
-    confirm("Update to OpenYAMM " + m_updateRelease + "?", body, choices,
+    confirm(Engine::tr("Update to OpenYAMM {release}?", {{"release", m_updateRelease}}), body, choices,
             [this, hasNotesPage, url = status.notesUrl](int choice)
             {
                 if (hasNotesPage && choice == 1)
@@ -699,7 +731,7 @@ void MainMenuScreen::offerUpdate()
                     return;
                 }
                 m_followingUpdate = true;
-                confirm("Updating OpenYAMM", "Starting the download...", {"Cancel"},
+                confirm(Engine::tr("Updating OpenYAMM"), Engine::tr("Starting the download..."), {Engine::tr("Cancel")},
                         [this](int)
                         {
                             m_pUpdater->cancel();
@@ -718,9 +750,10 @@ void MainMenuScreen::followUpdate()
     if (status.state == Engine::UpdateState::Downloading || status.state == Engine::UpdateState::Available)
     {
         setModalBody(status.state == Engine::UpdateState::Available
-                         ? "Starting the download..."
-                         : status.message + "\n" + std::to_string(status.doneBytes / 1000000) + " of "
-                             + std::to_string((status.totalBytes + 999999) / 1000000) + " MB");
+                         ? Engine::tr("Starting the download...")
+                         : status.message + "\n"
+                             + Engine::tr("{done} of {megabytes} MB", {{"done", int64_t(status.doneBytes / 1000000)},
+                                 {"megabytes", int64_t((status.totalBytes + 999999) / 1000000)}}));
         return;
     }
 
@@ -732,14 +765,15 @@ void MainMenuScreen::followUpdate()
 
     if (status.state == Engine::UpdateState::Failed)
     {
-        confirm("Update Failed", status.message, {"OK"}, [](int) {});
+        confirm(Engine::tr("Update Failed"), status.message, {Engine::tr("OK")}, [](int) {});
         return;
     }
 
     if (status.state == Engine::UpdateState::Ready)
     {
-        confirm("OpenYAMM " + status.release + " Is Ready", "Restart now to play the new version.",
-                {"Later", "Restart Now"},
+        confirm(Engine::tr("OpenYAMM {release} Is Ready", {{"release", status.release}}),
+                Engine::tr("Restart now to play the new version."),
+                {Engine::tr("Later"), Engine::tr("Restart Now")},
                 [this](int choice)
                 {
                     if (choice != 1)
@@ -753,7 +787,7 @@ void MainMenuScreen::followUpdate()
                     }
                     else
                     {
-                        confirm("Update Failed", error, {"OK"}, [](int) {});
+                        confirm(Engine::tr("Update Failed"), error, {Engine::tr("OK")}, [](int) {});
                     }
                 });
     }
@@ -825,7 +859,8 @@ void MainMenuScreen::leaveSettings()
         setTextEditing(false);
         return;
     }
-    confirm("Unapplied Changes", "Apply your changes before leaving Settings?", {"Stay", "Discard", "Apply"},
+    confirm(Engine::tr("Unapplied Changes"), Engine::tr("Apply your changes before leaving Settings?"),
+            {Engine::tr("Stay"), Engine::tr("Discard"), Engine::tr("Apply")},
             [this](int choice)
             {
                 if (choice == 1)
@@ -854,7 +889,7 @@ void MainMenuScreen::revertDisplay()
     m_draft.resolutionWidth = m_committed.resolutionWidth;
     m_draft.resolutionHeight = m_committed.resolutionHeight;
     m_draft.verticalSync = m_committed.verticalSync;
-    m_status = error.empty() ? "Previous display settings restored." : error;
+    m_status = error.empty() ? Engine::tr("Previous display settings restored.") : error;
 }
 
 void MainMenuScreen::applySettings(bool leaveAfter)
@@ -883,7 +918,8 @@ void MainMenuScreen::applySettings(bool leaveAfter)
         m_displayPreview = true;
         m_displaySeconds = 15;
         m_leaveAfterApply = leaveAfter;
-        confirm("Keep Display Settings?", "Reverting in 15 seconds.", {"Revert", "Keep"},
+        confirm(Engine::tr("Keep Display Settings?"), Engine::tr("Reverting in {seconds} seconds.", {{"seconds", 15}}),
+                {Engine::tr("Revert"), Engine::tr("Keep")},
                 [this](int choice)
                 {
                     if (choice != 1)
@@ -896,7 +932,7 @@ void MainMenuScreen::applySettings(bool leaveAfter)
                     {
                         m_displayPreview = false;
                         m_committed = m_draft;
-                        m_status = "Settings saved.";
+                        m_status = Engine::tr("Settings saved.");
                         if (m_leaveAfterApply)
                         {
                             m_page = Page::Home;
@@ -912,7 +948,7 @@ void MainMenuScreen::applySettings(bool leaveAfter)
     else
     {
         m_committed = m_draft;
-        m_status = "Settings saved.";
+        m_status = Engine::tr("Settings saved.");
         if (leaveAfter)
         {
             m_page = Page::Home;
@@ -922,10 +958,11 @@ void MainMenuScreen::applySettings(bool leaveAfter)
 
 void MainMenuScreen::restoreDefaults()
 {
-    confirm("Restore Defaults?",
-            m_section == "controls" ? "Restore mouse controls, the control preset and its keyboard bindings?"
-                                    : "Restore the current Settings section to its defaults?",
-            {"Cancel", "Restore"},
+    confirm(Engine::tr("Restore Defaults?"),
+            m_section == "controls"
+                ? Engine::tr("Restore mouse controls, the control preset and its keyboard bindings?")
+                : Engine::tr("Restore the current Settings section to its defaults?"),
+            {Engine::tr("Cancel"), Engine::tr("Restore")},
             [this](int choice)
             {
                 if (choice != 1)
@@ -992,8 +1029,9 @@ void MainMenuScreen::editSetting(const Setting &setting, const std::string &valu
         if (setting.id == "ruleset_difficulty" && value == rulesetDifficultyId(RulesetDifficulty::Nightmare)
             && m_rulesetDraft.difficulty != RulesetDifficulty::Nightmare)
         {
-            confirm("Choose Nightmare?", "Nightmare can never be lowered again in this adventure.",
-                    {"Cancel", "Nightmare"},
+            confirm(Engine::tr("Choose Nightmare?"),
+                    Engine::tr("Nightmare can never be lowered again in this adventure."),
+                    {Engine::tr("Cancel"), Engine::tr("Nightmare")},
                     [this, setting, value](int choice)
                     {
                         if (choice == 1)
@@ -1011,8 +1049,9 @@ void MainMenuScreen::editSetting(const Setting &setting, const std::string &valu
     }
     if (setting.id == "control_scheme" && menuSettingValue(m_draft, setting.id) != value)
     {
-        confirm("Change Control Preset?", "This also resets the keyboard bindings for the selected preset.",
-                {"Cancel", "Change"},
+        confirm(Engine::tr("Change Control Preset?"),
+                Engine::tr("This also resets the keyboard bindings for the selected preset."),
+                {Engine::tr("Cancel"), Engine::tr("Change")},
                 [this, value](int choice)
                 {
                     if (choice == 1)
@@ -1074,7 +1113,7 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
     {
         labels.push_back(label);
     }
-    confirm(setting.name, "Choose a value", labels,
+    confirm(setting.name, Engine::tr("Choose a value"), labels,
             [this, setting, choices](int index)
             {
                 if (index >= 0)
@@ -1099,7 +1138,8 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
     if (m_displayPreview)
     {
         m_displaySeconds -= deltaSeconds;
-        setModalBody("Reverting in " + std::to_string(std::max(0, int(std::ceil(m_displaySeconds)))) + " seconds.");
+        const int seconds = std::max(0, int(std::ceil(m_displaySeconds)));
+        setModalBody(Engine::tr("Reverting in {seconds} seconds.", {{"seconds", seconds}}));
         if (m_displaySeconds <= 0)
         {
             closeConfirmation();
@@ -1146,8 +1186,9 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         applySettings();
     }
     label(prefix + "DirtyStatus", !m_status.empty()   ? m_status
-                                  : dirtyCount() == 0 ? "Your settings are up to date."
-                                                      : std::to_string(dirtyCount()) + " unapplied changes");
+                                  : dirtyCount() == 0 ? Engine::tr("Your settings are up to date.")
+                                                      : Engine::tr("{count} unapplied changes",
+                                                                   {{"count", int64_t(dirtyCount())}}));
     const Rect viewport = designRect(prefix + "ScrollViewport");
     if (m_section == "keyboard")
     {
@@ -1216,8 +1257,8 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                 editSetting(setting, value == "true" ? "false" : "true");
             }
             textInRect({rect.x + 35 * designScale(), rect.y, rect.width - 40 * designScale(), rect.height},
-                       value == "true" ? "On" : "Off", "menu_lucida", 13.3333f, enabled ? 0xffc6dfeau : 0xff6b777au,
-                       true);
+                       value == "true" ? Engine::tr("On") : Engine::tr("Off"), "menu_lucida", 13.3333f,
+                       enabled ? 0xffc6dfeau : 0xff6b777au, true);
         }
         else if (setting.type == "select")
         {
@@ -1333,7 +1374,7 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
     {
         Rect rect = designRect(prefix + "KeyboardButton");
         rect.y -= m_scroll * designScale();
-        if (button("configure-keyboard", rect, "Configure Keyboard", "button_small"))
+        if (button("configure-keyboard", rect, Engine::tr("Configure Keyboard"), "button_small"))
         {
             m_section = "keyboard";
             m_scroll = 0;
@@ -1390,10 +1431,11 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
         m_searchEditing = true;
         setTextEditing(true);
     }
-    label(prefix + "Search", m_search.empty() ? "Search actions or keys..." : m_search + (m_searchEditing ? "_" : ""));
+    label(prefix + "Search",
+          m_search.empty() ? Engine::tr("Search actions or keys...") : m_search + (m_searchEditing ? "_" : ""));
     if (selectBox("binding-filter", designRect(prefix + "GroupFilter"), m_bindingGroup, true, 12.16f))
     {
-        std::vector<std::string> groups = {"All actions"};
+        std::vector<std::string> groups = {Engine::tr("All actions")};
         for (const Binding &binding : m_bindings)
         {
             if (std::find(groups.begin(), groups.end(), binding.group) == groups.end())
@@ -1401,7 +1443,7 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
                 groups.push_back(binding.group);
             }
         }
-        confirm("Action Group", "", groups,
+        confirm(Engine::tr("Action Group"), "", groups,
                 [this, groups](int index)
                 {
                     if (index >= 0)
@@ -1415,13 +1457,15 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
     for (const Binding &binding : m_bindings)
     {
         const std::string key = inputBindingDisplayName(m_draft.keyboard.binding(binding.action));
-        if ((m_bindingGroup == "All actions" || m_bindingGroup == binding.group) &&
+        if ((m_bindingGroup == Engine::tr("All actions") || m_bindingGroup == binding.group) &&
             lower(binding.name + " " + binding.group + " " + key).find(lower(m_search)) != std::string::npos)
         {
             filtered.push_back(&binding);
         }
     }
-    const bool fixed = (m_bindingGroup == "All actions" || m_bindingGroup == "System") && m_search.empty();
+    // The group filter holds the shown group name, as the catalogue's groups are translated when loaded.
+    const bool fixed =
+        (m_bindingGroup == Engine::tr("All actions") || m_bindingGroup == Engine::tr("System")) && m_search.empty();
     const float contentHeight = std::ceil(filtered.size() / 2.0f) * 30 + (fixed ? 85 : 0);
     scrollViewport(viewport, contentHeight, m_scroll);
     if (m_capture && mouseWheelDelta() != 0.0f)
@@ -1450,14 +1494,16 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
     if (fixed)
     {
         const float y = viewport.y + (std::ceil(filtered.size() / 2.0f) * 30 + 8 - m_scroll) * scale;
-        textInRect({viewport.x + 5 * scale, y, viewport.width, 24 * scale}, "Fixed shortcuts", "fondamento", 14);
+        textInRect({viewport.x + 5 * scale, y, viewport.width, 24 * scale}, Engine::tr("Fixed shortcuts"), "fondamento",
+                   14);
         textInRect({viewport.x + 5 * scale, y + 25 * scale, viewport.width, 50 * scale},
-                   "F9  Quicksave       F10  Quickload\n1-5  Select party member       Escape  Open / close menu",
+                   Engine::tr("F9  Quicksave       F10  Quickload\n"
+                              "1-5  Select party member       Escape  Open / close menu"),
                    "menu_lucida", 11);
     }
     if (filtered.empty() && !fixed)
     {
-        textInRect(viewport, "No matching actions", "menu_arrus", 15, 0xffc6dfeau, true);
+        textInRect(viewport, Engine::tr("No matching actions"), "menu_arrus", 15, 0xffc6dfeau, true);
     }
     setDesignClip(std::nullopt);
 }
@@ -1468,9 +1514,10 @@ void MainMenuScreen::captureBinding(KeyboardAction action)
     setTextEditing(false);
     m_capture = action;
     m_captureModifier.reset();
-    confirm("Assign Key", std::string(keyboardBindingDefinition(action).label) +
-            "\nPress a key, mouse button, or scroll the wheel.",
-            {"Cancel", "Clear", "Left Mouse"},
+    confirm(Engine::tr("Assign Key"),
+            Engine::tr("{action}\nPress a key, mouse button, or scroll the wheel.",
+                       {{"action", Engine::tr(keyboardBindingDefinition(action).label)}}),
+            {Engine::tr("Cancel"), Engine::tr("Clear"), Engine::tr("Left Mouse")},
             [this, action](int choice)
             {
                 if (choice == 2)
@@ -1495,7 +1542,7 @@ void MainMenuScreen::acceptBinding(InputBinding binding)
     const KeyboardAction target = *m_capture;
     if (reservedMenuBinding(binding, target))
     {
-        setModalBody("That key is reserved. Choose another key.");
+        setModalBody(Engine::tr("That key is reserved. Choose another key."));
         return;
     }
     const auto targetBinding = std::find_if(m_bindings.begin(), m_bindings.end(),
@@ -1514,10 +1561,11 @@ void MainMenuScreen::acceptBinding(InputBinding binding)
     closeConfirmation();
     if (conflict)
     {
-        confirm("Key Already Assigned",
-                inputBindingDisplayName(binding) + " is assigned to " +
-                    std::string(keyboardBindingDefinition(*conflict).label) + ". Swap the two actions?",
-                {"Cancel", "Swap"},
+        confirm(Engine::tr("Key Already Assigned"),
+                Engine::tr("{key} is assigned to {action}. Swap the two actions?",
+                           {{"key", inputBindingDisplayName(binding)},
+                            {"action", Engine::tr(keyboardBindingDefinition(*conflict).label)}}),
+                {Engine::tr("Cancel"), Engine::tr("Swap")},
                 [this, target, binding, conflict](int choice)
                 {
                     if (choice == 1)
@@ -1589,7 +1637,7 @@ void MainMenuScreen::handleSdlEvent(const SDL_Event &event)
         }
         if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_BACKSPACE && !m_search.empty())
         {
-            m_search.pop_back();
+            Engine::Utf8::popBack(m_search);
             m_scroll = 0;
         }
     }

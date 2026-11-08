@@ -408,6 +408,27 @@ TEST_CASE("Actor model locomotion prefers walking to wander and running or sprin
     CHECK(actorModelGait(2.6f, {1, 2, 4}, true, Run) == Run);
     CHECK(actorModelGait(3.12f, {1, 2, 4}, true, Sprint) == Sprint);
     CHECK(actorModelGait(3.12f, {1, 2, 4}, true, Run) == Run);
+    // MM9's gait (`gait: intent`) follows the AI. Sturmford's boy wanders at 1.28 m/s: walk 0.71, run 1.34 authored;
+    // the speed chooser jogs its run at 0.95x, MM9 walks it (x1.8).
+    CHECK(actorModelGait(1.28f, {.71f, 1.34f, 0}, false, Walk) == Run);
+    CHECK(actorModelIntendedGait(1.28f, {.71f, 1.34f, 0}, false, Walk, 2) == Walk);
+    CHECK(actorModelIntendedGait(3.2f, {.71f, 1.34f, 0}, true, Walk, 2) == Run);
+    // A walk past the window gives way to a run inside it (the Grey Wolf trots); with nothing inside it the AI's clip
+    // plays when it is only too fast (a dwarf, walk x5, run x2.9), never a run in slow motion (Giant: walk x1.89, run
+    // x0.59; Phantom Fighter: walk x2.56, run x0.47); the clip playing now keeps its margin at the edge; uncapped:
+    // always the AI's.
+    CHECK(actorModelIntendedGait(3.84f, {2.03f, 6.5f, 0}, true, Run, 2) == Walk);
+    CHECK(actorModelIntendedGait(3.84f, {1.5f, 8.25f, 0}, true, Run, 2) == Walk);
+    CHECK(actorModelIntendedGait(3.58f, {.87f, 4.18f, 0}, false, Walk, 2) == Run);
+    CHECK(actorModelIntendedGait(1.92f, {.39f, .66f, 0}, false, Walk, 2) == Walk);
+    CHECK(actorModelIntendedGait(2.1f, {1, 2.5f, 0}, false, Walk, 2) == Walk);
+    CHECK(actorModelIntendedGait(2.1f, {1, 2.5f, 0}, false, Run, 2) == Run);
+    CHECK(actorModelIntendedGait(1.95f, {1, 2.5f, 0}, false, Run, 2) == Walk);
+    CHECK(actorModelIntendedGait(5, {1, 4, 0}, false, Walk, 0) == Walk);
+    // Hurrying, the run or sprint that suits the speed better: both are the AI's run (the MM9 wolf chases on its
+    // Running at 1.47x, not its Trot at 1.85x).
+    CHECK(actorModelIntendedGait(5, {1, 2, 4}, true, Run, 2) == Sprint);
+    CHECK(actorModelIntendedGait(2.2f, {1, 2, 4}, true, Run, 2) == Run);
     // By default the gait advances by the distance travelled, however fast, so the feet do not slide.
     CHECK(actorModelGaitDistance(5, 50, .1f, 1) == doctest::Approx(5));
     CHECK(actorModelGaitDistance(100, 50, .1f, 1) == doctest::Approx(100));

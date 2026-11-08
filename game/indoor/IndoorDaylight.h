@@ -31,6 +31,8 @@ struct IndoorDaylight
     std::array<float, 3> nightScale = {1.0f, 1.0f, 1.0f};
     // 1 for each sector open to the sky (indoorOpenSkySectors), computed when the map loads.
     std::vector<uint8_t> sectors;
+    // 1 for each map light that is the open air's own light (indoorOpenAirLights), computed when the map loads.
+    std::vector<uint8_t> openAirLights;
 };
 
 // The daylight at one moment, in the renderer's light units (1 = the texture as painted).
@@ -67,6 +69,43 @@ float indoorDaylightRoomLight(const IndoorDaylightLight &light);
 // The ambient share alone (its luminance, at most 1): the light of a model's side turned away from the sun, when the
 // model takes the sun by direction (IndoorRenderer: decorations and creatures in sectors open to the sky).
 float indoorDaylightModelAmbient(const IndoorDaylightLight &light);
+
+// How a lightmap's daylight page (IndoorBakedLighting::daylightPages, devdocs/INDOOR_BAKED_LIGHTING.md "Daylight
+// pages": the open air's light at noon, MM9's AmbientLight and StaticSunLight with their shadows) follows the time of
+// day on the faces of the sectors open to the sky. Per channel, a texel's light up to ambientLevel (the bake's
+// ambient: the scene's ambient_rgb) is the sky's and takes ambientScale, the rest is the sun's and takes sunScale.
+struct IndoorBakedDaylightScale
+{
+    std::array<float, 3> ambientLevel = {0.0f, 0.0f, 0.0f};
+    std::array<float, 3> ambientScale = {1.0f, 1.0f, 1.0f};
+    std::array<float, 3> sunScale = {1.0f, 1.0f, 1.0f};
+};
+
+// The scales at one moment: the daylight now (as the renderer lights the open air's faces, its floor of
+// minimumAmbient and the sky's hue included) over its noon value (ambient x day scale, at least minimumAmbient; the
+// sun x day scale), so at noon in white light the page draws as baked. Without a sun the sun's share follows the
+// ambient. All 1 without daylight.
+IndoorBakedDaylightScale indoorBakedDaylightScale(const IndoorDaylight &daylight, const IndoorDaylightLight &now,
+    float minimumAmbient);
+// A daylight page texel under the scales (what fs_indoor_textured_lit.sc adds to the lightmap's static page).
+std::array<float, 3> indoorBakedDaylightTexel(const IndoorBakedDaylightScale &scale, const std::array<float, 3> &texel);
+
+// The open air's lights (devdocs/INDOOR_OPEN_SKY.md "Daylight", open-air lights): MM9 lit its regions' vertex-lit
+// terrain and cliffs, and some city squares, with huge white or sun-coloured Light objects high over the land (radius
+// 750 LT and up: 1 920-14 080 native units); its lamps, lanterns and coloured glows reach at most 700 LT (1 792).
+// Survey of the 12 regions and 7 cities, 2026-11-07. On a map with daylight, a map light at least this wide is one.
+constexpr float IndoorOpenAirLightMinRadius = 1900.0f;
+// 1 for each map light of a map with daylight that is the open air's: its radius at least IndoorOpenAirLightMinRadius.
+// None without daylight.
+std::vector<uint8_t> indoorOpenAirLights(const IndoorMapData &mapData);
+inline bool indoorOpenAirLight(const IndoorDaylight &daylight, size_t lightId)
+{
+    return daylight.enabled && lightId < daylight.openAirLights.size() && daylight.openAirLights[lightId] != 0;
+}
+// How strongly the open air's lights shine now (their share of the static vertex light, on every face they reach): the
+// sun's luminance now over at noon (sun x day scale), so 1 at noon and 0 once the sun has set; MM9 drew them at every
+// hour. The ambient's ratio when the scene has no sun. 1 without daylight.
+float indoorOpenAirLightScale(const IndoorDaylight &daylight, const IndoorDaylightLight &now);
 
 // Whether the sector takes the daylight: the map has daylight and the sector is open to the sky.
 inline bool indoorDaylightSector(const IndoorDaylight &daylight, int sectorId)

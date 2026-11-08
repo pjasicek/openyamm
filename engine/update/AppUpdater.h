@@ -25,8 +25,10 @@ struct UpdatePlan
     uint64_t downloadBytes = 0;
 };
 
-// includeApp is false when only the installed version's content is missing.
-UpdatePlan planUpdate(const ReleaseManifest &manifest, const std::filesystem::path &packStore, bool includeApp = true);
+// includeApp is false when only the installed version's content is missing. A language's optional packs are part of
+// the plan only for the languages given (the installed ones and the one chosen in Settings).
+UpdatePlan planUpdate(const ReleaseManifest &manifest, const std::filesystem::path &packStore, bool includeApp = true,
+                      const std::vector<std::string> &languages = {});
 
 enum class UpdateState
 {
@@ -69,6 +71,9 @@ public:
 
     // The release keys by default; tests sign with their own.
     void setTrustedKeys(std::vector<ManifestPublicKey> keys);
+    // The languages whose optional packs (sounds, voices, videos, fonts) are kept installed and updated; set before
+    // check().
+    void setLanguages(std::vector<std::string> languages);
     void check();
     // After check() found an update: downloads, verifies and stages it.
     void download();
@@ -104,6 +109,7 @@ private:
     std::string m_baseUrl;
     std::unique_ptr<HttpTransport> m_pTransport;
     std::vector<ManifestPublicKey> m_trustedKeys = releaseManifestPublicKeys();
+    std::vector<std::string> m_languages;
     std::optional<ReleaseManifest> m_manifest;
     mutable std::mutex m_mutex;
     UpdateStatus m_status;

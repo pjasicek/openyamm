@@ -1,0 +1,31 @@
+id: turn_based.potion_spends_turn
+title: Turn-based - drinking a potion spends the drinker's action, as in the originals
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-3 in devdocs/TURN_BASED_COMBAT_AUDIT.md. OpenEnroth (Character::useItem) gives a drink 100 ticks and calls
+        ApplyPlayerAction in turn-based mode, so the queue moves on. OpenYAMM's drink only set real-time recovery
+        (InventoryItemUseRuntime), which the turn engine clears on the front member, so the member kept the turn and
+        could drink again. The drink is now the ready member's action.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 222, member_index: 0, count: 2, power: 20}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 10}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, front_member: "0", report: true}}
+  # A Cure Wounds by the front member: the drink is taken, and member 1 acts next.
+  - use_item: {member_index: 0, item_id: 222}
+  - assert: {member_points: {member_index: 0, health_min: 11}}
+  - assert: {turn_based: {stage: attack, front_member: "1", report: true}}

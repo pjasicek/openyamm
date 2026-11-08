@@ -1,5 +1,6 @@
 #include "game/indoor/IndoorDaylight.h"
 
+#include "game/indoor/IndoorMapData.h"
 #include "game/render/SkyState.h"
 
 #include <algorithm>
@@ -81,6 +82,60 @@ void tintIndoorDaylight(IndoorDaylightLight &light, const std::array<float, 3> &
     };
     apply(light.sun, sunTint);
     apply(light.ambient, skyTint);
+}
+
+IndoorBakedDaylightScale indoorBakedDaylightScale(const IndoorDaylight &daylight, const IndoorDaylightLight &now,
+    float minimumAmbient)
+{
+    IndoorBakedDaylightScale scale = {};
+    if (!daylight.enabled)
+    {
+        return scale;
+    }
+
+    constexpr float Smallest = 0.0001f;
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        scale.ambientLevel[channel] = daylight.ambient[channel];
+        const float noonAmbient = std::max(daylight.ambient[channel] * daylight.dayScale[channel], minimumAmbient);
+        scale.ambientScale[channel] = noonAmbient > Smallest ? now.ambient[channel] / noonAmbient : 1.0f;
+        const float noonSun = daylight.sun[channel] * daylight.dayScale[channel];
+        scale.sunScale[channel] = noonSun > Smallest ? now.sun[channel] / noonSun : scale.ambientScale[channel];
+    }
+    return scale;
+}
+
+std::array<float, 3> indoorBakedDaylightTexel(const IndoorBakedDaylightScale &scale, const std::array<float, 3> &texel)
+{
+    std::array<float, 3> light = {};
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        const float ambient = std::min(texel[channel], scale.ambientLevel[channel]);
+        light[channel] = ambient * scale.ambientScale[channel] + (texel[channel] - ambient) * scale.sunScale[channel];
+    }
+    return light;
+}
+
+float indoorOpenAirLightScale(const IndoorDaylight &daylight, const IndoorDaylightLight &now)
+{
+    if (!daylight.enabled)
+    {
+        return 1.0f;
+    }
+    constexpr float Smallest = 0.0001f;
+    std::array<float, 3> noonSun = {};
+    std::array<float, 3> noonAmbient = {};
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        noonSun[channel] = daylight.sun[channel] * daylight.dayScale[channel];
+        noonAmbient[channel] = daylight.ambient[channel] * daylight.dayScale[channel];
+    }
+    if (luminance(noonSun) > Smallest)
+    {
+        return std::clamp(luminance(now.sun) / luminance(noonSun), 0.0f, 1.0f);
+    }
+    return luminance(noonAmbient) > Smallest ? std::clamp(luminance(now.ambient) / luminance(noonAmbient), 0.0f, 1.0f)
+                                            : 1.0f;
 }
 
 float indoorDaylightRoomLight(const IndoorDaylightLight &light)

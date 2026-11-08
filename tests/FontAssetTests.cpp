@@ -511,6 +511,9 @@ TEST_CASE("a Unicode face packs the characters it lists and draws a character it
     CHECK_EQ(Engine::unicodeRasterHeight(200, 24), 128);
     CHECK_EQ(Engine::unicodeRasterHeight(0, 11), 48);
     CHECK_EQ(Engine::unicodeRasterHeight(0, 7), 24);
+    // A pack's max_raster_height caps large text, which is then drawn magnified.
+    CHECK_EQ(Engine::unicodeRasterHeight(90, 24, 64), 64);
+    CHECK_EQ(Engine::unicodeRasterHeight(30, 24, 64), 32);
 }
 
 TEST_CASE("a Unicode face needs its character list")

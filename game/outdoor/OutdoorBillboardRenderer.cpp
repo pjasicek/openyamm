@@ -3562,10 +3562,11 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         std::vector<OutdoorGameView::LitBillboardVertex> vertices;
     };
 
-    std::array<QuestMarkerBatch, 3> questMarkerBatches = {{
+    std::array<QuestMarkerBatch, 4> questMarkerBatches = {{
         {Mm9QuestMarkerState::Available},
         {Mm9QuestMarkerState::InProgress},
         {Mm9QuestMarkerState::Ready},
+        {Mm9QuestMarkerState::Trainer},
     }};
 
     const bool hasVisibleQuestMarker =
@@ -3585,6 +3586,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     {
         ensureSpriteBillboardTexture(view, "quest_marker_exclamation", 0, "quest_marker");
         ensureSpriteBillboardTexture(view, "quest_marker_question", 0, "quest_marker");
+        ensureSpriteBillboardTexture(view, "trainer_marker_book", 0, "quest_marker");
 
         for (QuestMarkerBatch &batch : questMarkerBatches)
         {

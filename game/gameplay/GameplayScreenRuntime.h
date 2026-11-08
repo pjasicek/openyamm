@@ -32,6 +32,7 @@
 namespace OpenYAMM::Game
 {
 class GameSession;
+class PlaythroughStatistics;
 class GameAudioSystem;
 class GameplayFxService;
 class TurnBasedCombatRuntime;
@@ -44,6 +45,8 @@ class MergedComplexItemPictureTable;
 class MonsterProjectileTable;
 class MapStats;
 class MonsterTable;
+class Mm9HirelingTable;
+class Mm9TransportRouteTable;
 class MergedPotionSettingTable;
 class PotionMixingTable;
 class PotionNoteTable;
@@ -130,11 +133,14 @@ public:
     const MergedComplexItemPictureTable *mergedComplexItemPictureTable() const;
     const SpellTable *spellTable() const;
     const HouseTable *houseTable() const;
+    const Mm9TransportRouteTable *mm9TransportRouteTable() const;
     const MapStats &mapStats() const;
     const ChestTable *chestTable() const;
     const NpcDialogTable *npcDialogTable() const;
     const MonsterTable *monsterTable() const;
     const MonsterProjectileTable *monsterProjectileTable() const;
+    // The MM9 world's hirelings (empty elsewhere).
+    const Mm9HirelingTable *mm9HirelingTable() const;
 
     GameplayUiController::CharacterScreenState &characterScreen() const;
     GameplayUiController::HeldInventoryItemState &heldInventoryItem() const;
@@ -237,6 +243,10 @@ public:
     void handleDialogueCloseRequest();
     void closeRestOverlay();
     void completeRestAction(bool closeRestScreenAfterCompletion);
+    // A script's rest alarm (evt.SetRestAlarm) within the next `minutes` of game time: the minutes up to it.
+    std::optional<float> minutesToRestAlarm(float minutes) const;
+    // Ends the rest or wait at the alarm: no healing, the rest screen closes.
+    void interruptRestAction();
     void openMenuOverlay();
     void closeMenuOverlay();
     void openControlsOverlay();
@@ -253,13 +263,18 @@ public:
     void requestOpenLoadGameScreen();
     void openJournalOverlay();
     void closeJournalOverlay();
-    void openQuickReferenceOverlay();
+    void openQuickReferenceOverlay(
+        GameplayUiController::QuickReferencePage page = GameplayUiController::QuickReferencePage::Party);
     void closeQuickReferenceOverlay();
+    // The playthrough statistics the Statistics page shows (GameSession owns them).
+    const PlaythroughStatistics &playthroughStatistics() const;
     void closeHouseShopOverlay();
     void closeTransportSchedule();
     void markHouseShopTransactionPerformed(uint32_t houseId);
     void openFollowerNpcDialogue(size_t followerSlotIndex);
     void openFollowerNpcDialogueByIndex(size_t followerIndex);
+    // The MM9 hireling's own RUDE dialogue at its root (its -15 service and dismissal behind the hire key).
+    void openHirelingDialogue(uint32_t rudeId);
     void presentActiveEventDialog();
     void ensurePendingEventDialogPresented(bool allowNpcFallbackContent = true);
     bool hasPendingEventDialog() const;
@@ -350,6 +365,9 @@ public:
     CombatActorHealthBarRuntime &enemyHealthBars() const;
     void updateEnemyHealthBars(float seconds, std::span<const GameplayCombatFeedbackEvent> events) const;
     const GameSettings &settingsSnapshot() const;
+    // Whether the combat log's button and panel show and the log records: the combat_log setting On, or Auto in a
+    // ruleset other than Standard in a world that shows it (world.yml combatLog; MM9 does not).
+    bool combatLogShown() const;
     GameplayUiRuntime &gameplayUiRuntime() const;
     SharedUiBootstrapResult initializeSharedUiRuntime(const SharedUiBootstrapConfig &config);
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
@@ -397,6 +415,11 @@ public:
         float fallbackHeight) const;
     std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex) const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y) const;
+    // The MM9 hireling rail's slot (Mm9Hireling1-3 in gameplay.yml) of the hireling at its index in
+    // Party::hirelings(); none past the hirelings or on the screens over the HUD (inventory, dialogues...).
+    std::optional<ResolvedHudLayoutElement> resolveHirelingSlotRect(int width, int height, size_t hirelingIndex) const;
+    // The combatant (Party::combatant) whose face is under the point: a party portrait, else a hireling's slot.
+    std::optional<size_t> resolveCombatantPortraitIndexAtPoint(int width, int height, float x, float y) const;
     float characterSkillRowHeight() const;
     float characterSkillsContentHeight(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
@@ -425,6 +448,8 @@ public:
         bool applyButtonState = true,
         const ResolvedHudLayoutElement *pClip = nullptr) const;
     std::optional<HudFontHandle> findHudFont(const std::string &fontName) const;
+    // An independent outline face rasterized at pixelHeight (GameplayUiRuntime::findHudFont).
+    std::optional<HudFontHandle> findHudFont(const std::string &fontName, int pixelHeight) const;
     float measureHudTextWidth(const HudFontHandle &font, const std::string &text) const;
     std::vector<std::string> wrapHudTextToWidth(
         const HudFontHandle &font,
@@ -478,7 +503,8 @@ public:
     bool openDimensionDoorOverlay(
         size_t casterMemberIndex,
         uint32_t spellId,
-        const std::string &statusText = "Choose Dimension Door destination");
+        // Empty: "Choose Dimension Door destination".
+        const std::string &statusText = {});
     const std::string &townPortalBackgroundTextureName() const;
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
     std::string resolveMapLocationName(const std::string &mapFileName) const;
@@ -538,6 +564,8 @@ public:
 
 private:
     void rememberGameplayMinimapZoom();
+    // The screens that show the party's portraits on the fullscreen frame (ObsidianOverlayPc) and no hireling rail.
+    bool portraitsOnLimitedOverlayHud() const;
 
     CombatLog m_combatLog;
     GameplayCombatLogPanel m_combatLogPanel;

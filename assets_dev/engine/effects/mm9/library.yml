@@ -5559,6 +5559,365 @@ effects:
     - time: 1.0
       value: 0.0
     motion_keys: []
+- id: mm9:dragon_smoke
+  source_name: dragon smoke
+  source_offset: 232758
+  source_phase_seconds: 1.5
+  duration_seconds: 1.5
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 1.2000000476837158
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/smoke/smokenoise
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.20000000298023224
+    particle_lifetime_seconds: 0.8999999761581421
+    emission_shape: cone
+    radius: 128.0
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 102.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 76.8
+    wind_amount: 2.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 2.0
+    blend: alpha
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 0
+      - 0
+      transparency: 20
+    - time: 1.0
+      rgb:
+      - 185
+      - 255
+      - 185
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 1.0
+      value: 2.0072727966308594
+    motion_keys: []
+  - type: sprite_system
+    id: 3
+    start_seconds: 0.0
+    end_seconds: 1.2000000476837158
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/smoke/smokenoise
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.20000000298023224
+    particle_lifetime_seconds: 0.8999999761581421
+    emission_shape: cone
+    radius: 128.0
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 102.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 76.8
+    wind_amount: 2.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 2.0
+    blend: alpha
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 0
+      - 0
+      transparency: 20
+    - time: 1.0
+      rgb:
+      - 185
+      - 255
+      - 185
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 1.0
+      value: 2.0072727966308594
+    motion_keys: []
+- id: mm9:greenyeldots
+  source_name: greenyeldots
+  source_offset: 239264
+  source_phase_seconds: 2.0
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/greenoraringexplode
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 0.8727272796630859
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+  - type: sprite_system
+    id: 1
+    start_seconds: 0.0
+    end_seconds: 1.999000072479248
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/greenoraringexplode
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 0.8727272796630859
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+- id: mm9:bluedots
+  source_name: bluedots
+  source_offset: 242540
+  source_phase_seconds: 2.0
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/flareparticle
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 0.8727272796630859
+    - time: 1.0
+      value: 0.6981818389892578
+    motion_keys: []
+  - type: sprite_system
+    id: 1
+    start_seconds: 0.0
+    end_seconds: 1.9970000982284546
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/flareparticle
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 0.8727272796630859
+    - time: 1.0
+      value: 0.6981818389892578
+    motion_keys: []
 - id: mm9:smoke
   source_name: smoke
   source_offset: 245816

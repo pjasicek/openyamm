@@ -34,6 +34,9 @@ struct IndoorPortalDebugSettings
     bool rebuildEveryFrame = false;
     // A `[PortalView]` line with the counts once per second.
     bool log = false;
+    // The portal sweep's reference view (tools/indoor_portal_sweep.py): every sector drawn through the camera's own
+    // frustum, no portal culling, so a pixel the portal culling loses shows only in the ordinary view.
+    bool cullingOff = false;
     // The plan cell size of the tile estimate: a sector's batches split into cells this wide, each culled against
     // the sector's portal frustums.
     float tileSize = 1024.0f;

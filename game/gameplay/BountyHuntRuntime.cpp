@@ -1,4 +1,5 @@
 #include "game/gameplay/BountyHuntRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -376,7 +377,7 @@ BountyHuntInteractionResult performBountyHuntInteraction(
 
     if (pMonsterTable == nullptr)
     {
-        result.messages.push_back("The bounty office is unavailable right now.");
+        result.messages.push_back(Engine::tr("The bounty office is unavailable right now."));
         return result;
     }
 
@@ -384,7 +385,7 @@ BountyHuntInteractionResult performBountyHuntInteraction(
 
     if (pEventRuntimeState == nullptr)
     {
-        result.messages.push_back("The bounty office is unavailable right now.");
+        result.messages.push_back(Engine::tr("The bounty office is unavailable right now."));
         return result;
     }
 
@@ -430,7 +431,9 @@ BountyHuntInteractionResult performBountyHuntInteraction(
             {
                 MonsterTable::MonsterStatsEntry named =
                     bountyNamedStats(*pOtherStats, elsewhere->first.bossAffix, pParty);
-                named.name += " in " + elsewhere->second;
+                named.name = Engine::tr("{monster} in {place}",
+                                        {{"monster", Engine::localizeKnown(named.name)},
+                                         {"place", Engine::localizeKnown(elsewhere->second)}});
                 result.messages.push_back(bountyHuntTargetText(named, pNpcDialogTable));
                 result.succeeded = true;
                 return result;
@@ -467,7 +470,7 @@ BountyHuntInteractionResult performBountyHuntInteraction(
 
         if (!monsterId.has_value())
         {
-            result.messages.push_back("There is no bounty this month.");
+            result.messages.push_back(Engine::tr("There is no bounty this month."));
             return result;
         }
 
@@ -504,7 +507,7 @@ BountyHuntInteractionResult performBountyHuntInteraction(
 
     if (pTableStats == nullptr)
     {
-        result.messages.push_back("The bounty office is unavailable right now.");
+        result.messages.push_back(Engine::tr("The bounty office is unavailable right now."));
         return result;
     }
 
@@ -540,16 +543,18 @@ std::string bountyHuntTargetText(
 {
     const uint32_t reward = bountyHuntRewardForMonster(stats);
     std::optional<std::string> text = npcText(pNpcDialogTable, MMergeBountyHuntTextId);
+    const std::string monsterName = Engine::localizeKnown(stats.name);
 
     if (text && !text->empty())
     {
-        replaceFirst(*text, "%s", stats.name);
+        *text = Engine::localize(*text);
+        replaceFirst(*text, "%s", monsterName);
         replaceFirst(*text, "%lu", std::to_string(reward));
         return *text;
     }
 
-    return "This month's bounty is " + stats.name + " for "
-        + std::to_string(reward) + " gold.";
+    return Engine::tr("This month's bounty is {monster} for {gold} gold.",
+                      {{"monster", monsterName}, {"gold", int64_t(reward)}});
 }
 
 std::string bountyHuntRewardText(
@@ -558,15 +563,18 @@ std::string bountyHuntRewardText(
 {
     const uint32_t reward = bountyHuntRewardForMonster(stats);
     std::optional<std::string> text = npcText(pNpcDialogTable, MMergeBountyRewardTextId);
+    const std::string monsterName = Engine::localizeKnown(stats.name);
 
     if (text && !text->empty())
     {
-        replaceFirst(*text, "%s", stats.name);
+        *text = Engine::localize(*text);
+        replaceFirst(*text, "%s", monsterName);
         replaceFirst(*text, "%lu", std::to_string(reward));
         return *text;
     }
 
-    return "You eliminated " + stats.name + ". Your reward is " + std::to_string(reward) + " gold.";
+    return Engine::tr("You eliminated {monster}. Your reward is {gold} gold.",
+                      {{"monster", monsterName}, {"gold", int64_t(reward)}});
 }
 
 std::string bountyHuntClaimedText(const NpcDialogTable *pNpcDialogTable)
@@ -575,10 +583,10 @@ std::string bountyHuntClaimedText(const NpcDialogTable *pNpcDialogTable)
 
     if (text && !text->empty())
     {
-        return *text;
+        return Engine::localize(*text);
     }
 
-    return "You have already claimed this bounty.";
+    return Engine::tr("You have already claimed this bounty.");
 }
 
 void applyBountyHuntClaimResult(
@@ -598,7 +606,7 @@ void applyBountyHuntClaimResult(
     {
         if (result.goldReward > 0)
         {
-            pParty->addGold(static_cast<int>(result.goldReward));
+            pParty->addGold(static_cast<int>(result.goldReward), GoldReason::Event);
         }
 
         if (result.bountyTotalDelta > 0)

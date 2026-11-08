@@ -2,6 +2,8 @@
 #include "game/StringUtils.h"
 
 #include "game/debug/GameplayDebugTrace.h"
+#include "game/events/EvtEnums.h"
+#include "game/events/ISceneEventContext.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/gameplay/GameplayActorHitFeedback.h"
 #include "game/gameplay/GameMechanics.h"
@@ -14,13 +16,18 @@
 #include "game/maps/MapIdentity.h"
 #include "game/rules/RandomStreams.h"
 #include "game/rules/maw/MawRulesFactory.h"
+#include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
+#include "game/ui/GameplayUiSkin.h"
 
 #include <cassert>
 #include <algorithm>
 #include <cctype>
+#include <cmath>
+#include <cstdio>
 #include <iostream>
 #include <limits>
+#include <random>
 #include <string>
 #include <utility>
 
@@ -198,6 +205,9 @@ GameSession::GameSession()
     , m_gameplayScreenRuntime(*this)
 {
     m_gameplayUiController.bindExternalState(&m_gameplayScreenState.uiState());
+    m_turnBasedCombatRuntime.seedRandom(std::random_device{}());
+    // Under the user data root, beside the saves (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md).
+    m_playthroughStatistics.setDirectory(std::filesystem::path("saves") / "playthroughs");
 }
 
 GameSession::~GameSession()
@@ -256,6 +266,8 @@ void GameSession::clear()
     m_gameplayScreenRuntime.clearTransientBindings();
     m_overlayInteractionState = {};
     m_previousKeyboardState.fill(0);
+    stopCinematics();
+    m_mapCinematics.reset();
     m_pActiveWorldRuntime = nullptr;
     m_mm9QuestMarkerCache.clear();
     ++m_mm9QuestMarkerMapRevision;
@@ -268,6 +280,7 @@ void GameSession::clear()
     m_outdoorWorldStates.clear();
     m_currentIndoorSceneState.reset();
     m_indoorSceneStates.clear();
+    m_currentMapLayoutIdentity = 0;
     m_namedGlobalVars.clear();
     m_gameMinutes = 9.0f * 60.0f;
     m_ruleset = {};
@@ -294,16 +307,28 @@ std::optional<Party> &GameSession::partyState()
     return m_partyState;
 }
 
+PlaythroughStatistics &GameSession::playthroughStatistics()
+{
+    return m_playthroughStatistics;
+}
+
+const PlaythroughStatistics &GameSession::playthroughStatistics() const
+{
+    return m_playthroughStatistics;
+}
+
 void GameSession::setPartyState(const Party &party)
 {
     m_partyState = party;
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
 void GameSession::setPartyState(Party &&party)
 {
     m_partyState = std::move(party);
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
 SceneKind GameSession::currentSceneKind() const
@@ -625,6 +650,13 @@ void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
                 mapBurn != m_worldFloorBurn.mapTypes.end() ? mapBurn->second : m_worldFloorBurn.type),
                 m_worldFloorBurn.resisted);
             pParty->setObjectiveQBits(m_worldObjectiveQBits);
+            pParty->setNpcFollowersActive(m_npcFollowers);
+            pParty->setFormationTargetingActive(m_formations);
+            if (!m_npcFollowers)
+            {
+                // The map loaded its followers before the party knew the world has none (Party::applyGlobalNpcStateTo).
+                pState->hiredNpcFollowers.clear();
+            }
 
             if (m_tavernHirelings)
             {
@@ -862,11 +894,14 @@ void GameSession::logTurnBasedFrameTraceIfNeeded(
 }
 
 void GameSession::updateGameplay(
-    const GameplayInputFrame &input,
+    const GameplayInputFrame &rawInput,
     float deltaSeconds,
     bool collectPerformanceDiagnostics)
 {
     const uint64_t totalBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
+    // While a cinematic plays the party takes no input: the frame runs on an input with nothing held.
+    const bool cinematicPlaying = updateCinematics(rawInput, deltaSeconds);
+    const GameplayInputFrame &input = cinematicPlaying ? m_cinematicInputFrame : rawInput;
 
     if (collectPerformanceDiagnostics)
     {
@@ -946,7 +981,8 @@ void GameSession::updateGameplay(
                 != GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
         const bool isModalOverlayActive =
             m_gameplayScreenRuntime.readableScrollOverlayReadOnly().active
-            || m_gameplayScreenRuntime.lootSummaryOverlayReadOnly().active;
+            || m_gameplayScreenRuntime.lootSummaryOverlayReadOnly().active
+            || GameplayFormationBuilder::isOpen(m_gameplayScreenRuntime);
 
         const uint64_t sharedInputBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
         m_sharedInputFrameResult =
@@ -1133,8 +1169,8 @@ void GameSession::updateGameplay(
         }
 
         const uint64_t combatEventsBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
-        // The combat log records only while its setting is on (nothing is kept or worded otherwise).
-        m_gameplayScreenRuntime.combatLog().setRecording(m_gameplayScreenRuntime.settingsSnapshot().combatLog);
+        // The combat log records only while it is shown (nothing is kept or worded otherwise).
+        m_gameplayScreenRuntime.combatLog().setRecording(m_gameplayScreenRuntime.combatLogShown());
         m_gameplayScreenRuntime.combatLog().setGameMinutes(pWorldRuntime->gameMinutes());
         Party *pMutableParty = pWorldRuntime->party();
         if (pMutableParty != nullptr && !m_gameplayCombatController.pendingCombatEvents().empty())
@@ -1201,6 +1237,396 @@ void GameSession::updateGameplay(
     }
 }
 
+namespace
+{
+// The cinematic's view of the active world: actor positions and the party for its camera, map events, sounds and actor
+// steps through the same channels the event scripts use.
+class SessionCinematicWorld : public ICinematicWorld
+{
+public:
+    explicit SessionCinematicWorld(IGameplayWorldRuntime &world)
+        : m_world(world)
+    {
+    }
+
+    std::optional<GameplayWorldPoint> actorFeet(size_t actorIndex) const override
+    {
+        GameplayRuntimeActorState state = {};
+
+        if (!m_world.actorRuntimeState(actorIndex, state))
+        {
+            return std::nullopt;
+        }
+
+        return GameplayWorldPoint{state.preciseX, state.preciseY, state.preciseZ};
+    }
+
+    float actorHeight(size_t actorIndex) const override
+    {
+        GameplayRuntimeActorState state = {};
+        return m_world.actorRuntimeState(actorIndex, state) ? float(state.bodyHeight != 0 ? state.bodyHeight
+            : state.height) : 0.0f;
+    }
+
+    GameplayWorldPoint partyEye() const override
+    {
+        return {m_world.partyX(), m_world.partyY(), m_world.partyEyeZ()};
+    }
+
+    void runEvent(uint16_t eventId) override
+    {
+        size_t previousMessageCount = 0;
+
+        if (!m_world.executeMapEvent(eventId, previousMessageCount))
+        {
+            std::cerr << "Cinematic: map event " << eventId << " did not run\n";
+        }
+    }
+
+    void playSound(const std::string &soundName) override
+    {
+        if (EventRuntimeState *pEvents = m_world.eventRuntimeState())
+        {
+            EventRuntimeState::PendingSound request = {};
+            request.soundScope = SoundScope::World;
+            request.soundName = soundName;
+            pEvents->pendingSounds.push_back(std::move(request));
+        }
+    }
+
+    void setActorHidden(size_t actorIndex, bool hidden) override
+    {
+        EventRuntimeState *pEvents = m_world.eventRuntimeState();
+
+        if (pEvents == nullptr)
+        {
+            return;
+        }
+
+        // As evt.SetMonsterBit(actor, Invisible, hidden) does.
+        const uint32_t actorId = uint32_t(actorIndex);
+        const uint32_t bit = uint32_t(EvtActorAttribute::Invisible);
+        std::unordered_map<uint32_t, uint32_t> &setMasks = hidden ? pEvents->actorSetMasks : pEvents->actorClearMasks;
+        std::unordered_map<uint32_t, uint32_t> &clearMasks = hidden ? pEvents->actorClearMasks : pEvents->actorSetMasks;
+        setMasks[actorId] |= bit;
+
+        if (const auto found = clearMasks.find(actorId); found != clearMasks.end())
+        {
+            found->second &= ~bit;
+
+            if (found->second == 0)
+            {
+                clearMasks.erase(found);
+            }
+        }
+
+        m_world.applyEventRuntimeState();
+    }
+
+    void placeActor(size_t actorIndex, const GameplayWorldPoint &feet) override
+    {
+        if (ISceneEventContext *pContext = m_world.sceneEventContext())
+        {
+            pContext->setMapActorPosition(actorIndex, feet.x, feet.y, feet.z);
+        }
+    }
+
+    void faceActor(size_t actorIndex, float yawRadians, float seconds) override
+    {
+        EventRuntimeState *pEvents = m_world.eventRuntimeState();
+        GameplayRuntimeActorState state = {};
+
+        if (pEvents == nullptr || !m_world.actorRuntimeState(actorIndex, state))
+        {
+            return;
+        }
+
+        // From the heading it shows now (its AI's, or a turn already given).
+        EventRuntimeState::ActorPresentation &presentation = pEvents->actorPresentations[uint32_t(actorIndex)];
+        presentation.yawFromRadians = state.yawRadians;
+        presentation.yawToRadians = yawRadians;
+        presentation.turnSeconds = std::max(seconds, 0.0f);
+        presentation.turnElapsedSeconds = 0.0f;
+        presentation.yawRadians = presentation.turnSeconds > 0.0f ? state.yawRadians : yawRadians;
+    }
+
+    void playActorClip(size_t actorIndex, const std::string &clip, bool loop) override
+    {
+        if (EventRuntimeState *pEvents = m_world.eventRuntimeState())
+        {
+            EventRuntimeState::ActorPresentation &presentation = pEvents->actorPresentations[uint32_t(actorIndex)];
+            presentation.clip = clip;
+            presentation.then.clear();
+            presentation.hold = false;
+            presentation.loop = loop;
+            presentation.clipSeconds = 0.0f;
+        }
+    }
+
+    void clearActorPresentation(size_t actorIndex) override
+    {
+        if (EventRuntimeState *pEvents = m_world.eventRuntimeState())
+        {
+            pEvents->actorPresentations.erase(uint32_t(actorIndex));
+        }
+    }
+
+    void moveDecoration(uint32_t decorationKey, const GameplayWorldPoint &offset, float seconds) override
+    {
+        if (EventRuntimeState *pEvents = m_world.eventRuntimeState())
+        {
+            OpenYAMM::Game::moveDecoration(*pEvents, decorationKey, {offset.x, offset.y, offset.z}, seconds);
+        }
+    }
+
+private:
+    IGameplayWorldRuntime &m_world;
+};
+
+bool newlyPressed(const GameplayInputFrame &input, SDL_Scancode scancode)
+{
+    return input.scancodePressCount(scancode) > 0;
+}
+}
+
+void GameSession::setMapCinematics(std::optional<CinematicLibrary> library)
+{
+    m_mapCinematics = std::move(library);
+}
+
+const std::optional<CinematicLibrary> &GameSession::mapCinematics() const
+{
+    return m_mapCinematics;
+}
+
+CinematicRuntime &GameSession::cinematicRuntime()
+{
+    return m_cinematicRuntime;
+}
+
+const CinematicRuntime &GameSession::cinematicRuntime() const
+{
+    return m_cinematicRuntime;
+}
+
+bool GameSession::playCinematic(const std::string &id, uint16_t doneEventId)
+{
+    IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    SessionCinematicWorld world(*pWorldRuntime);
+    const CinematicDefinition *pDefinition = m_mapCinematics ? m_mapCinematics->find(id) : nullptr;
+
+    if (pDefinition == nullptr)
+    {
+        // The script goes on as if it had played (its done event runs), so a missing cinematic loses no progress.
+        std::cerr << "Cinematic: " << m_currentMapFileName << " has no cinematic '" << id << "'\n";
+
+        if (doneEventId != 0)
+        {
+            world.runEvent(doneEventId);
+        }
+
+        return false;
+    }
+
+    std::cout << "Cinematic: " << id << " starts (" << pDefinition->durationSeconds << " s)\n";
+    m_cinematicRuntime.start(*pDefinition, doneEventId, world);
+    return true;
+}
+
+void GameSession::stopCinematics()
+{
+    m_cinematicRuntime.stop();
+    m_cinematicRuntime.shake().clear();
+}
+
+void GameSession::finishAmbientCinematic()
+{
+    IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime();
+
+    if (pWorldRuntime == nullptr || !m_cinematicRuntime.active() || m_cinematicRuntime.takesOverView())
+    {
+        return;
+    }
+
+    SessionCinematicWorld world(*pWorldRuntime);
+    m_cinematicRuntime.skip(world, true);
+    // The skip leaves it ending; this update finishes it (actors released, its done event run).
+    m_cinematicRuntime.update(0.0f, world);
+}
+
+bool GameSession::updateCinematics(const GameplayInputFrame &input, float deltaSeconds)
+{
+    IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        stopCinematics();
+        return false;
+    }
+
+    SessionCinematicWorld world(*pWorldRuntime);
+    bool skipped = false;
+
+    if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
+    {
+        for (const EventRuntimeState::CameraShakeRequest &request : pEvents->cameraShakeRequests)
+        {
+            float intensity = request.intensity;
+
+            if (request.positional)
+            {
+                // MM9's EarthQuake: full within the inner radius, fading to nothing at the outer one.
+                const float dx = pWorldRuntime->partyX() - request.x;
+                const float dy = pWorldRuntime->partyY() - request.y;
+                const float dz = pWorldRuntime->partyFootZ() - request.z;
+                const float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+                const float band = request.outerRadius - request.innerRadius;
+                const float share = distance <= request.innerRadius ? 1.0f
+                    : band > 0.0f ? std::clamp(1.0f - (distance - request.innerRadius) / band, 0.0f, 1.0f) : 0.0f;
+                intensity *= share;
+            }
+
+            m_cinematicRuntime.shake().start(intensity, request.seconds);
+        }
+
+        pEvents->cameraShakeRequests.clear();
+
+        if (pEvents->pendingCinematicSkip)
+        {
+            pEvents->pendingCinematicSkip = false;
+            skipped = m_cinematicRuntime.skip(world, true);
+        }
+
+        if (pEvents->pendingCinematic)
+        {
+            const EventRuntimeState::PendingCinematic request = std::move(*pEvents->pendingCinematic);
+            pEvents->pendingCinematic.reset();
+            playCinematic(request.id, request.doneEventId);
+        }
+    }
+
+    m_cinematicRuntime.shake().update(deltaSeconds);
+
+    if (!m_cinematicRuntime.active())
+    {
+        return false;
+    }
+
+    // Overheard talk plays on while the party moves: no lock, no skip keys.
+    if (!m_cinematicRuntime.takesOverView())
+    {
+        m_cinematicRuntime.update(deltaSeconds, world);
+        return false;
+    }
+
+    const bool escapeHeld = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
+
+    if (!skipped && m_cinematicRuntime.skippable()
+        && (newlyPressed(input, SDL_SCANCODE_ESCAPE) || newlyPressed(input, SDL_SCANCODE_SPACE)
+            || newlyPressed(input, SDL_SCANCODE_RETURN) || newlyPressed(input, SDL_SCANCODE_KP_ENTER)))
+    {
+        std::cout << "Cinematic: " << m_cinematicRuntime.activeId() << " skipped at "
+                  << m_cinematicRuntime.elapsedSeconds() << " s\n";
+        skipped = m_cinematicRuntime.skip(world);
+    }
+
+    // A skip's events ran this frame: the cinematic finishes (its done event) next frame, after a map move they asked
+    // for has happened (a map change ends it without the done event; an event's start clears a pending move).
+    if (!skipped)
+    {
+        m_cinematicRuntime.update(deltaSeconds, world);
+    }
+
+    // The Escape that skipped (or was held through the end) must not open the menu once play resumes.
+    if (escapeHeld)
+    {
+        m_overlayInteractionState.menuToggleLatch = true;
+    }
+
+    m_cinematicInputFrame = {};
+    m_cinematicInputFrame.screenWidth = input.screenWidth;
+    m_cinematicInputFrame.screenHeight = input.screenHeight;
+    m_cinematicInputFrame.pointerX = input.pointerX;
+    m_cinematicInputFrame.pointerY = input.pointerY;
+    m_cinematicInputFrame.cameraDeltaSeconds = 0.0f;
+    return true;
+}
+
+void GameSession::renderCinematicOverlay(int width, int height)
+{
+    GameplayUiRuntime &ui = m_gameplayUiRuntime;
+
+    if (!ui.hasHudRenderResources() || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    ui.prepareHudView(width, height);
+    const std::optional<GameplayHudTextureHandle> black = ui.ensureSolidHudTextureLoaded("__cinematic_black",
+        0xff000000u);
+
+    if (!black)
+    {
+        return;
+    }
+
+    // Letterbox: at full, bars top and bottom leave MM9's 2:1 picture (its 800 x 400 view on 800 x 600: a sixth of a
+    // 4:3 screen each, 5.6 % of a 16:9 one; none on a screen already wider than 2:1).
+    const float fullBar = std::max(0.0f, (float(height) - float(width) * 0.5f) * 0.5f);
+    const float bar = std::round(fullBar * m_cinematicRuntime.letterboxAmount());
+
+    if (bar > 0.0f)
+    {
+        ui.submitHudTexturedQuad(black->textureHandle, 0.0f, 0.0f, float(width), bar);
+        ui.submitHudTexturedQuad(black->textureHandle, 0.0f, float(height) - bar, float(width), bar);
+    }
+
+    const std::string &subtitle = m_cinematicRuntime.subtitle();
+
+    if (!subtitle.empty())
+    {
+        const float scale = std::max(0.75f, float(height) / 1080.0f);
+        const char *pFont = GameplayUiSkin::CombatFontName;
+        const float lineHeight = float(m_gameplayScreenRuntime.hudFontHeight(pFont)) * scale * 1.1f;
+        const std::vector<std::string> lines =
+            m_gameplayScreenRuntime.wrapHudTextToWidth(pFont, subtitle, float(width) * 0.8f / scale);
+        float y = float(height) - std::max(bar, float(height) * 0.06f) + float(height) * 0.015f;
+
+        if (bar < lineHeight * float(lines.size()))
+        {
+            y = float(height) - float(height) * 0.06f - lineHeight * float(lines.size());
+        }
+
+        for (const std::string &line : lines)
+        {
+            const float lineWidth = m_gameplayScreenRuntime.measureHudTextWidth(pFont, line) * scale;
+            m_gameplayScreenRuntime.renderHudTextLine(pFont, 0xffe8f0f4u, line,
+                std::round((float(width) - lineWidth) * 0.5f), std::round(y), scale);
+            y += lineHeight;
+        }
+    }
+
+    const float fade = m_cinematicRuntime.fadeAmount();
+
+    if (fade > 0.0f)
+    {
+        const uint32_t alpha = uint32_t(std::lround(std::clamp(fade, 0.0f, 1.0f) * 255.0f));
+        char name[40] = {};
+        std::snprintf(name, sizeof(name), "__cinematic_fade_%02x", alpha);
+
+        if (const std::optional<GameplayHudTextureHandle> veil = ui.ensureSolidHudTextureLoaded(name, alpha << 24))
+        {
+            ui.submitHudTexturedQuad(veil->textureHandle, 0.0f, 0.0f, float(width), float(height));
+        }
+    }
+}
+
 void GameSession::updateMm9QuestMarkerCache()
 {
     if (m_pDataRepository == nullptr
@@ -1261,6 +1687,35 @@ void GameSession::updateMm9QuestMarkerCache()
         addSignatureValue(interactable ? 1 : 0);
     }
 
+    // Trainer markers follow what the members could learn: class, race, the base stats some masteries ask for, and
+    // every skill's level and mastery. Characters change these in many places, so the update compares a signature
+    // (order-independent over the skill map) instead of a revision.
+    const Mm9TrainerMarkerTables trainerTables = {
+        &data().mm9SkillTrainerTable(),
+        &data().classSkillTable(),
+        &data().npcDialogTable(),
+    };
+    if (!actors.empty() && !data().mm9SkillTrainerTable().entries().empty())
+    {
+        const std::hash<std::string> hashString;
+        for (const Character &member : pParty->members())
+        {
+            addSignatureValue(hashString(member.className));
+            addSignatureValue(member.raceId);
+            addSignatureValue(member.intellect);
+            addSignatureValue(member.personality);
+            addSignatureValue(member.endurance);
+            uint64_t skillsSignature = 0;
+            for (const auto &[skillName, skill] : member.skills)
+            {
+                skillsSignature += (hashString(skillName) * 1099511628211ULL)
+                    ^ (static_cast<uint64_t>(skill.level) << 8)
+                    ^ static_cast<uint64_t>(skill.mastery);
+            }
+            addSignatureValue(skillsSignature);
+        }
+    }
+
     const Mm9QuestEligibilityStamp stamp = {
         pParty->dialogueEligibilityRevision(),
         m_mm9QuestMarkerMapRevision ^ actorEligibilitySignature,
@@ -1274,7 +1729,8 @@ void GameSession::updateMm9QuestMarkerCache()
             *pParty,
             data().journalQuestTable(),
             data().mm9RudeDialogueTable(),
-            data().mm9QuestInteractionTable());
+            data().mm9QuestInteractionTable(),
+            &trainerTables);
         return;
     }
     m_mm9QuestMarkerCache.update(
@@ -1283,7 +1739,8 @@ void GameSession::updateMm9QuestMarkerCache()
         *pParty,
         data().journalQuestTable(),
         data().mm9RudeDialogueTable(),
-        data().mm9QuestInteractionTable());
+        data().mm9QuestInteractionTable(),
+        &trainerTables);
 }
 
 void GameSession::clearSharedInputFrameResult(bool blockWorldInput)
@@ -1329,6 +1786,14 @@ void GameSession::renderGameplayUi(int width, int height)
 
     if (pWorldRuntime == nullptr)
     {
+        finishDiagnostics();
+        return;
+    }
+
+    // A cinematic hides the gameplay HUD: its bars, fade and subtitle only.
+    if (m_cinematicRuntime.takesOverView())
+    {
+        renderCinematicOverlay(width, height);
         finishDiagnostics();
         return;
     }
@@ -1392,6 +1857,13 @@ void GameSession::renderGameplayUi(int width, int height)
     recordDiagnostics(
         m_lastGameplayUiFramePerformanceDiagnostics.pendingSpellOverlayNanoseconds,
         pendingSpellOverlayBeginTickCount);
+
+    // Overheard talk's subtitles over the HUD.
+    if (m_cinematicRuntime.active() && !m_cinematicRuntime.subtitle().empty())
+    {
+        renderCinematicOverlay(width, height);
+    }
+
     finishDiagnostics();
 }
 
@@ -1684,11 +2156,13 @@ void GameSession::captureOutdoorRuntimeState(
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName = mapFileName;
     m_partyState = party;
+    m_partyState->setStatistics(&m_playthroughStatistics);
     m_outdoorPartyState = partySnapshot;
     m_gameMinutes = std::max(0.0f, worldSnapshot.gameMinutes);
 
     OutdoorWorldRuntime::Snapshot normalizedWorldSnapshot = worldSnapshot;
     normalizedWorldSnapshot.gameMinutes = m_gameMinutes;
+    normalizedWorldSnapshot.mapLayoutIdentity = m_currentMapLayoutIdentity;
     if (normalizedWorldSnapshot.eventRuntimeState)
     {
         mergeNamedGlobalVarsFromRuntime(*normalizedWorldSnapshot.eventRuntimeState);
@@ -1707,10 +2181,12 @@ void GameSession::captureIndoorRuntimeState(
     m_currentSceneKind = SceneKind::Indoor;
     m_currentMapFileName = mapFileName;
     m_partyState = party;
+    m_partyState->setStatistics(&m_playthroughStatistics);
     m_gameMinutes = std::max(0.0f, snapshot.worldRuntime.gameMinutes);
 
     IndoorSceneRuntime::Snapshot normalizedSnapshot = snapshot;
     normalizedSnapshot.worldRuntime.gameMinutes = m_gameMinutes;
+    normalizedSnapshot.mapLayoutIdentity = m_currentMapLayoutIdentity;
     if (normalizedSnapshot.eventRuntimeState)
     {
         mergeNamedGlobalVarsFromRuntime(*normalizedSnapshot.eventRuntimeState);
@@ -1718,6 +2194,37 @@ void GameSession::captureIndoorRuntimeState(
     }
     m_currentIndoorSceneState = normalizedSnapshot;
     m_indoorSceneStates[mapStateKey(mapFileName)] = normalizedSnapshot;
+}
+
+void GameSession::setCurrentMapLayoutIdentity(uint64_t identity)
+{
+    m_currentMapLayoutIdentity = identity;
+}
+
+void GameSession::discardMapState(const std::string &mapFileName, bool partyInside)
+{
+    const std::string key = mapStateKey(mapFileName);
+    m_outdoorWorldStates.erase(key);
+    m_outdoorWorldStates.erase(mapFileName);
+    m_indoorSceneStates.erase(key);
+    m_indoorSceneStates.erase(mapFileName);
+
+    if (!partyInside)
+    {
+        return;
+    }
+
+    if (m_currentSceneKind == SceneKind::Outdoor)
+    {
+        m_currentOutdoorWorldState.reset();
+        m_outdoorPartyState.reset();
+    }
+    else
+    {
+        m_currentIndoorSceneState.reset();
+    }
+
+    m_cameraAnglesValid = false;
 }
 
 std::optional<GameSaveData> GameSession::buildSaveData() const
@@ -1746,6 +2253,8 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
     saveData.ruleset = m_ruleset;
     saveData.mawState = m_pMawRules ? std::optional<MawGameState>(m_pMawRules->state()) : std::nullopt;
     saveData.randomRootSeed = m_randomRootSeed;
+    saveData.playthroughId = m_playthroughStatistics.playthroughId();
+    saveData.playthroughTimeline = m_playthroughStatistics.serializedTimeline();
 
     if (m_outdoorPartyState && m_currentOutdoorWorldState)
     {
@@ -1829,6 +2338,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 
     if (m_partyState)
     {
+        m_partyState->setStatistics(&m_playthroughStatistics);
         migrateBlazenRescueRosterUnlock(*m_partyState);
 
         if (saveData.currentSceneKind == SceneKind::Outdoor && saveData.hasOutdoorRuntimeState)

@@ -25,6 +25,7 @@ namespace OpenYAMM::Game
 inline constexpr std::array<float, 3> LootGatherDistances = {192.0f, 128.0f, 64.0f};
 
 class ActorAiTrace;
+class ISceneEventContext;
 class ActorBehaviorRuntime;
 class GameplayActorHitFeedback;
 class GameplayProjectileService;
@@ -211,6 +212,9 @@ struct GameplayRuntimeActorState
     uint16_t height = 0;
     // The actor's own height (map placement or descriptor), unpadded; presentation (3D model scale) uses this.
     uint16_t bodyHeight = 0;
+    // Its 3D model's scale against its binding's (scene draw_scale); when set it replaces bodyHeight's ratio to the
+    // descriptor's height. 0: none.
+    float drawScale = 0.0f;
     bool isDead = false;
     bool isInvisible = false;
     bool hostileToParty = false;
@@ -222,9 +226,19 @@ struct GameplayRuntimeActorState
     int maxHp = 0;
     // What the ruleset resolved for the actor (empty under Standard).
     ActorRulesetFacts rulesetFacts;
-    // A behaviour script's clip role (actors.yml `script_clips`) and its playback time; empty when none plays.
+    // A behaviour script's clip role (actors.yml `script_clips`; `fidget` the binding's own fidget) and its playback
+    // time; empty when none plays. Past its end it holds its last frame, loops, or releases the actor's own animation.
     std::string scriptedClip;
+    // Clips that follow scriptedClip in order (a map script's clip sequence); the end rule applies to the last one.
+    std::vector<std::string> scriptedClipThen;
     float scriptedClipSeconds = 0.0f;
+    enum class ScriptedClipEnd : uint8_t
+    {
+        Hold,
+        Loop,
+        Release,
+    };
+    ScriptedClipEnd scriptedClipEnd = ScriptedClipEnd::Hold;
     // Hit flash mixed over the sprite or model (GameplayActorHitFeedback), 0 when none.
     float hitFlash = 0.0f;
     // Multiplier of the model's emission (a frenzy's glow, GameplayActorModifiers), 1 when none.
@@ -592,10 +606,13 @@ struct GameplayCombatActorInfo
     bool damageDebuffed = false;
     // What the ruleset resolved for the attacker (empty under Standard).
     ActorRulesetFacts rulesetFacts;
-    // spell_conditions (MonsterModifiers.h): the condition a hit by its Spell1 / Spell2 leaves, and the chance (0-1).
+    // spell_conditions (MonsterModifiers.h): the condition a hit by its Spell1 / Spell2 leaves, the chance (0-1), and
+    // the game minutes until it wears off (0: until cured).
     MonsterSpecialAttackKind spell1Condition = MonsterSpecialAttackKind::None;
     MonsterSpecialAttackKind spell2Condition = MonsterSpecialAttackKind::None;
     float spellConditionChance = 1.0f;
+    float spell1ConditionMinutes = 0.0f;
+    float spell2ConditionMinutes = 0.0f;
 };
 
 struct GameplayPartyAttackSpellRequest
@@ -735,6 +752,12 @@ public:
     {
         static_cast<void>(syncPersistentHostilityMasks);
     }
+    // The world's event context (map actors, faces, mechanisms) for shared systems outside the event runtime (a
+    // cinematic's actor steps); null in a world without one.
+    virtual ISceneEventContext *sceneEventContext()
+    {
+        return nullptr;
+    }
     virtual Party *party() = 0;
     virtual const Party *party() const = 0;
     virtual float partyX() const = 0;
@@ -829,6 +852,12 @@ public:
     virtual void setTurnBasedActorMode(ActorTurnBasedMode mode)
     {
         (void)mode;
+    }
+    // Turn-based combat: the monsters' spell effects (stun, paralysis, slow, their buffs) run down once per completed
+    // turn by its game time, in equivalent real seconds, instead of by actor AI time (the original's game clock).
+    virtual void advanceTurnBasedActorTimers(float seconds)
+    {
+        (void)seconds;
     }
     // Lets the actor take its queued action (attack when it can) in the next actor AI step.
     virtual void grantTurnBasedActorAction(size_t actorIndex)
@@ -1408,4 +1437,24 @@ public:
     virtual bool takeActiveCorpseItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual void closeActiveCorpseView() = 0;
 };
+
+// Where a world hit lands on a standing destructible a party blow or missile damages (a face, BModel or prop), or
+// none: a party missile with no actor under the crosshair flies there (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming").
+inline std::optional<bx::Vec3> standingDestructibleHitPoint(
+    const IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldHit &hit)
+{
+    if (!hit.hasHit || hit.kind != GameplayWorldHitKind::EventTarget || !hit.eventTarget)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayEventTargetHit &target = *hit.eventTarget;
+    const bool standing =
+        (target.targetKind == GameplayWorldEventTargetKind::Surface
+            && worldRuntime.isPartyAttackMeleeBModelTarget(target.targetIndex))
+        || (target.targetKind == GameplayWorldEventTargetKind::Entity
+            && worldRuntime.isPartyAttackMeleeEntityTarget(target.targetIndex));
+    return standing ? std::optional<bx::Vec3>(target.hitPoint) : std::nullopt;
+}
 }

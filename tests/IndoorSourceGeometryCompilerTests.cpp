@@ -623,6 +623,39 @@ TEST_CASE("indoor source explicit ownership and plate detection flags survive na
     CHECK(error.find("multiple rooms") != std::string::npos);
 }
 
+TEST_CASE("indoor surface back room makes a solid face belong to a second room")
+{
+    SourceFixture fixture;
+    fixture.useGltfNodes(R"([{"name":"ROOM_entry","mesh":0},{"name":"ROOM_upper","mesh":0},)"
+                         R"({"name":"TRIGGER_shared","mesh":0}])", "[0,1,2]");
+    fixture.metadata.importSettings.reserveSectorZero = true;
+    EditorIndoorGeometryRoomMetadata room;
+    room.id = "room_upper";
+    room.sourceNodeNames = {"ROOM_upper", "TRIGGER_shared"};
+    fixture.metadata.rooms.push_back(room);
+    EditorIndoorGeometrySurfaceMetadata surface;
+    surface.id = "shared";
+    surface.sourceNodeName = "TRIGGER_shared";
+    surface.backRoomId = "room_entry";
+    fixture.metadata.surfaces.push_back(surface);
+    std::string error;
+    const std::optional<EditorIndoorGeometryMetadata> metadata = loadIndoorGeometryMetadataFromText(
+        serializeIndoorGeometryMetadata(fixture.metadata), error);
+    REQUIRE_MESSAGE(metadata.has_value(), error);
+    CHECK(metadata->surfaces.front().backRoomId == "room_entry");
+    IndoorSourceGeometryCompileResult result;
+    REQUIRE_MESSAGE(compileIndoorSourceGeometry(fixture.source, *metadata, result, error), error);
+    const OpenYAMM::Game::IndoorFace &face = result.indoorGeometry.faces.back();
+    CHECK_FALSE(face.isPortal);
+    CHECK(face.roomNumber == 2);
+    CHECK(face.roomBehindNumber == 1);
+    CHECK(result.indoorGeometry.sectors[1].faceIds == std::vector<uint16_t>{0});
+
+    fixture.metadata.surfaces.front().backRoomId = "room_missing";
+    CHECK_FALSE(compileIndoorSourceGeometry(fixture.source, fixture.metadata, result, error));
+    CHECK(error.find("unknown back room") != std::string::npos);
+}
+
 TEST_CASE("indoor source marks the room above a floor portal, as a native BLV does")
 {
     // All three nodes share the fixture's triangle, whose normal points up: a portal in a floor.

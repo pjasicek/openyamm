@@ -60,8 +60,6 @@ struct ActorAnimationTraceSample
     std::string_view clip;
     float timeSeconds = 0.0f;
     float durationSeconds = 0.0f;
-    // The main clip plays backwards (a gait reversed while the actor backs away without a backpedal clip).
-    bool reversed = false;
     // The upper-body layer's clip (empty without a layer) and its time.
     std::string_view layerClip;
     float layerTimeSeconds = 0.0f;
@@ -92,7 +90,8 @@ private:
 // An arena's timed action (tests/scenarios/mm9/ai/README.md "events"), run by the world after the AI step at which
 // the trace clock reaches it: a map trigger's evt.WakeActor (wake a dormant actor), evt.SetMonsterRelation (one
 // monster row toward another: MM9's HateAll / AddEnemy as the converters' map Lua writes it) or an MM9 trigger message
-// to an actor's behaviour script (MM9's Trigger <object>, <message>: its onTrigger); or a test's own move: open a door
+// to an actor's behaviour script (MM9's Trigger <object>, <message>: its onTrigger), a map script's
+// evt.SetActorTarget (the actor goes for the party, or for targetActorIndex); or a test's own move: open a door
 // (as a click on it), or walk the party in a straight line to a point over walkSeconds (placed there step by step).
 struct ActorAiArenaAction
 {
@@ -103,6 +102,7 @@ struct ActorAiArenaAction
         Trigger,
         Door,
         PartyWalk,
+        Target,
     };
 
     float atSeconds = 0.0f;
@@ -112,7 +112,11 @@ struct ActorAiArenaAction
     int16_t toMonsterId = 0;
     int relation = 0;
     std::string message;
+    // A Target action's actor target (none: the party).
+    std::optional<size_t> targetActorIndex;
     uint32_t doorId = 0;
+    // A held door stays open (opened again every step, its auto-close timer restarted).
+    bool holdOpen = false;
     GameplayWorldPoint walkTo = {};
     float walkSeconds = 0.0f;
     // Where the walk began (set at its first step).
@@ -201,7 +205,6 @@ private:
         // The presentation last seen (observeAnimation) and the rate of its last `anim` line.
         std::string animClip;
         std::string animLayerClip;
-        bool animReversed = false;
         AnimationRateMeter animRate;
         AnimationRateMeter animLayerRate;
         bool animSeen = false;

@@ -1,5 +1,7 @@
 #include "game/gameplay/JournalQuestRuntime.h"
 
+#include "engine/Localization.h"
+
 #include "game/party/Party.h"
 #include "game/tables/JournalQuestTable.h"
 
@@ -13,7 +15,8 @@ std::vector<std::string> buildCurrentQuestTexts(const JournalQuestTable &questTa
     {
         if (questTable.isVisible(entry, party))
         {
-            questTexts.push_back(entry.text);
+            // Shown in the journal: the interface language's text of quests.txt.
+            questTexts.push_back(Engine::localize(entry.text));
         }
     }
 

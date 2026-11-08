@@ -91,7 +91,10 @@ std::optional<GameplayTreasureSpawnResult> generateTreasureSpawnItem(
 
     if (resolvedTreasureLevel != RandomTreasureMaxLevel)
     {
-        const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+        // MM6-MM8: 20% nothing, 40% a gold heap, 40% an item; a world.yml treasureMarkersItemsOnly world, always the item.
+        const int roll = itemTable.treasureMarkersItemsOnly(worldId)
+            ? 99
+            : std::uniform_int_distribution<int>(0, 99)(rng);
 
         if (roll < 20)
         {

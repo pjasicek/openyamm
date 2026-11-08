@@ -310,6 +310,10 @@ private:
         // Each face's place in its sectors' floor, wall and ceiling lists (sector, position): the grid's candidates
         // are taken in the order the sector lists give, so ties between equally near faces go the same way.
         std::vector<std::vector<std::pair<int16_t, uint32_t>>> faceSectorListRanks;
+        // Kept when the cache is invalidated: the grid until the door layout changes, the ranks for good.
+        bool sectorFaceGridBuilt = false;
+        uint64_t sectorFaceGridDoorSignature = 0;
+        bool faceSectorListRanksBuilt = false;
         uint64_t surfaceRevision = 0;
     };
     struct IndoorWallCollision

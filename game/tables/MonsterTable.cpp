@@ -217,6 +217,47 @@ uint32_t monsterKindFlagsFromBolsterMonsterEntry(const MergedBolsterMonsterEntry
     return flags;
 }
 
+MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::MonsterStatsEntry &entry)
+{
+    if (entry.attack1HasMissile)
+    {
+        return MonsterTable::MonsterAttackStyle::Ranged;
+    }
+
+    if ((entry.attack2HasMissile && entry.attack2Chance > 0)
+        || (entry.hasSpell1 && entry.spell1UseChance > 0)
+        || (entry.hasSpell2 && entry.spell2UseChance > 0))
+    {
+        return MonsterTable::MonsterAttackStyle::MixedMeleeRanged;
+    }
+
+    return MonsterTable::MonsterAttackStyle::MeleeOnly;
+}
+
+std::vector<std::string> parseMonsterSpellDescriptorTokens(const std::string &value)
+{
+    std::vector<std::string> tokens;
+    size_t tokenBegin = 0;
+
+    while (tokenBegin <= value.size())
+    {
+        const size_t tokenEnd = value.find(',', tokenBegin);
+        tokens.push_back(trimCopy(value.substr(
+            tokenBegin,
+            tokenEnd == std::string::npos ? std::string::npos : tokenEnd - tokenBegin)));
+
+        if (tokenEnd == std::string::npos)
+        {
+            break;
+        }
+
+        tokenBegin = tokenEnd + 1;
+    }
+
+    return tokens;
+}
+}
+
 MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value)
 {
     MonsterTable::MonsterStatsEntry::DamageProfile profile = {};
@@ -272,23 +313,6 @@ int parseMonsterResistanceValue(const std::string &value)
     return 0;
 }
 
-MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::MonsterStatsEntry &entry)
-{
-    if (entry.attack1HasMissile)
-    {
-        return MonsterTable::MonsterAttackStyle::Ranged;
-    }
-
-    if ((entry.attack2HasMissile && entry.attack2Chance > 0)
-        || (entry.hasSpell1 && entry.spell1UseChance > 0)
-        || (entry.hasSpell2 && entry.spell2UseChance > 0))
-    {
-        return MonsterTable::MonsterAttackStyle::MixedMeleeRanged;
-    }
-
-    return MonsterTable::MonsterAttackStyle::MeleeOnly;
-}
-
 std::string parseMonsterSpellName(const std::string &value)
 {
     if (!hasMonsterAbilityDescriptor(value))
@@ -299,29 +323,6 @@ std::string parseMonsterSpellName(const std::string &value)
     const size_t commaIndex = value.find(',');
     const std::string spellName = commaIndex == std::string::npos ? value : value.substr(0, commaIndex);
     return toLowerCopy(spellName);
-}
-
-std::vector<std::string> parseMonsterSpellDescriptorTokens(const std::string &value)
-{
-    std::vector<std::string> tokens;
-    size_t tokenBegin = 0;
-
-    while (tokenBegin <= value.size())
-    {
-        const size_t tokenEnd = value.find(',', tokenBegin);
-        tokens.push_back(trimCopy(value.substr(
-            tokenBegin,
-            tokenEnd == std::string::npos ? std::string::npos : tokenEnd - tokenBegin)));
-
-        if (tokenEnd == std::string::npos)
-        {
-            break;
-        }
-
-        tokenBegin = tokenEnd + 1;
-    }
-
-    return tokens;
 }
 
 uint32_t parseMonsterSpellSkillLevel(const std::string &value)
@@ -361,6 +362,8 @@ SkillMastery parseMonsterSpellSkillMastery(const std::string &value)
     return parseSkillMasteryToken(tokens[1]);
 }
 
+namespace
+{
 struct MonsterSpecialAttackParseResult
 {
     MonsterSpecialAttackKind kind = MonsterSpecialAttackKind::None;
@@ -1552,6 +1555,24 @@ size_t MonsterTable::relationIndexForMonsterId(int16_t monsterId)
     return static_cast<size_t>((monsterId - 1) / 3 + 1);
 }
 
+namespace
+{
+uint64_t mapFactionRelationKey(uint64_t faction, uint64_t otherFaction)
+{
+    return (faction << 32) | otherFaction;
+}
+}
+
+void MonsterTable::setMapFactionRelation(uint32_t faction, uint32_t otherFaction, int relation)
+{
+    m_mapFactionRelations[mapFactionRelationKey(faction, otherFaction)] = relation;
+}
+
+void MonsterTable::clearMapFactionRelations()
+{
+    m_mapFactionRelations.clear();
+}
+
 int MonsterTable::getRelationToParty(int16_t monsterId) const
 {
     if (!m_relationAddOns.empty())
@@ -1562,12 +1583,22 @@ int MonsterTable::getRelationToParty(int16_t monsterId) const
         }
     }
 
+    const size_t relationIndex = relationIndexForMonsterId(monsterId);
+
+    if (!m_mapFactionRelations.empty())
+    {
+        const auto mapRelation = m_mapFactionRelations.find(mapFactionRelationKey(relationIndex, 0));
+
+        if (mapRelation != m_mapFactionRelations.end())
+        {
+            return mapRelation->second;
+        }
+    }
+
     if (m_relations.empty())
     {
         return 0;
     }
-
-    const size_t relationIndex = relationIndexForMonsterId(monsterId);
 
     if (relationIndex >= m_relations[0].size())
     {
@@ -1594,6 +1625,17 @@ int MonsterTable::getRelationBetweenMonsters(int16_t leftMonsterId, int16_t righ
 
     const size_t leftRelationIndex = relationIndexForMonsterId(leftMonsterId);
     const size_t rightRelationIndex = relationIndexForMonsterId(rightMonsterId);
+
+    if (!m_mapFactionRelations.empty())
+    {
+        const auto mapRelation =
+            m_mapFactionRelations.find(mapFactionRelationKey(leftRelationIndex, rightRelationIndex));
+
+        if (mapRelation != m_mapFactionRelations.end())
+        {
+            return mapRelation->second;
+        }
+    }
 
     if (rightRelationIndex >= m_relations.size() || leftRelationIndex >= m_relations[rightRelationIndex].size())
     {

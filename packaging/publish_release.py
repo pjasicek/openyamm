@@ -36,6 +36,8 @@ import zipfile
 
 REPO = Path(__file__).resolve().parents[1]
 CHANNEL = "stable"
+# The fields of a pack (tools/runtime_packs.py PACK_RECORD_KEYS); "language" only on a language's optional packs.
+PACK_RECORD_KEYS = ("id", "package", "mount", "file", "size", "content_id", "sha256", "language")
 MANIFEST_SCHEMA = 1
 MIN_UPDATER_SCHEMA = 1
 # Every platform's manifest and the content profile its packs come from.
@@ -227,7 +229,7 @@ def published_packs(manifests, profile):
     for platform, manifest in manifests.items():
         if manifest and PLATFORMS[platform] == profile:
             for pack in manifest["packs"]:
-                packs[(pack["content_id"], pack["package"], pack["mount"])] = pack
+                packs[(pack["content_id"], pack["package"], pack["mount"], pack.get("language", ""))] = pack
     return packs
 
 
@@ -238,15 +240,17 @@ def final_index(index, published, release):
     records, new, identical = [], [], []
     for pack in index["packs"]:
         fresh = Path(index["_root"]) / index["store"] / pack["file"]
-        known = published.get((pack["content_id"], pack["package"], pack["mount"]))
+        known = published.get((pack["content_id"], pack["package"], pack["mount"], pack.get("language", "")))
         if known:
             record = {key: known[key] for key in ("file", "size", "sha256")}
             record = {"id": pack["id"], "package": pack["package"], "mount": pack["mount"], **record,
                       "content_id": pack["content_id"]}
+            if pack.get("language"):
+                record["language"] = pack["language"]
             if known["sha256"] == pack["sha256"]:
                 identical.append((record, fresh))
         else:
-            record = {key: pack[key] for key in ("id", "package", "mount", "file", "size", "content_id", "sha256")}
+            record = {key: pack[key] for key in PACK_RECORD_KEYS if key in pack}
             new.append((record, fresh))
         records.append(record)
     files = [record["file"] for record in records]
@@ -254,8 +258,7 @@ def final_index(index, published, release):
         fail("two packs of the release share a published file name")
     document = {key: index[key] for key in ("schema", "profile", "content_format")}
     document.update({"release": release, "build": release, "store": "../../assets/packs",
-                     "packs": [{key: record[key] for key in ("id", "package", "mount", "file", "size", "content_id",
-                                                             "sha256")} for record in records]})
+                     "packs": [{key: record[key] for key in PACK_RECORD_KEYS if key in record} for record in records]})
     return document, new, identical
 
 
@@ -420,7 +423,8 @@ def build_manifest(platform, release, index, app_record, published, notes_url, n
         "app": app_record,
         "packs": [{"id": pack["id"], "package": pack["package"], "mount": pack["mount"], "file": pack["file"],
                    "url": f"packs/{pack['sha256']}.zip", "size": pack["size"], "content_id": pack["content_id"],
-                   "sha256": pack["sha256"]} for pack in index["packs"]],
+                   "sha256": pack["sha256"], **({"language": pack["language"]} if pack.get("language") else {})}
+                  for pack in index["packs"]],
     }
 
 

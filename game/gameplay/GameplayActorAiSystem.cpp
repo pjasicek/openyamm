@@ -2876,7 +2876,11 @@ void AI_ClearMovement(ActorAiCommandContext &ai)
 
 void applyActiveSpellTimerUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
-    if (!actor.world.active || update.state.spellEffects || !hasActiveSpellEffectTimer(actor.status.spellEffects))
+    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedActorTimers).
+    if (!actor.world.active
+        || update.state.spellEffects
+        || !hasActiveSpellEffectTimer(actor.status.spellEffects)
+        || frame.turnBased.mode != ActorTurnBasedMode::RealTime)
     {
         return;
     }
@@ -4578,6 +4582,11 @@ constexpr uint32_t Mm9WanderWaitSalt = 0xa4093822u;
 constexpr uint32_t Mm9WanderTimeSalt = 0x299f31d0u;
 constexpr uint32_t Mm9WanderAngleSalt = 0x082efa98u;
 constexpr uint32_t Mm9WanderSideSalt = 0xec4e6c89u;
+constexpr uint32_t Mm9WanderObstacleSalt = 0x5d1f3b27u;
+// BaseWanderObstacle: the share of contacts that stop a walk (GetRandomInt 0, 100 < 70, or < 90 for an actor, lets it
+// go on).
+constexpr float Mm9WanderWallStopChance = 0.3f;
+constexpr float Mm9WanderActorStopChance = 0.1f;
 constexpr uint32_t Mm9PathMarkerSalt = 0x452821e6u;
 constexpr uint32_t Mm9CowerRollSalt = 0x38d01377u;
 constexpr uint32_t Mm9RunTurnSalt = 0xbe5466cfu;
@@ -4589,6 +4598,12 @@ constexpr uint32_t Mm9HangFidgetSalt = 0xb5470917u;
 // The idle fidget's rolls (their own counter, ActorMm9State::idleRollCount).
 constexpr uint32_t Mm9IdleFidgetWaitSalt = 0x6c9e0e8bu;
 constexpr uint32_t Mm9FidgetVariantSalt = 0x1b8f6e2du;
+constexpr uint32_t Mm9ChatWaitSalt = 0x5d2c7a91u;
+constexpr uint32_t Mm9ChatSearchSalt = 0x9e4b13f7u;
+constexpr uint32_t Mm9ChatApproachSalt = 0x27c8d05bu;
+constexpr uint32_t Mm9ChatLengthSalt = 0xc3a1694eu;
+constexpr uint32_t Mm9ChatLeaveSalt = 0x71f5e28du;
+constexpr uint32_t Mm9ChatClipSalt = 0xb06d4c35u;
 // The reposition modifier's rolls (their own counter, ActorMm9State::repositionCount: MM9's rolls keep their sequence).
 constexpr uint32_t RepositionBearingSalt = 0x9216d5d9u;
 constexpr uint32_t RepositionSideSalt = 0x8979fb1bu;
@@ -5597,6 +5612,29 @@ Mm9PreludeResult AI_Mm9Prelude(ActorAiFacts &actor, const ActorAiFrameFacts &fra
     state.fidgetSeconds = std::max(0.0f, state.fidgetSeconds - stepSeconds);
     // A target it holds faces it: no turn back after a talk.
     state.talkTurnBack = state.talkTurnBack && state.targetKind == ActorAiTargetKind::None;
+    // Its chats' timers (NPCBase.inc's Wait SOCIALIZE_WAIT) and its Conv clip. A target (a flight: NPCBase.inc RunAway
+    // cancels the chat timers) ends any chat and drops the world's answers; it sets the next one up when it idles.
+    state.chatSeconds = std::max(0.0f, state.chatSeconds - timerStep);
+    state.chatTalkSeconds = std::max(0.0f, state.chatTalkSeconds - timerStep);
+    state.chatSearchSeconds = std::max(0.0f, state.chatSearchSeconds - timerStep);
+    state.chatClipSeconds = std::max(0.0f, state.chatClipSeconds - stepSeconds);
+    state.markerClipSeconds += stepSeconds;
+
+    // A target it holds ends a marker's clip and facing.
+    if (state.targetKind != ActorAiTargetKind::None)
+    {
+        state.clearMarkerStop();
+    }
+
+    if (state.targetKind != ActorAiTargetKind::None || state.fleeMode != Mm9FleeMode::None)
+    {
+        state.seenChatSerial = world.chatSerial;
+
+        if (state.chatPhase != Mm9ChatPhase::Startup && state.chatPhase != Mm9ChatPhase::Off)
+        {
+            state.endChat();
+        }
+    }
 
     if (state.wanderPhase == Mm9WanderPhase::Startup || state.wanderPhase == Mm9WanderPhase::Waiting
         || state.wanderPhase == Mm9WanderPhase::Walking)
@@ -5692,8 +5730,9 @@ Mm9PreludeResult AI_Mm9Prelude(ActorAiFacts &actor, const ActorAiFrameFacts &fra
         state.seenDamageSerial = world.damageSerial;
 
         // A passive script (a cut-scene actor) takes no attacker; a turret whose script drives it (Dragon.scr
-        // OnDamage) takes its attacker only without a target, plays no Aware clip and alerts no one.
-        if (world.attackerKind != ActorAiTargetKind::None && !passive)
+        // OnDamage) takes its attacker only without a target, plays no Aware clip and alerts no one. A party hit from
+        // beyond the world's provoke range is no reason to take one (Mm9PartyAwareness).
+        if (world.attackerKind != ActorAiTargetKind::None && !passive && !world.attackerTooFar)
         {
             if (turret && script.drivesAttacks)
             {
@@ -6796,6 +6835,8 @@ void AI_Mm9TurretIdle(ActorAiCommandContext &ai)
 
 // A marker counts as reached within 1 LT of the edges (WalkTo range 1; MM9's markers have a 12 LT radius).
 constexpr float Mm9MarkerRadius = 12.0f * 2.56f;
+// BaseWander.inc's FaceDir to a marker's facing, 360 degrees a second.
+constexpr float Mm9MarkerTurnRadiansPerSecond = 2.0f * Pi;
 
 float mm9Distance2d(const GameplayWorldPoint &from, float x, float y)
 {
@@ -6854,7 +6895,7 @@ void AI_Mm9IdleStand(ActorAiCommandContext &ai)
 
     // SetState(fidget, -1): a model without fidget variants plays its one fidget (the sprite's length, or the clip's,
     // which the presentation plays to its end).
-    const ActorFidgetClips &clips = actor.runtime.fidgetClips;
+    const ActorClipChoices &clips = actor.runtime.fidgetClips;
     const int variant = mm9FidgetVariant(
         mm9Unit(actor.actorId, state.idleRollCount++, Mm9FidgetVariantSalt), clips.count);
     state.fidgetVariant = int8_t(variant);
@@ -6885,6 +6926,7 @@ void AI_Mm9IdleStand(ActorAiCommandContext &ai)
 void AI_Mm9WanderMove(ActorAiCommandContext &ai, float directionX, float directionY)
 {
     mm9State(ai).talkTurnBack = false;
+    mm9State(ai).clearMarkerStop();
     ai.faceYaw(std::atan2(directionY, directionX));
     ai.setActionSeconds(0.0f);
     AI_RandomMove(ai, directionX, directionY);
@@ -6895,8 +6937,10 @@ void AI_Mm9WanderMove(ActorAiCommandContext &ai, float directionX, float directi
 void AI_Mm9MoveTo(ActorAiCommandContext &ai, const GameplayWorldPoint &point, ActorAiMotionState motionState)
 {
     const ActorAiFacts &actor = ai.actor();
-    // A walk faces its way: no turn back after a talk (NPCBase.inc OnRUDEExit walks to its marker again).
+    // A walk faces its way: no turn back after a talk (NPCBase.inc OnRUDEExit walks to its marker again), and the
+    // next walk ends a marker's clip and facing.
     mm9State(ai).talkTurnBack = false;
+    mm9State(ai).clearMarkerStop();
     const float deltaX = point.x - actor.movement.position.x;
     const float deltaY = point.y - actor.movement.position.y;
     const float distance = std::max(0.001f, length2d(deltaX, deltaY));
@@ -6919,6 +6963,296 @@ void applyMm9MoveTarget(ActorAiUpdate &update, const ActorAiFacts &actor, const 
         length2d(point.x - actor.movement.position.x, point.y - actor.movement.position.y);
     update.movementIntent.inMeleeRange = false;
     update.movementIntent.meleePursuitActive = true;
+}
+
+// Turns its body toward yawRadians at radiansPerSecond this step; true once it faces it.
+bool AI_Mm9TurnToward(ActorAiCommandContext &ai, float yawRadians, float radiansPerSecond)
+{
+    const float turn =
+        radiansPerSecond * (ai.frame() != nullptr ? std::max(0.0f, ai.frame()->fixedStepSeconds) : 0.0f);
+    const float current = ai.update().movementIntent.updateYaw ? ai.update().movementIntent.yawRadians
+                                                              : ai.actor().runtime.yawRadians;
+    const float left = std::remainder(yawRadians - current, 2.0f * Pi);
+
+    if (std::abs(left) <= turn)
+    {
+        ai.faceYaw(yawRadians);
+        return true;
+    }
+
+    ai.faceYaw(normalizeAngleRadians(current + std::copysign(turn, left)));
+    return false;
+}
+
+// NPCBase.inc's chats (MM9_AMBIENT_ANIMATION.md section 2.3) for a townsperson holding no target. One that wanders
+// aimlessly without a leash (mm9Socializes) looks for someone every 5-15 s, for 5-10 s: the world searches once a
+// second for the nearest townsperson it sees and asks it (ActorMm9Request::chatSearch). The one asked, unless it is
+// busy, accepts and waits up to 20 s; the asker walks to it (giving up after 4-10 s), and on arrival they stand
+// together for 10-30 s, facing each other (180 degrees a second) and taking turns at one Conv clip each, the asker
+// first. Then both turn away (180 +- 45 degrees at 180 a second) and wander on; an end of either side (a give-up, a
+// flight, a talk with the party) ends the other's. Each new search restarts its wander (SetupNextChat's Stop and
+// EnableWandering). True while the chat holds it this step (its wander waits); moveTarget: where its walk heads.
+bool AI_Mm9Chat(ActorAiCommandContext &ai, bool socializes, std::optional<GameplayWorldPoint> &moveTarget)
+{
+    const ActorAiFacts &actor = ai.actor();
+    ActorMm9State &state = mm9State(ai);
+    const ActorMm9WorldFacts &world = actor.mm9World;
+    const size_t none = static_cast<size_t>(-1);
+    const auto roll = [&](uint32_t salt)
+    {
+        return mm9Unit(actor.actorId, state.chatRollCount++, salt);
+    };
+    const auto decide = [&](const char *pNote, size_t other) -> ActorAiDecision &
+    {
+        ActorAiDecision &decision = ai.decide(ActorAiDecisionKind::Chat, pNote);
+        decision.targetKind = other != none ? ActorAiTargetKind::Actor : ActorAiTargetKind::None;
+        decision.targetActorIndex = other;
+        return decision;
+    };
+    // SetupNextChat: out of the chat, the next search later; its wander starts again with a wait.
+    const auto setupNextChat = [&](bool restartWander)
+    {
+        state.chatPartner = none;
+        state.chatInitiator = false;
+        state.chatClip = -1;
+        state.chatClipSeconds = 0.0f;
+        state.chatPhase = socializes ? Mm9ChatPhase::Waiting : Mm9ChatPhase::Off;
+        state.chatSeconds = socializes ? mm9SocializeWaitSeconds(roll(Mm9ChatWaitSalt)) : 0.0f;
+
+        if (restartWander && (state.wanderPhase == Mm9WanderPhase::Waiting
+            || state.wanderPhase == Mm9WanderPhase::Walking || state.wanderPhase == Mm9WanderPhase::ToMarker))
+        {
+            state.wanderPhase = Mm9WanderPhase::Waiting;
+            state.wanderSeconds = -1.0f;
+        }
+    };
+    // LeaveChat (after SetupNextChat): it turns about, the next search's wait running meanwhile.
+    const auto leaveChat = [&](const char *pNote, size_t other)
+    {
+        setupNextChat(true);
+        state.chatLeaveYawRadians =
+            normalizeAngleRadians(actor.runtime.yawRadians + mm9ChatLeaveTurnRadians(roll(Mm9ChatLeaveSalt)));
+        const Mm9ChatPhase next = state.chatPhase;
+        state.chatPhase = Mm9ChatPhase::Leaving;
+        decide(pNote, other).seconds = next == Mm9ChatPhase::Waiting ? state.chatSeconds : -1.0f;
+    };
+    const auto standIdle = [&]()
+    {
+        AI_Mm9IdleStand(ai);
+    };
+
+    // The world's answer to its search, or another's ask (it was free when asked).
+    if (world.chatSerial != state.seenChatSerial)
+    {
+        state.seenChatSerial = world.chatSerial;
+
+        if (world.chatAnswer == Mm9ChatAnswer::Asked && !mm9ChatEngaged(state.chatPhase))
+        {
+            // OnHello: Stop and SetIdle end a marker's clip.
+            state.clearMarkerStop();
+            state.chatPhase = Mm9ChatPhase::Listening;
+            state.chatPartner = world.chatOther;
+            state.chatInitiator = false;
+            state.chatTurns = 0;
+            state.chatClip = -1;
+            state.chatSeconds = Mm9ChatListenGiveUpSeconds;
+            decide("hello", world.chatOther);
+            standIdle();
+            return true;
+        }
+
+        if (state.chatPhase == Mm9ChatPhase::Looking && world.chatAnswer == Mm9ChatAnswer::Accepted)
+        {
+            state.chatPhase = Mm9ChatPhase::Approaching;
+            state.chatPartner = world.chatOther;
+            state.chatInitiator = true;
+            state.chatTurns = 0;
+            state.chatClip = -1;
+            state.chatSeconds = mm9ChatApproachSeconds(roll(Mm9ChatApproachSalt));
+            decide("approach", world.chatOther).seconds = state.chatSeconds;
+        }
+        else if (state.chatPhase == Mm9ChatPhase::Looking && world.chatAnswer == Mm9ChatAnswer::Refused)
+        {
+            setupNextChat(true);
+            decide("refused", world.chatOther).seconds = state.chatSeconds;
+            return false;
+        }
+    }
+
+    const size_t partner = state.chatPartner;
+
+    switch (state.chatPhase)
+    {
+    case Mm9ChatPhase::Startup:
+        // NPCBase.inc Startup: a socializer sets its first search up.
+        setupNextChat(false);
+        return false;
+
+    case Mm9ChatPhase::Off:
+        return false;
+
+    case Mm9ChatPhase::Waiting:
+        if (state.chatSeconds > 0.0f)
+        {
+            return false;
+        }
+
+        state.chatPhase = Mm9ChatPhase::Looking;
+        state.chatSeconds = mm9ChatSearchSeconds(roll(Mm9ChatSearchSalt));
+        state.chatSearchSeconds = 0.0f;
+        decide("look", none).seconds = state.chatSeconds;
+        [[fallthrough]];
+
+    case Mm9ChatPhase::Looking:
+        if (state.chatSeconds <= 0.0f)
+        {
+            setupNextChat(true);
+            return false;
+        }
+
+        if (state.chatSearchSeconds <= 0.0f)
+        {
+            state.chatSearchSeconds = Mm9ChatSearchIntervalSeconds;
+            ActorMm9Request request = ai.update().mm9Request.value_or(ActorMm9Request{});
+            request.chatSearch = true;
+            ai.update().mm9Request = request;
+        }
+
+        return false;
+
+    case Mm9ChatPhase::Approaching:
+    {
+        if (!world.chatPartnerPresent || state.chatSeconds <= 0.0f)
+        {
+            setupNextChat(true);
+            decide(world.chatPartnerPresent ? "give_up" : "goodbye", partner).seconds = state.chatSeconds;
+            return false;
+        }
+
+        const GameplayWorldPoint &point = world.chatPartnerPosition;
+        const float edge = mm9Distance2d(actor.movement.position, point.x, point.y) - float(actor.stats.radius)
+            - world.chatPartnerRadius;
+
+        if (edge > Mm9MarkerRadius + Mm9WanderMarkerRange)
+        {
+            AI_Mm9MoveTo(ai, point, ActorAiMotionState::Wandering);
+            moveTarget = point;
+            return true;
+        }
+
+        // OnChatArrival: it stops; ChatBegin turns the other one to it; the chat lasts 10-30 s.
+        state.chatPhase = Mm9ChatPhase::Talking;
+        state.chatTalkSeconds = mm9ChatLengthSeconds(roll(Mm9ChatLengthSalt));
+        decide("begin", partner).seconds = state.chatTalkSeconds;
+        AI_Stand(ai);
+        return true;
+    }
+
+    case Mm9ChatPhase::Listening:
+        if (!world.chatPartnerPresent)
+        {
+            leaveChat("goodbye", partner);
+            standIdle();
+            return true;
+        }
+
+        if (world.chatPartnerPhase != Mm9ChatPhase::Talking)
+        {
+            if (state.chatSeconds <= 0.0f)
+            {
+                setupNextChat(true);
+                decide("give_up", partner);
+                return false;
+            }
+
+            standIdle();
+            return true;
+        }
+
+        // OnChatBegin: it faces the one who came.
+        state.chatPhase = Mm9ChatPhase::Talking;
+        decide("begin", partner);
+        [[fallthrough]];
+
+    case Mm9ChatPhase::Talking:
+    {
+        if (!world.chatPartnerPresent || (state.chatInitiator && state.chatTalkSeconds <= 0.0f))
+        {
+            leaveChat(world.chatPartnerPresent ? "end" : "goodbye", partner);
+            standIdle();
+            return true;
+        }
+
+        const GameplayWorldPoint &point = world.chatPartnerPosition;
+        const float deltaX = point.x - actor.movement.position.x;
+        const float deltaY = point.y - actor.movement.position.y;
+
+        // A Conv clip ended: the turn passes (OnConverseDone, YourTurn).
+        if (state.chatClip >= 0 && state.chatClipSeconds <= 0.0f)
+        {
+            state.chatClip = -1;
+            ++state.chatTurns;
+        }
+
+        const ActorClipChoices &clips = actor.runtime.convClips;
+
+        if (state.chatClip < 0 && clips.count > 0 && !world.chatPartnerSpeaking
+            && mm9ChatTurnIsMine(state.chatInitiator, state.chatTurns, world.chatPartnerTurns))
+        {
+            // Converse -1: one of its Conv clips, uniformly, once.
+            const int variant = mm9FidgetVariant(roll(Mm9ChatClipSalt), clips.count);
+            state.chatClip = int8_t(variant);
+            state.chatClipSeconds = clips.seconds[size_t(variant)];
+            state.fidgetVariant = -1;
+            state.fidgetSeconds = 0.0f;
+            ai.setMotionState(ActorAiMotionState::Standing);
+            ai.setAnimationState(ActorAiAnimationState::Bored);
+            ai.setAnimationTimeTicks(0.0f);
+            ai.setMovementAction(ActorAiMovementAction::Stand);
+            ai.clearMovementDirection();
+            ai.clearVelocity();
+            ai.setActionSeconds(0.0f);
+            ActorAiDecision &decision = decide("converse", partner);
+            decision.variant = variant;
+            decision.seconds = state.chatClipSeconds;
+        }
+        else if (state.chatClip >= 0)
+        {
+            AI_HoldIdle(ai);
+            ai.setActionSeconds(0.0f);
+        }
+        else
+        {
+            standIdle();
+        }
+
+        if (deltaX * deltaX + deltaY * deltaY > 0.0001f)
+        {
+            AI_Mm9TurnToward(ai, std::atan2(deltaY, deltaX), Mm9ChatTurnRadiansPerSecond);
+        }
+
+        return true;
+    }
+
+    case Mm9ChatPhase::Leaving:
+        if (!AI_Mm9TurnToward(ai, state.chatLeaveYawRadians, Mm9ChatTurnRadiansPerSecond))
+        {
+            standIdle();
+            return true;
+        }
+
+        // AboutFaceDone: BaseWanderGo, its walk at once.
+        state.chatPhase = socializes ? Mm9ChatPhase::Waiting : Mm9ChatPhase::Off;
+
+        if (state.wanderPhase == Mm9WanderPhase::Waiting)
+        {
+            state.wanderSeconds = 0.0f;
+        }
+
+        return false;
+    }
+
+    return false;
 }
 
 // BaseWander.inc for a monster holding no target: a second after it appears its placement's wander starts; it waits
@@ -6944,6 +7278,19 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
         state.wanderSeconds = -1.0f;
     }
 
+    // A townsperson's chats hold its wander while it walks to the other one, talks or turns away. Only NPCBase.inc
+    // chats (guardRefuge marks it): the animals on the civilian loop (FarmAnimal.inc, wander.inc, cats, dogs) do not.
+    if (actor.tactics.mm9Profile->archetype == Mm9AiArchetype::Civilian && actor.tactics.mm9Profile->guardRefuge
+        && !actor.tactics.mm9Profile->passive && state.wanderPhase != Mm9WanderPhase::Startup)
+    {
+        std::optional<GameplayWorldPoint> chatMoveTarget;
+
+        if (AI_Mm9Chat(ai, mm9Socializes(placement, actor.movement.mm9PathPoints.size()) && canWalk, chatMoveTarget))
+        {
+            return chatMoveTarget;
+        }
+    }
+
     if (!canWalk || (!path && !aimless) || state.wanderPhase == Mm9WanderPhase::Off
         || state.wanderPhase == Mm9WanderPhase::Startup)
     {
@@ -6958,10 +7305,12 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
         return GameplayWorldPoint{float(point[0]), float(point[1]), float(point[2])};
     };
 
-    const auto startWait = [&]()
+    // A marker's own wait (UseMarkerWaitTime) replaces the placement's once.
+    const auto startWait = [&](const Mm9AiPathStop *pStop = nullptr, const char *pNote = nullptr)
     {
-        float wait = mm9NoteRandom(state, mm9WanderSeconds(placement.wanderWaitMinSeconds,
-            placement.wanderWaitMaxSeconds, mm9Roll(actor, state, Mm9WanderWaitSalt)));
+        const bool own = pStop != nullptr && pStop->ownWait;
+        float wait = mm9NoteRandom(state, mm9WanderSeconds(own ? pStop->waitMinSeconds : placement.wanderWaitMinSeconds,
+            own ? pStop->waitMaxSeconds : placement.wanderWaitMaxSeconds, mm9Roll(actor, state, Mm9WanderWaitSalt)));
 
         // BaseWanderStart: a wait below 0.2 s starts the walk at once.
         if (wait < 0.2f)
@@ -6971,7 +7320,8 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
 
         state.wanderPhase = Mm9WanderPhase::Waiting;
         state.wanderSeconds = wait;
-        ActorAiDecision &decision = ai.decide(ActorAiDecisionKind::WanderWait, path ? "path" : "aimless");
+        ActorAiDecision &decision =
+            ai.decide(ActorAiDecisionKind::WanderWait, pNote != nullptr ? pNote : path ? "path" : "aimless");
         decision.seconds = wait;
     };
 
@@ -7017,6 +7367,9 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
 
             state.wanderObstacle = false;
             state.wanderHalted = false;
+            // A contact from before this walk (a chat, a wait) is not this walk's obstacle.
+            state.wallContact = false;
+            state.actorContact = false;
             state.flightDirectionX = std::cos(yaw);
             state.flightDirectionY = std::sin(yaw);
             state.wanderSeconds = mm9NoteRandom(state, mm9WanderSeconds(placement.wanderTimeMinSeconds,
@@ -7033,6 +7386,12 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
     if (state.wanderPhase == Mm9WanderPhase::Waiting)
     {
         AI_Mm9IdleStand(ai);
+
+        if (state.markerTurn && AI_Mm9TurnToward(ai, state.markerYawRadians, Mm9MarkerTurnRadiansPerSecond))
+        {
+            state.markerTurn = false;
+        }
+
         return std::nullopt;
     }
 
@@ -7047,7 +7406,24 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
             reached.marker = state.pathMarker;
             ai.update().state.earlierDecision = reached;
             AI_Stand(ai);
-            startWait();
+            // BaseWander.inc OnWanderAtMarkerNext: the marker's facing (turned to at 360 degrees a second while it
+            // waits), its clip (looped or once, until the next walk) and its own wait.
+            const Mm9AiPathStop *pStop = nullptr;
+
+            for (size_t index = 0; index < actor.movement.mm9PathStops.size(); ++index)
+            {
+                if (int(actor.movement.mm9PathStops[index].point) == state.pathMarker)
+                {
+                    pStop = &actor.movement.mm9PathStops[index];
+                    state.markerTurn = pStop->faces;
+                    state.markerYawRadians = pStop->faceYawRadians;
+                    state.markerStop = pStop->clip.empty() ? int16_t(-1) : int16_t(index);
+                    state.markerClipSeconds = 0.0f;
+                    break;
+                }
+            }
+
+            startWait(pStop);
             return std::nullopt;
         }
 
@@ -7080,6 +7456,31 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
         ai.decide(ActorAiDecisionKind::Leash, "stop");
         AI_Stand(ai);
         return std::nullopt;
+    }
+
+    // BaseWanderObstacle: a walk that touched a wall stops 30 % of the times (another actor 10 %), faces away from the
+    // wall along its normal (an actor: as it was) and waits; its next walk turns only 15-90 degrees. Otherwise it goes
+    // on, sliding along. MM9 raises the notice at each contact, so a walk along a wall soon stops and turns away.
+    if (actor.runtime.motionState == ActorAiMotionState::Wandering && (state.wallContact || state.actorContact))
+    {
+        const float chance = state.wallContact ? Mm9WanderWallStopChance : Mm9WanderActorStopChance;
+        const bool wall = state.wallContact;
+        state.wallContact = false;
+        state.actorContact = false;
+
+        if (mm9Roll(actor, state, Mm9WanderObstacleSalt) < chance)
+        {
+            state.wanderObstacle = true;
+
+            if (wall)
+            {
+                ai.faceYaw(std::atan2(state.wallNormalY, state.wallNormalX));
+            }
+
+            AI_Stand(ai);
+            startWait(nullptr, wall ? "obstacle wall" : "obstacle actor");
+            return std::nullopt;
+        }
     }
 
     // The wall stopped it (the movement step cleared its walk): BaseWanderObstacle turns it away and waits.
@@ -7629,6 +8030,7 @@ bool AI_Mm9LayerHold(ActorAiCommandContext &ai)
 // ask after the first finds none, a resurrecter raises itself 2-10 s later (anyone else stops asking: MM9 removes the
 // corpse, OpenYAMM leaves it to be looted). Raised (by a resurrecter's DoResurrection key or itself) it waits until no
 // actor stands within twice its radius (every 0.5 s) and rises: full health, its Resurrect clip, then its old target.
+// It rises once: its next death is for good (MM9 clears g_bCanBeResurrected at OnDeathDone; only BaseInit sets it).
 void AI_Mm9Corpse(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
     const Mm9AiProfile *pProfile = actor.tactics.mm9Profile ? &*actor.tactics.mm9Profile : nullptr;
@@ -7644,6 +8046,12 @@ void AI_Mm9Corpse(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, Act
 
     const ActorMm9WorldFacts &world = actor.mm9World;
     ActorMm9State state = update.state.mm9.value_or(actor.runtime.mm9);
+
+    // Raised once already: this death is for good (OnDeathDone with g_bCanBeResurrected cleared asks no one).
+    if (state.risen)
+    {
+        return;
+    }
 
     // Only a death this session asks (the script's state is not saved: a corpse loaded with the map stays dead).
     if (motionState == ActorAiMotionState::Dying)
@@ -7754,6 +8162,7 @@ void AI_Mm9Corpse(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, Act
                 state.askSeconds = -1.0f;
                 state.askAwaiting = false;
                 state.raiseSeconds = pProfile->raiseSeconds;
+                state.risen = true;
                 request.revive = true;
                 requested = true;
                 decision = mm9Decision(ActorAiDecisionKind::Raised, state.deathTargetKind,
@@ -8172,8 +8581,11 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
         return true;
     }
 
+    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedActorTimers).
     GameplayActorSpellEffectState spellEffects = actor.status.spellEffects;
-    actorService.updateSpellEffectTimers(spellEffects, pFrame->fixedStepSeconds, actor.status.defaultHostileToParty);
+    const float spellEffectSeconds =
+        pFrame->turnBased.mode == ActorTurnBasedMode::RealTime ? pFrame->fixedStepSeconds : 0.0f;
+    actorService.updateSpellEffectTimers(spellEffects, spellEffectSeconds, actor.status.defaultHostileToParty);
     ai.setSpellEffects(spellEffects);
 
     const ActorStatusFrameOutcome updatedStatusFrame = resolveActorStatusFrame(
@@ -8775,6 +9187,55 @@ ActorAiUpdate AI_ScriptedHold(
     return finishActiveMovementCommand(ai);
 }
 
+// A map script's walk (evt.MoveActorTo, ActorMovementFacts::scriptedMoveTarget): the actor walks, or runs, to the
+// point along the path planner's route, whatever it would do by itself (a target, a wander). Status, death, an attack
+// under way and a behaviour's scripted hold come first. An MM9 monster walks at its WalkVel and runs at its RunVel
+// (MM9's WalkTo and RunTo); any other actor walks at its speed and runs at its pursuit speed.
+ActorAiUpdate AI_ScriptedMove(
+    const ActorAiFacts &actor,
+    const ActorAiFrameFacts &frame,
+    const std::optional<ActorAiUpdate> &statusContinuation)
+{
+    ActorAiCommandContext ai = beginActiveActorCommand(actor, frame, statusContinuation);
+
+    // BaseDoor.inc OnDoor stops any move of an MM9 monster at a closed door it may open, a script's walk too: the
+    // guards Thronheim City's breakout sends from the guard house pushed at its shut door instead.
+    if (mm9LoopActive(actor, &frame) && AI_Mm9Door(ai))
+    {
+        return ai.finish();
+    }
+
+    const GameplayWorldPoint point = *actor.movement.scriptedMoveTarget;
+    const bool run = actor.movement.scriptedMoveRun;
+    const float deltaX = point.x - actor.movement.position.x;
+    const float deltaY = point.y - actor.movement.position.y;
+    const float distance = std::max(0.001f, length2d(deltaX, deltaY));
+    ai.decide(ActorAiDecisionKind::Patrol, run ? "script_run" : "script_walk");
+    ai.setMotionState(run ? ActorAiMotionState::Pursuing : ActorAiMotionState::Wandering);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    ai.resetAnimationOnChange();
+    ai.setMovementAction(ActorAiMovementAction::Pursue);
+    ai.setMoveDirection(deltaX / distance, deltaY / distance);
+    ai.setDesiredMovement(deltaX / distance, deltaY / distance);
+    ai.faceYaw(std::atan2(deltaY, deltaX));
+    ai.setActionSeconds(0.0f);
+    ai.setMeleePursuitActive(true);
+    ActorAiUpdate update = finishActiveMovementCommand(ai);
+    applyMm9MoveTarget(update, actor, point);
+
+    if (actor.tactics.mm9Profile)
+    {
+        const float speed = run ? actor.tactics.mm9Profile->runSpeed : actor.tactics.mm9Profile->walkSpeed;
+
+        if (speed > 0.0f)
+        {
+            update.movementIntent.moveSpeed = std::min(speed, MaxActorMoveSpeed);
+        }
+    }
+
+    return update;
+}
+
 ActorAiUpdate updateBackgroundActor(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
 {
     ActorAiCommandContext ai(actor, frame);
@@ -8800,6 +9261,12 @@ ActorAiUpdate updateBackgroundActor(const ActorAiFacts &actor, const ActorAiFram
     if (remainingSeconds > 0.0f)
     {
         AI_HoldIdle(ai);
+    }
+    else if (mm9LoopProfile(actor) != nullptr)
+    {
+        // MM9 never turns an actor it does not run toward the party: one on MM9's loop keeps its facing out here
+        // (Thjorgard City's tavern talkers, MM9_MONSTER_AI_PLAN.md "Townsfolk facing the party").
+        AI_StartIdleStand(ai);
     }
     else
     {
@@ -8872,6 +9339,18 @@ ActorAiUpdate updateActorSteps(ActorAiFacts &actorFacts, const ActorAiFrameFacts
     if (actorFacts.behavior.holdActive)
     {
         return AI_ScriptedHold(actorFacts, frame, statusContinuation);
+    }
+
+    if (actorFacts.movement.scriptedMoveTarget)
+    {
+        // A script's walk moves an actor its placement keeps still (immobile, stationary), but not while turn-based
+        // play holds every actor.
+        if (frame.turnBased.mode != ActorTurnBasedMode::Hold)
+        {
+            actorFacts.movement.movementAllowed = true;
+        }
+
+        return AI_ScriptedMove(actorFacts, frame, statusContinuation);
     }
 
     return AI_ActiveBehavior(actorFacts, frame, statusContinuation, hasTarget);

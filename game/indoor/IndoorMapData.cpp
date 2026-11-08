@@ -458,6 +458,13 @@ const IndoorFaceTranslucency *findIndoorFaceTranslucency(const IndoorMapData &in
     return found != faces.end() && found->faceIndex == faceIndex ? &found->translucency : nullptr;
 }
 
+bool isIndoorFaceOpaque(const IndoorMapData &indoorMapData, size_t faceIndex)
+{
+    const std::vector<uint16_t> &faces = indoorMapData.opaqueFaces;
+    return faceIndex <= std::numeric_limits<uint16_t>::max()
+        && std::binary_search(faces.begin(), faces.end(), static_cast<uint16_t>(faceIndex));
+}
+
 const MechanismAudioProfile *findIndoorDoorSounds(const IndoorMapData &indoorMapData, uint32_t doorId)
 {
     const std::vector<IndoorDoorSounds> &sounds = indoorMapData.doorSounds;
@@ -1417,6 +1424,22 @@ std::array<double, 3> faceNewell(const IndoorMapData &mapData, const IndoorFace 
     }
     return {x, y, z};
 }
+}
+
+// Here rather than in IndoorDaylight.cpp, beside indoorOpenSkySectors: the scene loader calls it and the editor links
+// the map data without the sky.
+std::vector<uint8_t> indoorOpenAirLights(const IndoorMapData &mapData)
+{
+    std::vector<uint8_t> openAir(mapData.lights.size(), 0);
+    if (!mapData.daylight.enabled)
+    {
+        return openAir;
+    }
+    for (size_t lightId = 0; lightId < mapData.lights.size(); ++lightId)
+    {
+        openAir[lightId] = float(mapData.lights[lightId].radius) >= IndoorOpenAirLightMinRadius ? 1 : 0;
+    }
+    return openAir;
 }
 
 std::vector<uint8_t> indoorOpenSkySectors(const IndoorMapData &mapData)

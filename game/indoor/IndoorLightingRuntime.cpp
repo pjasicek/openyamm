@@ -1585,12 +1585,21 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                     return;
                 }
 
+                // MM9's open-air lights follow the sun (devdocs/INDOOR_OPEN_SKY.md "Daylight"), gone at night.
+                const bool openAir = source.kind == IndoorRenderLightKind::Static && input.pMapData != nullptr
+                    && indoorOpenAirLight(input.pMapData->daylight, source.sourceLightId);
+                const float intensity = openAir ? source.intensity * input.openAirLightScale : source.intensity;
+                if (intensity <= 0.0f)
+                {
+                    return;
+                }
+
                 IndoorRenderLight light = {};
                 light.position = source.position;
                 light.radius = source.radius;
                 light.colorAbgr =
                     lightColorAbgr(source.red, source.green, source.blue, source.alpha, input.coloredLights);
-                light.intensity = source.intensity;
+                light.intensity = intensity;
                 light.sectorId = source.sectorId;
                 light.kind = source.kind;
                 light.reach = source.reach;

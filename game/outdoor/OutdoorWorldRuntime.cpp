@@ -1,7 +1,11 @@
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "engine/Localization.h"
 
+#include "game/gameplay/CinematicRuntime.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/gameplay/Mm9ActorRules.h"
 #include "game/gameplay/ActorAiTrace.h"
+#include "game/gameplay/ScriptedActorMoves.h"
 #include "game/gameplay/ActorVocalizationRules.h"
 #include "game/audio/ActorAudioRules.h"
 #include "game/data/ActorNameResolver.h"
@@ -27,6 +31,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/items/WorldItemShape.h"
+#include "game/mm9/Mm9HirelingServices.h"
 #include "game/mm9/Mm9RudeDialogue.h"
 #include "game/mm9/Mm9BarrelRuntime.h"
 #include "game/gameplay/TreasureRuntime.h"
@@ -77,9 +82,6 @@ namespace
 constexpr float GameMinutesPerRealSecond = 0.5f;
 constexpr float CollisionEpsilon = 0.01f;
 constexpr float OutdoorMechanismGeometryRefreshStepSeconds = 1.0f / 30.0f;
-constexpr float Mm9FoundPlayerCheckIntervalSeconds = 0.1f;
-constexpr float Mm9FoundPlayerRange = 1024.0f;
-constexpr float Mm9FoundPlayerRangeSquared = Mm9FoundPlayerRange * Mm9FoundPlayerRange;
 constexpr uint32_t OutdoorEnvironmentFlagNoTerrain = 0x08;
 constexpr float ImmolationTickGameMinutes = 5.0f;
 constexpr float ImmolationEffectRange = 307.0f;
@@ -2821,6 +2823,7 @@ void refreshOutdoorMapActorAiStaticFields(
         state.canReceiveDamage = actor.mm9CanReceiveDamage;
         state.mm9Civilian = actor.mm9Civilian;
         state.mm9Guard = actor.mm9Guard;
+        state.drawScale = actor.drawScale;
         state.proceduralDeathLoot = actor.proceduralDeathLoot;
         state.immobile = state.immobile || actor.immobile;
         state.alertStatusBit = (actor.attributes & ActorAlertStatusBit) != 0;
@@ -2901,6 +2904,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.canReceiveDamage = actor.mm9CanReceiveDamage;
     state.mm9Civilian = actor.mm9Civilian;
     state.mm9Guard = actor.mm9Guard;
+    state.drawScale = actor.drawScale;
     state.uniqueNameId = static_cast<uint32_t>(std::max(0, actor.uniqueNameIndex));
     state.group = actor.group;
     state.ally = actor.ally;
@@ -4311,12 +4315,15 @@ void resetCrowdSteeringState(OutdoorWorldRuntime::MapActorState &actor)
     actor.crowdSideSign = 0;
 }
 
+// facesParty: it turns to the party while it waits (MM8's TurnEngine); an actor on MM9's loop that is not hostile keeps
+// its facing (MM9 never turns an idle actor back).
 bool updateTurnBasedActorWaitingPresentation(
     OutdoorWorldRuntime::MapActorState &actor,
     float partyX,
     float partyY,
     float deltaSeconds,
-    const SpriteFrameTable *pActorSpriteFrameTable)
+    const SpriteFrameTable *pActorSpriteFrameTable,
+    bool facesParty)
 {
     if (actor.isDead || actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead)
     {
@@ -4340,7 +4347,7 @@ bool updateTurnBasedActorWaitingPresentation(
     const float deltaX = partyX - actor.preciseX;
     const float deltaY = partyY - actor.preciseY;
 
-    if (std::abs(deltaX) > 0.01f || std::abs(deltaY) > 0.01f)
+    if (facesParty && (std::abs(deltaX) > 0.01f || std::abs(deltaY) > 0.01f))
     {
         actor.yawRadians = std::atan2(deltaY, deltaX);
     }
@@ -4849,6 +4856,7 @@ bool OutdoorWorldRuntime::attemptOpenChest(uint32_t chestId, bool openedByTeleki
 
     if (!trapResult.trapWasPresent)
     {
+        recordChestOpenedStatistics(m_pParty, mapName(), chestId);
         return true;
     }
 
@@ -4858,6 +4866,11 @@ bool OutdoorWorldRuntime::attemptOpenChest(uint32_t chestId, bool openedByTeleki
     if (trapResult.trapDischarged)
     {
         spawnObjectBurstVisual(visualPoint, trapResult.trapObjectId, trapResult.damageType);
+    }
+
+    if (trapResult.shouldOpenChest)
+    {
+        recordChestOpenedStatistics(m_pParty, mapName(), chestId);
     }
 
     return trapResult.shouldOpenChest;
@@ -4987,7 +5000,7 @@ void OutdoorWorldRuntime::beginOutdoorActorDeath(size_t actorIndex)
 {
     MapActorState &actor = m_mapActors[actorIndex];
     beginDyingState(actor, m_pActorSpriteFrameTable);
-    queueMonsterKilledEvent(actorIndex, actor.monsterId);
+    queueMonsterKilledEvent(actorIndex, actor.monsterId, actor.killedByParty);
     activateOutdoorActorCorpsePhysics(actorIndex);
     spawnMonsterDeathDropsForActor(actorIndex, actor);
 
@@ -8150,7 +8163,8 @@ void OutdoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSecond
             }
 
             if (updateTurnBasedActorWaitingPresentation(
-                    actor, partyX(), partyY(), deltaSeconds, m_pActorSpriteFrameTable))
+                    actor, partyX(), partyY(), deltaSeconds, m_pActorSpriteFrameTable,
+                    actor.hostileToParty || m_actorBehaviors.mm9LoopProfile(actor.monsterId) == nullptr))
             {
                 const MonsterTable::MonsterStatsEntry *pStats =
                     m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
@@ -8269,6 +8283,28 @@ bool OutdoorWorldRuntime::turnBasedActorActionInProgress() const
         });
 }
 
+void OutdoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
+{
+    if (m_pGameplayActorService == nullptr || m_pMonsterTable == nullptr || seconds <= 0.0f)
+    {
+        return;
+    }
+
+    for (MapActorState &actor : m_mapActors)
+    {
+        if (actor.isDead)
+        {
+            continue;
+        }
+
+        GameplayActorSpellEffectState state = buildGameplayActorSpellEffectState(actor);
+        const bool defaultHostileToParty = m_pMonsterTable->isHostileToParty(
+            m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally));
+        m_pGameplayActorService->updateSpellEffectTimers(state, seconds, defaultHostileToParty);
+        applyGameplayActorSpellEffectState(state, actor);
+    }
+}
+
 void OutdoorWorldRuntime::setTurnBasedActorMode(ActorTurnBasedMode mode)
 {
     const bool enteringWait =
@@ -8385,10 +8421,34 @@ void OutdoorWorldRuntime::stopTurnBasedActorMovement()
         + " skipped_terminal=" + std::to_string(skippedTerminalActors));
 }
 
+void OutdoorWorldRuntime::runPendingScriptedActorArrivals()
+{
+    if (!m_eventRuntimeState || m_eventRuntimeState->pendingActorArrivals.empty())
+    {
+        return;
+    }
+
+    std::vector<EventRuntimeState::ScriptedActorArrival> arrivals;
+    arrivals.swap(m_eventRuntimeState->pendingActorArrivals);
+
+    for (const EventRuntimeState::ScriptedActorArrival &arrival : arrivals)
+    {
+        EventRuntimeState::ActiveHookContext hookContext = {};
+        hookContext.actorIndex = arrival.actorIndex;
+        const std::optional<EventRuntimeState::ActiveHookContext> previousHookContext =
+            m_eventRuntimeState->activeHookContext;
+        m_eventRuntimeState->activeHookContext = std::move(hookContext);
+        size_t previousMessageCount = m_eventRuntimeState->messages.size();
+        executeMapEvent(arrival.eventId, previousMessageCount);
+        m_eventRuntimeState->activeHookContext = previousHookContext;
+    }
+}
+
 void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
 {
     updateImmolation(deltaSeconds);
     updateOutdoorTriggerVolumes();
+    runPendingScriptedActorArrivals();
 
     if (m_pOutdoorMapDeltaData != nullptr && m_pPartyRuntime != nullptr)
     {
@@ -9356,6 +9416,12 @@ void OutdoorWorldRuntime::advanceGameMinutesInternal(float minutes)
     {
         m_pParty->setGameMinutes(gameMinutes());
         m_pParty->updateDaysWithoutRest(m_gameMinutes);
+
+        // MM9 hirelings' 28-day wages (MM9 world only: the table is empty elsewhere).
+        if (!m_pParty->hirelings().empty() && m_pParty->mm9HirelingTable() != nullptr)
+        {
+            payMm9HirelingWages(*m_pParty, *m_pParty->mm9HirelingTable());
+        }
     }
 }
 
@@ -10408,6 +10474,8 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         m_pActorSpriteFrameTable, actor, ActorAnimation::Bored, 2.0f);
     facts.runtime.fidgetClips =
         actorFidgetClips(m_pMonsterTable != nullptr ? m_pMonsterTable->actorModels() : nullptr, actor.monsterId);
+    facts.runtime.convClips =
+        actorConvClips(m_pMonsterTable != nullptr ? m_pMonsterTable->actorModels() : nullptr, actor.monsterId);
     facts.runtime.attackCooldownSeconds = actor.attackCooldownSeconds;
     facts.runtime.idleDecisionSeconds = actor.idleDecisionSeconds;
     facts.runtime.actionSeconds = actor.actionSeconds;
@@ -10604,12 +10672,19 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         facts.movement.homeYawRadians =
             static_cast<float>(placement.initialYawUnits % 2048u) * (Pi * 2.0f / 2048.0f);
     }
+    else if (actor.spawnedAtRuntime && !actor.patrolPoints.empty())
+    {
+        // A script's summon walks the patrol it was given (evt.SummonMonstersById patrol).
+        facts.movement.patrolTarget = nextPatrolWaypoint(
+            actor.patrolPoints, m_actorPatrolIndices[actorIndex], actor.preciseX, actor.preciseY);
+    }
 
     // The MM9 placement: a map actor's, or a runtime spawn's own (an arena's mm9_ai, a death spawn's).
     if (const Mm9AiPlacementRecord *pRecord = mm9PlacementRecord(actorIndex))
     {
         facts.movement.mm9Placement = pRecord->settings;
         facts.movement.mm9PathPoints = pRecord->pathPoints;
+        facts.movement.mm9PathStops = pRecord->pathStops;
         facts.movement.mm9HidingPlaces = pRecord->hidingPlaces;
         facts.movement.mm9Spawned = mm9SpawnedWithParam(*pRecord);
     }
@@ -12761,7 +12836,7 @@ void OutdoorWorldRuntime::updateMm9FoundPlayerEvents(
     }
 
     m_mm9FoundPlayerAccumulatorSeconds += std::max(0.0f, deltaSeconds);
-    if (m_mm9FoundPlayerAccumulatorSeconds < Mm9FoundPlayerCheckIntervalSeconds)
+    if (m_mm9FoundPlayerAccumulatorSeconds < Mm9TargetSearchSeconds)
     {
         return;
     }
@@ -12784,22 +12859,33 @@ void OutdoorWorldRuntime::updateMm9FoundPlayerEvents(
             continue;
         }
 
+        // MM9's player search perceives as its target search does: hearing all round, sight in front, a clear line.
+        // A dead or dying actor fires no OnFoundPlayer (object.lto 0x10018380: only OnDeath and OnDeathDone).
         const MapActorState &actor = m_mapActors[actorIndex];
-        const float deltaX = actor.preciseX - partyX;
-        const float deltaY = actor.preciseY - partyY;
-        const float deltaZ = actor.preciseZ - partyZ;
-        if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > Mm9FoundPlayerRangeSquared)
+        if (actor.isDead || actor.currentHp <= 0)
         {
             continue;
         }
 
+        const Mm9AiPlacementRecord *pPlacementRecord = mm9PlacementRecord(actorIndex);
+        const Mm9AiPlacement placement = pPlacementRecord != nullptr ? pPlacementRecord->settings : Mm9AiPlacement{};
         const bx::Vec3 actorEye = {
             actor.preciseX,
             actor.preciseY,
             actor.preciseZ + std::max(32.0f, static_cast<float>(actor.height) * 0.75f),
         };
-        const bx::Vec3 partyEye = {partyX, partyY, partyZ + 96.0f};
-        if (!hasClearOutdoorLineOfSight(actorEye, partyEye))
+        const bx::Vec3 partyCentre = {partyX, partyY, partyZ + 96.0f};
+        const float deltaX = partyCentre.x - actorEye.x;
+        const float deltaY = partyCentre.y - actorEye.y;
+        Mm9PerceptionInput perception = {};
+        perception.distance = bx::length(bx::sub(partyCentre, actorEye));
+        perception.inFront = std::cos(actor.yawRadians) * deltaX + std::sin(actor.yawRadians) * deltaY > 0.0f;
+        perception.sight = placement.sight;
+        perception.hearing = placement.hearing;
+        perception.lineOfSight = perception.distance <= mm9PerceptionRange(placement.sight, placement.hearing, false)
+            && hasClearOutdoorLineOfSight(actorEye, partyCentre);
+
+        if (!mm9Perceives(perception))
         {
             continue;
         }
@@ -12884,6 +12970,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         ActorAiFrameFacts actorAiFacts =
             collectOutdoorActorAiFrameFacts(ActorUpdateStepSeconds, partyX, partyY, partyZ, activeActorMask);
         m_actorBehaviors.applyAiFacts(actorAiFacts);
+
+        if (m_eventRuntimeState)
+        {
+            applyScriptedActorMoves(*m_eventRuntimeState, actorAiFacts);
+            applyScriptedActorTargets(*m_eventRuntimeState, actorAiFacts);
+        }
+
         m_actorModifiers.applyChargeHolds(actorAiFacts);
         m_actorModifiers.applyFrenzies(actorAiFacts);
 
@@ -13070,6 +13163,9 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
     spawnRequest.targetZ = aimZ;
     // A socket (staff head, bow) is already clear of the body; the body origin steps out of the actor's cylinder.
     spawnRequest.spawnForwardOffset = modelSource ? 0.0f : static_cast<float>(actor.radius) + 8.0f;
+    // An attack missile with a burst (missile_blast, MM9's damageRadius) hits everyone around where it strikes.
+    spawnRequest.explosionRadius = missileBlastRadius(
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findModifiers(actor.monsterId) : nullptr, ability);
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         projectileService().spawnProjectile(spawnRequest);
     const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
@@ -13590,9 +13686,12 @@ bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
     {
         facts.targetPartyControlled = m_pGameplayActorService->isPartyControlledActor(
             gameplayActorControlModeFromOutdoor(actor.controlMode));
+        // The map's evt.SetMonsterRelation rows decide, as they do whom the shooter targets.
+        const EventRuntimeState *pRelationEvents = eventRuntimeState();
         facts.sourceMonsterKnown = projectile.sourceMonsterId != 0;
         facts.sourceMonsterFriendlyToTarget = facts.sourceMonsterKnown
-            && m_pGameplayActorService->monsterIdsAreFriendly(projectile.sourceMonsterId, actor.monsterId);
+            && m_pGameplayActorService->monsterIdsAreFriendly(projectile.sourceMonsterId, actor.monsterId,
+                pRelationEvents != nullptr ? &pRelationEvents->monsterRelationOverrides : nullptr);
     }
 
     return projectileService().isProjectileSourceFriendlyToActor(projectile, facts);
@@ -14519,7 +14618,7 @@ void OutdoorWorldRuntime::applyOutdoorDestructibleDeathOutput(const OutdoorDestr
     }
 
     m_pParty->setQuestBit(*rewardQBit, true);
-    m_pParty->grantSharedExperience(receiverIterator->rewardExperience);
+    m_pParty->grantSharedExperience(receiverIterator->rewardExperience, ExperienceReason::Event);
     m_pParty->requestSound(SoundId::Quest);
 }
 
@@ -15433,6 +15532,10 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.projectileId
                     ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
                     ^ static_cast<uint32_t>(std::max(0, impact.damage)));
+                PartyMissileSource missileSource = GameplayProjectileService::partyMissileSource(
+                    projectile, m_pParty, m_pItemTable, *pStats, m_mapActors[impact.actorIndex].currentHp);
+                GameplayProjectileService::addPartyArrowElements(
+                    missileSource, projectile, m_pParty, m_pItemTable, rng);
                 appliedDamage = resolveDamageToMonster(
                     gameRulesFor(m_pParty).combat,
                     impact.damage,
@@ -15442,8 +15545,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     rng,
                     m_mapActors[impact.actorIndex].rulesetFacts,
                     {},
-                    GameplayProjectileService::partyMissileSource(
-                        projectile, m_pParty, m_pItemTable, *pStats, m_mapActors[impact.actorIndex].currentHp));
+                    missileSource);
             }
 
             const int beforeHp = m_mapActors[impact.actorIndex].currentHp;
@@ -15493,6 +15595,82 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                 impact.damage,
                 projectile.sourceId,
                 GameplayProjectileService::projectileShieldTier(projectile));
+        }
+    }
+
+    // A blast (a fireball, an exploding arrow) damages every standing destructible BModel within its radius, as it
+    // damages the actors there; a party's or an event's only, the struck one by its direct hit alone.
+    if (frameResult.areaImpact && m_pOutdoorMapData != nullptr && !m_pOutdoorMapData->destructibles.empty()
+        && projectile.sourceKind != ProjectileState::SourceKind::Actor)
+    {
+        std::optional<uint32_t> directSourceObject;
+
+        if (collision.kind == ProjectileCollisionKind::BModel && collision.faceIndex < m_outdoorFaces.size())
+        {
+            const auto directIterator =
+                m_outdoorDestructibleSourceObjectByBModel.find(m_outdoorFaces[collision.faceIndex].bModelIndex);
+
+            if (directIterator != m_outdoorDestructibleSourceObjectByBModel.end())
+            {
+                directSourceObject = directIterator->second;
+            }
+        }
+
+        std::vector<GameplayProjectileService::ProjectileAreaImpactDestructibleFacts> destructibles;
+
+        for (const OutdoorDestructible &definition : m_pOutdoorMapData->destructibles)
+        {
+            if (!isPartyAttackMeleeBModelTarget(definition.bmodelIndex))
+            {
+                continue;
+            }
+
+            GameplayProjectileService::ProjectileAreaImpactDestructibleFacts fact = {};
+            fact.id = definition.sourceObjectIndex;
+            fact.directImpact = directSourceObject == definition.sourceObjectIndex;
+            bool bounded = false;
+            const auto include = [this, &fact, &bounded](size_t bModelIndex)
+            {
+                if (bModelIndex >= m_pOutdoorMapData->bmodels.size())
+                {
+                    return;
+                }
+
+                const OutdoorBModel &bmodel = m_pOutdoorMapData->bmodels[bModelIndex];
+                const GameplayWorldPoint low = {float(bmodel.minX), float(bmodel.minY), float(bmodel.minZ)};
+                const GameplayWorldPoint high = {float(bmodel.maxX), float(bmodel.maxY), float(bmodel.maxZ)};
+                fact.boundsMin = bounded
+                    ? GameplayWorldPoint{std::min(fact.boundsMin.x, low.x), std::min(fact.boundsMin.y, low.y),
+                        std::min(fact.boundsMin.z, low.z)}
+                    : low;
+                fact.boundsMax = bounded
+                    ? GameplayWorldPoint{std::max(fact.boundsMax.x, high.x), std::max(fact.boundsMax.y, high.y),
+                        std::max(fact.boundsMax.z, high.z)}
+                    : high;
+                bounded = true;
+            };
+            include(definition.bmodelIndex);
+
+            for (const size_t auxiliaryBModelIndex : definition.auxiliaryBmodelIndices)
+            {
+                include(auxiliaryBModelIndex);
+            }
+
+            if (bounded)
+            {
+                destructibles.push_back(fact);
+            }
+        }
+
+        const int nonPartyDamage = projectile.sourceKind == ProjectileState::SourceKind::Party
+            ? 0
+            : resolveProjectilePartyImpactDamage(projectile);
+
+        for (const GameplayProjectileService::ProjectileAreaImpactDestructibleHit &hit :
+            GameplayProjectileService::buildProjectileAreaDestructibleHits(projectile, frameResult.areaImpact->point,
+                frameResult.areaImpact->radius, nonPartyDamage, destructibles))
+        {
+            damageOutdoorDestructible(hit.id, hit.damage);
         }
     }
 
@@ -16368,6 +16546,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.radius = pActor->radius;
     state.height = pActor->height;
     state.bodyHeight = pActor->height;
+    state.drawScale = pActor->drawScale;
     state.isDead = pActor->isDead;
     state.isInvisible = pActor->isInvisible;
     state.hostileToParty = pActor->hostileToParty;
@@ -16443,6 +16622,19 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
         state.scriptedClipSeconds = std::max(0.0f, Mm9TurretAwareSeconds - pActor->mm9.awareSeconds);
     }
 
+    // A path marker's clip (ActorMm9State::markerStop, BaseWander.inc's PlayAnim and LoopAnim) until the next walk.
+    const Mm9AiPlacementRecord *pMarkerRecord = mm9PlacementRecord(actorIndex);
+
+    if (state.scriptedClip.empty() && pActor->mm9.markerStop >= 0 && pMarkerRecord != nullptr
+        && size_t(pActor->mm9.markerStop) < pMarkerRecord->pathStops.size())
+    {
+        const Mm9AiPathStop &stop = pMarkerRecord->pathStops[size_t(pActor->mm9.markerStop)];
+        state.scriptedClip = stop.clip;
+        state.scriptedClipSeconds = pActor->mm9.markerClipSeconds;
+        state.scriptedClipEnd = stop.loop ? GameplayRuntimeActorState::ScriptedClipEnd::Loop
+                                          : GameplayRuntimeActorState::ScriptedClipEnd::Release;
+    }
+
     // An MM9 idle fidget that picked a variant other than the binding's own fidget plays that script clip
     // (actors.yml fidget_variants).
     if (state.scriptedClip.empty() && pActor->mm9.fidgetVariant > 0
@@ -16471,6 +16663,8 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     }
 
     state.emissionMultiplier = m_actorModifiers.emissionMultiplier(actorIndex, pActor->actorId);
+    // A cinematic's (or evt.PlayActorClip's) clip and facing, over all of the above.
+    applyActorPresentation(eventRuntimeState(), actorIndex, state);
 
     return true;
 }
@@ -16498,6 +16692,27 @@ bool OutdoorWorldRuntime::actorRulesView(size_t actorIndex, GameplayActorRulesVi
     view.currentHp = pActor->currentHp;
     view.maxHp = pActor->maxHp;
     view.rulesetFacts = pActor->rulesetFacts;
+    return true;
+}
+
+bool OutdoorWorldRuntime::setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+    actor.canReceiveDamage = canReceiveDamage;
+    actor.usesMm9ActorRules = actor.usesMm9ActorRules || !canReceiveDamage;
+
+    // The placement's record too, so an old save's refresh of the static fields keeps it.
+    if (!actor.spawnedAtRuntime && m_pOutdoorMapDeltaData != nullptr
+        && actorIndex < m_pOutdoorMapDeltaData->actors.size())
+    {
+        m_pOutdoorMapDeltaData->actors[actorIndex].mm9CanReceiveDamage = canReceiveDamage;
+    }
+
     return true;
 }
 
@@ -16542,6 +16757,12 @@ bool OutdoorWorldRuntime::isMapActorHostile(size_t actorIndex) const
 {
     const MapActorState *pActor = mapActorState(actorIndex);
     return pActor != nullptr && pActor->hostileToParty;
+}
+
+bool OutdoorWorldRuntime::isMapActorDead(size_t actorIndex) const
+{
+    const MapActorState *pActor = mapActorState(actorIndex);
+    return pActor != nullptr && (pActor->isDead || pActor->currentHp <= 0);
 }
 
 bool OutdoorWorldRuntime::isMapActorWithinPartyDistance(size_t actorIndex, float distance) const
@@ -16896,7 +17117,7 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
     {
         if (m_pInteractionView != nullptr)
         {
-            m_pInteractionView->setStatusBarEvent("You need Stealing skill.");
+            m_pInteractionView->setStatusBarEvent(Engine::tr("You need Stealing skill."));
         }
 
         return true;
@@ -16906,14 +17127,14 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
     {
         if (m_pInteractionView != nullptr)
         {
-            const char *pStatusText = stealResult.outcome == StealingOutcomeKind::TooFar
-                ? "Too far away."
+            const std::string statusText = stealResult.outcome == StealingOutcomeKind::TooFar
+                ? Engine::tr("Too far away.")
                 : stealResult.outcome == StealingOutcomeKind::NothingToSteal
-                    ? "Nothing to steal."
+                    ? Engine::tr("Nothing to steal.")
                     : stealResult.caught
-                        ? "Caught stealing!"
-                        : "Failed to steal.";
-            m_pInteractionView->setStatusBarEvent(pStatusText);
+                        ? Engine::tr("Caught stealing!")
+                        : Engine::tr("Failed to steal.");
+            m_pInteractionView->setStatusBarEvent(statusText);
         }
 
         return true;
@@ -16935,7 +17156,8 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
 
         if (m_pInteractionView != nullptr)
         {
-            m_pInteractionView->setStatusBarEvent("You found " + std::to_string(std::max(0, stolenGold)) + " gold!");
+            m_pInteractionView->setStatusBarEvent(
+                Engine::tr("You found {gold} gold!", {{"gold", std::max(0, stolenGold)}}));
         }
 
         return true;
@@ -16967,7 +17189,7 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
     {
         if (m_pInteractionView != nullptr)
         {
-            m_pInteractionView->setStatusBarEvent("Pack is Full!");
+            m_pInteractionView->setStatusBarEvent(Engine::tr("Pack is Full!"));
         }
 
         return true;
@@ -16980,8 +17202,8 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
         const ItemDefinition *pDefinition =
             m_pItemTable != nullptr ? m_pItemTable->get(inventoryItem.objectDescriptionId) : nullptr;
         const std::string itemName =
-            pDefinition != nullptr ? ItemRuntime::foundItemName(*pDefinition) : "item";
-        m_pInteractionView->setStatusBarEvent("You found an item (" + itemName + ")!");
+            pDefinition != nullptr ? ItemRuntime::foundItemName(*pDefinition) : Engine::tr("item");
+        m_pInteractionView->setStatusBarEvent(Engine::tr("You found an item ({item})!", {{"item", itemName}}));
     }
 
     return true;
@@ -17718,8 +17940,11 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
             m_actorCorpsePhysicsActorIndices.end());
     }
 
+    const bool killedByParty = actor.killedByParty;
+
     if (!wasDead && isDead && m_pMonsterTable != nullptr)
     {
+        recordMonsterDeathStatistics(party(), m_pMonsterTable, actor.monsterId, actor.killedByParty);
         markRuntimeBountyHuntMonsterKilled(
             *this, actor.monsterId, m_pMonsterTable, actor.rulesetFacts, actor.killedByParty);
         actor.killedByParty = false;
@@ -17753,17 +17978,17 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
     if (wasAlive && isDead)
     {
-        queueMonsterKilledEvent(actorIndex, actor.monsterId);
+        queueMonsterKilledEvent(actorIndex, actor.monsterId, killedByParty);
     }
 
     return true;
 }
 
-void OutdoorWorldRuntime::queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId)
+void OutdoorWorldRuntime::queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId, bool byParty)
 {
     if (m_monsterKilledHooksEnabled && monsterId > 0)
     {
-        m_pendingMonsterKilledEvents.push_back({uint32_t(actorIndex), uint32_t(monsterId)});
+        m_pendingMonsterKilledEvents.push_back({uint32_t(actorIndex), uint32_t(monsterId), byParty});
     }
 }
 
@@ -18653,7 +18878,19 @@ bool OutdoorWorldRuntime::applyPartyAttackMeleeBModelDamage(size_t bModelIndex, 
 
 bool OutdoorWorldRuntime::isPartyAttackMeleeBModelTarget(size_t bModelIndex) const
 {
-    return isOutdoorDestructibleBModel(bModelIndex);
+    // Standing and taking damage (damageOutdoorDestructible's conditions).
+    const auto destructibleIterator = m_outdoorDestructibleSourceObjectByBModel.find(bModelIndex);
+
+    if (destructibleIterator == m_outdoorDestructibleSourceObjectByBModel.end() || m_pOutdoorMapData == nullptr)
+    {
+        return false;
+    }
+
+    const auto definitionIterator = m_outdoorDestructibleDefinitionBySourceObject.find(destructibleIterator->second);
+    const RuntimeDestructibleState *pState = outdoorDestructibleState(destructibleIterator->second);
+    return definitionIterator != m_outdoorDestructibleDefinitionBySourceObject.end()
+        && !m_pOutdoorMapData->destructibles[definitionIterator->second].triggerDestroyOnly
+        && pState != nullptr && !pState->destroyed && pState->damageEnabled;
 }
 
 bool OutdoorWorldRuntime::isOutdoorDestructibleBModel(size_t bModelIndex) const
@@ -19852,6 +20089,18 @@ bool OutdoorWorldRuntime::notifyPartyContactWithMapActor(size_t actorIndex, floa
     }
 
     return faceMapActorTowardPoint(actorIndex, partyX, partyY);
+}
+
+bool OutdoorWorldRuntime::mapActorBlocksPartyMovement(const MapActorState &actor) const
+{
+    if (m_pGameplayActorService == nullptr)
+    {
+        return actor.hostileToParty;
+    }
+
+    return m_pGameplayActorService->actorBlocksPartyMovement(
+        actor.hostileToParty,
+        gameplayActorControlModeFromOutdoor(actor.controlMode));
 }
 
 size_t OutdoorWorldRuntime::spawnPointCount() const
@@ -21304,6 +21553,7 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
         actor.specialItemId = request.carriedItemId;
         actor.proceduralDeathLoot = request.dropsLoot;
         actor.mm9Ai = request.mm9Ai;
+        actor.patrolPoints = request.patrolPoints;
 
         // An MM9 spawn with a placement starts dormant as its placement or its row says, as indoors.
         if (const Mm9AiProfile *pMm9Row = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
@@ -21823,6 +22073,33 @@ MapDeltaData *OutdoorWorldRuntime::mapDeltaData()
     return m_pOutdoorMapDeltaData;
 }
 
+std::optional<uint32_t> OutdoorWorldRuntime::decorationSpriteKeyForScriptEvent(uint16_t eventId) const
+{
+    if (m_pOutdoorMapData == nullptr || eventId == 0)
+    {
+        return std::nullopt;
+    }
+
+    std::optional<uint32_t> key;
+
+    for (size_t entityIndex = 0; entityIndex < m_pOutdoorMapData->entities.size(); ++entityIndex)
+    {
+        if (m_pOutdoorMapData->entities[entityIndex].scriptEventId() != eventId)
+        {
+            continue;
+        }
+
+        if (key)
+        {
+            return std::nullopt;
+        }
+
+        key = m_pOutdoorMapData->entities[entityIndex].spriteOverrideKey(entityIndex);
+    }
+
+    return key;
+}
+
 bool OutdoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn)
 {
     if (cogNumber == 0 || m_pOutdoorMapData == nullptr || m_pOutdoorMapDeltaData == nullptr)
@@ -22164,6 +22441,70 @@ bool OutdoorWorldRuntime::wakeMapActors(std::optional<size_t> actorIndex, uint32
     return wokeAny;
 }
 
+bool OutdoorWorldRuntime::setMapActorImmobile(size_t actorIndex, bool immobile)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (m_pOutdoorMapDeltaData != nullptr && actorIndex < m_pOutdoorMapDeltaData->actors.size())
+    {
+        m_pOutdoorMapDeltaData->actors[actorIndex].immobile = immobile;
+    }
+
+    // The runtime state also holds the row's own stillness (MM8's Immobile kind, a Stationary monster): it stays.
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+    const bool rowImmobile = pStats != nullptr
+        && (pStats->hasKind(MonsterKind::Immobile)
+            || pStats->movementType == MonsterTable::MonsterMovementType::Stationary);
+    actor.immobile = immobile || rowImmobile;
+    return true;
+}
+
+bool OutdoorWorldRuntime::setMapActorTarget(size_t actorIndex, std::optional<size_t> targetActorIndex)
+{
+    if (!m_eventRuntimeState)
+    {
+        return false;
+    }
+
+    const auto living = [this](size_t index)
+    {
+        return index < m_mapActors.size() && !m_mapActors[index].isDead && m_mapActors[index].currentHp > 0;
+    };
+    const bool mm9Loop = living(actorIndex)
+        && m_actorBehaviors.mm9LoopProfile(m_mapActors[actorIndex].monsterId, m_mapActors[actorIndex].mm9Civilian)
+            != nullptr;
+
+    if (!living(actorIndex) || (targetActorIndex && (*targetActorIndex == actorIndex || !living(*targetActorIndex)
+        || !mm9Loop)))
+    {
+        return false;
+    }
+
+    wakeMapActors(actorIndex, 0);
+
+    if (!targetActorIndex)
+    {
+        setMapActorHostileToParty(actorIndex, partyX(), partyY(), partyFootZ(), false);
+        MapActorState &actor = m_mapActors[actorIndex];
+        actor.hasDetectedParty = true;
+        actor.hostilityType = std::max<uint8_t>(actor.hostilityType, 4);
+    }
+
+    if (mm9Loop)
+    {
+        m_eventRuntimeState->scriptedActorTargets[uint32_t(actorIndex)] = {
+            targetActorIndex ? std::optional<uint32_t>(uint32_t(*targetActorIndex)) : std::nullopt};
+    }
+
+    return true;
+}
+
 bool OutdoorWorldRuntime::turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds)
 {
     bool turnedAny = false;
@@ -22378,13 +22719,13 @@ bool OutdoorWorldRuntime::tryStartArmageddon(
 
     if (m_pParty == nullptr)
     {
-        failureText = "Spell failed";
+        failureText = Engine::tr("Spell failed");
         return false;
     }
 
     if (isArmageddonActive())
     {
-        failureText = "Armageddon already active";
+        failureText = Engine::tr("Armageddon already active");
         return false;
     }
 
@@ -22392,7 +22733,7 @@ bool OutdoorWorldRuntime::tryStartArmageddon(
 
     if (pCaster == nullptr)
     {
-        failureText = "Spell failed";
+        failureText = Engine::tr("Spell failed");
         return false;
     }
 
@@ -22400,7 +22741,7 @@ bool OutdoorWorldRuntime::tryStartArmageddon(
 
     if (pCaster->armageddonCastsToday >= castLimit)
     {
-        failureText = "No Armageddon casts left today";
+        failureText = Engine::tr("No Armageddon casts left today");
         return false;
     }
 

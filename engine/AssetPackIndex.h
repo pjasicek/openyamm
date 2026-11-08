@@ -20,6 +20,9 @@ struct AssetPackRecord
     uint64_t size = 0;
     std::string contentId;
     std::string sha256;
+    // Set on the fonts, sounds and videos of a language pack (devdocs/LOCALIZATION.md): mounted only while that is
+    // the interface language, and optional: downloaded only for a language the player chose.
+    std::string language;
 };
 
 // The installed content: assets/index.json, written by the packager and the updater.
@@ -50,6 +53,13 @@ std::optional<AssetPackIndex> loadAssetPackIndex(const std::filesystem::path &pa
 bool validateAssetPackFiles(const AssetPackIndex &index, const std::filesystem::path &storeRoot, std::string &error);
 // Every pack file exists in the store, whatever its size.
 bool assetPackFilesExist(const AssetPackIndex &index, const std::filesystem::path &storeRoot, std::string &error);
+// (Both skip a language's packs that are not installed: they are optional.)
+
+// The languages an index has optional packs for, sorted.
+std::vector<std::string> assetPackLanguages(const AssetPackIndex &index);
+// The bytes of a language's packs missing from the store: 0 when it is installed (or has no packs).
+uint64_t missingLanguagePackBytes(const AssetPackIndex &index, const std::filesystem::path &storeRoot,
+                                  const std::string &language);
 
 // How the content of a release installation is mounted; changing the game's files is described in
 // packaging/MODDING.md.
@@ -59,5 +69,11 @@ struct InstalledContentOptions
     std::filesystem::path modsRoot;
     // [updates] keep_modified_packs: a pack whose size differs from the index is mounted anyway.
     bool acceptModifiedPacks = false;
+    // The interface language (devdocs/LOCALIZATION.md), on every asset root: the fonts/, audio/ and videos/ folders of
+    // its pack languages/<id>/ (engine/ and worlds/<id>/, as in mods/) mount in front of the game's, behind mods.
+    // Empty or "en": none.
+    std::string languageId;
+    // <user data>/languages: the player's own language packs, mounted at languages/ in front of the shipped ones.
+    std::filesystem::path userLanguagesRoot;
 };
 }

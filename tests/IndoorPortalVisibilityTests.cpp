@@ -817,6 +817,32 @@ TEST_CASE("cd3 actor detection crosses diagonal sliver sector without portal bac
     CHECK_EQ(partyToActorTrace.sectorIds, std::vector<int16_t>{PartySectorId, SliverSectorId, ActorSectorId});
 }
 
+TEST_CASE("indoor portal line traces take an end just past a doorway as in the sector it came from")
+{
+    // Sector 0 below x 100, sector 1 beyond. The sector lookup gives a point a unit past a doorway the sector it came
+    // from (Thronheim City's Desert Terror, 2026-11-08: its strafe left it at x 8705 of a doorway at 8704, still
+    // sector 2, and no line from or to it reached the guard 72 units on in sector 4).
+    IndoorMapData mapData = {};
+    mapData.sectors.resize(2);
+    addPortalFace(mapData, 0, 1, 100, -40, 40, -40, 40);
+    IndoorFaceGeometryCache geometryCache(mapData.faces.size());
+    const auto trace = [&](const bx::Vec3 &from, int16_t fromSector, const bx::Vec3 &to, int16_t toSector)
+    {
+        return traceIndoorLineThroughPortalSectors(mapData, mapData.vertices, geometryCache, from, fromSector, to,
+            toSector, 30).reachedTargetSector;
+    };
+
+    CHECK(trace({50.0f, 0.0f, 0.0f}, 0, {180.0f, 0.0f, 0.0f}, 1));
+    // a start of sector 0 a unit past the doorway, and the same point as the end of a line from sector 1
+    CHECK(trace({101.0f, 0.0f, 0.0f}, 0, {180.0f, 0.0f, 0.0f}, 1));
+    CHECK(trace({180.0f, 0.0f, 0.0f}, 1, {101.0f, 0.0f, 0.0f}, 0));
+    // farther past than the lookup ever takes a point (8 units): a wrong sector, no line
+    CHECK_FALSE(trace({120.0f, 0.0f, 0.0f}, 0, {180.0f, 0.0f, 0.0f}, 1));
+    CHECK_FALSE(trace({180.0f, 0.0f, 0.0f}, 1, {120.0f, 0.0f, 0.0f}, 0));
+    // past the doorway but beside it (outside the opening): no line
+    CHECK_FALSE(trace({101.0f, 60.0f, 0.0f}, 0, {180.0f, 60.0f, 0.0f}, 1));
+}
+
 TEST_CASE("indoor portal visibility does not traverse portal faces missing from sector portal lists")
 {
     IndoorMapData mapData = {};
@@ -834,6 +860,51 @@ TEST_CASE("indoor portal visibility does not traverse portal faces missing from 
     CHECK_EQ(result.visibleSectorMask[0], 1);
     CHECK_EQ(result.visibleSectorMask[1], 0);
     CHECK_EQ(result.acceptedPortalCount, 0);
+}
+
+TEST_CASE("indoor portal visibility opens the whole view through a dropped portal beside the camera")
+{
+    IndoorMapData mapData = {};
+    mapData.sectors.resize(2);
+    const uint16_t faceId = addPortalFace(mapData, 0, 1, 100, -40, 40, -40, 40);
+
+    // The camera's sector is 0 (the floor under it), but it stands 24 units past the portal, looking away from it:
+    // the portal faces away and would be dropped, and sector 1, where the camera really is, would not be drawn.
+    IndoorPortalVisibilityInput input = makeVisibilityInput(mapData);
+    input.collectPortalTraces = true;
+    input.nearPortalReach = 96.0f;
+    input.cameraPosition = {124.0f, 0.0f, 0.0f};
+    input.cameraForward = {1.0f, 0.0f, 0.0f};
+    const IndoorPortalVisibilityResult past = buildIndoorPortalVisibility(input);
+    CHECK_EQ(past.visibleSectorMask[1], 1);
+    REQUIRE_EQ(past.frustumsBySector[1].size(), 1);
+    CHECK(sphereIntersectsAnyFrustum({400.0f, 100.0f, 0.0f}, 8.0f, past.frustumsBySector[1]));
+
+    // Beside the portal on its own side, looking along the wall: the portal is out of view but within reach.
+    input.cameraPosition = {60.0f, 0.0f, 0.0f};
+    input.cameraForward = {0.0f, 1.0f, 0.0f};
+    CHECK_EQ(buildIndoorPortalVisibility(input).visibleSectorMask[1], 1);
+
+    // Farther than the reach, the portal is dropped as before; and with no reach (every MM6-MM8 map) MM8's rule only.
+    input.cameraPosition = {300.0f, 0.0f, 0.0f};
+    input.cameraForward = {1.0f, 0.0f, 0.0f};
+    const IndoorPortalVisibilityResult far = buildIndoorPortalVisibility(input);
+    CHECK_EQ(far.visibleSectorMask[1], 0);
+    CHECK(findPortalTraceForFace(far, faceId, "portal_facing") != nullptr);
+    input.cameraPosition = {124.0f, 0.0f, 0.0f};
+    input.nearPortalReach = 0.0f;
+    CHECK_EQ(buildIndoorPortalVisibility(input).visibleSectorMask[1], 0);
+
+    // Deeper: a second portal 10 units past the first, the camera between them looking away: sector 1 opens by MM8's
+    // rule, and its portal to sector 2, edge-on behind the camera, passes on the view it is reached through.
+    mapData.sectors.resize(3);
+    addPortalFace(mapData, 1, 2, 110, -40, 40, -40, 40);
+    input.nearPortalReach = 96.0f;
+    input.cameraPosition = {104.0f, 0.0f, 0.0f};
+    input.cameraForward = {-1.0f, 0.0f, 0.0f};
+    const IndoorPortalVisibilityResult deeper = buildIndoorPortalVisibility(input);
+    CHECK_EQ(deeper.visibleSectorMask[1], 1);
+    CHECK_EQ(deeper.visibleSectorMask[2], 1);
 }
 
 TEST_CASE("indoor portal visibility carries narrowed portal frustum into child sectors")

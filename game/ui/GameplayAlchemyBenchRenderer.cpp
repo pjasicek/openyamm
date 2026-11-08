@@ -1,4 +1,5 @@
 #include "game/ui/GameplayAlchemyBenchRenderer.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -28,7 +29,7 @@ using Rect = GameplayResolvedHudLayoutElement;
 std::string itemName(const ItemTable &itemTable, uint32_t itemId)
 {
     const ItemDefinition *pDefinition = itemTable.get(itemId);
-    return pDefinition != nullptr ? pDefinition->name : "";
+    return pDefinition != nullptr ? Engine::localize(pDefinition->name) : "";
 }
 
 std::string statusHeadline(const GameplayAlchemyBenchModel &model)
@@ -36,17 +37,17 @@ std::string statusHeadline(const GameplayAlchemyBenchModel &model)
     switch (model.preview.outcome)
     {
         case AlchemyPreviewOutcome::Incomplete:
-            return "Choose two ingredients or a recipe.";
+            return Engine::tr("Choose two ingredients or a recipe.");
         case AlchemyPreviewOutcome::MissingIngredient:
-            return "Not enough ingredients.";
+            return Engine::tr("Not enough ingredients.");
         case AlchemyPreviewOutcome::Unknown:
-            return "Untried mixture";
+            return Engine::tr("Untried mixture");
         case AlchemyPreviewOutcome::Known:
-            return "Known recipe";
+            return Engine::tr("Known recipe");
         case AlchemyPreviewOutcome::TooDifficult:
-            return "Too difficult";
+            return Engine::tr("Too difficult");
         case AlchemyPreviewOutcome::KnownExplosive:
-            return "Known to explode";
+            return Engine::tr("Known to explode");
     }
 
     return "";
@@ -54,45 +55,50 @@ std::string statusHeadline(const GameplayAlchemyBenchModel &model)
 
 std::string statusBody(const GameplayAlchemyBenchModel &model)
 {
-    const std::string alchemist = model.alchemistName.empty() ? "Nobody in the party" : model.alchemistName;
+    const std::string alchemist = model.alchemistName.empty() ? Engine::tr("Nobody in the party") : model.alchemistName;
     const std::string mastery = model.alchemist.mastery == SkillMastery::None
-        ? "no Alchemy skill"
+        ? Engine::tr("no Alchemy skill")
         : GameplayAlchemyBenchView::masteryName(static_cast<uint8_t>(model.alchemist.mastery));
 
     switch (model.preview.outcome)
     {
         case AlchemyPreviewOutcome::Unknown:
             return model.alchemist.mastery == SkillMastery::None
-                ? "Potions that clash explode, and without Alchemy skill so does any real recipe."
-                : "Potions that clash explode, and so does a recipe beyond " + mastery + " Alchemy.";
+                ? Engine::tr("Potions that clash explode, and without Alchemy skill so does any real recipe.")
+                : Engine::tr("Potions that clash explode, and so does a recipe beyond {mastery} Alchemy.",
+                    {{"mastery", mastery}});
         case AlchemyPreviewOutcome::Known:
         {
             std::string body = model.preview.requiredMastery > 1
-                ? "Needs " + GameplayAlchemyBenchView::masteryName(model.preview.requiredMastery)
-                    + " Alchemy. Safe for " + alchemist + "."
-                : "Safe to mix.";
+                ? Engine::tr("Needs {mastery} Alchemy. Safe for {alchemist}.",
+                    {{"mastery", GameplayAlchemyBenchView::masteryName(model.preview.requiredMastery)},
+                        {"alchemist", alchemist}})
+                : Engine::tr("Safe to mix.");
             if (model.preview.returnsBottle)
             {
-                body += " The empty bottle is returned.";
+                body += " " + Engine::tr("The empty bottle is returned.");
             }
 
             if (model.preview.charges > 1)
             {
-                body += " " + std::to_string(model.preview.charges) + " drinks.";
+                body += " " + Engine::trn("{count} drink.", "{count} drinks.", uint64_t(model.preview.charges),
+                    {{"count", int64_t(model.preview.charges)}});
             }
 
             if (model.preview.resultPower < model.preview.minimumPower)
             {
-                body += " Works from power " + std::to_string(model.preview.minimumPower) + ".";
+                body += " " + Engine::tr("Works from power {power}.", {{"power", int64_t(model.preview.minimumPower)}});
             }
 
             return body;
         }
         case AlchemyPreviewOutcome::TooDifficult:
-            return "Needs " + GameplayAlchemyBenchView::masteryName(model.preview.requiredMastery) + " Alchemy; "
-                + alchemist + " has " + mastery + ".";
+            return Engine::tr("Needs {mastery} Alchemy; {alchemist} has {current}.",
+                {{"mastery", GameplayAlchemyBenchView::masteryName(model.preview.requiredMastery)},
+                    {"alchemist", alchemist}, {"current", mastery}});
         case AlchemyPreviewOutcome::KnownExplosive:
-            return "This mixture blew up before, and " + alchemist + " would fail it again.";
+            return Engine::tr("This mixture blew up before, and {alchemist} would fail it again.",
+                {{"alchemist", alchemist}});
         default:
             return "";
     }
@@ -104,7 +110,9 @@ std::string countList(const std::vector<AlchemyItemCount> &counts, const ItemTab
 
     for (const AlchemyItemCount &count : counts)
     {
-        list += (list.empty() ? "" : ", ") + std::to_string(count.count) + " " + itemName(itemTable, count.itemId);
+        list += (list.empty() ? "" : Engine::tr(", "))
+            + Engine::tr("{count} {item}",
+                {{"count", int64_t(count.count)}, {"item", itemName(itemTable, count.itemId)}});
     }
 
     return list;
@@ -116,11 +124,11 @@ std::string chainBody(const GameplayAlchemyBenchModel &model, const ItemTable &i
 
     if (model.chainMode)
     {
-        std::string body = "Uses: " + countList(chain.used, itemTable) + ".";
+        std::string body = Engine::tr("Uses: {items}.", {{"items", countList(chain.used, itemTable)}});
 
         if (!chain.brewedFirst.empty())
         {
-            body += " Brews first: " + countList(chain.brewedFirst, itemTable) + ".";
+            body += " " + Engine::tr("Brews first: {items}.", {{"items", countList(chain.brewedFirst, itemTable)}});
         }
 
         return body;
@@ -131,11 +139,11 @@ std::string chainBody(const GameplayAlchemyBenchModel &model, const ItemTable &i
     switch (chain.block)
     {
         case AlchemyChainBlock::MissingBottle:
-            return "No empty bottle left to fill.";
+            return Engine::tr("No empty bottle left to fill.");
         case AlchemyChainBlock::MissingReagent:
-            return "Missing a reagent for " + name + ".";
+            return Engine::tr("Missing a reagent for {potion}.", {{"potion", name}});
         case AlchemyChainBlock::UnknownRecipe:
-            return "Unknown step: the " + name + " recipe.";
+            return Engine::tr("Unknown step: the {potion} recipe.", {{"potion", name}});
         case AlchemyChainBlock::NeedsMastery:
         {
             const auto entry = std::find_if(model.book.entries.begin(), model.book.entries.end(),
@@ -143,16 +151,16 @@ std::string chainBody(const GameplayAlchemyBenchModel &model, const ItemTable &i
                 {
                     return candidate.resultItemId == chain.blockItemId;
                 });
-            return name + " needs "
-                + (entry != model.book.entries.end()
-                    ? GameplayAlchemyBenchView::masteryName(entry->requiredMastery) : std::string("more"))
-                + " Alchemy.";
+            return entry != model.book.entries.end()
+                ? Engine::tr("{potion} needs {mastery} Alchemy.",
+                    {{"potion", name}, {"mastery", GameplayAlchemyBenchView::masteryName(entry->requiredMastery)}})
+                : Engine::tr("{potion} needs more Alchemy.", {{"potion", name}});
         }
         case AlchemyChainBlock::None:
             break;
     }
 
-    return "Not enough ingredients.";
+    return Engine::tr("Not enough ingredients.");
 }
 
 uint32_t statusColor(AlchemyPreviewOutcome outcome)
@@ -206,12 +214,12 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
 
     // With crafting the bench is the Workbench, with its Alchemy and Crafting tabs.
     const bool workbench = GameplayCraftingBenchView::available(context);
-    painter.label("AlchemyBenchTitle", workbench ? "Workbench" : "Alchemy Bench");
+    painter.label("AlchemyBenchTitle", Engine::tr(workbench ? "Workbench" : "Alchemy Bench"));
 
     if (workbench)
     {
-        painter.button("WorkbenchTabAlchemy", "Alchemy", true, !state.craftingTab);
-        painter.button("WorkbenchTabCrafting", "Crafting", true, state.craftingTab);
+        painter.button("WorkbenchTabAlchemy", Engine::tr("Alchemy"), true, !state.craftingTab);
+        painter.button("WorkbenchTabCrafting", Engine::tr("Crafting"), true, state.craftingTab);
 
         if (state.craftingTab)
         {
@@ -220,11 +228,11 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
         }
     }
 
-    painter.label("AlchemyBenchRecipeHeader", "Recipes");
-    painter.label("AlchemyBenchRecipeCount", std::to_string(model->book.entries.size()) + " / "
-        + std::to_string(model->book.totalResultCount) + " known");
-    painter.chip("AlchemyBenchRecipeFilterBrewable", "Can brew", !state.showAllRecipes);
-    painter.chip("AlchemyBenchRecipeFilterAll", "All known", state.showAllRecipes);
+    painter.label("AlchemyBenchRecipeHeader", Engine::tr("Recipes"));
+    painter.label("AlchemyBenchRecipeCount", Engine::tr("{known} / {total} known",
+        {{"known", int64_t(model->book.entries.size())}, {"total", int64_t(model->book.totalResultCount)}}));
+    painter.chip("AlchemyBenchRecipeFilterBrewable", Engine::tr("Can brew"), !state.showAllRecipes);
+    painter.chip("AlchemyBenchRecipeFilterAll", Engine::tr("All known"), state.showAllRecipes);
 
     if (const std::optional<Rect> search = painter.rect("AlchemyBenchRecipeSearch"))
     {
@@ -237,7 +245,7 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
 
         if (state.recipeSearch.empty() && !state.recipeSearchActive)
         {
-            painter.text("AlchemyBenchRecipeSearch", *search, "Search recipes", DisabledTextColor);
+            painter.text("AlchemyBenchRecipeSearch", *search, Engine::tr("Search recipes"), DisabledTextColor);
         }
         else
         {
@@ -306,7 +314,7 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
                 != state.newRecipeResultIds.end())
             {
                 painter.text("AlchemyBenchRowCount", {area.x, area.y + 3 * s, area.width - 24 * s, area.height, s},
-                    "NEW", GameplayUiSkin::Gold);
+                    Engine::tr("NEW"), GameplayUiSkin::Gold);
             }
             painter.text("AlchemyBenchRowCount", {area.x, area.y + 3 * s, area.width - 4 * s, area.height, s},
                 count, color);
@@ -316,7 +324,8 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
         {
             painter.text("AlchemyBenchSlotNameLabel", {list->x, list->y + 10 * list->scale, list->width,
                 12 * list->scale, list->scale},
-                state.showAllRecipes ? "No recipes known yet." : "Nothing to brew yet.", DimTextColor);
+                state.showAllRecipes ? Engine::tr("No recipes known yet.") : Engine::tr("Nothing to brew yet."),
+                DimTextColor);
         }
 
         const float visibleHeight = list->height / list->scale - 2 * GameplayAlchemyBenchView::RecipeListPadding;
@@ -328,18 +337,20 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
     const bool previewNamesResult =
         preview.outcome == AlchemyPreviewOutcome::Known || preview.outcome == AlchemyPreviewOutcome::TooDifficult;
     painter.label("AlchemyBenchMixHeader", previewNamesResult
-        ? "Mix: " + itemName(*pItemTable, preview.resultItemId)
-        : preview.outcome == AlchemyPreviewOutcome::Unknown ? "Experiment" : "Mix");
+        ? Engine::tr("Mix: {potion}", {{"potion", itemName(*pItemTable, preview.resultItemId)}})
+        : Engine::tr(preview.outcome == AlchemyPreviewOutcome::Unknown ? "Experiment" : "Mix"));
 
     if (model->alchemistName.empty())
     {
-        painter.label("AlchemyBenchAlchemistLabel", "No alchemist: only bottle and reagent mixes are safe.");
+        painter.label("AlchemyBenchAlchemistLabel",
+            Engine::tr("No alchemist: only bottle and reagent mixes are safe."));
     }
     else
     {
-        painter.label("AlchemyBenchAlchemistLabel", "Alchemist: " + model->alchemistName + " - "
-            + GameplayAlchemyBenchView::masteryName(static_cast<uint8_t>(model->alchemist.mastery)) + " "
-            + std::to_string(model->alchemist.level) + " (best in party)");
+        painter.label("AlchemyBenchAlchemistLabel", Engine::tr("Alchemist: {name} - {mastery} {level} (best in party)",
+            {{"name", model->alchemistName},
+            {"mastery", GameplayAlchemyBenchView::masteryName(static_cast<uint8_t>(model->alchemist.mastery))},
+            {"level", int64_t(model->alchemist.level)}}));
     }
 
     const GameplayOverlayInteractionState &interaction = context.interactionState();
@@ -404,7 +415,8 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
                 && power > 0;
             const bool brewedFirst = missing && model->chainMode;
             painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
-                brewedFirst ? "brewed first" : missing ? "missing" : powerKnown ? "power " + std::to_string(power) : "",
+                brewedFirst ? Engine::tr("brewed first") : missing ? Engine::tr("missing")
+                : powerKnown ? Engine::tr("power {power}", {{"power", int64_t(power)}}) : "",
                 brewedFirst ? GameplayUiSkin::Gold : missing ? GameplayUiSkin::Penalty : DimTextColor);
         };
 
@@ -427,9 +439,9 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             painter.well(*resultSlot, GameplayUiSkin::Penalty);
             painter.fill(banner, 0xa0000000u);
             painter.text("AlchemyBenchSlotNameLabel", {banner.x, banner.y + s, banner.width, banner.height, s},
-                "Exploded!", GameplayUiSkin::Penalty);
+                Engine::tr("Exploded!"), GameplayUiSkin::Penalty);
             painter.text("AlchemyBenchPlusLabel", *resultSlot, "!", GameplayUiSkin::Penalty);
-            painter.text("AlchemyBenchSlotNameLabel", nameArea, "Exploded", GameplayUiSkin::Penalty);
+            painter.text("AlchemyBenchSlotNameLabel", nameArea, Engine::tr("Exploded"), GameplayUiSkin::Penalty);
         }
         else if (state.brewedItemId != 0)
         {
@@ -445,15 +457,17 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             }
 
             painter.fill(banner, 0xa0000000u);
-            const std::string bannerText = state.brewedDiscovery ? "New recipe!"
-                : state.brewedCount > 1 ? "Brewed x" + std::to_string(state.brewedCount) : "Brewed";
+            const std::string bannerText = state.brewedDiscovery ? Engine::tr("New recipe!")
+                : state.brewedCount > 1 ? Engine::tr("Brewed x{count}", {{"count", int64_t(state.brewedCount)}})
+                : Engine::tr("Brewed");
             painter.text("AlchemyBenchSlotNameLabel", {banner.x, banner.y + s, banner.width, banner.height, s},
                 bannerText, GameplayUiSkin::Gold);
             painter.itemIcon(pItemTable->get(state.brewedItemId), bannerIconBox);
             addInspectable(state.brewedItemId, state.brewedPower, *resultSlot);
             painter.text("AlchemyBenchSlotNameLabel", nameArea, itemName(*pItemTable, state.brewedItemId));
             painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
-                state.brewedPower > 0 ? "power " + std::to_string(state.brewedPower) : "", DimTextColor);
+                state.brewedPower > 0 ? Engine::tr("power {power}",
+                    {{"power", int64_t(state.brewedPower)}}) : "", DimTextColor);
         }
         else if (model->chainMode)
         {
@@ -461,12 +475,13 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             painter.well(*resultSlot, SelectedBorderColor);
             painter.fill(banner, 0xa0000000u);
             painter.text("AlchemyBenchSlotNameLabel", {banner.x, banner.y + s, banner.width, banner.height, s},
-                "Chain", GameplayUiSkin::Gold);
+                Engine::tr("Chain"), GameplayUiSkin::Gold);
             painter.itemIcon(pItemTable->get(chainResultItemId), bannerIconBox);
             addInspectable(chainResultItemId, model->chain->resultPower, *resultSlot);
             painter.text("AlchemyBenchSlotNameLabel", nameArea, itemName(*pItemTable, chainResultItemId));
             painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
-                model->chain->resultPower > 0 ? "power ~" + std::to_string(model->chain->resultPower) : "",
+                model->chain->resultPower > 0
+                    ? Engine::tr("power ~{power}", {{"power", int64_t(model->chain->resultPower)}}) : "",
                 DimTextColor);
         }
         else if (previewNamesResult)
@@ -483,21 +498,24 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
 
             painter.text("AlchemyBenchSlotNameLabel", nameArea, itemName(*pItemTable, preview.resultItemId));
             painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
-                tooDifficult ? "needs " + GameplayAlchemyBenchView::masteryName(preview.requiredMastery)
-                    : preview.resultPower > 0 ? "power " + std::to_string(preview.resultPower) : "",
+                tooDifficult
+                    ? Engine::tr("needs {mastery}",
+                        {{"mastery", GameplayAlchemyBenchView::masteryName(preview.requiredMastery)}})
+                    : preview.resultPower > 0 ? Engine::tr("power {power}",
+                        {{"power", int64_t(preview.resultPower)}}) : "",
                 tooDifficult || preview.resultPower < preview.minimumPower ? GameplayUiSkin::Penalty : DimTextColor);
         }
         else if (preview.outcome == AlchemyPreviewOutcome::Unknown)
         {
             painter.well(*resultSlot);
             painter.text("AlchemyBenchPlusLabel", *resultSlot, "?");
-            painter.text("AlchemyBenchSlotNameLabel", nameArea, "Unknown");
+            painter.text("AlchemyBenchSlotNameLabel", nameArea, Engine::tr("Unknown"));
         }
         else if (preview.outcome == AlchemyPreviewOutcome::KnownExplosive)
         {
             painter.well(*resultSlot, GameplayUiSkin::Penalty);
             painter.text("AlchemyBenchPlusLabel", *resultSlot, "!", GameplayUiSkin::Penalty);
-            painter.text("AlchemyBenchSlotNameLabel", nameArea, "Explodes", GameplayUiSkin::Penalty);
+            painter.text("AlchemyBenchSlotNameLabel", nameArea, Engine::tr("Explodes"), GameplayUiSkin::Penalty);
         }
         else
         {
@@ -510,7 +528,7 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
         if (model->chain)
         {
             const float lineY = painter.paragraph("AlchemyBenchStatus",
-                model->chainMode ? "Brew chain" : "Can't brew yet",
+                Engine::tr(model->chainMode ? "Brew chain" : "Can't brew yet"),
                 model->chainMode ? GameplayUiSkin::Bonus : GameplayUiSkin::Penalty, status->y);
             painter.paragraph("AlchemyBenchStatus", chainBody(*model, *pItemTable), DimTextColor,
                 lineY + 3 * status->scale);
@@ -554,43 +572,51 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
                     && context.partyReadOnly() != nullptr)
                 {
                     const int step = preview.resultPower / bestStepEffect->amount.divisor;
-                    std::string ladder = "Step " + std::to_string(step) + ":";
+                    std::string members;
 
                     for (const Character &member : context.partyReadOnly()->members())
                     {
                         const auto best = member.rulesetState.potionSteps.find(preview.resultItemId);
                         const int bestStep = best != member.rulesetState.potionSteps.end() ? best->second : 0;
-                        ladder += " " + member.name
-                            + (bestStep >= step ? " already at step " + std::to_string(bestStep)
-                                                : " +" + std::to_string(step - bestStep) + " steps")
-                            + ",";
+                        members += (members.empty() ? "" : ", ")
+                            + (bestStep >= step
+                                ? Engine::tr("{name} already at step {step}",
+                                    {{"name", member.name}, {"step", bestStep}})
+                                : Engine::tr("{name} +{count} steps",
+                                    {{"name", member.name}, {"count", step - bestStep}}));
                     }
 
-                    ladder.pop_back();
+                    const std::string ladder = members.empty()
+                        ? Engine::tr("Step {step}", {{"step", step}})
+                        : Engine::tr("Step {step}: {members}", {{"step", step}, {"members", members}});
                     painter.paragraph("AlchemyBenchStatus", ladder, DimTextColor, effectY + 3 * status->scale);
                 }
             }
         }
     }
 
-    const std::string mixLabel = model->chainMode ? "Brew chain"
-        : preview.outcome == AlchemyPreviewOutcome::Unknown ? "Try Mix" : "Mix";
-    const std::string mixAllLabel = model->chainMode ? "Brew All" : "Mix All";
+    const std::string mixLabel = model->chainMode ? Engine::tr("Brew chain")
+        : preview.outcome == AlchemyPreviewOutcome::Unknown ? Engine::tr("Try Mix") : Engine::tr("Mix");
+    const std::string mixAllLabel = model->chainMode
+        ? (model->mixAllCount > 1 ? Engine::tr("Brew All ({count})", {{"count", int64_t(model->mixAllCount)}})
+                                  : Engine::tr("Brew All"))
+        : (model->mixAllCount > 1 ? Engine::tr("Mix All ({count})", {{"count", int64_t(model->mixAllCount)}})
+                                  : Engine::tr("Mix All"));
     painter.button("AlchemyBenchMixButton", mixLabel, GameplayAlchemyBenchView::mixEnabled(*model));
     painter.button("AlchemyBenchMixAllButton",
-        model->mixAllCount > 1 ? mixAllLabel + " (" + std::to_string(model->mixAllCount) + ")" : mixAllLabel,
+        mixAllLabel,
         model->mixAllCount > 1);
-    painter.button("AlchemyBenchClearButton", "Clear", state.targetItemId != 0 || state.heldItemId != 0);
-    painter.button("AlchemyBenchCloseButton", "Close", true);
+    painter.button("AlchemyBenchClearButton", Engine::tr("Clear"), state.targetItemId != 0 || state.heldItemId != 0);
+    painter.button("AlchemyBenchCloseButton", Engine::tr("Close"), true);
 
-    painter.label("AlchemyBenchIngredientHeader", "Ingredients");
-    painter.label("AlchemyBenchIngredientHint", "whole party, click or drag to place");
+    painter.label("AlchemyBenchIngredientHeader", Engine::tr("Ingredients"));
+    painter.label("AlchemyBenchIngredientHint", Engine::tr("whole party, click or drag to place"));
     const GameplayUiController::AlchemyIngredientFilter filter = state.ingredientFilter;
-    painter.chip("AlchemyBenchIngredientFilterAll", "All",
+    painter.chip("AlchemyBenchIngredientFilterAll", Engine::tr("All"),
         filter == GameplayUiController::AlchemyIngredientFilter::All);
-    painter.chip("AlchemyBenchIngredientFilterPotions", "Potions",
+    painter.chip("AlchemyBenchIngredientFilterPotions", Engine::tr("Potions"),
         filter == GameplayUiController::AlchemyIngredientFilter::Potions);
-    painter.chip("AlchemyBenchIngredientFilterReagents", "Reagents",
+    painter.chip("AlchemyBenchIngredientFilterReagents", Engine::tr("Reagents"),
         filter == GameplayUiController::AlchemyIngredientFilter::Reagents);
 
     if (const std::optional<Rect> grid = painter.rect("AlchemyBenchIngredientGrid"))
@@ -653,7 +679,8 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
         if (model->visibleIngredients.empty())
         {
             painter.text("AlchemyBenchSlotNameLabel", {grid->x, grid->y + 10 * grid->scale, grid->width,
-                12 * grid->scale, grid->scale}, "The party carries no bottles, reagents or potions.", DimTextColor);
+                12 * grid->scale, grid->scale}, Engine::tr("The party carries no bottles, reagents or potions."),
+                DimTextColor);
         }
 
         const size_t visibleRows = GameplayAlchemyBenchView::ingredientVisibleRows(*grid);

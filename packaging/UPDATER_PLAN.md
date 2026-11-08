@@ -174,6 +174,9 @@ Inside the root: `settings.ini`, `saves/`, `output/screenshots/`, logs, and late
 - Saves keep their existing version handling: older saves migrate on load; a save written by a newer build is refused
   with a clear message instead of being loaded partially. *Implemented:* the Load screen says how many saves need a
   newer version instead of hiding them silently.
+- An update that ships a rebuilt map does not break saves made before it: each saved map state records its map's
+  layout identity, and a map whose layout changed starts afresh when the party enters it, keeping the party's own
+  state ([saved map states](../devdocs/SAVED_MAP_STATE_IDENTITY.md), save version 160).
 
 ### 4.3 Settings and new defaults
 
