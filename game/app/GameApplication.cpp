@@ -2511,9 +2511,6 @@ void grantCreatedCharacterStarterItems(
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const std::string &worldId)
 {
-    addStarterInventoryItem(
-        character,
-        generateStarterRing(itemTable, standardItemEnchantTable, specialItemEnchantTable));
     addStarterInventoryItem(character, makeStarterInventoryItem(PotionBottleItemId, itemTable));
 
     std::random_device randomDevice;
@@ -2536,8 +2533,13 @@ void grantCreatedCharacterStarterItems(
             continue;
         }
 
+        // Every other skill (misc skills, racial abilities) brings a ring (MMerge's MenuChooseCharacter.lua
+        // PrepareChar: a random ring of strength 2 per skill without a weapon, armour or spellbook).
         if (!isStarterMagicSkill(skillName))
         {
+            addStarterInventoryItem(
+                character,
+                generateStarterRing(itemTable, standardItemEnchantTable, specialItemEnchantTable));
             continue;
         }
 
