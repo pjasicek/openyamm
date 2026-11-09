@@ -1,0 +1,3007 @@
+format_version: 1
+kind: mm9_skill_trainer_audit
+generated_from: RUDE -4 rows, NPC998 teacher hints, scene actors, and mundane-task scripts
+summary:
+  service_row_count: 115
+  trainer_npc_count: 69
+  trainer_topic_count: 69
+  skill_group_count: 23
+  expert_count: 46
+  master_count: 46
+  grandmaster_count: 23
+  static_trainer_count: 56
+  scheduled_trainer_count: 67
+  scheduled_only_trainer_count: 13
+  unresolved_schedule_destination_count: 13
+  missing_actor_count: 0
+  error_count: 0
+  unused_npc998_hints: []
+  untaught_skill_masteries:
+  - skill: Blaster
+    mastery: Expert
+    reason: no MM9 skill or teacher is close; proposed new trainer NPC
+  - skill: Blaster
+    mastery: Master
+    reason: no MM9 skill or teacher is close; proposed new trainer NPC
+  - skill: Blaster
+    mastery: Grandmaster
+    reason: no MM9 skill or teacher is close; proposed new trainer NPC
+  - skill: DarkElfAbility
+    mastery: Expert
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: DarkElfAbility
+    mastery: Master
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: DarkElfAbility
+    mastery: Grandmaster
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: VampireAbility
+    mastery: Expert
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: VampireAbility
+    mastery: Master
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: VampireAbility
+    mastery: Grandmaster
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: DragonAbility
+    mastery: Expert
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: DragonAbility
+    mastery: Master
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+  - skill: DragonAbility
+    mastery: Grandmaster
+    reason: MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)
+coverage:
+  Staff:
+    Expert:
+    - Cermak Atlor (123, Drangheim)
+    - Hafgrim Shorthands (78, Sturmford)
+    Master:
+    - Cermak Atlor (123, Drangheim)
+    - Hafgrim Shorthands (78, Sturmford)
+    Grandmaster:
+    - Gjerta Headstrong (37, Thjorgard)
+  Sword:
+    Expert:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Master:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Grandmaster:
+    - Cinnfhail A'Mor (347, Thjorgard)
+  Dagger:
+    Expert:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Master:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Grandmaster:
+    - Cinnfhail A'Mor (347, Thjorgard)
+  Axe:
+    Expert:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Master:
+    - Hagar the Horrible (119, Drangheim)
+    - Katrina Vianni (80, Sturmford)
+    Grandmaster:
+    - Cinnfhail A'Mor (347, Thjorgard)
+  Spear:
+    Expert:
+    - Comhghan A'Dorad (41, Thjorgard)
+    - Mirjam Thjordotir (77, Sturmford)
+    Master:
+    - Comhghan A'Dorad (41, Thjorgard)
+    - Mirjam Thjordotir (77, Sturmford)
+    Grandmaster:
+    - Hrrapp Spearhands (361, Thjorgard)
+  Bow:
+    Expert:
+    - Aefentid A'Feslo (114, Drangheim)
+    - Lili A'Ghrie (84, Sturmford)
+    Master:
+    - Aefentid A'Feslo (114, Drangheim)
+    - Lili A'Ghrie (84, Sturmford)
+    Grandmaster:
+    - Muadhnait A'Tryht (362, Thjorgard)
+  Mace:
+    Expert:
+    - Cermak Atlor (123, Drangheim)
+    - Hafgrim Shorthands (78, Sturmford)
+    Master:
+    - Cermak Atlor (123, Drangheim)
+    - Hafgrim Shorthands (78, Sturmford)
+    Grandmaster:
+    - Gjerta Headstrong (37, Thjorgard)
+  Blaster:
+    Expert: []
+    Master: []
+    Grandmaster: []
+  Shield:
+    Expert:
+    - Olrun Fjalldotir (393, Sturmford)
+    - Rannveig Hafgrimdotir (396, Drangheim)
+    Master:
+    - Olrun Fjalldotir (393, Sturmford)
+    - Rannveig Hafgrimdotir (396, Drangheim)
+    Grandmaster:
+    - Halfdan the Hidden (387, Thjorgard)
+  LeatherArmor:
+    Expert:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Master:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Grandmaster:
+    - Fjarkskafinn the Still-alive (386, Thjorgard)
+  ChainArmor:
+    Expert:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Master:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Grandmaster:
+    - Fjarkskafinn the Still-alive (386, Thjorgard)
+  PlateArmor:
+    Expert:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Master:
+    - Devlin A'Norta a'meich (392, Sturmford)
+    - Fasolt Hreidmarssen (395, Drangheim)
+    Grandmaster:
+    - Fjarkskafinn the Still-alive (386, Thjorgard)
+  FireMagic:
+    Expert:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Master:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Grandmaster:
+    - Gudlaug Eitrissen (404, Lindisfarne)
+  AirMagic:
+    Expert:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Master:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Grandmaster:
+    - Gudlaug Eitrissen (404, Lindisfarne)
+  WaterMagic:
+    Expert:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Master:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Grandmaster:
+    - Gudlaug Eitrissen (404, Lindisfarne)
+  EarthMagic:
+    Expert:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Master:
+    - Peterk Olin (170, Guberland)
+    - Bryan Hrutssen (273, Thronheim)
+    Grandmaster:
+    - Gudlaug Eitrissen (404, Lindisfarne)
+  SpiritMagic:
+    Expert:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Master:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Grandmaster:
+    - Gymir Lokissen (407, Lindisfarne)
+  MindMagic:
+    Expert:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Master:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Grandmaster:
+    - Gymir Lokissen (407, Lindisfarne)
+  BodyMagic:
+    Expert:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Master:
+    - Rya Fremi (173, Guberland)
+    - Fjall Bodilssen (276, Thronheim)
+    Grandmaster:
+    - Gymir Lokissen (407, Lindisfarne)
+  LightMagic:
+    Expert:
+    - Treshi Yatol (171, Guberland)
+    - Dagny Borkdotir (274, Thronheim)
+    Master:
+    - Treshi Yatol (171, Guberland)
+    - Dagny Borkdotir (274, Thronheim)
+    Grandmaster:
+    - Annabel A'Tryht (405, Lindisfarne)
+  DarkMagic:
+    Expert:
+    - Bohus Kinar (172, Guberland)
+    - Ran Tryygvadotir (275, Thronheim)
+    Master:
+    - Bohus Kinar (172, Guberland)
+    - Ran Tryygvadotir (275, Thronheim)
+    Grandmaster:
+    - Alanna Etzeldotir (406, Lindisfarne)
+  DarkElfAbility:
+    Expert: []
+    Master: []
+    Grandmaster: []
+  VampireAbility:
+    Expert: []
+    Master: []
+    Grandmaster: []
+  DragonAbility:
+    Expert: []
+    Master: []
+    Grandmaster: []
+  IdentifyItem:
+    Expert:
+    - Darby Davinssen (311, Thjorgard)
+    - Frode Herjolfssen (399, Frosgard)
+    Master:
+    - Darby Davinssen (311, Thjorgard)
+    - Frode Herjolfssen (399, Frosgard)
+    Grandmaster:
+    - Laina Wilan (409, Yorwick)
+  Merchant:
+    Expert:
+    - Fogartach A'Velsi (234, Frosgard)
+    - Cator Fiskdal (295, Thjorgard)
+    Master:
+    - Fogartach A'Velsi (234, Frosgard)
+    - Cator Fiskdal (295, Thjorgard)
+    Grandmaster:
+    - Bren Haukdotir (329, Yorwick)
+  RepairItem:
+    Expert:
+    - Hervor Etzeldotir (398, Frosgard)
+    - Bysen A'Klindor (40, Thjorgard)
+    Master:
+    - Hervor Etzeldotir (398, Frosgard)
+    - Bysen A'Klindor (40, Thjorgard)
+    Grandmaster:
+    - Halvar Davinssen (327, Yorwick)
+  Bodybuilding:
+    Expert:
+    - Lansa Akin (233, Frosgard)
+    - Toman Yatol (38, Thjorgard)
+    Master:
+    - Lansa Akin (233, Frosgard)
+    - Toman Yatol (38, Thjorgard)
+    Grandmaster:
+    - Stev Palac (412, Yorwick)
+  Meditation:
+    Expert:
+    - Hrapp Tjorvissen (174, Guberland)
+    - Andvari Egilssen (277, Thronheim)
+    Master:
+    - Hrapp Tjorvissen (174, Guberland)
+    - Andvari Egilssen (277, Thronheim)
+    Grandmaster:
+    - Delano A'Lanth (408, Lindisfarne)
+  Perception:
+    Expert:
+    - Derbforgaill A'Norta a'meich (235, Frosgard)
+    - Eilinoir A'Mor (310, Thjorgard)
+    Master:
+    - Derbforgaill A'Norta a'meich (235, Frosgard)
+    - Eilinoir A'Mor (310, Thjorgard)
+    Grandmaster:
+    - Broccan A'Ghrie (323, Yorwick)
+  Regeneration:
+    Expert:
+    - Lansa Akin (233, Frosgard)
+    - Toman Yatol (38, Thjorgard)
+    Master:
+    - Lansa Akin (233, Frosgard)
+    - Toman Yatol (38, Thjorgard)
+    Grandmaster:
+    - Stev Palac (412, Yorwick)
+  DisarmTraps:
+    Expert:
+    - Eachann A'Mor (237, Frosgard)
+    - Barabell A'Dorad (267, Thjorgard)
+    Master:
+    - Eachann A'Mor (237, Frosgard)
+    - Barabell A'Dorad (267, Thjorgard)
+    Grandmaster:
+    - Marshall Hanford (333, Yorwick)
+  Dodging:
+    Expert:
+    - Cassidy A'Dorad (397, Drangheim)
+    - Leppa the Shy (79, Sturmford)
+    Master:
+    - Cassidy A'Dorad (397, Drangheim)
+    - Leppa the Shy (79, Sturmford)
+    Grandmaster:
+    - Hildigunna the Quick (388, Thjorgard)
+  Unarmed:
+    Expert:
+    - Galvin A'Mor (115, Drangheim)
+    - Hildr Fjalldotir (391, Sturmford)
+    Master:
+    - Galvin A'Mor (115, Drangheim)
+    - Hildr Fjalldotir (391, Sturmford)
+    Grandmaster:
+    - Sigre Bjarnidotir (385, Thjorgard)
+  IdentifyMonster:
+    Expert:
+    - Tove Halvardotir (320, Thjorgard)
+    - Hagen Hrrappssen (401, Frosgard)
+    Master:
+    - Tove Halvardotir (320, Thjorgard)
+    - Hagen Hrrappssen (401, Frosgard)
+    Grandmaster:
+    - Ragfreid Manslayer (410, Yorwick)
+  Armsmaster:
+    Expert:
+    - Krej Matlal (124, Drangheim)
+    - Adotette Haji (390, Sturmford)
+    Master:
+    - Krej Matlal (124, Drangheim)
+    - Adotette Haji (390, Sturmford)
+    Grandmaster:
+    - Chera Papan (39, Thjorgard)
+  Stealing:
+    Expert:
+    - Eachann A'Mor (237, Frosgard)
+    - Barabell A'Dorad (267, Thjorgard)
+    Master:
+    - Eachann A'Mor (237, Frosgard)
+    - Barabell A'Dorad (267, Thjorgard)
+    Grandmaster:
+    - Marshall Hanford (333, Yorwick)
+  Alchemy:
+    Expert:
+    - Darby Davinssen (311, Thjorgard)
+    - Frode Herjolfssen (399, Frosgard)
+    Master:
+    - Darby Davinssen (311, Thjorgard)
+    - Frode Herjolfssen (399, Frosgard)
+    Grandmaster:
+    - Laina Wilan (409, Yorwick)
+  Learning:
+    Expert:
+    - Giorsal A'Velsi (321, Thjorgard)
+    - Dymphna A'Klindor (402, Frosgard)
+    Master:
+    - Giorsal A'Velsi (321, Thjorgard)
+    - Dymphna A'Klindor (402, Frosgard)
+    Grandmaster:
+    - Jenn Harrise (411, Yorwick)
+  Throwing:
+    Expert:
+    - Eskil Tryygvassen (389, Sturmford)
+    - Thorhalla the Short (394, Drangheim)
+    Master:
+    - Eskil Tryygvassen (389, Sturmford)
+    - Thorhalla the Short (394, Drangheim)
+    Grandmaster:
+    - Thorfinn Quickeye (384, Thjorgard)
+records:
+- canonical_id: mm9:trainer/114/1
+  rude_id: 114
+  source_line: 1
+  raw_trainer_id: 2016
+  skill: Bow
+  split_skills:
+  - Bow
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Aefentid A'Feslo
+  actor_ownership: static
+  actor_sources: &id001
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id002
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/114/3
+  rude_id: 114
+  source_line: 3
+  raw_trainer_id: 2016
+  skill: Bow
+  split_skills:
+  - Bow
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Aefentid A'Feslo
+  actor_ownership: static
+  actor_sources: *id001
+  schedule_sources: *id002
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/115/1
+  rude_id: 115
+  source_line: 1
+  raw_trainer_id: 2025
+  skill: Unarmed
+  split_skills:
+  - Unarmed
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Galvin A'Mor
+  actor_ownership: static
+  actor_sources: &id003
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: []
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/115/3
+  rude_id: 115
+  source_line: 3
+  raw_trainer_id: 2025
+  skill: Unarmed
+  split_skills:
+  - Unarmed
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Galvin A'Mor
+  actor_ownership: static
+  actor_sources: *id003
+  schedule_sources: []
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/119/1
+  rude_id: 119
+  source_line: 1
+  raw_trainer_id: 2007
+  skill: Blade
+  split_skills:
+  - Sword
+  - Dagger
+  - Axe
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Hagar the Horrible
+  actor_ownership: static
+  actor_sources: &id004
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id005
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/119/3
+  rude_id: 119
+  source_line: 3
+  raw_trainer_id: 2007
+  skill: Blade
+  split_skills:
+  - Sword
+  - Dagger
+  - Axe
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Hagar the Horrible
+  actor_ownership: static
+  actor_sources: *id004
+  schedule_sources: *id005
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/123/1
+  rude_id: 123
+  source_line: 1
+  raw_trainer_id: 2010
+  skill: Cudgel
+  split_skills:
+  - Mace
+  - Staff
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Cermak Atlor
+  actor_ownership: static
+  actor_sources: &id006
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id007
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/123/4
+  rude_id: 123
+  source_line: 4
+  raw_trainer_id: 2010
+  skill: Cudgel
+  split_skills:
+  - Mace
+  - Staff
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Cermak Atlor
+  actor_ownership: static
+  actor_sources: *id006
+  schedule_sources: *id007
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/124/1
+  rude_id: 124
+  source_line: 1
+  raw_trainer_id: 2022
+  skill: Armsmaster
+  split_skills:
+  - Armsmaster
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Krej Matlal
+  actor_ownership: static
+  actor_sources: &id008
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id009
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/124/3
+  rude_id: 124
+  source_line: 3
+  raw_trainer_id: 2022
+  skill: Armsmaster
+  split_skills:
+  - Armsmaster
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Krej Matlal
+  actor_ownership: static
+  actor_sources: *id008
+  schedule_sources: *id009
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/170/1
+  rude_id: 170
+  source_line: 1
+  raw_trainer_id: 2036
+  skill: Elemental
+  split_skills:
+  - FireMagic
+  - AirMagic
+  - WaterMagic
+  - EarthMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Guberland
+  source_display_names:
+  - Peterk Olin
+  actor_ownership: static
+  actor_sources: &id010
+  - assets_dev/worlds/mm9/maps/guberlandcity.scene.yml
+  schedule_sources: &id011
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_GUBERLANDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/170/3
+  rude_id: 170
+  source_line: 3
+  raw_trainer_id: 2036
+  skill: Elemental
+  split_skills:
+  - FireMagic
+  - AirMagic
+  - WaterMagic
+  - EarthMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Guberland
+  source_display_names:
+  - Peterk Olin
+  actor_ownership: static
+  actor_sources: *id010
+  schedule_sources: *id011
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/171/1
+  rude_id: 171
+  source_line: 1
+  raw_trainer_id: 2039
+  skill: Light
+  split_skills:
+  - LightMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Guberland
+  source_display_names:
+  - Treshi Yatol
+  actor_ownership: static
+  actor_sources: &id012
+  - assets_dev/worlds/mm9/maps/guberlandcity.scene.yml
+  schedule_sources: &id013
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_GUBERLANDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/171/3
+  rude_id: 171
+  source_line: 3
+  raw_trainer_id: 2039
+  skill: Light
+  split_skills:
+  - LightMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Guberland
+  source_display_names:
+  - Treshi Yatol
+  actor_ownership: static
+  actor_sources: *id012
+  schedule_sources: *id013
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/172/1
+  rude_id: 172
+  source_line: 1
+  raw_trainer_id: 2042
+  skill: Dark
+  split_skills:
+  - DarkMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Guberland
+  source_display_names:
+  - Bohus Kinar
+  actor_ownership: static
+  actor_sources: &id014
+  - assets_dev/worlds/mm9/maps/guberlandcity.scene.yml
+  schedule_sources: []
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/172/3
+  rude_id: 172
+  source_line: 3
+  raw_trainer_id: 2042
+  skill: Dark
+  split_skills:
+  - DarkMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Guberland
+  source_display_names:
+  - Bohus Kinar
+  actor_ownership: static
+  actor_sources: *id014
+  schedule_sources: []
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/173/1
+  rude_id: 173
+  source_line: 1
+  raw_trainer_id: 2045
+  skill: Spirit
+  split_skills:
+  - SpiritMagic
+  added_skills:
+  - MindMagic
+  - BodyMagic
+  mastery: Expert
+  expected_region: Guberland
+  source_display_names:
+  - Rya Fremi
+  actor_ownership: static
+  actor_sources: &id015
+  - assets_dev/worlds/mm9/maps/guberlandcity.scene.yml
+  schedule_sources: &id016
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_GUBERLANDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/173/3
+  rude_id: 173
+  source_line: 3
+  raw_trainer_id: 2045
+  skill: Spirit
+  split_skills:
+  - SpiritMagic
+  added_skills:
+  - MindMagic
+  - BodyMagic
+  mastery: Master
+  expected_region: Guberland
+  source_display_names:
+  - Rya Fremi
+  actor_ownership: static
+  actor_sources: *id015
+  schedule_sources: *id016
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/174/1
+  rude_id: 174
+  source_line: 1
+  raw_trainer_id: 2048
+  skill: Meditation
+  split_skills:
+  - Meditation
+  added_skills: []
+  mastery: Expert
+  expected_region: Guberland
+  source_display_names:
+  - Hrapp Tjorvissen
+  actor_ownership: static
+  actor_sources: &id017
+  - assets_dev/worlds/mm9/maps/guberlandcity.scene.yml
+  schedule_sources: &id018
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_GUBERLANDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/174/3
+  rude_id: 174
+  source_line: 3
+  raw_trainer_id: 2048
+  skill: Meditation
+  split_skills:
+  - Meditation
+  added_skills: []
+  mastery: Master
+  expected_region: Guberland
+  source_display_names:
+  - Hrapp Tjorvissen
+  actor_ownership: static
+  actor_sources: *id017
+  schedule_sources: *id018
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/233/1
+  rude_id: 233
+  source_line: 1
+  raw_trainer_id: 2070
+  skill: BodyBuilding
+  split_skills:
+  - Bodybuilding
+  added_skills:
+  - Regeneration
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Lansa Akin
+  actor_ownership: static
+  actor_sources: &id019
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id020
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/233/3
+  rude_id: 233
+  source_line: 3
+  raw_trainer_id: 2070
+  skill: BodyBuilding
+  split_skills:
+  - Bodybuilding
+  added_skills:
+  - Regeneration
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Lansa Akin
+  actor_ownership: static
+  actor_sources: *id019
+  schedule_sources: *id020
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/234/1
+  rude_id: 234
+  source_line: 1
+  raw_trainer_id: 2055
+  skill: Merchant
+  split_skills:
+  - Merchant
+  added_skills: []
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Fogartach A'Velsi
+  actor_ownership: static
+  actor_sources: &id021
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id022
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/234/3
+  rude_id: 234
+  source_line: 3
+  raw_trainer_id: 2055
+  skill: Merchant
+  split_skills:
+  - Merchant
+  added_skills: []
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Fogartach A'Velsi
+  actor_ownership: static
+  actor_sources: *id021
+  schedule_sources: *id022
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/235/1
+  rude_id: 235
+  source_line: 1
+  raw_trainer_id: 2058
+  skill: Perception
+  split_skills:
+  - Perception
+  added_skills: []
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Derbforgaill A'Norta a'meich
+  actor_ownership: static
+  actor_sources: &id023
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id024
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/235/3
+  rude_id: 235
+  source_line: 3
+  raw_trainer_id: 2058
+  skill: Perception
+  split_skills:
+  - Perception
+  added_skills: []
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Derbforgaill A'Norta a'meich
+  actor_ownership: static
+  actor_sources: *id023
+  schedule_sources: *id024
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/237/1
+  rude_id: 237
+  source_line: 1
+  raw_trainer_id: 2052
+  skill: DisarmTrap
+  split_skills:
+  - DisarmTraps
+  added_skills:
+  - Stealing
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Eachann A'Mor
+  actor_ownership: static
+  actor_sources: &id025
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id026
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/237/3
+  rude_id: 237
+  source_line: 3
+  raw_trainer_id: 2052
+  skill: DisarmTrap
+  split_skills:
+  - DisarmTraps
+  added_skills:
+  - Stealing
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Eachann A'Mor
+  actor_ownership: static
+  actor_sources: *id025
+  schedule_sources: *id026
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/267/2
+  rude_id: 267
+  source_line: 2
+  raw_trainer_id: 2051
+  skill: DisarmTrap
+  split_skills:
+  - DisarmTraps
+  added_skills:
+  - Stealing
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Barabell A'Dorad
+  actor_ownership: static
+  actor_sources: &id027
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id028
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/267/4
+  rude_id: 267
+  source_line: 4
+  raw_trainer_id: 2051
+  skill: DisarmTrap
+  split_skills:
+  - DisarmTraps
+  added_skills:
+  - Stealing
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Barabell A'Dorad
+  actor_ownership: static
+  actor_sources: *id027
+  schedule_sources: *id028
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/273/1
+  rude_id: 273
+  source_line: 1
+  raw_trainer_id: 2037
+  skill: Elemental
+  split_skills:
+  - FireMagic
+  - AirMagic
+  - WaterMagic
+  - EarthMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Thronheim
+  source_display_names:
+  - Bryan Hrutssen
+  actor_ownership: static
+  actor_sources: &id029
+  - assets_dev/worlds/mm9/maps/thronheimcity.scene.yml
+  schedule_sources: &id030
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THRONHEIM.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/273/3
+  rude_id: 273
+  source_line: 3
+  raw_trainer_id: 2037
+  skill: Elemental
+  split_skills:
+  - FireMagic
+  - AirMagic
+  - WaterMagic
+  - EarthMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Thronheim
+  source_display_names:
+  - Bryan Hrutssen
+  actor_ownership: static
+  actor_sources: *id029
+  schedule_sources: *id030
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/274/1
+  rude_id: 274
+  source_line: 1
+  raw_trainer_id: 2040
+  skill: Light
+  split_skills:
+  - LightMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Thronheim
+  source_display_names:
+  - Dagny Borkdotir
+  actor_ownership: static
+  actor_sources: &id031
+  - assets_dev/worlds/mm9/maps/thronheimcity.scene.yml
+  schedule_sources: &id032
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THRONHEIM.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/274/3
+  rude_id: 274
+  source_line: 3
+  raw_trainer_id: 2040
+  skill: Light
+  split_skills:
+  - LightMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Thronheim
+  source_display_names:
+  - Dagny Borkdotir
+  actor_ownership: static
+  actor_sources: *id031
+  schedule_sources: *id032
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/275/1
+  rude_id: 275
+  source_line: 1
+  raw_trainer_id: 2043
+  skill: Dark
+  split_skills:
+  - DarkMagic
+  added_skills: []
+  mastery: Expert
+  expected_region: Thronheim
+  source_display_names:
+  - Ran Tryygvadotir
+  actor_ownership: static
+  actor_sources: &id033
+  - assets_dev/worlds/mm9/maps/thronheimcity.scene.yml
+  schedule_sources: &id034
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THRONHEIM.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/275/3
+  rude_id: 275
+  source_line: 3
+  raw_trainer_id: 2043
+  skill: Dark
+  split_skills:
+  - DarkMagic
+  added_skills: []
+  mastery: Master
+  expected_region: Thronheim
+  source_display_names:
+  - Ran Tryygvadotir
+  actor_ownership: static
+  actor_sources: *id033
+  schedule_sources: *id034
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/276/1
+  rude_id: 276
+  source_line: 1
+  raw_trainer_id: 2046
+  skill: Spirit
+  split_skills:
+  - SpiritMagic
+  added_skills:
+  - MindMagic
+  - BodyMagic
+  mastery: Expert
+  expected_region: Thronheim
+  source_display_names:
+  - Fjall Bodilssen
+  actor_ownership: static
+  actor_sources: &id035
+  - assets_dev/worlds/mm9/maps/thronheimcity.scene.yml
+  schedule_sources: &id036
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THRONHEIM.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/276/3
+  rude_id: 276
+  source_line: 3
+  raw_trainer_id: 2046
+  skill: Spirit
+  split_skills:
+  - SpiritMagic
+  added_skills:
+  - MindMagic
+  - BodyMagic
+  mastery: Master
+  expected_region: Thronheim
+  source_display_names:
+  - Fjall Bodilssen
+  actor_ownership: static
+  actor_sources: *id035
+  schedule_sources: *id036
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/277/1
+  rude_id: 277
+  source_line: 1
+  raw_trainer_id: 2049
+  skill: Meditation
+  split_skills:
+  - Meditation
+  added_skills: []
+  mastery: Expert
+  expected_region: Thronheim
+  source_display_names:
+  - Andvari Egilssen
+  actor_ownership: static
+  actor_sources: &id037
+  - assets_dev/worlds/mm9/maps/thronheimcity.scene.yml
+  schedule_sources: &id038
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THRONHEIM.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/277/3
+  rude_id: 277
+  source_line: 3
+  raw_trainer_id: 2049
+  skill: Meditation
+  split_skills:
+  - Meditation
+  added_skills: []
+  mastery: Master
+  expected_region: Thronheim
+  source_display_names:
+  - Andvari Egilssen
+  actor_ownership: static
+  actor_sources: *id037
+  schedule_sources: *id038
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/295/2
+  rude_id: 295
+  source_line: 2
+  raw_trainer_id: 2054
+  skill: Merchant
+  split_skills:
+  - Merchant
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Cator Fiskdal
+  actor_ownership: static
+  actor_sources: &id039
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id040
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/295/4
+  rude_id: 295
+  source_line: 4
+  raw_trainer_id: 2054
+  skill: Merchant
+  split_skills:
+  - Merchant
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Cator Fiskdal
+  actor_ownership: static
+  actor_sources: *id039
+  schedule_sources: *id040
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/310/2
+  rude_id: 310
+  source_line: 2
+  raw_trainer_id: 2057
+  skill: Perception
+  split_skills:
+  - Perception
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Eilinoir A'Mor
+  actor_ownership: static
+  actor_sources: &id041
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id042
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/310/4
+  rude_id: 310
+  source_line: 4
+  raw_trainer_id: 2057
+  skill: Perception
+  split_skills:
+  - Perception
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Eilinoir A'Mor
+  actor_ownership: static
+  actor_sources: *id041
+  schedule_sources: *id042
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/311/2
+  rude_id: 311
+  source_line: 2
+  raw_trainer_id: 2063
+  skill: IdentifyItem
+  split_skills:
+  - IdentifyItem
+  added_skills:
+  - Alchemy
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Darby Davinssen
+  actor_ownership: static
+  actor_sources: &id043
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id044
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/311/4
+  rude_id: 311
+  source_line: 4
+  raw_trainer_id: 2063
+  skill: IdentifyItem
+  split_skills:
+  - IdentifyItem
+  added_skills:
+  - Alchemy
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Darby Davinssen
+  actor_ownership: static
+  actor_sources: *id043
+  schedule_sources: *id044
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/320/3
+  rude_id: 320
+  source_line: 3
+  raw_trainer_id: 2066
+  skill: IdentifyMonster
+  split_skills:
+  - IdentifyMonster
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Tove Halvardotir
+  actor_ownership: static
+  actor_sources: &id045
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id046
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/320/7
+  rude_id: 320
+  source_line: 7
+  raw_trainer_id: 2066
+  skill: IdentifyMonster
+  split_skills:
+  - IdentifyMonster
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Tove Halvardotir
+  actor_ownership: static
+  actor_sources: *id045
+  schedule_sources: *id046
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/321/2
+  rude_id: 321
+  source_line: 2
+  raw_trainer_id: 2072
+  skill: Learning
+  split_skills:
+  - Learning
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Giorsal A'Velsi
+  actor_ownership: static
+  actor_sources: &id047
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  schedule_sources: &id048
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/321/6
+  rude_id: 321
+  source_line: 6
+  raw_trainer_id: 2072
+  skill: Learning
+  split_skills:
+  - Learning
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Giorsal A'Velsi
+  actor_ownership: static
+  actor_sources: *id047
+  schedule_sources: *id048
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/323/1
+  rude_id: 323
+  source_line: 1
+  raw_trainer_id: 2059
+  skill: Perception
+  split_skills:
+  - Perception
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Broccan A'Ghrie
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_323
+  - Marker_Home_323
+  - Marker_Misc_323
+  missing_schedule_destination_markers:
+  - Marker_Work_323
+  - Marker_Home_323
+  - Marker_Misc_323
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/327/1
+  rude_id: 327
+  source_line: 1
+  raw_trainer_id: 2062
+  skill: RepairItem
+  split_skills:
+  - RepairItem
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Halvar Davinssen
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_327
+  - Marker_Home_327
+  - Marker_Misc_327
+  missing_schedule_destination_markers:
+  - Marker_Work_327
+  - Marker_Home_327
+  - Marker_Misc_327
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/329/1
+  rude_id: 329
+  source_line: 1
+  raw_trainer_id: 2056
+  skill: Merchant
+  split_skills:
+  - Merchant
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Bren Haukdotir
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_329
+  - Marker_Home_329
+  - Marker_Misc_329
+  missing_schedule_destination_markers:
+  - Marker_Work_329
+  - Marker_Home_329
+  - Marker_Misc_329
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/333/1
+  rude_id: 333
+  source_line: 1
+  raw_trainer_id: 2053
+  skill: DisarmTrap
+  split_skills:
+  - DisarmTraps
+  added_skills:
+  - Stealing
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Marshall Hanford
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_333
+  - Marker_Home_333
+  - Marker_Misc_333
+  missing_schedule_destination_markers:
+  - Marker_Work_333
+  - Marker_Home_333
+  - Marker_Misc_333
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/347/1
+  rude_id: 347
+  source_line: 1
+  raw_trainer_id: 2008
+  skill: Blade
+  split_skills:
+  - Sword
+  - Dagger
+  - Axe
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Cinnfhail A'Mor
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/361/2
+  rude_id: 361
+  source_line: 2
+  raw_trainer_id: 2014
+  skill: Spear
+  split_skills:
+  - Spear
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Hrrapp Spearhands
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/362/3
+  rude_id: 362
+  source_line: 3
+  raw_trainer_id: 2017
+  skill: Bow
+  split_skills:
+  - Bow
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Muadhnait A'Tryht
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/37/1
+  rude_id: 37
+  source_line: 1
+  raw_trainer_id: 2011
+  skill: Cudgel
+  split_skills:
+  - Mace
+  - Staff
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Gjerta Headstrong
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/38/2
+  rude_id: 38
+  source_line: 2
+  raw_trainer_id: 2069
+  skill: BodyBuilding
+  split_skills:
+  - Bodybuilding
+  added_skills:
+  - Regeneration
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Toman Yatol
+  actor_ownership: static
+  actor_sources: &id049
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id050
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/38/7
+  rude_id: 38
+  source_line: 7
+  raw_trainer_id: 2069
+  skill: BodyBuilding
+  split_skills:
+  - Bodybuilding
+  added_skills:
+  - Regeneration
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Toman Yatol
+  actor_ownership: static
+  actor_sources: *id049
+  schedule_sources: *id050
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/384/2
+  rude_id: 384
+  source_line: 2
+  raw_trainer_id: 2020
+  skill: Thrown
+  split_skills:
+  - Throwing
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Thorfinn Quickeye
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/385/2
+  rude_id: 385
+  source_line: 2
+  raw_trainer_id: 2026
+  skill: Unarmed
+  split_skills:
+  - Unarmed
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Sigre Bjarnidotir
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/386/2
+  rude_id: 386
+  source_line: 2
+  raw_trainer_id: 2029
+  skill: Armor
+  split_skills:
+  - LeatherArmor
+  - ChainArmor
+  - PlateArmor
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Fjarkskafinn the Still-alive
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/387/2
+  rude_id: 387
+  source_line: 2
+  raw_trainer_id: 2032
+  skill: Shield
+  split_skills:
+  - Shield
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Halfdan the Hidden
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/388/2
+  rude_id: 388
+  source_line: 2
+  raw_trainer_id: 2035
+  skill: Dodging
+  split_skills:
+  - Dodging
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Hildigunna the Quick
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/389/4
+  rude_id: 389
+  source_line: 4
+  raw_trainer_id: 2018
+  skill: Thrown
+  split_skills:
+  - Throwing
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Eskil Tryygvassen
+  actor_ownership: static
+  actor_sources: &id051
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id052
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/389/6
+  rude_id: 389
+  source_line: 6
+  raw_trainer_id: 2018
+  skill: Thrown
+  split_skills:
+  - Throwing
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Eskil Tryygvassen
+  actor_ownership: static
+  actor_sources: *id051
+  schedule_sources: *id052
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/39/1
+  rude_id: 39
+  source_line: 1
+  raw_trainer_id: 2023
+  skill: Armsmaster
+  split_skills:
+  - Armsmaster
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Thjorgard
+  source_display_names:
+  - Chera Papan
+  - Cihu'aton Pa'pan
+  actor_ownership: static
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/390/2
+  rude_id: 390
+  source_line: 2
+  raw_trainer_id: 2021
+  skill: Armsmaster
+  split_skills:
+  - Armsmaster
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Adotette Haji
+  actor_ownership: static
+  actor_sources: &id053
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id054
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/390/4
+  rude_id: 390
+  source_line: 4
+  raw_trainer_id: 2021
+  skill: Armsmaster
+  split_skills:
+  - Armsmaster
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Adotette Haji
+  actor_ownership: static
+  actor_sources: *id053
+  schedule_sources: *id054
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/391/2
+  rude_id: 391
+  source_line: 2
+  raw_trainer_id: 2024
+  skill: Unarmed
+  split_skills:
+  - Unarmed
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Hildr Fjalldotir
+  actor_ownership: static
+  actor_sources: &id055
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id056
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/391/4
+  rude_id: 391
+  source_line: 4
+  raw_trainer_id: 2024
+  skill: Unarmed
+  split_skills:
+  - Unarmed
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Hildr Fjalldotir
+  actor_ownership: static
+  actor_sources: *id055
+  schedule_sources: *id056
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/392/2
+  rude_id: 392
+  source_line: 2
+  raw_trainer_id: 2027
+  skill: Armor
+  split_skills:
+  - LeatherArmor
+  - ChainArmor
+  - PlateArmor
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Devlin A'Norta a'meich
+  actor_ownership: static
+  actor_sources: &id057
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id058
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/392/3
+  rude_id: 392
+  source_line: 3
+  raw_trainer_id: 2027
+  skill: Armor
+  split_skills:
+  - LeatherArmor
+  - ChainArmor
+  - PlateArmor
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Devlin A'Norta a'meich
+  actor_ownership: static
+  actor_sources: *id057
+  schedule_sources: *id058
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/393/2
+  rude_id: 393
+  source_line: 2
+  raw_trainer_id: 2030
+  skill: Shield
+  split_skills:
+  - Shield
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Olrun Fjalldotir
+  actor_ownership: static
+  actor_sources: &id059
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id060
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/393/4
+  rude_id: 393
+  source_line: 4
+  raw_trainer_id: 2030
+  skill: Shield
+  split_skills:
+  - Shield
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Olrun Fjalldotir
+  actor_ownership: static
+  actor_sources: *id059
+  schedule_sources: *id060
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/394/2
+  rude_id: 394
+  source_line: 2
+  raw_trainer_id: 2019
+  skill: Thrown
+  split_skills:
+  - Throwing
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Thorhalla the Short
+  actor_ownership: static
+  actor_sources: &id061
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id062
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/394/4
+  rude_id: 394
+  source_line: 4
+  raw_trainer_id: 2019
+  skill: Thrown
+  split_skills:
+  - Throwing
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Thorhalla the Short
+  actor_ownership: static
+  actor_sources: *id061
+  schedule_sources: *id062
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/395/2
+  rude_id: 395
+  source_line: 2
+  raw_trainer_id: 2028
+  skill: Armor
+  split_skills:
+  - LeatherArmor
+  - ChainArmor
+  - PlateArmor
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Fasolt Hreidmarssen
+  actor_ownership: static
+  actor_sources: &id063
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id064
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/395/4
+  rude_id: 395
+  source_line: 4
+  raw_trainer_id: 2028
+  skill: Armor
+  split_skills:
+  - LeatherArmor
+  - ChainArmor
+  - PlateArmor
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Fasolt Hreidmarssen
+  actor_ownership: static
+  actor_sources: *id063
+  schedule_sources: *id064
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/396/2
+  rude_id: 396
+  source_line: 2
+  raw_trainer_id: 2031
+  skill: Shield
+  split_skills:
+  - Shield
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Rannveig Hafgrimdotir
+  actor_ownership: static
+  actor_sources: &id065
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id066
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/396/4
+  rude_id: 396
+  source_line: 4
+  raw_trainer_id: 2031
+  skill: Shield
+  split_skills:
+  - Shield
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Rannveig Hafgrimdotir
+  actor_ownership: static
+  actor_sources: *id065
+  schedule_sources: *id066
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/397/2
+  rude_id: 397
+  source_line: 2
+  raw_trainer_id: 2034
+  skill: Dodging
+  split_skills:
+  - Dodging
+  added_skills: []
+  mastery: Expert
+  expected_region: Drangheim
+  source_display_names:
+  - Cassidy A'Dorad
+  actor_ownership: static
+  actor_sources: &id067
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id068
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_DRANGHEIMCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/397/4
+  rude_id: 397
+  source_line: 4
+  raw_trainer_id: 2034
+  skill: Dodging
+  split_skills:
+  - Dodging
+  added_skills: []
+  mastery: Master
+  expected_region: Drangheim
+  source_display_names:
+  - Cassidy A'Dorad
+  actor_ownership: static
+  actor_sources: *id067
+  schedule_sources: *id068
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/398/2
+  rude_id: 398
+  source_line: 2
+  raw_trainer_id: 2061
+  skill: RepairItem
+  split_skills:
+  - RepairItem
+  added_skills: []
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Hervor Etzeldotir
+  actor_ownership: static
+  actor_sources: &id069
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id070
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/398/4
+  rude_id: 398
+  source_line: 4
+  raw_trainer_id: 2061
+  skill: RepairItem
+  split_skills:
+  - RepairItem
+  added_skills: []
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Hervor Etzeldotir
+  actor_ownership: static
+  actor_sources: *id069
+  schedule_sources: *id070
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/399/2
+  rude_id: 399
+  source_line: 2
+  raw_trainer_id: 2064
+  skill: IdentifyItem
+  split_skills:
+  - IdentifyItem
+  added_skills:
+  - Alchemy
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Frode Herjolfssen
+  actor_ownership: static
+  actor_sources: &id071
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id072
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/399/4
+  rude_id: 399
+  source_line: 4
+  raw_trainer_id: 2064
+  skill: IdentifyItem
+  split_skills:
+  - IdentifyItem
+  added_skills:
+  - Alchemy
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Frode Herjolfssen
+  actor_ownership: static
+  actor_sources: *id071
+  schedule_sources: *id072
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/40/1
+  rude_id: 40
+  source_line: 1
+  raw_trainer_id: 2060
+  skill: RepairItem
+  split_skills:
+  - RepairItem
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Bysen A'Klindor
+  actor_ownership: static
+  actor_sources: &id073
+  - assets_dev/worlds/mm9/maps/thjorgardcity.scene.yml
+  schedule_sources: &id074
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/40/8
+  rude_id: 40
+  source_line: 8
+  raw_trainer_id: 2060
+  skill: RepairItem
+  split_skills:
+  - RepairItem
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Bysen A'Klindor
+  actor_ownership: static
+  actor_sources: *id073
+  schedule_sources: *id074
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/401/2
+  rude_id: 401
+  source_line: 2
+  raw_trainer_id: 2067
+  skill: IdentifyMonster
+  split_skills:
+  - IdentifyMonster
+  added_skills: []
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Hagen Hrrappssen
+  actor_ownership: static
+  actor_sources: &id075
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id076
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/401/3
+  rude_id: 401
+  source_line: 3
+  raw_trainer_id: 2067
+  skill: IdentifyMonster
+  split_skills:
+  - IdentifyMonster
+  added_skills: []
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Hagen Hrrappssen
+  actor_ownership: static
+  actor_sources: *id075
+  schedule_sources: *id076
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/402/2
+  rude_id: 402
+  source_line: 2
+  raw_trainer_id: 2073
+  skill: Learning
+  split_skills:
+  - Learning
+  added_skills: []
+  mastery: Expert
+  expected_region: Frosgard
+  source_display_names:
+  - Dymphna A'Klindor
+  actor_ownership: static
+  actor_sources: &id077
+  - assets_dev/worlds/mm9/maps/frosgardcity.scene.yml
+  schedule_sources: &id078
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_FROSGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/402/5
+  rude_id: 402
+  source_line: 5
+  raw_trainer_id: 2073
+  skill: Learning
+  split_skills:
+  - Learning
+  added_skills: []
+  mastery: Master
+  expected_region: Frosgard
+  source_display_names:
+  - Dymphna A'Klindor
+  actor_ownership: static
+  actor_sources: *id077
+  schedule_sources: *id078
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/404/2
+  rude_id: 404
+  source_line: 2
+  raw_trainer_id: 2038
+  skill: Elemental
+  split_skills:
+  - FireMagic
+  - AirMagic
+  - WaterMagic
+  - EarthMagic
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Lindisfarne
+  source_display_names:
+  - Gudlaug Eitrissen
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/lindisfarne.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_404
+  - Marker_Home_404
+  - Marker_Misc_404
+  missing_schedule_destination_markers:
+  - Marker_Work_404
+  - Marker_Home_404
+  - Marker_Misc_404
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/405/2
+  rude_id: 405
+  source_line: 2
+  raw_trainer_id: 2041
+  skill: Light
+  split_skills:
+  - LightMagic
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Lindisfarne
+  source_display_names:
+  - Annabel A'Tryht
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/lindisfarne.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_405
+  - Marker_Home_405
+  - Marker_Misc_405
+  missing_schedule_destination_markers:
+  - Marker_Work_405
+  - Marker_Home_405
+  - Marker_Misc_405
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/406/1
+  rude_id: 406
+  source_line: 1
+  raw_trainer_id: 2044
+  skill: Dark
+  split_skills:
+  - DarkMagic
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Lindisfarne
+  source_display_names:
+  - Alanna Etzeldotir
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/lindisfarne.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_406
+  - Marker_Home_406
+  - Marker_Misc_406
+  missing_schedule_destination_markers:
+  - Marker_Work_406
+  - Marker_Home_406
+  - Marker_Misc_406
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/407/2
+  rude_id: 407
+  source_line: 2
+  raw_trainer_id: 2047
+  skill: Spirit
+  split_skills:
+  - SpiritMagic
+  added_skills:
+  - MindMagic
+  - BodyMagic
+  mastery: Grandmaster
+  expected_region: Lindisfarne
+  source_display_names:
+  - Gymir Lokissen
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/lindisfarne.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_407
+  - Marker_Home_407
+  - Marker_Misc_407
+  missing_schedule_destination_markers:
+  - Marker_Work_407
+  - Marker_Home_407
+  - Marker_Misc_407
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/408/2
+  rude_id: 408
+  source_line: 2
+  raw_trainer_id: 2050
+  skill: Meditation
+  split_skills:
+  - Meditation
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Lindisfarne
+  source_display_names:
+  - Delano A'Lanth
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/lindisfarne.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_LINDISFARNE.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_408
+  - Marker_Home_408
+  - Marker_Misc_408
+  missing_schedule_destination_markers:
+  - Marker_Work_408
+  - Marker_Home_408
+  - Marker_Misc_408
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/409/2
+  rude_id: 409
+  source_line: 2
+  raw_trainer_id: 2065
+  skill: IdentifyItem
+  split_skills:
+  - IdentifyItem
+  added_skills:
+  - Alchemy
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Laina Wilan
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_409
+  - Marker_Home_409
+  - Marker_Misc_409
+  missing_schedule_destination_markers:
+  - Marker_Work_409
+  - Marker_Home_409
+  - Marker_Misc_409
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/41/10
+  rude_id: 41
+  source_line: 10
+  raw_trainer_id: 2013
+  skill: Spear
+  split_skills:
+  - Spear
+  added_skills: []
+  mastery: Expert
+  expected_region: Thjorgard
+  source_display_names:
+  - Comhghan A'Dorad
+  actor_ownership: static
+  actor_sources: &id079
+  - assets_dev/worlds/mm9/maps/drangheimcity.scene.yml
+  schedule_sources: &id080
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_THJORGARDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/41/11
+  rude_id: 41
+  source_line: 11
+  raw_trainer_id: 2013
+  skill: Spear
+  split_skills:
+  - Spear
+  added_skills: []
+  mastery: Master
+  expected_region: Thjorgard
+  source_display_names:
+  - Comhghan A'Dorad
+  actor_ownership: static
+  actor_sources: *id079
+  schedule_sources: *id080
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/410/2
+  rude_id: 410
+  source_line: 2
+  raw_trainer_id: 2068
+  skill: IdentifyMonster
+  split_skills:
+  - IdentifyMonster
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Ragfreid Manslayer
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_410
+  - Marker_Home_410
+  - Marker_Misc_410
+  missing_schedule_destination_markers:
+  - Marker_Work_410
+  - Marker_Home_410
+  - Marker_Misc_410
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/411/2
+  rude_id: 411
+  source_line: 2
+  raw_trainer_id: 2074
+  skill: Learning
+  split_skills:
+  - Learning
+  added_skills: []
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Jenn Harrise
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_411
+  - Marker_Home_411
+  - Marker_Misc_411
+  missing_schedule_destination_markers:
+  - Marker_Work_411
+  - Marker_Home_411
+  - Marker_Misc_411
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/412/2
+  rude_id: 412
+  source_line: 2
+  raw_trainer_id: 2071
+  skill: BodyBuilding
+  split_skills:
+  - Bodybuilding
+  added_skills:
+  - Regeneration
+  mastery: Grandmaster
+  expected_region: Yorwick
+  source_display_names:
+  - Stev Palac
+  actor_ownership: scheduled
+  actor_sources:
+  - assets_dev/worlds/mm9/maps/yorwick.scene.yml
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_sources:
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_JYRKAVIK.scr
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_YORWICK.scr
+  schedule_destination_status: unresolved_missing_destination_markers
+  schedule_destination_markers:
+  - Marker_Work_412
+  - Marker_Home_412
+  - Marker_Misc_412
+  missing_schedule_destination_markers:
+  - Marker_Work_412
+  - Marker_Home_412
+  - Marker_Misc_412
+  schedule_destination_reason: mundane SCR names schedule destinations that are absent from the source DAT raw-object inventory
+  errors: []
+- canonical_id: mm9:trainer/77/1
+  rude_id: 77
+  source_line: 1
+  raw_trainer_id: 2012
+  skill: Spear
+  split_skills:
+  - Spear
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Mirjam Thjordotir
+  actor_ownership: static
+  actor_sources: &id081
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id082
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/77/5
+  rude_id: 77
+  source_line: 5
+  raw_trainer_id: 2012
+  skill: Spear
+  split_skills:
+  - Spear
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Mirjam Thjordotir
+  actor_ownership: static
+  actor_sources: *id081
+  schedule_sources: *id082
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/78/1
+  rude_id: 78
+  source_line: 1
+  raw_trainer_id: 2009
+  skill: Cudgel
+  split_skills:
+  - Mace
+  - Staff
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Hafgrim Shorthands
+  actor_ownership: static
+  actor_sources: &id083
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id084
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/78/5
+  rude_id: 78
+  source_line: 5
+  raw_trainer_id: 2009
+  skill: Cudgel
+  split_skills:
+  - Mace
+  - Staff
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Hafgrim Shorthands
+  actor_ownership: static
+  actor_sources: *id083
+  schedule_sources: *id084
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/79/2
+  rude_id: 79
+  source_line: 2
+  raw_trainer_id: 2033
+  skill: Dodging
+  split_skills:
+  - Dodging
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Leppa the Shy
+  actor_ownership: static
+  actor_sources: &id085
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id086
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/79/4
+  rude_id: 79
+  source_line: 4
+  raw_trainer_id: 2033
+  skill: Dodging
+  split_skills:
+  - Dodging
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Leppa the Shy
+  actor_ownership: static
+  actor_sources: *id085
+  schedule_sources: *id086
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/80/1
+  rude_id: 80
+  source_line: 1
+  raw_trainer_id: 2006
+  skill: Blade
+  split_skills:
+  - Sword
+  - Dagger
+  - Axe
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Katrina Vianni
+  actor_ownership: static
+  actor_sources: &id087
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id088
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/80/5
+  rude_id: 80
+  source_line: 5
+  raw_trainer_id: 2006
+  skill: Blade
+  split_skills:
+  - Sword
+  - Dagger
+  - Axe
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Katrina Vianni
+  actor_ownership: static
+  actor_sources: *id087
+  schedule_sources: *id088
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/84/1
+  rude_id: 84
+  source_line: 1
+  raw_trainer_id: 2015
+  skill: Bow
+  split_skills:
+  - Bow
+  added_skills: []
+  mastery: Expert
+  expected_region: Sturmford
+  source_display_names:
+  - Lili A'Ghrie
+  actor_ownership: static
+  actor_sources: &id089
+  - assets_dev/worlds/mm9/maps/sturmfordcity.scene.yml
+  schedule_sources: &id090
+  - mm9/extracted/SCRIPTS/SCRIPTS/MM_STURMFORDCITY.scr
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []
+- canonical_id: mm9:trainer/84/5
+  rude_id: 84
+  source_line: 5
+  raw_trainer_id: 2015
+  skill: Bow
+  split_skills:
+  - Bow
+  added_skills: []
+  mastery: Master
+  expected_region: Sturmford
+  source_display_names:
+  - Lili A'Ghrie
+  actor_ownership: static
+  actor_sources: *id089
+  schedule_sources: *id090
+  schedule_destination_status: not_schedule_owned
+  schedule_destination_markers: []
+  missing_schedule_destination_markers: []
+  schedule_destination_reason: ''
+  errors: []

@@ -1,0 +1,3 @@
+mapping_id	source_concat_id	source_name	source_family	source_tier	source_applicability_rule	target_special_enchant_ids	owner	reason
+weapon_elemental	4	of Wind	Elemental 1	1	all_five_weapon_domain_flags_set	4|5|6|7|8|9|10|11|12|13|14|15	MM9 vendor integration goal	Preserve the universal MM9 Elemental family and select an ordinary OpenYAMM elemental damage tier within the effective-tier budget.
+wearable_durability	49	of Durability	Durability 1	1	all_fifteen_equipment_flags_set	56	MM9 vendor integration goal	OpenYAMM has no durability enchant field; use its lowest-value universal endurance-oriented ordinary enchant as the reviewed overlay.

@@ -1,0 +1,9571 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "drangheim.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 2237,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2238,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2239,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2240,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2241,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2242,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2243,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2244,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2245,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 25720,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25393,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25394,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25395,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25396,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25397,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25398,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25399,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25400,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25401,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25402,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25403,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25404,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25405,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25406,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25407,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25408,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25409,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25410,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25411,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25412,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25413,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25414,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25415,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25416,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25417,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25418,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25419,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25420,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25421,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25422,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25423,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25424,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25425,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25426,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25427,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25428,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25429,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25430,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25431,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25432,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25433,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25434,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25435,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25436,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25437,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25438,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25439,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25440,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25441,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25442,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25443,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25444,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25445,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25446,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25447,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25448,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25449,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25450,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25451,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25452,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25453,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25454,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25455,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25456,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25457,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25458,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25459,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25460,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25461,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25462,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25463,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25464,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25465,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25466,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25467,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25468,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25469,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25470,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25471,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25472,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25473,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25474,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25475,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25476,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25477,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25478,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25479,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25480,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25481,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25482,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25483,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25484,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25485,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25486,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25487,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25488,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25489,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25490,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25491,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25492,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25493,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25494,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25495,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25496,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25497,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25498,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25499,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25500,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25501,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25502,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25503,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25504,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25505,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25506,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25507,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25508,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25509,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25510,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25511,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25512,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25513,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25514,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25515,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25516,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25517,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25518,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25519,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25520,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25521,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25522,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25523,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25524,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25525,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25526,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25527,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25528,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25529,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25530,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25531,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25532,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25533,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25534,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25535,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25536,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25537,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25538,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25539,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25540,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25541,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25542,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25543,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25544,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25545,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25546,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25547,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25548,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25549,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25550,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25551,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25552,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25553,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25554,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25555,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25556,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25557,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25558,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25559,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25560,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25561,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25562,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25563,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25564,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25565,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25566,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25567,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25568,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25569,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25570,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25571,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25572,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25573,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25574,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25575,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25576,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25577,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25578,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25579,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25580,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25581,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25582,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25583,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25584,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25585,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25586,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25587,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25588,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25589,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25590,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25591,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25592,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25593,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25594,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25595,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25596,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25597,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25598,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25599,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25600,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25601,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25602,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25603,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25604,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25605,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25606,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25607,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25608,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25609,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25610,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25611,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25612,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25613,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25614,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25615,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25616,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25617,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25618,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25619,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25620,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25621,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25622,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25623,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25624,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25625,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25626,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25627,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25628,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25629,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25630,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25631,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25632,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25633,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25634,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25635,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25636,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25637,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25638,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25639,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25640,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25641,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25642,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25643,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25644,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25645,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25646,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25647,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25648,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25649,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25650,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25651,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25652,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25653,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25654,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25768,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25769,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25770,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25771,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25772,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25773,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25774,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25775,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25776,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25777,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25778,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25779,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25780,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25781,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25782,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25783,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25784,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25785,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25786,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25787,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25788,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25789,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25790,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25791,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25792,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25793,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25794,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25795,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25796,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25797,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25798,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25799,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25800,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25801,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25802,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25803,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25804,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25805,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25806,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25807,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25808,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25809,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25810,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25811,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25812,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25813,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25814,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25815,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25816,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25817,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25818,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25819,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25820,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25821,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25822,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25823,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25824,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25825,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25826,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25827,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25828,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25829,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25830,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25831,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25832,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25833,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25834,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25835,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25836,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25837,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25838,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25839,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25840,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25841,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25842,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25843,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25844,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25845,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25846,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25847,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25848,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25849,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25850,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25851,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25852,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25853,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25854,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25855,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25856,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25857,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25858,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25859,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25860,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25861,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25862,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25863,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25864,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25865,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25866,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25867,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25868,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25869,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25870,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25871,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25872,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25873,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25874,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25875,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25876,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25877,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25878,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25879,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25880,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25881,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25882,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25883,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25884,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25885,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25886,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25887,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25888,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25889,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25890,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25891,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25892,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25893,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25894,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25895,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25896,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25897,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25898,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25899,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25900,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25901,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25902,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25903,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25904,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25905,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25906,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25907,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25908,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25909,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25910,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25911,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25912,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25913,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25914,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25915,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25916,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25917,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25918,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25919,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25920,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25921,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25922,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25923,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25924,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25925,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25926,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25927,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25928,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25929,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25930,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25931,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25932,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25933,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25934,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25935,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25936,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25937,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25938,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25939,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25940,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25941,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25942,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25943,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25944,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25945,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25946,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25947,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25948,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25949,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25950,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25951,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25952,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25953,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25954,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25955,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25956,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25957,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25958,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25959,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25960,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25961,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25962,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25963,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25964,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25965,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25966,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25967,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25968,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25969,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25970,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25971,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25972,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25973,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25974,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25975,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25976,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25977,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25978,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25979,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25980,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25981,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25982,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25983,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25984,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25985,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25986,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25987,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25988,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25989,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25990,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25991,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25992,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25993,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25994,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25995,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25996,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25997,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25998,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 25999,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26000,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26001,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26002,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26003,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26004,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26005,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26006,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26007,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26008,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26009,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26010,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26011,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26012,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26013,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26014,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26015,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26016,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26017,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26018,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26019,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26020,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26021,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26022,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26023,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26024,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26025,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26026,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26027,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26028,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26029,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26030,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26031,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26032,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26033,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26034,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26035,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26036,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26037,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26038,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26039,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26040,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26041,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26042,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26043,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26044,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26045,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26046,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26047,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26048,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26049,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26050,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26051,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26052,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26053,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26054,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26055,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26056,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26057,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26058,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26059,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26060,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26061,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26062,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26063,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26064,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26065,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26066,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26067,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26068,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26069,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26070,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26071,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26072,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26073,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26074,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26075,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26076,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26077,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26078,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26079,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26080,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26081,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26082,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26083,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26084,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26085,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26086,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26087,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26088,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26089,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26090,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26091,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26092,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26093,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26094,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26095,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26096,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26097,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26098,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26099,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26100,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26101,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26102,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26103,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26104,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26105,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26106,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26107,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26108,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26109,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26110,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26111,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26112,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26113,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26114,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26115,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26116,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26117,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26118,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26119,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26120,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26121,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26122,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26123,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26124,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26125,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26126,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26127,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26128,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26129,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26130,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26131,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26132,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26133,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26134,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26135,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26136,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26137,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26138,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26139,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26140,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26141,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26142,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26143,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26144,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26145,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26146,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26147,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26148,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26149,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26150,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26151,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26152,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26153,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26154,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26155,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26156,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26157,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26158,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26159,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26160,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26161,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26162,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26163,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26164,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26165,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26166,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26167,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26168,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26169,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26170,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26171,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26172,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26173,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26174,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26175,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26176,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26177,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26178,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26179,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26180,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26181,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26182,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26183,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26184,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26185,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26186,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26187,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26188,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26189,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26190,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26191,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26192,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26193,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26194,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26195,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26196,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26197,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26198,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26199,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26200,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26201,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26202,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26203,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26204,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26205,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26206,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26207,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26208,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26209,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26210,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26211,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26212,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26213,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26214,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26215,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26216,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26217,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26218,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26219,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26220,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26221,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26222,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26223,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26224,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26225,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26226,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26227,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26228,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26229,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26230,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26231,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26232,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26233,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26234,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26235,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26236,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26237,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26238,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26239,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26240,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26241,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26242,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26243,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26244,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26245,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26246,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26247,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26248,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26249,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26250,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26251,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26252,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26253,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26254,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26255,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26256,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26257,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26258,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26259,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26260,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26261,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26262,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26263,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26264,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26265,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26266,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26267,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 26268,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 16619,
+     "y": -16575,
+     "z": 1271
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 17275,
+     "y": -17066,
+     "z": 1266
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 17930,
+     "y": -14773,
+     "z": 460
+    },
+    "initial_yaw_units": 1663,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 18585,
+     "y": -15756,
+     "z": 452
+    },
+    "initial_yaw_units": 802,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 665,
+     "y": -19189,
+     "z": 2460
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 1218,
+     "y": -20015,
+     "z": 2548
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -18770,
+     "y": -13953,
+     "z": 1816
+    },
+    "initial_yaw_units": 1832,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -24341,
+     "y": -17394,
+     "z": 2245
+    },
+    "initial_yaw_units": 1814,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -22375,
+     "y": -19688,
+     "z": 2513
+    },
+    "initial_yaw_units": 1601,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -21392,
+     "y": -18377,
+     "z": 2362
+    },
+    "initial_yaw_units": 1272,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -24149,
+     "y": -22739,
+     "z": 2825
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -24013,
+     "y": -23292,
+     "z": 2901
+    },
+    "initial_yaw_units": 94,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -20081,
+     "y": -24275,
+     "z": 3002
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -19753,
+     "y": -23292,
+     "z": 2889
+    },
+    "initial_yaw_units": 398,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 235,
+     "y": -22309,
+     "z": 2775
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 17930,
+     "y": -15756,
+     "z": 454
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 20551,
+     "y": -13790,
+     "z": 1133
+    },
+    "initial_yaw_units": 802,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": 21207,
+     "y": -15756,
+     "z": 1242
+    },
+    "initial_yaw_units": 881,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -584,
+     "y": -22309,
+     "z": 2776
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Thrall Master",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 103,
+    "hostility_type": 4,
+    "monster_info_id": 9092,
+    "monster_id": 9092,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -871,
+     "y": -23047,
+     "z": 2807
+    },
+    "initial_yaw_units": 398,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -18770,
+     "y": -14445,
+     "z": 1864
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -18279,
+     "y": -13953,
+     "z": 1813
+    },
+    "initial_yaw_units": 1343,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -24668,
+     "y": -12643,
+     "z": 1699
+    },
+    "initial_yaw_units": 1849,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 58,
+    "hostility_type": 4,
+    "monster_info_id": 9091,
+    "monster_id": 9091,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -24668,
+     "y": -13298,
+     "z": 1735
+    },
+    "initial_yaw_units": 686,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Field Thrall",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9090,
+    "monster_id": 9090,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 256,
+    "position": {
+     "x": -24505,
+     "y": -12970,
+     "z": 1695
+    },
+    "initial_yaw_units": 1014,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2365,
+     "y": -11332,
+     "z": 1437
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2529,
+     "y": -11004,
+     "z": 1435
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 1546,
+     "y": -11168,
+     "z": 1435
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 1218,
+     "y": -10513,
+     "z": 1434
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 1546,
+     "y": -10021,
+     "z": 1432
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2201,
+     "y": -10513,
+     "z": 1435
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2037,
+     "y": -10840,
+     "z": 1439
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Svein Hjarrandssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14489,
+     "y": 792,
+     "z": 370
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_103.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 23,
+    "mm9_rude_id": 103
+   },
+   {
+    "actor_index": 33,
+    "name": "Ivsar Forktooth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9049,
+    "monster_id": 9049,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -9186,
+     "y": -16247,
+     "z": 2096
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc90.scr",
+     "script_params": "Drangheim Main"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 24,
+    "mm9_rude_id": 90
+   },
+   {
+    "actor_index": 34,
+    "name": "Ragnheid Lifegiver",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9036,
+    "monster_id": 9036,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -5712,
+     "y": -359,
+     "z": 2291
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc92.scr"
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 29,
+    "mm9_rude_id": 92
+   },
+   {
+    "actor_index": 35,
+    "name": "Hring the Plowhands",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -6039,
+     "y": -1178,
+     "z": 2205
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc91.scr"
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 30,
+    "mm9_rude_id": 91
+   },
+   {
+    "actor_index": 36,
+    "name": "Tyock A'Norta a'leipshi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9073,
+    "monster_id": 9073,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -6073,
+     "y": -641,
+     "z": 2261
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc93.scr"
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 31,
+    "mm9_rude_id": 93
+   },
+   {
+    "actor_index": 37,
+    "name": "Iosobail A'Norta a'leipshi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -5909,
+     "y": 14,
+     "z": 2330
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 32,
+    "mm9_rude_id": 113
+   },
+   {
+    "actor_index": 38,
+    "name": "Ivsar Forktooth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9049,
+    "monster_id": 9049,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -4025,
+     "y": 1284,
+     "z": 2366
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc90.scr",
+     "script_params": "Drangheim Well"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 114,
+    "mm9_rude_id": 90
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 0,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     21320,
+     21321,
+     21322,
+     21323,
+     21324,
+     21325,
+     21326,
+     21327
+    ],
+    "face_ids": [
+     27049,
+     27050,
+     27051,
+     27052,
+     27053,
+     27054
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -7301,
+     -7301,
+     -7465,
+     -7465,
+     -7301,
+     -7465,
+     -7465,
+     -7301
+    ],
+    "y_offsets": [
+     -1809,
+     -1809,
+     -1809,
+     -1809,
+     -1829,
+     -1829,
+     -1829,
+     -1829
+    ],
+    "z_offsets": [
+     2447,
+     2202,
+     2202,
+     2447,
+     2202,
+     2202,
+     2447,
+     2447
+    ],
+    "sounds": {
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21328,
+     21329,
+     21330,
+     21331,
+     21332,
+     21333,
+     21334,
+     21335
+    ],
+    "face_ids": [
+     27055,
+     27056,
+     27057,
+     27058,
+     27059,
+     27060
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -7199,
+     -7199,
+     -7035,
+     -7035,
+     -7035,
+     -7035,
+     -7199,
+     -7199
+    ],
+    "y_offsets": [
+     -1287,
+     -1287,
+     -1287,
+     -1287,
+     -1266,
+     -1266,
+     -1266,
+     -1266
+    ],
+    "z_offsets": [
+     2447,
+     2202,
+     2202,
+     2447,
+     2447,
+     2202,
+     2202,
+     2447
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -7199.0,
+       -1276.28,
+       2324.48
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 450,
+    "close_speed": 450,
+    "state": 2,
+    "vertex_ids": [
+     21336,
+     21337,
+     21338,
+     21339,
+     21340,
+     21341,
+     21342,
+     21343
+    ],
+    "face_ids": [
+     27061,
+     27062,
+     27063,
+     27064,
+     27065,
+     27066
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -5786,
+     -5786,
+     -5950,
+     -5950,
+     -5786,
+     -5950,
+     -5950,
+     -5786
+    ],
+    "y_offsets": [
+     -2280,
+     -2280,
+     -2280,
+     -2280,
+     -2300,
+     -2300,
+     -2300,
+     -2300
+    ],
+    "z_offsets": [
+     2345,
+     2099,
+     2099,
+     2345,
+     2099,
+     2099,
+     2345,
+     2345
+    ],
+    "ai_open": [
+     3
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -5939.48,
+       -2290.04,
+       2222.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {}
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    15319,
+    3426,
+    370
+   ],
+   "direction_degrees": 267
+  },
+  {
+   "start_index": 1,
+   "source_name": "DrangheimCityExit",
+   "position": [
+    11458,
+    -4164,
+    758
+   ],
+   "direction_degrees": 169
+  },
+  {
+   "start_index": 2,
+   "source_name": "FTDrangheim",
+   "position": [
+    -15739,
+    -21244,
+    2682
+   ],
+   "direction_degrees": 181
+  },
+  {
+   "start_index": 3,
+   "source_name": "DPSecretExit",
+   "position": [
+    -4168,
+    1243,
+    2366
+   ],
+   "direction_degrees": 302
+  },
+  {
+   "start_index": 4,
+   "source_name": "DrangheimPrisonExit",
+   "position": [
+    -8359,
+    -16132,
+    1990
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 5,
+   "source_name": "ChasmOfTheDeadExit",
+   "position": [
+    2150,
+    -21644,
+    2590
+   ],
+   "direction_degrees": 235
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder5",
+   "bottom": [
+    -4167.96,
+    1076.36,
+    962.56
+   ],
+   "top": [
+    -4167.96,
+    1076.36,
+    2508.8
+   ],
+   "facing_degrees": 90.0,
+   "width": 40.96,
+   "reach": 48.0,
+   "top_exit": [
+    -4167.96,
+    1227.4,
+    2375.68
+   ],
+   "grab_at_top": true
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:drangheim:object:19",
+   "source_object_index": 19,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    -88.0,
+    636.0,
+    -4648.0
+   ],
+   "position": {
+    "x": 2304,
+    "y": -11926,
+    "z": 1628
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 3,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 0,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:drangheim:object:51",
+   "source_object_index": 51,
+   "source_class": "TreasureChest",
+   "source_name": "Prop11",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest1.dtx",
+   "source_position_lt": [
+    -3382.0,
+    830.0,
+    -996.0
+   ],
+   "position": {
+    "x": -6129,
+    "y": -2577,
+    "z": 2125
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 3,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 2,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:drangheim:object:112",
+   "source_object_index": 112,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    6518.0,
+    304.0,
+    -6195.0
+   ],
+   "position": {
+    "x": 19215,
+    "y": -15886,
+    "z": 778
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 3,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 2,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:drangheim:object:113",
+   "source_object_index": 113,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    6390.0,
+    304.0,
+    -6323.0
+   ],
+   "position": {
+    "x": 18887,
+    "y": -16214,
+    "z": 778
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 3,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 3,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 2,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "both"
+ },
+ "opaque_faces": [
+  26861,
+  26862,
+  26863,
+  26864,
+  26865,
+  26866,
+  26867,
+  26868,
+  26869,
+  26870,
+  26871,
+  26872,
+  26873,
+  26874,
+  26875,
+  26876,
+  26877,
+  26878,
+  26879,
+  26880,
+  26881,
+  26882,
+  26883,
+  26884,
+  26885,
+  26886,
+  26887,
+  26888,
+  26889,
+  26890,
+  26891,
+  26892,
+  26893,
+  26894,
+  26895,
+  26896,
+  26897,
+  26898,
+  26899,
+  26900,
+  26901,
+  26902,
+  26903,
+  26904,
+  26905,
+  26906,
+  26907,
+  26908,
+  26909,
+  26910,
+  26911,
+  26912,
+  26913,
+  26914,
+  26915,
+  26916,
+  26917,
+  26918,
+  26919,
+  26920,
+  26921,
+  26922,
+  26923,
+  26924,
+  26925,
+  26926,
+  26927,
+  26928,
+  26929,
+  26930
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    25715,
+    25716,
+    25717,
+    25718,
+    25719
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    27018,
+    27019,
+    27020,
+    27021,
+    27022,
+    27023,
+    27024,
+    27025,
+    27026,
+    27027,
+    27028,
+    27029,
+    27030,
+    27031,
+    27032,
+    27033,
+    27034,
+    27035,
+    27036,
+    27037,
+    27038,
+    27039,
+    27040,
+    27041,
+    27042,
+    27043,
+    27044,
+    27045,
+    27046,
+    27047,
+    27048
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_barriers": {
+  "faces": [
+   26940,
+   26941,
+   26942,
+   26943,
+   26944,
+   26945,
+   26946,
+   26947,
+   26948,
+   26949,
+   26950,
+   26951,
+   26952,
+   26953,
+   26954,
+   26955,
+   26956,
+   26957,
+   26958,
+   26959,
+   26960,
+   26961,
+   26962,
+   26963,
+   26964,
+   26965,
+   26966,
+   26967,
+   26968,
+   26969,
+   26970,
+   26971,
+   26972,
+   26973,
+   26974,
+   26975,
+   26976,
+   26977,
+   26978,
+   26979,
+   26980,
+   26981,
+   26982,
+   26983,
+   26984,
+   26985,
+   26986,
+   26987,
+   26988,
+   26989,
+   26990,
+   26991,
+   26992,
+   26993,
+   26994,
+   26995,
+   26996,
+   26997,
+   26998,
+   26999,
+   27000,
+   27001,
+   27002,
+   27003,
+   27004,
+   27005,
+   27006,
+   27007,
+   27008,
+   27009,
+   27010,
+   27011,
+   27012,
+   27013,
+   27014,
+   27015,
+   27016,
+   27017
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "Well water",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -4022.0,
+       1140.4
+      ],
+      [
+       -4022.0,
+       846.0
+      ],
+      [
+       -4308.8,
+       846.0
+      ],
+      [
+       -4308.8,
+       1140.4
+      ]
+     ],
+     "bottom": 337.9,
+     "top": 993.3
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -38103.3,
+       26518.2
+      ],
+      [
+       -38103.3,
+       31430.3
+      ],
+      [
+       -33191.2,
+       31430.3
+      ],
+      [
+       -33191.2,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       31430.3
+      ],
+      [
+       -28276.0,
+       31430.3
+      ],
+      [
+       -28276.0,
+       26518.2
+      ],
+      [
+       -33191.2,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       21603.0
+      ],
+      [
+       -38103.3,
+       26518.2
+      ],
+      [
+       -33191.2,
+       26518.2
+      ],
+      [
+       -33191.2,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       31430.3
+      ],
+      [
+       -23360.8,
+       31430.3
+      ],
+      [
+       -23360.8,
+       26518.2
+      ],
+      [
+       -28276.0,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       26518.2
+      ],
+      [
+       -28276.0,
+       26518.2
+      ],
+      [
+       -28276.0,
+       21603.0
+      ],
+      [
+       -33191.2,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       16687.8
+      ],
+      [
+       -38103.3,
+       21603.0
+      ],
+      [
+       -33191.2,
+       21603.0
+      ],
+      [
+       -33191.2,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       31430.3
+      ],
+      [
+       -18445.6,
+       31430.3
+      ],
+      [
+       -18445.6,
+       26518.2
+      ],
+      [
+       -23360.8,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       26518.2
+      ],
+      [
+       -23360.8,
+       26518.2
+      ],
+      [
+       -23360.8,
+       21603.0
+      ],
+      [
+       -28276.0,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       21603.0
+      ],
+      [
+       -28276.0,
+       21603.0
+      ],
+      [
+       -28276.0,
+       16687.8
+      ],
+      [
+       -33191.2,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       11772.6
+      ],
+      [
+       -38103.3,
+       16687.8
+      ],
+      [
+       -33191.2,
+       16687.8
+      ],
+      [
+       -33191.2,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       31430.3
+      ],
+      [
+       -13530.4,
+       31430.3
+      ],
+      [
+       -13530.4,
+       26518.2
+      ],
+      [
+       -18445.6,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       26518.2
+      ],
+      [
+       -18445.6,
+       26518.2
+      ],
+      [
+       -18445.6,
+       21603.0
+      ],
+      [
+       -23360.8,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       21603.0
+      ],
+      [
+       -23360.8,
+       21603.0
+      ],
+      [
+       -23360.8,
+       16687.8
+      ],
+      [
+       -28276.0,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       16687.8
+      ],
+      [
+       -28276.0,
+       16687.8
+      ],
+      [
+       -28276.0,
+       11772.6
+      ],
+      [
+       -33191.2,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       6857.4
+      ],
+      [
+       -38103.3,
+       11772.6
+      ],
+      [
+       -33191.2,
+       11772.6
+      ],
+      [
+       -33191.2,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       31430.3
+      ],
+      [
+       -8615.2,
+       31430.3
+      ],
+      [
+       -8615.2,
+       26518.2
+      ],
+      [
+       -13530.4,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       26518.2
+      ],
+      [
+       -13530.4,
+       26518.2
+      ],
+      [
+       -13530.4,
+       21603.0
+      ],
+      [
+       -18445.6,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       21603.0
+      ],
+      [
+       -18445.6,
+       21603.0
+      ],
+      [
+       -18445.6,
+       16687.8
+      ],
+      [
+       -23360.8,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       16687.8
+      ],
+      [
+       -23360.8,
+       16687.8
+      ],
+      [
+       -23360.8,
+       11772.6
+      ],
+      [
+       -28276.0,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       11772.6
+      ],
+      [
+       -28276.0,
+       11772.6
+      ],
+      [
+       -28276.0,
+       6857.4
+      ],
+      [
+       -33191.2,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       1942.2
+      ],
+      [
+       -38103.3,
+       6857.4
+      ],
+      [
+       -33191.2,
+       6857.4
+      ],
+      [
+       -33191.2,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       31430.3
+      ],
+      [
+       -3700.0,
+       31430.3
+      ],
+      [
+       -3700.0,
+       26518.2
+      ],
+      [
+       -8615.2,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       26518.2
+      ],
+      [
+       -8615.2,
+       26518.2
+      ],
+      [
+       -8615.2,
+       21603.0
+      ],
+      [
+       -13530.4,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       21603.0
+      ],
+      [
+       -13530.4,
+       21603.0
+      ],
+      [
+       -13530.4,
+       16687.8
+      ],
+      [
+       -18445.6,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       16687.8
+      ],
+      [
+       -18445.6,
+       16687.8
+      ],
+      [
+       -18445.6,
+       11772.6
+      ],
+      [
+       -23360.8,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       11772.6
+      ],
+      [
+       -23360.8,
+       11772.6
+      ],
+      [
+       -23360.8,
+       6857.4
+      ],
+      [
+       -28276.0,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       6857.4
+      ],
+      [
+       -28276.0,
+       6857.4
+      ],
+      [
+       -28276.0,
+       1942.2
+      ],
+      [
+       -33191.2,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       -2973.0
+      ],
+      [
+       -38103.3,
+       1942.2
+      ],
+      [
+       -33191.2,
+       1942.2
+      ],
+      [
+       -33191.2,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       31430.3
+      ],
+      [
+       1215.2,
+       31430.3
+      ],
+      [
+       1215.2,
+       26518.2
+      ],
+      [
+       -3700.0,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       26518.2
+      ],
+      [
+       -3700.0,
+       26518.2
+      ],
+      [
+       -3700.0,
+       21603.0
+      ],
+      [
+       -8615.2,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       21603.0
+      ],
+      [
+       -8615.2,
+       21603.0
+      ],
+      [
+       -8615.2,
+       16687.8
+      ],
+      [
+       -13530.4,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       16687.8
+      ],
+      [
+       -13530.4,
+       16687.8
+      ],
+      [
+       -13530.4,
+       11772.6
+      ],
+      [
+       -18445.6,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       11772.6
+      ],
+      [
+       -18445.6,
+       11772.6
+      ],
+      [
+       -18445.6,
+       6857.4
+      ],
+      [
+       -23360.8,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       6857.4
+      ],
+      [
+       -23360.8,
+       6857.4
+      ],
+      [
+       -23360.8,
+       1942.2
+      ],
+      [
+       -28276.0,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       1942.2
+      ],
+      [
+       -28276.0,
+       1942.2
+      ],
+      [
+       -28276.0,
+       -2973.0
+      ],
+      [
+       -33191.2,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       -7888.2
+      ],
+      [
+       -38103.3,
+       -2973.0
+      ],
+      [
+       -33191.2,
+       -2973.0
+      ],
+      [
+       -33191.2,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -38103.3,
+       -10512.8
+      ],
+      [
+       -38103.3,
+       -7888.2
+      ],
+      [
+       -33191.2,
+       -7888.2
+      ],
+      [
+       -33191.2,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       31430.3
+      ],
+      [
+       6130.4,
+       31430.3
+      ],
+      [
+       6130.4,
+       26518.2
+      ],
+      [
+       1215.2,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       26518.2
+      ],
+      [
+       1215.2,
+       26518.2
+      ],
+      [
+       1215.2,
+       21603.0
+      ],
+      [
+       -3700.0,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       21603.0
+      ],
+      [
+       -3700.0,
+       21603.0
+      ],
+      [
+       -3700.0,
+       16687.8
+      ],
+      [
+       -8615.2,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       16687.8
+      ],
+      [
+       -8615.2,
+       16687.8
+      ],
+      [
+       -8615.2,
+       11772.6
+      ],
+      [
+       -13530.4,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       11772.6
+      ],
+      [
+       -13530.4,
+       11772.6
+      ],
+      [
+       -13530.4,
+       6857.4
+      ],
+      [
+       -18445.6,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       6857.4
+      ],
+      [
+       -18445.6,
+       6857.4
+      ],
+      [
+       -18445.6,
+       1942.2
+      ],
+      [
+       -23360.8,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       1942.2
+      ],
+      [
+       -23360.8,
+       1942.2
+      ],
+      [
+       -23360.8,
+       -2973.0
+      ],
+      [
+       -28276.0,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       -2973.0
+      ],
+      [
+       -28276.0,
+       -2973.0
+      ],
+      [
+       -28276.0,
+       -7888.2
+      ],
+      [
+       -33191.2,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -33191.2,
+       -7888.2
+      ],
+      [
+       -28276.0,
+       -7888.2
+      ],
+      [
+       -28276.0,
+       -10512.8
+      ],
+      [
+       -33191.2,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       31430.3
+      ],
+      [
+       11045.6,
+       31430.3
+      ],
+      [
+       11045.6,
+       26518.2
+      ],
+      [
+       6130.4,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       26518.2
+      ],
+      [
+       6130.4,
+       26518.2
+      ],
+      [
+       6130.4,
+       21603.0
+      ],
+      [
+       1215.2,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       21603.0
+      ],
+      [
+       1215.2,
+       21603.0
+      ],
+      [
+       1215.2,
+       16687.8
+      ],
+      [
+       -3700.0,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       16687.8
+      ],
+      [
+       -3700.0,
+       16687.8
+      ],
+      [
+       -3700.0,
+       11772.6
+      ],
+      [
+       -8615.2,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       11772.6
+      ],
+      [
+       -8615.2,
+       11772.6
+      ],
+      [
+       -8615.2,
+       6857.4
+      ],
+      [
+       -13530.4,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       6857.4
+      ],
+      [
+       -13530.4,
+       6857.4
+      ],
+      [
+       -13530.4,
+       1942.2
+      ],
+      [
+       -18445.6,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       1942.2
+      ],
+      [
+       -18445.6,
+       1942.2
+      ],
+      [
+       -18445.6,
+       -2973.0
+      ],
+      [
+       -23360.8,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       -2973.0
+      ],
+      [
+       -23360.8,
+       -2973.0
+      ],
+      [
+       -23360.8,
+       -7888.2
+      ],
+      [
+       -28276.0,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -28276.0,
+       -7888.2
+      ],
+      [
+       -23360.8,
+       -7888.2
+      ],
+      [
+       -23360.8,
+       -10512.8
+      ],
+      [
+       -28276.0,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       31430.3
+      ],
+      [
+       15960.8,
+       31430.3
+      ],
+      [
+       15960.8,
+       26518.2
+      ],
+      [
+       11045.6,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       26518.2
+      ],
+      [
+       11045.6,
+       26518.2
+      ],
+      [
+       11045.6,
+       21603.0
+      ],
+      [
+       6130.4,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       21603.0
+      ],
+      [
+       6130.4,
+       21603.0
+      ],
+      [
+       6130.4,
+       16687.8
+      ],
+      [
+       1215.2,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       16687.8
+      ],
+      [
+       1215.2,
+       16687.8
+      ],
+      [
+       1215.2,
+       11772.6
+      ],
+      [
+       -3700.0,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       11772.6
+      ],
+      [
+       -3700.0,
+       11772.6
+      ],
+      [
+       -3700.0,
+       6857.4
+      ],
+      [
+       -8615.2,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       6857.4
+      ],
+      [
+       -8615.2,
+       6857.4
+      ],
+      [
+       -8615.2,
+       1942.2
+      ],
+      [
+       -13530.4,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       1942.2
+      ],
+      [
+       -13530.4,
+       1942.2
+      ],
+      [
+       -13530.4,
+       -2973.0
+      ],
+      [
+       -18445.6,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       -2973.0
+      ],
+      [
+       -18445.6,
+       -2973.0
+      ],
+      [
+       -18445.6,
+       -7888.2
+      ],
+      [
+       -23360.8,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -23360.8,
+       -7888.2
+      ],
+      [
+       -18445.6,
+       -7888.2
+      ],
+      [
+       -18445.6,
+       -10512.8
+      ],
+      [
+       -23360.8,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       31430.3
+      ],
+      [
+       20876.0,
+       31430.3
+      ],
+      [
+       20876.0,
+       26518.2
+      ],
+      [
+       15960.8,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       26518.2
+      ],
+      [
+       15960.8,
+       26518.2
+      ],
+      [
+       15960.8,
+       21603.0
+      ],
+      [
+       11045.6,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       21603.0
+      ],
+      [
+       11045.6,
+       21603.0
+      ],
+      [
+       11045.6,
+       16687.8
+      ],
+      [
+       6130.4,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       16687.8
+      ],
+      [
+       6130.4,
+       16687.8
+      ],
+      [
+       6130.4,
+       11772.6
+      ],
+      [
+       1215.2,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       11772.6
+      ],
+      [
+       1215.2,
+       11772.6
+      ],
+      [
+       1215.2,
+       6857.4
+      ],
+      [
+       -3700.0,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       6857.4
+      ],
+      [
+       -3700.0,
+       6857.4
+      ],
+      [
+       -3700.0,
+       1942.2
+      ],
+      [
+       -8615.2,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       1942.2
+      ],
+      [
+       -8615.2,
+       1942.2
+      ],
+      [
+       -8615.2,
+       -2973.0
+      ],
+      [
+       -13530.4,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       -2973.0
+      ],
+      [
+       -13530.4,
+       -2973.0
+      ],
+      [
+       -13530.4,
+       -7888.2
+      ],
+      [
+       -18445.6,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -18445.6,
+       -7888.2
+      ],
+      [
+       -13530.4,
+       -7888.2
+      ],
+      [
+       -13530.4,
+       -10512.8
+      ],
+      [
+       -18445.6,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       31430.3
+      ],
+      [
+       25791.2,
+       31430.3
+      ],
+      [
+       25791.2,
+       26518.2
+      ],
+      [
+       20876.0,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       26518.2
+      ],
+      [
+       20876.0,
+       26518.2
+      ],
+      [
+       20876.0,
+       21603.0
+      ],
+      [
+       15960.8,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       21603.0
+      ],
+      [
+       15960.8,
+       21603.0
+      ],
+      [
+       15960.8,
+       16687.8
+      ],
+      [
+       11045.6,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       16687.8
+      ],
+      [
+       11045.6,
+       16687.8
+      ],
+      [
+       11045.6,
+       11772.6
+      ],
+      [
+       6130.4,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       11772.6
+      ],
+      [
+       6130.4,
+       11772.6
+      ],
+      [
+       6130.4,
+       6857.4
+      ],
+      [
+       1215.2,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       6857.4
+      ],
+      [
+       1215.2,
+       6857.4
+      ],
+      [
+       1215.2,
+       1942.2
+      ],
+      [
+       -3700.0,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       1942.2
+      ],
+      [
+       -3700.0,
+       1942.2
+      ],
+      [
+       -3700.0,
+       -2973.0
+      ],
+      [
+       -8615.2,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       -2973.0
+      ],
+      [
+       -8615.2,
+       -2973.0
+      ],
+      [
+       -8615.2,
+       -7888.2
+      ],
+      [
+       -13530.4,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -13530.4,
+       -7888.2
+      ],
+      [
+       -8615.2,
+       -7888.2
+      ],
+      [
+       -8615.2,
+       -10512.8
+      ],
+      [
+       -13530.4,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       31430.3
+      ],
+      [
+       30706.4,
+       31430.3
+      ],
+      [
+       30706.4,
+       26518.2
+      ],
+      [
+       25791.2,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       26518.2
+      ],
+      [
+       25791.2,
+       26518.2
+      ],
+      [
+       25791.2,
+       21603.0
+      ],
+      [
+       20876.0,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       21603.0
+      ],
+      [
+       20876.0,
+       21603.0
+      ],
+      [
+       20876.0,
+       16687.8
+      ],
+      [
+       15960.8,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       16687.8
+      ],
+      [
+       15960.8,
+       16687.8
+      ],
+      [
+       15960.8,
+       11772.6
+      ],
+      [
+       11045.6,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       11772.6
+      ],
+      [
+       11045.6,
+       11772.6
+      ],
+      [
+       11045.6,
+       6857.4
+      ],
+      [
+       6130.4,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       6857.4
+      ],
+      [
+       6130.4,
+       6857.4
+      ],
+      [
+       6130.4,
+       1942.2
+      ],
+      [
+       1215.2,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       1942.2
+      ],
+      [
+       1215.2,
+       1942.2
+      ],
+      [
+       1215.2,
+       -2973.0
+      ],
+      [
+       -3700.0,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       -2973.0
+      ],
+      [
+       -3700.0,
+       -2973.0
+      ],
+      [
+       -3700.0,
+       -7888.2
+      ],
+      [
+       -8615.2,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -8615.2,
+       -7888.2
+      ],
+      [
+       -3700.0,
+       -7888.2
+      ],
+      [
+       -3700.0,
+       -10512.8
+      ],
+      [
+       -8615.2,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       31430.3
+      ],
+      [
+       35621.6,
+       31430.3
+      ],
+      [
+       35621.6,
+       26518.2
+      ],
+      [
+       30706.4,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       26518.2
+      ],
+      [
+       30706.4,
+       26518.2
+      ],
+      [
+       30706.4,
+       21603.0
+      ],
+      [
+       25791.2,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       21603.0
+      ],
+      [
+       25791.2,
+       21603.0
+      ],
+      [
+       25791.2,
+       16687.8
+      ],
+      [
+       20876.0,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       16687.8
+      ],
+      [
+       20876.0,
+       16687.8
+      ],
+      [
+       20876.0,
+       11772.6
+      ],
+      [
+       15960.8,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       11772.6
+      ],
+      [
+       15960.8,
+       11772.6
+      ],
+      [
+       15960.8,
+       6857.4
+      ],
+      [
+       11045.6,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       6857.4
+      ],
+      [
+       11045.6,
+       6857.4
+      ],
+      [
+       11045.6,
+       1942.2
+      ],
+      [
+       6130.4,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       1942.2
+      ],
+      [
+       6130.4,
+       1942.2
+      ],
+      [
+       6130.4,
+       -2973.0
+      ],
+      [
+       1215.2,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       -2973.0
+      ],
+      [
+       1215.2,
+       -2973.0
+      ],
+      [
+       1215.2,
+       -7888.2
+      ],
+      [
+       -3700.0,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       -3700.0,
+       -7888.2
+      ],
+      [
+       1215.2,
+       -7888.2
+      ],
+      [
+       1215.2,
+       -10512.8
+      ],
+      [
+       -3700.0,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       31430.3
+      ],
+      [
+       40536.8,
+       31430.3
+      ],
+      [
+       40536.8,
+       26518.2
+      ],
+      [
+       35621.6,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       31430.3
+      ],
+      [
+       44472.0,
+       31430.3
+      ],
+      [
+       44472.0,
+       28805.8
+      ],
+      [
+       44472.0,
+       26518.2
+      ],
+      [
+       40536.8,
+       26518.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       26518.2
+      ],
+      [
+       35621.6,
+       26518.2
+      ],
+      [
+       35621.6,
+       21603.0
+      ],
+      [
+       30706.4,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       21603.0
+      ],
+      [
+       30706.4,
+       21603.0
+      ],
+      [
+       30706.4,
+       16687.8
+      ],
+      [
+       25791.2,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       16687.8
+      ],
+      [
+       25791.2,
+       16687.8
+      ],
+      [
+       25791.2,
+       11772.6
+      ],
+      [
+       20876.0,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       11772.6
+      ],
+      [
+       20876.0,
+       11772.6
+      ],
+      [
+       20876.0,
+       6857.4
+      ],
+      [
+       15960.8,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       6857.4
+      ],
+      [
+       15960.8,
+       6857.4
+      ],
+      [
+       15960.8,
+       1942.2
+      ],
+      [
+       11045.6,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       1942.2
+      ],
+      [
+       11045.6,
+       1942.2
+      ],
+      [
+       11045.6,
+       -2973.0
+      ],
+      [
+       6130.4,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       -2973.0
+      ],
+      [
+       6130.4,
+       -2973.0
+      ],
+      [
+       6130.4,
+       -7888.2
+      ],
+      [
+       1215.2,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       1215.2,
+       -7888.2
+      ],
+      [
+       6130.4,
+       -7888.2
+      ],
+      [
+       6130.4,
+       -10512.8
+      ],
+      [
+       1215.2,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       26518.2
+      ],
+      [
+       40536.8,
+       26518.2
+      ],
+      [
+       40536.8,
+       21603.0
+      ],
+      [
+       35621.6,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       26518.2
+      ],
+      [
+       44472.0,
+       26518.2
+      ],
+      [
+       44472.0,
+       23890.6
+      ],
+      [
+       44472.0,
+       21603.0
+      ],
+      [
+       40536.8,
+       21603.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       21603.0
+      ],
+      [
+       35621.6,
+       21603.0
+      ],
+      [
+       35621.6,
+       16687.8
+      ],
+      [
+       30706.4,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       16687.8
+      ],
+      [
+       30706.4,
+       16687.8
+      ],
+      [
+       30706.4,
+       11772.6
+      ],
+      [
+       25791.2,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       11772.6
+      ],
+      [
+       25791.2,
+       11772.6
+      ],
+      [
+       25791.2,
+       6857.4
+      ],
+      [
+       20876.0,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       6857.4
+      ],
+      [
+       20876.0,
+       6857.4
+      ],
+      [
+       20876.0,
+       1942.2
+      ],
+      [
+       15960.8,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       1942.2
+      ],
+      [
+       15960.8,
+       1942.2
+      ],
+      [
+       15960.8,
+       -2973.0
+      ],
+      [
+       11045.6,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       -2973.0
+      ],
+      [
+       11045.6,
+       -2973.0
+      ],
+      [
+       11045.6,
+       -7888.2
+      ],
+      [
+       6130.4,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       6130.4,
+       -7888.2
+      ],
+      [
+       11045.6,
+       -7888.2
+      ],
+      [
+       11045.6,
+       -10512.8
+      ],
+      [
+       6130.4,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       21603.0
+      ],
+      [
+       40536.8,
+       21603.0
+      ],
+      [
+       40536.8,
+       16687.8
+      ],
+      [
+       35621.6,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       21603.0
+      ],
+      [
+       44472.0,
+       21603.0
+      ],
+      [
+       44472.0,
+       18975.4
+      ],
+      [
+       44472.0,
+       16687.8
+      ],
+      [
+       40536.8,
+       16687.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       16687.8
+      ],
+      [
+       35621.6,
+       16687.8
+      ],
+      [
+       35621.6,
+       11772.6
+      ],
+      [
+       30706.4,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       11772.6
+      ],
+      [
+       30706.4,
+       11772.6
+      ],
+      [
+       30706.4,
+       6857.4
+      ],
+      [
+       25791.2,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       6857.4
+      ],
+      [
+       25791.2,
+       6857.4
+      ],
+      [
+       25791.2,
+       1942.2
+      ],
+      [
+       20876.0,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       1942.2
+      ],
+      [
+       20876.0,
+       1942.2
+      ],
+      [
+       20876.0,
+       -2973.0
+      ],
+      [
+       15960.8,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       -2973.0
+      ],
+      [
+       15960.8,
+       -2973.0
+      ],
+      [
+       15960.8,
+       -7888.2
+      ],
+      [
+       11045.6,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       11045.6,
+       -7888.2
+      ],
+      [
+       15960.8,
+       -7888.2
+      ],
+      [
+       15960.8,
+       -10512.8
+      ],
+      [
+       11045.6,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       16687.8
+      ],
+      [
+       40536.8,
+       16687.8
+      ],
+      [
+       40536.8,
+       11772.6
+      ],
+      [
+       35621.6,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       16687.8
+      ],
+      [
+       44472.0,
+       16687.8
+      ],
+      [
+       44472.0,
+       14060.2
+      ],
+      [
+       44472.0,
+       11772.6
+      ],
+      [
+       40536.8,
+       11772.6
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       11772.6
+      ],
+      [
+       35621.6,
+       11772.6
+      ],
+      [
+       35621.6,
+       6857.4
+      ],
+      [
+       30706.4,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       6857.4
+      ],
+      [
+       30706.4,
+       6857.4
+      ],
+      [
+       30706.4,
+       1942.2
+      ],
+      [
+       25791.2,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       1942.2
+      ],
+      [
+       25791.2,
+       1942.2
+      ],
+      [
+       25791.2,
+       -2973.0
+      ],
+      [
+       20876.0,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       -2973.0
+      ],
+      [
+       20876.0,
+       -2973.0
+      ],
+      [
+       20876.0,
+       -7888.2
+      ],
+      [
+       15960.8,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       15960.8,
+       -7888.2
+      ],
+      [
+       20876.0,
+       -7888.2
+      ],
+      [
+       20876.0,
+       -10512.8
+      ],
+      [
+       15960.8,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       11772.6
+      ],
+      [
+       40536.8,
+       11772.6
+      ],
+      [
+       40536.8,
+       6857.4
+      ],
+      [
+       35621.6,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       11772.6
+      ],
+      [
+       44472.0,
+       11772.6
+      ],
+      [
+       44472.0,
+       9145.0
+      ],
+      [
+       44472.0,
+       6857.4
+      ],
+      [
+       40536.8,
+       6857.4
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       6857.4
+      ],
+      [
+       35621.6,
+       6857.4
+      ],
+      [
+       35621.6,
+       1942.2
+      ],
+      [
+       30706.4,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       1942.2
+      ],
+      [
+       30706.4,
+       1942.2
+      ],
+      [
+       30706.4,
+       -2973.0
+      ],
+      [
+       25791.2,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       -2973.0
+      ],
+      [
+       25791.2,
+       -2973.0
+      ],
+      [
+       25791.2,
+       -7888.2
+      ],
+      [
+       20876.0,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       20876.0,
+       -7888.2
+      ],
+      [
+       25791.2,
+       -7888.2
+      ],
+      [
+       25791.2,
+       -10512.8
+      ],
+      [
+       20876.0,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       6857.4
+      ],
+      [
+       40536.8,
+       6857.4
+      ],
+      [
+       40536.8,
+       1942.2
+      ],
+      [
+       35621.6,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       6857.4
+      ],
+      [
+       44472.0,
+       6857.4
+      ],
+      [
+       44472.0,
+       4229.8
+      ],
+      [
+       44472.0,
+       1942.2
+      ],
+      [
+       40536.8,
+       1942.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       1942.2
+      ],
+      [
+       35621.6,
+       1942.2
+      ],
+      [
+       35621.6,
+       -2973.0
+      ],
+      [
+       30706.4,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       -2973.0
+      ],
+      [
+       30706.4,
+       -2973.0
+      ],
+      [
+       30706.4,
+       -7888.2
+      ],
+      [
+       25791.2,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       25791.2,
+       -7888.2
+      ],
+      [
+       30706.4,
+       -7888.2
+      ],
+      [
+       30706.4,
+       -10512.8
+      ],
+      [
+       25791.2,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       1942.2
+      ],
+      [
+       40536.8,
+       1942.2
+      ],
+      [
+       40536.8,
+       -2973.0
+      ],
+      [
+       35621.6,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       1942.2
+      ],
+      [
+       44472.0,
+       1942.2
+      ],
+      [
+       44472.0,
+       -685.4
+      ],
+      [
+       44472.0,
+       -2973.0
+      ],
+      [
+       40536.8,
+       -2973.0
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       -2973.0
+      ],
+      [
+       35621.6,
+       -2973.0
+      ],
+      [
+       35621.6,
+       -7888.2
+      ],
+      [
+       30706.4,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       30706.4,
+       -7888.2
+      ],
+      [
+       35621.6,
+       -7888.2
+      ],
+      [
+       35621.6,
+       -10512.8
+      ],
+      [
+       30706.4,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       -2973.0
+      ],
+      [
+       40536.8,
+       -2973.0
+      ],
+      [
+       40536.8,
+       -7888.2
+      ],
+      [
+       35621.6,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       -2973.0
+      ],
+      [
+       44472.0,
+       -2973.0
+      ],
+      [
+       44472.0,
+       -5600.6
+      ],
+      [
+       44472.0,
+       -7888.2
+      ],
+      [
+       40536.8,
+       -7888.2
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       35621.6,
+       -7888.2
+      ],
+      [
+       40536.8,
+       -7888.2
+      ],
+      [
+       40536.8,
+       -10512.8
+      ],
+      [
+       35621.6,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    },
+    {
+     "polygon": [
+      [
+       40536.8,
+       -7888.2
+      ],
+      [
+       44472.0,
+       -7888.2
+      ],
+      [
+       44472.0,
+       -10512.8
+      ],
+      [
+       40536.8,
+       -10512.8
+      ]
+     ],
+     "bottom": -1474.6,
+     "top": -81.9
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     40
+    ],
+    "near_distance": 1024.0,
+    "far_distance": 6400.0
+   }
+  }
+ ],
+ "destructibles": [
+  {
+   "id": 57,
+   "name": "DestructableBrush0",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.82,
+   "center": [
+    -6769,
+    -1420,
+    2191
+   ],
+   "cog": 20057
+  }
+ ],
+ "searchable_loot_props": [
+  {
+   "source_id": "mm9:drangheim:object:190",
+   "source_object_index": 190,
+   "source_class": "BonePile",
+   "source_name": "BonePile0",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -8896.0,
+    1446.0,
+    -9152.0
+   ],
+   "position": {
+    "x": -20245,
+    "y": -23456,
+    "z": 3702
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 0,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:drangheim:object:191",
+   "source_object_index": 191,
+   "source_class": "BonePile",
+   "source_name": "BonePile1",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -10240.0,
+    1446.0,
+    -8128.0
+   ],
+   "position": {
+    "x": -23685,
+    "y": -20835,
+    "z": 3702
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 0,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:drangheim:object:192",
+   "source_object_index": 192,
+   "source_class": "BonePile",
+   "source_name": "BonePile2",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -8448.0,
+    1446.0,
+    -7552.0
+   ],
+   "position": {
+    "x": -19098,
+    "y": -19360,
+    "z": 3702
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "drangheim:obj_Herbs",
+   "source_object_index": 25,
+   "source_name": "obj_Herbs",
+   "position": {
+    "x": 2306,
+    "y": -12143,
+    "z": 1434
+   },
+   "item_id": 10372,
+   "random_item_pool": [],
+   "required_qbits": [
+    90128
+   ],
+   "forbidden_qbits": [
+    90131
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [
+    90131
+   ],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "drangheim:obj_Plow",
+   "source_object_index": 26,
+   "source_name": "obj_Plow",
+   "position": {
+    "x": 2387,
+    "y": -12284,
+    "z": 1434
+   },
+   "item_id": 10371,
+   "random_item_pool": [],
+   "required_qbits": [
+    90128
+   ],
+   "forbidden_qbits": [
+    90130
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [
+    90130
+   ],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "drangheim:obj_Dolly",
+   "source_object_index": 27,
+   "source_name": "obj_Dolly",
+   "position": {
+    "x": 2552,
+    "y": -12107,
+    "z": 1431
+   },
+   "item_id": 10370,
+   "random_item_pool": [],
+   "required_qbits": [
+    90128
+   ],
+   "forbidden_qbits": [
+    90132
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [
+    90132
+   ],
+   "pickup_event": 0
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 14,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1531,
+    -10223,
+    1462
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 67,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    18347,
+    -15203,
+    475
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 75,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    16709,
+    -17333,
+    1294
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 160,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -781,
+    -23354,
+    2820
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 174,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -24907,
+    -12909,
+    1745
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   50,
+   50,
+   50
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   134,
+   143,
+   168
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "blac2dkl75",
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "refign3xtl",
+    "sturm8czwu"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "sturcr4dba"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "coludirm07",
+    "darknnzk7r",
+    "dran3iqfq4",
+    "dran7ksa90",
+    "drandtkl9o",
+    "drangvi8ss",
+    "dranhkp97t",
+    "invizvjn7n",
+    "lighh9hiw1",
+    "lqseamm9",
+    "percp5yuwn",
+    "prme7d9wfp",
+    "prmevfca7g",
+    "shin9gbl24",
+    "sky04",
+    "stur6vev4j",
+    "sturi2crmo",
+    "sturs4z7pm",
+    "thjo2ofjin",
+    "thjo4biequ",
+    "thjo84gopq",
+    "thjob3xi6b",
+    "thjog5u1gr",
+    "thjon9hsly",
+    "thjop7hfw6",
+    "thjotgg91i",
+    "thjox7bhwd",
+    "thjoxe9p56",
+    "tilezvc84d",
+    "traiugli2q",
+    "wallh6tsef"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "benc25qrwi",
+    "ruin4lpqlu",
+    "sture4gufh",
+    "sturiqrkzt",
+    "sturvz46as",
+    "thjo4xgsld",
+    "thjo87u48r",
+    "thjo8kibbg",
+    "thjoj5rw2p",
+    "thjom1vt9b",
+    "thjoxnrgri",
+    "woodv944p9",
+    "woodxpywkr"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -992,
+    "y": -23520,
+    "z": 2806
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -20704,
+    "y": -23520,
+    "z": 2925
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -20704,
+    "y": -23776,
+    "z": 2953
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -19040,
+    "y": -13920,
+    "z": 1814
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -24800,
+    "y": -23776,
+    "z": 2798
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -24672,
+    "y": -17120,
+    "z": 2206
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": 19744,
+    "y": -13280,
+    "z": 1136
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 1,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": 2080,
+    "y": -10080,
+    "z": 1436
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 1,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "drangheim_blv.yml",
+  "textures": [
+   "sturcr4dba",
+   "sturm8czwu"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/drangheim_blv.yml"
+ }
+}

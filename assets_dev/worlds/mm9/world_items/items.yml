@@ -1,0 +1,401 @@
+# MM9's own items lying on the ground in 3D, by inventory icon (items.txt "Pic File"), added to the engine's
+# engine/world_items/items.yml (GameDataLoader; an icon bound in both fails). Items sharing a design share its model.
+# Written by level_generation/props/items_mm9_claude/scripts/install_mm9.py; bounds by tools/item_model_shapes.py.
+# length: world units of the model's longest horizontal side; see devdocs/GROUND_ITEMS_3D_PLAN.md.
+schema: openyamm.itemModels.v1
+items:
+  - {icon: mm9_item_10002, model: worlds/mm9/world_items/models/item_mm9_10002.glb, length: 142.2, bounds: [-12.8, -71.1, 0, 12.8, 71.1, 9]}   # Poor Sword
+  - {icon: mm9_item_10005, model: worlds/mm9/world_items/models/item_mm9_10005.glb, length: 142.2, bounds: [-14.8, -71.1, 0, 14.8, 71.1, 10.2]}   # Shaba Couta
+  - {icon: mm9_item_10007, model: worlds/mm9/world_items/models/item_mm9_10007.glb, length: 142.2, bounds: [-6.1, -71.1, 0, 6.1, 71.1, 9]}   # Scramasax
+  - {icon: mm9_item_10009, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10563, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10564, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10565, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10566, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10567, model: worlds/mm9/world_items/models/item_mm9_10009.glb, length: 142.2, bounds: [-16.1, -71.1, 0, 16.1, 71.1, 8.2]}   # Imperial Sword
+  - {icon: mm9_item_10012, model: worlds/mm9/world_items/models/item_mm9_10012.glb, length: 142.2, bounds: [-17.8, -71.1, 0, 17.8, 71.1, 10.3]}   # Mercenary Sword
+  - {icon: mm9_item_10015, model: worlds/mm9/world_items/models/item_mm9_10015.glb, length: 142.2, bounds: [-8.3, -71.1, 0, 8.3, 71.1, 8.5]}   # Mortuary Sword
+  - {icon: mm9_item_10017, model: worlds/mm9/world_items/models/item_mm9_10017.glb, length: 142.2, bounds: [-14.8, -71.1, 0, 14.8, 71.1, 10.7]}   # Saber
+  - {icon: mm9_item_10018, model: worlds/mm9/world_items/models/item_mm9_10018.glb, length: 142.2, bounds: [-17.7, -71.1, 0, 17.7, 71.1, 8.1]}   # Scimitar
+  - {icon: mm9_item_10021, model: worlds/mm9/world_items/models/item_mm9_10021.glb, length: 175.5, bounds: [-16.2, -87.8, 0, 16.2, 87.8, 9]}   # Flamberge
+  - {icon: mm9_item_10022, model: worlds/mm9/world_items/models/item_mm9_10022.glb, length: 175.5, bounds: [-15.6, -87.8, 0, 15.6, 87.8, 27]}   # The Chopper
+  - {icon: mm9_item_10026, model: worlds/mm9/world_items/models/item_mm9_10026.glb, length: 110.7, bounds: [-11.9, -55.4, 0, 11.9, 55.4, 7.3]}   # Stiletto
+  - {icon: mm9_item_10029, model: worlds/mm9/world_items/models/item_mm9_10029.glb, length: 110.7, bounds: [-14.8, -55.4, 0, 14.8, 55.4, 11.5]}   # Elite Dagger
+  - {icon: mm9_item_10032, model: worlds/mm9/world_items/models/item_mm9_10032.glb, length: 110.7, bounds: [-17, -55.4, 0, 17, 55.4, 10.2]}   # Baselard
+  - {icon: mm9_item_10033, model: worlds/mm9/world_items/models/item_mm9_10033.glb, length: 110.7, bounds: [-13.7, -55.4, 0, 13.7, 55.4, 19.2]}   # Chedian Dirk
+  - {icon: mm9_item_10034, model: worlds/mm9/world_items/models/item_mm9_10034.glb, length: 101.7, bounds: [-24.6, -50.8, 0, 24.6, 50.8, 17.5]}   # Throwing Dagger
+  - {icon: mm9_item_10036, model: worlds/mm9/world_items/models/item_mm9_10036.glb, length: 127.8, bounds: [-16.3, -63.9, 0, 16.3, 63.9, 8.2]}   # Hatchet
+  - {icon: mm9_item_10037, model: worlds/mm9/world_items/models/item_mm9_10037.glb, length: 127.8, bounds: [-17.2, -63.9, 0, 17.2, 63.9, 4.7]}   # Combat Axe
+  - {icon: mm9_item_10038, model: worlds/mm9/world_items/models/item_mm9_10038.glb, length: 118.8, bounds: [-24.1, -59.4, 0, 24.1, 59.4, 12.4]}   # Battle Witch
+  - {icon: mm9_item_10039, model: worlds/mm9/world_items/models/item_mm9_10039.glb, length: 119.2, bounds: [-24.7, -59.6, 0, 24.7, 59.6, 9.7]}   # Storm Axe
+  - {icon: mm9_item_10040, model: worlds/mm9/world_items/models/item_mm9_10040.glb, length: 112.5, bounds: [-17.8, -56.2, 0, 17.8, 56.2, 8.2]}   # Throwing Axe
+  - {icon: mm9_item_10041, model: worlds/mm9/world_items/models/item_mm9_10041.glb, length: 179.1, bounds: [-16.2, -89.6, 0, 16.2, 89.6, 9.9]}   # Student's Bow
+  - {icon: mm9_item_10042, model: worlds/mm9/world_items/models/item_mm9_10042.glb, length: 179.1, bounds: [-18, -89.6, 0, 18, 89.6, 7.7]}   # Cavalry Bow
+  - {icon: mm9_item_10043, model: worlds/mm9/world_items/models/item_mm9_10043.glb, length: 179.1, bounds: [-21.9, -89.6, 0, 21.9, 89.6, 13.5]}   # Coward's Bow
+  - {icon: mm9_item_10048, model: worlds/mm9/world_items/models/item_mm9_10048.glb, length: 179.1, bounds: [-20.5, -89.6, 0, 20.5, 89.6, 13.1]}   # Composite Bow
+  - {icon: mm9_item_10050, model: worlds/mm9/world_items/models/item_mm9_10050.glb, length: 179.1, bounds: [-22.6, -89.6, 0, 22.6, 89.6, 22.6]}   # Dark Bow
+  - {icon: mm9_item_10051, model: worlds/mm9/world_items/models/item_mm9_10051.glb, length: 81.0, bounds: [-31.7, -40.5, 0, 31.7, 40.5, 16.4]}   # Deadman's Crossbow
+  - {icon: mm9_item_10055, model: worlds/mm9/world_items/models/item_mm9_10055.glb, length: 108.9, bounds: [-31.6, -54.4, 0, 31.6, 54.4, 14.6]}   # Thjoradric Arbalest
+  - {icon: mm9_item_10056, model: worlds/mm9/world_items/models/item_mm9_10056.glb, length: 257.4, bounds: [-11, -128.7, 0, 11, 128.7, 13.3]}   # Crude Spear
+  - {icon: mm9_item_10057, model: worlds/mm9/world_items/models/item_mm9_10057.glb, length: 257.4, bounds: [-21.2, -128.7, 0, 21.2, 128.7, 9.4]}   # Sergeant's Spear
+  - {icon: mm9_item_10058, model: worlds/mm9/world_items/models/item_mm9_10058.glb, length: 257.4, bounds: [-16.9, -128.7, 0, 16.9, 128.7, 23.6]}   # Abli Duta
+  - {icon: mm9_item_10059, model: worlds/mm9/world_items/models/item_mm9_10059.glb, length: 257.4, bounds: [-7.2, -128.7, 0, 7.2, 128.7, 13.7]}   # Pike
+  - {icon: mm9_item_10060, model: worlds/mm9/world_items/models/item_mm9_10060.glb, length: 257.4, bounds: [-21, -128.7, 0, 21, 128.7, 12]}   # Imperial Spear
+  - {icon: mm9_item_10061, model: worlds/mm9/world_items/models/item_mm9_10061.glb, length: 253.8, bounds: [-27.1, -126.9, 0, 27.1, 126.9, 7.7]}   # Halberd
+  - {icon: mm9_item_10062, model: worlds/mm9/world_items/models/item_mm9_10062.glb, length: 253.8, bounds: [-18.7, -126.9, 0, 18.7, 126.9, 15]}   # Ronenguard Bill
+  - {icon: mm9_item_10063, model: worlds/mm9/world_items/models/item_mm9_10063.glb, length: 253.8, bounds: [-18.5, -126.9, 0, 18.5, 126.9, 5.6]}   # Yagar Axe
+  - {icon: mm9_item_10064, model: worlds/mm9/world_items/models/item_mm9_10064.glb, length: 253.8, bounds: [-26.2, -126.9, 0, 26.2, 126.9, 6.9]}   # Regimental Halberd
+  - {icon: mm9_item_10065, model: worlds/mm9/world_items/models/item_mm9_10065.glb, length: 253.8, bounds: [-19.2, -126.9, 0, 19.2, 126.9, 6]}   # Laga Couta
+  - {icon: mm9_item_10066, model: worlds/mm9/world_items/models/item_mm9_10066.glb, length: 151.2, bounds: [-18.8, -75.6, 0, 18.8, 75.6, 26.7]}   # Bone Club
+  - {icon: mm9_item_10067, model: worlds/mm9/world_items/models/item_mm9_10067.glb, length: 151.2, bounds: [-8.6, -75.6, 0, 8.6, 75.6, 10.3]}   # Crude Mace
+  - {icon: mm9_item_10068, model: worlds/mm9/world_items/models/item_mm9_10068.glb, length: 151.2, bounds: [-21.4, -75.6, 0, 21.4, 75.6, 15.2]}   # Spiked Club
+  - {icon: mm9_item_10069, model: worlds/mm9/world_items/models/item_mm9_10069.glb, length: 151.2, bounds: [-63.5, -75.6, 0, 63.5, 75.6, 34]}   # Dragon Club
+  - {icon: mm9_item_10070, model: worlds/mm9/world_items/models/item_mm9_10070.glb, length: 151.2, bounds: [-22.4, -75.6, 0, 22.4, 75.6, 35.1]}   # Thjoradric Mace
+  - {icon: mm9_item_10071, model: worlds/mm9/world_items/models/item_mm9_10071.glb, length: 145.8, bounds: [-10.2, -72.9, 0, 10.2, 72.9, 10.3]}   # Flail
+  - {icon: mm9_item_10072, model: worlds/mm9/world_items/models/item_mm9_10072.glb, length: 145.8, bounds: [-27.8, -72.9, 0, 27.8, 72.9, 16.7]}   # Horseman's Flail
+  - {icon: mm9_item_10073, model: worlds/mm9/world_items/models/item_mm9_10073.glb, length: 145.8, bounds: [-13.5, -72.9, 0, 13.5, 72.9, 14.8]}   # Morning Star
+  - {icon: mm9_item_10074, model: worlds/mm9/world_items/models/item_mm9_10074.glb, length: 145.8, bounds: [-18.7, -72.9, 0, 18.7, 72.9, 20.5]}   # War Star
+  - {icon: mm9_item_10075, model: worlds/mm9/world_items/models/item_mm9_10075.glb, length: 145.8, bounds: [-25.3, -72.9, 0, 25.3, 72.9, 34.9]}   # Imperial Star
+  - {icon: mm9_item_10076, model: worlds/mm9/world_items/models/item_mm9_10076.glb, length: 259.2, bounds: [-12.8, -129.6, 0, 12.8, 129.6, 19.7]}   # Wooden Staff
+  - {icon: mm9_item_10077, model: worlds/mm9/world_items/models/item_mm9_10077.glb, length: 259.2, bounds: [-5.2, -129.6, 0, 5.2, 129.6, 9.9]}   # Tournament Staff
+  - {icon: mm9_item_10078, model: worlds/mm9/world_items/models/item_mm9_10078.glb, length: 259.2, bounds: [-5.4, -129.6, 0, 5.4, 129.6, 10.3]}   # Steel Staff
+  - {icon: mm9_item_10079, model: worlds/mm9/world_items/models/item_mm9_10079.glb, length: 259.2, bounds: [-13.1, -129.6, 0, 13.1, 129.6, 10.3]}   # Monastic Staff
+  - {icon: mm9_item_10080, model: worlds/mm9/world_items/models/item_mm9_10080.glb, length: 259.2, bounds: [-16.5, -129.6, 0, 16.5, 129.6, 13.3]}   # Truth Staff
+  - {icon: mm9_item_10081, model: worlds/mm9/world_items/models/item_mm9_10081.glb, length: 132.3, bounds: [-27.5, -66.2, 0, 27.5, 66.2, 9.4]}   # Hammer
+  - {icon: mm9_item_10082, model: worlds/mm9/world_items/models/item_mm9_10082.glb, length: 106.7, bounds: [-27.6, -53.4, 0, 27.6, 53.4, 20.4]}   # Dwarven Hammer
+  - {icon: mm9_item_10083, model: worlds/mm9/world_items/models/item_mm9_10083.glb, length: 136.8, bounds: [-23.1, -68.4, 0, 23.1, 68.4, 22.2]}   # Pondata
+  - {icon: mm9_item_10084, model: worlds/mm9/world_items/models/item_mm9_10084.glb, length: 120.2, bounds: [-28, -60.1, 0, 28, 60.1, 12.9]}   # Dragon Hammer
+  - {icon: mm9_item_10085, model: worlds/mm9/world_items/models/item_mm9_10085.glb, length: 119.2, bounds: [-27.5, -59.6, 0, 27.5, 59.6, 17.6]}   # Trellborg Hammer
+  - {icon: mm9_item_10086, model: worlds/mm9/world_items/models/item_mm9_10086.glb, length: 120.5, bounds: [-60.2, -58.1, 0, 60.2, 58.1, 54.7]}   # Arming Doublet
+  - {icon: mm9_item_10087, model: worlds/mm9/world_items/models/item_mm9_10087.glb, length: 120.5, bounds: [-56.1, -60.2, 0, 56.1, 60.2, 60.5]}   # Padded Leather
+  - {icon: mm9_item_10088, model: worlds/mm9/world_items/models/item_mm9_10088.glb, length: 120.5, bounds: [-47.1, -60.2, 0, 47.1, 60.2, 76.2]}   # Hardened Leather
+  - {icon: mm9_item_10089, model: worlds/mm9/world_items/models/item_mm9_10089.glb, length: 120.5, bounds: [-58.4, -60.2, 0, 58.4, 60.2, 65.1]}   # Beldonian Hard Leather
+  - {icon: mm9_item_10090, model: worlds/mm9/world_items/models/item_mm9_10090.glb, length: 120.5, bounds: [-46.8, -60.2, 0, 46.8, 60.2, 63.2]}   # Scaled Leather
+  - {icon: mm9_item_10091, model: worlds/mm9/world_items/models/item_mm9_10091.glb, length: 120.5, bounds: [-58.4, -60.2, 0, 58.4, 60.2, 61.6]}   # Imperial Scale
+  - {icon: mm9_item_10092, model: worlds/mm9/world_items/models/item_mm9_10092.glb, length: 120.5, bounds: [-52.1, -60.2, 0, 52.1, 60.2, 77.1]}   # Brigandine
+  - {icon: mm9_item_10093, model: worlds/mm9/world_items/models/item_mm9_10093.glb, length: 120.5, bounds: [-47, -60.2, 0, 47, 60.2, 58.7]}   # Combat Brigandine
+  - {icon: mm9_item_10094, model: worlds/mm9/world_items/models/item_mm9_10094.glb, length: 120.5, bounds: [-59.5, -60.2, 0, 59.5, 60.2, 55.8]}   # Brigan der Combit
+  - {icon: mm9_item_10095, model: worlds/mm9/world_items/models/item_mm9_10095.glb, length: 120.5, bounds: [-56.9, -60.3, 0, 56.9, 60.3, 59.9]}   # Aklean Bouila
+  - {icon: mm9_item_10096, model: worlds/mm9/world_items/models/item_mm9_10096.glb, length: 120.5, bounds: [-41, -60.2, 0, 41, 60.2, 63]}   # Butted Chain
+  - {icon: mm9_item_10097, model: worlds/mm9/world_items/models/item_mm9_10097.glb, length: 120.5, bounds: [-40.8, -60.2, 0, 40.8, 60.2, 73.7]}   # Rivited Chain
+  - {icon: mm9_item_10098, model: worlds/mm9/world_items/models/item_mm9_10098.glb, length: 120.5, bounds: [-48, -60.2, 0, 48, 60.2, 63.3]}   # Iron Chain
+  - {icon: mm9_item_10099, model: worlds/mm9/world_items/models/item_mm9_10099.glb, length: 120.5, bounds: [-54.5, -60.2, 0, 54.5, 60.2, 60.6]}   # Steel Chain
+  - {icon: mm9_item_10100, model: worlds/mm9/world_items/models/item_mm9_10100.glb, length: 120.5, bounds: [-59.2, -60.2, 0, 59.2, 60.2, 55.3]}   # Chain Haubergeon
+  - {icon: mm9_item_10101, model: worlds/mm9/world_items/models/item_mm9_10101.glb, length: 120.5, bounds: [-57.9, -60.2, 0, 57.9, 60.2, 57.7]}   # Chain Hauberk
+  - {icon: mm9_item_10102, model: worlds/mm9/world_items/models/item_mm9_10102.glb, length: 120.5, bounds: [-54.8, -60.2, 0, 54.8, 60.2, 40.4]}   # Chedian Chain
+  - {icon: mm9_item_10103, model: worlds/mm9/world_items/models/item_mm9_10103.glb, length: 119.3, bounds: [-59.6, -59.4, 0, 59.6, 59.4, 49]}   # Chain Harness
+  - {icon: mm9_item_10104, model: worlds/mm9/world_items/models/item_mm9_10104.glb, length: 120.5, bounds: [-57.9, -60.2, 0, 57.9, 60.2, 54.1]}   # Lachmon Hauberk
+  - {icon: mm9_item_10105, model: worlds/mm9/world_items/models/item_mm9_10105.glb, length: 119.3, bounds: [-59.6, -58.2, 0, 59.6, 58.2, 53.6]}   # Trigvanian Mail
+  - {icon: mm9_item_10108, model: worlds/mm9/world_items/models/item_mm9_10108.glb, length: 120.5, bounds: [-48.2, -60.2, 0, 48.2, 60.2, 70.4]}   # Ronenguard Plate
+  - {icon: mm9_item_10109, model: worlds/mm9/world_items/models/item_mm9_10109.glb, length: 120.5, bounds: [-52.9, -60.2, 0, 52.9, 60.2, 66.6]}   # Field Plate
+  - {icon: mm9_item_10110, model: worlds/mm9/world_items/models/item_mm9_10110.glb, length: 120.5, bounds: [-50.2, -60.2, 0, 50.2, 60.2, 61.2]}   # Full Plate
+  - {icon: mm9_item_10111, model: worlds/mm9/world_items/models/item_mm9_10111.glb, length: 120.5, bounds: [-52, -60.2, 0, 52, 60.2, 53.3]}   # Paladin's Plate
+  - {icon: mm9_item_10112, model: worlds/mm9/world_items/models/item_mm9_10112.glb, length: 120.5, bounds: [-49.8, -60.2, 0, 49.8, 60.2, 67.2]}   # Heavy Plate
+  - {icon: mm9_item_10113, model: worlds/mm9/world_items/models/item_mm9_10113.glb, length: 120.5, bounds: [-56.7, -60.2, 0, 56.7, 60.2, 61.2]}   # Thjoradric Plate
+  - {icon: mm9_item_10114, model: worlds/mm9/world_items/models/item_mm9_10114.glb, length: 120.5, bounds: [-31, -60.2, 0, 31, 60.2, 48]}   # Imperial Harness
+  - {icon: mm9_item_10115, model: worlds/mm9/world_items/models/item_mm9_10115.glb, length: 120.5, bounds: [-56.2, -60.2, 0, 56.2, 60.2, 49]}   # Dark Plate
+  - {icon: mm9_item_10116, model: worlds/mm9/world_items/models/item_mm9_10116.glb, length: 61.2, bounds: [-30.6, -27.3, 0, 30.6, 27.3, 62.9]}   # Coif
+  - {icon: mm9_item_10117, model: worlds/mm9/world_items/models/item_mm9_10117.glb, length: 59.4, bounds: [-28.7, -29.7, 0, 28.7, 29.7, 43.4]}   # Plain Helm
+  - {icon: mm9_item_10204, model: worlds/mm9/world_items/models/item_mm9_10117.glb, length: 59.4, bounds: [-28.7, -29.7, 0, 28.7, 29.7, 43.4]}   # Plain Helm
+  - {icon: mm9_item_10119, model: worlds/mm9/world_items/models/item_mm9_10119.glb, length: 61.2, bounds: [-26.5, -30.6, 0, 26.5, 30.6, 73]}   # Barbute Helm
+  - {icon: mm9_item_10120, model: worlds/mm9/world_items/models/item_mm9_10120.glb, length: 61.2, bounds: [-26.4, -30.6, 0, 26.4, 30.6, 80.1]}   # Loaf Helm
+  - {icon: mm9_item_10121, model: worlds/mm9/world_items/models/item_mm9_10121.glb, length: 61.2, bounds: [-26.7, -30.6, 0, 26.7, 30.6, 66.4]}   # Bascinet
+  - {icon: mm9_item_10122, model: worlds/mm9/world_items/models/item_mm9_10122.glb, length: 59.4, bounds: [-29.7, -28.4, 0, 29.7, 28.4, 53.7]}   # Sallet
+  - {icon: mm9_item_10123, model: worlds/mm9/world_items/models/item_mm9_10123.glb, length: 61.2, bounds: [-26.2, -30.6, 0, 26.2, 30.6, 61.1]}   # Dragon Helm
+  - {icon: mm9_item_10124, model: worlds/mm9/world_items/models/item_mm9_10124.glb, length: 61.2, bounds: [-24.9, -30.6, 0, 24.9, 30.6, 70.5]}   # Imperial Helm
+  - {icon: mm9_item_10125, model: worlds/mm9/world_items/models/item_mm9_10125.glb, length: 61.2, bounds: [-26.4, -30.6, 0, 26.4, 30.6, 53.3]}   # Jarl's Helm
+  - {icon: mm9_item_10126, model: worlds/mm9/world_items/models/item_mm9_10126.glb, length: 59.4, bounds: [-26, -29.7, 0, 26, 29.7, 35]}   # Leather Boots
+  - {icon: mm9_item_10127, model: worlds/mm9/world_items/models/item_mm9_10127.glb, length: 59.4, bounds: [-28.4, -29.7, 0, 28.4, 29.7, 68.5]}   # Hardened Boots
+  - {icon: mm9_item_10128, model: worlds/mm9/world_items/models/item_mm9_10128.glb, length: 63.5, bounds: [-31.2, -31.8, 0, 31.2, 31.8, 72.3]}   # Chain Boots
+  - {icon: mm9_item_10129, model: worlds/mm9/world_items/models/item_mm9_10129.glb, length: 66.6, bounds: [-33.3, -31.4, 0, 33.3, 31.4, 71.7]}   # Ronenguard Boots
+  - {icon: mm9_item_10130, model: worlds/mm9/world_items/models/item_mm9_10130.glb, length: 59.4, bounds: [-28.6, -29.7, 0, 28.6, 29.7, 42.7]}   # Steel Boots
+  - {icon: mm9_item_10131, model: worlds/mm9/world_items/models/item_mm9_10131.glb, length: 63.9, bounds: [-32, -30.6, 0, 32, 30.6, 67.2]}   # Sabaton
+  - {icon: mm9_item_10132, model: worlds/mm9/world_items/models/item_mm9_10132.glb, length: 59.4, bounds: [-26.8, -29.7, 0, 26.8, 29.7, 60.1]}   # Prote der Fatta
+  - {icon: mm9_item_10133, model: worlds/mm9/world_items/models/item_mm9_10133.glb, length: 57.6, bounds: [-14.4, -28.8, 0, 14.4, 28.8, 21.6]}   # Leather Gloves
+  - {icon: mm9_item_10134, model: worlds/mm9/world_items/models/item_mm9_10134.glb, length: 57.6, bounds: [-16.2, -28.8, 0, 16.2, 28.8, 27.1]}   # Leather Gauntlets
+  - {icon: mm9_item_10135, model: worlds/mm9/world_items/models/item_mm9_10135.glb, length: 57.6, bounds: [-14, -28.8, 0, 14, 28.8, 22.3]}   # Mail Gauntlets
+  - {icon: mm9_item_10136, model: worlds/mm9/world_items/models/item_mm9_10136.glb, length: 57.6, bounds: [-13.8, -28.8, 0, 13.8, 28.8, 21.6]}   # Steel Gauntlets
+  - {icon: mm9_item_10137, model: worlds/mm9/world_items/models/item_mm9_10137.glb, length: 57.6, bounds: [-14.7, -28.8, 0, 14.7, 28.8, 20]}   # Exceptional Mail Gauntlets
+  - {icon: mm9_item_10138, model: worlds/mm9/world_items/models/item_mm9_10138.glb, length: 57.6, bounds: [-13.3, -28.8, 0, 13.3, 28.8, 24.8]}   # Superior Steel Gauntlets
+  - {icon: mm9_item_10139, model: worlds/mm9/world_items/models/item_mm9_10139.glb, length: 55.8, bounds: [-14.8, -27.9, 0, 14.8, 27.9, 27.1]}   # Prote der Hanne
+  - {icon: mm9_item_10140, model: worlds/mm9/world_items/models/item_mm9_10140.glb, length: 57.6, bounds: [-16.2, -28.8, 0, 16.2, 28.8, 29.6]}   # Processional Gauntlets
+  - {icon: mm9_item_10141, model: worlds/mm9/world_items/models/item_mm9_10141.glb, length: 57.6, bounds: [-14.9, -28.8, 0, 14.9, 28.8, 26.3]}   # Magreeb Gauntlets
+  - {icon: mm9_item_10142, model: worlds/mm9/world_items/models/item_mm9_10142.glb, length: 75.6, bounds: [-27.5, -37.8, 0, 27.5, 37.8, 7.4]}   # Footman's Buckler
+  - {icon: mm9_item_10143, model: worlds/mm9/world_items/models/item_mm9_10143.glb, length: 83.7, bounds: [-29.7, -41.8, 0, 29.7, 41.8, 8]}   # Small Shield
+  - {icon: mm9_item_10144, model: worlds/mm9/world_items/models/item_mm9_10144.glb, length: 135.0, bounds: [-22.3, -67.5, 0, 22.3, 67.5, 6]}   # Kite Shield
+  - {icon: mm9_item_10145, model: worlds/mm9/world_items/models/item_mm9_10145.glb, length: 135.0, bounds: [-42.1, -67.5, 0, 42.1, 67.5, 11.3]}   # Heater
+  - {icon: mm9_item_10146, model: worlds/mm9/world_items/models/item_mm9_10146.glb, length: 135.0, bounds: [-31.5, -67.5, 0, 31.5, 67.5, 8.4]}   # Pavise
+  - {icon: mm9_item_10147, model: worlds/mm9/world_items/models/item_mm9_10147.glb, length: 135.0, bounds: [-28.4, -67.5, 0, 28.4, 67.5, 7.6]}   # Ronenguard Shield
+  - {icon: mm9_item_10148, model: worlds/mm9/world_items/models/item_mm9_10148.glb, length: 125.1, bounds: [-45.9, -62.6, 0, 45.9, 62.6, 12.3]}   # Prote der Solle
+  - {icon: mm9_item_10149, model: worlds/mm9/world_items/models/item_mm9_10149.glb, length: 131.4, bounds: [-46.1, -65.7, 0, 46.1, 65.7, 12.3]}   # Haklea Shovis
+  - {icon: mm9_item_10150, model: worlds/mm9/world_items/models/item_mm9_10150.glb, length: 61.2, bounds: [-30.6, -24.3, 0, 30.6, 24.3, 7.4]}   # Peasant Belt
+  - {icon: mm9_item_10151, model: worlds/mm9/world_items/models/item_mm9_10151.glb, length: 61.2, bounds: [-30.6, -24.3, 0, 30.6, 24.3, 7.4]}   # Fancy Belt
+  - {icon: mm9_item_10152, model: worlds/mm9/world_items/models/item_mm9_10152.glb, length: 61.2, bounds: [-30.6, -24.3, 0, 30.6, 24.3, 7.4]}   # Soldier's Belt
+  - {icon: mm9_item_10153, model: worlds/mm9/world_items/models/item_mm9_10153.glb, length: 61.2, bounds: [-30.6, -24.1, 0, 30.6, 24.1, 7.1]}   # Regal Belt
+  - {icon: mm9_item_10154, model: worlds/mm9/world_items/models/item_mm9_10154.glb, length: 61.2, bounds: [-30.6, -24.3, 0, 30.6, 24.3, 7.4]}   # Dragon Belt
+  - {icon: mm9_item_10155, model: worlds/mm9/world_items/models/item_mm9_10155.glb, length: 28.8, bounds: [-14.4, -13.3, 0, 14.4, 13.3, 18.7]}   # Iron Ring
+  - {icon: mm9_item_10156, model: worlds/mm9/world_items/models/item_mm9_10156.glb, length: 28.8, bounds: [-14.4, -13.3, 0, 14.4, 13.3, 18.7]}   # Gold Ring
+  - {icon: mm9_item_10157, model: worlds/mm9/world_items/models/item_mm9_10157.glb, length: 27.0, bounds: [-13.5, -12.4, 0, 13.5, 12.4, 17.5]}   # Puzzle Ring
+  - {icon: mm9_item_10158, model: worlds/mm9/world_items/models/item_mm9_10158.glb, length: 27.0, bounds: [-12.7, -13.5, 0, 12.7, 13.5, 19.7]}   # Pearl Ring
+  - {icon: mm9_item_10159, model: worlds/mm9/world_items/models/item_mm9_10159.glb, length: 28.8, bounds: [-13.6, -14.4, 0, 13.6, 14.4, 21]}   # Diamond Ring
+  - {icon: mm9_item_10160, model: worlds/mm9/world_items/models/item_mm9_10160.glb, length: 46.8, bounds: [-9.8, -23.4, 0, 9.8, 23.4, 4]}   # Bronze Amulet
+  - {icon: mm9_item_10161, model: worlds/mm9/world_items/models/item_mm9_10161.glb, length: 44.6, bounds: [-9.6, -22.3, 0, 9.6, 22.3, 3.7]}   # Platinum Amulet
+  - {icon: mm9_item_10162, model: worlds/mm9/world_items/models/item_mm9_10162.glb, length: 32.9, bounds: [-8.4, -16.4, 0, 8.4, 16.4, 2.5]}   # Gemmed Amulet
+  - {icon: mm9_item_10163, model: worlds/mm9/world_items/models/item_mm9_10163.glb, length: 49.5, bounds: [-7.6, -24.8, 0, 7.6, 24.8, 2.3]}   # Warrior Amulet
+  - {icon: mm9_item_10164, model: worlds/mm9/world_items/models/item_mm9_10164.glb, length: 42.3, bounds: [-9.4, -21.2, 0, 9.4, 21.2, 8.3]}   # Thjoradric Amulet
+  - {icon: mm9_item_10175, model: worlds/mm9/world_items/models/item_mm9_10175.glb, length: 124.2, bounds: [-22.4, -62.1, 0, 22.4, 62.1, 12.6]}   # Sing Sword
+  - {icon: mm9_item_10176, model: worlds/mm9/world_items/models/item_mm9_10176.glb, length: 135.9, bounds: [-22.4, -68, 0, 22.4, 68, 13.6]}   # Excala Banna
+  - {icon: mm9_item_10178, model: worlds/mm9/world_items/models/item_mm9_10178.glb, length: 142.2, bounds: [-13.2, -71.1, 0, 13.2, 71.1, 7.3]}   # Mevan Sword
+  - {icon: mm9_item_10179, model: worlds/mm9/world_items/models/item_mm9_10179.glb, length: 140.8, bounds: [-17.9, -70.4, 0, 17.9, 70.4, 9.7]}   # Jorhgamesh
+  - {icon: mm9_item_10180, model: worlds/mm9/world_items/models/item_mm9_10180.glb, length: 110.7, bounds: [-13.7, -55.4, 0, 13.7, 55.4, 9.4]}   # Black's Heart
+  - {icon: mm9_item_10181, model: worlds/mm9/world_items/models/item_mm9_10181.glb, length: 110.7, bounds: [-13.3, -55.4, 0, 13.3, 55.4, 5.1]}   # Integris
+  - {icon: mm9_item_10182, model: worlds/mm9/world_items/models/item_mm9_10182.glb, length: 221.8, bounds: [-32, -110.9, 0, 32, 110.9, 15]}   # Bloodaxe
+  - {icon: mm9_item_10183, model: worlds/mm9/world_items/models/item_mm9_10183.glb, length: 127.8, bounds: [-20.2, -63.9, 0, 20.2, 63.9, 7.4]}   # Sygnir
+  - {icon: mm9_item_10184, model: worlds/mm9/world_items/models/item_mm9_10184.glb, length: 179.1, bounds: [-20.1, -89.6, 0, 20.1, 89.6, 11.7]}   # Everstrike
+  - {icon: mm9_item_10185, model: worlds/mm9/world_items/models/item_mm9_10185.glb, length: 112.5, bounds: [-12.3, -56.2, 0, 12.3, 56.2, 16.6]}   # Trolleri
+  - {icon: mm9_item_10186, model: worlds/mm9/world_items/models/item_mm9_10186.glb, length: 109.8, bounds: [-24.6, -54.9, 0, 24.6, 54.9, 10.7]}   # Tillhygge
+  - {icon: mm9_item_10187, model: worlds/mm9/world_items/models/item_mm9_10187.glb, length: 126.0, bounds: [-32.3, -63, 0, 32.3, 63, 13.4]}   # Kraftig Bage
+  - {icon: mm9_item_10188, model: worlds/mm9/world_items/models/item_mm9_10188.glb, length: 108.0, bounds: [-14.5, -54, 0, 14.5, 54, 15]}   # Blackpowder
+  - {icon: mm9_item_10189, model: worlds/mm9/world_items/models/item_mm9_10189.glb, length: 257.4, bounds: [-12.8, -128.7, 0, 12.8, 128.7, 13.3]}   # Gungnir
+  - {icon: mm9_item_10190, model: worlds/mm9/world_items/models/item_mm9_10190.glb, length: 257.4, bounds: [-15.8, -128.7, 0, 15.8, 128.7, 12]}   # Formanir
+  - {icon: mm9_item_10191, model: worlds/mm9/world_items/models/item_mm9_10191.glb, length: 257.4, bounds: [-16.9, -128.7, 0, 16.9, 128.7, 7.7]}   # Einherjar
+  - {icon: mm9_item_10192, model: worlds/mm9/world_items/models/item_mm9_10192.glb, length: 253.8, bounds: [-21, -126.9, 0, 21, 126.9, 9]}   # Stouka Couta
+  - {icon: mm9_item_10193, model: worlds/mm9/world_items/models/item_mm9_10193.glb, length: 136.8, bounds: [-18.3, -68.4, 0, 18.3, 68.4, 10.7]}   # Vanir's Hammer
+  - {icon: mm9_item_10194, model: worlds/mm9/world_items/models/item_mm9_10194.glb, length: 145.8, bounds: [-24.8, -72.9, 0, 24.8, 72.9, 28.9]}   # Blutterbunger
+  - {icon: mm9_item_10195, model: worlds/mm9/world_items/models/item_mm9_10195.glb, length: 145.8, bounds: [-15.2, -72.9, 0, 15.2, 72.9, 17.3]}   # Manarus
+  - {icon: mm9_item_10196, model: worlds/mm9/world_items/models/item_mm9_10196.glb, length: 259.2, bounds: [-19.8, -129.6, 0, 19.8, 129.6, 15.9]}   # Samarjit
+  - {icon: mm9_item_10197, model: worlds/mm9/world_items/models/item_mm9_10197.glb, length: 137.7, bounds: [-28.6, -68.8, 0, 28.6, 68.8, 24]}   # Thjorad
+  - {icon: mm9_item_10198, model: worlds/mm9/world_items/models/item_mm9_10198.glb, length: 151.2, bounds: [-23.3, -75.6, 0, 23.3, 75.6, 50.1]}   # Spencer's Obedience
+  - {icon: mm9_item_10199, model: worlds/mm9/world_items/models/item_mm9_10199.glb, length: 117.9, bounds: [-24, -59, 0, 24, 59, 32.9]}   # Mjulnir
+  - {icon: mm9_item_10200, model: worlds/mm9/world_items/models/item_mm9_10200.glb, length: 120.5, bounds: [-48.7, -60.2, 0, 48.7, 60.2, 78.6]}   # Igdrasine
+  - {icon: mm9_item_10201, model: worlds/mm9/world_items/models/item_mm9_10201.glb, length: 120.5, bounds: [-56.7, -60.2, 0, 56.7, 60.2, 65]}   # Poltergeist
+  - {icon: mm9_item_10202, model: worlds/mm9/world_items/models/item_mm9_10202.glb, length: 120.5, bounds: [-44.2, -60.2, 0, 44.2, 60.2, 65.1]}   # Swordsbane
+  - {icon: mm9_item_10203, model: worlds/mm9/world_items/models/item_mm9_10203.glb, length: 61.2, bounds: [-21, -30.6, 0, 21, 30.6, 59.7]}   # Witchbane
+  - {icon: mm9_item_10205, model: worlds/mm9/world_items/models/item_mm9_10205.glb, length: 65.2, bounds: [-29, -32.6, 0, 29, 32.6, 68]}   # Walking Boots
+  - {icon: mm9_item_10206, model: worlds/mm9/world_items/models/item_mm9_10206.glb, length: 57.6, bounds: [-20.1, -28.8, 0, 20.1, 28.8, 20.7]}   # Laet'ax
+  - {icon: mm9_item_10207, model: worlds/mm9/world_items/models/item_mm9_10207.glb, length: 120.2, bounds: [-45.9, -60.1, 0, 45.9, 60.1, 19.7]}   # Arrowfoe
+  - {icon: mm9_item_10208, model: worlds/mm9/world_items/models/item_mm9_10208.glb, length: 61.2, bounds: [-30.6, -24.4, 0, 30.6, 24.4, 10.8]}   # Hubris
+  - {icon: mm9_item_10209, model: worlds/mm9/world_items/models/item_mm9_10209.glb, length: 27.0, bounds: [-12.7, -13.5, 0, 12.7, 13.5, 19.7]}   # Weregild
+  - {icon: mm9_item_10210, model: worlds/mm9/world_items/models/item_mm9_10210.glb, length: 28.8, bounds: [-14.4, -13.3, 0, 14.4, 13.3, 18.7]}   # Soulband
+  - {icon: mm9_item_10211, model: worlds/mm9/world_items/models/item_mm9_10211.glb, length: 28.8, bounds: [-13.6, -14.4, 0, 13.6, 14.4, 21]}   # Sturkabygel
+  - {icon: mm9_item_10212, model: worlds/mm9/world_items/models/item_mm9_10212.glb, length: 27.0, bounds: [-12.7, -13.5, 0, 12.7, 13.5, 19.7]}   # Lubricious
+  - {icon: mm9_item_10213, model: worlds/mm9/world_items/models/item_mm9_10213.glb, length: 49.1, bounds: [-10, -24.6, 0, 10, 24.6, 2.9]}   # The Green Man
+  - {icon: mm9_item_10214, model: worlds/mm9/world_items/models/item_mm9_10214.glb, length: 36.9, bounds: [-8.9, -18.4, 0, 8.9, 18.4, 2.7]}   # Mountbatten
+  - {icon: mm9_item_10215, model: worlds/mm9/world_items/models/item_mm9_10215.glb, length: 49.5, bounds: [-7.8, -24.8, 0, 7.8, 24.8, 2.3]}   # Pendant of the Spheres
+  - {icon: mm9_item_10216, model: worlds/mm9/world_items/models/item_mm9_10216.glb, length: 49.5, bounds: [-9.7, -24.8, 0, 9.7, 24.8, 4.5]}   # Fizbin of Misfortune
+  - {icon: mm9_item_10217, model: worlds/mm9/world_items/models/item_mm9_10217.glb, length: 37.4, bounds: [-8.8, -18.7, 0, 8.8, 18.7, 2.9]}   # Screever
+  - {icon: mm9_item_10218, model: worlds/mm9/world_items/models/item_mm9_10218.glb, length: 49.5, bounds: [-8.8, -24.8, 0, 8.8, 24.8, 2.7]}   # Fre's Heart
+  - {icon: mm9_item_10219, model: worlds/mm9/world_items/models/item_mm9_10219.glb, length: 142.2, bounds: [-8.1, -71.1, 0, 8.1, 71.1, 11.5]}   # Prize Gladius
+  - {icon: mm9_item_10220, model: worlds/mm9/world_items/models/item_mm9_10220.glb, length: 120.5, bounds: [-58.7, -60.2, 0, 58.7, 60.2, 66]}   # Prize Plate
+  - {icon: mm9_item_10221, model: worlds/mm9/world_items/models/item_mm9_10221.glb, length: 61.2, bounds: [-30.6, -30.6, 0, 30.6, 30.6, 58.8]}   # Prize Skullcap
+  - {icon: mm9_item_10222, model: worlds/mm9/world_items/models/item_mm9_10222.glb, length: 28.8, bounds: [-13.6, -14.4, 0, 13.6, 14.4, 21]}   # Prize Ring
+  - {icon: mm9_item_10223, model: worlds/mm9/world_items/models/item_mm9_10223.glb, length: 94.5, bounds: [-45.9, -47.2, 0, 45.9, 47.2, 14.3]}   # Prize Shield
+  - {icon: mm9_item_10224, model: worlds/mm9/world_items/models/item_mm9_10224.glb, length: 175.5, bounds: [-16.4, -87.8, 0, 16.4, 87.8, 8.1]}   # Broderick's Two-handed Sword
+  - {icon: mm9_item_10225, model: worlds/mm9/world_items/models/item_mm9_10225.glb, length: 120.5, bounds: [-49.7, -60.2, 0, 49.7, 60.2, 57.8]}   # Broderick's Hauberk
+  - {icon: mm9_item_10226, model: worlds/mm9/world_items/models/item_mm9_10226.glb, length: 61.2, bounds: [-26.1, -30.6, 0, 26.1, 30.6, 80]}   # Broderick's Helm
+  - {icon: mm9_item_10227, model: worlds/mm9/world_items/models/item_mm9_10227.glb, length: 54.0, bounds: [-14.6, -27, 0, 14.6, 27, 18.4]}   # Broderick's Gloves
+  - {icon: mm9_item_10228, model: worlds/mm9/world_items/models/item_mm9_10228.glb, length: 37.8, bounds: [-9, -18.9, 0, 9, 18.9, 2.6]}   # Broderick's Amulet
+  - {icon: mm9_item_10229, model: worlds/mm9/world_items/models/item_mm9_10229.glb, length: 111.6, bounds: [-27.3, -55.8, 0, 27.3, 55.8, 14.6]}   # Death Hammer
+  - {icon: mm9_item_10230, model: worlds/mm9/world_items/models/item_mm9_10230.glb, length: 120.5, bounds: [-47.6, -60.2, 0, 47.6, 60.2, 69.7]}   # Death Cuirass
+  - {icon: mm9_item_10231, model: worlds/mm9/world_items/models/item_mm9_10231.glb, length: 61.2, bounds: [-27.1, -30.6, 0, 27.1, 30.6, 61.5]}   # Death Cap
+  - {icon: mm9_item_10232, model: worlds/mm9/world_items/models/item_mm9_10232.glb, length: 28.8, bounds: [-13.6, -14.4, 0, 13.6, 14.4, 21]}   # Death Ring
+  - {icon: mm9_item_10233, model: worlds/mm9/world_items/models/item_mm9_10233.glb, length: 66.6, bounds: [-33.3, -31.6, 0, 33.3, 31.6, 76.4]}   # Death Boots
+  - {icon: mm9_item_10234, model: worlds/mm9/world_items/models/item_mm9_10234.glb, length: 151.2, bounds: [-14.5, -75.6, 0, 14.5, 75.6, 24.7]}   # Fre's Smooth Mace
+  - {icon: mm9_item_10235, model: worlds/mm9/world_items/models/item_mm9_10235.glb, length: 27.0, bounds: [-12.7, -13.5, 0, 12.7, 13.5, 19.7]}   # Fre's Ring
+  - {icon: mm9_item_10236, model: worlds/mm9/world_items/models/item_mm9_10236.glb, length: 61.2, bounds: [-28.4, -30.6, 0, 28.4, 30.6, 57.9]}   # Fre's Helm
+  - {icon: mm9_item_10237, model: worlds/mm9/world_items/models/item_mm9_10237.glb, length: 57.6, bounds: [-13.4, -28.8, 0, 13.4, 28.8, 20.6]}   # Fre's Gloves
+  - {icon: mm9_item_10238, model: worlds/mm9/world_items/models/item_mm9_10238.glb, length: 66.6, bounds: [-33.3, -33.1, 0, 33.3, 33.1, 81.3]}   # Fre's Chain Boots
+  - {icon: mm9_item_10239, model: worlds/mm9/world_items/models/item_mm9_10239.glb, length: 57.6, bounds: [-28.8, -22.7, 0, 28.8, 22.7, 15]}   # Green Stone
+  - {icon: mm9_item_10261, model: worlds/mm9/world_items/models/item_mm9_10239.glb, length: 57.6, bounds: [-28.8, -22.7, 0, 28.8, 22.7, 15]}   # Green Stone
+  - {icon: mm9_item_10240, model: worlds/mm9/world_items/models/item_mm9_10240.glb, length: 57.6, bounds: [-10.1, -28.8, 0, 10.1, 28.8, 6.1]}   # Lock of Hair
+  - {icon: mm9_item_10241, model: worlds/mm9/world_items/models/item_mm9_10241.glb, length: 57.6, bounds: [-28.8, -12.7, 0, 28.8, 12.7, 74.6]}   # Tree of Life
+  - {icon: mm9_item_10242, model: worlds/mm9/world_items/models/item_mm9_10242.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Verhoffin's Book
+  - {icon: mm9_item_10243, model: worlds/mm9/world_items/models/item_mm9_10243.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Verhoffin's Book
+  - {icon: mm9_item_10560, model: worlds/mm9/world_items/models/item_mm9_10243.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Verhoffin's Book
+  - {icon: mm9_item_10562, model: worlds/mm9/world_items/models/item_mm9_10243.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Verhoffin's Book
+  - {icon: mm9_item_10244, model: worlds/mm9/world_items/models/item_mm9_10244.glb, length: 64.8, bounds: [-32.4, -16.2, 0, 32.4, 16.2, 5.2]}   # Book Key
+  - {icon: mm9_item_10245, model: worlds/mm9/world_items/models/item_mm9_10245.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Lich Instructions
+  - {icon: mm9_item_10447, model: worlds/mm9/world_items/models/item_mm9_10245.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Lich Instructions
+  - {icon: mm9_item_10246, model: worlds/mm9/world_items/models/item_mm9_10246.glb, length: 55.4, bounds: [-27.7, -27.7, 0, 27.7, 27.7, 93.9]}   # Elixir of Defedation
+  - {icon: mm9_item_10247, model: worlds/mm9/world_items/models/item_mm9_10247.glb, length: 62.1, bounds: [-31.1, -20.2, 0, 31.1, 20.2, 3.6]}   # Love Letter
+  - {icon: mm9_item_10248, model: worlds/mm9/world_items/models/item_mm9_10248.glb, length: 64.8, bounds: [-26.8, -32.4, 0, 26.8, 32.4, 5.6]}   # Ludwig's Manuscript
+  - {icon: mm9_item_10249, model: worlds/mm9/world_items/models/item_mm9_10249.glb, length: 57.6, bounds: [-28.8, -17.8, 0, 28.8, 17.8, 47.9]}   # Keg of Strange Brew
+  - {icon: mm9_item_10250, model: worlds/mm9/world_items/models/item_mm9_10250.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 57.6]}   # Black Orb of Knowledge
+  - {icon: mm9_item_10251, model: worlds/mm9/world_items/models/item_mm9_10251.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Scroll of Bad News
+  - {icon: mm9_item_10252, model: worlds/mm9/world_items/models/item_mm9_10252.glb, length: 57.6, bounds: [-14.8, -28.8, 0, 14.8, 28.8, 30]}   # Orb of Linking
+  - {icon: mm9_item_10285, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10287, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10288, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10290, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10291, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10292, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10294, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10295, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10296, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10297, model: worlds/mm9/world_items/models/item_mm9_10285.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Blade Skill
+  - {icon: mm9_item_10286, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10289, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10293, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10298, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10299, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10300, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10301, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10302, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10303, model: worlds/mm9/world_items/models/item_mm9_10286.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Bow Skill
+  - {icon: mm9_item_10304, model: worlds/mm9/world_items/models/item_mm9_10304.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Body Building Skill
+  - {icon: mm9_item_10305, model: worlds/mm9/world_items/models/item_mm9_10304.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Body Building Skill
+  - {icon: mm9_item_10306, model: worlds/mm9/world_items/models/item_mm9_10304.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Body Building Skill
+  - {icon: mm9_item_10307, model: worlds/mm9/world_items/models/item_mm9_10304.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Body Building Skill
+  - {icon: mm9_item_10358, model: worlds/mm9/world_items/models/item_mm9_10358.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 101.6]}   # Jar
+  - {icon: mm9_item_10431, model: worlds/mm9/world_items/models/item_mm9_10358.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 101.6]}   # Jar
+  - {icon: mm9_item_10359, model: worlds/mm9/world_items/models/item_mm9_10359.glb, length: 57.6, bounds: [-28.8, -19.1, 0, 28.8, 19.1, 13.7]}   # Lump of Elemental Thjorad
+  - {icon: mm9_item_10360, model: worlds/mm9/world_items/models/item_mm9_10360.glb, length: 57.6, bounds: [-28.8, -20, 0, 28.8, 20, 14.4]}   # Chunk of Elemental Thjorad
+  - {icon: mm9_item_10361, model: worlds/mm9/world_items/models/item_mm9_10361.glb, length: 57.6, bounds: [-28.8, -14.2, 0, 28.8, 14.2, 9.2]}   # Lode of Elemental Thjorad
+  - {icon: mm9_item_10362, model: worlds/mm9/world_items/models/item_mm9_10362.glb, length: 142.2, bounds: [-18.6, -71.1, 0, 18.6, 71.1, 12.4]}   # Wooden Sword
+  - {icon: mm9_item_10363, model: worlds/mm9/world_items/models/item_mm9_10363.glb, length: 135.0, bounds: [-44.5, -67.5, 0, 44.5, 67.5, 11.9]}   # Wooden Shield
+  - {icon: mm9_item_10364, model: worlds/mm9/world_items/models/item_mm9_10364.glb, length: 61.2, bounds: [-29.4, -30.6, 0, 29.4, 30.6, 103.1]}   # Fur Cap
+  - {icon: mm9_item_10365, model: worlds/mm9/world_items/models/item_mm9_10365.glb, length: 57.6, bounds: [-15.5, -28.8, 0, 15.5, 28.8, 22.1]}   # Cloth Gloves
+  - {icon: mm9_item_10366, model: worlds/mm9/world_items/models/item_mm9_10366.glb, length: 59.4, bounds: [-29.7, -27.5, 0, 29.7, 27.5, 25.2]}   # Fuzzy Slippers
+  - {icon: mm9_item_10367, model: worlds/mm9/world_items/models/item_mm9_10367.glb, length: 120.5, bounds: [-48.7, -60.2, 0, 48.7, 60.2, 86.5]}   # Quilted Armor
+  - {icon: mm9_item_10368, model: worlds/mm9/world_items/models/item_mm9_10368.glb, length: 57.6, bounds: [-28.8, -1.4, 0, 28.8, 1.4, 2.8]}   # Saint's Relic
+  - {icon: mm9_item_10369, model: worlds/mm9/world_items/models/item_mm9_10369.glb, length: 57.6, bounds: [-28.8, -27, 0, 28.8, 27, 53.2]}   # The Golden Honk
+  - {icon: mm9_item_10370, model: worlds/mm9/world_items/models/item_mm9_10370.glb, length: 57.6, bounds: [-24.8, -28.8, 0, 24.8, 28.8, 10.6]}   # Dolly
+  - {icon: mm9_item_10371, model: worlds/mm9/world_items/models/item_mm9_10371.glb, length: 57.6, bounds: [-28.8, -12.8, 0, 28.8, 12.8, 17]}   # Farmer's Plow
+  - {icon: mm9_item_10372, model: worlds/mm9/world_items/models/item_mm9_10372.glb, length: 57.6, bounds: [-28.8, -24.4, 0, 28.8, 24.4, 41.2]}   # Midwife's Bag of Herbs
+  - {icon: mm9_item_10373, model: worlds/mm9/world_items/models/item_mm9_10373.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 55.5]}   # Basket of Food
+  - {icon: mm9_item_10375, model: worlds/mm9/world_items/models/item_mm9_10375.glb, length: 135.0, bounds: [-35.1, -67.5, 0, 35.1, 67.5, 9.4]}   # Kira's Shield
+  - {icon: mm9_item_10378, model: worlds/mm9/world_items/models/item_mm9_10378.glb, length: 32.4, bounds: [-16.2, -14.7, 0, 16.2, 14.7, 24.4]}   # Elixir Ingredients
+  - {icon: mm9_item_10379, model: worlds/mm9/world_items/models/item_mm9_10379.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 80]}   # Broken Jar
+  - {icon: mm9_item_10380, model: worlds/mm9/world_items/models/item_mm9_10380.glb, length: 57.6, bounds: [-22.6, -28.8, 0, 22.6, 28.8, 13.8]}   # Basilisk Skin
+  - {icon: mm9_item_10390, model: worlds/mm9/world_items/models/item_mm9_10390.glb, length: 57.6, bounds: [-28.8, -28.3, 0, 28.8, 28.3, 48]}   # Crona Kiga
+  - {icon: mm9_item_10391, model: worlds/mm9/world_items/models/item_mm9_10391.glb, length: 64.8, bounds: [-26.7, -32.4, 0, 26.7, 32.4, 12.7]}   # Book of Rules
+  - {icon: mm9_item_10392, model: worlds/mm9/world_items/models/item_mm9_10392.glb, length: 63.0, bounds: [-31.5, -6, 0, 31.5, 6, 12.1]}   # Writ of Fate
+  - {icon: mm9_item_10393, model: worlds/mm9/world_items/models/item_mm9_10392.glb, length: 63.0, bounds: [-31.5, -6, 0, 31.5, 6, 12.1]}   # Writ of Fate
+  - {icon: mm9_item_10394, model: worlds/mm9/world_items/models/item_mm9_10392.glb, length: 63.0, bounds: [-31.5, -6, 0, 31.5, 6, 12.1]}   # Writ of Fate
+  - {icon: mm9_item_10395, model: worlds/mm9/world_items/models/item_mm9_10395.glb, length: 57.6, bounds: [-19.8, -28.8, 0, 19.8, 28.8, 63.3]}   # Dragon
+  - {icon: mm9_item_10396, model: worlds/mm9/world_items/models/item_mm9_10396.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 52.9]}   # Capstone of Order
+  - {icon: mm9_item_10397, model: worlds/mm9/world_items/models/item_mm9_10397.glb, length: 32.4, bounds: [-11.7, -16.2, 0, 11.7, 16.2, 0.5]}   # Gospel of Honk
+  - {icon: mm9_item_10398, model: worlds/mm9/world_items/models/item_mm9_10398.glb, length: 57.6, bounds: [-28.8, -28.2, 0, 28.8, 28.2, 110.7]}   # Broken Slag Extractor
+  - {icon: mm9_item_10399, model: worlds/mm9/world_items/models/item_mm9_10399.glb, length: 57.6, bounds: [-28.8, -28.8, 0, 28.8, 28.8, 117.7]}   # Slag Extractor
+  - {icon: mm9_item_10400, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10401, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10419, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10424, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10425, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10426, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10427, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10428, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10429, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10430, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10432, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10433, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10434, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10435, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10436, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10437, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10438, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10439, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10440, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10441, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10442, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10443, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10444, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10446, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10448, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10449, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10450, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10451, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10452, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10453, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10454, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10455, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10456, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10457, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10458, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10459, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10460, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10461, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10462, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10463, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10464, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10465, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10466, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10467, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10468, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10469, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10470, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10471, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10472, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10473, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10474, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10475, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10476, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10477, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10478, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10479, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10480, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10481, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10482, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10483, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10484, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10485, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10486, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10487, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10488, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10489, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10490, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10491, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10492, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10493, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10494, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10495, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10496, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10497, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10498, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10499, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10500, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10501, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10502, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10503, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10557, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10569, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10571, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10572, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10573, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10574, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10575, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10577, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10578, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10579, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10580, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10581, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10582, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10583, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10584, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10585, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10586, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10587, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10588, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10589, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10592, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10593, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10594, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10595, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10597, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10598, model: worlds/mm9/world_items/models/item_mm9_10400.glb, length: 63.0, bounds: [-31.5, -10.7, 0, 31.5, 10.7, 13.9]}   # Victory Certificate
+  - {icon: mm9_item_10445, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10559, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10568, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10570, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10576, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10596, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10599, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10600, model: worlds/mm9/world_items/models/item_mm9_10445.glb, length: 55.8, bounds: [-7.7, -27.9, 0, 7.7, 27.9, 1.5]}   # Accountant's Key
+  - {icon: mm9_item_10558, model: worlds/mm9/world_items/models/item_mm9_10558.glb, length: 38.2, bounds: [-19.1, -19.1, 0, 19.1, 19.1, 44.6]}   # Nurtigan's Potion
+  - {icon: mm9_item_10561, model: worlds/mm9/world_items/models/item_mm9_10558.glb, length: 38.2, bounds: [-19.1, -19.1, 0, 19.1, 19.1, 44.6]}   # Nurtigan's Potion
+  - {icon: mm9_item_10590, model: worlds/mm9/world_items/models/item_mm9_10590.glb, length: 57.6, bounds: [-16.1, -28.8, 0, 16.1, 28.8, 1.3]}   # Clover
+  - {icon: mm9_item_10591, model: worlds/mm9/world_items/models/item_mm9_10591.glb, length: 57.6, bounds: [-28.3, -28.8, 0, 28.3, 28.8, 21.6]}   # King Basilisk Skin
+  - {icon: mm9_spellbook_expert, model: worlds/mm9/world_items/models/item_mm9_spellbook_expert.glb, length: 50.0, bounds: [-19.4, -25, 0, 19.4, 25, 13.4]}   # Spellbook (Expert): 25 spells
+  - {icon: mm9_spellbook_grandmaster, model: worlds/mm9/world_items/models/item_mm9_spellbook_grandmaster.glb, length: 50.0, bounds: [-19.4, -25, 0, 19.4, 25, 13.4]}   # Spellbook (Grandmaster): 9 spells
+  - {icon: mm9_spellbook_master, model: worlds/mm9/world_items/models/item_mm9_spellbook_master.glb, length: 50.0, bounds: [-19.4, -25, 0, 19.4, 25, 13.4]}   # Spellbook (Master): 27 spells
+  - {icon: mm9_spellbook_normal, model: worlds/mm9/world_items/models/item_mm9_spellbook_normal.glb, length: 50.0, bounds: [-19.4, -25, 0, 19.4, 25, 13.4]}   # Spellbook (Normal): 38 spells

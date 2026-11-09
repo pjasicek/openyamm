@@ -1,0 +1,817 @@
+Decoration Data			Descriptor							Comments	Map aliases
+#	InternalName	Hint	Type	Radius	Height	LightRadius	LightRed	LightGreen	LightBlue	SoundId	Flags	SpriteId	Comments	MapAliases
+2001	mm9_book	book	0	0	0	0	0	0	0	0	0	24801	-
+2002	mm9_coatrack	coat rack	0	0	0	0	0	0	0	0	0	24802	-
+2003	mm9_cookpot	cook pot	0	46	145	160	255	150	70	0	0	24803	-
+2004	mm9_cot	cot	0	54	82	0	0	0	0	0	0	24804	-
+2005	mm9_dresser	dresser	0	25	142	0	0	0	0	0	0	24805	-
+2006	mm9_logsburning	burning logs	0	0	0	256	255	150	70	0	0	24806	-
+2007	mm9_podium	lectern	0	34	137	0	0	0	0	0	0	24807	-
+2008	mm9_roundtable	table	0	82	92	0	0	0	0	0	0	24808	-
+2009	mm9_shipwreck	shipwreck	0	0	0	0	0	0	0	0	0	24809	-
+2010	mm9_skull	skull	0	0	0	0	0	0	0	0	0	24810	-
+2011	mm9_statstone	stat stone	0	36	221	0	0	0	0	0	0	24811	-
+2012	mm9_stonedebris02	rubble	0	59	59	0	0	0	0	0	0	24812	-
+2013	mm9_stonedebris02_x150	rubble	0	89	88	0	0	0	0	0	0	24813	-
+2014	mm9_stonedebris03	rubble	0	61	51	0	0	0	0	0	0	24814	-
+2015	mm9_stool	chair	0	0	0	0	0	0	0	0	0	24815	-
+2016	mm9_vikingship	longship	0	0	0	0	0	0	0	0	0	24816	-
+2017	mm9_well	well	0	82	255	0	0	0	0	0	0	24817	-
+2018	mm9_barrel	wooden barrel	0	53	123	0	0	0	0	0	0	24818	-
+2019	mm9_barrel03	wooden barrel	0	55	123	0	0	0	0	0	0	24819	-
+2020	mm9_bed	bed	0	105	123	0	0	0	0	0	0	24820	-
+2021	mm9_bedmedium	bed	0	69	99	0	0	0	0	0	0	24821	-
+2022	mm9_bedmedium_x120	bed	0	72	104	0	0	0	0	0	0	24822	-
+2023	mm9_bookcase02ew	bookcase	0	61	317	0	0	0	0	0	0	24823	-
+2024	mm9_bookcase02ns	bookcase	0	61	317	0	0	0	0	0	0	24824	-
+2025	mm9_chair	chair	0	0	0	0	0	0	0	0	0	24825	-
+2026	mm9_chair02	chair	0	31	133	0	0	0	0	0	0	24826	-
+2027	mm9_chest	chest	0	27	45	0	0	0	0	0	0	24827	-
+2028	mm9_chest1	chest	0	22	36	0	0	0	0	0	0	24828	-
+2029	mm9_crate	crate	0	61	123	0	0	0	0	0	0	24829	-
+2030	mm9_crate_x200	crate	0	123	246	0	0	0	0	0	0	24830	-
+2031	mm9_desk01	desk	0	46	99	0	0	0	0	0	0	24831	-
+2032	mm9_desk01ns	desk	0	46	99	0	0	0	0	0	0	24832	-
+2033	mm9_dresserns	dresser	0	25	142	0	0	0	0	0	0	24833	-
+2034	mm9_scroll	scroll	0	0	0	0	0	0	0	0	0	24834	-
+2035	mm9_tablebench	broken table	0	167	55	0	0	0	0	0	0	24835	-
+2036	mm9_tableround	table	0	82	92	0	0	0	0	0	0	24836	-
+2037	mm9_trashpile	bone pile	0	37	38	0	0	0	0	0	0	24837	-
+2038	mm9_walltorch	torch	0	0	0	0	0	0	0	0	0	24838	-
+2039	mm9_weaponrack	weapon rack	0	45	277	0	0	0	0	0	0	24839	-
+2040	mm9_weaponscabinet01	weapons cabinet	0	41	262	0	0	0	0	0	0	24840	-
+2041	mm9_weaponscabinet04	weapons cabinet	0	41	262	0	0	0	0	0	0	24841	-
+2042	mm9_gatefire	fire	0	0	0	205	255	190	130	0	0	24842	-
+2043	mm9_bench04	bench	0	34	62	0	0	0	0	0	0	24843	-
+2044	mm9_benchstone01	stone bench	0	40	111	0	0	0	0	0	0	24844	-
+2045	mm9_benchstone02	stone bench	0	40	57	0	0	0	0	0	0	24845	-
+2046	mm9_bookcase01ew	bookcase	0	40	244	0	0	0	0	0	0	24846	-
+2047	mm9_bookcase01ns	bookcase	0	40	244	0	0	0	0	0	0	24847	-
+2048	mm9_bookflat	book	0	0	0	0	0	0	0	0	0	24848	-
+2049	mm9_booktilt15	book	0	0	0	0	0	0	0	0	0	24849	-
+2050	mm9_brazier	brazier	0	24	149	0	0	0	0	0	0	24850	-
+2051	mm9_cabinet01ns	cabinet	0	40	242	0	0	0	0	0	0	24851	-
+2052	mm9_cabinet04	cabinet	0	51	104	0	0	0	0	0	0	24852	-
+2053	mm9_chairdesk01	chair	0	0	0	0	0	0	0	0	0	24853	-
+2054	mm9_chairdesk03	chair	0	0	0	0	0	0	0	0	0	24854	-
+2055	mm9_chest3	chest	0	0	0	0	0	0	0	0	0	24855	-
+2056	mm9_desk03	desk	0	47	159	0	0	0	0	0	0	24856	-
+2057	mm9_goldenhonk	golden honk	0	0	0	0	0	0	0	0	0	24857	-
+2058	mm9_hangingbowl	brazier	0	0	0	0	0	0	0	0	0	24858	-
+2059	mm9_hangingbowl2	brazier	0	0	0	0	0	0	0	0	0	24859	-
+2060	mm9_harp	harp	0	17	197	0	0	0	0	0	0	24860	-
+2061	mm9_key2	key	0	0	0	0	0	0	0	0	0	24861	-
+2062	mm9_table02	table	0	57	84	0	0	0	0	0	0	24862	-
+2063	mm9_tapestry_bayeux2_2	tapestry	0	0	0	0	0	0	0	0	0	24863	-
+2064	mm9_tapestry_bayeux2_end	tapestry	0	0	0	0	0	0	0	0	0	24864	-
+2065	mm9_tapestry_bayeux2_link	tapestry	0	0	0	0	0	0	0	0	0	24865	-
+2066	mm9_tapestry_bayeux2_start	tapestry	0	0	0	0	0	0	0	0	0	24866	-
+2067	mm9_tapestry_bayeux_2	tapestry	0	0	0	0	0	0	0	0	0	24867	-
+2068	mm9_tapestry_bayeux_end	tapestry	0	0	0	0	0	0	0	0	0	24868	-
+2069	mm9_tapestry_bayeux_link	tapestry	0	0	0	0	0	0	0	0	0	24869	-
+2070	mm9_tapestry_bayeux_start	tapestry	0	0	0	0	0	0	0	0	0	24870	-
+2071	mm9_tapestry_flower	tapestry	0	0	0	0	0	0	0	0	0	24871	-
+2072	mm9_tapestry_olive	tapestry	0	0	0	0	0	0	0	0	0	24872	-
+2073	mm9_tapestry_purple	tapestry	0	0	0	0	0	0	0	0	0	24873	-
+2074	mm9_tapestry_redblack	tapestry	0	0	0	0	0	0	0	0	0	24874	-
+2075	mm9_bagherbs	herbs	0	0	0	0	0	0	0	0	0	24875	-
+2076	mm9_barrel_x100	wooden barrel	0	35	82	0	0	0	0	0	0	24876	-
+2077	mm9_beaker01	beaker	0	0	0	0	0	0	0	0	0	24877	-
+2078	mm9_blackchest	chest	0	29	71	0	0	0	0	0	0	24878	-
+2079	mm9_bookstack01	books	0	0	0	0	0	0	0	0	0	24879	-
+2080	mm9_booktilt	book	0	0	0	0	0	0	0	0	0	24880	-
+2081	mm9_burner	burner	0	20	64	0	0	0	0	0	0	24881	-
+2082	mm9_cauldron01	iron cauldron	0	94	138	0	0	0	0	0	0	24882	-
+2083	mm9_chair03	chair	0	34	137	0	0	0	0	0	0	24883	-
+2084	mm9_chest1_x100	chest	0	27	45	0	0	0	0	0	0	24884	-
+2085	mm9_crate_x150	crate	0	91	184	0	0	0	0	0	0	24885	-
+2086	mm9_flayingbench	flaying bench	0	59	116	0	0	0	0	0	0	24886	-
+2087	mm9_headsmansblock	block	0	43	78	0	0	0	0	0	0	24887	-
+2088	mm9_jar	jar	0	0	0	0	0	0	0	0	0	24888	-
+2089	mm9_jarbroken	broken jar	0	0	0	0	0	0	0	0	0	24889	-
+2090	mm9_lichengine	engine	0	349	1135	0	0	0	0	0	0	24890	-
+2091	mm9_logs	logs	0	42	42	0	0	0	0	0	0	24891	-
+2092	mm9_pew3ns	pew	0	34	125	0	0	0	0	0	0	24892	-
+2093	mm9_pillory	pillory	0	6	165	0	0	0	0	0	0	24893	-
+2094	mm9_podium01	lectern	0	36	138	0	0	0	0	0	0	24894	-
+2095	mm9_scroll2	scroll	0	0	0	0	0	0	0	0	0	24895	-
+2096	mm9_scroll3	scroll	0	0	0	0	0	0	0	0	0	24896	-
+2097	mm9_scrolldouble	scroll	0	0	0	0	0	0	0	0	0	24897	-
+2098	mm9_shelfitem01	bottles	0	0	0	0	0	0	0	0	0	24898	-
+2099	mm9_shelfitem02	bottles	0	0	0	0	0	0	0	0	0	24899	-
+2100	mm9_shelfitem02_x200	bottles	0	0	0	0	0	0	0	0	0	24900	-
+2101	mm9_shelfitem03	bottles	0	0	0	0	0	0	0	0	0	24901	-
+2102	mm9_shelfitem05	bottles	0	0	0	0	0	0	0	0	0	24902	-
+2103	mm9_shelfitem05_x150	bottles	0	0	0	0	0	0	0	0	0	24903	-
+2104	mm9_skeletoncage	cage	0	55	229	0	0	0	0	0	0	24904	-
+2105	mm9_skeletonsitting	skeleton	0	33	83	0	0	0	0	0	0	24905	-
+2106	mm9_skeletonstatue	statue	0	39	256	0	0	0	0	0	0	24906	-
+2107	mm9_skeletonstatue_x150	statue	0	59	384	0	0	0	0	0	0	24907	-
+2108	mm9_skeletonstatue_x300	statue	0	118	768	0	0	0	0	0	0	24908	-
+2109	mm9_switch02	switch	0	0	0	0	0	0	0	0	0	24909	-
+2110	mm9_table01	table	0	58	84	0	0	0	0	0	0	24910	-
+2111	mm9_table01ns	table	0	58	84	0	0	0	0	0	0	24911	-
+2112	mm9_throne	throne	0	72	268	0	0	0	0	0	0	24912	-
+2113	mm9_torturecage01	cage	0	51	320	0	0	0	0	0	0	24913	-
+2114	mm9_torturecrusher01	crusher	0	41	198	0	0	0	0	0	0	24914	-
+2115	mm9_torturecrusher02	crusher	0	31	198	0	0	0	0	0	0	24915	-
+2116	mm9_torturerack01	rack	0	63	144	0	0	0	0	0	0	24916	-
+2117	mm9_torturewheel01	wheel	0	53	319	0	0	0	0	0	0	24917	-
+2118	mm9_torturewheel02	wheel	0	53	319	0	0	0	0	0	0	24918	-
+2119	mm9_gatefire_unlit	fire	0	0	0	0	0	0	0	0	0	24919	-
+2120	mm9_spikepit	spikes	0	0	0	0	0	0	0	0	0	24920	-
+2121	mm9_bonepile	bone pile	0	36	31	0	0	0	0	0	0	24921	-
+2122	mm9_coffinfancy	coffin	0	73	124	0	0	0	0	0	0	24922	-
+2123	mm9_coffinraised	coffin	0	73	153	0	0	0	0	0	0	24923	-
+2124	mm9_hangingbowl1	brazier	0	0	0	0	0	0	0	0	0	24924	-
+2125	mm9_jar01	jar	0	0	0	0	0	0	0	0	0	24925	-
+2126	mm9_jar01side	jar	0	0	0	0	0	0	0	0	0	24926	-
+2127	mm9_jar02	jar	0	0	0	0	0	0	0	0	0	24927	-
+2128	mm9_jar03	jar	0	0	0	0	0	0	0	0	0	24928	-
+2129	mm9_jar04	jar	0	0	0	0	0	0	0	0	0	24929	-
+2130	mm9_jar04side	jar	0	0	0	0	0	0	0	0	0	24930	-
+2131	mm9_jar05	jar	0	0	0	0	0	0	0	0	0	24931	-
+2132	mm9_jar06	jar	0	0	0	0	0	0	0	0	0	24932	-
+2133	mm9_manuscript	manuscript	0	0	0	0	0	0	0	0	0	24933	-
+2134	mm9_sconcetorch	torch	0	0	0	0	0	0	0	0	0	24934	-
+2135	mm9_urngargoyle	urn	0	48	106	0	0	0	0	0	0	24935	-
+2136	mm9_well_x100	well	0	82	255	0	0	0	0	0	0	24936	-
+2137	mm9_altar1	altar	0	56	201	0	0	0	0	0	0	24937	-
+2138	mm9_blackchest_x80	chest	0	24	57	0	0	0	0	0	0	24938	-
+2139	mm9_bluebowl	brazier	0	0	0	0	0	0	0	0	0	24939	-
+2140	mm9_bluebrazier	brazier	0	24	149	0	0	0	0	0	0	24940	-
+2141	mm9_bluesconce	torch	0	0	0	0	0	0	0	0	0	24941	-
+2142	mm9_bluetorch	torch	0	0	0	0	0	0	0	0	0	24942	-
+2143	mm9_boxornamental	box	0	31	48	0	0	0	0	0	0	24943	-
+2144	mm9_chair1	chair	0	0	0	0	0	0	0	0	0	24944	-
+2145	mm9_chest5	chest	0	26	63	0	0	0	0	0	0	24945	-
+2146	mm9_cronakiga	crona kiga	0	0	0	0	0	0	0	0	0	24946	-
+2147	mm9_cup1	cup	0	0	0	0	0	0	0	0	0	24947	-
+2148	mm9_goblet	goblet	0	0	0	0	0	0	0	0	0	24948	-
+2149	mm9_jar01_x150	jar	0	18	67	0	0	0	0	0	0	24949	-
+2150	mm9_jar04_x150	jar	0	22	60	0	0	0	0	0	0	24950	-
+2151	mm9_lichinstructions	scroll	0	0	0	0	0	0	0	0	0	24951	-
+2152	mm9_mummyew	mummy	0	34	47	0	0	0	0	0	0	24952	-
+2153	mm9_pillarstand	pillar	0	20	88	0	0	0	0	0	0	24953	-
+2154	mm9_sarcophagus	sarcophagus	0	31	68	0	0	0	0	0	0	24954	-
+2155	mm9_sarcophagus_x150	sarcophagus	0	47	102	0	0	0	0	0	0	24955	-
+2156	mm9_sarcophagusns	sarcophagus	0	31	68	0	0	0	0	0	0	24956	-
+2157	mm9_sarcophagusns_x150	sarcophagus	0	47	102	0	0	0	0	0	0	24957	-
+2158	mm9_sarcophagusns3	sarcophagus	0	62	136	0	0	0	0	0	0	24958	-
+2159	mm9_sarcophagusvert	sarcophagus	0	0	0	0	0	0	0	0	0	24959	-
+2160	mm9_statueguardian	statue	0	85	304	0	0	0	0	0	0	24960	-
+2161	mm9_statueguardianew	statue	0	34	122	0	0	0	0	0	0	24961	-
+2162	mm9_statueguardianew_x50	statue	0	43	152	0	0	0	0	0	0	24962	-
+2163	mm9_statueguardianew_x60	statue	0	51	182	0	0	0	0	0	0	24963	-
+2164	mm9_statueguardianew_x100	statue	0	85	304	0	0	0	0	0	0	24964	-
+2165	mm9_treasurechute	chute	0	62	404	0	0	0	0	0	0	24965	-
+2166	mm9_treasurepile	treasure	0	209	297	0	0	0	0	0	0	24966	-
+2167	mm9_tumbler1	cup	0	0	0	0	0	0	0	0	0	24967	-
+2168	mm9_urn1	urn	0	42	80	0	0	0	0	0	0	24968	-
+2169	mm9_urn2	urn	0	47	135	0	0	0	0	0	0	24969	-
+2170	mm9_altar1flip	altar	0	0	0	0	0	0	0	0	0	24970	-
+2171	mm9_pillarfallen	pillar	0	20	41	0	0	0	0	0	0	24971	-
+2172	mm9_urn2tip1	urn	0	0	0	0	0	0	0	0	0	24972	-
+2173	mm9_urn2tip2	urn	0	0	0	0	0	0	0	0	0	24973	-
+2174	mm9_anvil	anvil	0	33	80	0	0	0	0	0	0	24974	-
+2175	mm9_axerusty	axe	0	0	0	0	0	0	0	0	0	24975	-
+2176	mm9_barrel03_x100	wooden barrel	0	37	82	0	0	0	0	0	0	24976	-
+2177	mm9_bed_x125	bed	0	109	128	0	0	0	0	0	0	24977	-
+2178	mm9_bedmedium2	bed	0	60	86	0	0	0	0	0	0	24978	-
+2179	mm9_bedwall	bed	0	45	81	0	0	0	0	0	0	24979	-
+2180	mm9_bench01	bench	0	26	58	0	0	0	0	0	0	24980	-
+2181	mm9_bucket01	wooden bucket	0	0	0	0	0	0	0	0	0	24981	-
+2182	mm9_cabinet04ns	cabinet	0	51	104	0	0	0	0	0	0	24982	-
+2183	mm9_cabinet05ns	cabinet	0	77	263	0	0	0	0	0	0	24983	-
+2184	mm9_canvassack	sack	0	0	0	0	0	0	0	0	0	24984	-
+2185	mm9_chairdesk02	chair	0	27	120	0	0	0	0	0	0	24985	-
+2186	mm9_coalbin	coal bin	0	67	86	0	0	0	0	0	0	24986	-
+2187	mm9_cot_x100	cot	0	45	68	0	0	0	0	0	0	24987	-
+2188	mm9_hangingbowl2_x100	brazier	0	0	0	0	0	0	0	0	0	24988	-
+2189	mm9_ironingots	ingots	0	0	0	0	0	0	0	0	0	24989	-
+2190	mm9_lumberstone02	rubble	0	0	0	0	0	0	0	0	0	24990	-
+2191	mm9_lumberstone03	rubble	0	0	0	0	0	0	0	0	0	24991	-
+2192	mm9_ropecoil	rope	0	0	0	0	0	0	0	0	0	24992	-
+2193	mm9_sack03	sack	0	0	0	0	0	0	0	0	0	24993	-
+2194	mm9_shelfitem06	bottles	0	0	0	0	0	0	0	0	0	24994	-
+2195	mm9_shelfitem07	bottles	0	0	0	0	0	0	0	0	0	24995	-
+2196	mm9_shelfitem08	bottles	0	0	0	0	0	0	0	0	0	24996	-
+2197	mm9_shieldbroken02	shield	0	0	0	0	0	0	0	0	0	24997	-
+2198	mm9_skeletondebris01	bones	0	0	0	0	0	0	0	0	0	24998	-
+2199	mm9_skeletondebris02	bones	0	0	0	0	0	0	0	0	0	24999	-
+2200	mm9_stove	stove	0	74	238	0	0	0	0	0	0	26001	-
+2201	mm9_suitofarmor01	armor	0	20	200	0	0	0	0	0	0	26002	-
+2202	mm9_swordbroken	sword	0	0	0	0	0	0	0	0	0	26003	-
+2203	mm9_tablebench2	table	0	108	91	0	0	0	0	0	0	26004	-
+2204	mm9_tableround2	table	0	82	92	0	0	0	0	0	0	26005	-
+2205	mm9_tableround3	table	0	82	92	0	0	0	0	0	0	26006	-
+2206	mm9_tapestryold01	tapestry	0	0	0	0	0	0	0	0	0	26007	-
+2207	mm9_tapestryold02	tapestry	0	0	0	0	0	0	0	0	0	26008	-
+2208	mm9_trashpile_x150	bone pile	0	0	0	0	0	0	0	0	0	26009	-
+2209	mm9_weaponrack_x100	weapon rack	0	30	185	0	0	0	0	0	0	26010	-
+2210	mm9_weaponrackns	weapon rack	0	30	185	0	0	0	0	0	0	26011	-
+2211	mm9_weaponscabinet02	weapons cabinet	0	40	242	0	0	0	0	0	0	26012	-
+2212	mm9_barrellying	wooden barrel	0	36	71	0	0	0	0	0	0	26013	-
+2213	mm9_bedmedium2r270	bed	0	43	120	0	0	0	0	0	0	26014	-
+2214	mm9_bedmedium2r90	bed	0	43	120	0	0	0	0	0	0	26015	-
+2215	mm9_axerusty_x100	axe	0	0	0	0	0	0	0	0	0	26016	-
+2216	mm9_capstone	capstone	0	0	0	0	0	0	0	0	0	26017	-
+2217	mm9_greatbookfake	book	0	0	0	0	0	0	0	0	0	26018	-
+2218	mm9_key1	key	0	0	0	0	0	0	0	0	0	26019	-
+2219	mm9_manacles	manacles	0	0	0	0	0	0	0	0	0	26020	-
+2220	mm9_minelantern	lantern	0	0	0	0	0	0	0	0	0	26021	-
+2221	mm9_sconce1	torch	0	0	0	0	0	0	0	0	0	26022	-
+2222	mm9_skeletondebris03	bones	0	0	0	0	0	0	0	0	0	26023	-
+2223	mm9_weaponscabinet01_x75	cabinet	0	31	196	0	0	0	0	0	0	26024	-
+2224	mm9_writ	scroll	0	0	0	0	0	0	0	0	0	26025	-
+2225	mm9_chandelier3	chandelier	0	0	0	0	0	0	0	0	0	26026	-
+2226	mm9_genielamp	lamp	0	0	0	0	0	0	0	0	0	26027	-
+2227	mm9_skeletonlaying	skeleton	0	0	0	0	0	0	0	0	0	26028	-
+2228	mm9_stonedebris04	debris	0	0	0	0	0	0	0	0	0	26029	-
+2229	mm9_stonedebris05	debris	0	0	0	0	0	0	0	0	0	26030	-
+2230	mm9_tapestry_bannergeo3	tapestry	0	0	0	0	0	0	0	0	0	26031	-
+2231	mm9_tapestry_bannergeo3_x250	tapestry	0	0	0	0	0	0	0	0	0	26032	-
+2232	mm9_torchmetal	torch	0	0	0	0	0	0	0	0	0	26033	-
+2233	mm9_treeoflife	tree of life	0	0	0	0	0	0	0	0	0	26034	-
+2234	mm9_chairdesk03p270	chair	0	25	56	0	0	0	0	0	0	26035	-
+2235	mm9_chairdesk03p90	chair	0	25	56	0	0	0	0	0	0	26036	-
+2236	mm9_scrollp268	scroll	0	0	0	0	0	0	0	0	0	26037	-
+2237	mm9_tableround2p60	table	0	70	150	0	0	0	0	0	0	26038	-
+2238	mm9_weaponscabinet02tip	cabinet	0	0	0	0	0	0	0	0	0	26039	-
+2239	mm9_basketfruit	basket	0	0	0	0	0	0	0	0	0	26040	-
+2240	mm9_basketveggies	basket	0	0	0	0	0	0	0	0	0	26041	-
+2241	mm9_bed02	bed	0	152	325	0	0	0	0	0	0	26042	-
+2242	mm9_cabinet01	cabinet	0	40	242	0	0	0	0	0	0	26043	-
+2243	mm9_cabinet02	cabinet	0	42	266	0	0	0	0	0	0	26044	-
+2244	mm9_cabinet02ns	cabinet	0	42	266	0	0	0	0	0	0	26045	-
+2245	mm9_cabinet03	cabinet	0	60	296	0	0	0	0	0	0	26046	-
+2246	mm9_cabinet03ns	cabinet	0	60	296	0	0	0	0	0	0	26047	-
+2247	mm9_cabinet05	cabinet	0	77	263	0	0	0	0	0	0	26048	-
+2248	mm9_dirk	dagger	0	0	0	0	0	0	0	0	0	26049	-
+2249	mm9_dresserfancy	dresser	0	25	142	0	0	0	0	0	0	26050	-
+2250	mm9_dresserfancyns	dresser	0	25	142	0	0	0	0	0	0	26051	-
+2251	mm9_logsburning_x150	fire	0	0	0	0	0	0	0	0	0	26052	-
+2252	mm9_pew2ns	pew	0	40	134	0	0	0	0	0	0	26053	-
+2253	mm9_pitcher01	pitcher	0	0	0	0	0	0	0	0	0	26054	-
+2254	mm9_platestack1	plates	0	0	0	0	0	0	0	0	0	26055	-
+2255	mm9_platestack2	plates	0	0	0	0	0	0	0	0	0	26056	-
+2256	mm9_shelfitem06_x200	bottles	0	0	0	0	0	0	0	0	0	26057	-
+2257	mm9_shield3	shield	0	0	0	0	0	0	0	0	0	26058	-
+2258	mm9_stovens	stove	0	74	238	0	0	0	0	0	0	26059	-
+2259	mm9_table01ns_x120	table	0	69	101	0	0	0	0	0	0	26060	-
+2260	mm9_tableround5	table	0	62	69	0	0	0	0	0	0	26061	-
+2261	mm9_tabletrestle2	table	0	0	0	0	0	0	0	0	0	26062	-
+2262	mm9_wallcandle	candle	0	0	0	0	0	0	0	0	0	26063	-
+2263	mm9_benchstone02_x150	bench	0	59	85	0	0	0	0	0	0	26064	-
+2264	mm9_gatefire_x8	fire	0	0	0	0	0	0	0	0	0	26065	-
+2265	mm9_gatefire_x33	fire	0	0	0	0	0	0	0	0	0	26066	-
+2266	mm9_pew3	pew	0	40	150	0	0	0	0	0	0	26067	-
+2267	mm9_towelrack	towel rack	0	0	0	0	0	0	0	0	0	26068	-
+2268	mm9_urngargoyle_x150	urn	0	71	160	0	0	0	0	0	0	26069	-
+2269	mm9_pentafire_red	fire	0	0	0	0	0	0	0	0	0	26070	-
+2270	mm9_pentafire_yellow	fire	0	0	0	0	0	0	0	0	0	26071	-
+2271	mm9_pentafire_blue	fire	0	0	0	0	0	0	0	0	0	26072	-
+2272	mm9_pentafire_green	fire	0	0	0	0	0	0	0	0	0	26073	-
+2273	mm9_pentafire_orange	fire	0	0	0	0	0	0	0	0	0	26074	-
+2274	mm9_bedmedium2onside	bed	0	43	120	0	0	0	0	0	0	26075	-
+2275	mm9_bench03	bench	0	22	59	0	0	0	0	0	0	26076	-
+2276	mm9_orblinking	orb	0	0	0	0	0	0	0	0	0	26077	-
+2277	mm9_treasurebag	bag	0	0	0	0	0	0	0	0	0	26078	-
+2278	mm9_bedmedium_x100	bed	0	60	86	0	0	0	0	0	0	26079	-
+2279	mm9_bedornate	bed	0	154	336	0	0	0	0	0	0	26080	-
+2280	mm9_bookcase02ew_x100	bookcase	0	41	211	0	0	0	0	0	0	26081	-
+2281	mm9_boxornamental_x150	box	0	47	72	0	0	0	0	0	0	26082	-
+2282	mm9_cabinet02_x125	cabinet	0	53	333	0	0	0	0	0	0	26083	-
+2283	mm9_cards	cards	0	0	0	0	0	0	0	0	0	26084	-
+2284	mm9_desk01_x120	desk	0	55	118	0	0	0	0	0	0	26085	-
+2285	mm9_dresserfancyns_x150	dresser	0	37	212	0	0	0	0	0	0	26086	-
+2286	mm9_hangingbowl_x200	brazier	0	0	0	0	0	0	0	0	0	26087	-
+2287	mm9_shield1	shield	0	0	0	0	0	0	0	0	0	26088	-
+2288	mm9_shield2	shield	0	0	0	0	0	0	0	0	0	26089	-
+2289	mm9_shield3r	shield	0	0	0	0	0	0	0	0	0	26090	-
+2290	mm9_shield4	shield	0	0	0	0	0	0	0	0	0	26091	-
+2291	mm9_suitofarmor02	armor	0	44	260	0	0	0	0	0	0	26092	-
+2292	mm9_tapestry_banner4	tapestry	0	0	0	0	0	0	0	0	0	26093	-
+2293	mm9_throne_x120	throne	0	86	322	0	0	0	0	0	0	26094	-
+2294	mm9_weaponracknew	weapon rack	0	30	185	0	0	0	0	0	0	26095	-
+2295	mm9_hangingbowl1_x100	brazier	0	0	0	0	0	0	0	0	0	26096	-
+2296	mm9_lumberdebris02	debris	0	0	0	0	0	0	0	0	0	26097	-
+2297	mm9_lumberdebris03	debris	0	0	0	0	0	0	0	0	0	26098	-
+2298	mm9_lumberdebris05	debris	0	0	0	0	0	0	0	0	0	26099	-
+2299	mm9_spindummy	training dummy	0	67	257	0	0	0	0	0	0	26100	-
+2300	mm9_strawdummy	straw dummy	0	64	266	0	0	0	0	0	0	26101	-
+2301	mm9_trainingmount	training horse	0	34	195	0	0	0	0	0	0	26102	-
+2302	mm9_bagherbs1	herbs	0	0	0	0	0	0	0	0	0	26103	-
+2303	mm9_bookcase02ew_x120	bookcase	0	49	253	0	0	0	0	0	0	26104	-
+2304	mm9_bookcase02ns_x120	bookcase	0	49	253	0	0	0	0	0	0	26105	-
+2305	mm9_bookrulestilt	book	0	0	0	0	0	0	0	0	0	26106	-
+2306	mm9_candle	candle	0	0	0	0	0	0	0	0	0	26107	-
+2307	mm9_chandelier	chandelier	0	0	0	0	0	0	0	0	0	26108	-
+2308	mm9_crate_x125	crate	0	77	154	0	0	0	0	0	0	26109	-
+2309	mm9_dwarfaxeonside	pickaxe	0	0	0	0	0	0	0	0	0	26110	-
+2310	mm9_forge	forge	0	97	321	0	0	0	0	0	0	26111	-
+2311	mm9_gobletfancy02	goblet	0	0	0	0	0	0	0	0	0	26112	-
+2312	mm9_grindingwheel	grinding wheel	0	32	96	0	0	0	0	0	0	26113	-
+2313	mm9_ironingots_x150	ingots	0	87	73	0	0	0	0	0	0	26114	-
+2314	mm9_pew	pew	0	56	130	0	0	0	0	0	0	26115	-
+2315	mm9_ropecoil_x75	rope	0	25	8	0	0	0	0	0	0	26116	-
+2316	mm9_scroll1	scroll	0	0	0	0	0	0	0	0	0	26117	-
+2317	mm9_scrollpickup	scroll	0	0	0	0	0	0	0	0	0	26118	-
+2318	mm9_shelfitem03_x150	bottles	0	19	45	0	0	0	0	0	0	26119	-
+2319	mm9_smithhammer	hammer	0	0	0	0	0	0	0	0	0	26120	-
+2320	mm9_spikepit_x100	spikes	0	0	0	0	0	0	0	0	0	26121	-
+2321	mm9_suitofarmor02_x150	armor	0	55	326	0	0	0	0	0	0	26122	-
+2322	mm9_weaponrack_new	weapon rack	0	45	277	0	0	0	0	0	0	26123	-
+2323	mm9_bell	bell	0	0	0	0	0	0	0	0	0	26124	-
+2324	mm9_bell_x90	bell	0	0	0	0	0	0	0	0	0	26125	-
+2325	mm9_bell_x85	bell	0	0	0	0	0	0	0	0	0	26126	-
+2326	mm9_bell_x75	bell	0	0	0	0	0	0	0	0	0	26127	-
+2327	mm9_bell_x70	bell	0	0	0	0	0	0	0	0	0	26128	-
+2328	mm9_benchlarge1ns	bench	0	38	177	0	0	0	0	0	0	26129	-
+2329	mm9_bookcase01ew2	bookcase	0	40	244	0	0	0	0	0	0	26130	-
+2330	mm9_chairdesk03b	chair	0	0	0	0	0	0	0	0	0	26131	-
+2331	mm9_desk03b	desk	0	47	159	0	0	0	0	0	0	26132	-
+2332	mm9_pew2	pew	0	33	112	0	0	0	0	0	0	26133	-
+2333	mm9_podium02	lectern	0	37	134	0	0	0	0	0	0	26134	-
+2334	mm9_reliquary	reliquary	0	0	0	0	0	0	0	0	0	26135	-
+2335	mm9_thjorad	maul	0	0	0	0	0	0	0	0	0	26136	-
+2336	mm9_tree04	tree	0	30	202	0	0	0	0	0	0	26137	-
+2337	mm9_washtubtable	wash tub	0	37	113	0	0	0	0	0	0	26138	-
+2338	mm9_anvil_x60	anvil	0	20	48	0	0	0	0	0	0	26139	-
+2339	mm9_barrel_x125	wooden barrel	0	44	102	0	0	0	0	0	0	26140	-
+2340	mm9_boiler	boiler	0	26	184	0	0	0	0	0	0	26141	-
+2341	mm9_box02pantry	box	0	0	0	0	0	0	0	0	0	26142	-
+2342	mm9_bucket01_x90	wooden bucket	0	0	29	0	0	0	0	0	0	26143	-
+2343	mm9_bucket02	wooden bucket	0	20	32	0	0	0	0	0	0	26144	-
+2344	mm9_dwarfaxeonside_x200	pickaxe	0	0	0	0	0	0	0	0	0	26145	-
+2345	mm9_machinepartbroken	machine part	0	23	82	0	0	0	0	0	0	26146	-
+2346	mm9_minecart	mine cart	0	54	100	0	0	0	0	0	0	26147	-
+2347	mm9_minecart_x150	mine cart	0	81	150	0	0	0	0	0	0	26148	-
+2348	mm9_minelantern02	lantern	0	0	0	0	0	0	0	0	0	26149	-
+2349	mm9_oillamp	lamp	0	0	0	0	0	0	0	0	0	26150	-
+2350	mm9_stonedebris05thjorad	thjorad ore	0	0	0	0	0	0	0	0	0	26151	-
+2351	mm9_stool01	stool	0	25	57	0	0	0	0	0	0	26152	-
+2352	mm9_tableroundplain	table	0	82	92	0	0	0	0	0	0	26153	-
+2353	mm9_thjoradbin	ore bin	0	58	86	0	0	0	0	0	0	26154	-
+2354	mm9_thjoradbin_x200	ore bin	0	116	171	0	0	0	0	0	0	26155	-
+2355	mm9_trashpile_x200	trash	0	75	77	0	0	0	0	0	0	26156	-
+2356	mm9_weaponscabinet01_x90	weapons cabinet	0	37	236	0	0	0	0	0	0	26157	-
+2357	mm9_woodbin	wood bin	0	40	74	0	0	0	0	0	0	26158	-
+2358	mm9_machinepartwhole	machine part	0	22	82	0	0	0	0	0	0	26159	-
+2359	mm9_bedornate_x300	bed	0	0	0	0	0	0	0	0	0	26160	-
+2360	mm9_blackchest_x300	chest	0	87	212	0	0	0	0	0	0	26161	-
+2361	mm9_chair_x125	chair	0	0	0	0	0	0	0	0	0	26162	-
+2362	mm9_chairdesk03_x125	chair	0	0	0	0	0	0	0	0	0	26163	-
+2363	mm9_chairdesk03p270_x125	chair	0	0	0	0	0	0	0	0	0	26164	-
+2364	mm9_chairp270	chair	0	0	0	0	0	0	0	0	0	26165	-
+2365	mm9_chestrusty01	chest	0	26	57	0	0	0	0	0	0	26166	-
+2366	mm9_chestrusty01_x200	chest	0	51	114	0	0	0	0	0	0	26167	-
+2367	mm9_clawlampp180	lamp	0	0	0	0	0	0	0	0	0	26168	-
+2368	mm9_clawlampp180_x300	lamp	0	0	0	0	0	0	0	0	0	26169	-
+2369	mm9_clawtorchr180	torch	0	0	0	0	0	0	0	0	0	26170	-
+2370	mm9_crate_x120	crate	0	73	148	0	0	0	0	0	0	26171	-
+2371	mm9_crateice	ice block	0	61	123	0	0	0	0	0	0	26172	-
+2372	mm9_crateice_x110	ice block	0	68	135	0	0	0	0	0	0	26173	-
+2373	mm9_crateice_x120	ice block	0	74	148	0	0	0	0	0	0	26174	-
+2374	mm9_crateice_x200	ice block	0	123	246	0	0	0	0	0	0	26175	-
+2375	mm9_dresserfancyns_x225	dresser	0	56	318	0	0	0	0	0	0	26176	-
+2376	mm9_key2_x300	key	0	0	0	0	0	0	0	0	0	26177	-
+2377	mm9_pew3_x100	pew	0	33	125	0	0	0	0	0	0	26178	-
+2378	mm9_stool01p90	stool	0	26	50	0	0	0	0	0	0	26179	-
+2379	mm9_stool02	stool	0	36	147	0	0	0	0	0	0	26180	-
+2380	mm9_tableround3_x90	table	0	74	83	0	0	0	0	0	0	26181	-
+2381	mm9_tableroundplain_x95	table	0	78	88	0	0	0	0	0	0	26182	-
+2382	mm9_throne_x250	throne	0	180	670	0	0	0	0	0	0	26183	-
+2383	mm9_bush03	bush	0	0	0	0	0	0	0	0	0	26184	-
+2384	mm9_bush03_x300	bush	0	0	0	0	0	0	0	0	0	26185	-
+2385	mm9_bush05	bush	0	0	0	0	0	0	0	0	0	26186	-
+2386	mm9_clawtorch	torch	0	0	0	0	0	0	0	0	0	26187	-
+2387	mm9_crystal	crystal	0	22	66	0	0	0	0	0	0	26188	-
+2388	mm9_icebanshee	ice statue	0	20	73	0	0	0	0	0	0	26189	-
+2389	mm9_icelich	ice statue	0	13	74	0	0	0	0	0	0	26190	-
+2390	mm9_iceskeleton	ice statue	0	15	70	0	0	0	0	0	0	26191	-
+2391	mm9_iceskeletonwarrior	ice statue	0	17	78	0	0	0	0	0	0	26192	-
+2392	mm9_iceterror	ice statue	0	45	102	0	0	0	0	0	0	26193	-
+2393	mm9_icezombie	ice statue	0	12	69	0	0	0	0	0	0	26194	-
+2394	mm9_logsburning_x100	burning logs	0	0	0	0	0	0	0	0	0	26195	-
+2395	mm9_runestone	rune stone	0	71	190	0	0	0	0	0	0	26196	-
+2396	mm9_stonebanshee	statue	0	100	367	0	0	0	0	0	0	26197	-
+2397	mm9_tree01b	tree	0	54	225	0	0	0	0	0	0	26198	-
+2398	mm9_tree01b_x70	tree	0	42	175	0	0	0	0	0	0	26199	-
+2399	mm9_tree02	tree	0	38	188	0	0	0	0	0	0	26200	-
+2400	mm9_tree02_x70	tree	0	35	175	0	0	0	0	0	0	26201	-
+2401	mm9_tree02_x30	tree	0	15	75	0	0	0	0	0	0	26202	-
+2402	mm9_tree05	tree	0	22	175	0	0	0	0	0	0	26203	-
+2403	mm9_tree06	tree	0	21	175	0	0	0	0	0	0	26204	-
+2404	mm9_brazierbowl	brazier	0	37	72	0	0	0	0	0	0	26205	-
+2405	mm9_coffinraised_x150	coffin	0	91	191	0	0	0	0	0	0	26206	-
+2406	mm9_dragonpharoah	statue	0	160	439	0	0	0	0	0	0	26207	-
+2407	mm9_genielamp_x150	lamp	0	0	0	0	0	0	0	0	0	26208	-
+2408	mm9_sconce1torch	torch	0	0	0	0	0	0	0	0	0	26209	-
+2409	mm9_scrollp90	scroll	0	0	0	0	0	0	0	0	0	26210	-
+2410	mm9_skulls1000a	skull	0	0	0	0	0	0	0	0	0	26211	-
+2411	mm9_skulls1000b	skull	0	0	0	0	0	0	0	0	0	26212	-
+2412	mm9_sorcererstatue	statue	0	30	200	0	0	0	0	0	0	26213	-
+2413	mm9_switch03	switch	0	0	0	0	0	0	0	0	0	26214	-
+2414	mm9_terrorlight1	lamp	0	0	0	0	0	0	0	0	0	26215	-
+2415	mm9_treasurechute_x90	treasure chute	0	56	364	0	0	0	0	0	0	26216	-
+2416	mm9_treasureopening	treasure opening	0	0	0	0	0	0	0	0	0	26217	-
+2417	mm9_blackchest_x95	chest	0	0	0	0	0	0	0	0	0	26218	-
+2418	mm9_minelantern02plain	lantern	0	0	0	0	0	0	0	0	0	26219	-
+2419	mm9_sack01	sack	0	15	81	0	0	0	0	0	0	26220	-
+2420	mm9_sack02	sack	0	31	26	0	0	0	0	0	0	26221	-
+2421	mm9_skeletonlayingprop	skeleton	0	70	31	0	0	0	0	0	0	26222	-
+2422	mm9_stonedebris01ls	rubble	0	0	0	0	0	0	0	0	0	26223	-
+2423	mm9_stonedebris04ls	rubble	0	0	0	0	0	0	0	0	0	26224	-
+2424	mm9_stonedebris05ls	rubble	0	0	0	0	0	0	0	0	0	26225	-
+2425	mm9_barrelp356	wooden barrel	0	36	86	0	0	0	0	0	0	26226	-
+2426	mm9_cratep356	crate	0	61	132	0	0	0	0	0	0	26227	-
+2427	mm9_crater355	crate	0	61	133	0	0	0	0	0	0	26228	-
+2428	mm9_lumberstone03p10	rubble	0	0	0	0	0	0	0	0	0	26229	-
+2429	mm9_sack01p350r356	sack	0	18	80	0	0	0	0	0	0	26230	-
+2430	mm9_stonedebris01lsp350	rubble	0	0	0	0	0	0	0	0	0	26231	-
+2431	mm9_stonedebris02p350	rubble	0	0	0	0	0	0	0	0	0	26232	-
+2432	mm9_stonedebris04lsp350	rubble	0	0	0	0	0	0	0	0	0	26233	-
+2433	mm9_stonedebris04lsp7	rubble	0	0	0	0	0	0	0	0	0	26234	-
+2434	mm9_stonedebris05lsp350	rubble	0	0	0	0	0	0	0	0	0	26235	-
+2435	mm9_waterorb	water orb	0	0	0	0	0	0	0	0	0	26236	-
+2436	mm9_clawlampp180_x100	lamp	0	0	0	0	0	0	0	0	0	26237	-
+2437	mm9_sconce2	torch	0	0	0	0	0	0	0	0	0	26238	-
+2438	mm9_tapestry_banner6	tapestry	0	0	0	0	0	0	0	0	0	26239	-
+2439	mm9_tapestry_banner6_x150	tapestry	0	0	0	0	0	0	0	0	0	26240	-
+2440	mm9_torchrust	torch	0	0	0	0	0	0	0	0	0	26241	-
+2441	mm9_dragonbrazier2	brazier	0	87	373	0	0	0	0	0	0	26242	-
+2442	mm9_dragonpharoah_x150	statue	0	240	659	0	0	0	0	0	0	26243	-
+2443	mm9_frestatue	statue	0	276	1588	0	0	0	0	0	0	26244	-
+2444	mm9_krohnstatue	statue	0	358	1944	0	0	0	0	0	0	26245	-
+2445	mm9_lionstatue	lion statue	0	129	313	0	0	0	0	0	0	26246	-
+2446	mm9_njamstatue	statue	0	276	1616	0	0	0	0	0	0	26247	-
+2447	mm9_skraelosstatue	statue	0	276	1581	0	0	0	0	0	0	26248	-
+2448	mm9_torchmetalorange	torch	0	0	0	0	0	0	0	0	0	26249	-
+2449	mm9_wyrdmaturestatue	statue	0	276	1590	0	0	0	0	0	0	26250	-
+2450	mm9_wyrdoldstatue	statue	0	276	1479	0	0	0	0	0	0	26251	-
+2451	mm9_wyrdyoungstatue	statue	0	276	1591	0	0	0	0	0	0	26252	-
+2452	mm9_skeletonlayingprop_x150	skeleton	0	104	46	0	0	0	0	0	0	26253	-
+2453	mm9_clawtorchlit	torch	0	0	0	0	0	0	0	0	0	26254	-
+2454	mm9_barrelbeet	wooden barrel	0	53	123	0	0	0	0	0	0	26255	-
+2455	mm9_barstool1	stool	0	25	122	0	0	0	0	0	0	26256	-
+2456	mm9_beaker01_x75	beaker	0	0	0	0	0	0	0	0	0	26257	-
+2457	mm9_beaker01_x50	beaker	0	0	0	0	0	0	0	0	0	26258	-
+2458	mm9_bed_x150	bed	0	131	154	0	0	0	0	0	0	26259	-
+2459	mm9_bedmediumplain	bed	0	60	86	0	0	0	0	0	0	26260	-
+2460	mm9_bedornate_x100	bed	0	123	269	0	0	0	0	0	0	26261	-
+2461	mm9_beetrack	drying rack	0	0	0	0	0	0	0	0	0	26262	-
+2462	mm9_bjarnisitting	Bjarni	0	37	153	0	0	0	0	0	0	26263	-
+2463	mm9_bookcase01ew_x125	bookcase	0	50	305	0	0	0	0	0	0	26264	-
+2464	mm9_bookcase01ns_x125	bookcase	0	50	305	0	0	0	0	0	0	26265	-
+2465	mm9_bookcase01ns_x150	bookcase	0	60	366	0	0	0	0	0	0	26266	-
+2466	mm9_bowl04	bowl	0	0	0	0	0	0	0	0	0	26267	-
+2467	mm9_broom	broom	0	0	0	0	0	0	0	0	0	26268	-
+2468	mm9_bush03_x100	bush	0	0	0	0	0	0	0	0	0	26269	-
+2469	mm9_candelabra	candelabra	0	0	0	0	0	0	0	0	0	26270	-
+2470	mm9_catstanddown	cat	0	0	0	0	0	0	0	0	0	26271	-
+2471	mm9_chairskin1	chair	0	27	119	0	0	0	0	0	0	26272	-
+2472	mm9_chandelier2	chandelier	0	0	0	0	0	0	0	0	0	26273	-
+2473	mm9_clawlampup	lamp	0	0	0	0	0	0	0	0	0	26274	-
+2474	mm9_cup02	cup	0	0	0	0	0	0	0	0	0	26275	-
+2475	mm9_dragontrophy	trophy	0	0	0	0	0	0	0	0	0	26276	-
+2476	mm9_erccsitting	drunk	0	36	153	0	0	0	0	0	0	26277	-
+2477	mm9_forge_x100	forge	0	108	357	0	0	0	0	0	0	26278	-
+2478	mm9_hangingbowl1_x200	brazier	0	0	0	0	0	0	0	0	0	26279	-
+2479	mm9_jacobsladder	machine	0	31	248	0	0	0	0	0	0	26280	-
+2480	mm9_kegbeer	beer keg	0	54	114	0	0	0	0	0	0	26281	-
+2481	mm9_lamppost4	lamp post	0	53	377	0	0	0	0	0	0	26282	-
+2482	mm9_lanternwall1	lantern	0	0	0	0	0	0	0	0	0	26283	-
+2483	mm9_logs_x150	logs	0	63	63	0	0	0	0	0	0	26284	-
+2484	mm9_mug1	mug	0	0	0	0	0	0	0	0	0	26285	-
+2485	mm9_peasantm2innkeeper	innkeeper	0	26	132	0	0	0	0	0	0	26286	-
+2486	mm9_peasantms2bconv	townsman	0	39	153	0	0	0	0	0	0	26287	-
+2487	mm9_peasantms2bwriting	townsman	0	0	0	0	0	0	0	0	0	26288	-
+2488	mm9_peasantms2csitting	townsman	0	39	153	0	0	0	0	0	0	26289	-
+2489	mm9_peasantms2dlisten	townsman	0	39	153	0	0	0	0	0	0	26290	-
+2490	mm9_peasantms2dsitting2	townsman	0	41	153	0	0	0	0	0	0	26291	-
+2491	mm9_pew2ns_x100	pew	0	33	112	0	0	0	0	0	0	26292	-
+2492	mm9_pewns	pew	0	56	130	0	0	0	0	0	0	26293	-
+2493	mm9_pitcher01_x75	pitcher	0	0	0	0	0	0	0	0	0	26294	-
+2494	mm9_podium01_x85	lectern	0	31	117	0	0	0	0	0	0	26295	-
+2495	mm9_portalwhole	portal	0	46	92	0	0	0	0	0	0	26296	-
+2496	mm9_sack01beet	sack	0	30	161	0	0	0	0	0	0	26297	-
+2497	mm9_sack03_x200	sack	0	0	0	0	0	0	0	0	0	26298	-
+2498	mm9_scrollpickup_x100	scroll	0	0	0	0	0	0	0	0	0	26299	-
+2499	mm9_shelfitem03f	bottles	0	0	0	0	0	0	0	0	0	26300	-
+2500	mm9_shelfitem09d	gloves	0	0	0	0	0	0	0	0	0	26301	-
+2501	mm9_shelfitem09sg	daggers	0	0	0	0	0	0	0	0	0	26302	-
+2502	mm9_shield1flat	shield	0	0	0	0	0	0	0	0	0	26303	-
+2503	mm9_shield2flat	shield	0	0	0	0	0	0	0	0	0	26304	-
+2504	mm9_shieldrustyp90	shield	0	0	0	0	0	0	0	0	0	26305	-
+2505	mm9_strawdummy2c	dummy	0	64	266	0	0	0	0	0	0	26306	-
+2506	mm9_strawdummy2l	dummy	0	64	266	0	0	0	0	0	0	26307	-
+2507	mm9_strawdummy2r	dummy	0	64	266	0	0	0	0	0	0	26308	-
+2508	mm9_tableround_x75	table	0	62	69	0	0	0	0	0	0	26309	-
+2509	mm9_trainingarchery1	target	0	73	188	0	0	0	0	0	0	26310	-
+2510	mm9_tree04_x100	tree	0	40	269	0	0	0	0	0	0	26311	-
+2511	mm9_vials	vials	0	0	0	0	0	0	0	0	0	26312	-
+2512	mm9_weaponracknewg2	weapon rack	0	45	255	0	0	0	0	0	0	26313	-
+2513	mm9_weaponracknewg3	weapon rack	0	45	277	0	0	0	0	0	0	26314	-
+2514	mm9_winebottle04	bottle	0	0	0	0	0	0	0	0	0	26315	-
+2515	mm9_winerack	wine rack	0	34	227	0	0	0	0	0	0	26316	-
+2516	mm9_bagherbs1_x200	herbs	0	0	0	0	0	0	0	0	0	26317	-
+2517	mm9_benchlarge1	bench	0	38	177	0	0	0	0	0	0	26318	-
+2518	mm9_chandelier2_x75	chandelier	0	0	0	0	0	0	0	0	0	26319	-
+2519	mm9_coatrack2	coat rack	0	30	210	0	0	0	0	0	0	26320	-
+2520	mm9_flowerboxew	flower box	0	53	139	0	0	0	0	0	0	26321	-
+2521	mm9_flowerboxns	flower box	0	53	139	0	0	0	0	0	0	26322	-
+2522	mm9_foradsit	Forad	0	31	146	0	0	0	0	0	0	26323	-
+2523	mm9_herbrack1	herbs	0	0	0	0	0	0	0	0	0	26324	-
+2524	mm9_jar02_x150	jar	0	0	0	0	0	0	0	0	0	26325	-
+2525	mm9_jar03_x150	jar	0	0	0	0	0	0	0	0	0	26326	-
+2526	mm9_jar05_x150	jar	0	0	0	0	0	0	0	0	0	26327	-
+2527	mm9_jar06_x150	jar	0	0	0	0	0	0	0	0	0	26328	-
+2528	mm9_kegbeer_x100	beer keg	0	36	76	0	0	0	0	0	0	26329	-
+2529	mm9_kirashield	shield	0	0	0	0	0	0	0	0	0	26330	-
+2530	mm9_lamppost3	lamp post	0	23	349	0	0	0	0	0	0	26331	-
+2531	mm9_markeldie2	Markel	0	0	0	0	0	0	0	0	0	26332	-
+2532	mm9_markelsit	Markel	0	34	150	0	0	0	0	0	0	26333	-
+2533	mm9_pew2_x110	pew	0	0	0	0	0	0	0	0	0	26334	-
+2534	mm9_pew2_x120	pew	0	40	134	0	0	0	0	0	0	26335	-
+2535	mm9_plateset2	plates	0	0	0	0	0	0	0	0	0	26336	-
+2536	mm9_pottedplant1	planter	0	16	60	0	0	0	0	0	0	26337	-
+2537	mm9_pottedplant2	plant	0	17	63	0	0	0	0	0	0	26338	-
+2538	mm9_pottedplant3	plant	0	20	63	0	0	0	0	0	0	26339	-
+2539	mm9_shelfitem02mp	mortar	0	0	0	0	0	0	0	0	0	26340	-
+2540	mm9_shelfitem03f_x150	bottles	0	0	0	0	0	0	0	0	0	26341	-
+2541	mm9_shield3flat	shield	0	0	0	0	0	0	0	0	0	26342	-
+2542	mm9_shield4flat	shield	0	0	0	0	0	0	0	0	0	26343	-
+2543	mm9_sigmundsit	Sigmund	0	32	136	0	0	0	0	0	0	26344	-
+2544	mm9_steinfancy01	stein	0	0	0	0	0	0	0	0	0	26345	-
+2545	mm9_suitofarmor01plain	armor	0	24	240	0	0	0	0	0	0	26346	-
+2546	mm9_svensitting	Sven	0	41	143	0	0	0	0	0	0	26347	-
+2547	mm9_tableround5_x100	table	0	83	92	0	0	0	0	0	0	26348	-
+2548	mm9_tapestry_banner8	banner	0	0	0	0	0	0	0	0	0	26349	-
+2549	mm9_tryggvasit	Tryggva	0	38	151	0	0	0	0	0	0	26350	-
+2550	mm9_weaponracknsnewg1	weapon rack	0	45	277	0	0	0	0	0	0	26351	-
+2551	mm9_weaponracknsnewg3	weapon rack	0	45	277	0	0	0	0	0	0	26352	-
+2552	mm9_barstool2	stool	0	25	122	0	0	0	0	0	0	26353	-
+2553	mm9_benchstone02_x120	stone bench	0	0	0	0	0	0	0	0	0	26354	-
+2554	mm9_bookcase02ns_x100	bookcase	0	41	211	0	0	0	0	0	0	26355	-
+2555	mm9_box01	box	0	21	30	0	0	0	0	0	0	26356	-
+2556	mm9_box02	box	0	0	0	0	0	0	0	0	0	26357	-
+2557	mm9_cart01	barrow	0	48	95	0	0	0	0	0	0	26358	-
+2558	mm9_cart02	cart	0	88	168	0	0	0	0	0	0	26359	-
+2559	mm9_cart02nohay	cart	0	88	168	0	0	0	0	0	0	26360	-
+2560	mm9_clover	clover	0	0	0	0	0	0	0	0	0	26361	-
+2561	mm9_hitchingpost	hitching post	0	60	254	0	0	0	0	0	0	26362	-
+2562	mm9_jug1	jug	0	0	0	0	0	0	0	0	0	26363	-
+2563	mm9_logsburning_x70	fire	0	0	0	0	0	0	0	0	0	26364	-
+2564	mm9_logsburning_x200	fire	0	0	0	0	0	0	0	0	0	26365	-
+2565	mm9_pillarstand_x150	pillar	0	30	132	0	0	0	0	0	0	26366	-
+2566	mm9_platestack1set1	plates	0	0	0	0	0	0	0	0	0	26367	-
+2567	mm9_platestack2set1	plates	0	0	0	0	0	0	0	0	0	26368	-
+2568	mm9_shelfitem03hc	bottles	0	0	0	0	0	0	0	0	0	26369	-
+2569	mm9_shelfitem09	gloves	0	0	0	0	0	0	0	0	0	26370	-
+2570	mm9_shelfitem09g	daggers	0	0	0	0	0	0	0	0	0	26371	-
+2571	mm9_suitofarmor01_x120	armor	0	24	240	0	0	0	0	0	0	26372	-
+2572	mm9_tapestry_banner2	banner	0	0	0	0	0	0	0	0	0	26373	-
+2573	mm9_weaponrackg1	weapon rack	0	36	222	0	0	0	0	0	0	26374	-
+2574	mm9_weaponrackg2	weapon rack	0	36	204	0	0	0	0	0	0	26375	-
+2575	mm9_winebottle	winebottle	0	0	0	0	0	0	0	0	0	26376	-
+2576	mm9_winebottle02	bottle	0	0	0	0	0	0	0	0	0	26377	-
+2577	mm9_winebottle03	bottle	0	0	0	0	0	0	0	0	0	26378	-
+2578	mm9_winebottle05	bottle	0	0	0	0	0	0	0	0	0	26379	-
+2579	mm9_barrel_x50	wooden barrel	0	18	41	0	0	0	0	0	0	26380	-
+2580	mm9_basket01	basket	0	0	0	0	0	0	0	0	0	26381	-
+2581	mm9_bed_x100	bed	0	87	102	0	0	0	0	0	0	26382	-
+2582	mm9_bedmediumew	bed	0	0	0	0	0	0	0	0	0	26383	-
+2583	mm9_bookkey	key	0	0	0	0	0	0	0	0	0	26384	-
+2584	mm9_chandelier3_x75	chandelier	0	0	0	0	0	0	0	0	0	26385	-
+2585	mm9_clawlampupblue	lamp	0	0	0	0	0	0	0	0	0	26386	-
+2586	mm9_desk02ns	desk	0	43	92	0	0	0	0	0	0	26387	-
+2587	mm9_dresserfancy_x120	dresser	0	0	0	0	0	0	0	0	0	26388	-
+2588	mm9_herbrack2	herb rack	0	0	0	0	0	0	0	0	0	26389	-
+2589	mm9_lamppost2	lamp post	0	0	0	0	0	0	0	0	0	26390	-
+2590	mm9_lantern2	lantern	0	0	0	0	0	0	0	0	0	26391	-
+2591	mm9_logs_x120	logs	0	50	50	0	0	0	0	0	0	26392	-
+2592	mm9_logs_x125	logs	0	0	0	0	0	0	0	0	0	26393	-
+2593	mm9_plateset1	plate	0	0	0	0	0	0	0	0	0	26394	-
+2594	mm9_podium01_x80	lectern	0	29	110	0	0	0	0	0	0	26395	-
+2595	mm9_sack01_x200	sack	0	30	162	0	0	0	0	0	0	26396	-
+2596	mm9_scrollpickup_x150	scroll	0	0	0	0	0	0	0	0	0	26397	-
+2597	mm9_shelfitem03hwc	bottles	0	0	0	0	0	0	0	0	0	26398	-
+2598	mm9_shelfitem07hbread	food	0	0	0	0	0	0	0	0	0	26399	-
+2599	mm9_shelfitem07hfruit	food	0	0	0	0	0	0	0	0	0	26400	-
+2600	mm9_shelfitem07hpie	food	0	0	0	0	0	0	0	0	0	26401	-
+2601	mm9_shelfitem08hbasket	provisions	0	0	0	0	0	0	0	0	0	26402	-
+2602	mm9_shelfitem08hbottle	provisions	0	0	0	0	0	0	0	0	0	26403	-
+2603	mm9_shelfitem08honions	provisions	0	0	0	0	0	0	0	0	0	26404	-
+2604	mm9_shelfitem08hsack	provisions	0	0	0	0	0	0	0	0	0	26405	-
+2605	mm9_suitofarmor01gold	armor	0	24	240	0	0	0	0	0	0	26406	-
+2606	mm9_table01_x120	table	0	70	101	0	0	0	0	0	0	26407	-
+2607	mm9_tapestry_banner6_x200	tapestry	0	0	0	0	0	0	0	0	0	26408	-
+2608	mm9_weaponracknsnewg2	weapon rack	0	45	255	0	0	0	0	0	0	26409	-
+2609	mm9_weaponscabinet03	weapon cabinet	0	40	121	0	0	0	0	0	0	26410	-
+2610	mm9_clansoldierhelmet	helmet	0	0	0	0	0	0	0	0	0	26411	-
+2611	mm9_dookmilitiahelmet	helmet	0	0	0	0	0	0	0	0	0	26412	-
+2612	mm9_horsestatue3	statue	0	61	561	0	0	0	0	0	0	26413	-
+2613	mm9_horsestatue3_x200	statue	0	81	748	0	0	0	0	0	0	26414	-
+2614	mm9_kegbeer_x200	beer keg	0	72	152	0	0	0	0	0	0	26415	-
+2615	mm9_lamppost1	lamp post	0	0	0	0	0	0	0	0	0	26416	-
+2616	mm9_plate1p80	plate	0	0	0	0	0	0	0	0	0	26417	-
+2617	mm9_platestack1_x200	plates	0	0	0	0	0	0	0	0	0	26418	-
+2618	mm9_platestack2_x200	plates	0	0	0	0	0	0	0	0	0	26419	-
+2619	mm9_steinfancy01_x200	stein	0	0	0	0	0	0	0	0	0	26420	-
+2620	mm9_tree05_x100	tree	0	31	250	0	0	0	0	0	0	26421	-
+2621	mm9_tree06_x100	tree	0	30	250	0	0	0	0	0	0	26422	-
+2622	mm9_weaponrackg1_x150	weapon rack	0	0	0	0	0	0	0	0	0	26423	-
+2623	mm9_dogsitting	dog	0	21	96	0	0	0	0	0	0	26424	-
+2624	mm9_hangingbowl_x100	brazier	0	0	0	0	0	0	0	0	0	26425	-
+2625	mm9_herbrack1_x200	herbs	0	0	0	0	0	0	0	0	0	26426	-
+2626	mm9_logsburning_x250	fire	0	0	0	0	0	0	0	0	0	26427	-
+2627	mm9_maypole	maypole	0	44	465	0	0	0	0	0	0	26428	-
+2628	mm9_maypoleold	maypole	0	45	465	0	0	0	0	0	0	26429	-
+2629	mm9_mug1_x100	mug	0	0	0	0	0	0	0	0	0	26430	-
+2630	mm9_plateset2p1	plate	0	0	0	0	0	0	0	0	0	26431	-
+2631	mm9_spikepit_x150	spikes	0	0	0	0	0	0	0	0	0	26432	-
+2632	mm9_tapestry_banner1	tapestry	0	0	0	0	0	0	0	0	0	26433	-
+2633	mm9_weaponracknsusedg2	weapon rack	0	45	255	0	0	0	0	0	0	26434	-
+2634	mm9_weaponracknsusedg3	weapon rack	0	45	277	0	0	0	0	0	0	26435	-
+2635	mm9_weaponscabinet03s3	weapon cabinet	0	40	121	0	0	0	0	0	0	26436	-
+2636	mm9_winebottle_x100	winebottle	0	0	0	0	0	0	0	0	0	26437	-
+2637	mm9_pottedplant1_x250	planter	0	20	75	0	0	0	0	0	0	26438	-
+2638	mm9_pottedplant2_x250	plant	0	21	79	0	0	0	0	0	0	26439	-
+2639	mm9_prize	plush dragon	0	0	0	0	0	0	0	0	0	26440	-
+2640	mm9_seamonster	sea monster	0	0	0	0	0	0	0	0	0	26441	-
+2641	mm9_suitofarmor02aged	armor	0	44	260	0	0	0	0	0	0	26442	-
+2642	mm9_tapestry_banner7	banner	0	0	0	0	0	0	0	0	0	26443	-
+2643	mm9_weaponscabinet02ns	weapons cabinet	0	40	242	0	0	0	0	0	0	26444	-
+2644	mm9_chandelier3orange	chandelier	0	0	0	0	0	0	0	0	0	26445	-
+2645	mm9_chandelier3orange_x75	chandelier	0	0	0	0	0	0	0	0	0	26446	-
+2646	mm9_statbarrel	barrel	0	49	123	0	0	0	0	0	0	26447	-
+2647	mm9_statbarrel_x100	barrel	0	33	82	0	0	0	0	0	0	26448	-
+2648	mm9v_6tree18_2400	tree	0	60	2400	0	0	0	0	0	0	26449	-
+2649	mm9v_6tree18_1700	tree	0	42	1700	0	0	0	0	0	0	26450	-
+2650	mm9v_tree60_1700	tree	0	42	1700	0	0	0	0	0	0	26451	-
+2651	mm9v_6tree18_3425	tree	0	64	3425	0	0	0	0	0	0	26452	-
+2652	mm9v_tree60_3425	tree	0	64	3425	0	0	0	0	0	0	26453	-
+2653	mm9v_tree60_2400	tree	0	60	2400	0	0	0	0	0	0	26454	-
+2654	mm9v_bush02_75	bush	0	16	75	0	0	0	0	0	0	26455	-
+2655	mm9v_flower03_50	flowers	0	0	50	0	0	0	0	0	0	26456	-
+2656	mm9v_bush03_100	bush	0	16	100	0	0	0	0	0	0	26457	-
+2657	mm9v_flower10_25	flowers	0	0	25	0	0	0	0	0	0	26458	-
+2658	mm9v_flower04_50	flowers	0	0	50	0	0	0	0	0	0	26459	-
+2659	mm9v_flower10_50	flowers	0	0	50	0	0	0	0	0	0	26460	-
+2660	mm9v_flower04_25	flowers	0	0	25	0	0	0	0	0	0	26461	-
+2661	mm9v_tree29_1275	tree	0	31	1275	0	0	0	0	0	0	26462	-
+2662	mm9v_tree30_1375	tree	0	34	1375	0	0	0	0	0	0	26463	-
+2663	mm9v_tree30_1275	tree	0	31	1275	0	0	0	0	0	0	26464	-
+2664	mm9v_tree60_1200	tree	0	30	1200	0	0	0	0	0	0	26465	-
+2665	mm9v_tree60_1275	tree	0	31	1275	0	0	0	0	0	0	26466	-
+2666	mm9v_tree29_1650	tree	0	41	1650	0	0	0	0	0	0	26467	-
+2667	mm9v_tree30_1650	tree	0	41	1650	0	0	0	0	0	0	26468	-
+2668	mm9v_tree30_1000	tree	0	25	1000	0	0	0	0	0	0	26469	-
+2669	mm9v_tree60_1375	tree	0	34	1375	0	0	0	0	0	0	26470	-
+2670	mm9v_tree30_1200	tree	0	30	1200	0	0	0	0	0	0	26471	-
+2671	mm9v_tree60_1000	tree	0	25	1000	0	0	0	0	0	0	26472	-
+2672	mm9v_tree29_1900	tree	0	47	1900	0	0	0	0	0	0	26473	-
+2673	mm9v_tree60_1975	tree	0	49	1975	0	0	0	0	0	0	26474	-
+2674	mm9v_tree29_2300	tree	0	57	2300	0	0	0	0	0	0	26475	-
+2675	mm9v_tree30_1900	tree	0	47	1900	0	0	0	0	0	0	26476	-
+2676	mm9v_tree29_2800	tree	0	64	2800	0	0	0	0	0	0	26477	-
+2677	mm9v_tree36_525	tree	0	20	525	0	0	0	0	0	0	26478	-
+2678	mm9v_tree36_1550	tree	0	38	1550	0	0	0	0	0	0	26479	-
+2679	mm9v_snotre05_1100	tree	0	27	1100	0	0	0	0	0	0	26480	-
+2680	mm9v_tree36_675	tree	0	20	675	0	0	0	0	0	0	26481	-
+2681	mm9v_snotre01_525	tree	0	20	525	0	0	0	0	0	0	26482	-
+2682	mm9v_tree36_1100	tree	0	27	1100	0	0	0	0	0	0	26483	-
+2683	mm9v_snotre01_1550	tree	0	38	1550	0	0	0	0	0	0	26484	-
+2684	mm9v_snotre01_1100	tree	0	27	1100	0	0	0	0	0	0	26485	-
+2685	mm9v_snotre05_1550	tree	0	38	1550	0	0	0	0	0	0	26486	-
+2686	mm9v_snotre05_675	tree	0	20	675	0	0	0	0	0	0	26487	-
+2687	mm9v_snotre01_675	tree	0	20	675	0	0	0	0	0	0	26488	-
+2688	mm9v_tree28_1550	tree	0	38	1550	0	0	0	0	0	0	26489	-
+2689	mm9v_tree28_1050	tree	0	26	1050	0	0	0	0	0	0	26490	-
+2690	mm9v_6tree27_1550	tree	0	38	1550	0	0	0	0	0	0	26491	-
+2691	mm9v_6tree27_1050	tree	0	26	1050	0	0	0	0	0	0	26492	-
+2692	mm9v_flower03_25	flowers	0	0	25	0	0	0	0	0	0	26493	-
+2693	mm9_lamppost2_x140	lamp post	0	0	489	0	0	0	0	0	0	26494	-
+2694	mm9_coalbin_x150	coal bin	0	100	129	0	0	0	0	0	0	26495	-
+2695	mm9_stool02_x100	stool	0	24	98	0	0	0	0	0	0	26496	-
+2696	mm9_shelfitem07_x100	bottles	0	0	17	0	0	0	0	0	0	26497	-
+2697	mm9_logsburning_x65	fire	0	0	69	0	0	0	0	0	0	26498	-
+2698	mm9_logsburning_x75	fire	0	0	80	0	0	0	0	0	0	26499	-
+2699	mm9_shelfitem02_x150	bottles	0	0	37	0	0	0	0	0	0	26500	-
+2700	mm9_herbrack1_x100	herbs	0	0	111	0	0	0	0	0	0	26501	-
+2701	mm9_logsburning_x120	burning logs	0	0	128	0	0	0	0	0	0	26502	-
+2702	mm9_chest1_x150	chest	0	41	67	0	0	0	0	0	0	26503	-
+2703	mm9_chest3_x150	chest	0	0	95	0	0	0	0	0	0	26504	-
+2704	mm9_blackchest_x150	chest	0	43	106	0	0	0	0	0	0	26505	-
+2705	mm9_chest5_x150	chest	0	39	95	0	0	0	0	0	0	26506	-
+2706	mm9_chest_x150	chest	0	41	67	0	0	0	0	0	0	26507	-
+2707	mm9_woodshed02	woodshed	0	100	289	0	0	0	0	0	0	26508	-
+2708	mm9_woodshed01_x95	woodshed	0	98	354	0	0	0	0	0	0	26509	-
+2709	mm9_stone	stone	0	0	15	0	0	0	0	0	0	26510	-
+2710	mm9_stonered_x200	stone	0	15	31	0	0	0	0	0	0	26511	-
+2711	mm9_stoneblue_x200	stone	0	15	31	0	0	0	0	0	0	26512	-
+2712	mm9_stoneyellow_x200	stone	0	15	31	0	0	0	0	0	0	26513	-
+2713	mm9_stoneorange_x200	stone	0	15	31	0	0	0	0	0	0	26514	-
+2714	mm9_stonegreen_x200	stone	0	15	31	0	0	0	0	0	0	26515	-
+2715	mm9_stone_x200	stone	0	0	31	0	0	0	0	0	0	26516	-
+2716	mm9_toyboatpirate_x200	toy boat	0	27	92	0	0	0	0	0	0	26517	-
+2717	mm9_toyboatred_x200	toy boat	0	27	92	0	0	0	0	0	0	26518	-
+2718	mm9_toyboatgreen_x200	toy boat	0	27	92	0	0	0	0	0	0	26519	-
+2719	mm9_bellnobeam_x20	bell	0	0	71	0	0	0	0	0	0	26520	-
+2720	mm9_bannercw_x50	awning	0	0	121	0	0	0	0	0	0	26521	-
+2721	mm9_farmerplow	plough	0	46	89	0	0	0	0	0	0	26522	-
+2722	mm9_girldolly	doll	0	16	9	0	0	0	0	0	0	26523	-
+2723	mm9_greatbook	book	0	25	15	0	0	0	0	0	0	26524	-
+2724	mm9_windmillp335	windmill	0	0	1588	0	0	0	0	0	0	26525	-
+2725	mm9_hairbrush	hairbrush	0	5	6	0	0	0	0	0	0	26526	-
+2726	mm9_bannerc_x50	awning	0	0	121	0	0	0	0	0	0	26527	-
+2727	mm9_dwarfaxe_x150	pickaxe	0	17	71	0	0	0	0	0	0	26528	-
+2728	mm9_penancequest	rune stone	0	86	134	0	0	0	0	0	0	26529	-
+2729	mm9_broadswordp170	sword	0	0	72	0	0	0	0	0	0	26530	-
+2730	mm9_longswordp170	sword	0	0	90	0	0	0	0	0	0	26531	-
+2731	mm9_arrowp78	arrow	0	0	62	0	0	0	0	0	0	26532	-
+2732	mm9_arrowp133	arrow	0	0	48	0	0	0	0	0	0	26533	-
+2733	mm9_arrowp76	arrow	0	0	62	0	0	0	0	0	0	26534	-
+2734	mm9_axerustyp128r90	axe	0	38	30	0	0	0	0	0	0	26535	-
+2735	mm9_arrowp63	arrow	0	0	57	0	0	0	0	0	0	26536	-
+2736	mm9_longswordp173	sword	0	0	91	0	0	0	0	0	0	26537	-
+2737	mm9_haybale01	hay bale	0	32	54	0	0	0	0	0	0	26538	-
+2738	mm9_portalbroken	portal	0	83	92	0	0	0	0	0	0	26539	-
+2739	mm9_lantern1_x200	lantern	0	26	93	0	0	0	0	0	0	26540	-
+2740	mm9_longswordrunep170	sword	0	2	90	0	0	0	0	0	0	26541	-
+2741	mm9_barstool2_x110	stool	0	27	134	0	0	0	0	0	0	26542	-
+2742	mm9_chair02_x110	chair	0	34	146	0	0	0	0	0	0	26543	-
+2743	mm9_clawlampupblue_x100	lamp	0	0	0	0	0	0	0	0	0	26544	-
+2744	mm9_desk03b_x120	desk	0	56	191	0	0	0	0	0	0	26545	-
+2745	mm9_herbrack1_x175	herbs	0	0	0	0	0	0	0	0	0	26546	-
+2746	mm9_herbrack2_x165	herb rack	0	0	0	0	0	0	0	0	0	26547	-
+2747	mm9_relic	relic	0	0	0	0	0	0	0	0	0	26548	-
+2748	mm9_ropecoilcauldron	iron cauldron	0	68	22	0	0	0	0	0	0	26549	-
+2749	mm9_ropecoilcauldron_x300	iron cauldron	0	102	34	0	0	0	0	0	0	26550	-
+2750	mm9_scroll1_x85	scroll	0	0	0	0	0	0	0	0	0	26551	-
+2751	mm9_scroll2_x115	scroll	0	0	0	0	0	0	0	0	0	26552	-
+2752	mm9_scroll3_x115	scroll	0	0	0	0	0	0	0	0	0	26553	-
+2753	mm9_scrolldouble_x115	scroll	0	0	0	0	0	0	0	0	0	26554	-
+2754	mm9_shelfitem01_x100	bottles	0	0	0	0	0	0	0	0	0	26555	-
+2755	mm9_shelfitem01_x120	bottles	0	0	0	0	0	0	0	0	0	26556	-
+2756	mm9_shelfitem02_x120	bottles	0	0	0	0	0	0	0	0	0	26557	-
+2757	mm9_shelfitem02ha	bottles	0	0	0	0	0	0	0	0	0	26558	-
+2758	mm9_shelfitem03_x100	bottles	0	0	0	0	0	0	0	0	0	26559	-
+2759	mm9_shelfitem03_x110	bottles	0	0	0	0	0	0	0	0	0	26560	-
+2760	mm9_shelfitem03_x120	bottles	0	0	0	0	0	0	0	0	0	26561	-
+2761	mm9_shelfitem05_x115	bottles	0	0	0	0	0	0	0	0	0	26562	-
+2762	mm9_shelfitem05_x120	bottles	0	0	0	0	0	0	0	0	0	26563	-
+2763	mm9_shelfitem06_x100	bottles	0	0	0	0	0	0	0	0	0	26564	-
+2764	mm9_shelfitem06_x120	bottles	0	0	0	0	0	0	0	0	0	26565	-
+2765	mm9_skeletonlaying1	skeleton	0	0	0	0	0	0	0	0	0	26566	-
+2766	mm9_table01_x125	table	0	72	105	0	0	0	0	0	0	26567	-
+2767	mm9_terrorlight1_x100	lamp	0	0	0	0	0	0	0	0	0	26568	-
+2768	mm9_torchmetalorange_x100	torch	0	0	0	0	0	0	0	0	0	26569	-
+2769	mm9_torchmetalunlit	torch	0	0	0	0	0	0	0	0	0	26570	-
+2770	mm9_vials_x120	vials	0	0	0	0	0	0	0	0	0	26571	-
+2771	mm9_cauldron01_x100	iron cauldron	0	47	69	0	0	0	0	0	0	26572	-
+2772	mm9_weaponrack_new_x100	weapon rack	0	30	185	0	0	0	0	0	0	26573	-
+2773	mm9_suitofarmor01plain_x100	armor	0	20	200	0	0	0	0	0	0	26574	-
+2774	mm9_brazierbowl_x400	brazier	0	74	143	0	0	0	0	0	0	26575	-
+2775	mm9_statstoneyellow	stat stone	0	36	221	0	0	0	0	0	0	26576	-
+2776	mm9_statstoneplain	stat stone	0	36	221	0	0	0	0	0	0	26577	-
+2777	mm9_statstonepurple	stat stone	0	36	221	0	0	0	0	0	0	26578	-
+2778	mm9_statstonegreen	stat stone	0	36	221	0	0	0	0	0	0	26579	-
+2779	mm9_sigmundseated	sigmundseated	0	29	138	0	0	0	0	0	0	26580	-
+2780	mm9_clansoldierdeadb	clansoldierdeadb	0	0	80	0	0	0	0	0	0	26581	-
+2781	mm9_skeletonfigure	skeletonfigure	0	37	173	0	0	0	0	0	0	26582	-
+2782	mm9_skeletonwarriorfigure	skeletonwarriorfigure	0	46	194	0	0	0	0	0	0	26583	-
+2783	mm9_dragonflyfigure	dragonflyfigure	0	38	131	0	0	0	0	0	0	26584	-
+2784	mm9_eyefigure	eyefigure	0	52	295	0	0	0	0	0	0	26585	-
+2785	mm9_troglodytefigure	troglodytefigure	0	49	120	0	0	0	0	0	0	26586	-
+2786	mm9_lizardorcfigure	lizardorcfigure	0	53	183	0	0	0	0	0	0	26587	-
+2787	mm9_gezzamptfigure	gezzamptfigure	0	61	235	0	0	0	0	0	0	26588	-
+2788	mm9_nosferatufigure	nosferatufigure	0	61	174	0	0	0	0	0	0	26589	-
+2789	mm9_jellysporefigure	jellysporefigure	0	51	182	0	0	0	0	0	0	26590	-
+2790	mm9_clansoldierdead2b	clansoldierdead2b	0	0	65	0	0	0	0	0	0	26591	-
+2791	mm9_clansoldierdeada	clansoldierdeada	0	0	80	0	0	0	0	0	0	26592	-
+2792	mm9_tryggvaseated	tryggvaseated	0	42	153	0	0	0	0	0	0	26593	-
+2793	mm9_battlewitchp136	axe	0	0	74	0	0	0	0	0	0	26594	-
+2794	mm9_battlewitchp89	axe	0	0	45	0	0	0	0	0	0	26595	-
+2795	mm9_bjarniseated	bjarniseated	0	0	154	0	0	0	0	0	0	26596	-
+2796	mm9_kiradead	kiradead	0	0	37	0	0	0	0	0	0	26597	-
+2797	mm9_runestonegm	rune stone	0	71	190	0	0	0	0	0	0	26598	-
+2798	mm9_peasantfs2bconv1	townswoman	0	32	146	0	0	0	0	0	0	26599	-
+2799	mm9_peasantms1alisten	townsman	0	39	152	0	0	0	0	0	0	26600	-
+2800	mm9_peasantms1blisten	townsman	0	39	152	0	0	0	0	0	0	26601	-
+2801	mm9_peasantms2alisten	townsman	0	39	153	0	0	0	0	0	0	26602	-
+2802	mm9_peasantms2blisten	townsman	0	39	153	0	0	0	0	0	0	26603	-
+2803	mm9_peasantms2clisten	townsman	0	39	153	0	0	0	0	0	0	26604	-
+2804	mm9_greenmanstree	greenmanstree	0	0	3302	0	0	0	0	0	0	26605	-
+2805	mm9_goosefigure	goosefigure	0	17	81	0	0	0	0	0	0	26606	-
+2806	mm9_scrollflat	scroll	0	0	0	0	0	0	0	0	0	26607	-
+2807	mm9_gatefire_x208	fire	0	0	0	0	0	0	0	0	0	26608	-
+2808	mm9_gatefire_x25	fire	0	0	0	0	0	0	0	0	0	26609	-
+2809	mm9v_6tree18_500	tree	0	20	500	0	0	0	0	0	0	26610	-
+2810	mm9v_6tree18_1200	tree	0	30	1200	0	0	0	0	0	0	26611	-
+2811	mm9v_6tree18_1550	tree	0	38	1550	0	0	0	0	0	0	26612	-
+2812	mm9v_6tree18_1100	tree	0	27	1100	0	0	0	0	0	0	26613	-
+2813	mm9_portalclean	portal	0	46	92	0	0	0	0	0	0	26614	-
+2814	mm9_mirror	mirror	0	41	164	0	0	0	0	0	0	26615	-
+2815	mm9_barrelwater	portal	0	0	0	0	0	0	0	0	0	26616	-

@@ -1,0 +1,88 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/dookscastle",
+    "carried_over": false,
+    "geometry_hash": "5e3a0f50ac2c5098",
+    "lighting_sha256": "234b65baac3a60cc2d0ae6c187d1fe14ce28358ca3f2c0e2cd8c488b318e29ff",
+    "recipe": {
+      "backend": "5.2.2 LTS",
+      "extra_lights": [],
+      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 0.25,
+        "blur_radius": 2,
+        "bounce_scale": 4.0,
+        "bounces": 3,
+        "direct_scale": 0.5,
+        "dirlights": true,
+        "emitters": [
+          {
+            "colour": [
+              1.0,
+              0.62,
+              0.3
+            ],
+            "display": 1.1,
+            "outward": true,
+            "strength": 1.0,
+            "textures": [
+              "DOOKWZCQ7S"
+            ]
+          },
+          {
+            "colour": [
+              0.55,
+              0.7,
+              0.95
+            ],
+            "display": 0.75,
+            "outward": false,
+            "strength": 0.1,
+            "textures": [
+              "OCEABYM7AI"
+            ]
+          }
+        ],
+        "glass": [],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "dookscastle.blv",
+        "max_lighting": 1,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 128,
+        "shadowless_faces": [],
+        "sky_bounce_scale": 4.0,
+        "sky_scale": 1.0,
+        "units_per_texel": 40.96,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/DOOKSCASTLE.dat",
+  "dat_sha256": "178a3ecad141906bd503f3cb5828761345bf7e29653ecc090bb1f9a7adeed51e",
+  "daylight_pages": false,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+}

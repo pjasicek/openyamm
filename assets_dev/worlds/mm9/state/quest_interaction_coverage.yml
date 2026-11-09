@@ -1,0 +1,4786 @@
+format_version: 1
+world: mm9
+generated_by: tools/mm9_import_discovery/generate_mm9_quest_interactions.py
+inventory:
+  normal_rude_graphs: 436
+  normal_dialogue_rows: 4215
+  reachable_journal_grant_rude_ids: 59
+  root_journal_grant_rude_ids: 28
+  journal_condition_raw_keys: 208
+  journal_keys_granted_by_ordinary_rude_rows: 144
+  journal_keys_granted_only_by_literal_scr: 57
+  imported_dialogue_actor_bindings: 502
+  generated_interactions: 199
+  explicit_exclusions: 42
+  unresolved_candidates: 0
+  validated_non_qbit_dependencies:
+    carried_gold: 3
+binding_coverage:
+- rude_id: 336
+  map_id: afterworld
+  actor_index: 1
+  source_object_index: 94
+  script_name: NPC336.scr
+  script_params: Afterworld
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 180
+  map_id: afterworld
+  actor_index: 2
+  source_object_index: 96
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 239
+  map_id: afterworld
+  actor_index: 3
+  source_object_index: 97
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 127
+  map_id: afterworld
+  actor_index: 4
+  source_object_index: 98
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 3
+  map_id: afterworld
+  actor_index: 5
+  source_object_index: 99
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 45
+  map_id: afterworld
+  actor_index: 6
+  source_object_index: 100
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 87
+  map_id: afterworld
+  actor_index: 7
+  source_object_index: 101
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/afterworld.scene.yml
+    raw_object: maps/afterworld.raw_objects.yml
+- rude_id: 339
+  map_id: arslegardcity
+  actor_index: 0
+  source_object_index: 104
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 346
+  map_id: arslegardcity
+  actor_index: 1
+  source_object_index: 105
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 343
+  map_id: arslegardcity
+  actor_index: 2
+  source_object_index: 106
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 348
+  map_id: arslegardcity
+  actor_index: 3
+  source_object_index: 107
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 350
+  map_id: arslegardcity
+  actor_index: 4
+  source_object_index: 108
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 349
+  map_id: arslegardcity
+  actor_index: 5
+  source_object_index: 109
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 341
+  map_id: arslegardcity
+  actor_index: 6
+  source_object_index: 110
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 340
+  map_id: arslegardcity
+  actor_index: 7
+  source_object_index: 111
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 351
+  map_id: arslegardcity
+  actor_index: 8
+  source_object_index: 112
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 334
+  map_id: arslegardcity
+  actor_index: 9
+  source_object_index: 113
+  script_name: NPC334.scr
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 352
+  map_id: arslegardcity
+  actor_index: 10
+  source_object_index: 114
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 353
+  map_id: arslegardcity
+  actor_index: 11
+  source_object_index: 115
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 356
+  map_id: arslegardcity
+  actor_index: 12
+  source_object_index: 116
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 357
+  map_id: arslegardcity
+  actor_index: 13
+  source_object_index: 117
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 358
+  map_id: arslegardcity
+  actor_index: 14
+  source_object_index: 118
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 359
+  map_id: arslegardcity
+  actor_index: 15
+  source_object_index: 119
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 360
+  map_id: arslegardcity
+  actor_index: 16
+  source_object_index: 120
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 354
+  map_id: arslegardcity
+  actor_index: 17
+  source_object_index: 121
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 363
+  map_id: arslegardcity
+  actor_index: 18
+  source_object_index: 122
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 364
+  map_id: arslegardcity
+  actor_index: 19
+  source_object_index: 123
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 365
+  map_id: arslegardcity
+  actor_index: 20
+  source_object_index: 124
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 366
+  map_id: arslegardcity
+  actor_index: 21
+  source_object_index: 125
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 368
+  map_id: arslegardcity
+  actor_index: 22
+  source_object_index: 126
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 369
+  map_id: arslegardcity
+  actor_index: 23
+  source_object_index: 127
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 370
+  map_id: arslegardcity
+  actor_index: 24
+  source_object_index: 128
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 371
+  map_id: arslegardcity
+  actor_index: 25
+  source_object_index: 129
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 373
+  map_id: arslegardcity
+  actor_index: 26
+  source_object_index: 130
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 374
+  map_id: arslegardcity
+  actor_index: 27
+  source_object_index: 131
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 376
+  map_id: arslegardcity
+  actor_index: 28
+  source_object_index: 132
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 375
+  map_id: arslegardcity
+  actor_index: 29
+  source_object_index: 133
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 355
+  map_id: arslegardcity
+  actor_index: 30
+  source_object_index: 134
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 367
+  map_id: arslegardcity
+  actor_index: 31
+  source_object_index: 135
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 372
+  map_id: arslegardcity
+  actor_index: 32
+  source_object_index: 136
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 3
+  map_id: arslegardcity
+  actor_index: 33
+  source_object_index: 152
+  script_name: NPC3.scr
+  script_params: Arslegard
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 334
+  map_id: arslegardcity
+  actor_index: 35
+  source_object_index: 639
+  script_name: Hanndl.scr
+  script_params: ''
+  provenance:
+    scene: maps/arslegardcity.scene.yml
+    raw_object: maps/arslegardcity.raw_objects.yml
+- rude_id: 436
+  map_id: bootcamp
+  actor_index: 20
+  source_object_index: 207
+  script_name: NPC436.scr
+  script_params: ''
+  provenance:
+    scene: maps/bootcamp.scene.yml
+    raw_object: maps/bootcamp.raw_objects.yml
+- rude_id: 101
+  map_id: bootcamp
+  actor_index: 21
+  source_object_index: 209
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/bootcamp.scene.yml
+    raw_object: maps/bootcamp.raw_objects.yml
+- rude_id: 204
+  map_id: bootcamp
+  actor_index: 22
+  source_object_index: 210
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/bootcamp.scene.yml
+    raw_object: maps/bootcamp.raw_objects.yml
+- rude_id: 206
+  map_id: bootcamp
+  actor_index: 23
+  source_object_index: 211
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/bootcamp.scene.yml
+    raw_object: maps/bootcamp.raw_objects.yml
+- rude_id: 338
+  map_id: darkpassageway
+  actor_index: 0
+  source_object_index: 284
+  script_name: NPC338.scr
+  script_params: ''
+  provenance:
+    scene: maps/darkpassageway.scene.yml
+    raw_object: maps/darkpassageway.raw_objects.yml
+- rude_id: 415
+  map_id: dookscastle
+  actor_index: 16
+  source_object_index: 17
+  script_name: NPC415.scr
+  script_params: ''
+  provenance:
+    scene: maps/dookscastle.scene.yml
+    raw_object: maps/dookscastle.raw_objects.yml
+- rude_id: 103
+  map_id: drangheim
+  actor_index: 32
+  source_object_index: 23
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_103.wav
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 90
+  map_id: drangheim
+  actor_index: 33
+  source_object_index: 24
+  script_name: NPC90.scr
+  script_params: Drangheim Main
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 92
+  map_id: drangheim
+  actor_index: 34
+  source_object_index: 29
+  script_name: NPC92.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 91
+  map_id: drangheim
+  actor_index: 35
+  source_object_index: 30
+  script_name: NPC91.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 93
+  map_id: drangheim
+  actor_index: 36
+  source_object_index: 31
+  script_name: NPC93.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 113
+  map_id: drangheim
+  actor_index: 37
+  source_object_index: 32
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 90
+  map_id: drangheim
+  actor_index: 38
+  source_object_index: 114
+  script_name: NPC90.scr
+  script_params: Drangheim Well
+  provenance:
+    scene: maps/drangheim.scene.yml
+    raw_object: maps/drangheim.raw_objects.yml
+- rude_id: 109
+  map_id: drangheimcity
+  actor_index: 0
+  source_object_index: 313
+  script_name: NPC109.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 117
+  map_id: drangheimcity
+  actor_index: 1
+  source_object_index: 314
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 118
+  map_id: drangheimcity
+  actor_index: 2
+  source_object_index: 315
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 120
+  map_id: drangheimcity
+  actor_index: 3
+  source_object_index: 316
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 111
+  map_id: drangheimcity
+  actor_index: 4
+  source_object_index: 317
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 112
+  map_id: drangheimcity
+  actor_index: 5
+  source_object_index: 318
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 116
+  map_id: drangheimcity
+  actor_index: 6
+  source_object_index: 319
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 89
+  map_id: drangheimcity
+  actor_index: 7
+  source_object_index: 320
+  script_name: NPC89.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 119
+  map_id: drangheimcity
+  actor_index: 8
+  source_object_index: 321
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 114
+  map_id: drangheimcity
+  actor_index: 9
+  source_object_index: 322
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 394
+  map_id: drangheimcity
+  actor_index: 10
+  source_object_index: 323
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 395
+  map_id: drangheimcity
+  actor_index: 11
+  source_object_index: 324
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 397
+  map_id: drangheimcity
+  actor_index: 12
+  source_object_index: 325
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 110
+  map_id: drangheimcity
+  actor_index: 13
+  source_object_index: 326
+  script_name: NPC110.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 99
+  map_id: drangheimcity
+  actor_index: 14
+  source_object_index: 328
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_099.wav
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 100
+  map_id: drangheimcity
+  actor_index: 15
+  source_object_index: 329
+  script_name: BankOrb.scr
+  script_params: Drangheim
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 105
+  map_id: drangheimcity
+  actor_index: 16
+  source_object_index: 330
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 104
+  map_id: drangheimcity
+  actor_index: 17
+  source_object_index: 331
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 126
+  map_id: drangheimcity
+  actor_index: 18
+  source_object_index: 332
+  script_name: Retainer.scr
+  script_params: \voices\npc\NPC_126.wav 456
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 125
+  map_id: drangheimcity
+  actor_index: 19
+  source_object_index: 333
+  script_name: Retainer.scr
+  script_params: \voices\npc\NPC_125.wav 455
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 87
+  map_id: drangheimcity
+  actor_index: 20
+  source_object_index: 334
+  script_name: NPC87.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 378
+  map_id: drangheimcity
+  actor_index: 21
+  source_object_index: 335
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 378
+  map_id: drangheimcity
+  actor_index: 22
+  source_object_index: 336
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 96
+  map_id: drangheimcity
+  actor_index: 23
+  source_object_index: 337
+  script_name: NPC96.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 121
+  map_id: drangheimcity
+  actor_index: 24
+  source_object_index: 338
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 122
+  map_id: drangheimcity
+  actor_index: 25
+  source_object_index: 339
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 123
+  map_id: drangheimcity
+  actor_index: 26
+  source_object_index: 340
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 124
+  map_id: drangheimcity
+  actor_index: 27
+  source_object_index: 341
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 107
+  map_id: drangheimcity
+  actor_index: 28
+  source_object_index: 342
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 98
+  map_id: drangheimcity
+  actor_index: 29
+  source_object_index: 343
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_098.wav
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 414
+  map_id: drangheimcity
+  actor_index: 30
+  source_object_index: 344
+  script_name: NPC414.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 396
+  map_id: drangheimcity
+  actor_index: 31
+  source_object_index: 345
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 115
+  map_id: drangheimcity
+  actor_index: 32
+  source_object_index: 346
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 88
+  map_id: drangheimcity
+  actor_index: 33
+  source_object_index: 347
+  script_name: NPC88.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 41
+  map_id: drangheimcity
+  actor_index: 34
+  source_object_index: 348
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 101
+  map_id: drangheimcity
+  actor_index: 35
+  source_object_index: 349
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_101.wav
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 102
+  map_id: drangheimcity
+  actor_index: 36
+  source_object_index: 350
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 97
+  map_id: drangheimcity
+  actor_index: 37
+  source_object_index: 351
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_097.wav
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 95
+  map_id: drangheimcity
+  actor_index: 38
+  source_object_index: 352
+  script_name: NPC95.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimcity.scene.yml
+    raw_object: maps/drangheimcity.raw_objects.yml
+- rude_id: 90
+  map_id: drangheimprison
+  actor_index: 41
+  source_object_index: 68
+  script_name: NPC90.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 425
+  map_id: drangheimprison
+  actor_index: 52
+  source_object_index: 1033
+  script_name: GuardRude.scr
+  script_params: 425 PassMarker2
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 425
+  map_id: drangheimprison
+  actor_index: 53
+  source_object_index: 1034
+  script_name: GuardRude.scr
+  script_params: 425 PassMarker1
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 426
+  map_id: drangheimprison
+  actor_index: 54
+  source_object_index: 1035
+  script_name: GuardRude.scr
+  script_params: '426'
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 419
+  map_id: drangheimprison
+  actor_index: 55
+  source_object_index: 1039
+  script_name: NPC419.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 427
+  map_id: drangheimprison
+  actor_index: 59
+  source_object_index: 1044
+  script_name: NPC427.scr
+  script_params: ''
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 431
+  map_id: drangheimprison
+  actor_index: 64
+  source_object_index: 1067
+  script_name: scripts\DrangheimPrisoner.scr
+  script_params: CellMarker0
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 431
+  map_id: drangheimprison
+  actor_index: 65
+  source_object_index: 1068
+  script_name: scripts\DrangheimPrisoner.scr
+  script_params: CellMarker1
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 431
+  map_id: drangheimprison
+  actor_index: 66
+  source_object_index: 1069
+  script_name: scripts\DrangheimPrisoner.scr
+  script_params: CellMarker2
+  provenance:
+    scene: maps/drangheimprison.scene.yml
+    raw_object: maps/drangheimprison.raw_objects.yml
+- rude_id: 417
+  map_id: dungeonofsecrets
+  actor_index: 0
+  source_object_index: 636
+  script_name: NPC417.scr
+  script_params: ''
+  provenance:
+    scene: maps/dungeonofsecrets.scene.yml
+    raw_object: maps/dungeonofsecrets.raw_objects.yml
+- rude_id: 189
+  map_id: frosgard
+  actor_index: 35
+  source_object_index: 8
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgard.scene.yml
+    raw_object: maps/frosgard.raw_objects.yml
+- rude_id: 221
+  map_id: frosgard
+  actor_index: 36
+  source_object_index: 103
+  script_name: NPC221.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgard.scene.yml
+    raw_object: maps/frosgard.raw_objects.yml
+- rude_id: 2
+  map_id: frosgardcity
+  actor_index: 0
+  source_object_index: 48
+  script_name: Forad.scr
+  script_params: Hate
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 309
+  map_id: frosgardcity
+  actor_index: 1
+  source_object_index: 69
+  script_name: NPC309.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 378
+  map_id: frosgardcity
+  actor_index: 2
+  source_object_index: 71
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 378
+  map_id: frosgardcity
+  actor_index: 3
+  source_object_index: 72
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 378
+  map_id: frosgardcity
+  actor_index: 4
+  source_object_index: 73
+  script_name: NPC378.scr
+  script_params: Frosgard
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 180
+  map_id: frosgardcity
+  actor_index: 5
+  source_object_index: 75
+  script_name: NPC180.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 207
+  map_id: frosgardcity
+  actor_index: 6
+  source_object_index: 552
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_207.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 206
+  map_id: frosgardcity
+  actor_index: 7
+  source_object_index: 553
+  script_name: NPC206.scr
+  script_params: Frosgard
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 209
+  map_id: frosgardcity
+  actor_index: 8
+  source_object_index: 554
+  script_name: NPC209.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 212
+  map_id: frosgardcity
+  actor_index: 9
+  source_object_index: 555
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_212.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 208
+  map_id: frosgardcity
+  actor_index: 10
+  source_object_index: 556
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_208.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 211
+  map_id: frosgardcity
+  actor_index: 11
+  source_object_index: 557
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_211.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 185
+  map_id: frosgardcity
+  actor_index: 12
+  source_object_index: 558
+  script_name: NPC185.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 183
+  map_id: frosgardcity
+  actor_index: 13
+  source_object_index: 559
+  script_name: NPC183.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 184
+  map_id: frosgardcity
+  actor_index: 14
+  source_object_index: 560
+  script_name: NPC184.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 188
+  map_id: frosgardcity
+  actor_index: 15
+  source_object_index: 561
+  script_name: NPC188.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 190
+  map_id: frosgardcity
+  actor_index: 16
+  source_object_index: 562
+  script_name: NPC190.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 191
+  map_id: frosgardcity
+  actor_index: 17
+  source_object_index: 563
+  script_name: NPC191.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 192
+  map_id: frosgardcity
+  actor_index: 18
+  source_object_index: 564
+  script_name: NPC192.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 193
+  map_id: frosgardcity
+  actor_index: 19
+  source_object_index: 565
+  script_name: NPC193.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 194
+  map_id: frosgardcity
+  actor_index: 20
+  source_object_index: 566
+  script_name: NPC194.scr
+  script_params: \voices\npc\NPC_194.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 197
+  map_id: frosgardcity
+  actor_index: 21
+  source_object_index: 567
+  script_name: NPC197.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 198
+  map_id: frosgardcity
+  actor_index: 22
+  source_object_index: 568
+  script_name: NPC198.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 199
+  map_id: frosgardcity
+  actor_index: 23
+  source_object_index: 569
+  script_name: NPC199.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 201
+  map_id: frosgardcity
+  actor_index: 24
+  source_object_index: 570
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_201.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 215
+  map_id: frosgardcity
+  actor_index: 25
+  source_object_index: 571
+  script_name: NPC215.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 220
+  map_id: frosgardcity
+  actor_index: 26
+  source_object_index: 572
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 237
+  map_id: frosgardcity
+  actor_index: 27
+  source_object_index: 573
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 234
+  map_id: frosgardcity
+  actor_index: 28
+  source_object_index: 574
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 235
+  map_id: frosgardcity
+  actor_index: 29
+  source_object_index: 575
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 398
+  map_id: frosgardcity
+  actor_index: 30
+  source_object_index: 576
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 402
+  map_id: frosgardcity
+  actor_index: 31
+  source_object_index: 577
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 403
+  map_id: frosgardcity
+  actor_index: 32
+  source_object_index: 578
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 213
+  map_id: frosgardcity
+  actor_index: 33
+  source_object_index: 579
+  script_name: NPC213.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 214
+  map_id: frosgardcity
+  actor_index: 34
+  source_object_index: 580
+  script_name: NPC214.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 238
+  map_id: frosgardcity
+  actor_index: 35
+  source_object_index: 581
+  script_name: retainer.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 219
+  map_id: frosgardcity
+  actor_index: 36
+  source_object_index: 584
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 195
+  map_id: frosgardcity
+  actor_index: 37
+  source_object_index: 585
+  script_name: NPC195.scr
+  script_params: \voices\npc\NPC_195.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 196
+  map_id: frosgardcity
+  actor_index: 38
+  source_object_index: 586
+  script_name: NPC196.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 233
+  map_id: frosgardcity
+  actor_index: 39
+  source_object_index: 587
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 203
+  map_id: frosgardcity
+  actor_index: 40
+  source_object_index: 588
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_203.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 200
+  map_id: frosgardcity
+  actor_index: 41
+  source_object_index: 589
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_200.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 217
+  map_id: frosgardcity
+  actor_index: 42
+  source_object_index: 590
+  script_name: Pledge.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 399
+  map_id: frosgardcity
+  actor_index: 43
+  source_object_index: 591
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 401
+  map_id: frosgardcity
+  actor_index: 44
+  source_object_index: 592
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 181
+  map_id: frosgardcity
+  actor_index: 45
+  source_object_index: 593
+  script_name: NPC181.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 182
+  map_id: frosgardcity
+  actor_index: 46
+  source_object_index: 594
+  script_name: NPC182.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 218
+  map_id: frosgardcity
+  actor_index: 47
+  source_object_index: 595
+  script_name: Pledge.scr
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 210
+  map_id: frosgardcity
+  actor_index: 48
+  source_object_index: 596
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_210.wav
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 216
+  map_id: frosgardcity
+  actor_index: 49
+  source_object_index: 597
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/frosgardcity.scene.yml
+    raw_object: maps/frosgardcity.raw_objects.yml
+- rude_id: 132
+  map_id: guberland
+  actor_index: 40
+  source_object_index: 20
+  script_name: NPC132.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 133
+  map_id: guberland
+  actor_index: 41
+  source_object_index: 21
+  script_name: NPC133.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 130
+  map_id: guberland
+  actor_index: 42
+  source_object_index: 22
+  script_name: NPC130.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 150
+  map_id: guberland
+  actor_index: 43
+  source_object_index: 47
+  script_name: NPC150.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 151
+  map_id: guberland
+  actor_index: 44
+  source_object_index: 48
+  script_name: NPC151.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 149
+  map_id: guberland
+  actor_index: 45
+  source_object_index: 49
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 162
+  map_id: guberland
+  actor_index: 46
+  source_object_index: 50
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 163
+  map_id: guberland
+  actor_index: 47
+  source_object_index: 51
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 163
+  map_id: guberland
+  actor_index: 48
+  source_object_index: 52
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 165
+  map_id: guberland
+  actor_index: 49
+  source_object_index: 53
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 166
+  map_id: guberland
+  actor_index: 50
+  source_object_index: 54
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 167
+  map_id: guberland
+  actor_index: 51
+  source_object_index: 55
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 168
+  map_id: guberland
+  actor_index: 52
+  source_object_index: 56
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 144
+  map_id: guberland
+  actor_index: 53
+  source_object_index: 78
+  script_name: npcshopkeeper.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 186
+  map_id: guberland
+  actor_index: 54
+  source_object_index: 85
+  script_name: NPC186.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 187
+  map_id: guberland
+  actor_index: 55
+  source_object_index: 86
+  script_name: NPC187.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 428
+  map_id: guberland
+  actor_index: 57
+  source_object_index: 267
+  script_name: scripts\StonesPlayer.scr
+  script_params: Square 6
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 428
+  map_id: guberland
+  actor_index: 58
+  source_object_index: 268
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 428
+  map_id: guberland
+  actor_index: 59
+  source_object_index: 269
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 429
+  map_id: guberland
+  actor_index: 60
+  source_object_index: 324
+  script_name: scripts\HucksterMod.scr
+  script_params: '1'
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 148
+  map_id: guberland
+  actor_index: 61
+  source_object_index: 330
+  script_name: scripts\ArmWrestle.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 414
+  map_id: guberland
+  actor_index: 62
+  source_object_index: 344
+  script_name: NPC414.scr
+  script_params: Guberland
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 178
+  map_id: guberland
+  actor_index: 63
+  source_object_index: 345
+  script_name: Retainer.scr
+  script_params: voices\NPC\NPC_178.wav 458
+  provenance:
+    scene: maps/guberland.scene.yml
+    raw_object: maps/guberland.raw_objects.yml
+- rude_id: 160
+  map_id: guberlandcity
+  actor_index: 0
+  source_object_index: 722
+  script_name: Narrator.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 158
+  map_id: guberlandcity
+  actor_index: 1
+  source_object_index: 723
+  script_name: Wilam.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 155
+  map_id: guberlandcity
+  actor_index: 2
+  source_object_index: 724
+  script_name: Trislan.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 156
+  map_id: guberlandcity
+  actor_index: 3
+  source_object_index: 725
+  script_name: Abriel.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 157
+  map_id: guberlandcity
+  actor_index: 4
+  source_object_index: 726
+  script_name: Ralof.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 159
+  map_id: guberlandcity
+  actor_index: 5
+  source_object_index: 727
+  script_name: Leffery.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 176
+  map_id: guberlandcity
+  actor_index: 6
+  source_object_index: 728
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 129
+  map_id: guberlandcity
+  actor_index: 9
+  source_object_index: 811
+  script_name: NPC129.scr
+  script_params: \voices\npc\NPC_143.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 143
+  map_id: guberlandcity
+  actor_index: 10
+  source_object_index: 812
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_143.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 128
+  map_id: guberlandcity
+  actor_index: 11
+  source_object_index: 813
+  script_name: NPC128.scr
+  script_params: \voices\npc\NPC_143.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 140
+  map_id: guberlandcity
+  actor_index: 12
+  source_object_index: 814
+  script_name: BankOrb.scr
+  script_params: Guberland
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 127
+  map_id: guberlandcity
+  actor_index: 13
+  source_object_index: 815
+  script_name: NPC127.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 147
+  map_id: guberlandcity
+  actor_index: 14
+  source_object_index: 816
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_147.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 146
+  map_id: guberlandcity
+  actor_index: 15
+  source_object_index: 817
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_146.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 134
+  map_id: guberlandcity
+  actor_index: 16
+  source_object_index: 818
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_134.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 135
+  map_id: guberlandcity
+  actor_index: 17
+  source_object_index: 819
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_135.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 137
+  map_id: guberlandcity
+  actor_index: 18
+  source_object_index: 820
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 142
+  map_id: guberlandcity
+  actor_index: 19
+  source_object_index: 821
+  script_name: NPC142.scr
+  script_params: \voices\npc\NPC_142.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 145
+  map_id: guberlandcity
+  actor_index: 20
+  source_object_index: 822
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_145.wav
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 177
+  map_id: guberlandcity
+  actor_index: 21
+  source_object_index: 823
+  script_name: retainer.scr
+  script_params: \voices\npc\NPC_177.wav 457
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 179
+  map_id: guberlandcity
+  actor_index: 22
+  source_object_index: 824
+  script_name: retainer.scr
+  script_params: \voices\npc\NPC_179.wav 459
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 153
+  map_id: guberlandcity
+  actor_index: 23
+  source_object_index: 825
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 175
+  map_id: guberlandcity
+  actor_index: 24
+  source_object_index: 826
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 169
+  map_id: guberlandcity
+  actor_index: 25
+  source_object_index: 827
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 170
+  map_id: guberlandcity
+  actor_index: 26
+  source_object_index: 828
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 171
+  map_id: guberlandcity
+  actor_index: 27
+  source_object_index: 829
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 172
+  map_id: guberlandcity
+  actor_index: 28
+  source_object_index: 830
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 173
+  map_id: guberlandcity
+  actor_index: 29
+  source_object_index: 831
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 174
+  map_id: guberlandcity
+  actor_index: 30
+  source_object_index: 832
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 152
+  map_id: guberlandcity
+  actor_index: 31
+  source_object_index: 833
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 154
+  map_id: guberlandcity
+  actor_index: 32
+  source_object_index: 834
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 141
+  map_id: guberlandcity
+  actor_index: 33
+  source_object_index: 836
+  script_name: NPC141.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 378
+  map_id: guberlandcity
+  actor_index: 34
+  source_object_index: 837
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 378
+  map_id: guberlandcity
+  actor_index: 35
+  source_object_index: 838
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 36
+  source_object_index: 839
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 38
+  source_object_index: 841
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 39
+  source_object_index: 842
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 40
+  source_object_index: 843
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 41
+  source_object_index: 844
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 42
+  source_object_index: 845
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 43
+  source_object_index: 846
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 131
+  map_id: guberlandcity
+  actor_index: 44
+  source_object_index: 871
+  script_name: NPC131.scr
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 428
+  map_id: guberlandcity
+  actor_index: 45
+  source_object_index: 901
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/guberlandcity.scene.yml
+    raw_object: maps/guberlandcity.raw_objects.yml
+- rude_id: 335
+  map_id: hallofthegods
+  actor_index: 0
+  source_object_index: 124
+  script_name: NPC335.scr
+  script_params: ''
+  provenance:
+    scene: maps/hallofthegods.scene.yml
+    raw_object: maps/hallofthegods.raw_objects.yml
+- rude_id: 336
+  map_id: hallofthegods
+  actor_index: 1
+  source_object_index: 125
+  script_name: NPC336.scr
+  script_params: Hall
+  provenance:
+    scene: maps/hallofthegods.scene.yml
+    raw_object: maps/hallofthegods.raw_objects.yml
+- rude_id: 337
+  map_id: hallofthegods
+  actor_index: 2
+  source_object_index: 126
+  script_name: NPC337.scr
+  script_params: ''
+  provenance:
+    scene: maps/hallofthegods.scene.yml
+    raw_object: maps/hallofthegods.raw_objects.yml
+- rude_id: 377
+  map_id: hallofthegods
+  actor_index: 4
+  source_object_index: 128
+  script_name: NPC377.scr
+  script_params: ''
+  provenance:
+    scene: maps/hallofthegods.scene.yml
+    raw_object: maps/hallofthegods.raw_objects.yml
+- rude_id: 1
+  map_id: isleofashes
+  actor_index: 12
+  source_object_index: 46
+  script_name: yrsa.scr
+  script_params: ''
+  provenance:
+    scene: maps/isleofashes.scene.yml
+    raw_object: maps/isleofashes.raw_objects.yml
+- rude_id: 2
+  map_id: isleofashes
+  actor_index: 13
+  source_object_index: 61
+  script_name: forad.scr
+  script_params: ''
+  provenance:
+    scene: maps/isleofashes.scene.yml
+    raw_object: maps/isleofashes.raw_objects.yml
+- rude_id: 138
+  map_id: isleofashes
+  actor_index: 14
+  source_object_index: 747
+  script_name: HideModel.scr
+  script_params: 28 unhide
+  provenance:
+    scene: maps/isleofashes.scene.yml
+    raw_object: maps/isleofashes.raw_objects.yml
+- rude_id: 293
+  map_id: lindisfarne
+  actor_index: 41
+  source_object_index: 287
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 289
+  map_id: lindisfarne
+  actor_index: 42
+  source_object_index: 288
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 290
+  map_id: lindisfarne
+  actor_index: 43
+  source_object_index: 289
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 383
+  map_id: lindisfarne
+  actor_index: 44
+  source_object_index: 290
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 404
+  map_id: lindisfarne
+  actor_index: 45
+  source_object_index: 291
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 405
+  map_id: lindisfarne
+  actor_index: 46
+  source_object_index: 292
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 406
+  map_id: lindisfarne
+  actor_index: 47
+  source_object_index: 293
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 407
+  map_id: lindisfarne
+  actor_index: 48
+  source_object_index: 294
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 408
+  map_id: lindisfarne
+  actor_index: 49
+  source_object_index: 295
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 308
+  map_id: lindisfarne
+  actor_index: 50
+  source_object_index: 296
+  script_name: Retainer.scr
+  script_params: \voices\npc\NPC_308.wav 462
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 291
+  map_id: lindisfarne
+  actor_index: 51
+  source_object_index: 297
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 292
+  map_id: lindisfarne
+  actor_index: 52
+  source_object_index: 298
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 294
+  map_id: lindisfarne
+  actor_index: 53
+  source_object_index: 299
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 379
+  map_id: lindisfarne
+  actor_index: 54
+  source_object_index: 300
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 380
+  map_id: lindisfarne
+  actor_index: 55
+  source_object_index: 301
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 381
+  map_id: lindisfarne
+  actor_index: 56
+  source_object_index: 302
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 382
+  map_id: lindisfarne
+  actor_index: 57
+  source_object_index: 303
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 288
+  map_id: lindisfarne
+  actor_index: 58
+  source_object_index: 304
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_288.wav
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 285
+  map_id: lindisfarne
+  actor_index: 59
+  source_object_index: 305
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_285.wav
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 286
+  map_id: lindisfarne
+  actor_index: 60
+  source_object_index: 306
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_286.wav
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 287
+  map_id: lindisfarne
+  actor_index: 61
+  source_object_index: 307
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_287.wav
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 305
+  map_id: lindisfarne
+  actor_index: 62
+  source_object_index: 308
+  script_name: DoRude.scr
+  script_params: '305'
+  provenance:
+    scene: maps/lindisfarne.scene.yml
+    raw_object: maps/lindisfarne.raw_objects.yml
+- rude_id: 283
+  map_id: lindisfarnemonastery
+  actor_index: 0
+  source_object_index: 408
+  script_name: NPC283.scr
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 282
+  map_id: lindisfarnemonastery
+  actor_index: 1
+  source_object_index: 409
+  script_name: NPC282.scr
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 284
+  map_id: lindisfarnemonastery
+  actor_index: 2
+  source_object_index: 410
+  script_name: NPC284.scr
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 420
+  map_id: lindisfarnemonastery
+  actor_index: 3
+  source_object_index: 411
+  script_name: NPC420.scr
+  script_params: ''
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 296
+  map_id: lindisfarnemonastery
+  actor_index: 4
+  source_object_index: 572
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 2 296 0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 298
+  map_id: lindisfarnemonastery
+  actor_index: 5
+  source_object_index: 573
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 2 298 0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 306
+  map_id: lindisfarnemonastery
+  actor_index: 6
+  source_object_index: 574
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 2 306 0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 303
+  map_id: lindisfarnemonastery
+  actor_index: 7
+  source_object_index: 575
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 2 303 0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 299
+  map_id: lindisfarnemonastery
+  actor_index: 8
+  source_object_index: 576
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 299
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 300
+  map_id: lindisfarnemonastery
+  actor_index: 9
+  source_object_index: 577
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 300
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 10
+  source_object_index: 578
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 11
+  source_object_index: 579
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 12
+  source_object_index: 580
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 13
+  source_object_index: 581
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 14
+  source_object_index: 582
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 15
+  source_object_index: 583
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: -1 424
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 296
+  map_id: lindisfarnemonastery
+  actor_index: 16
+  source_object_index: 584
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 1 296 MarkerHoe0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 304
+  map_id: lindisfarnemonastery
+  actor_index: 17
+  source_object_index: 585
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 1 304 MarkerHoe1
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 297
+  map_id: lindisfarnemonastery
+  actor_index: 18
+  source_object_index: 586
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 1 297 MarkerHoe2
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 307
+  map_id: lindisfarnemonastery
+  actor_index: 19
+  source_object_index: 587
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 0 307
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 302
+  map_id: lindisfarnemonastery
+  actor_index: 20
+  source_object_index: 588
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 4 302 Prop0
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 424
+  map_id: lindisfarnemonastery
+  actor_index: 21
+  source_object_index: 589
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 4 424 Prop1
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 301
+  map_id: lindisfarnemonastery
+  actor_index: 22
+  source_object_index: 590
+  script_name: scripts\MonkGuardBasic.scr
+  script_params: 4 301 Prop2
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 434
+  map_id: lindisfarnemonastery
+  actor_index: 23
+  source_object_index: 591
+  script_name: ThjoradMonk.scr
+  script_params: Hammer Thjorad3 434
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 423
+  map_id: lindisfarnemonastery
+  actor_index: 24
+  source_object_index: 592
+  script_name: ThjoradMonk.scr
+  script_params: Pray Thjorad2 423
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 422
+  map_id: lindisfarnemonastery
+  actor_index: 25
+  source_object_index: 593
+  script_name: ThjoradMonk.scr
+  script_params: Pray Thjorad1 422
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 421
+  map_id: lindisfarnemonastery
+  actor_index: 26
+  source_object_index: 594
+  script_name: ThjoradMonk.scr
+  script_params: Pray Thjorad0 421
+  provenance:
+    scene: maps/lindisfarnemonastery.scene.yml
+    raw_object: maps/lindisfarnemonastery.raw_objects.yml
+- rude_id: 435
+  map_id: ruinedtemple
+  actor_index: 13
+  source_object_index: 336
+  script_name: scripts\ColloidalGenie.scr
+  script_params: Smoke
+  provenance:
+    scene: maps/ruinedtemple.scene.yml
+    raw_object: maps/ruinedtemple.raw_objects.yml
+- rude_id: 60
+  map_id: sturmford
+  actor_index: 56
+  source_object_index: 103
+  script_name: npcshopkeeper.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmford.scene.yml
+    raw_object: maps/sturmford.raw_objects.yml
+- rude_id: 57
+  map_id: sturmfordcity
+  actor_index: 48
+  source_object_index: 786
+  script_name: Sturmgaardinn.scr
+  script_params: 'Innkeeper2 '
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 58
+  map_id: sturmfordcity
+  actor_index: 0
+  source_object_index: 787
+  script_name: Beathag.scr
+  script_params: stand
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 46
+  map_id: sturmfordcity
+  actor_index: 1
+  source_object_index: 788
+  script_name: spieslikeus.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 47
+  map_id: sturmfordcity
+  actor_index: 49
+  source_object_index: 789
+  script_name: LudwigVan.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 52
+  map_id: sturmfordcity
+  actor_index: 2
+  source_object_index: 790
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 82
+  map_id: sturmfordcity
+  actor_index: 3
+  source_object_index: 791
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 83
+  map_id: sturmfordcity
+  actor_index: 4
+  source_object_index: 792
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 81
+  map_id: sturmfordcity
+  actor_index: 5
+  source_object_index: 793
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 84
+  map_id: sturmfordcity
+  actor_index: 6
+  source_object_index: 794
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 389
+  map_id: sturmfordcity
+  actor_index: 7
+  source_object_index: 795
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 391
+  map_id: sturmfordcity
+  actor_index: 8
+  source_object_index: 796
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 392
+  map_id: sturmfordcity
+  actor_index: 9
+  source_object_index: 797
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 390
+  map_id: sturmfordcity
+  actor_index: 10
+  source_object_index: 798
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 63
+  map_id: sturmfordcity
+  actor_index: 50
+  source_object_index: 799
+  script_name: tryggvaspeech.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 428
+  map_id: sturmfordcity
+  actor_index: 51
+  source_object_index: 800
+  script_name: scripts\PropAnim.scr
+  script_params: sitting
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 86
+  map_id: sturmfordcity
+  actor_index: 52
+  source_object_index: 801
+  script_name: akeretainer.scr
+  script_params: Fidget1
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 62
+  map_id: sturmfordcity
+  actor_index: 11
+  source_object_index: 802
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 76
+  map_id: sturmfordcity
+  actor_index: 53
+  source_object_index: 805
+  script_name: scripts\PropAnim.scr
+  script_params: listen
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 428
+  map_id: sturmfordcity
+  actor_index: 55
+  source_object_index: 807
+  script_name: scripts\PropAnim.scr
+  script_params: Sitting2
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 45
+  map_id: sturmfordcity
+  actor_index: 56
+  source_object_index: 808
+  script_name: Bjarni.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 48
+  map_id: sturmfordcity
+  actor_index: 12
+  source_object_index: 810
+  script_name: NPC48.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 68
+  map_id: sturmfordcity
+  actor_index: 17
+  source_object_index: 819
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 80
+  map_id: sturmfordcity
+  actor_index: 18
+  source_object_index: 820
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 77
+  map_id: sturmfordcity
+  actor_index: 19
+  source_object_index: 821
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 73
+  map_id: sturmfordcity
+  actor_index: 20
+  source_object_index: 822
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 74
+  map_id: sturmfordcity
+  actor_index: 21
+  source_object_index: 823
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 49
+  map_id: sturmfordcity
+  actor_index: 22
+  source_object_index: 824
+  script_name: NPC49.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 69
+  map_id: sturmfordcity
+  actor_index: 23
+  source_object_index: 825
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 70
+  map_id: sturmfordcity
+  actor_index: 24
+  source_object_index: 826
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 71
+  map_id: sturmfordcity
+  actor_index: 25
+  source_object_index: 827
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 72
+  map_id: sturmfordcity
+  actor_index: 26
+  source_object_index: 828
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 90
+  map_id: sturmfordcity
+  actor_index: 27
+  source_object_index: 829
+  script_name: NPC90.scr
+  script_params: sturmgaard
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 56
+  map_id: sturmfordcity
+  actor_index: 28
+  source_object_index: 830
+  script_name: Bankorb.scr
+  script_params: Sturmford
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 54
+  map_id: sturmfordcity
+  actor_index: 29
+  source_object_index: 831
+  script_name: scripts\shopkeeper.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 53
+  map_id: sturmfordcity
+  actor_index: 30
+  source_object_index: 832
+  script_name: ''
+  script_params: child_counter_talk
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 61
+  map_id: sturmfordcity
+  actor_index: 31
+  source_object_index: 833
+  script_name: NPC61.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 59
+  map_id: sturmfordcity
+  actor_index: 32
+  source_object_index: 834
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 79
+  map_id: sturmfordcity
+  actor_index: 33
+  source_object_index: 835
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 393
+  map_id: sturmfordcity
+  actor_index: 34
+  source_object_index: 836
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 78
+  map_id: sturmfordcity
+  actor_index: 35
+  source_object_index: 837
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 67
+  map_id: sturmfordcity
+  actor_index: 36
+  source_object_index: 838
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 65
+  map_id: sturmfordcity
+  actor_index: 37
+  source_object_index: 839
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 64
+  map_id: sturmfordcity
+  actor_index: 38
+  source_object_index: 840
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 51
+  map_id: sturmfordcity
+  actor_index: 39
+  source_object_index: 841
+  script_name: Randverrun.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 50
+  map_id: sturmfordcity
+  actor_index: 40
+  source_object_index: 842
+  script_name: scripts\NPC50.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 43
+  map_id: sturmfordcity
+  actor_index: 41
+  source_object_index: 843
+  script_name: scripts\Retainer.scr
+  script_params: voices\npc\NPC_043.wav 451
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 66
+  map_id: sturmfordcity
+  actor_index: 42
+  source_object_index: 844
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 425
+  map_id: sturmfordcity
+  actor_index: 43
+  source_object_index: 1323
+  script_name: Sturmguard.scr
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 378
+  map_id: sturmfordcity
+  actor_index: 44
+  source_object_index: 1327
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 378
+  map_id: sturmfordcity
+  actor_index: 45
+  source_object_index: 1328
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 202
+  map_id: sturmfordcity
+  actor_index: 46
+  source_object_index: 1357
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 75
+  map_id: sturmfordcity
+  actor_index: 47
+  source_object_index: 1396
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/sturmfordcity.scene.yml
+    raw_object: maps/sturmfordcity.raw_objects.yml
+- rude_id: 430
+  map_id: thearena
+  actor_index: 0
+  source_object_index: 12
+  script_name: Arena.scr
+  script_params: ''
+  provenance:
+    scene: maps/thearena.scene.yml
+    raw_object: maps/thearena.raw_objects.yml
+- rude_id: 428
+  map_id: thearena
+  actor_index: 1
+  source_object_index: 20
+  script_name: SvenArena.scr
+  script_params: Sven0
+  provenance:
+    scene: maps/thearena.scene.yml
+    raw_object: maps/thearena.raw_objects.yml
+- rude_id: 245
+  map_id: thearena
+  actor_index: 4
+  source_object_index: 25
+  script_name: NPC245.scr
+  script_params: ''
+  provenance:
+    scene: maps/thearena.scene.yml
+    raw_object: maps/thearena.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 6
+  source_object_index: 703
+  script_name: scripts\DwarvenMiner.scr
+  script_params: MineMarker2 ReturnMarker2
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 7
+  source_object_index: 704
+  script_name: scripts\DwarvenMiner.scr
+  script_params: MineMarker1 ReturnMarker1
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 8
+  source_object_index: 705
+  script_name: scripts\DwarvenMiner.scr
+  script_params: MineMarker0 ReturnMarker0
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 12
+  source_object_index: 752
+  script_name: scripts\DwarvenMiner.scr
+  script_params: HarvMarker2 DumpMarker2
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 13
+  source_object_index: 753
+  script_name: scripts\DwarvenMiner.scr
+  script_params: HarvMarker1 DumpMarker1
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 428
+  map_id: thjoradmine
+  actor_index: 14
+  source_object_index: 754
+  script_name: scripts\DwarvenMiner.scr
+  script_params: HarvMarker0 DumpMarker0
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 8
+  map_id: thjoradmine
+  actor_index: 42
+  source_object_index: 1396
+  script_name: NPC8.scr
+  script_params: \voices\npc\NPC_008.wav
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 11
+  map_id: thjoradmine
+  actor_index: 43
+  source_object_index: 1397
+  script_name: Shopkeeper.scr
+  script_params: \voices\npc\NPC_011.wav
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 9
+  map_id: thjoradmine
+  actor_index: 44
+  source_object_index: 1398
+  script_name: NPC9.scr
+  script_params: \voices\npc\NPC_009.wav
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 7
+  map_id: thjoradmine
+  actor_index: 45
+  source_object_index: 1399
+  script_name: NPC7.scr
+  script_params: Refinery
+  provenance:
+    scene: maps/thjoradmine.scene.yml
+    raw_object: maps/thjoradmine.raw_objects.yml
+- rude_id: 18
+  map_id: thjorgard
+  actor_index: 37
+  source_object_index: 1
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_018.wav '
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 39
+  source_object_index: 593
+  script_name: scripts\StonesPlayer.scr
+  script_params: Square 6
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 40
+  source_object_index: 594
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 41
+  source_object_index: 595
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 42
+  source_object_index: 660
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 43
+  source_object_index: 661
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 44
+  source_object_index: 662
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 45
+  source_object_index: 663
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 46
+  source_object_index: 664
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 47
+  source_object_index: 665
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 48
+  source_object_index: 666
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 49
+  source_object_index: 667
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgard
+  actor_index: 50
+  source_object_index: 668
+  script_name: scripts\ThjorgardSpectator.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 429
+  map_id: thjorgard
+  actor_index: 51
+  source_object_index: 669
+  script_name: scripts\BoatJudge.scr
+  script_params: RacingBoat 0 3
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 429
+  map_id: thjorgard
+  actor_index: 52
+  source_object_index: 673
+  script_name: scripts\HucksterMod.scr
+  script_params: '0'
+  provenance:
+    scene: maps/thjorgard.scene.yml
+    raw_object: maps/thjorgard.raw_objects.yml
+- rude_id: 4
+  map_id: thjorgardcity
+  actor_index: 0
+  source_object_index: 1044
+  script_name: npc4.scr
+  script_params: '\voices\npc\NPC_017.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 17
+  map_id: thjorgardcity
+  actor_index: 1
+  source_object_index: 1046
+  script_name: shopkeeper.scr
+  script_params: '\voices\npc\NPC_017.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 416
+  map_id: thjorgardcity
+  actor_index: 2
+  source_object_index: 1047
+  script_name: npc416.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 13
+  map_id: thjorgardcity
+  actor_index: 3
+  source_object_index: 1048
+  script_name: BankOrb.scr
+  script_params: Thjorgard
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 30
+  map_id: thjorgardcity
+  actor_index: 4
+  source_object_index: 1049
+  script_name: ''
+  script_params: 'voices\npc\NPC_044.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 29
+  map_id: thjorgardcity
+  actor_index: 5
+  source_object_index: 1050
+  script_name: ''
+  script_params: 'voices\npc\NPC_044.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 28
+  map_id: thjorgardcity
+  actor_index: 6
+  source_object_index: 1051
+  script_name: ''
+  script_params: 'voices\npc\NPC_044.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 25
+  map_id: thjorgardcity
+  actor_index: 7
+  source_object_index: 1052
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 22
+  map_id: thjorgardcity
+  actor_index: 8
+  source_object_index: 1053
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 31
+  map_id: thjorgardcity
+  actor_index: 9
+  source_object_index: 1054
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 36
+  map_id: thjorgardcity
+  actor_index: 10
+  source_object_index: 1055
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 310
+  map_id: thjorgardcity
+  actor_index: 11
+  source_object_index: 1056
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 32
+  map_id: thjorgardcity
+  actor_index: 12
+  source_object_index: 1057
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 161
+  map_id: thjorgardcity
+  actor_index: 13
+  source_object_index: 1058
+  script_name: NPC161.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 295
+  map_id: thjorgardcity
+  actor_index: 14
+  source_object_index: 1059
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 320
+  map_id: thjorgardcity
+  actor_index: 15
+  source_object_index: 1060
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 384
+  map_id: thjorgardcity
+  actor_index: 16
+  source_object_index: 1061
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 388
+  map_id: thjorgardcity
+  actor_index: 17
+  source_object_index: 1062
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 387
+  map_id: thjorgardcity
+  actor_index: 18
+  source_object_index: 1063
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 21
+  map_id: thjorgardcity
+  actor_index: 19
+  source_object_index: 1064
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_021.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 20
+  map_id: thjorgardcity
+  actor_index: 20
+  source_object_index: 1065
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_020.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 7
+  map_id: thjorgardcity
+  actor_index: 21
+  source_object_index: 1066
+  script_name: NPC7.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 16
+  map_id: thjorgardcity
+  actor_index: 22
+  source_object_index: 1067
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_016.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 6
+  map_id: thjorgardcity
+  actor_index: 23
+  source_object_index: 1068
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_006.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 14
+  map_id: thjorgardcity
+  actor_index: 24
+  source_object_index: 1069
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_014.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 19
+  map_id: thjorgardcity
+  actor_index: 25
+  source_object_index: 1070
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_019.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 12
+  map_id: thjorgardcity
+  actor_index: 26
+  source_object_index: 1071
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_012.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 15
+  map_id: thjorgardcity
+  actor_index: 27
+  source_object_index: 1072
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_015.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 42
+  map_id: thjorgardcity
+  actor_index: 28
+  source_object_index: 1073
+  script_name: retainer.scr
+  script_params: voices\npc\NPC_042.wav 450
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 10
+  map_id: thjorgardcity
+  actor_index: 29
+  source_object_index: 1074
+  script_name: shopkeeper.scr
+  script_params: 'voices\npc\NPC_010.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 253
+  map_id: thjorgardcity
+  actor_index: 30
+  source_object_index: 1075
+  script_name: shopkeeper.scr
+  script_params: '\voices\npc\NPC_253.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 44
+  map_id: thjorgardcity
+  actor_index: 31
+  source_object_index: 1076
+  script_name: retainer.scr
+  script_params: voices\npc\NPC_044.wav 452
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 5
+  map_id: thjorgardcity
+  actor_index: 32
+  source_object_index: 1077
+  script_name: NPC5.scr
+  script_params: 'voices\npc\NPC_005.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 385
+  map_id: thjorgardcity
+  actor_index: 33
+  source_object_index: 1078
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 362
+  map_id: thjorgardcity
+  actor_index: 34
+  source_object_index: 1079
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 361
+  map_id: thjorgardcity
+  actor_index: 35
+  source_object_index: 1080
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 37
+  map_id: thjorgardcity
+  actor_index: 36
+  source_object_index: 1081
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 347
+  map_id: thjorgardcity
+  actor_index: 37
+  source_object_index: 1082
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 33
+  map_id: thjorgardcity
+  actor_index: 38
+  source_object_index: 1083
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 428
+  map_id: thjorgardcity
+  actor_index: 39
+  source_object_index: 1084
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 321
+  map_id: thjorgardcity
+  actor_index: 40
+  source_object_index: 1085
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 311
+  map_id: thjorgardcity
+  actor_index: 41
+  source_object_index: 1086
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 40
+  map_id: thjorgardcity
+  actor_index: 42
+  source_object_index: 1087
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 267
+  map_id: thjorgardcity
+  actor_index: 43
+  source_object_index: 1088
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 35
+  map_id: thjorgardcity
+  actor_index: 44
+  source_object_index: 1089
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 34
+  map_id: thjorgardcity
+  actor_index: 45
+  source_object_index: 1090
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 23
+  map_id: thjorgardcity
+  actor_index: 46
+  source_object_index: 1091
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 24
+  map_id: thjorgardcity
+  actor_index: 47
+  source_object_index: 1092
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 26
+  map_id: thjorgardcity
+  actor_index: 48
+  source_object_index: 1093
+  script_name: ''
+  script_params: 'voices\npc\NPC_044.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 27
+  map_id: thjorgardcity
+  actor_index: 49
+  source_object_index: 1097
+  script_name: ''
+  script_params: 'voices\npc\NPC_044.wav '
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 3
+  map_id: thjorgardcity
+  actor_index: 50
+  source_object_index: 1098
+  script_name: npc3.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 250
+  map_id: thjorgardcity
+  actor_index: 51
+  source_object_index: 1099
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 251
+  map_id: thjorgardcity
+  actor_index: 52
+  source_object_index: 1100
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 252
+  map_id: thjorgardcity
+  actor_index: 53
+  source_object_index: 1101
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 85
+  map_id: thjorgardcity
+  actor_index: 54
+  source_object_index: 1102
+  script_name: scripts\randverretainer.scr
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 38
+  map_id: thjorgardcity
+  actor_index: 55
+  source_object_index: 1103
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 39
+  map_id: thjorgardcity
+  actor_index: 56
+  source_object_index: 1104
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 378
+  map_id: thjorgardcity
+  actor_index: 57
+  source_object_index: 1105
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 378
+  map_id: thjorgardcity
+  actor_index: 58
+  source_object_index: 1106
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 386
+  map_id: thjorgardcity
+  actor_index: 59
+  source_object_index: 1770
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thjorgardcity.scene.yml
+    raw_object: maps/thjorgardcity.raw_objects.yml
+- rude_id: 244
+  map_id: thronheim
+  actor_index: 44
+  source_object_index: 24
+  script_name: NPC244.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheim.scene.yml
+    raw_object: maps/thronheim.raw_objects.yml
+- rude_id: 257
+  map_id: thronheim
+  actor_index: 45
+  source_object_index: 44
+  script_name: npcshopkeeper.scr
+  script_params: \voices\npc\NPC_257.wav
+  provenance:
+    scene: maps/thronheim.scene.yml
+    raw_object: maps/thronheim.raw_objects.yml
+- rude_id: 241
+  map_id: thronheimcity
+  actor_index: 0
+  source_object_index: 54
+  script_name: NPC241.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 271
+  map_id: thronheimcity
+  actor_index: 1
+  source_object_index: 56
+  script_name: Honkies.scr
+  script_params: '271'
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 279
+  map_id: thronheimcity
+  actor_index: 2
+  source_object_index: 57
+  script_name: Honkies.scr
+  script_params: '279'
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 272
+  map_id: thronheimcity
+  actor_index: 3
+  source_object_index: 58
+  script_name: Honkies.scr
+  script_params: '272'
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 243
+  map_id: thronheimcity
+  actor_index: 4
+  source_object_index: 59
+  script_name: BankOrb.scr
+  script_params: Thronheim
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 242
+  map_id: thronheimcity
+  actor_index: 5
+  source_object_index: 60
+  script_name: NPC242.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 240
+  map_id: thronheimcity
+  actor_index: 6
+  source_object_index: 61
+  script_name: NPC240.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 278
+  map_id: thronheimcity
+  actor_index: 7
+  source_object_index: 62
+  script_name: scripts\DoRude.scr
+  script_params: '278'
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 378
+  map_id: thronheimcity
+  actor_index: 8
+  source_object_index: 63
+  script_name: NPC378.scr
+  script_params: Thorolf0
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 378
+  map_id: thronheimcity
+  actor_index: 9
+  source_object_index: 64
+  script_name: NPC378.scr
+  script_params: Thorolf1
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 270
+  map_id: thronheimcity
+  actor_index: 13
+  source_object_index: 75
+  script_name: ThronheimCity_Actor.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 428
+  map_id: thronheimcity
+  actor_index: 14
+  source_object_index: 76
+  script_name: ThronHeimCity_Actor.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 246
+  map_id: thronheimcity
+  actor_index: 15
+  source_object_index: 98
+  script_name: npc246.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 266
+  map_id: thronheimcity
+  actor_index: 16
+  source_object_index: 122
+  script_name: ake.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 280
+  map_id: thronheimcity
+  actor_index: 17
+  source_object_index: 123
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 275
+  map_id: thronheimcity
+  actor_index: 18
+  source_object_index: 124
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 277
+  map_id: thronheimcity
+  actor_index: 19
+  source_object_index: 125
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 262
+  map_id: thronheimcity
+  actor_index: 20
+  source_object_index: 126
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 263
+  map_id: thronheimcity
+  actor_index: 21
+  source_object_index: 127
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 264
+  map_id: thronheimcity
+  actor_index: 22
+  source_object_index: 128
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 265
+  map_id: thronheimcity
+  actor_index: 23
+  source_object_index: 129
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 268
+  map_id: thronheimcity
+  actor_index: 24
+  source_object_index: 130
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 269
+  map_id: thronheimcity
+  actor_index: 25
+  source_object_index: 131
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 270
+  map_id: thronheimcity
+  actor_index: 26
+  source_object_index: 132
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 281
+  map_id: thronheimcity
+  actor_index: 27
+  source_object_index: 133
+  script_name: retainer.scr
+  script_params: voices\NPC\NPC_281.wav 461
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 261
+  map_id: thronheimcity
+  actor_index: 28
+  source_object_index: 134
+  script_name: knutspeech.scr
+  script_params: Ake
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 273
+  map_id: thronheimcity
+  actor_index: 29
+  source_object_index: 135
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 274
+  map_id: thronheimcity
+  actor_index: 30
+  source_object_index: 138
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 247
+  map_id: thronheimcity
+  actor_index: 31
+  source_object_index: 140
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_247.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 248
+  map_id: thronheimcity
+  actor_index: 32
+  source_object_index: 141
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_248.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 249
+  map_id: thronheimcity
+  actor_index: 33
+  source_object_index: 142
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_249.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 254
+  map_id: thronheimcity
+  actor_index: 34
+  source_object_index: 143
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_254.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 255
+  map_id: thronheimcity
+  actor_index: 35
+  source_object_index: 144
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_255.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 256
+  map_id: thronheimcity
+  actor_index: 36
+  source_object_index: 145
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_256.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 258
+  map_id: thronheimcity
+  actor_index: 37
+  source_object_index: 146
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_258.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 259
+  map_id: thronheimcity
+  actor_index: 38
+  source_object_index: 147
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_259.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 260
+  map_id: thronheimcity
+  actor_index: 39
+  source_object_index: 148
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_260.wav
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 276
+  map_id: thronheimcity
+  actor_index: 40
+  source_object_index: 151
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 3
+  map_id: thronheimcity
+  actor_index: 44
+  source_object_index: 219
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 180
+  map_id: thronheimcity
+  actor_index: 45
+  source_object_index: 220
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 127
+  map_id: thronheimcity
+  actor_index: 46
+  source_object_index: 221
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 2
+  map_id: thronheimcity
+  actor_index: 47
+  source_object_index: 222
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 87
+  map_id: thronheimcity
+  actor_index: 48
+  source_object_index: 223
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 45
+  map_id: thronheimcity
+  actor_index: 49
+  source_object_index: 224
+  script_name: PropAnim.scr
+  script_params: Sit
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 239
+  map_id: thronheimcity
+  actor_index: 41
+  source_object_index: 228
+  script_name: NPC239.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 1
+  map_id: thronheimcity
+  actor_index: 42
+  source_object_index: 230
+  script_name: ARG_Yrsa.scr
+  script_params: ''
+  provenance:
+    scene: maps/thronheimcity.scene.yml
+    raw_object: maps/thronheimcity.raw_objects.yml
+- rude_id: 55
+  map_id: wizardslab
+  actor_index: 57
+  source_object_index: 44
+  script_name: scripts\NPC55.scr
+  script_params: ''
+  provenance:
+    scene: maps/wizardslab.scene.yml
+    raw_object: maps/wizardslab.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 64
+  source_object_index: 618
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 65
+  source_object_index: 619
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 66
+  source_object_index: 620
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 67
+  source_object_index: 621
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 68
+  source_object_index: 622
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 69
+  source_object_index: 623
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 433
+  map_id: yanmirsfort
+  actor_index: 70
+  source_object_index: 624
+  script_name: scripts\YanmirChild.scr
+  script_params: TPS2
+  provenance:
+    scene: maps/yanmirsfort.scene.yml
+    raw_object: maps/yanmirsfort.raw_objects.yml
+- rude_id: 322
+  map_id: yorwick
+  actor_index: 48
+  source_object_index: 224
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 324
+  map_id: yorwick
+  actor_index: 49
+  source_object_index: 225
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 312
+  map_id: yorwick
+  actor_index: 50
+  source_object_index: 226
+  script_name: NPC312.scr
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 323
+  map_id: yorwick
+  actor_index: 51
+  source_object_index: 227
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 327
+  map_id: yorwick
+  actor_index: 52
+  source_object_index: 228
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 409
+  map_id: yorwick
+  actor_index: 53
+  source_object_index: 229
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 410
+  map_id: yorwick
+  actor_index: 54
+  source_object_index: 230
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 411
+  map_id: yorwick
+  actor_index: 55
+  source_object_index: 231
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 412
+  map_id: yorwick
+  actor_index: 56
+  source_object_index: 232
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 413
+  map_id: yorwick
+  actor_index: 57
+  source_object_index: 233
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 325
+  map_id: yorwick
+  actor_index: 58
+  source_object_index: 234
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 326
+  map_id: yorwick
+  actor_index: 59
+  source_object_index: 235
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 328
+  map_id: yorwick
+  actor_index: 60
+  source_object_index: 236
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 330
+  map_id: yorwick
+  actor_index: 61
+  source_object_index: 237
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 331
+  map_id: yorwick
+  actor_index: 62
+  source_object_index: 238
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 332
+  map_id: yorwick
+  actor_index: 63
+  source_object_index: 239
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 333
+  map_id: yorwick
+  actor_index: 64
+  source_object_index: 240
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 329
+  map_id: yorwick
+  actor_index: 65
+  source_object_index: 241
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 313
+  map_id: yorwick
+  actor_index: 66
+  source_object_index: 242
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_313.wav
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 315
+  map_id: yorwick
+  actor_index: 67
+  source_object_index: 243
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 316
+  map_id: yorwick
+  actor_index: 68
+  source_object_index: 244
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 317
+  map_id: yorwick
+  actor_index: 69
+  source_object_index: 245
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 318
+  map_id: yorwick
+  actor_index: 70
+  source_object_index: 246
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 319
+  map_id: yorwick
+  actor_index: 71
+  source_object_index: 247
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 321
+  map_id: yorwick
+  actor_index: 72
+  source_object_index: 248
+  script_name: ''
+  script_params: ''
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+- rude_id: 314
+  map_id: yorwick
+  actor_index: 74
+  source_object_index: 415
+  script_name: shopkeeper.scr
+  script_params: \voices\npc\NPC_314.wav
+  provenance:
+    scene: maps/yorwick.scene.yml
+    raw_object: maps/yorwick.raw_objects.yml
+explicit_exclusions:
+- id: mm9.rude.400.row.1
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:1
+- id: mm9.rude.400.row.10
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:10
+- id: mm9.rude.400.row.11
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:11
+- id: mm9.rude.400.row.12
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:12
+- id: mm9.rude.400.row.13
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:13
+- id: mm9.rude.400.row.14
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:14
+- id: mm9.rude.400.row.15
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:15
+- id: mm9.rude.400.row.16
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:16
+- id: mm9.rude.400.row.17
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:17
+- id: mm9.rude.400.row.18
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:18
+- id: mm9.rude.400.row.19
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:19
+- id: mm9.rude.400.row.2
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:2
+- id: mm9.rude.400.row.20
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:20
+- id: mm9.rude.400.row.22
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:22
+- id: mm9.rude.400.row.3
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:3
+- id: mm9.rude.400.row.4
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:4
+- id: mm9.rude.400.row.6
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:6
+- id: mm9.rude.400.row.7
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:7
+- id: mm9.rude.400.row.8
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:8
+- id: mm9.rude.400.row.9
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC400.rude:9
+- id: mm9.rude.432.row.6
+  reason: the RUDE graph has no imported actor, so no loaded NPC can own this marker
+  provenance: dialogue/rude/NPC432.rude:6
+- id: mm9.scr.afterworld.94
+  reason: In the Afterworld Skraelos's exit only resets a failed trial (keys 379-392 taken, afterworld.lua); the six fires'
+    own steps are his dialogue rows, and the reward key 189 is given in the Hall of the Gods.
+  provenance:
+    event_inventory: maps/afterworld.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC336.scr
+- id: mm9.scr.afterworld.94.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90383
+    source_line: 211
+  - command: givekey
+    qbit: 90389
+    source_line: 263
+  - command: givekey
+    qbit: 90391
+    source_line: 308
+  - command: givekey
+    qbit: 90102
+    source_line: 309
+  provenance:
+    event_inventory: maps/afterworld.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC336.scr
+- id: mm9.scr.bootcamp.207.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90473
+    source_line: 72
+  provenance:
+    event_inventory: maps/bootcamp.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC436.scr
+- id: mm9.scr.drangheimcity.352.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90225
+    source_line: 33
+  provenance:
+    event_inventory: maps/drangheimcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC95.scr
+- id: mm9.scr.dungeonofsecrets.636.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90245
+    source_line: 74
+  provenance:
+    event_inventory: maps/dungeonofsecrets.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC417.scr
+- id: mm9.scr.frosgardcity.48.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90480
+    source_line: 28
+  provenance:
+    event_inventory: maps/frosgardcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/FORAD.scr
+- id: mm9.scr.guberlandcity.821.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90207
+    source_line: 83
+  provenance:
+    event_inventory: maps/guberlandcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC142.scr
+- id: mm9.scr.hallofthegods.125.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90383
+    source_line: 211
+  - command: givekey
+    qbit: 90389
+    source_line: 263
+  - command: givekey
+    qbit: 90391
+    source_line: 308
+  - command: givekey
+    qbit: 90102
+    source_line: 309
+  provenance:
+    event_inventory: maps/hallofthegods.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC336.scr
+- id: mm9.scr.hallofthegods.126
+  reason: The source object is not an imported actor, so there is no loaded NPC on which a marker can render.
+  provenance:
+    event_inventory: maps/hallofthegods.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC337.scr
+- id: mm9.scr.isleofashes.46.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90480
+    source_line: 78
+  provenance:
+    event_inventory: maps/isleofashes.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/YRSA.scr
+- id: mm9.scr.isleofashes.61.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90480
+    source_line: 28
+  provenance:
+    event_inventory: maps/isleofashes.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/FORAD.scr
+- id: mm9.scr.sturmfordcity.810.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 95009
+    source_line: 141
+  provenance:
+    event_inventory: maps/sturmfordcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC48.scr
+- id: mm9.scr.thearena.12
+  reason: Key 217 (the Gladiator's third labour) comes from winning the Lord-level fight (thearena.lua fightWin), not from
+    the Arena Master's talk; his dialogue is a service (fights and wagers).
+  provenance:
+    event_inventory: maps/thearena.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/ARENA.scr
+- id: mm9.scr.thearena.12.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90217
+    source_line: 293
+  provenance:
+    event_inventory: maps/thearena.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/ARENA.scr
+- id: mm9.scr.thjoradmine.1399
+  reason: In the mine Hjarrand is present only once paid (key 362); his talk starts his walk to the machine, where key 364
+    is given (thjoradmine.lua), so the dialogue grants no journal key.
+  provenance:
+    event_inventory: maps/thjoradmine.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC7.scr
+- id: mm9.scr.thjoradmine.1399.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90364
+    source_line: 257
+  provenance:
+    event_inventory: maps/thjoradmine.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC7.scr
+- id: mm9.scr.thjorgardcity.1066.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90364
+    source_line: 257
+  provenance:
+    event_inventory: maps/thjorgardcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC7.scr
+- id: mm9.scr.thronheimcity.230.unreachable_operations
+  reason: journal-key operations are outside the registered RUDE-exit callback call graph
+  relevant_operations:
+  - command: givekey
+    qbit: 90093
+    source_line: 55
+  provenance:
+    event_inventory: maps/thronheimcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/ARG_YRSA.scr
+- id: mm9.scr.thronheimcity.56
+  reason: Key 77 is the side effect of persuading the last of the three Honks; each Honk's own persuasion is marked as a key
+    interaction (mm9.keys.thronheimcity.honk.*).
+  provenance:
+    event_inventory: maps/thronheimcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/HONKIES.scr
+- id: mm9.scr.thronheimcity.57
+  reason: Key 77 is the side effect of persuading the last of the three Honks; each Honk's own persuasion is marked as a key
+    interaction (mm9.keys.thronheimcity.honk.*).
+  provenance:
+    event_inventory: maps/thronheimcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/HONKIES.scr
+- id: mm9.scr.thronheimcity.58
+  reason: Key 77 is the side effect of persuading the last of the three Honks; each Honk's own persuasion is marked as a key
+    interaction (mm9.keys.thronheimcity.honk.*).
+  provenance:
+    event_inventory: maps/thronheimcity.scene.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/HONKIES.scr
+unresolved_candidates: []

@@ -1,0 +1,284 @@
+format_version: 1
+kind: mm9_teacher_schedule_audit
+generated_from: skill trainer audit + canonical mundane SCR + scene actor identities
+  + reviewed overrides
+summary:
+  scheduled_teacher_count: 13
+  resolved_schedule_count: 0
+  unresolved_schedule_count: 13
+  error_count: 0
+errors: []
+records:
+- rude_id: 323
+  region: Yorwick
+  source_object_index: 227
+  group_index: 3
+  schedule_minutes:
+  - 405
+  - 810
+  - 930
+  - 1110
+  required_markers:
+  - Marker_Work_323
+  - Marker_Home_323
+  - Marker_Misc_323
+  missing_markers:
+  - Marker_Work_323
+  - Marker_Home_323
+  - Marker_Misc_323
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 327
+  region: Yorwick
+  source_object_index: 228
+  group_index: 4
+  schedule_minutes:
+  - 420
+  - 825
+  - 945
+  - 1125
+  required_markers:
+  - Marker_Work_327
+  - Marker_Home_327
+  - Marker_Misc_327
+  missing_markers:
+  - Marker_Work_327
+  - Marker_Home_327
+  - Marker_Misc_327
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 329
+  region: Yorwick
+  source_object_index: 241
+  group_index: 2
+  schedule_minutes:
+  - 390
+  - 795
+  - 915
+  - 1095
+  required_markers:
+  - Marker_Work_329
+  - Marker_Home_329
+  - Marker_Misc_329
+  missing_markers:
+  - Marker_Work_329
+  - Marker_Home_329
+  - Marker_Misc_329
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 333
+  region: Yorwick
+  source_object_index: 240
+  group_index: 1
+  schedule_minutes:
+  - 375
+  - 780
+  - 900
+  - 1080
+  required_markers:
+  - Marker_Work_333
+  - Marker_Home_333
+  - Marker_Misc_333
+  missing_markers:
+  - Marker_Work_333
+  - Marker_Home_333
+  - Marker_Misc_333
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 404
+  region: Lindisfarne
+  source_object_index: 291
+  group_index: 2
+  schedule_minutes:
+  - 390
+  - 795
+  - 915
+  - 1095
+  required_markers:
+  - Marker_Work_404
+  - Marker_Home_404
+  - Marker_Misc_404
+  missing_markers:
+  - Marker_Work_404
+  - Marker_Home_404
+  - Marker_Misc_404
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 405
+  region: Lindisfarne
+  source_object_index: 292
+  group_index: 3
+  schedule_minutes:
+  - 405
+  - 810
+  - 930
+  - 1110
+  required_markers:
+  - Marker_Work_405
+  - Marker_Home_405
+  - Marker_Misc_405
+  missing_markers:
+  - Marker_Work_405
+  - Marker_Home_405
+  - Marker_Misc_405
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 406
+  region: Lindisfarne
+  source_object_index: 293
+  group_index: 4
+  schedule_minutes:
+  - 420
+  - 825
+  - 945
+  - 1125
+  required_markers:
+  - Marker_Work_406
+  - Marker_Home_406
+  - Marker_Misc_406
+  missing_markers:
+  - Marker_Work_406
+  - Marker_Home_406
+  - Marker_Misc_406
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 407
+  region: Lindisfarne
+  source_object_index: 294
+  group_index: 1
+  schedule_minutes:
+  - 375
+  - 780
+  - 900
+  - 1080
+  required_markers:
+  - Marker_Work_407
+  - Marker_Home_407
+  - Marker_Misc_407
+  missing_markers:
+  - Marker_Work_407
+  - Marker_Home_407
+  - Marker_Misc_407
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 408
+  region: Lindisfarne
+  source_object_index: 295
+  group_index: 2
+  schedule_minutes:
+  - 390
+  - 795
+  - 915
+  - 1095
+  required_markers:
+  - Marker_Work_408
+  - Marker_Home_408
+  - Marker_Misc_408
+  missing_markers:
+  - Marker_Work_408
+  - Marker_Home_408
+  - Marker_Misc_408
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 409
+  region: Yorwick
+  source_object_index: 229
+  group_index: 1
+  schedule_minutes:
+  - 375
+  - 780
+  - 900
+  - 1080
+  required_markers:
+  - Marker_Work_409
+  - Marker_Home_409
+  - Marker_Misc_409
+  missing_markers:
+  - Marker_Work_409
+  - Marker_Home_409
+  - Marker_Misc_409
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 410
+  region: Yorwick
+  source_object_index: 230
+  group_index: 2
+  schedule_minutes:
+  - 390
+  - 795
+  - 915
+  - 1095
+  required_markers:
+  - Marker_Work_410
+  - Marker_Home_410
+  - Marker_Misc_410
+  missing_markers:
+  - Marker_Work_410
+  - Marker_Home_410
+  - Marker_Misc_410
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 411
+  region: Yorwick
+  source_object_index: 231
+  group_index: 3
+  schedule_minutes:
+  - 405
+  - 810
+  - 930
+  - 1110
+  required_markers:
+  - Marker_Work_411
+  - Marker_Home_411
+  - Marker_Misc_411
+  missing_markers:
+  - Marker_Work_411
+  - Marker_Home_411
+  - Marker_Misc_411
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []
+- rude_id: 412
+  region: Yorwick
+  source_object_index: 232
+  group_index: 4
+  schedule_minutes:
+  - 420
+  - 825
+  - 945
+  - 1125
+  required_markers:
+  - Marker_Work_412
+  - Marker_Home_412
+  - Marker_Misc_412
+  missing_markers:
+  - Marker_Work_412
+  - Marker_Home_412
+  - Marker_Misc_412
+  status: unresolved_missing_destination_markers
+  reason: mundane SCR names schedule destinations that are absent from the source
+    DAT raw-object inventory
+  errors: []

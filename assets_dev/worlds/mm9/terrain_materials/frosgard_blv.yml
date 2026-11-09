@@ -1,0 +1,124 @@
+# Written by level_generation/projects/mm9r_common/terrain_blend.py for frosgard.blv's terrain faces
+# (fros2v4xvl, fros7iq3s9, frosfbduep, froshf0y66, froslpe1fg, frosumfdrb).
+version: 1
+texels_per_cell: 16
+weights:
+- frosgard_blv_weights0.png
+weighted_layers: 4
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+- name: rock
+  library: rock_ground
+  tint:
+  - 0.8265
+  - 0.8848
+  - 0.8848
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.5
+  cavity: 0.5
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  cliff_tint:
+  - 0.9807
+  - 1.3928
+  - 1.6841
+- name: snow
+  library: snow
+  tint:
+  - 0.7398
+  - 0.7442
+  - 0.7172
+  repeat: 640
+  height_contrast: 0.3
+  normal_strength: 1.3
+  cavity: 0.15
+  macro_brightness: 0.06
+  macro_tint:
+  - 0.96
+  - 0.98
+  - 1.04
+  fringe: 1.0
+  cliff_tint:
+  - 1.7039
+  - 2.5718
+  - 3.6666
+- name: grass_patches
+  library: grass_patchy
+  tint:
+  - 0.583
+  - 0.615
+  - 0.6172
+  repeat: 640
+  height_contrast: 0.25
+  normal_strength: 1.0
+  cavity: 0.35
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  meadow: 0.8
+  cliff_tint:
+  - 0.9185
+  - 1.3017
+  - 1.4756
+- name: grass
+  library: grass_meadow
+  tint:
+  - 0.7519
+  - 0.8662
+  - 0.8662
+  repeat: 360
+  height_contrast: 0.45
+  normal_strength: 1.0
+  cavity: 0.3
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.1
+  - 1.05
+  - 0.85
+  fringe: 1.0
+  meadow: 1.0
+  variant: 2
+  variant_amount: 0.25
+  cliff_tint:
+  - 0.7489
+  - 1.3914
+  - 1.0218
+- name: cliff
+  library: rock_cliff
+  tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.3
+  cavity: 0.4
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+meadow:
+  dry:
+  - 1.2
+  - 1.06
+  - 0.64
+  lush:
+  - 0.78
+  - 0.94
+  - 0.82
+slope:
+  layer: 4
+  start: 0.36
+  end: 0.56

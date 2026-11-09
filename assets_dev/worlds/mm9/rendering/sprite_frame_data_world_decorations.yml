@@ -1,0 +1,5711 @@
+# The MM9 world's decoration sprites (sprite ids 24801-24999), loaded with the engine's sprite frames
+# while MM9 is the active world. Written by level_generation/props/mm9_isleofashes_claude/scripts/tables.py.
+format_version: 1
+kind: world_decoration_sprite_frames
+package_id: mm9
+sprites:
+  - sprite_id: 24801
+    sprite_name: "mm9_book"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24802
+    sprite_name: "mm9_coatrack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24803
+    sprite_name: "mm9_cookpot"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24804
+    sprite_name: "mm9_cot"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24805
+    sprite_name: "mm9_dresser"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24806
+    sprite_name: "mm9_logsburning"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24807
+    sprite_name: "mm9_podium"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24808
+    sprite_name: "mm9_roundtable"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24809
+    sprite_name: "mm9_shipwreck"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24810
+    sprite_name: "mm9_skull"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24811
+    sprite_name: "mm9_statstone"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24812
+    sprite_name: "mm9_stonedebris02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24813
+    sprite_name: "mm9_stonedebris02_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24814
+    sprite_name: "mm9_stonedebris03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24815
+    sprite_name: "mm9_stool"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24816
+    sprite_name: "mm9_vikingship"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24817
+    sprite_name: "mm9_well"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24818
+    sprite_name: "mm9_barrel"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24819
+    sprite_name: "mm9_barrel03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24820
+    sprite_name: "mm9_bed"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24821
+    sprite_name: "mm9_bedmedium"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24822
+    sprite_name: "mm9_bedmedium_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24823
+    sprite_name: "mm9_bookcase02ew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24824
+    sprite_name: "mm9_bookcase02ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24825
+    sprite_name: "mm9_chair"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24826
+    sprite_name: "mm9_chair02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24827
+    sprite_name: "mm9_chest"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24828
+    sprite_name: "mm9_chest1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24829
+    sprite_name: "mm9_crate"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24830
+    sprite_name: "mm9_crate_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24831
+    sprite_name: "mm9_desk01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24832
+    sprite_name: "mm9_desk01ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24833
+    sprite_name: "mm9_dresserns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24834
+    sprite_name: "mm9_scroll"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24835
+    sprite_name: "mm9_tablebench"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24836
+    sprite_name: "mm9_tableround"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24837
+    sprite_name: "mm9_trashpile"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24838
+    sprite_name: "mm9_walltorch"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24839
+    sprite_name: "mm9_weaponrack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24840
+    sprite_name: "mm9_weaponscabinet01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24841
+    sprite_name: "mm9_weaponscabinet04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24842
+    sprite_name: "mm9_gatefire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24843
+    sprite_name: "mm9_bench04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24844
+    sprite_name: "mm9_benchstone01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24845
+    sprite_name: "mm9_benchstone02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24846
+    sprite_name: "mm9_bookcase01ew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24847
+    sprite_name: "mm9_bookcase01ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24848
+    sprite_name: "mm9_bookflat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24849
+    sprite_name: "mm9_booktilt15"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24850
+    sprite_name: "mm9_brazier"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24851
+    sprite_name: "mm9_cabinet01ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24852
+    sprite_name: "mm9_cabinet04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24853
+    sprite_name: "mm9_chairdesk01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24854
+    sprite_name: "mm9_chairdesk03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24855
+    sprite_name: "mm9_chest3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24856
+    sprite_name: "mm9_desk03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24857
+    sprite_name: "mm9_goldenhonk"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24858
+    sprite_name: "mm9_hangingbowl"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24859
+    sprite_name: "mm9_hangingbowl2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24860
+    sprite_name: "mm9_harp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24861
+    sprite_name: "mm9_key2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24862
+    sprite_name: "mm9_table02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24863
+    sprite_name: "mm9_tapestry_bayeux2_2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24864
+    sprite_name: "mm9_tapestry_bayeux2_end"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24865
+    sprite_name: "mm9_tapestry_bayeux2_link"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24866
+    sprite_name: "mm9_tapestry_bayeux2_start"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24867
+    sprite_name: "mm9_tapestry_bayeux_2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24868
+    sprite_name: "mm9_tapestry_bayeux_end"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24869
+    sprite_name: "mm9_tapestry_bayeux_link"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24870
+    sprite_name: "mm9_tapestry_bayeux_start"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24871
+    sprite_name: "mm9_tapestry_flower"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24872
+    sprite_name: "mm9_tapestry_olive"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24873
+    sprite_name: "mm9_tapestry_purple"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24874
+    sprite_name: "mm9_tapestry_redblack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24875
+    sprite_name: "mm9_bagherbs"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24876
+    sprite_name: "mm9_barrel_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24877
+    sprite_name: "mm9_beaker01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24878
+    sprite_name: "mm9_blackchest"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24879
+    sprite_name: "mm9_bookstack01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24880
+    sprite_name: "mm9_booktilt"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24881
+    sprite_name: "mm9_burner"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24882
+    sprite_name: "mm9_cauldron01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24883
+    sprite_name: "mm9_chair03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24884
+    sprite_name: "mm9_chest1_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24885
+    sprite_name: "mm9_crate_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24886
+    sprite_name: "mm9_flayingbench"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24887
+    sprite_name: "mm9_headsmansblock"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24888
+    sprite_name: "mm9_jar"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24889
+    sprite_name: "mm9_jarbroken"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24890
+    sprite_name: "mm9_lichengine"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24891
+    sprite_name: "mm9_logs"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24892
+    sprite_name: "mm9_pew3ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24893
+    sprite_name: "mm9_pillory"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24894
+    sprite_name: "mm9_podium01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24895
+    sprite_name: "mm9_scroll2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24896
+    sprite_name: "mm9_scroll3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24897
+    sprite_name: "mm9_scrolldouble"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24898
+    sprite_name: "mm9_shelfitem01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24899
+    sprite_name: "mm9_shelfitem02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24900
+    sprite_name: "mm9_shelfitem02_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24901
+    sprite_name: "mm9_shelfitem03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24902
+    sprite_name: "mm9_shelfitem05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24903
+    sprite_name: "mm9_shelfitem05_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24904
+    sprite_name: "mm9_skeletoncage"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24905
+    sprite_name: "mm9_skeletonsitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24906
+    sprite_name: "mm9_skeletonstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24907
+    sprite_name: "mm9_skeletonstatue_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24908
+    sprite_name: "mm9_skeletonstatue_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24909
+    sprite_name: "mm9_switch02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24910
+    sprite_name: "mm9_table01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24911
+    sprite_name: "mm9_table01ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24912
+    sprite_name: "mm9_throne"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24913
+    sprite_name: "mm9_torturecage01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24914
+    sprite_name: "mm9_torturecrusher01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24915
+    sprite_name: "mm9_torturecrusher02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24916
+    sprite_name: "mm9_torturerack01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24917
+    sprite_name: "mm9_torturewheel01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24918
+    sprite_name: "mm9_torturewheel02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24919
+    sprite_name: "mm9_gatefire_unlit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24920
+    sprite_name: "mm9_spikepit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24921
+    sprite_name: "mm9_bonepile"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24922
+    sprite_name: "mm9_coffinfancy"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24923
+    sprite_name: "mm9_coffinraised"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24924
+    sprite_name: "mm9_hangingbowl1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24925
+    sprite_name: "mm9_jar01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24926
+    sprite_name: "mm9_jar01side"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24927
+    sprite_name: "mm9_jar02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24928
+    sprite_name: "mm9_jar03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24929
+    sprite_name: "mm9_jar04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24930
+    sprite_name: "mm9_jar04side"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24931
+    sprite_name: "mm9_jar05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24932
+    sprite_name: "mm9_jar06"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24933
+    sprite_name: "mm9_manuscript"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24934
+    sprite_name: "mm9_sconcetorch"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24935
+    sprite_name: "mm9_urngargoyle"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24936
+    sprite_name: "mm9_well_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24937
+    sprite_name: "mm9_altar1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24938
+    sprite_name: "mm9_blackchest_x80"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24939
+    sprite_name: "mm9_bluebowl"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24940
+    sprite_name: "mm9_bluebrazier"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24941
+    sprite_name: "mm9_bluesconce"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24942
+    sprite_name: "mm9_bluetorch"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24943
+    sprite_name: "mm9_boxornamental"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24944
+    sprite_name: "mm9_chair1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24945
+    sprite_name: "mm9_chest5"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24946
+    sprite_name: "mm9_cronakiga"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24947
+    sprite_name: "mm9_cup1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24948
+    sprite_name: "mm9_goblet"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24949
+    sprite_name: "mm9_jar01_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24950
+    sprite_name: "mm9_jar04_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24951
+    sprite_name: "mm9_lichinstructions"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24952
+    sprite_name: "mm9_mummyew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24953
+    sprite_name: "mm9_pillarstand"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24954
+    sprite_name: "mm9_sarcophagus"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24955
+    sprite_name: "mm9_sarcophagus_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24956
+    sprite_name: "mm9_sarcophagusns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24957
+    sprite_name: "mm9_sarcophagusns_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24958
+    sprite_name: "mm9_sarcophagusns3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24959
+    sprite_name: "mm9_sarcophagusvert"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24960
+    sprite_name: "mm9_statueguardian"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24961
+    sprite_name: "mm9_statueguardianew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24962
+    sprite_name: "mm9_statueguardianew_x50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24963
+    sprite_name: "mm9_statueguardianew_x60"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24964
+    sprite_name: "mm9_statueguardianew_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24965
+    sprite_name: "mm9_treasurechute"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24966
+    sprite_name: "mm9_treasurepile"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24967
+    sprite_name: "mm9_tumbler1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24968
+    sprite_name: "mm9_urn1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24969
+    sprite_name: "mm9_urn2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24970
+    sprite_name: "mm9_altar1flip"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24971
+    sprite_name: "mm9_pillarfallen"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24972
+    sprite_name: "mm9_urn2tip1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24973
+    sprite_name: "mm9_urn2tip2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24974
+    sprite_name: "mm9_anvil"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24975
+    sprite_name: "mm9_axerusty"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24976
+    sprite_name: "mm9_barrel03_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24977
+    sprite_name: "mm9_bed_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24978
+    sprite_name: "mm9_bedmedium2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24979
+    sprite_name: "mm9_bedwall"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24980
+    sprite_name: "mm9_bench01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24981
+    sprite_name: "mm9_bucket01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24982
+    sprite_name: "mm9_cabinet04ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24983
+    sprite_name: "mm9_cabinet05ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24984
+    sprite_name: "mm9_canvassack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24985
+    sprite_name: "mm9_chairdesk02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24986
+    sprite_name: "mm9_coalbin"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24987
+    sprite_name: "mm9_cot_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24988
+    sprite_name: "mm9_hangingbowl2_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24989
+    sprite_name: "mm9_ironingots"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24990
+    sprite_name: "mm9_lumberstone02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24991
+    sprite_name: "mm9_lumberstone03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24992
+    sprite_name: "mm9_ropecoil"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24993
+    sprite_name: "mm9_sack03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24994
+    sprite_name: "mm9_shelfitem06"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24995
+    sprite_name: "mm9_shelfitem07"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24996
+    sprite_name: "mm9_shelfitem08"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24997
+    sprite_name: "mm9_shieldbroken02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24998
+    sprite_name: "mm9_skeletondebris01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 24999
+    sprite_name: "mm9_skeletondebris02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26001
+    sprite_name: "mm9_stove"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26002
+    sprite_name: "mm9_suitofarmor01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26003
+    sprite_name: "mm9_swordbroken"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26004
+    sprite_name: "mm9_tablebench2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26005
+    sprite_name: "mm9_tableround2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26006
+    sprite_name: "mm9_tableround3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26007
+    sprite_name: "mm9_tapestryold01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26008
+    sprite_name: "mm9_tapestryold02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26009
+    sprite_name: "mm9_trashpile_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26010
+    sprite_name: "mm9_weaponrack_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26011
+    sprite_name: "mm9_weaponrackns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26012
+    sprite_name: "mm9_weaponscabinet02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26013
+    sprite_name: "mm9_barrellying"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26014
+    sprite_name: "mm9_bedmedium2r270"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26015
+    sprite_name: "mm9_bedmedium2r90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26016
+    sprite_name: "mm9_axerusty_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26017
+    sprite_name: "mm9_capstone"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26018
+    sprite_name: "mm9_greatbookfake"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26019
+    sprite_name: "mm9_key1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26020
+    sprite_name: "mm9_manacles"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26021
+    sprite_name: "mm9_minelantern"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26022
+    sprite_name: "mm9_sconce1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26023
+    sprite_name: "mm9_skeletondebris03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26024
+    sprite_name: "mm9_weaponscabinet01_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26025
+    sprite_name: "mm9_writ"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26026
+    sprite_name: "mm9_chandelier3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26027
+    sprite_name: "mm9_genielamp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26028
+    sprite_name: "mm9_skeletonlaying"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26029
+    sprite_name: "mm9_stonedebris04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26030
+    sprite_name: "mm9_stonedebris05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26031
+    sprite_name: "mm9_tapestry_bannergeo3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26032
+    sprite_name: "mm9_tapestry_bannergeo3_x250"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26033
+    sprite_name: "mm9_torchmetal"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26034
+    sprite_name: "mm9_treeoflife"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26035
+    sprite_name: "mm9_chairdesk03p270"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26036
+    sprite_name: "mm9_chairdesk03p90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26037
+    sprite_name: "mm9_scrollp268"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26038
+    sprite_name: "mm9_tableround2p60"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26039
+    sprite_name: "mm9_weaponscabinet02tip"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26040
+    sprite_name: "mm9_basketfruit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26041
+    sprite_name: "mm9_basketveggies"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26042
+    sprite_name: "mm9_bed02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26043
+    sprite_name: "mm9_cabinet01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26044
+    sprite_name: "mm9_cabinet02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26045
+    sprite_name: "mm9_cabinet02ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26046
+    sprite_name: "mm9_cabinet03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26047
+    sprite_name: "mm9_cabinet03ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26048
+    sprite_name: "mm9_cabinet05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26049
+    sprite_name: "mm9_dirk"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26050
+    sprite_name: "mm9_dresserfancy"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26051
+    sprite_name: "mm9_dresserfancyns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26052
+    sprite_name: "mm9_logsburning_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26053
+    sprite_name: "mm9_pew2ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26054
+    sprite_name: "mm9_pitcher01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26055
+    sprite_name: "mm9_platestack1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26056
+    sprite_name: "mm9_platestack2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26057
+    sprite_name: "mm9_shelfitem06_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26058
+    sprite_name: "mm9_shield3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26059
+    sprite_name: "mm9_stovens"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26060
+    sprite_name: "mm9_table01ns_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26061
+    sprite_name: "mm9_tableround5"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26062
+    sprite_name: "mm9_tabletrestle2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26063
+    sprite_name: "mm9_wallcandle"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26064
+    sprite_name: "mm9_benchstone02_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26065
+    sprite_name: "mm9_gatefire_x8"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26066
+    sprite_name: "mm9_gatefire_x33"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26067
+    sprite_name: "mm9_pew3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26068
+    sprite_name: "mm9_towelrack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26069
+    sprite_name: "mm9_urngargoyle_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26070
+    sprite_name: "mm9_pentafire_red"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26071
+    sprite_name: "mm9_pentafire_yellow"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26072
+    sprite_name: "mm9_pentafire_blue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26073
+    sprite_name: "mm9_pentafire_green"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26074
+    sprite_name: "mm9_pentafire_orange"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26075
+    sprite_name: "mm9_bedmedium2onside"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26076
+    sprite_name: "mm9_bench03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26077
+    sprite_name: "mm9_orblinking"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26078
+    sprite_name: "mm9_treasurebag"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26079
+    sprite_name: "mm9_bedmedium_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26080
+    sprite_name: "mm9_bedornate"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26081
+    sprite_name: "mm9_bookcase02ew_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26082
+    sprite_name: "mm9_boxornamental_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26083
+    sprite_name: "mm9_cabinet02_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26084
+    sprite_name: "mm9_cards"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26085
+    sprite_name: "mm9_desk01_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26086
+    sprite_name: "mm9_dresserfancyns_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26087
+    sprite_name: "mm9_hangingbowl_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26088
+    sprite_name: "mm9_shield1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26089
+    sprite_name: "mm9_shield2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26090
+    sprite_name: "mm9_shield3r"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26091
+    sprite_name: "mm9_shield4"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26092
+    sprite_name: "mm9_suitofarmor02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26093
+    sprite_name: "mm9_tapestry_banner4"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26094
+    sprite_name: "mm9_throne_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26095
+    sprite_name: "mm9_weaponracknew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26096
+    sprite_name: "mm9_hangingbowl1_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26097
+    sprite_name: "mm9_lumberdebris02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26098
+    sprite_name: "mm9_lumberdebris03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26099
+    sprite_name: "mm9_lumberdebris05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26100
+    sprite_name: "mm9_spindummy"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26101
+    sprite_name: "mm9_strawdummy"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26102
+    sprite_name: "mm9_trainingmount"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26103
+    sprite_name: "mm9_bagherbs1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26104
+    sprite_name: "mm9_bookcase02ew_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26105
+    sprite_name: "mm9_bookcase02ns_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26106
+    sprite_name: "mm9_bookrulestilt"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26107
+    sprite_name: "mm9_candle"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26108
+    sprite_name: "mm9_chandelier"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26109
+    sprite_name: "mm9_crate_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26110
+    sprite_name: "mm9_dwarfaxeonside"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26111
+    sprite_name: "mm9_forge"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26112
+    sprite_name: "mm9_gobletfancy02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26113
+    sprite_name: "mm9_grindingwheel"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26114
+    sprite_name: "mm9_ironingots_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26115
+    sprite_name: "mm9_pew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26116
+    sprite_name: "mm9_ropecoil_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26117
+    sprite_name: "mm9_scroll1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26118
+    sprite_name: "mm9_scrollpickup"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26119
+    sprite_name: "mm9_shelfitem03_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26120
+    sprite_name: "mm9_smithhammer"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26121
+    sprite_name: "mm9_spikepit_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26122
+    sprite_name: "mm9_suitofarmor02_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26123
+    sprite_name: "mm9_weaponrack_new"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26124
+    sprite_name: "mm9_bell"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26125
+    sprite_name: "mm9_bell_x90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26126
+    sprite_name: "mm9_bell_x85"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26127
+    sprite_name: "mm9_bell_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26128
+    sprite_name: "mm9_bell_x70"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26129
+    sprite_name: "mm9_benchlarge1ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26130
+    sprite_name: "mm9_bookcase01ew2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26131
+    sprite_name: "mm9_chairdesk03b"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26132
+    sprite_name: "mm9_desk03b"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26133
+    sprite_name: "mm9_pew2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26134
+    sprite_name: "mm9_podium02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26135
+    sprite_name: "mm9_reliquary"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26136
+    sprite_name: "mm9_thjorad"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26137
+    sprite_name: "mm9_tree04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26138
+    sprite_name: "mm9_washtubtable"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26139
+    sprite_name: "mm9_anvil_x60"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26140
+    sprite_name: "mm9_barrel_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26141
+    sprite_name: "mm9_boiler"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26142
+    sprite_name: "mm9_box02pantry"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26143
+    sprite_name: "mm9_bucket01_x90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26144
+    sprite_name: "mm9_bucket02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26145
+    sprite_name: "mm9_dwarfaxeonside_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26146
+    sprite_name: "mm9_machinepartbroken"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26147
+    sprite_name: "mm9_minecart"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26148
+    sprite_name: "mm9_minecart_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26149
+    sprite_name: "mm9_minelantern02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26150
+    sprite_name: "mm9_oillamp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26151
+    sprite_name: "mm9_stonedebris05thjorad"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26152
+    sprite_name: "mm9_stool01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26153
+    sprite_name: "mm9_tableroundplain"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26154
+    sprite_name: "mm9_thjoradbin"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26155
+    sprite_name: "mm9_thjoradbin_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26156
+    sprite_name: "mm9_trashpile_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26157
+    sprite_name: "mm9_weaponscabinet01_x90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26158
+    sprite_name: "mm9_woodbin"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26159
+    sprite_name: "mm9_machinepartwhole"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26160
+    sprite_name: "mm9_bedornate_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26161
+    sprite_name: "mm9_blackchest_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26162
+    sprite_name: "mm9_chair_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26163
+    sprite_name: "mm9_chairdesk03_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26164
+    sprite_name: "mm9_chairdesk03p270_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26165
+    sprite_name: "mm9_chairp270"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26166
+    sprite_name: "mm9_chestrusty01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26167
+    sprite_name: "mm9_chestrusty01_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26168
+    sprite_name: "mm9_clawlampp180"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26169
+    sprite_name: "mm9_clawlampp180_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26170
+    sprite_name: "mm9_clawtorchr180"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26171
+    sprite_name: "mm9_crate_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26172
+    sprite_name: "mm9_crateice"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26173
+    sprite_name: "mm9_crateice_x110"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26174
+    sprite_name: "mm9_crateice_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26175
+    sprite_name: "mm9_crateice_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26176
+    sprite_name: "mm9_dresserfancyns_x225"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26177
+    sprite_name: "mm9_key2_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26178
+    sprite_name: "mm9_pew3_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26179
+    sprite_name: "mm9_stool01p90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26180
+    sprite_name: "mm9_stool02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26181
+    sprite_name: "mm9_tableround3_x90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26182
+    sprite_name: "mm9_tableroundplain_x95"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26183
+    sprite_name: "mm9_throne_x250"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26184
+    sprite_name: "mm9_bush03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26185
+    sprite_name: "mm9_bush03_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26186
+    sprite_name: "mm9_bush05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26187
+    sprite_name: "mm9_clawtorch"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26188
+    sprite_name: "mm9_crystal"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26189
+    sprite_name: "mm9_icebanshee"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26190
+    sprite_name: "mm9_icelich"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26191
+    sprite_name: "mm9_iceskeleton"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26192
+    sprite_name: "mm9_iceskeletonwarrior"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26193
+    sprite_name: "mm9_iceterror"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26194
+    sprite_name: "mm9_icezombie"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26195
+    sprite_name: "mm9_logsburning_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26196
+    sprite_name: "mm9_runestone"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26197
+    sprite_name: "mm9_stonebanshee"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26198
+    sprite_name: "mm9_tree01b"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26199
+    sprite_name: "mm9_tree01b_x70"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26200
+    sprite_name: "mm9_tree02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26201
+    sprite_name: "mm9_tree02_x70"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26202
+    sprite_name: "mm9_tree02_x30"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26203
+    sprite_name: "mm9_tree05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26204
+    sprite_name: "mm9_tree06"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26205
+    sprite_name: "mm9_brazierbowl"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26206
+    sprite_name: "mm9_coffinraised_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26207
+    sprite_name: "mm9_dragonpharoah"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26208
+    sprite_name: "mm9_genielamp_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26209
+    sprite_name: "mm9_sconce1torch"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26210
+    sprite_name: "mm9_scrollp90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26211
+    sprite_name: "mm9_skulls1000a"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26212
+    sprite_name: "mm9_skulls1000b"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26213
+    sprite_name: "mm9_sorcererstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26214
+    sprite_name: "mm9_switch03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26215
+    sprite_name: "mm9_terrorlight1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26216
+    sprite_name: "mm9_treasurechute_x90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26217
+    sprite_name: "mm9_treasureopening"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26218
+    sprite_name: "mm9_blackchest_x95"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26219
+    sprite_name: "mm9_minelantern02plain"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26220
+    sprite_name: "mm9_sack01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26221
+    sprite_name: "mm9_sack02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26222
+    sprite_name: "mm9_skeletonlayingprop"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26223
+    sprite_name: "mm9_stonedebris01ls"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26224
+    sprite_name: "mm9_stonedebris04ls"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26225
+    sprite_name: "mm9_stonedebris05ls"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26226
+    sprite_name: "mm9_barrelp356"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26227
+    sprite_name: "mm9_cratep356"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26228
+    sprite_name: "mm9_crater355"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26229
+    sprite_name: "mm9_lumberstone03p10"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26230
+    sprite_name: "mm9_sack01p350r356"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26231
+    sprite_name: "mm9_stonedebris01lsp350"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26232
+    sprite_name: "mm9_stonedebris02p350"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26233
+    sprite_name: "mm9_stonedebris04lsp350"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26234
+    sprite_name: "mm9_stonedebris04lsp7"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26235
+    sprite_name: "mm9_stonedebris05lsp350"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26236
+    sprite_name: "mm9_waterorb"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26237
+    sprite_name: "mm9_clawlampp180_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26238
+    sprite_name: "mm9_sconce2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26239
+    sprite_name: "mm9_tapestry_banner6"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26240
+    sprite_name: "mm9_tapestry_banner6_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26241
+    sprite_name: "mm9_torchrust"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26242
+    sprite_name: "mm9_dragonbrazier2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26243
+    sprite_name: "mm9_dragonpharoah_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26244
+    sprite_name: "mm9_frestatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26245
+    sprite_name: "mm9_krohnstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26246
+    sprite_name: "mm9_lionstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26247
+    sprite_name: "mm9_njamstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26248
+    sprite_name: "mm9_skraelosstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26249
+    sprite_name: "mm9_torchmetalorange"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26250
+    sprite_name: "mm9_wyrdmaturestatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26251
+    sprite_name: "mm9_wyrdoldstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26252
+    sprite_name: "mm9_wyrdyoungstatue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26253
+    sprite_name: "mm9_skeletonlayingprop_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26254
+    sprite_name: "mm9_clawtorchlit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26255
+    sprite_name: "mm9_barrelbeet"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26256
+    sprite_name: "mm9_barstool1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26257
+    sprite_name: "mm9_beaker01_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26258
+    sprite_name: "mm9_beaker01_x50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26259
+    sprite_name: "mm9_bed_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26260
+    sprite_name: "mm9_bedmediumplain"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26261
+    sprite_name: "mm9_bedornate_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26262
+    sprite_name: "mm9_beetrack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26263
+    sprite_name: "mm9_bjarnisitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26264
+    sprite_name: "mm9_bookcase01ew_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26265
+    sprite_name: "mm9_bookcase01ns_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26266
+    sprite_name: "mm9_bookcase01ns_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26267
+    sprite_name: "mm9_bowl04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26268
+    sprite_name: "mm9_broom"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26269
+    sprite_name: "mm9_bush03_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26270
+    sprite_name: "mm9_candelabra"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26271
+    sprite_name: "mm9_catstanddown"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26272
+    sprite_name: "mm9_chairskin1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26273
+    sprite_name: "mm9_chandelier2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26274
+    sprite_name: "mm9_clawlampup"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26275
+    sprite_name: "mm9_cup02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26276
+    sprite_name: "mm9_dragontrophy"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26277
+    sprite_name: "mm9_erccsitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26278
+    sprite_name: "mm9_forge_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26279
+    sprite_name: "mm9_hangingbowl1_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26280
+    sprite_name: "mm9_jacobsladder"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26281
+    sprite_name: "mm9_kegbeer"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26282
+    sprite_name: "mm9_lamppost4"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26283
+    sprite_name: "mm9_lanternwall1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26284
+    sprite_name: "mm9_logs_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26285
+    sprite_name: "mm9_mug1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26286
+    sprite_name: "mm9_peasantm2innkeeper"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26287
+    sprite_name: "mm9_peasantms2bconv"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26288
+    sprite_name: "mm9_peasantms2bwriting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26289
+    sprite_name: "mm9_peasantms2csitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26290
+    sprite_name: "mm9_peasantms2dlisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26291
+    sprite_name: "mm9_peasantms2dsitting2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26292
+    sprite_name: "mm9_pew2ns_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26293
+    sprite_name: "mm9_pewns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26294
+    sprite_name: "mm9_pitcher01_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26295
+    sprite_name: "mm9_podium01_x85"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26296
+    sprite_name: "mm9_portalwhole"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26297
+    sprite_name: "mm9_sack01beet"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26298
+    sprite_name: "mm9_sack03_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26299
+    sprite_name: "mm9_scrollpickup_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26300
+    sprite_name: "mm9_shelfitem03f"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26301
+    sprite_name: "mm9_shelfitem09d"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26302
+    sprite_name: "mm9_shelfitem09sg"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26303
+    sprite_name: "mm9_shield1flat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26304
+    sprite_name: "mm9_shield2flat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26305
+    sprite_name: "mm9_shieldrustyp90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26306
+    sprite_name: "mm9_strawdummy2c"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26307
+    sprite_name: "mm9_strawdummy2l"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26308
+    sprite_name: "mm9_strawdummy2r"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26309
+    sprite_name: "mm9_tableround_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26310
+    sprite_name: "mm9_trainingarchery1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26311
+    sprite_name: "mm9_tree04_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26312
+    sprite_name: "mm9_vials"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26313
+    sprite_name: "mm9_weaponracknewg2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26314
+    sprite_name: "mm9_weaponracknewg3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26315
+    sprite_name: "mm9_winebottle04"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26316
+    sprite_name: "mm9_winerack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26317
+    sprite_name: "mm9_bagherbs1_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26318
+    sprite_name: "mm9_benchlarge1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26319
+    sprite_name: "mm9_chandelier2_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26320
+    sprite_name: "mm9_coatrack2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26321
+    sprite_name: "mm9_flowerboxew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26322
+    sprite_name: "mm9_flowerboxns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26323
+    sprite_name: "mm9_foradsit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26324
+    sprite_name: "mm9_herbrack1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26325
+    sprite_name: "mm9_jar02_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26326
+    sprite_name: "mm9_jar03_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26327
+    sprite_name: "mm9_jar05_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26328
+    sprite_name: "mm9_jar06_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26329
+    sprite_name: "mm9_kegbeer_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26330
+    sprite_name: "mm9_kirashield"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26331
+    sprite_name: "mm9_lamppost3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26332
+    sprite_name: "mm9_markeldie2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26333
+    sprite_name: "mm9_markelsit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26334
+    sprite_name: "mm9_pew2_x110"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26335
+    sprite_name: "mm9_pew2_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26336
+    sprite_name: "mm9_plateset2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26337
+    sprite_name: "mm9_pottedplant1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26338
+    sprite_name: "mm9_pottedplant2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26339
+    sprite_name: "mm9_pottedplant3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26340
+    sprite_name: "mm9_shelfitem02mp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26341
+    sprite_name: "mm9_shelfitem03f_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26342
+    sprite_name: "mm9_shield3flat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26343
+    sprite_name: "mm9_shield4flat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26344
+    sprite_name: "mm9_sigmundsit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26345
+    sprite_name: "mm9_steinfancy01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26346
+    sprite_name: "mm9_suitofarmor01plain"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26347
+    sprite_name: "mm9_svensitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26348
+    sprite_name: "mm9_tableround5_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26349
+    sprite_name: "mm9_tapestry_banner8"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26350
+    sprite_name: "mm9_tryggvasit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26351
+    sprite_name: "mm9_weaponracknsnewg1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26352
+    sprite_name: "mm9_weaponracknsnewg3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26353
+    sprite_name: "mm9_barstool2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26354
+    sprite_name: "mm9_benchstone02_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26355
+    sprite_name: "mm9_bookcase02ns_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26356
+    sprite_name: "mm9_box01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26357
+    sprite_name: "mm9_box02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26358
+    sprite_name: "mm9_cart01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26359
+    sprite_name: "mm9_cart02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26360
+    sprite_name: "mm9_cart02nohay"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26361
+    sprite_name: "mm9_clover"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26362
+    sprite_name: "mm9_hitchingpost"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26363
+    sprite_name: "mm9_jug1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26364
+    sprite_name: "mm9_logsburning_x70"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26365
+    sprite_name: "mm9_logsburning_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26366
+    sprite_name: "mm9_pillarstand_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26367
+    sprite_name: "mm9_platestack1set1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26368
+    sprite_name: "mm9_platestack2set1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26369
+    sprite_name: "mm9_shelfitem03hc"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26370
+    sprite_name: "mm9_shelfitem09"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26371
+    sprite_name: "mm9_shelfitem09g"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26372
+    sprite_name: "mm9_suitofarmor01_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26373
+    sprite_name: "mm9_tapestry_banner2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26374
+    sprite_name: "mm9_weaponrackg1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26375
+    sprite_name: "mm9_weaponrackg2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26376
+    sprite_name: "mm9_winebottle"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26377
+    sprite_name: "mm9_winebottle02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26378
+    sprite_name: "mm9_winebottle03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26379
+    sprite_name: "mm9_winebottle05"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26380
+    sprite_name: "mm9_barrel_x50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26381
+    sprite_name: "mm9_basket01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26382
+    sprite_name: "mm9_bed_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26383
+    sprite_name: "mm9_bedmediumew"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26384
+    sprite_name: "mm9_bookkey"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26385
+    sprite_name: "mm9_chandelier3_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26386
+    sprite_name: "mm9_clawlampupblue"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26387
+    sprite_name: "mm9_desk02ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26388
+    sprite_name: "mm9_dresserfancy_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26389
+    sprite_name: "mm9_herbrack2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26390
+    sprite_name: "mm9_lamppost2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26391
+    sprite_name: "mm9_lantern2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26392
+    sprite_name: "mm9_logs_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26393
+    sprite_name: "mm9_logs_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26394
+    sprite_name: "mm9_plateset1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26395
+    sprite_name: "mm9_podium01_x80"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26396
+    sprite_name: "mm9_sack01_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26397
+    sprite_name: "mm9_scrollpickup_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26398
+    sprite_name: "mm9_shelfitem03hwc"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26399
+    sprite_name: "mm9_shelfitem07hbread"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26400
+    sprite_name: "mm9_shelfitem07hfruit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26401
+    sprite_name: "mm9_shelfitem07hpie"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26402
+    sprite_name: "mm9_shelfitem08hbasket"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26403
+    sprite_name: "mm9_shelfitem08hbottle"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26404
+    sprite_name: "mm9_shelfitem08honions"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26405
+    sprite_name: "mm9_shelfitem08hsack"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26406
+    sprite_name: "mm9_suitofarmor01gold"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26407
+    sprite_name: "mm9_table01_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26408
+    sprite_name: "mm9_tapestry_banner6_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26409
+    sprite_name: "mm9_weaponracknsnewg2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26410
+    sprite_name: "mm9_weaponscabinet03"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26411
+    sprite_name: "mm9_clansoldierhelmet"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26412
+    sprite_name: "mm9_dookmilitiahelmet"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26413
+    sprite_name: "mm9_horsestatue3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26414
+    sprite_name: "mm9_horsestatue3_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26415
+    sprite_name: "mm9_kegbeer_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26416
+    sprite_name: "mm9_lamppost1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26417
+    sprite_name: "mm9_plate1p80"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26418
+    sprite_name: "mm9_platestack1_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26419
+    sprite_name: "mm9_platestack2_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26420
+    sprite_name: "mm9_steinfancy01_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26421
+    sprite_name: "mm9_tree05_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26422
+    sprite_name: "mm9_tree06_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26423
+    sprite_name: "mm9_weaponrackg1_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26424
+    sprite_name: "mm9_dogsitting"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26425
+    sprite_name: "mm9_hangingbowl_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26426
+    sprite_name: "mm9_herbrack1_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26427
+    sprite_name: "mm9_logsburning_x250"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26428
+    sprite_name: "mm9_maypole"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26429
+    sprite_name: "mm9_maypoleold"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26430
+    sprite_name: "mm9_mug1_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26431
+    sprite_name: "mm9_plateset2p1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26432
+    sprite_name: "mm9_spikepit_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26433
+    sprite_name: "mm9_tapestry_banner1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26434
+    sprite_name: "mm9_weaponracknsusedg2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26435
+    sprite_name: "mm9_weaponracknsusedg3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26436
+    sprite_name: "mm9_weaponscabinet03s3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26437
+    sprite_name: "mm9_winebottle_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26438
+    sprite_name: "mm9_pottedplant1_x250"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26439
+    sprite_name: "mm9_pottedplant2_x250"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26440
+    sprite_name: "mm9_prize"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26441
+    sprite_name: "mm9_seamonster"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26442
+    sprite_name: "mm9_suitofarmor02aged"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26443
+    sprite_name: "mm9_tapestry_banner7"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26444
+    sprite_name: "mm9_weaponscabinet02ns"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26445
+    sprite_name: "mm9_chandelier3orange"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26446
+    sprite_name: "mm9_chandelier3orange_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26447
+    sprite_name: "mm9_statbarrel"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26448
+    sprite_name: "mm9_statbarrel_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26449
+    sprite_name: "mm9v_6tree18_2400"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26450
+    sprite_name: "mm9v_6tree18_1700"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26451
+    sprite_name: "mm9v_tree60_1700"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26452
+    sprite_name: "mm9v_6tree18_3425"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26453
+    sprite_name: "mm9v_tree60_3425"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26454
+    sprite_name: "mm9v_tree60_2400"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26455
+    sprite_name: "mm9v_bush02_75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26456
+    sprite_name: "mm9v_flower03_50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26457
+    sprite_name: "mm9v_bush03_100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26458
+    sprite_name: "mm9v_flower10_25"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26459
+    sprite_name: "mm9v_flower04_50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26460
+    sprite_name: "mm9v_flower10_50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26461
+    sprite_name: "mm9v_flower04_25"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26462
+    sprite_name: "mm9v_tree29_1275"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26463
+    sprite_name: "mm9v_tree30_1375"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26464
+    sprite_name: "mm9v_tree30_1275"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26465
+    sprite_name: "mm9v_tree60_1200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26466
+    sprite_name: "mm9v_tree60_1275"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26467
+    sprite_name: "mm9v_tree29_1650"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26468
+    sprite_name: "mm9v_tree30_1650"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26469
+    sprite_name: "mm9v_tree30_1000"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26470
+    sprite_name: "mm9v_tree60_1375"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26471
+    sprite_name: "mm9v_tree30_1200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26472
+    sprite_name: "mm9v_tree60_1000"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26473
+    sprite_name: "mm9v_tree29_1900"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26474
+    sprite_name: "mm9v_tree60_1975"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26475
+    sprite_name: "mm9v_tree29_2300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26476
+    sprite_name: "mm9v_tree30_1900"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26477
+    sprite_name: "mm9v_tree29_2800"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26478
+    sprite_name: "mm9v_tree36_525"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26479
+    sprite_name: "mm9v_tree36_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26480
+    sprite_name: "mm9v_snotre05_1100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26481
+    sprite_name: "mm9v_tree36_675"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26482
+    sprite_name: "mm9v_snotre01_525"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26483
+    sprite_name: "mm9v_tree36_1100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26484
+    sprite_name: "mm9v_snotre01_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26485
+    sprite_name: "mm9v_snotre01_1100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26486
+    sprite_name: "mm9v_snotre05_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26487
+    sprite_name: "mm9v_snotre05_675"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26488
+    sprite_name: "mm9v_snotre01_675"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26489
+    sprite_name: "mm9v_tree28_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26490
+    sprite_name: "mm9v_tree28_1050"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26491
+    sprite_name: "mm9v_6tree27_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26492
+    sprite_name: "mm9v_6tree27_1050"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26493
+    sprite_name: "mm9v_flower03_25"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26494
+    sprite_name: "mm9_lamppost2_x140"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26495
+    sprite_name: "mm9_coalbin_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26496
+    sprite_name: "mm9_stool02_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26497
+    sprite_name: "mm9_shelfitem07_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26498
+    sprite_name: "mm9_logsburning_x65"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26499
+    sprite_name: "mm9_logsburning_x75"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26500
+    sprite_name: "mm9_shelfitem02_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26501
+    sprite_name: "mm9_herbrack1_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26502
+    sprite_name: "mm9_logsburning_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26503
+    sprite_name: "mm9_chest1_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26504
+    sprite_name: "mm9_chest3_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26505
+    sprite_name: "mm9_blackchest_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26506
+    sprite_name: "mm9_chest5_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26507
+    sprite_name: "mm9_chest_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26508
+    sprite_name: "mm9_woodshed02"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26509
+    sprite_name: "mm9_woodshed01_x95"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26510
+    sprite_name: "mm9_stone"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26511
+    sprite_name: "mm9_stonered_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26512
+    sprite_name: "mm9_stoneblue_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26513
+    sprite_name: "mm9_stoneyellow_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26514
+    sprite_name: "mm9_stoneorange_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26515
+    sprite_name: "mm9_stonegreen_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26516
+    sprite_name: "mm9_stone_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26517
+    sprite_name: "mm9_toyboatpirate_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26518
+    sprite_name: "mm9_toyboatred_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26519
+    sprite_name: "mm9_toyboatgreen_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26520
+    sprite_name: "mm9_bellnobeam_x20"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26521
+    sprite_name: "mm9_bannercw_x50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26522
+    sprite_name: "mm9_farmerplow"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26523
+    sprite_name: "mm9_girldolly"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26524
+    sprite_name: "mm9_greatbook"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26525
+    sprite_name: "mm9_windmillp335"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26526
+    sprite_name: "mm9_hairbrush"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26527
+    sprite_name: "mm9_bannerc_x50"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26528
+    sprite_name: "mm9_dwarfaxe_x150"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26529
+    sprite_name: "mm9_penancequest"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26530
+    sprite_name: "mm9_broadswordp170"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26531
+    sprite_name: "mm9_longswordp170"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26532
+    sprite_name: "mm9_arrowp78"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26533
+    sprite_name: "mm9_arrowp133"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26534
+    sprite_name: "mm9_arrowp76"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26535
+    sprite_name: "mm9_axerustyp128r90"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26536
+    sprite_name: "mm9_arrowp63"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26537
+    sprite_name: "mm9_longswordp173"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26538
+    sprite_name: "mm9_haybale01"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26539
+    sprite_name: "mm9_portalbroken"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26540
+    sprite_name: "mm9_lantern1_x200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26541
+    sprite_name: "mm9_longswordrunep170"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26542
+    sprite_name: "mm9_barstool2_x110"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26543
+    sprite_name: "mm9_chair02_x110"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26544
+    sprite_name: "mm9_clawlampupblue_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26545
+    sprite_name: "mm9_desk03b_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26546
+    sprite_name: "mm9_herbrack1_x175"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26547
+    sprite_name: "mm9_herbrack2_x165"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26548
+    sprite_name: "mm9_relic"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26549
+    sprite_name: "mm9_ropecoilcauldron"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26550
+    sprite_name: "mm9_ropecoilcauldron_x300"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26551
+    sprite_name: "mm9_scroll1_x85"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26552
+    sprite_name: "mm9_scroll2_x115"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26553
+    sprite_name: "mm9_scroll3_x115"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26554
+    sprite_name: "mm9_scrolldouble_x115"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26555
+    sprite_name: "mm9_shelfitem01_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26556
+    sprite_name: "mm9_shelfitem01_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26557
+    sprite_name: "mm9_shelfitem02_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26558
+    sprite_name: "mm9_shelfitem02ha"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26559
+    sprite_name: "mm9_shelfitem03_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26560
+    sprite_name: "mm9_shelfitem03_x110"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26561
+    sprite_name: "mm9_shelfitem03_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26562
+    sprite_name: "mm9_shelfitem05_x115"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26563
+    sprite_name: "mm9_shelfitem05_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26564
+    sprite_name: "mm9_shelfitem06_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26565
+    sprite_name: "mm9_shelfitem06_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26566
+    sprite_name: "mm9_skeletonlaying1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26567
+    sprite_name: "mm9_table01_x125"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26568
+    sprite_name: "mm9_terrorlight1_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26569
+    sprite_name: "mm9_torchmetalorange_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26570
+    sprite_name: "mm9_torchmetalunlit"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26571
+    sprite_name: "mm9_vials_x120"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26572
+    sprite_name: "mm9_cauldron01_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26573
+    sprite_name: "mm9_weaponrack_new_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26574
+    sprite_name: "mm9_suitofarmor01plain_x100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26575
+    sprite_name: "mm9_brazierbowl_x400"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26576
+    sprite_name: "mm9_statstoneyellow"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26577
+    sprite_name: "mm9_statstoneplain"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26578
+    sprite_name: "mm9_statstonepurple"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26579
+    sprite_name: "mm9_statstonegreen"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26580
+    sprite_name: "mm9_sigmundseated"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26581
+    sprite_name: "mm9_clansoldierdeadb"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26582
+    sprite_name: "mm9_skeletonfigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26583
+    sprite_name: "mm9_skeletonwarriorfigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26584
+    sprite_name: "mm9_dragonflyfigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26585
+    sprite_name: "mm9_eyefigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26586
+    sprite_name: "mm9_troglodytefigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26587
+    sprite_name: "mm9_lizardorcfigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26588
+    sprite_name: "mm9_gezzamptfigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26589
+    sprite_name: "mm9_nosferatufigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26590
+    sprite_name: "mm9_jellysporefigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26591
+    sprite_name: "mm9_clansoldierdead2b"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26592
+    sprite_name: "mm9_clansoldierdeada"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26593
+    sprite_name: "mm9_tryggvaseated"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26594
+    sprite_name: "mm9_battlewitchp136"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26595
+    sprite_name: "mm9_battlewitchp89"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26596
+    sprite_name: "mm9_bjarniseated"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26597
+    sprite_name: "mm9_kiradead"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26598
+    sprite_name: "mm9_runestonegm"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26599
+    sprite_name: "mm9_peasantfs2bconv1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26600
+    sprite_name: "mm9_peasantms1alisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26601
+    sprite_name: "mm9_peasantms1blisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26602
+    sprite_name: "mm9_peasantms2alisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26603
+    sprite_name: "mm9_peasantms2blisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26604
+    sprite_name: "mm9_peasantms2clisten"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26605
+    sprite_name: "mm9_greenmanstree"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26606
+    sprite_name: "mm9_goosefigure"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26607
+    sprite_name: "mm9_scrollflat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26608
+    sprite_name: "mm9_gatefire_x208"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26609
+    sprite_name: "mm9_gatefire_x25"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26610
+    sprite_name: "mm9v_6tree18_500"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26611
+    sprite_name: "mm9v_6tree18_1200"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26612
+    sprite_name: "mm9v_6tree18_1550"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26613
+    sprite_name: "mm9v_6tree18_1100"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26614
+    sprite_name: "mm9_portalclean"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26615
+    sprite_name: "mm9_mirror"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 26616
+    sprite_name: "mm9_barrelwater"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0

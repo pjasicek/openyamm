@@ -1,0 +1,7577 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "tasaracademy.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 1741,
+     "y": 164,
+     "z": 1
+    },
+    "initial_yaw_units": 6,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarguardduty.scr",
+     "script_params": "BedMarker0 BedMarker4 Start2 30 Start1"
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 5038,
+     "y": -4321,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       850,
+       -3461,
+       82
+      ],
+      [
+       1239,
+       -3430,
+       82
+      ],
+      [
+       4127,
+       -3430,
+       82
+      ],
+      [
+       5028,
+       -3359,
+       82
+      ],
+      [
+       4936,
+       -799,
+       82
+      ],
+      [
+       3768,
+       -20,
+       82
+      ],
+      [
+       1372,
+       0,
+       82
+      ],
+      [
+       840,
+       -768,
+       82
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 1741,
+     "y": -287,
+     "z": 1
+    },
+    "initial_yaw_units": 6,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarguardduty.scr",
+     "script_params": "BedMarker0 BedMarker3 Start3 45 Start4"
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 983,
+     "y": -164,
+     "z": 1
+    },
+    "initial_yaw_units": 6,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 27,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       850,
+       -3461,
+       82
+      ],
+      [
+       1239,
+       -3430,
+       82
+      ],
+      [
+       4127,
+       -3430,
+       82
+      ],
+      [
+       5028,
+       -3359,
+       82
+      ],
+      [
+       4936,
+       -799,
+       82
+      ],
+      [
+       3768,
+       -20,
+       82
+      ],
+      [
+       1372,
+       0,
+       82
+      ],
+      [
+       840,
+       -768,
+       82
+      ]
+     ],
+     "wander_wait": [
+      1.0,
+      2.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 3492,
+     "y": -287,
+     "z": 1
+    },
+    "initial_yaw_units": 1023,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarguardduty.scr",
+     "script_params": "BedMarker0 BedMarker1 Start4 15 Start3"
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 3492,
+     "y": 164,
+     "z": 1
+    },
+    "initial_yaw_units": 1023,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarguardduty.scr",
+     "script_params": "BedMarker0 BedMarker2 Start1 00 Start2"
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 4925,
+     "y": -4393,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       4925,
+       -4649,
+       82
+      ],
+      [
+       4209,
+       -6533,
+       82
+      ],
+      [
+       5437,
+       -9595,
+       430
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 5386,
+     "y": -9687,
+     "z": 349
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       4925,
+       -4649,
+       82
+      ],
+      [
+       4209,
+       -6533,
+       82
+      ],
+      [
+       5437,
+       -9595,
+       430
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 696,
+     "y": -2284,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 24,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       -2662,
+       -2499,
+       82
+      ],
+      [
+       492,
+       -2406,
+       82
+      ],
+      [
+       1382,
+       -2130,
+       82
+      ],
+      [
+       4710,
+       -2120,
+       82
+      ],
+      [
+       4905,
+       -2652,
+       82
+      ],
+      [
+       8397,
+       -3994,
+       82
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2642,
+     "y": -7475,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 13,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       4168,
+       -7475,
+       82
+      ],
+      [
+       2048,
+       -7485,
+       82
+      ],
+      [
+       1116,
+       -9518,
+       399
+      ],
+      [
+       2437,
+       -7455,
+       443
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 538,
+     "y": -9626,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 8,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       292,
+       -9508,
+       399
+      ],
+      [
+       2954,
+       -9610,
+       399
+      ],
+      [
+       4552,
+       -11500,
+       399
+      ],
+      [
+       2289,
+       -9595,
+       399
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 527,
+     "y": -9769,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 8,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "path",
+     "path": [
+      [
+       292,
+       -9508,
+       399
+      ],
+      [
+       2954,
+       -9610,
+       399
+      ],
+      [
+       4552,
+       -11500,
+       399
+      ],
+      [
+       2289,
+       -9595,
+       399
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2534,
+     "y": -3292,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "walker"
+     },
+     "script": "tasarstudent.scr",
+     "script_params": "DooksGuardCaptain"
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2698,
+     "y": -3323,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "walker"
+     },
+     "script": "tasarstudent.scr",
+     "script_params": "DooksGuardCaptain"
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 3021,
+     "y": -3226,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "walker"
+     },
+     "script": "tasarstudent.scr",
+     "script_params": "DooksGuardCaptain"
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 3215,
+     "y": -3210,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "walker"
+     },
+     "script": "tasarstudent.scr",
+     "script_params": "DooksGuardCaptain"
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Guard Captain",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9113,
+    "monster_id": 9113,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2847,
+     "y": -1475,
+     "z": 83
+    },
+    "initial_yaw_units": 1530,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "walker"
+     },
+     "script": "tasarteacher.scr"
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 2493,
+     "y": -2345,
+     "z": 1
+    },
+    "initial_yaw_units": 1521,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarstudent.scr",
+     "script_params": "Guard"
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 3082,
+     "y": -2350,
+     "z": 1
+    },
+    "initial_yaw_units": 1521,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "script": "tasarstudent.scr",
+     "script_params": "Guard"
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9267,
+    "monster_id": 9267,
+    "radius": 64,
+    "height": 133,
+    "move_speed": 384,
+    "position": {
+     "x": 4608,
+     "y": -12206,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 164,
+     "wander_wait": [
+      10.0,
+      20.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Pig",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9271,
+    "monster_id": 9271,
+    "radius": 26,
+    "height": 36,
+    "move_speed": 307,
+    "position": {
+     "x": 5243,
+     "y": -12206,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 3,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 896,
+     "wander_wait": [
+      5.0,
+      5.0
+     ],
+     "wander_time": [
+      5.0,
+      10.0
+     ]
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Pig",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9271,
+    "monster_id": 9271,
+    "radius": 26,
+    "height": 36,
+    "move_speed": 307,
+    "position": {
+     "x": 5366,
+     "y": -12206,
+     "z": 342
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 3,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 896,
+     "wander_wait": [
+      5.0,
+      5.0
+     ],
+     "wander_time": [
+      5.0,
+      10.0
+     ]
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 384,
+    "position": {
+     "x": 5632,
+     "y": -12206,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 164,
+     "wander_wait": [
+      10.0,
+      20.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 384,
+    "position": {
+     "x": 5980,
+     "y": -12206,
+     "z": 329
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 5,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 164,
+     "wander_wait": [
+      10.0,
+      20.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Dagrell",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9147,
+    "monster_id": 9147,
+    "radius": 48,
+    "height": 111,
+    "move_speed": 512,
+    "position": {
+     "x": 7598,
+     "y": -655,
+     "z": 1
+    },
+    "initial_yaw_units": 1021,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 26,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.75
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 8,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10909,
+     10910,
+     10911,
+     10912,
+     10913,
+     10914,
+     10915,
+     10916
+    ],
+    "face_ids": [
+     7353,
+     7354,
+     7355,
+     7356,
+     7357,
+     7358
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -53,
+     -53,
+     -64,
+     -64,
+     -64,
+     -53,
+     -64,
+     -53
+    ],
+    "y_offsets": [
+     -9574,
+     -9564,
+     -9564,
+     -9574,
+     -9564,
+     -9564,
+     -9574,
+     -9574
+    ],
+    "z_offsets": [
+     540,
+     540,
+     540,
+     540,
+     489,
+     489,
+     489,
+     489
+    ],
+    "ai_open": [
+     1
+    ],
+    "sounds": {
+     "open_stop": "Door/doorlatch02.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 8,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10917,
+     10918,
+     10919,
+     10920,
+     10921,
+     10922,
+     10923,
+     10924
+    ],
+    "face_ids": [
+     7359,
+     7360,
+     7361,
+     7362,
+     7363,
+     7364
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -28,
+     -18,
+     -18,
+     -28,
+     -28,
+     -18,
+     -18,
+     -28
+    ],
+    "y_offsets": [
+     -9359,
+     -9359,
+     -9349,
+     -9349,
+     -9349,
+     -9349,
+     -9359,
+     -9359
+    ],
+    "z_offsets": [
+     540,
+     540,
+     540,
+     540,
+     489,
+     489,
+     489,
+     489
+    ],
+    "ai_open": [
+     2
+    ],
+    "sounds": {
+     "open_stop": "Door/doorlatch02.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10925,
+     10926,
+     10927,
+     10928,
+     10929,
+     10930,
+     10931,
+     10932
+    ],
+    "face_ids": [
+     7365,
+     7366,
+     7367,
+     7368,
+     7369,
+     7370
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6728,
+     6851,
+     6851,
+     6728,
+     6728,
+     6851,
+     6851,
+     6728
+    ],
+    "y_offsets": [
+     -4316,
+     -4316,
+     -4316,
+     -4316,
+     -4285,
+     -4285,
+     -4285,
+     -4285
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10933,
+     10934,
+     10935,
+     10936,
+     10937,
+     10938,
+     10939,
+     10940
+    ],
+    "face_ids": [
+     7371,
+     7372,
+     7373,
+     7374,
+     7375,
+     7376
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6379,
+     6502,
+     6502,
+     6379,
+     6379,
+     6502,
+     6502,
+     6379
+    ],
+    "y_offsets": [
+     -4316,
+     -4316,
+     -4316,
+     -4316,
+     -4285,
+     -4285,
+     -4285,
+     -4285
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10941,
+     10942,
+     10943,
+     10944,
+     10945,
+     10946,
+     10947,
+     10948
+    ],
+    "face_ids": [
+     7377,
+     7378,
+     7379,
+     7380,
+     7381,
+     7382
+    ],
+    "sector_ids": [
+     24
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2181,
+     -2058,
+     -2058,
+     -2181,
+     -2181,
+     -2058,
+     -2058,
+     -2181
+    ],
+    "y_offsets": [
+     -2801,
+     -2801,
+     -2801,
+     -2801,
+     -2770,
+     -2770,
+     -2770,
+     -2770
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10949,
+     10950,
+     10951,
+     10952,
+     10953,
+     10954,
+     10955,
+     10956
+    ],
+    "face_ids": [
+     7383,
+     7384,
+     7385,
+     7386,
+     7387,
+     7388
+    ],
+    "sector_ids": [
+     24
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2530,
+     -2407,
+     -2407,
+     -2530,
+     -2530,
+     -2407,
+     -2407,
+     -2530
+    ],
+    "y_offsets": [
+     -2801,
+     -2801,
+     -2801,
+     -2801,
+     -2770,
+     -2770,
+     -2770,
+     -2770
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10957,
+     10958,
+     10959,
+     10960,
+     10961,
+     10962,
+     10963,
+     10964
+    ],
+    "face_ids": [
+     7389,
+     7390,
+     7391,
+     7392,
+     7393,
+     7394
+    ],
+    "sector_ids": [
+     25
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -542,
+     -419,
+     -419,
+     -542,
+     -542,
+     -419,
+     -419,
+     -542
+    ],
+    "y_offsets": [
+     -2227,
+     -2227,
+     -2227,
+     -2227,
+     -2196,
+     -2196,
+     -2196,
+     -2196
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10965,
+     10966,
+     10967,
+     10968,
+     10969,
+     10970,
+     10971,
+     10972
+    ],
+    "face_ids": [
+     7395,
+     7396,
+     7397,
+     7398,
+     7399,
+     7400
+    ],
+    "sector_ids": [
+     25
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -891,
+     -768,
+     -768,
+     -891,
+     -891,
+     -768,
+     -768,
+     -891
+    ],
+    "y_offsets": [
+     -2227,
+     -2227,
+     -2227,
+     -2227,
+     -2196,
+     -2196,
+     -2196,
+     -2196
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10973,
+     10974,
+     10975,
+     10976,
+     10977,
+     10978,
+     10979,
+     10980
+    ],
+    "face_ids": [
+     7401,
+     7402,
+     7403,
+     7404,
+     7405,
+     7406
+    ],
+    "sector_ids": [
+     24
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -542,
+     -419,
+     -419,
+     -542,
+     -542,
+     -419,
+     -419,
+     -542
+    ],
+    "y_offsets": [
+     -2801,
+     -2801,
+     -2801,
+     -2801,
+     -2770,
+     -2770,
+     -2770,
+     -2770
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10981,
+     10982,
+     10983,
+     10984,
+     10985,
+     10986,
+     10987,
+     10988
+    ],
+    "face_ids": [
+     7407,
+     7408,
+     7409,
+     7410,
+     7411,
+     7412
+    ],
+    "sector_ids": [
+     24
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -891,
+     -768,
+     -768,
+     -891,
+     -891,
+     -768,
+     -768,
+     -891
+    ],
+    "y_offsets": [
+     -2801,
+     -2801,
+     -2801,
+     -2801,
+     -2770,
+     -2770,
+     -2770,
+     -2770
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10989,
+     10990,
+     10991,
+     10992,
+     10993,
+     10994,
+     10995,
+     10996
+    ],
+    "face_ids": [
+     7413,
+     7414,
+     7415,
+     7416,
+     7417,
+     7418
+    ],
+    "sector_ids": [
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3948,
+     3948,
+     3948,
+     3948,
+     3917,
+     3917,
+     3917,
+     3917
+    ],
+    "y_offsets": [
+     -6441,
+     -6318,
+     -6318,
+     -6441,
+     -6441,
+     -6318,
+     -6318,
+     -6441
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     10997,
+     10998,
+     10999,
+     11000,
+     11001,
+     11002,
+     11003,
+     11004
+    ],
+    "face_ids": [
+     7419,
+     7420,
+     7421,
+     7422,
+     7423,
+     7424
+    ],
+    "sector_ids": [
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3948,
+     3948,
+     3948,
+     3948,
+     3917,
+     3917,
+     3917,
+     3917
+    ],
+    "y_offsets": [
+     -6789,
+     -6667,
+     -6667,
+     -6789,
+     -6789,
+     -6667,
+     -6667,
+     -6789
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11005,
+     11006,
+     11007,
+     11008,
+     11009,
+     11010,
+     11011,
+     11012
+    ],
+    "face_ids": [
+     7425,
+     7426,
+     7427,
+     7428,
+     7429,
+     7430
+    ],
+    "sector_ids": [
+     29
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     5028,
+     5151,
+     5151,
+     5028,
+     5028,
+     5151,
+     5151,
+     5028
+    ],
+    "y_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -968,
+     -968,
+     -968,
+     -968
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11013,
+     11014,
+     11015,
+     11016,
+     11017,
+     11018,
+     11019,
+     11020
+    ],
+    "face_ids": [
+     7431,
+     7432,
+     7433,
+     7434,
+     7435,
+     7436
+    ],
+    "sector_ids": [
+     29
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4679,
+     4802,
+     4802,
+     4679,
+     4679,
+     4802,
+     4802,
+     4679
+    ],
+    "y_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -968,
+     -968,
+     -968,
+     -968
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11021,
+     11022,
+     11023,
+     11024,
+     11025,
+     11026,
+     11027,
+     11028
+    ],
+    "face_ids": [
+     7437,
+     7438,
+     7439,
+     7440,
+     7441,
+     7442
+    ],
+    "sector_ids": [
+     27
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     932,
+     1055,
+     1055,
+     932,
+     932,
+     1055,
+     1055,
+     932
+    ],
+    "y_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -968,
+     -968,
+     -968,
+     -968
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11029,
+     11030,
+     11031,
+     11032,
+     11033,
+     11034,
+     11035,
+     11036
+    ],
+    "face_ids": [
+     7443,
+     7444,
+     7445,
+     7446,
+     7447,
+     7448
+    ],
+    "sector_ids": [
+     27
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     583,
+     706,
+     706,
+     583,
+     583,
+     706,
+     706,
+     583
+    ],
+    "y_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -968,
+     -968,
+     -968,
+     -968
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11037,
+     11038,
+     11039,
+     11040,
+     11041,
+     11042,
+     11043,
+     11044
+    ],
+    "face_ids": [
+     7449,
+     7450,
+     7451,
+     7452,
+     7453,
+     7454
+    ],
+    "sector_ids": [
+     28
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1654,
+     1654,
+     1654,
+     1654,
+     1623,
+     1623,
+     1623,
+     1623
+    ],
+    "y_offsets": [
+     72,
+     195,
+     195,
+     72,
+     72,
+     195,
+     195,
+     72
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     17,
+     18
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11045,
+     11046,
+     11047,
+     11048,
+     11049,
+     11050,
+     11051,
+     11052
+    ],
+    "face_ids": [
+     7455,
+     7456,
+     7457,
+     7458,
+     7459,
+     7460
+    ],
+    "sector_ids": [
+     28
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1654,
+     1654,
+     1654,
+     1654,
+     1623,
+     1623,
+     1623,
+     1623
+    ],
+    "y_offsets": [
+     -277,
+     -154,
+     -154,
+     -277,
+     -277,
+     -154,
+     -154,
+     -277
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     17,
+     18
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11053,
+     11054,
+     11055,
+     11056,
+     11057,
+     11058,
+     11059,
+     11060
+    ],
+    "face_ids": [
+     7461,
+     7462,
+     7463,
+     7464,
+     7465,
+     7466
+    ],
+    "sector_ids": [
+     29
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3620,
+     3620,
+     3620,
+     3620,
+     3589,
+     3589,
+     3589,
+     3589
+    ],
+    "y_offsets": [
+     72,
+     195,
+     195,
+     72,
+     72,
+     195,
+     195,
+     72
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     19,
+     20
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11061,
+     11062,
+     11063,
+     11064,
+     11065,
+     11066,
+     11067,
+     11068
+    ],
+    "face_ids": [
+     7467,
+     7468,
+     7469,
+     7470,
+     7471,
+     7472
+    ],
+    "sector_ids": [
+     29
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3620,
+     3620,
+     3620,
+     3620,
+     3589,
+     3589,
+     3589,
+     3589
+    ],
+    "y_offsets": [
+     -277,
+     -154,
+     -154,
+     -277,
+     -277,
+     -154,
+     -154,
+     -277
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     19,
+     20
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 20,
+    "legacy_attributes": 0,
+    "door_id": 21,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11069,
+     11070,
+     11071,
+     11072,
+     11073,
+     11074,
+     11075,
+     11076
+    ],
+    "face_ids": [
+     7473,
+     7474,
+     7475,
+     7476,
+     7477,
+     7478
+    ],
+    "sector_ids": [
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3948,
+     3948,
+     3948,
+     3948,
+     3917,
+     3917,
+     3917,
+     3917
+    ],
+    "y_offsets": [
+     -7342,
+     -7219,
+     -7219,
+     -7342,
+     -7342,
+     -7219,
+     -7219,
+     -7342
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     21,
+     22
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 21,
+    "legacy_attributes": 0,
+    "door_id": 22,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11077,
+     11078,
+     11079,
+     11080,
+     11081,
+     11082,
+     11083,
+     11084
+    ],
+    "face_ids": [
+     7479,
+     7480,
+     7481,
+     7482,
+     7483,
+     7484
+    ],
+    "sector_ids": [
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3948,
+     3948,
+     3948,
+     3948,
+     3917,
+     3917,
+     3917,
+     3917
+    ],
+    "y_offsets": [
+     -7691,
+     -7568,
+     -7568,
+     -7691,
+     -7691,
+     -7568,
+     -7568,
+     -7691
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     21,
+     22
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 22,
+    "legacy_attributes": 0,
+    "door_id": 23,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11085,
+     11086,
+     11087,
+     11088,
+     11089,
+     11090,
+     11091,
+     11092
+    ],
+    "face_ids": [
+     7485,
+     7486,
+     7487,
+     7488,
+     7489,
+     7490
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8162,
+     8285,
+     8285,
+     8162,
+     8162,
+     8285,
+     8285,
+     8162
+    ],
+    "y_offsets": [
+     -4316,
+     -4316,
+     -4316,
+     -4316,
+     -4285,
+     -4285,
+     -4285,
+     -4285
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 23,
+    "legacy_attributes": 0,
+    "door_id": 24,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11093,
+     11094,
+     11095,
+     11096,
+     11097,
+     11098,
+     11099,
+     11100
+    ],
+    "face_ids": [
+     7491,
+     7492,
+     7493,
+     7494,
+     7495,
+     7496
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7813,
+     7936,
+     7936,
+     7813,
+     7813,
+     7936,
+     7936,
+     7813
+    ],
+    "y_offsets": [
+     -4316,
+     -4316,
+     -4316,
+     -4316,
+     -4285,
+     -4285,
+     -4285,
+     -4285
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 24,
+    "legacy_attributes": 0,
+    "door_id": 25,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11101,
+     11102,
+     11103,
+     11104,
+     11105,
+     11106,
+     11107,
+     11108
+    ],
+    "face_ids": [
+     7497,
+     7498,
+     7499,
+     7500,
+     7501,
+     7502
+    ],
+    "sector_ids": [
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2309,
+     2309,
+     2309,
+     2309,
+     2278,
+     2278,
+     2278,
+     2278
+    ],
+    "y_offsets": [
+     -7342,
+     -7219,
+     -7219,
+     -7342,
+     -7342,
+     -7219,
+     -7219,
+     -7342
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 25,
+    "legacy_attributes": 0,
+    "door_id": 26,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11109,
+     11110,
+     11111,
+     11112,
+     11113,
+     11114,
+     11115,
+     11116
+    ],
+    "face_ids": [
+     7503,
+     7504,
+     7505,
+     7506,
+     7507,
+     7508
+    ],
+    "sector_ids": [
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2309,
+     2309,
+     2309,
+     2309,
+     2278,
+     2278,
+     2278,
+     2278
+    ],
+    "y_offsets": [
+     -7691,
+     -7568,
+     -7568,
+     -7691,
+     -7691,
+     -7568,
+     -7568,
+     -7691
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 26,
+    "legacy_attributes": 0,
+    "door_id": 27,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11117,
+     11118,
+     11119,
+     11120,
+     11121,
+     11122,
+     11123,
+     11124
+    ],
+    "face_ids": [
+     7509,
+     7510,
+     7511,
+     7512,
+     7513,
+     7514
+    ],
+    "sector_ids": [
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1383,
+     1506,
+     1506,
+     1383,
+     1383,
+     1506,
+     1506,
+     1383
+    ],
+    "y_offsets": [
+     -6282,
+     -6282,
+     -6282,
+     -6282,
+     -6252,
+     -6252,
+     -6252,
+     -6252
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 27,
+    "legacy_attributes": 0,
+    "door_id": 28,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11125,
+     11126,
+     11127,
+     11128,
+     11129,
+     11130,
+     11131,
+     11132
+    ],
+    "face_ids": [
+     7515,
+     7516,
+     7517,
+     7518,
+     7519,
+     7520
+    ],
+    "sector_ids": [
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1034,
+     1157,
+     1157,
+     1034,
+     1034,
+     1157,
+     1157,
+     1034
+    ],
+    "y_offsets": [
+     -6282,
+     -6282,
+     -6282,
+     -6282,
+     -6252,
+     -6252,
+     -6252,
+     -6252
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 28,
+    "legacy_attributes": 0,
+    "door_id": 29,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11133,
+     11134,
+     11135,
+     11136,
+     11137,
+     11138,
+     11139,
+     11140
+    ],
+    "face_ids": [
+     7521,
+     7522,
+     7523,
+     7524,
+     7525,
+     7526
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6728,
+     6851,
+     6851,
+     6728,
+     6728,
+     6851,
+     6851,
+     6728
+    ],
+    "y_offsets": [
+     -3743,
+     -3743,
+     -3743,
+     -3743,
+     -3712,
+     -3712,
+     -3712,
+     -3712
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 29,
+    "legacy_attributes": 0,
+    "door_id": 30,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11141,
+     11142,
+     11143,
+     11144,
+     11145,
+     11146,
+     11147,
+     11148
+    ],
+    "face_ids": [
+     7527,
+     7528,
+     7529,
+     7530,
+     7531,
+     7532
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6379,
+     6502,
+     6502,
+     6379,
+     6379,
+     6502,
+     6502,
+     6379
+    ],
+    "y_offsets": [
+     -3743,
+     -3743,
+     -3743,
+     -3743,
+     -3712,
+     -3712,
+     -3712,
+     -3712
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 30,
+    "legacy_attributes": 0,
+    "door_id": 31,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11149,
+     11150,
+     11151,
+     11152,
+     11153,
+     11154,
+     11155,
+     11156
+    ],
+    "face_ids": [
+     7533,
+     7534,
+     7535,
+     7536,
+     7537,
+     7538
+    ],
+    "sector_ids": [
+     22
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8162,
+     8285,
+     8285,
+     8162,
+     8162,
+     8285,
+     8285,
+     8162
+    ],
+    "y_offsets": [
+     -3743,
+     -3743,
+     -3743,
+     -3743,
+     -3712,
+     -3712,
+     -3712,
+     -3712
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     31,
+     32
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 31,
+    "legacy_attributes": 0,
+    "door_id": 32,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11157,
+     11158,
+     11159,
+     11160,
+     11161,
+     11162,
+     11163,
+     11164
+    ],
+    "face_ids": [
+     7539,
+     7540,
+     7541,
+     7542,
+     7543,
+     7544
+    ],
+    "sector_ids": [
+     22
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7813,
+     7936,
+     7936,
+     7813,
+     7813,
+     7936,
+     7936,
+     7813
+    ],
+    "y_offsets": [
+     -3743,
+     -3743,
+     -3743,
+     -3743,
+     -3712,
+     -3712,
+     -3712,
+     -3712
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     31,
+     32
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 32,
+    "legacy_attributes": 0,
+    "door_id": 33,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11165,
+     11166,
+     11167,
+     11168,
+     11169,
+     11170,
+     11171,
+     11172
+    ],
+    "face_ids": [
+     7545,
+     7546,
+     7547,
+     7548,
+     7549,
+     7550
+    ],
+    "sector_ids": [
+     25
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2181,
+     -2058,
+     -2058,
+     -2181,
+     -2181,
+     -2058,
+     -2058,
+     -2181
+    ],
+    "y_offsets": [
+     -2227,
+     -2227,
+     -2227,
+     -2227,
+     -2196,
+     -2196,
+     -2196,
+     -2196
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     33,
+     34
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 33,
+    "legacy_attributes": 0,
+    "door_id": 34,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11173,
+     11174,
+     11175,
+     11176,
+     11177,
+     11178,
+     11179,
+     11180
+    ],
+    "face_ids": [
+     7551,
+     7552,
+     7553,
+     7554,
+     7555,
+     7556
+    ],
+    "sector_ids": [
+     25
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2530,
+     -2407,
+     -2407,
+     -2530,
+     -2530,
+     -2407,
+     -2407,
+     -2530
+    ],
+    "y_offsets": [
+     -2227,
+     -2227,
+     -2227,
+     -2227,
+     -2196,
+     -2196,
+     -2196,
+     -2196
+    ],
+    "z_offsets": [
+     0,
+     0,
+     430,
+     430,
+     430,
+     430,
+     0,
+     0
+    ],
+    "ai_open": [
+     33,
+     34
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorslammetal03.wav",
+     "close_busy": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   },
+   {
+    "door_index": 34,
+    "legacy_attributes": 0,
+    "door_id": 35,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11181,
+     11182,
+     11183,
+     11184,
+     11185,
+     11186,
+     11187,
+     11188
+    ],
+    "face_ids": [
+     7557,
+     7558,
+     7559,
+     7560,
+     7561,
+     7562
+    ],
+    "sector_ids": [
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4147,
+     4168,
+     4168,
+     4147,
+     4147,
+     4168,
+     4168,
+     4147
+    ],
+    "y_offsets": [
+     -11417,
+     -11417,
+     -11294,
+     -11294,
+     -11294,
+     -11294,
+     -11417,
+     -11417
+    ],
+    "z_offsets": [
+     573,
+     573,
+     573,
+     573,
+     328,
+     328,
+     328,
+     328
+    ],
+    "ai_open": [
+     35,
+     36
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/doorslideopen.wav",
+     "close_start": "Door/doorslideclosed.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 35,
+    "legacy_attributes": 0,
+    "door_id": 36,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 113,
+    "open_speed": 102,
+    "close_speed": 102,
+    "state": 2,
+    "vertex_ids": [
+     11189,
+     11190,
+     11191,
+     11192,
+     11193,
+     11194,
+     11195,
+     11196
+    ],
+    "face_ids": [
+     7563,
+     7564,
+     7565,
+     7566,
+     7567,
+     7568
+    ],
+    "sector_ids": [
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4147,
+     4168,
+     4168,
+     4147,
+     4147,
+     4168,
+     4168,
+     4147
+    ],
+    "y_offsets": [
+     -11766,
+     -11766,
+     -11643,
+     -11643,
+     -11643,
+     -11643,
+     -11766,
+     -11766
+    ],
+    "z_offsets": [
+     573,
+     573,
+     573,
+     573,
+     328,
+     328,
+     328,
+     328
+    ],
+    "ai_open": [
+     35,
+     36
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/doorslideopen.wav",
+     "close_start": "Door/doorslideclosed.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 36,
+    "legacy_attributes": 0,
+    "door_id": 37,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     11197,
+     11198,
+     11199,
+     11200,
+     11201,
+     11202,
+     11203,
+     11204
+    ],
+    "face_ids": [
+     7569,
+     7570,
+     7571,
+     7572,
+     7573,
+     7574
+    ],
+    "sector_ids": [
+     12,
+     11
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1393,
+     1147,
+     1147,
+     1393,
+     1147,
+     1393,
+     1393,
+     1147
+    ],
+    "y_offsets": [
+     -8602,
+     -8602,
+     -8602,
+     -8602,
+     -8643,
+     -8643,
+     -8643,
+     -8643
+    ],
+    "z_offsets": [
+     1065,
+     1065,
+     1475,
+     1475,
+     1065,
+     1065,
+     1475,
+     1475
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1146.88,
+       -8642.56,
+       1064.96
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 37,
+    "legacy_attributes": 0,
+    "door_id": 38,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 1500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     11205,
+     11206,
+     11207,
+     11208,
+     11209,
+     11210,
+     11211,
+     11212
+    ],
+    "face_ids": [
+     7575,
+     7576,
+     7577,
+     7578,
+     7579,
+     7580
+    ],
+    "sector_ids": [
+     16,
+     15
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1106,
+     1434,
+     1434,
+     1106,
+     1106,
+     1434,
+     1434,
+     1106
+    ],
+    "y_offsets": [
+     -5120,
+     -5120,
+     -4956,
+     -4956,
+     -4956,
+     -4956,
+     -5120,
+     -5120
+    ],
+    "z_offsets": [
+     -3,
+     -3,
+     -3,
+     -3,
+     -20,
+     -20,
+     -20,
+     -20
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1269.76,
+       -4956.16,
+       -20.48
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "push",
+     "carry": true,
+     "auto_close_seconds": 1.0
+    },
+    "sounds": {
+     "open_start": "Door/trapdooropen.wav",
+     "open_stop": "Events/slam.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 38,
+    "legacy_attributes": 0,
+    "door_id": 39,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 1500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     11213,
+     11214,
+     11215,
+     11216,
+     11217,
+     11218,
+     11219,
+     11220
+    ],
+    "face_ids": [
+     7581,
+     7582,
+     7583,
+     7584,
+     7585,
+     7586
+    ],
+    "sector_ids": [
+     16,
+     15
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1106,
+     1434,
+     1434,
+     1106,
+     1106,
+     1434,
+     1434,
+     1106
+    ],
+    "y_offsets": [
+     -5284,
+     -5284,
+     -5120,
+     -5120,
+     -5120,
+     -5120,
+     -5284,
+     -5284
+    ],
+    "z_offsets": [
+     -3,
+     -3,
+     -3,
+     -3,
+     -20,
+     -20,
+     -20,
+     -20
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1269.76,
+       -5283.84,
+       -20.48
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "push",
+     "carry": true,
+     "auto_close_seconds": 1.0
+    },
+    "sounds": {
+     "open_start": "Door/trapdooropen.wav",
+     "open_stop": "Events/slam.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 39,
+    "legacy_attributes": 0,
+    "door_id": 40,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 1800,
+    "open_speed": 350,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     11221,
+     11222,
+     11223,
+     11224,
+     11225,
+     11226,
+     11227,
+     11228,
+     11229,
+     11230,
+     11231,
+     11232,
+     11233,
+     11234,
+     11235,
+     11236,
+     11237,
+     11238,
+     11239,
+     11240,
+     11241,
+     11242,
+     11243,
+     11244,
+     11245,
+     11246,
+     11247,
+     11248,
+     11249,
+     11250,
+     11251,
+     11252,
+     11253,
+     11254,
+     11255,
+     11256,
+     11257,
+     11258,
+     11259,
+     11260
+    ],
+    "face_ids": [
+     7587,
+     7588,
+     7589,
+     7590,
+     7591,
+     7592,
+     7593,
+     7594,
+     7595,
+     7596,
+     7597,
+     7598,
+     7599,
+     7600,
+     7601,
+     7602,
+     7603,
+     7604,
+     7605,
+     7606,
+     7607,
+     7608,
+     7609,
+     7610,
+     7611
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     20,
+     82,
+     113,
+     123,
+     113,
+     82,
+     20,
+     -20,
+     -61,
+     -102,
+     -164,
+     -195,
+     -205,
+     -195,
+     -164,
+     -102,
+     -61,
+     -20,
+     -102,
+     -164,
+     -195,
+     -205,
+     -195,
+     -164,
+     -102,
+     -61,
+     -20,
+     20,
+     82,
+     113,
+     123,
+     113,
+     82,
+     20,
+     -20,
+     -61,
+     -20,
+     -20,
+     -61,
+     -61
+    ],
+    "y_offsets": [
+     -9615,
+     -9574,
+     -9523,
+     -9462,
+     -9400,
+     -9349,
+     -9308,
+     -9298,
+     -9298,
+     -9308,
+     -9349,
+     -9400,
+     -9462,
+     -9523,
+     -9574,
+     -9615,
+     -9626,
+     -9626,
+     -9615,
+     -9574,
+     -9523,
+     -9462,
+     -9400,
+     -9349,
+     -9308,
+     -9298,
+     -9298,
+     -9308,
+     -9349,
+     -9400,
+     -9462,
+     -9523,
+     -9574,
+     -9615,
+     -9626,
+     -9626,
+     -9626,
+     -9298,
+     -9298,
+     -9626
+    ],
+    "z_offsets": [
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     348,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     328,
+     614,
+     614,
+     614,
+     614
+    ],
+    "ai_open": [
+     40
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -40.96,
+       -9461.76,
+       409.6
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 180.0,
+      "open_away": false
+     },
+     "easing": "sine",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/DoorSlideStone.wav",
+     "open_stop": "Door/doorlatch02.wav",
+     "close_start": "Door/DoorSlideStone.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 40,
+    "legacy_attributes": 0,
+    "door_id": 41,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 243,
+    "open_speed": 154,
+    "close_speed": 154,
+    "state": 2,
+    "vertex_ids": [
+     11261,
+     11262,
+     11263,
+     11264,
+     11265,
+     11266,
+     11267,
+     11268
+    ],
+    "face_ids": [
+     7612,
+     7613,
+     7614,
+     7615,
+     7616,
+     7617
+    ],
+    "sector_ids": [
+     26
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     5284,
+     5243,
+     5243,
+     5284,
+     5284,
+     5243,
+     5243,
+     5284
+    ],
+    "y_offsets": [
+     -1311,
+     -1311,
+     -1516,
+     -1516,
+     -1516,
+     -1516,
+     -1311,
+     -1311
+    ],
+    "z_offsets": [
+     735,
+     735,
+     735,
+     735,
+     243,
+     243,
+     243,
+     243
+    ],
+    "sounds": {
+     "open_start": "Door/doorslideopen.wav",
+     "open_stop": "Door/doorlatch02.wav",
+     "close_start": "Door/doorslideclosed.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 41,
+    "legacy_attributes": 0,
+    "door_id": 42,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 243,
+    "open_speed": 179,
+    "close_speed": 179,
+    "state": 2,
+    "vertex_ids": [
+     11269,
+     11270,
+     11271,
+     11272,
+     11273,
+     11274,
+     11275,
+     11276
+    ],
+    "face_ids": [
+     7618,
+     7619,
+     7620,
+     7621,
+     7622,
+     7623
+    ],
+    "sector_ids": [
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6817,
+     6802,
+     6802,
+     6817,
+     6817,
+     6802,
+     6802,
+     6817
+    ],
+    "y_offsets": [
+     -10240,
+     -10240,
+     -10568,
+     -10568,
+     -10568,
+     -10568,
+     -10240,
+     -10240
+    ],
+    "z_offsets": [
+     837,
+     837,
+     837,
+     837,
+     591,
+     591,
+     591,
+     591
+    ],
+    "ai_open": [
+     42
+    ],
+    "sounds": {
+     "open_start": "Door/doorslideopen.wav",
+     "open_stop": "Door/doorlatch02.wav",
+     "close_start": "Door/doorslideclosed.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 42,
+    "legacy_attributes": 0,
+    "door_id": 43,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 600,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 0,
+    "vertex_ids": [
+     11277,
+     11278,
+     11279,
+     11280,
+     11281,
+     11282,
+     11283,
+     11284,
+     11285,
+     11286,
+     11287,
+     11288,
+     11289,
+     11290,
+     11291
+    ],
+    "face_ids": [
+     7624,
+     7625,
+     7626,
+     7627,
+     7628,
+     7629,
+     7630,
+     7631,
+     7632,
+     7633,
+     7634,
+     7635,
+     7636
+    ],
+    "sector_ids": [
+     9
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6779,
+     6774,
+     6774,
+     6779,
+     6774,
+     6779,
+     6774,
+     6779,
+     6779,
+     6779,
+     6779,
+     6774,
+     6774,
+     6774,
+     6753
+    ],
+    "y_offsets": [
+     -10665,
+     -10665,
+     -10706,
+     -10706,
+     -10708,
+     -10708,
+     -10668,
+     -10668,
+     -10655,
+     -10678,
+     -10632,
+     -10678,
+     -10632,
+     -10655,
+     -10655
+    ],
+    "z_offsets": [
+     466,
+     466,
+     494,
+     494,
+     489,
+     489,
+     461,
+     461,
+     484,
+     440,
+     440,
+     440,
+     440,
+     484,
+     458
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       6799.36,
+       -10654.72,
+       458.24
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": -60.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_stop": "Door/doorlatch02.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 43,
+    "legacy_attributes": 0,
+    "door_id": 44,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 600,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 0,
+    "vertex_ids": [
+     11292,
+     11293,
+     11294,
+     11295,
+     11296,
+     11297,
+     11298,
+     11299,
+     11300,
+     11301,
+     11302,
+     11303,
+     11304,
+     11305,
+     11306
+    ],
+    "face_ids": [
+     7637,
+     7638,
+     7639,
+     7640,
+     7641,
+     7642,
+     7643,
+     7644,
+     7645,
+     7646,
+     7647,
+     7648,
+     7649
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     5222,
+     5217,
+     5217,
+     5222,
+     5217,
+     5222,
+     5217,
+     5222,
+     5222,
+     5222,
+     5222,
+     5217,
+     5217,
+     5217,
+     5197
+    ],
+    "y_offsets": [
+     -1091,
+     -1091,
+     -1132,
+     -1132,
+     -1134,
+     -1134,
+     -1093,
+     -1093,
+     -1080,
+     -1103,
+     -1057,
+     -1103,
+     -1057,
+     -1080,
+     -1080
+    ],
+    "z_offsets": [
+     108,
+     108,
+     136,
+     136,
+     131,
+     131,
+     102,
+     102,
+     125,
+     82,
+     82,
+     82,
+     82,
+     125,
+     100
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       5242.88,
+       -1080.32,
+       99.84
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": -60.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_stop": "Door/doorlatch02.wav",
+     "close_stop": "Door/doorlatch02.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    2621,
+    655,
+    1
+   ],
+   "direction_degrees": 270
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder0",
+   "bottom": [
+    1269.76,
+    -7301.12,
+    -0.0
+   ],
+   "top": [
+    1269.76,
+    -7301.12,
+    614.4
+   ],
+   "facing_degrees": 90.0,
+   "width": 122.88,
+   "reach": 48.0,
+   "top_exit": [
+    1269.76,
+    -7616.0,
+    552.96
+   ]
+  },
+  {
+   "id": "Ladder1",
+   "bottom": [
+    1269.76,
+    -7608.32,
+    532.48
+   ],
+   "top": [
+    1269.76,
+    -7608.32,
+    1146.88
+   ],
+   "facing_degrees": 270.0,
+   "width": 122.88,
+   "reach": 48.0,
+   "top_exit": [
+    1269.76,
+    -7316.48,
+    1085.44
+   ]
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:tasaracademy:object:765",
+   "source_object_index": 765,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    2752.0,
+    176.0,
+    -4036.0
+   ],
+   "position": {
+    "x": 7045,
+    "y": -10332,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:tasaracademy:object:766",
+   "source_object_index": 766,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    2752.0,
+    176.0,
+    -4092.0
+   ],
+   "position": {
+    "x": 7045,
+    "y": -10476,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:tasaracademy:object:808",
+   "source_object_index": 808,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    2992.0,
+    160.0,
+    -56.0
+   ],
+   "position": {
+    "x": 7660,
+    "y": -143,
+    "z": 410
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:tasaracademy:object:809",
+   "source_object_index": 809,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest3",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    2992.0,
+    160.0,
+    -104.0
+   ],
+   "position": {
+    "x": 7660,
+    "y": -266,
+    "z": 410
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 3,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "destructibles": [
+  {
+   "id": 599,
+   "name": "door crack",
+   "hp": 25,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    256,
+    -7455,
+    164
+   ],
+   "cog": 20599,
+   "destroyed_event": 204,
+   "damaged_event": 205
+  },
+  {
+   "id": 600,
+   "name": "door crack 2",
+   "hp": 10000,
+   "damage_enabled": true,
+   "trigger_destroy_only": true,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    276,
+    -7455,
+    164
+   ],
+   "cog": 20600
+  },
+  {
+   "id": 806,
+   "name": "DestructableProp0",
+   "hp": 20,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    7598,
+    -655,
+    48
+   ],
+   "decoration_cog": 440
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "tasaracademy:Prop90",
+   "source_object_index": 692,
+   "source_name": "Prop90",
+   "position": {
+    "x": 5427,
+    "y": -8049,
+    "z": 84
+   },
+   "item_id": 0,
+   "random_item_pool": [
+    10285,
+    10286,
+    10287,
+    10288,
+    10289,
+    10290,
+    10291,
+    10292,
+    10293,
+    10294,
+    10295,
+    10296,
+    10297,
+    10298,
+    10299,
+    10300,
+    10301,
+    10302,
+    10303,
+    10304,
+    10305,
+    10306
+   ],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "tasaracademy:Prop89",
+   "source_object_index": 693,
+   "source_name": "Prop89",
+   "position": {
+    "x": 4567,
+    "y": -8008,
+    "z": 84
+   },
+   "item_id": 0,
+   "random_item_pool": [
+    10285,
+    10286,
+    10287,
+    10288,
+    10289,
+    10290,
+    10291,
+    10292,
+    10293,
+    10294,
+    10295,
+    10296,
+    10297,
+    10298,
+    10299,
+    10300,
+    10301,
+    10302,
+    10303,
+    10304,
+    10305,
+    10306
+   ],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "tasaracademy:Prop88",
+   "source_object_index": 694,
+   "source_name": "Prop88",
+   "position": {
+    "x": 5499,
+    "y": -7096,
+    "z": 84
+   },
+   "item_id": 0,
+   "random_item_pool": [
+    10285,
+    10286,
+    10287,
+    10288,
+    10289,
+    10290,
+    10291,
+    10292,
+    10293,
+    10294,
+    10295,
+    10296,
+    10297,
+    10298,
+    10299,
+    10300,
+    10301,
+    10302,
+    10303,
+    10304,
+    10305,
+    10306
+   ],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "tasaracademy:Prop5",
+   "source_object_index": 695,
+   "source_name": "Prop5",
+   "position": {
+    "x": 5489,
+    "y": -6871,
+    "z": 84
+   },
+   "item_id": 10285,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "tasaracademy:BookRules",
+   "source_object_index": 697,
+   "source_name": "BookRules",
+   "position": {
+    "x": -937,
+    "y": -9472,
+    "z": 431
+   },
+   "item_id": 10391,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [
+    90059,
+    90166
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 270
+  },
+  {
+   "source_id": "tasaracademy:Prop91",
+   "source_object_index": 700,
+   "source_name": "Prop91",
+   "position": {
+    "x": 2043,
+    "y": -7030,
+    "z": 1065
+   },
+   "item_id": 0,
+   "random_item_pool": [
+    10285,
+    10286,
+    10287,
+    10288,
+    10289,
+    10290,
+    10291,
+    10292,
+    10293,
+    10294,
+    10295,
+    10296,
+    10297,
+    10298,
+    10299,
+    10300,
+    10301,
+    10302,
+    10303,
+    10304,
+    10305,
+    10306
+   ],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "tasaracademy:Prop94",
+   "source_object_index": 701,
+   "source_name": "Prop94",
+   "position": {
+    "x": 2099,
+    "y": -7550,
+    "z": 532
+   },
+   "item_id": 0,
+   "random_item_pool": [
+    10285,
+    10286,
+    10287,
+    10288,
+    10289,
+    10290,
+    10291,
+    10292,
+    10293,
+    10294,
+    10295,
+    10296,
+    10297,
+    10298,
+    10299,
+    10300,
+    10301,
+    10302,
+    10303,
+    10304,
+    10305,
+    10306
+   ],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 756,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    2458,
+    -1638,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 757,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    3441,
+    -1638,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 758,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    2458,
+    -2458,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 759,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    3441,
+    -2458,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 760,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    2458,
+    -3277,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 761,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    3441,
+    -3277,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 762,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    2458,
+    -3932,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 763,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    3441,
+    -3932,
+    1311
+   ],
+   "inner_radius": 576,
+   "outer_radius": 1664,
+   "volume": 0.236,
+   "loop": true
+  },
+  {
+   "key": 764,
+   "sound": "events/churchbellring.wav",
+   "position": [
+    1311,
+    -7455,
+    4751
+   ],
+   "inner_radius": 640,
+   "outer_radius": 12800,
+   "volume": 0.394,
+   "loop": true,
+   "wait": [
+    400.0,
+    1000.0
+   ]
+  },
+  {
+   "key": 127,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2089,
+    -492,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 130,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2089,
+    410,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 133,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3154,
+    410,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 136,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3154,
+    -492,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 139,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2642,
+    -1720,
+    205
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 142,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -246,
+    -1638,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 145,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6042,
+    -4895,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 148,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    287,
+    -2028,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 151,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    287,
+    -2970,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 154,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2949,
+    -2499,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 157,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2826,
+    -6697,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 160,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2826,
+    -4772,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 163,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4628,
+    -1065,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 166,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    8643,
+    -4936,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 169,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    8643,
+    -3113,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 172,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5509,
+    -4403,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 175,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5468,
+    -3523,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 178,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    8724,
+    -3953,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 181,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -246,
+    -3441,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 184,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1270,
+    -9134,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 187,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1270,
+    -9769,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 190,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6057,
+    -11407,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 193,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3845,
+    -11663,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 196,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3164,
+    -11233,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 199,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4004,
+    -9267,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 202,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2212,
+    -10711,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 205,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    348,
+    -10711,
+    404
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 208,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4751,
+    -9257,
+    425
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 211,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3645,
+    -7782,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 214,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3645,
+    -7127,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 218,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2580,
+    -7782,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 221,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2580,
+    -7127,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 223,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1270,
+    -6600,
+    1142
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 226,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1270,
+    -8310,
+    1142
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 229,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1270,
+    -8310,
+    609
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 232,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1270,
+    -6600,
+    609
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 235,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2048,
+    -6666,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 238,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    492,
+    -6666,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 241,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2048,
+    -8243,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 244,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    492,
+    -8243,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 247,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6932,
+    -973,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 250,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6267,
+    -1475,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 254,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1720,
+    -5110,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 257,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    819,
+    -5110,
+    77
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 278,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5366,
+    -10854,
+    425
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 281,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6595,
+    -9626,
+    425
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 284,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6595,
+    -10854,
+    425
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 293,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2642,
+    -1454,
+    205
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 296,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2642,
+    -3256,
+    205
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 299,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2642,
+    -3543,
+    205
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    7348,
+    7349,
+    7350,
+    7351,
+    7352
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": 3976,
+    "y": -1912,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -376,
+    "y": -9720,
+    "z": 328
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -248,
+    "y": -9592,
+    "z": 328
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -376,
+    "y": -9464,
+    "z": 328
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": 392,
+    "y": -10488,
+    "z": 328
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": 7560,
+    "y": -120,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": -248,
+    "y": -2040,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": 3080,
+    "y": -376,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ]
+}

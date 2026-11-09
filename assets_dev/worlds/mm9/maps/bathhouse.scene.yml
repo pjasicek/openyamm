@@ -1,0 +1,7761 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "bathhouse.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 1957,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 1972,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 1994,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2014,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2136,
+    "texture_name": "lqw115o70"
+   },
+   {
+    "face_index": 2137,
+    "texture_name": "lqw115o70"
+   },
+   {
+    "face_index": 2147,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2148,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2149,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2216,
+    "texture_name": "lqw115o70"
+   },
+   {
+    "face_index": 2328,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2338,
+    "texture_name": "lqw115o21"
+   },
+   {
+    "face_index": 2642,
+    "texture_name": "lqw115o70"
+   },
+   {
+    "face_index": 2643,
+    "texture_name": "lqw115o70"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 4915,
+     "y": -4669,
+     "z": -265
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 3,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "ranged_type": 2,
+     "script": "fatc.scr"
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 1,
+    "name": "Colloidal Soldier",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9234,
+    "monster_id": 9234,
+    "radius": 134,
+    "height": 307,
+    "move_speed": 256,
+    "position": {
+     "x": 2596,
+     "y": -4470,
+     "z": -142
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "ranged_type": 2
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Colloidal Guardian",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 850,
+    "hostility_type": 4,
+    "monster_info_id": 9236,
+    "monster_id": 9236,
+    "radius": 179,
+    "height": 410,
+    "move_speed": 256,
+    "position": {
+     "x": 2565,
+     "y": -3983,
+     "z": -142
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "ranged_type": 2
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 2294,
+     "y": -4096,
+     "z": -142
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "ranged_type": 2
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 40,
+    "height": 130,
+    "move_speed": 256,
+    "position": {
+     "x": 1311,
+     "y": 1638,
+     "z": -281
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.98,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 40,
+    "height": 130,
+    "move_speed": 256,
+    "position": {
+     "x": 4695,
+     "y": 1587,
+     "z": -281
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 20,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.98,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6226,
+     "y": 1475,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Ebora",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1591,
+    "hostility_type": 0,
+    "monster_info_id": 9301,
+    "monster_id": 9301,
+    "radius": 48,
+    "height": 230,
+    "move_speed": 576,
+    "position": {
+     "x": 5980,
+     "y": -4588,
+     "z": -368
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.25,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "boss": true,
+     "script": "eborabath.scr"
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 8,
+    "name": "Concubine",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9302,
+    "monster_id": 9302,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 576,
+    "position": {
+     "x": 6042,
+     "y": -4219,
+     "z": -368
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 1536,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "boss": true,
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "eboraconcubine.scr"
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Concubine",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9302,
+    "monster_id": 9302,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 576,
+    "position": {
+     "x": 5878,
+     "y": -4106,
+     "z": -368
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 1536,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "boss": true,
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "eboraconcubine.scr"
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Concubine",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9302,
+    "monster_id": 9302,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 576,
+    "position": {
+     "x": 5980,
+     "y": -4424,
+     "z": -368
+    },
+    "initial_yaw_units": 1536,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 1536,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "boss": true,
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "eboraconcubine.scr"
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 983,
+     "y": -1638,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15506,
+     "y": -4168,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15483,
+     "y": 1528,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 3487,
+     "y": 27,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Lesser Demon",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 850,
+    "hostility_type": 4,
+    "monster_info_id": 9241,
+    "monster_id": 9241,
+    "radius": 64,
+    "height": 261,
+    "move_speed": 256,
+    "position": {
+     "x": 15237,
+     "y": -164,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 5089,
+     "y": 0,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 60,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 5396,
+     "y": 0,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 60,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 666,
+     "y": -82,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 61,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 973,
+     "y": -82,
+     "z": -304
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 61,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "archetype": "skirmisher",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "imphenchman.scr",
+     "script_params": "Phase1Marker"
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6323,
+     "y": 1547,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6204,
+     "y": 1594,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15851,
+     "y": -4187,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15614,
+     "y": -3839,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15550,
+     "y": 1867,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15139,
+     "y": 1492,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6111,
+     "y": 1512,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6497,
+     "y": 1548,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 5959,
+     "y": 1562,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6152,
+     "y": 1746,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6267,
+     "y": 1753,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15458,
+     "y": -4511,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Colloidal Warrior",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 684,
+    "hostility_type": 4,
+    "monster_info_id": 9235,
+    "monster_id": 9235,
+    "radius": 157,
+    "height": 358,
+    "move_speed": 256,
+    "position": {
+     "x": 15519,
+     "y": 1184,
+     "z": -818
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 6411,
+     "y": 1686,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 5952,
+     "y": 1710,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 5868,
+     "y": 1434,
+     "z": -242
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 379,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4892,
+     4893,
+     4894,
+     4895,
+     4896,
+     4897,
+     4898,
+     4899
+    ],
+    "face_ids": [
+     2380,
+     2381,
+     2382,
+     2383,
+     2384,
+     2385
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -72,
+     -72,
+     -522,
+     -522,
+     -522,
+     -522,
+     -72,
+     -72
+    ],
+    "y_offsets": [
+     -2857,
+     -2816,
+     -2816,
+     -2857,
+     -2857,
+     -2816,
+     -2816,
+     -2857
+    ],
+    "z_offsets": [
+     358,
+     358,
+     358,
+     358,
+     -243,
+     -243,
+     -243,
+     -243
+    ],
+    "ai_open": [
+     1
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 328,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4900,
+     4901,
+     4902,
+     4903,
+     4904,
+     4905,
+     4906,
+     4907
+    ],
+    "face_ids": [
+     2386,
+     2387,
+     2388,
+     2389,
+     2390,
+     2391
+    ],
+    "sector_ids": [
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4101,
+     4101,
+     3722,
+     3722,
+     3722,
+     3722,
+     4101,
+     4101
+    ],
+    "y_offsets": [
+     -2857,
+     -2816,
+     -2816,
+     -2857,
+     -2857,
+     -2816,
+     -2816,
+     -2857
+    ],
+    "z_offsets": [
+     358,
+     358,
+     358,
+     358,
+     -243,
+     -243,
+     -243,
+     -243
+    ],
+    "ai_open": [
+     2
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 243,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4908,
+     4909,
+     4910,
+     4911,
+     4912,
+     4913,
+     4914,
+     4915
+    ],
+    "face_ids": [
+     2392,
+     2393,
+     2394,
+     2395,
+     2396,
+     2397
+    ],
+    "sector_ids": [
+     18
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6198,
+     6198,
+     5901,
+     5901,
+     5901,
+     5901,
+     6198,
+     6198
+    ],
+    "y_offsets": [
+     1085,
+     1126,
+     1126,
+     1085,
+     1085,
+     1126,
+     1126,
+     1085
+    ],
+    "z_offsets": [
+     358,
+     358,
+     358,
+     358,
+     -243,
+     -243,
+     -243,
+     -243
+    ],
+    "ai_open": [
+     3
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 297,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4916,
+     4917,
+     4918,
+     4919,
+     4920,
+     4921,
+     4922,
+     4923
+    ],
+    "face_ids": [
+     2398,
+     2399,
+     2400,
+     2401,
+     2402,
+     2403
+    ],
+    "sector_ids": [
+     20
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4165,
+     4124,
+     4124,
+     4165,
+     4165,
+     4124,
+     4124,
+     4165
+    ],
+    "y_offsets": [
+     2171,
+     2171,
+     1792,
+     1792,
+     1792,
+     1792,
+     2171,
+     2171
+    ],
+    "z_offsets": [
+     356,
+     356,
+     356,
+     356,
+     -282,
+     -282,
+     -282,
+     -282
+    ],
+    "ai_open": [
+     4
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 297,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4924,
+     4925,
+     4926,
+     4927,
+     4928,
+     4929,
+     4930,
+     4931
+    ],
+    "face_ids": [
+     2404,
+     2405,
+     2406,
+     2407,
+     2408,
+     2409
+    ],
+    "sector_ids": [
+     11
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2168,
+     2127,
+     2127,
+     2168,
+     2168,
+     2127,
+     2127,
+     2168
+    ],
+    "y_offsets": [
+     2171,
+     2171,
+     1792,
+     1792,
+     1792,
+     1792,
+     2171,
+     2171
+    ],
+    "z_offsets": [
+     356,
+     356,
+     356,
+     356,
+     -282,
+     -282,
+     -282,
+     -282
+    ],
+    "ai_open": [
+     5
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 328,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4932,
+     4933,
+     4934,
+     4935,
+     4936,
+     4937,
+     4938,
+     4939
+    ],
+    "face_ids": [
+     2410,
+     2411,
+     2412,
+     2413,
+     2414,
+     2415
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6592,
+     6551,
+     6551,
+     6592,
+     6592,
+     6551,
+     6551,
+     6592
+    ],
+    "y_offsets": [
+     -2634,
+     -2634,
+     -3092,
+     -3092,
+     -3092,
+     -3092,
+     -2634,
+     -2634
+    ],
+    "z_offsets": [
+     358,
+     358,
+     358,
+     358,
+     -243,
+     -243,
+     -243,
+     -243
+    ],
+    "ai_open": [
+     6
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 266,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4940,
+     4941,
+     4942,
+     4943,
+     4944,
+     4945,
+     4946,
+     4947
+    ],
+    "face_ids": [
+     2416,
+     2417,
+     2418,
+     2419,
+     2420,
+     2421
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14761,
+     14781,
+     14781,
+     14761,
+     14761,
+     14781,
+     14781,
+     14761
+    ],
+    "y_offsets": [
+     7,
+     7,
+     325,
+     325,
+     325,
+     325,
+     7,
+     7
+    ],
+    "z_offsets": [
+     -425,
+     -425,
+     -425,
+     -425,
+     -819,
+     -819,
+     -819,
+     -819
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 266,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4948,
+     4949,
+     4950,
+     4951,
+     4952,
+     4953,
+     4954,
+     4955
+    ],
+    "face_ids": [
+     2422,
+     2423,
+     2424,
+     2425,
+     2426,
+     2427
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14761,
+     14781,
+     14781,
+     14761,
+     14761,
+     14781,
+     14781,
+     14761
+    ],
+    "y_offsets": [
+     -842,
+     -842,
+     -525,
+     -525,
+     -525,
+     -525,
+     -842,
+     -842
+    ],
+    "z_offsets": [
+     -425,
+     -425,
+     -425,
+     -425,
+     -819,
+     -819,
+     -819,
+     -819
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 266,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4956,
+     4957,
+     4958,
+     4959,
+     4960,
+     4961,
+     4962,
+     4963
+    ],
+    "face_ids": [
+     2428,
+     2429,
+     2430,
+     2431,
+     2432,
+     2433
+    ],
+    "sector_ids": [
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     15544,
+     15544,
+     15862,
+     15862,
+     15862,
+     15862,
+     15544,
+     15544
+    ],
+    "y_offsets": [
+     -2342,
+     -2363,
+     -2363,
+     -2342,
+     -2342,
+     -2363,
+     -2363,
+     -2342
+    ],
+    "z_offsets": [
+     -425,
+     -425,
+     -425,
+     -425,
+     -819,
+     -819,
+     -819,
+     -819
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 266,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     4964,
+     4965,
+     4966,
+     4967,
+     4968,
+     4969,
+     4970,
+     4971
+    ],
+    "face_ids": [
+     2434,
+     2435,
+     2436,
+     2437,
+     2438,
+     2439
+    ],
+    "sector_ids": [
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14695,
+     14695,
+     15012,
+     15012,
+     15012,
+     15012,
+     14695,
+     14695
+    ],
+    "y_offsets": [
+     -2342,
+     -2363,
+     -2363,
+     -2342,
+     -2342,
+     -2363,
+     -2363,
+     -2342
+    ],
+    "z_offsets": [
+     -425,
+     -425,
+     -425,
+     -425,
+     -819,
+     -819,
+     -819,
+     -819
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 1800,
+    "open_speed": 200,
+    "close_speed": 100,
+    "state": 2,
+    "vertex_ids": [
+     4972,
+     4973,
+     4974,
+     4975,
+     4976,
+     4977,
+     4978,
+     4979,
+     4980,
+     4981,
+     4982,
+     4983,
+     4984,
+     4985,
+     4986,
+     4987,
+     4988,
+     4989,
+     4990,
+     4991,
+     4992,
+     4993,
+     4994,
+     4995,
+     4996,
+     4997,
+     4998,
+     4999,
+     5000,
+     5001,
+     5002,
+     5003,
+     5004,
+     5005,
+     5006,
+     5007,
+     5008,
+     5009,
+     5010,
+     5011,
+     5012,
+     5013,
+     5014,
+     5015,
+     5016,
+     5017,
+     5018,
+     5019,
+     5020,
+     5021,
+     5022,
+     5023,
+     5024,
+     5025,
+     5026,
+     5027,
+     5028,
+     5029,
+     5030,
+     5031,
+     5032,
+     5033,
+     5034,
+     5035,
+     5036,
+     5037,
+     5038,
+     5039,
+     5040,
+     5041,
+     5042,
+     5043,
+     5044,
+     5045,
+     5046,
+     5047
+    ],
+    "face_ids": [
+     2440,
+     2441,
+     2442,
+     2443,
+     2444,
+     2445,
+     2446,
+     2447,
+     2448,
+     2449,
+     2450,
+     2451,
+     2452,
+     2453,
+     2454,
+     2455,
+     2456,
+     2457,
+     2458,
+     2459,
+     2460,
+     2461,
+     2462,
+     2463,
+     2464,
+     2465,
+     2466,
+     2467,
+     2468,
+     2469,
+     2470,
+     2471,
+     2472,
+     2473,
+     2474,
+     2475,
+     2476,
+     2477,
+     2478,
+     2479,
+     2480,
+     2481,
+     2482,
+     2483,
+     2484,
+     2485,
+     2486,
+     2487,
+     2488,
+     2489,
+     2490,
+     2491,
+     2492,
+     2493,
+     2494,
+     2495,
+     2496,
+     2497,
+     2498,
+     2499
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3666,
+     3653,
+     3658,
+     3668,
+     3668,
+     3666,
+     3668,
+     3658,
+     3668,
+     3658,
+     3653,
+     3666,
+     3668,
+     3668,
+     3668,
+     3666,
+     3668,
+     3694,
+     3699,
+     3686,
+     3684,
+     3684,
+     3684,
+     3694,
+     3694,
+     3684,
+     3686,
+     3699,
+     3686,
+     3684,
+     3684,
+     3684,
+     3686,
+     3684,
+     3674,
+     3679,
+     3679,
+     3674,
+     3679,
+     3679,
+     3674,
+     3674,
+     3674,
+     3679,
+     3679,
+     3679,
+     3674,
+     3674,
+     3674,
+     3679,
+     3684,
+     3686,
+     3692,
+     3692,
+     3686,
+     3692,
+     3692,
+     3686,
+     3684,
+     3686,
+     3661,
+     3661,
+     3666,
+     3668,
+     3666,
+     3668,
+     3666,
+     3666,
+     3661,
+     3661,
+     3674,
+     3668,
+     3674,
+     3679,
+     3684,
+     3679
+    ],
+    "y_offsets": [
+     -5258,
+     -5258,
+     -5258,
+     -5258,
+     -5258,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5253,
+     -5248,
+     -5258,
+     -5258,
+     -5258,
+     -5248,
+     -5248,
+     -5248,
+     -5258,
+     -5258,
+     -5258,
+     -5258,
+     -5258,
+     -5248,
+     -5248,
+     -5253,
+     -5248,
+     -5248,
+     -5248,
+     -5258,
+     -5258,
+     -5258,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5248,
+     -5248,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5248,
+     -5248,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5253,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5248,
+     -5233,
+     -5233,
+     -5233,
+     -5233,
+     -5233,
+     -5233
+    ],
+    "z_offsets": [
+     23,
+     0,
+     0,
+     18,
+     23,
+     23,
+     23,
+     0,
+     18,
+     0,
+     0,
+     -23,
+     -23,
+     -18,
+     -18,
+     -23,
+     -23,
+     0,
+     0,
+     23,
+     23,
+     18,
+     18,
+     0,
+     0,
+     23,
+     23,
+     0,
+     -23,
+     -18,
+     -23,
+     -23,
+     -23,
+     -18,
+     18,
+     18,
+     -18,
+     -18,
+     8,
+     18,
+     18,
+     8,
+     8,
+     8,
+     -18,
+     -8,
+     -8,
+     -18,
+     -8,
+     -8,
+     0,
+     -3,
+     -3,
+     3,
+     3,
+     3,
+     -3,
+     -3,
+     0,
+     3,
+     3,
+     -3,
+     -3,
+     0,
+     3,
+     0,
+     3,
+     -3,
+     -3,
+     3,
+     -8,
+     0,
+     8,
+     8,
+     0,
+     -8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3676.16,
+       -5245.44,
+       0.0
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -180.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/metaldoorslide01.wav",
+     "open_busy": "Door/metaldoorslide01.wav",
+     "close_start": "Door/metaldoorslide01.wav",
+     "close_busy": "Door/metaldoorslide01.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 31,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     5048,
+     5049,
+     5050,
+     5051,
+     5052,
+     5053,
+     5054,
+     5055,
+     5056,
+     5057,
+     5058,
+     5059,
+     5060,
+     5061,
+     5062,
+     5063
+    ],
+    "face_ids": [
+     2500,
+     2501,
+     2502,
+     2503,
+     2504,
+     2505,
+     2506,
+     2507,
+     2508,
+     2509
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3617,
+     3635,
+     3653,
+     3661,
+     3653,
+     3635,
+     3617,
+     3610,
+     3635,
+     3653,
+     3661,
+     3653,
+     3635,
+     3617,
+     3610,
+     3617
+    ],
+    "y_offsets": [
+     -5414,
+     -5422,
+     -5414,
+     -5396,
+     -5379,
+     -5371,
+     -5379,
+     -5396,
+     -5371,
+     -5379,
+     -5396,
+     -5414,
+     -5422,
+     -5414,
+     -5396,
+     -5379
+    ],
+    "z_offsets": [
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 31,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     5064,
+     5065,
+     5066,
+     5067,
+     5068,
+     5069,
+     5070,
+     5071,
+     5072,
+     5073,
+     5074,
+     5075,
+     5076,
+     5077,
+     5078,
+     5079
+    ],
+    "face_ids": [
+     2510,
+     2511,
+     2512,
+     2513,
+     2514,
+     2515,
+     2516,
+     2517,
+     2518,
+     2519
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3617,
+     3635,
+     3653,
+     3661,
+     3653,
+     3635,
+     3617,
+     3610,
+     3635,
+     3653,
+     3661,
+     3653,
+     3635,
+     3617,
+     3610,
+     3617
+    ],
+    "y_offsets": [
+     -5327,
+     -5335,
+     -5327,
+     -5309,
+     -5292,
+     -5284,
+     -5292,
+     -5309,
+     -5284,
+     -5292,
+     -5309,
+     -5327,
+     -5335,
+     -5327,
+     -5309,
+     -5292
+    ],
+    "z_offsets": [
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 31,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     5080,
+     5081,
+     5082,
+     5083,
+     5084,
+     5085,
+     5086,
+     5087,
+     5088,
+     5089,
+     5090,
+     5091,
+     5092,
+     5093,
+     5094,
+     5095
+    ],
+    "face_ids": [
+     2520,
+     2521,
+     2522,
+     2523,
+     2524,
+     2525,
+     2526,
+     2527,
+     2528,
+     2529
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3699,
+     3717,
+     3735,
+     3743,
+     3735,
+     3717,
+     3699,
+     3692,
+     3717,
+     3735,
+     3743,
+     3735,
+     3717,
+     3699,
+     3692,
+     3699
+    ],
+    "y_offsets": [
+     -5327,
+     -5335,
+     -5327,
+     -5309,
+     -5292,
+     -5284,
+     -5292,
+     -5309,
+     -5284,
+     -5292,
+     -5309,
+     -5327,
+     -5335,
+     -5327,
+     -5309,
+     -5292
+    ],
+    "z_offsets": [
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     286,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225,
+     225
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 31,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     5096,
+     5097,
+     5098,
+     5099,
+     5100,
+     5101,
+     5102,
+     5103,
+     5104,
+     5105,
+     5106,
+     5107,
+     5108,
+     5109,
+     5110,
+     5111
+    ],
+    "face_ids": [
+     2530,
+     2531,
+     2532,
+     2533,
+     2534,
+     2535,
+     2536,
+     2537,
+     2538,
+     2539
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3699,
+     3717,
+     3735,
+     3743,
+     3735,
+     3717,
+     3699,
+     3692,
+     3717,
+     3735,
+     3743,
+     3735,
+     3717,
+     3699,
+     3692,
+     3699
+    ],
+    "y_offsets": [
+     -5414,
+     -5422,
+     -5414,
+     -5396,
+     -5379,
+     -5371,
+     -5379,
+     -5396,
+     -5371,
+     -5379,
+     -5396,
+     -5414,
+     -5422,
+     -5414,
+     -5396,
+     -5379
+    ],
+    "z_offsets": [
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     323,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261,
+     261
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     5112,
+     5113,
+     5114,
+     5115,
+     5116,
+     5117,
+     5118,
+     5119,
+     5120,
+     5121,
+     5122,
+     5123,
+     5124,
+     5125,
+     5126,
+     5127,
+     5128,
+     5129,
+     5130,
+     5131,
+     5132,
+     5133,
+     5134,
+     5135,
+     5136,
+     5137,
+     5138,
+     5139,
+     5140,
+     5141,
+     5142,
+     5143,
+     5144,
+     5145,
+     5146,
+     5147,
+     5148,
+     5149,
+     5150,
+     5151,
+     5152,
+     5153,
+     5154,
+     5155,
+     5156,
+     5157,
+     5158,
+     5159,
+     5160,
+     5161,
+     5162,
+     5163,
+     5164,
+     5165,
+     5166,
+     5167
+    ],
+    "face_ids": [
+     2540,
+     2541,
+     2542,
+     2543,
+     2544,
+     2545,
+     2546,
+     2547,
+     2548,
+     2549,
+     2550,
+     2551,
+     2552,
+     2553,
+     2554,
+     2555,
+     2556,
+     2557,
+     2558,
+     2559,
+     2560,
+     2561,
+     2562,
+     2563,
+     2564,
+     2565,
+     2566,
+     2567,
+     2568,
+     2569,
+     2570,
+     2571,
+     2572,
+     2573,
+     2574,
+     2575,
+     2576,
+     2577,
+     2578,
+     2579,
+     2580,
+     2581
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7752,
+     7997,
+     7997,
+     7752,
+     7752,
+     7997,
+     7997,
+     7752,
+     7997,
+     7997,
+     7752,
+     7752,
+     7813,
+     7823,
+     7916,
+     7926,
+     7752,
+     7997,
+     7997,
+     7752,
+     7762,
+     7762,
+     7772,
+     7772,
+     7772,
+     7772,
+     7762,
+     7762,
+     7813,
+     7823,
+     7823,
+     7823,
+     7813,
+     7813,
+     7864,
+     7864,
+     7875,
+     7875,
+     7875,
+     7875,
+     7864,
+     7864,
+     7916,
+     7926,
+     7926,
+     7926,
+     7916,
+     7916,
+     7967,
+     7967,
+     7977,
+     7977,
+     7977,
+     7977,
+     7967,
+     7967
+    ],
+    "y_offsets": [
+     -4536,
+     -4536,
+     -4526,
+     -4526,
+     -4526,
+     -4526,
+     -4536,
+     -4536,
+     -4536,
+     -4526,
+     -4526,
+     -4536,
+     -4536,
+     -4536,
+     -4536,
+     -4536,
+     -4526,
+     -4526,
+     -4536,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536,
+     -4536,
+     -4547,
+     -4547,
+     -4536
+    ],
+    "z_offsets": [
+     -189,
+     -189,
+     -189,
+     -189,
+     -210,
+     -210,
+     -210,
+     -210,
+     -67,
+     -67,
+     -67,
+     -67,
+     -67,
+     -67,
+     -67,
+     -67,
+     -87,
+     -87,
+     -87,
+     -87,
+     -61,
+     -61,
+     -61,
+     -61,
+     -225,
+     -225,
+     -225,
+     -225,
+     -67,
+     -67,
+     -225,
+     -225,
+     -225,
+     -225,
+     -61,
+     -61,
+     -61,
+     -61,
+     -225,
+     -225,
+     -225,
+     -225,
+     -67,
+     -67,
+     -225,
+     -225,
+     -225,
+     -225,
+     -61,
+     -61,
+     -61,
+     -61,
+     -225,
+     -225,
+     -225,
+     -225
+    ],
+    "ai_open": [
+     16
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7874.56,
+       -4536.32,
+       -66.56
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Ambient/metalcreak02.wav",
+     "close_start": "Ambient/metalcreak02.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 800,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 0,
+    "vertex_ids": [
+     5168,
+     5169,
+     5170,
+     5171,
+     5172,
+     5173,
+     5174,
+     5175,
+     5176,
+     5177,
+     5178,
+     5179,
+     5180,
+     5181,
+     5182
+    ],
+    "face_ids": [
+     2582,
+     2583,
+     2584,
+     2585,
+     2586,
+     2587,
+     2588,
+     2589,
+     2590,
+     2591,
+     2592,
+     2593,
+     2594
+    ],
+    "sector_ids": [
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     9428,
+     9428,
+     9428,
+     9423,
+     9423,
+     9423,
+     9403,
+     9428,
+     9423,
+     9423,
+     9428,
+     9423,
+     9428,
+     9423,
+     9428
+    ],
+    "y_offsets": [
+     189,
+     166,
+     212,
+     166,
+     212,
+     189,
+     189,
+     179,
+     179,
+     138,
+     138,
+     136,
+     136,
+     177,
+     177
+    ],
+    "z_offsets": [
+     -940,
+     -984,
+     -984,
+     -984,
+     -984,
+     -940,
+     -967,
+     -959,
+     -959,
+     -929,
+     -929,
+     -934,
+     -934,
+     -963,
+     -963
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9444.97,
+       188.193,
+       -963.216
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": 80.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 3600,
+    "open_speed": 3000,
+    "close_speed": 3000,
+    "state": 2,
+    "vertex_ids": [
+     5183,
+     5184,
+     5185,
+     5186,
+     5187,
+     5188,
+     5189,
+     5190,
+     5191,
+     5192,
+     5193,
+     5194,
+     5195,
+     5196,
+     5197,
+     5198,
+     5199,
+     5200,
+     5201,
+     5202,
+     5203,
+     5204,
+     5205,
+     5206,
+     5207,
+     5208,
+     5209,
+     5210,
+     5211,
+     5212,
+     5213,
+     5214,
+     5215,
+     5216,
+     5217,
+     5218,
+     5219,
+     5220,
+     5221,
+     5222,
+     5223,
+     5224,
+     5225,
+     5226,
+     5227,
+     5228,
+     5229,
+     5230,
+     5231,
+     5232,
+     5233,
+     5234,
+     5235,
+     5236,
+     5237,
+     5238,
+     5239,
+     5240,
+     5241,
+     5242,
+     5243,
+     5244,
+     5245,
+     5246,
+     5247,
+     5248,
+     5249,
+     5250,
+     5251,
+     5252,
+     5253,
+     5254
+    ],
+    "face_ids": [
+     2595,
+     2596,
+     2597,
+     2598,
+     2599,
+     2600,
+     2601,
+     2602,
+     2603,
+     2604,
+     2605,
+     2606,
+     2607,
+     2608,
+     2609,
+     2610,
+     2611,
+     2612,
+     2613,
+     2614,
+     2615,
+     2616,
+     2617,
+     2618,
+     2619,
+     2620,
+     2621,
+     2622,
+     2623,
+     2624,
+     2625,
+     2626,
+     2627,
+     2628,
+     2629,
+     2630,
+     2631,
+     2632,
+     2633,
+     2634,
+     2635,
+     2636,
+     2637,
+     2638,
+     2639,
+     2640,
+     2641
+    ],
+    "sector_ids": [
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     9667,
+     9677,
+     9677,
+     9667,
+     9656,
+     9656,
+     9667,
+     9667,
+     9708,
+     9728,
+     9728,
+     9708,
+     9687,
+     9677,
+     9687,
+     9677,
+     9687,
+     9708,
+     9728,
+     9728,
+     9708,
+     9687,
+     9677,
+     9687,
+     9687,
+     9677,
+     9656,
+     9646,
+     9646,
+     9656,
+     9646,
+     9646,
+     9656,
+     9656,
+     9646,
+     9646,
+     9656,
+     9656,
+     9687,
+     9687,
+     9677,
+     9677,
+     9646,
+     9626,
+     9605,
+     9605,
+     9626,
+     9626,
+     9605,
+     9605,
+     9626,
+     9646,
+     9626,
+     9605,
+     9605,
+     9626,
+     9646,
+     9646,
+     9626,
+     9605,
+     9605,
+     9626,
+     9687,
+     9708,
+     9728,
+     9728,
+     9708,
+     9708,
+     9728,
+     9728,
+     9708,
+     9687
+    ],
+    "y_offsets": [
+     328,
+     328,
+     195,
+     195,
+     195,
+     328,
+     195,
+     328,
+     184,
+     184,
+     184,
+     184,
+     184,
+     184,
+     184,
+     195,
+     195,
+     195,
+     195,
+     195,
+     195,
+     195,
+     174,
+     174,
+     174,
+     174,
+     174,
+     174,
+     174,
+     174,
+     184,
+     195,
+     195,
+     184,
+     184,
+     195,
+     184,
+     195,
+     184,
+     195,
+     184,
+     195,
+     184,
+     184,
+     184,
+     184,
+     184,
+     195,
+     195,
+     195,
+     195,
+     195,
+     184,
+     184,
+     184,
+     184,
+     184,
+     195,
+     195,
+     195,
+     195,
+     195,
+     184,
+     184,
+     184,
+     184,
+     184,
+     195,
+     195,
+     195,
+     195,
+     195
+    ],
+    "z_offsets": [
+     -1147,
+     -1137,
+     -1137,
+     -1147,
+     -1137,
+     -1137,
+     -1126,
+     -1126,
+     -1116,
+     -1096,
+     -1075,
+     -1075,
+     -1096,
+     -1116,
+     -1126,
+     -1116,
+     -1096,
+     -1075,
+     -1075,
+     -1096,
+     -1116,
+     -1126,
+     -1157,
+     -1147,
+     -1126,
+     -1116,
+     -1116,
+     -1126,
+     -1147,
+     -1157,
+     -1147,
+     -1147,
+     -1157,
+     -1157,
+     -1126,
+     -1126,
+     -1116,
+     -1116,
+     -1147,
+     -1147,
+     -1157,
+     -1157,
+     -1096,
+     -1075,
+     -1075,
+     -1096,
+     -1116,
+     -1116,
+     -1096,
+     -1075,
+     -1075,
+     -1096,
+     -1157,
+     -1178,
+     -1198,
+     -1198,
+     -1178,
+     -1178,
+     -1198,
+     -1198,
+     -1178,
+     -1157,
+     -1178,
+     -1198,
+     -1198,
+     -1178,
+     -1157,
+     -1157,
+     -1178,
+     -1198,
+     -1198,
+     -1178
+    ],
+    "ai_open": [
+     18
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9666.56,
+       215.04,
+       -1136.64
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -360.0,
+      "open_away": false
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_busy": "Ambient/machinery03.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 783,
+    "open_speed": 26,
+    "close_speed": 26,
+    "state": 2,
+    "vertex_ids": [
+     5255,
+     5256,
+     5257,
+     5258
+    ],
+    "face_ids": [
+     2642
+    ],
+    "sector_ids": [
+     15
+    ],
+    "delta_us": [
+     0
+    ],
+    "delta_vs": [
+     0
+    ],
+    "x_offsets": [
+     14746,
+     14746,
+     10895,
+     10895
+    ],
+    "y_offsets": [
+     -1966,
+     1147,
+     1147,
+     -1966
+    ],
+    "z_offsets": [
+     -1106,
+     -1106,
+     -1106,
+     -1106
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 783,
+    "open_speed": 26,
+    "close_speed": 26,
+    "state": 2,
+    "vertex_ids": [
+     5259,
+     5260,
+     5261,
+     5262
+    ],
+    "face_ids": [
+     2643
+    ],
+    "sector_ids": [
+     14
+    ],
+    "delta_us": [
+     0
+    ],
+    "delta_vs": [
+     0
+    ],
+    "x_offsets": [
+     10414,
+     10414,
+     9943,
+     9943
+    ],
+    "y_offsets": [
+     -1254,
+     -154,
+     -154,
+     -1254
+    ],
+    "z_offsets": [
+     -1106,
+     -1106,
+     -1106,
+     -1106
+    ],
+    "sounds": {}
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -983,
+    -901,
+    -281
+   ],
+   "direction_degrees": 359
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder0",
+   "bottom": [
+    9154.56,
+    296.96,
+    -1256.96
+   ],
+   "top": [
+    9154.56,
+    296.96,
+    -1064.96
+   ],
+   "facing_degrees": 0.0,
+   "width": 92.16,
+   "reach": 48.0,
+   "top_exit": [
+    9277.44,
+    296.96,
+    -1064.96
+   ],
+   "grab_at_top": true
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:bathhouse:object:220",
+   "source_object_index": 220,
+   "source_class": "TreasureChest",
+   "source_name": "BlackBox",
+   "source_model": "models\\Props\\BlackChest.ABC",
+   "source_skin": "Skins\\Props\\BlackChest.dtx",
+   "source_position_lt": [
+    6320.0,
+    -288.0,
+    -1824.0
+   ],
+   "position": {
+    "x": 16179,
+    "y": -4669,
+    "z": -737
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 7,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 10,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 1
+  },
+  {
+   "source_id": "mm9:bathhouse:object:221",
+   "source_object_index": 221,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest5.ABC",
+   "source_skin": "Skins\\Props\\Chest5.dtx",
+   "source_position_lt": [
+    6320.0,
+    -288.0,
+    0.0
+   ],
+   "position": {
+    "x": 16179,
+    "y": 0,
+    "z": -737
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:bathhouse:object:222",
+   "source_object_index": 222,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest5.ABC",
+   "source_skin": "Skins\\Props\\Chest5.dtx",
+   "source_position_lt": [
+    6320.0,
+    -288.0,
+    -304.0
+   ],
+   "position": {
+    "x": 16179,
+    "y": -778,
+    "z": -737
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:bathhouse:object:223",
+   "source_object_index": 223,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest5.ABC",
+   "source_skin": "Skins\\Props\\Chest5.dtx",
+   "source_position_lt": [
+    5616.0,
+    -288.0,
+    720.0
+   ],
+   "position": {
+    "x": 14377,
+    "y": 1843,
+    "z": -737
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 3,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 5,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 7,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "translucent_faces": [
+  {
+   "faces": [
+    1955,
+    1956
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  }
+ ],
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -327.7,
+       412.7
+      ],
+      [
+       -327.7,
+       1958.4
+      ],
+      [
+       1225.7,
+       1958.4
+      ],
+      [
+       1225.7,
+       412.7
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       -327.7,
+       -1123.3
+      ],
+      [
+       -327.7,
+       412.7
+      ],
+      [
+       1225.7,
+       412.7
+      ],
+      [
+       1225.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       1225.7,
+       -2293.8
+      ],
+      [
+       -327.7,
+       -2293.8
+      ],
+      [
+       -327.7,
+       -1123.3
+      ],
+      [
+       1225.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       1225.7,
+       412.7
+      ],
+      [
+       1225.7,
+       1958.4
+      ],
+      [
+       2761.7,
+       1958.4
+      ],
+      [
+       2761.7,
+       412.7
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       1225.7,
+       -1123.3
+      ],
+      [
+       1225.7,
+       412.7
+      ],
+      [
+       2761.7,
+       412.7
+      ],
+      [
+       2761.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       2761.7,
+       -2293.8
+      ],
+      [
+       1225.7,
+       -2293.8
+      ],
+      [
+       1225.7,
+       -1123.3
+      ],
+      [
+       2761.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       2761.7,
+       412.7
+      ],
+      [
+       2761.7,
+       1958.4
+      ],
+      [
+       4297.7,
+       1958.4
+      ],
+      [
+       4297.7,
+       412.7
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       2761.7,
+       -1123.3
+      ],
+      [
+       2761.7,
+       412.7
+      ],
+      [
+       4297.7,
+       412.7
+      ],
+      [
+       4297.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       4297.7,
+       -2293.8
+      ],
+      [
+       2761.7,
+       -2293.8
+      ],
+      [
+       2761.7,
+       -1123.3
+      ],
+      [
+       4297.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       4297.7,
+       412.7
+      ],
+      [
+       4297.7,
+       1958.4
+      ],
+      [
+       5833.7,
+       1958.4
+      ],
+      [
+       5833.7,
+       412.7
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       5833.7,
+       412.7
+      ],
+      [
+       5833.7,
+       1958.4
+      ],
+      [
+       6062.1,
+       1958.4
+      ],
+      [
+       6062.1,
+       816.1
+      ],
+      [
+       6062.1,
+       412.7
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       4297.7,
+       -1123.3
+      ],
+      [
+       4297.7,
+       412.7
+      ],
+      [
+       5833.7,
+       412.7
+      ],
+      [
+       5833.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       5833.7,
+       -2293.8
+      ],
+      [
+       4297.7,
+       -2293.8
+      ],
+      [
+       4297.7,
+       -1123.3
+      ],
+      [
+       5833.7,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       5833.7,
+       -1123.3
+      ],
+      [
+       5833.7,
+       412.7
+      ],
+      [
+       6062.1,
+       412.7
+      ],
+      [
+       6062.1,
+       -719.9
+      ],
+      [
+       6062.1,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    },
+    {
+     "polygon": [
+      [
+       6062.1,
+       -2293.8
+      ],
+      [
+       5833.7,
+       -2293.8
+      ],
+      [
+       5833.7,
+       -1123.3
+      ],
+      [
+       6062.1,
+       -1123.3
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -289.3
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       1525.8,
+       -4689.9
+      ],
+      [
+       755.2,
+       -4689.9
+      ],
+      [
+       755.2,
+       -3473.9
+      ],
+      [
+       1525.8,
+       -3473.9
+      ]
+     ],
+     "bottom": -304.6,
+     "top": -133.1
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater10",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       2662.4,
+       -2931.2
+      ],
+      [
+       2416.6,
+       -2931.2
+      ],
+      [
+       2416.6,
+       -1600.0
+      ],
+      [
+       2662.4,
+       -1600.0
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater14",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       6448.1,
+       -1354.2
+      ],
+      [
+       4874.2,
+       -1354.2
+      ],
+      [
+       4874.2,
+       -1108.5
+      ],
+      [
+       6448.1,
+       -1108.5
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       7984.1,
+       -1354.2
+      ],
+      [
+       6448.1,
+       -1354.2
+      ],
+      [
+       6448.1,
+       -1108.5
+      ],
+      [
+       7984.1,
+       -1108.5
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       8273.9,
+       -1354.2
+      ],
+      [
+       7984.1,
+       -1354.2
+      ],
+      [
+       7984.1,
+       -1108.5
+      ],
+      [
+       8273.9,
+       -1108.5
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "WaterthatBoilsB",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       1966.1,
+       -4502.5
+      ],
+      [
+       1966.1,
+       -2931.2
+      ],
+      [
+       2859.5,
+       -2931.2
+      ],
+      [
+       2859.5,
+       -3126.3
+      ],
+      [
+       2859.5,
+       -4502.5
+      ]
+     ],
+     "bottom": -1566.7,
+     "top": -15.4
+    },
+    {
+     "polygon": [
+      [
+       2859.5,
+       -4700.2
+      ],
+      [
+       1966.1,
+       -4700.2
+      ],
+      [
+       1966.1,
+       -4502.5
+      ],
+      [
+       2859.5,
+       -4502.5
+      ]
+     ],
+     "bottom": -1566.7,
+     "top": -15.4
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater4",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       4608.0,
+       99.8
+      ],
+      [
+       4858.9,
+       99.8
+      ],
+      [
+       4858.9,
+       -54.3
+      ],
+      [
+       4858.9,
+       -1481.7
+      ],
+      [
+       4608.0,
+       -1481.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       4858.9,
+       -1481.7
+      ],
+      [
+       4858.9,
+       -1600.0
+      ],
+      [
+       4608.0,
+       -1600.0
+      ],
+      [
+       4608.0,
+       -1481.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "WaterthatBoilsA",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       5153.3,
+       -4976.6
+      ],
+      [
+       4382.7,
+       -4976.6
+      ],
+      [
+       4382.7,
+       -3760.6
+      ],
+      [
+       5153.3,
+       -3760.6
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -133.1
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater6",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       6297.6,
+       -4864.0
+      ],
+      [
+       5570.6,
+       -4864.0
+      ],
+      [
+       5570.6,
+       -3881.0
+      ],
+      [
+       6297.6,
+       -3881.0
+      ]
+     ],
+     "bottom": -547.8,
+     "top": -258.6
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater8",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       4608.0,
+       -3171.3
+      ],
+      [
+       4608.0,
+       -1600.0
+      ],
+      [
+       4843.5,
+       -1600.0
+      ],
+      [
+       4843.5,
+       -2204.7
+      ],
+      [
+       4843.5,
+       -3171.3
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       4843.5,
+       -3760.6
+      ],
+      [
+       4608.0,
+       -3760.6
+      ],
+      [
+       4608.0,
+       -3171.3
+      ],
+      [
+       4843.5,
+       -3171.3
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater7",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       2416.6,
+       -1481.7
+      ],
+      [
+       2416.6,
+       99.8
+      ],
+      [
+       2662.4,
+       99.8
+      ],
+      [
+       2662.4,
+       -54.3
+      ],
+      [
+       2662.4,
+       -1481.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       2662.4,
+       -1600.0
+      ],
+      [
+       2416.6,
+       -1600.0
+      ],
+      [
+       2416.6,
+       -1481.7
+      ],
+      [
+       2662.4,
+       -1481.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater9",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       8273.9,
+       -1225.7
+      ],
+      [
+       8273.9,
+       345.6
+      ],
+      [
+       8970.2,
+       345.6
+      ],
+      [
+       8970.2,
+       201.7
+      ],
+      [
+       8970.2,
+       -1225.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    },
+    {
+     "polygon": [
+      [
+       8970.2,
+       -1354.2
+      ],
+      [
+       8273.9,
+       -1354.2
+      ],
+      [
+       8273.9,
+       -1225.7
+      ],
+      [
+       8970.2,
+       -1225.7
+      ]
+     ],
+     "bottom": -1515.5,
+     "top": -1267.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater2",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       9482.2,
+       -406.5
+      ],
+      [
+       9482.2,
+       1146.9
+      ],
+      [
+       11056.1,
+       1146.9
+      ],
+      [
+       11056.1,
+       -406.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       9482.2,
+       -1942.5
+      ],
+      [
+       9482.2,
+       -406.5
+      ],
+      [
+       11056.1,
+       -406.5
+      ],
+      [
+       11056.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       11056.1,
+       -1966.1
+      ],
+      [
+       9482.2,
+       -1966.1
+      ],
+      [
+       9482.2,
+       -1942.5
+      ],
+      [
+       11056.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       11056.1,
+       -406.5
+      ],
+      [
+       11056.1,
+       1146.9
+      ],
+      [
+       12592.1,
+       1146.9
+      ],
+      [
+       12592.1,
+       -406.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       11056.1,
+       -1942.5
+      ],
+      [
+       11056.1,
+       -406.5
+      ],
+      [
+       12592.1,
+       -406.5
+      ],
+      [
+       12592.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       12592.1,
+       -1966.1
+      ],
+      [
+       11056.1,
+       -1966.1
+      ],
+      [
+       11056.1,
+       -1942.5
+      ],
+      [
+       12592.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       12592.1,
+       -406.5
+      ],
+      [
+       12592.1,
+       1146.9
+      ],
+      [
+       14128.1,
+       1146.9
+      ],
+      [
+       14128.1,
+       -406.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       14128.1,
+       -406.5
+      ],
+      [
+       14128.1,
+       1146.9
+      ],
+      [
+       14745.6,
+       1146.9
+      ],
+      [
+       14745.6,
+       1123.3
+      ],
+      [
+       14745.6,
+       -406.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       12592.1,
+       -1942.5
+      ],
+      [
+       12592.1,
+       -406.5
+      ],
+      [
+       14128.1,
+       -406.5
+      ],
+      [
+       14128.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       14128.1,
+       -1966.1
+      ],
+      [
+       12592.1,
+       -1966.1
+      ],
+      [
+       12592.1,
+       -1942.5
+      ],
+      [
+       14128.1,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       14128.1,
+       -1942.5
+      ],
+      [
+       14128.1,
+       -406.5
+      ],
+      [
+       14745.6,
+       -406.5
+      ],
+      [
+       14745.6,
+       -412.7
+      ],
+      [
+       14745.6,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    },
+    {
+     "polygon": [
+      [
+       14745.6,
+       -1966.1
+      ],
+      [
+       14128.1,
+       -1966.1
+      ],
+      [
+       14128.1,
+       -1942.5
+      ],
+      [
+       14745.6,
+       -1942.5
+      ]
+     ],
+     "bottom": -1146.9,
+     "top": -322.6
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "mover_door_id": 20
+  }
+ ],
+ "destructibles": [
+  {
+   "id": 224,
+   "name": "Urn0",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    -164,
+    983,
+    -234
+   ],
+   "decoration_cog": 20224,
+   "destroyed_event": 30224
+  },
+  {
+   "id": 225,
+   "name": "Urn1",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    2028,
+    1229,
+    -234
+   ],
+   "decoration_cog": 20225,
+   "destroyed_event": 30225
+  },
+  {
+   "id": 226,
+   "name": "Urn2",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    2028,
+    2109,
+    -234
+   ],
+   "decoration_cog": 20226,
+   "destroyed_event": 30226
+  },
+  {
+   "id": 227,
+   "name": "Urn3",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    4260,
+    2130,
+    -234
+   ],
+   "decoration_cog": 20227,
+   "destroyed_event": 30227
+  },
+  {
+   "id": 228,
+   "name": "Urn4",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    4260,
+    1229,
+    -234
+   ],
+   "decoration_cog": 20228,
+   "destroyed_event": 30228
+  },
+  {
+   "id": 229,
+   "name": "Urn5",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    6349,
+    2130,
+    -196
+   ],
+   "decoration_cog": 20229,
+   "destroyed_event": 30229
+  },
+  {
+   "id": 230,
+   "name": "Urn6",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    7004,
+    0,
+    -196
+   ],
+   "decoration_cog": 20230,
+   "destroyed_event": 30230
+  },
+  {
+   "id": 231,
+   "name": "Urn7",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    -246,
+    -3359,
+    -194
+   ],
+   "decoration_cog": 20231,
+   "destroyed_event": 30231
+  },
+  {
+   "id": 232,
+   "name": "Urn8",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    307,
+    -4690,
+    -194
+   ],
+   "decoration_cog": 20232,
+   "destroyed_event": 30232
+  },
+  {
+   "id": 233,
+   "name": "Urn9",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    1597,
+    -3379,
+    -74
+   ],
+   "decoration_cog": 20233,
+   "destroyed_event": 30233
+  },
+  {
+   "id": 234,
+   "name": "Urn10",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    1597,
+    -4772,
+    -74
+   ],
+   "decoration_cog": 20234,
+   "destroyed_event": 30234
+  },
+  {
+   "id": 235,
+   "name": "Urn11",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    1802,
+    -3338,
+    49
+   ],
+   "decoration_cog": 20235,
+   "destroyed_event": 30235
+  },
+  {
+   "id": 236,
+   "name": "Urn12",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    3052,
+    -3338,
+    49
+   ],
+   "decoration_cog": 20236,
+   "destroyed_event": 30236
+  },
+  {
+   "id": 237,
+   "name": "Urn13",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    4321,
+    -3707,
+    -74
+   ],
+   "decoration_cog": 20237,
+   "destroyed_event": 30237
+  },
+  {
+   "id": 238,
+   "name": "Urn14",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    4321,
+    -5018,
+    -74
+   ],
+   "decoration_cog": 20238,
+   "destroyed_event": 30238
+  },
+  {
+   "id": 239,
+   "name": "Urn15",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    5407,
+    -3727,
+    -194
+   ],
+   "decoration_cog": 20239,
+   "destroyed_event": 30239
+  },
+  {
+   "id": 240,
+   "name": "Urn16",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    5407,
+    -5018,
+    -194
+   ],
+   "decoration_cog": 20240,
+   "destroyed_event": 30240
+  },
+  {
+   "id": 241,
+   "name": "Urn17",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    6676,
+    -3584,
+    -194
+   ],
+   "decoration_cog": 20241,
+   "destroyed_event": 30241
+  },
+  {
+   "id": 242,
+   "name": "Urn18",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    6676,
+    -2806,
+    -194
+   ],
+   "decoration_cog": 20242,
+   "destroyed_event": 30242
+  },
+  {
+   "id": 243,
+   "name": "Urn19",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    8909,
+    -2714,
+    -194
+   ],
+   "decoration_cog": 20243,
+   "destroyed_event": 30243
+  },
+  {
+   "id": 244,
+   "name": "Urn20",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/glass_smash.wav",
+   "effect": "openyamm:fx/destructible/glass",
+   "effect_scale": 0.5,
+   "center": [
+    10342,
+    -1761,
+    -194
+   ],
+   "decoration_cog": 20244,
+   "destroyed_event": 30244
+  }
+ ],
+ "spawned_loot_containers": [
+  {
+   "source_id": "mm9:bathhouse:object:224",
+   "source_object_index": 224,
+   "source_class": "DestructableProp",
+   "source_name": "Urn0",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    -64.0,
+    -80.0,
+    384.0
+   ],
+   "position": {
+    "x": -164,
+    "y": 983,
+    "z": -205
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:225",
+   "source_object_index": 225,
+   "source_class": "DestructableProp",
+   "source_name": "Urn1",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    792.0,
+    -80.0,
+    480.0
+   ],
+   "position": {
+    "x": 2028,
+    "y": 1229,
+    "z": -205
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:226",
+   "source_object_index": 226,
+   "source_class": "DestructableProp",
+   "source_name": "Urn2",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    792.0,
+    -80.0,
+    824.0
+   ],
+   "position": {
+    "x": 2028,
+    "y": 2109,
+    "z": -205
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:227",
+   "source_object_index": 227,
+   "source_class": "DestructableProp",
+   "source_name": "Urn3",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    1664.0,
+    -80.0,
+    832.0
+   ],
+   "position": {
+    "x": 4260,
+    "y": 2130,
+    "z": -205
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:228",
+   "source_object_index": 228,
+   "source_class": "DestructableProp",
+   "source_name": "Urn4",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    1664.0,
+    -80.0,
+    480.0
+   ],
+   "position": {
+    "x": 4260,
+    "y": 1229,
+    "z": -205
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:229",
+   "source_object_index": 229,
+   "source_class": "DestructableProp",
+   "source_name": "Urn5",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2480.0,
+    -64.0,
+    832.0
+   ],
+   "position": {
+    "x": 6349,
+    "y": 2130,
+    "z": -164
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:230",
+   "source_object_index": 230,
+   "source_class": "DestructableProp",
+   "source_name": "Urn6",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2736.0,
+    -64.0,
+    0.0
+   ],
+   "position": {
+    "x": 7004,
+    "y": 0,
+    "z": -164
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:231",
+   "source_object_index": 231,
+   "source_class": "DestructableProp",
+   "source_name": "Urn7",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    -96.0,
+    -64.0,
+    -1312.0
+   ],
+   "position": {
+    "x": -246,
+    "y": -3359,
+    "z": -164
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:232",
+   "source_object_index": 232,
+   "source_class": "DestructableProp",
+   "source_name": "Urn8",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    120.0,
+    -64.0,
+    -1832.0
+   ],
+   "position": {
+    "x": 307,
+    "y": -4690,
+    "z": -164
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:233",
+   "source_object_index": 233,
+   "source_class": "DestructableProp",
+   "source_name": "Urn9",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    624.0,
+    0.0,
+    -1320.0
+   ],
+   "position": {
+    "x": 1597,
+    "y": -3379,
+    "z": 0
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:234",
+   "source_object_index": 234,
+   "source_class": "DestructableProp",
+   "source_name": "Urn10",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    624.0,
+    0.0,
+    -1864.0
+   ],
+   "position": {
+    "x": 1597,
+    "y": -4772,
+    "z": 0
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:235",
+   "source_object_index": 235,
+   "source_class": "DestructableProp",
+   "source_name": "Urn11",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    704.0,
+    32.0,
+    -1304.0
+   ],
+   "position": {
+    "x": 1802,
+    "y": -3338,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:236",
+   "source_object_index": 236,
+   "source_class": "DestructableProp",
+   "source_name": "Urn12",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    1192.0,
+    32.0,
+    -1304.0
+   ],
+   "position": {
+    "x": 3052,
+    "y": -3338,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:237",
+   "source_object_index": 237,
+   "source_class": "DestructableProp",
+   "source_name": "Urn13",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    1688.0,
+    32.0,
+    -1448.0
+   ],
+   "position": {
+    "x": 4321,
+    "y": -3707,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:238",
+   "source_object_index": 238,
+   "source_class": "DestructableProp",
+   "source_name": "Urn14",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    1688.0,
+    32.0,
+    -1960.0
+   ],
+   "position": {
+    "x": 4321,
+    "y": -5018,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:239",
+   "source_object_index": 239,
+   "source_class": "DestructableProp",
+   "source_name": "Urn15",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2112.0,
+    32.0,
+    -1456.0
+   ],
+   "position": {
+    "x": 5407,
+    "y": -3727,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:240",
+   "source_object_index": 240,
+   "source_class": "DestructableProp",
+   "source_name": "Urn16",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2112.0,
+    32.0,
+    -1960.0
+   ],
+   "position": {
+    "x": 5407,
+    "y": -5018,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:241",
+   "source_object_index": 241,
+   "source_class": "DestructableProp",
+   "source_name": "Urn17",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2608.0,
+    32.0,
+    -1400.0
+   ],
+   "position": {
+    "x": 6676,
+    "y": -3584,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:242",
+   "source_object_index": 242,
+   "source_class": "DestructableProp",
+   "source_name": "Urn18",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    2608.0,
+    32.0,
+    -1096.0
+   ],
+   "position": {
+    "x": 6676,
+    "y": -2806,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 3,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:243",
+   "source_object_index": 243,
+   "source_class": "DestructableProp",
+   "source_name": "Urn19",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    3480.0,
+    32.0,
+    -1060.0
+   ],
+   "position": {
+    "x": 8909,
+    "y": -2714,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  },
+  {
+   "source_id": "mm9:bathhouse:object:244",
+   "source_object_index": 244,
+   "source_class": "DestructableProp",
+   "source_name": "Urn20",
+   "source_model": "models\\Props\\UrnGargoyle.abc",
+   "source_skin": "Skins\\Props\\UrnGargoyle.dtx",
+   "source_position_lt": [
+    4040.0,
+    32.0,
+    -688.0
+   ],
+   "position": {
+    "x": 10342,
+    "y": -1761,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "treasure_bag",
+   "presentation": "mm9_treasure_bag",
+   "spawn_on_destroy": true,
+   "random_treasure_level": 5,
+   "treasure_type": 0,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "fixed_items": [],
+   "remove_when_empty": true
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 148,
+   "sound": "ambient/machinery01.wav",
+   "position": [
+    3676,
+    -5343,
+    288
+   ],
+   "inner_radius": 384,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 271,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    7537,
+    573,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 272,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    1475,
+    -819,
+    -287
+   ],
+   "inner_radius": 512,
+   "outer_radius": 2560,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 273,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    4424,
+    -819,
+    -287
+   ],
+   "inner_radius": 512,
+   "outer_radius": 2560,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 274,
+   "sound": "ambient/water/liquidboiling.wav",
+   "position": [
+    5980,
+    -4362,
+    -246
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.21,
+   "loop": true
+  },
+  {
+   "key": 275,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    1147,
+    -4260,
+    -123
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 276,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    2458,
+    -4260,
+    0
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 277,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    4792,
+    -4614,
+    -355
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 278,
+   "sound": "ambient/water/waterdrop.wav",
+   "position": [
+    10199,
+    -164,
+    -328
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 279,
+   "sound": "ambient/water/waterdrop.wav",
+   "position": [
+    12861,
+    -451,
+    -860
+   ],
+   "inner_radius": 512,
+   "outer_radius": 2048,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 280,
+   "sound": "ambient/water/waterdroplet03.wav",
+   "position": [
+    11510,
+    -1229,
+    -860
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 281,
+   "sound": "ambient/water/waterdroplet01.wav",
+   "position": [
+    13640,
+    410,
+    -860
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 282,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    12698,
+    -369,
+    -860
+   ],
+   "inner_radius": 512,
+   "outer_radius": 2560,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 283,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    8110,
+    901,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 284,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    8028,
+    246,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 285,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    7455,
+    -573,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 286,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    8028,
+    -246,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 287,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    8028,
+    -819,
+    0
+   ],
+   "inner_radius": 102,
+   "outer_radius": 1152,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 137,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3743,
+    -5074,
+    -10
+   ],
+   "inner_radius": 179,
+   "outer_radius": 717,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false,
+   "sprite": 400
+  },
+  {
+   "key": 138,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3610,
+    -5084,
+    -10
+   ],
+   "inner_radius": 179,
+   "outer_radius": 717,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false,
+   "sprite": 401
+  },
+  {
+   "key": 150,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3743,
+    -5074,
+    -64
+   ],
+   "inner_radius": 179,
+   "outer_radius": 717,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 151,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3610,
+    -5084,
+    -64
+   ],
+   "inner_radius": 179,
+   "outer_radius": 717,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 154,
+   "sound": "ambient/water/liquidboiling.wav",
+   "position": [
+    4809,
+    -4357,
+    -133
+   ],
+   "inner_radius": 160,
+   "outer_radius": 640,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 156,
+   "sound": "ambient/water/liquidboiling.wav",
+   "position": [
+    2417,
+    -4014,
+    -133
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 168,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    7875,
+    -4782,
+    -64
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 171,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    7229,
+    -5468,
+    -169
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 174,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    6963,
+    -5468,
+    -169
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 177,
+   "sound": "ambient/steamhissloop.wav",
+   "position": [
+    6636,
+    -5468,
+    -169
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": 15752,
+    "y": 8,
+    "z": -819
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": 6280,
+    "y": -3064,
+    "z": -243
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": 15752,
+    "y": -4344,
+    "z": -819
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": 5384,
+    "y": 1928,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": 5128,
+    "y": 2056,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": 5128,
+    "y": 1928,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": 904,
+    "y": 1288,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": 776,
+    "y": 1544,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 8,
+   "position": {
+    "x": -120,
+    "y": -376,
+    "z": -282
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 9,
+   "position": {
+    "x": 1544,
+    "y": -4088,
+    "z": -78
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 10,
+   "position": {
+    "x": 2952,
+    "y": -3576,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 11,
+   "position": {
+    "x": 3336,
+    "y": -4728,
+    "z": -123
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  }
+ ]
+}

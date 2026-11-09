@@ -1,0 +1,21 @@
+# Racial-ability lessons in MM9 (the user, 2026-11-09). MM9 has no teacher for the MMerge racial abilities, so every
+# training hall's keeper and one Yorwick grandmaster keep a standing topic, "We want to train our racial abilities.",
+# on their first page. It lists each member's own racial ability at their next mastery, up to the trainer's
+# `mastery`; the shared mastery rules decide price, rank and the class/race caps. Read by the RUDE dialogue table
+# (game/mm9/Mm9RudeDialogue.cpp loadRacialTrainersText).
+format_version: 1
+
+# The racial abilities a member may train here (the first one the member knows).
+skills: [DarkElfAbility, VampireAbility, DragonAbility]
+
+# rude: the trainer's RUDE id (a training hall's keeper is its service's source id).
+trainers:
+  - {rude: 21, mastery: Master}         # Hal'an's Arm, Thjorgard
+  - {rude: 62, mastery: Master}         # The Fenced Fighter, Sturmford
+  - {rude: 105, mastery: Master}        # The Training Hall, Drangheim
+  - {rude: 147, mastery: Master}        # The Trained Sword, Guberland
+  - {rude: 212, mastery: Master}        # The Sword of Skill, Frosgard
+  - {rude: 252, mastery: Master}        # Fafnir's Training, Thronheim
+  - {rude: 260, mastery: Master}        # The Hall, Thronheim
+  - {rude: 351, mastery: Grandmaster}   # The Pummeled Fist, Arslegard
+  - {rude: 411, mastery: Grandmaster}   # Jenn Harrise (Grandmaster Learning), Yorwick: Yorwick has no training hall

@@ -1,0 +1,122 @@
+# Written by level_generation/projects/mm9r_common/terrain_blend.py for lindisfarne.blv's terrain faces
+# (abndst2nts, moungdsg9g, sturm8czwu).
+version: 1
+texels_per_cell: 16
+weights:
+- lindisfarne_blv_weights0.png
+weighted_layers: 3
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+- name: cliff
+  library: rock_cliff
+  tint:
+  - 0.5775
+  - 0.7143
+  - 0.7143
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.3
+  cavity: 0.4
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  cliff_tint:
+  - 0.5775
+  - 0.762
+  - 0.8403
+- name: grass
+  library: grass_meadow
+  tint:
+  - 0.8079
+  - 0.7706
+  - 0.8079
+  repeat: 360
+  height_contrast: 0.45
+  normal_strength: 1.0
+  cavity: 0.3
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.1
+  - 1.05
+  - 0.85
+  fringe: 1.0
+  meadow: 1.0
+  variant: 3
+  variant_amount: 0.25
+  cliff_tint:
+  - 0.5775
+  - 0.762
+  - 0.8403
+- name: dirt
+  library: soil
+  tint:
+  - 0.7505
+  - 0.8491
+  - 0.8491
+  repeat: 520
+  height_contrast: 0.4
+  normal_strength: 1.5
+  cavity: 0.6
+  macro_brightness: 0.18
+  macro_tint:
+  - 0.9
+  - 0.86
+  - 0.86
+  fringe: 1.0
+  variant: 4
+  variant_amount: 0.12
+  cliff_tint:
+  - 0.5775
+  - 0.762
+  - 0.8403
+- name: grass_patches
+  library: grass_patchy
+  tint:
+  - 0.6098
+  - 0.5549
+  - 0.6686
+  repeat: 640
+  height_contrast: 0.25
+  normal_strength: 1.0
+  cavity: 0.35
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  meadow: 0.8
+- name: dirt_stones
+  library: soil_stony
+  tint:
+  - 0.4278
+  - 0.4277
+  - 0.4983
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.8
+  cavity: 0.8
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+meadow:
+  dry:
+  - 1.2
+  - 1.06
+  - 0.64
+  lush:
+  - 0.78
+  - 0.94
+  - 0.82
+slope:
+  layer: 0
+  start: 0.36
+  end: 0.56

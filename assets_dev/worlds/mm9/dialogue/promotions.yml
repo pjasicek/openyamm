@@ -1,0 +1,40 @@
+# MM9's promotion quests in OpenYAMM (the user, 2026-11-08; devdocs/mm9/MM9_RUDE_SCR_INTEGRATION.md "Promotions And
+# Classes"). Read by the RUDE dialogue table (game/mm9/Mm9RudeDialogue.cpp loadPromotionsText).
+#
+# Every promotion quest is offered to any party at any time and pays its experience and gold whoever it promotes; it
+# promotes the members eligible then (mm9_common.lua MM9.Promotions, the one class-line table). Once the quest is done
+# (its done key), the promoter's first page keeps "Promote our eligible characters.", which promotes the members
+# eligible now, without the rewards: a party that did the second tier first comes back after the first.
+format_version: 1
+
+# rude: the promoter who keeps the topic; done_key: the raw MM9 key the quest's completion gives.
+promotions:
+  - {promotion: Mercenary, rude: 240, done_key: 127}   # Thorfinn of Thronheim (Atli Sigmundssen, NPC186, leaves Guberland)
+  - {promotion: Crusader, rude: 89, done_key: 137}     # Keith Bloodaxe, Drangheim
+  - {promotion: Scholar, rude: 161, done_key: 205}     # Tymon the Nord, Thjorgard
+  - {promotion: Healer, rude: 128, done_key: 213}      # Tjolnir the Super-neat, Guberland City
+  - {promotion: Gladiator, rude: 61, done_key: 221}    # Fridleif Gjukissen, Sturmford
+  - {promotion: Assassin, rude: 88, done_key: 227}     # Atli the Quick, Drangheim
+  - {promotion: Paladin, rude: 282, done_key: 237}     # Grehgknak the Right, Lindisfarne
+  - {promotion: Ranger, rude: 181, done_key: 249}      # Fenja Tree-friend, Frosgard
+  - {promotion: Priest, rude: 129, done_key: 261}      # Gray Slemnir, Guberland City
+  - {promotion: Druid, rude: 221, done_key: 280}       # the Green Man, Frosgard
+  - {promotion: Mage, rude: 4, done_key: 294}          # Johannes Bem, Thjorgard
+  # Lich: Lich Lab's Transmutation Engine, usable at any time (no promoter).
+
+# The second tier's quests that MM9 offered only after the first tier's: their accept rows lose that required key.
+waived_required_keys:
+  - {rude: 61, key: 127}    # Gladiator labours: Mercenary done
+  - {rude: 88, key: 127}    # Assassin's Trial: Mercenary done
+  - {rude: 181, key: 137}   # Ranger's Trial: Crusader done
+  - {rude: 282, key: 137}   # the Three Crusades (Paladin): Crusader done
+  - {rude: 4, key: 205}     # Mage tasks (two rows): Scholar done
+  - {rude: 129, key: 213}   # the New Temple (Priest): Healer done
+  - {rude: 182, key: 213}   # Menja's Green Man errand (Druid): Healer done
+
+# Rows MM9's dialogue lacks (its CSV form, appended after the original rows of their RUDE).
+added_rows:
+  # Fridleif (Gladiator): "We've completed all the labors." is only on the page a labour's hand-in leads to, and the
+  # hand-in rows go once used: a "Thanks." after the third one lost the promotion for good. His first page offers it
+  # too until it is done (key 26).
+  - '61,61,5,"We''ve completed all the labors.","So you have.  Congratulations.  You are hereby promoted to Gladiators.",999,218,0,219,0,220,0,0,0,0,26,0,0,0,0,26,0,0,0,0,0,0,0,0,0'
